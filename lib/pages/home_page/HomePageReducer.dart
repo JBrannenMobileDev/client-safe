@@ -10,96 +10,38 @@ final homePageReducer = combineReducers<HomePageState>([
 
 HomePageState _setupDataListeners(HomePageState previousState,
     InitHomePageAction action) {
-  int newCount = 0;
-  previousState.recentItems.forEach((recentItem){
-    if(recentItem.isNewMessage)newCount++;
-  });
   return HomePageState(
-    previousState.recentActivityExpandable,
-    previousState.accountsExpandable,
-    previousState.directMessagesExpandable,
-    previousState.sharedLeadsExpandable,
-    previousState.recentItems,
-    previousState.accountItems,
-    previousState.directItems,
-    previousState.sharedLeadItems,
-    previousState.onViewAllRecentsClicked,
-    newCount,
-    previousState.showAllRecentItems,
-    previousState.flexibleSpaceHeight,
-    previousState.showAllAccountItems,
-    previousState.showAllDirectItems,
-    previousState.showAllSharedLeadItems,
-    previousState.onViewAllAccountsClicked,
-    previousState.onViewAllDirectMessagesClicked,
-    previousState.onViewAllSharedLeadsClicked,
-    previousState.onViewRecentItemClicked,
-    previousState.onViewAccountItemClicked,
-    previousState.onViewDirectChatClicked,
-    previousState.onViewSharedLeadChatClicked,
-    previousState.userName,
-    previousState.userEmail,
-    previousState.userColorId,
+    previousState.accountName,
+    previousState.actionItems,
+    previousState.recentClients,
+    previousState.onAddNewClientClicked,
+    previousState.onSearchClientsClicked,
+    previousState.onActionItemClicked,
+    previousState.onClientClicked
   );
 }
 
 HomePageState _updateCurrentUserInfo(HomePageState previousState,
     UpdateCurrentUserInfo action) {
   return HomePageState(
-    previousState.recentActivityExpandable,
-    previousState.accountsExpandable,
-    previousState.directMessagesExpandable,
-    previousState.sharedLeadsExpandable,
-    previousState.recentItems,
-    previousState.accountItems,
-    previousState.directItems,
-    previousState.sharedLeadItems,
-    previousState.onViewAllRecentsClicked,
-    previousState.newRecentItemsCount,
-    previousState.showAllRecentItems,
-    previousState.flexibleSpaceHeight,
-    previousState.showAllAccountItems,
-    previousState.showAllDirectItems,
-    previousState.showAllSharedLeadItems,
-    previousState.onViewAllAccountsClicked,
-    previousState.onViewAllDirectMessagesClicked,
-    previousState.onViewAllSharedLeadsClicked,
-    previousState.onViewRecentItemClicked,
-    previousState.onViewAccountItemClicked,
-    previousState.onViewDirectChatClicked,
-    previousState.onViewSharedLeadChatClicked,
-    action.name,
-    action.email,
-    action.userColorId,
+      previousState.accountName,
+      previousState.actionItems,
+      previousState.recentClients,
+      previousState.onAddNewClientClicked,
+      previousState.onSearchClientsClicked,
+      previousState.onActionItemClicked,
+      previousState.onClientClicked
   );
 }
 
 HomePageState _disposeDataListeners(HomePageState previousState, DisposeDataListenersActions action) {
   return HomePageState(
-    previousState.recentActivityExpandable,
-    previousState.accountsExpandable,
-    previousState.directMessagesExpandable,
-    previousState.sharedLeadsExpandable,
-    previousState.recentItems,
-    previousState.accountItems,
-    previousState.directItems,
-    previousState.sharedLeadItems,
-    previousState.onViewAllRecentsClicked,
-    previousState.newRecentItemsCount,
-    previousState.showAllRecentItems,
-    previousState.flexibleSpaceHeight,
-    previousState.showAllAccountItems,
-    previousState.showAllDirectItems,
-    previousState.showAllSharedLeadItems,
-    previousState.onViewAllAccountsClicked,
-    previousState.onViewAllDirectMessagesClicked,
-    previousState.onViewAllSharedLeadsClicked,
-    previousState.onViewRecentItemClicked,
-    previousState.onViewAccountItemClicked,
-    previousState.onViewDirectChatClicked,
-    previousState.onViewSharedLeadChatClicked,
-    previousState.userName,
-    previousState.userEmail,
-    previousState.userColorId,
+      previousState.accountName,
+      previousState.actionItems,
+      previousState.recentClients,
+      previousState.onAddNewClientClicked,
+      previousState.onSearchClientsClicked,
+      previousState.onActionItemClicked,
+      previousState.onClientClicked
   );
 }
