@@ -6,17 +6,11 @@ class ColorConstants{
   static const int black_overlay_light = 0x25000000;
   static const int black_overlay_medium = 0x50000000;
   static const int black_overlay_dark = 0x75000000;
-  static const int primary = 0xff6fdeb6;
-  static const int primary_dark = 0xff19b587;
-  static const int primary_accent = 0xff43b3ab;
-  static const int primary_accent_dark = 0xff1b4d4b;
-  static const int primary_accent_very_dark = 0xff0b1e1d;
-  static const int primary_action_orange = 0xfffc9c01;
-  static const int text_hint_grey = 0xffd9d9d9;
-  static const int text_primary_grey = 0xffaaaaaa;
-  static const int main_bg = 0xfff4f4f4;
-  static const int black = 0xff100c08;
-
+  static const int primary = 0xff455a64;
+  static const int primary_dark = 0xff1c313a;
+  static const int primary_light = 0xff718792;
+  static const int primary_accent = 0xffFFD500;
+  static const int primary_bg_grey = 0xffF5F5F6;
 
   static int getUserColor(int colorId){
     switch(colorId){
