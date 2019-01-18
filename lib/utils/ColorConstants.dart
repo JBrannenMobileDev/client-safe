@@ -9,7 +9,7 @@ class ColorConstants{
   static const int primary = 0xff455a64;
   static const int primary_dark = 0xff1c313a;
   static const int primary_light = 0xff718792;
-  static const int primary_accent = 0xffFFD500;
+  static const int primary_accent = 0xfff4b642;
   static const int primary_bg_grey = 0xffF5F5F6;
 
   static int getUserColor(int colorId){

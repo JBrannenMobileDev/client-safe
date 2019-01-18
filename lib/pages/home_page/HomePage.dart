@@ -1,3 +1,8 @@
+import 'package:client_safe/pages/actions_page/ActionsPage.dart';
+import 'package:client_safe/pages/clients_page/ClientsPage.dart';
+import 'package:client_safe/pages/dashboard_page/DashboardPage.dart';
+import 'package:client_safe/pages/jobs_page/JobsPage.dart';
+import 'package:client_safe/pages/marketing_page/MarketingPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
@@ -10,21 +15,39 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> {
   int _currentIndex = 2;
-  final List<Widget> _children = [];
+  final List<Widget> _children = [
+    ClientsPage(),
+    JobsPage(),
+    DashboardPage(),
+    ActionsPage(),
+    MarketingPage()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: new Container(
-        color: const Color(ColorConstants.primary_bg_grey),
+      appBar: AppBar(
+        backgroundColor: const Color(ColorConstants.primary),
+        title: const Text('Vintage Vibes Photography'),
+        elevation: 0.0,
+        actions: <Widget>[
+          // action button
+          IconButton(
+            icon: Icon(Icons.settings),
+            onPressed: () {
+              _onSettingsSelected();
+            },
+          ),
+        ],
       ),
+      body: _children[_currentIndex],
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: const Color(ColorConstants.primary_dark),
+          canvasColor: const Color(ColorConstants.primary_bg_grey),
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          fixedColor: const Color(ColorConstants.primary_bg_grey),
+          fixedColor: const Color(ColorConstants.primary_accent),
           onTap: onTabTapped,
           currentIndex: _currentIndex, // this will be set when a new tab is tapped
           items: [
@@ -66,4 +89,6 @@ class _HomeState extends State<HomePage> {
       _currentIndex = index;
     });
   }
+
+  void _onSettingsSelected() {}
 }
