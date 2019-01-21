@@ -1,3 +1,4 @@
+import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/home_page/HomePageState.dart';
 
 class InitDashboardPageAction{

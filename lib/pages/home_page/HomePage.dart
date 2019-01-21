@@ -29,11 +29,11 @@ class _HomeState extends State<HomePage> {
       body: _children[_currentIndex],
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: const Color(ColorConstants.primary_bg_grey),
+          canvasColor: const Color(ColorConstants.primary_dark),
         ),
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          fixedColor: const Color(ColorConstants.primary_accent),
+          fixedColor: Colors.white,
           onTap: onTabTapped,
           currentIndex: _currentIndex, // this will be set when a new tab is tapped
           items: [

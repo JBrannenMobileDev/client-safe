@@ -6,8 +6,8 @@ class ColorConstants{
   static const int black_overlay_light = 0x25000000;
   static const int black_overlay_medium = 0x50000000;
   static const int black_overlay_dark = 0x75000000;
-  static const int primary = 0xff455a64;
-  static const int primary_dark = 0xff1c313a;
+  static const int primary = 0xFF92CEE3;
+  static const int primary_dark = 0xFF4EAFCF;
   static const int primary_light = 0xff718792;
   static const int primary_accent = 0xfff4b642;
   static const int primary_bg_grey = 0xffF5F5F6;
