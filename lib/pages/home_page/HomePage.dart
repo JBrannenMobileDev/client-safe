@@ -26,20 +26,6 @@ class _HomeState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(ColorConstants.primary),
-        title: const Text('Vintage Vibes Photography'),
-        elevation: 0.0,
-        actions: <Widget>[
-          // action button
-          IconButton(
-            icon: Icon(Icons.settings),
-            onPressed: () {
-              _onSettingsSelected();
-            },
-          ),
-        ],
-      ),
       body: _children[_currentIndex],
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
