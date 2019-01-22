@@ -43,6 +43,28 @@ flutter:
     - assets/images/cameras_background.jpg
     - assets/images/flexible_space_bg.jpg
 
+
+  fonts:
+    - family: Blackjack
+      fonts:
+        - asset: assets/fonts/black_jar.ttf
+          weight: 500
+    - family: Leafy
+      fonts:
+        - asset: assets/fonts/leafy.otf
+          weight: 300
+    - family: Raleway
+      fonts:
+        - asset: assets/fonts/Raleway-Bold.ttf
+        - asset: assets/fonts/Raleway-ExtraBold.ttf
+        - asset: assets/fonts/Raleway-ExtraLight.ttf
+        - asset: assets/fonts/Raleway-Heavy.ttf
+        - asset: assets/fonts/Raleway-light.ttf
+        - asset: assets/fonts/Raleway-Medium.ttf
+        - asset: assets/fonts/Raleway-Regular.ttf
+        - asset: assets/fonts/Raleway-SemiBold.ttf
+        - asset: assets/fonts/Raleway-Thin.ttf
+
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.io/assets-and-images/#resolution-aware.
 
