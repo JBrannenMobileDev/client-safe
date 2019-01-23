@@ -3,8 +3,8 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardActionButtons.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardCalendar.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardMessageWidget.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/NotificationTile.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/HostDetectionUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -66,8 +66,19 @@ class DashboardPage extends StatelessWidget {
                     ),
                     new SliverList(
                         delegate: new SliverChildListDelegate(<Widget>[
-                          DashboardCalendar(),
-                        ])),
+                      DashboardCalendar(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Expanded(
+                            child: NotificationTile(title: "Job Alerts", count: "1",),
+                          ),
+                          Expanded(
+                            child: NotificationTile(title: "Client Alerts", count: "3",),
+                          ),
+                        ],
+                      )
+                    ])),
                   ],
                 ),
               ),

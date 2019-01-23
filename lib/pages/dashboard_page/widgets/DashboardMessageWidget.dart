@@ -8,7 +8,7 @@ class DashboardMessageWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
-          padding: HostDetectionUtil.isIos(context) ? EdgeInsets.fromLTRB(40.0, 56.0, 0.0, 0.0) : EdgeInsets.fromLTRB(40.0, 42.0, 0.0, 0.0),
+          padding: HostDetectionUtil.isIos(context) ? EdgeInsets.fromLTRB(40.0, 56.0, 0.0, 0.0) : EdgeInsets.fromLTRB(26.0, 42.0, 0.0, 0.0),
           child: Text(
             "Client Management",
             style: TextStyle(
@@ -19,7 +19,7 @@ class DashboardMessageWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(56.0, 0.0, 0.0, 0.0),
+          padding: HostDetectionUtil.isIos(context) ? EdgeInsets.fromLTRB(56.0, 0.0, 0.0, 0.0) : EdgeInsets.fromLTRB(42.0, 0.0, 0.0, 0.0),
           child: Text(
             "With a Personal",
             style: TextStyle(
@@ -30,7 +30,7 @@ class DashboardMessageWidget extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.fromLTRB(88.0, 0.0, 0.0, 0.0),
+          padding: HostDetectionUtil.isIos(context) ? EdgeInsets.fromLTRB(88.0, 0.0, 0.0, 0.0) : EdgeInsets.fromLTRB(74.0, 0.0, 0.0, 0.0),
           child: Text(
             "Touch!",
             style: TextStyle(

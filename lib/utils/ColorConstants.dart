@@ -8,9 +8,11 @@ class ColorConstants{
   static const int black_overlay_dark = 0x75000000;
   static const int primary = 0xFF92CEE3;
   static const int primary_dark = 0xFF4EAFCF;
+  static const int primary_very_dark = 0xFF1C3E4A;
   static const int primary_light = 0xff718792;
   static const int primary_accent = 0xfff4b642;
   static const int primary_bg_grey = 0xffF5F5F6;
+  static const int primary_divider = 0xffe0e0e0;
 
   static int getUserColor(int colorId){
     switch(colorId){
