@@ -14,7 +14,7 @@ class ClientSafeApp extends StatelessWidget {
     return new StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
-        title: 'Vintage Vibes Photography',
+        title: 'Client Safe',
         home: HomePage(),
       ),
     );

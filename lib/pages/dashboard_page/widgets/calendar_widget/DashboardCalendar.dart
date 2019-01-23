@@ -1,4 +1,5 @@
-import 'package:client_safe/pages/dashboard_page/widgets/CalendarBox.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/CalendarBox.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/CalendarDayName.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:client_safe/utils/Shadows.dart';
@@ -27,62 +28,13 @@ class DashboardCalendar extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Text(
-                    "S",
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    "M",
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    "T",
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    "W",
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    "TH",
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    "F",
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
-                  Text(
-                    "S",
-                    style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white),
-                  ),
+                  CalendarDayName(dayName: "Today"),
+                  CalendarDayName(dayName: "Thurs"),
+                  CalendarDayName(dayName: "Fri"),
+                  CalendarDayName(dayName: "Sat"),
+                  CalendarDayName(dayName: "Sun"),
+                  CalendarDayName(dayName: "Mon"),
+                  CalendarDayName(dayName: "Tues"),
                 ],
               ),
             ),

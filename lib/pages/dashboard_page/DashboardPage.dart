@@ -1,7 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardActionButtons.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/DashboardCalendar.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/DashboardCalendar.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardMessageWidget.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/NotificationTile.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -26,7 +26,7 @@ class DashboardPage extends StatelessWidget {
             Scaffold(
               body: Container(
                 decoration: BoxDecoration(
-                  color: const Color(ColorConstants.primary_bg_grey),
+                  color: const Color(ColorConstants.primary_light),
                   image: DecorationImage(
                     image: AssetImage('assets/images/cameras_background.jpg'),
                     repeat: ImageRepeat.repeat,
@@ -71,10 +71,22 @@ class DashboardPage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           Expanded(
-                            child: NotificationTile(title: "Job Alerts", count: "1",),
+                            child: NotificationTile(
+                              title: "Job Alerts",
+                              count: "2",
+                              hasNewNotification: true,
+                              content1: "Contract: Shawna Brannen Maternity Shoot",
+                              content2: "Post Shoot Feedback: Adam Smith",
+                            ),
                           ),
                           Expanded(
-                            child: NotificationTile(title: "Client Alerts", count: "3",),
+                            child: NotificationTile(
+                              title: "Client Alerts",
+                              count: "0",
+                              hasNewNotification: false,
+                              content1: "Birthday: Amanda Sheeby",
+                              content2: "Graduation: Albert Plop",
+                            ),
                           ),
                         ],
                       )
