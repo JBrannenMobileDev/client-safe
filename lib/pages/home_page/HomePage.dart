@@ -45,9 +45,9 @@ class _HomeState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.photo_camera,
+                  Icons.assignment_ind,
                 ),
-                title: Text('Jobs')),
+                title: Text('Leads')),
             BottomNavigationBarItem(
               icon: new Icon(
                 Icons.dashboard,
@@ -56,14 +56,14 @@ class _HomeState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.directions_run,
+                  Icons.photo_camera,
                 ),
-                title: Text('Actions')),
+                title: Text('Jobs')),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.stars,
+                  Icons.calendar_today,
                 ),
-                title: Text('Marketing'))
+                title: Text('Calendar'))
           ],
         ),
       ),

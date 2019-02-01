@@ -1,9 +1,11 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardActionButtons.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/MarketingTile.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/DashboardCalendar.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardMessageWidget.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/NotificationTile.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/job_stats_widget/JobStatsTile.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -89,7 +91,15 @@ class DashboardPage extends StatelessWidget {
                             ),
                           ),
                         ],
-                      )
+                      ),
+                      MarketingTile(
+                          title: "Marketing Opportunity",
+                          content1: "Create a Valentine's Day promotion!",
+                          content2: "Send an email or postcard style message.",
+                      ),
+                          JobStatsTile(
+                            title: "Job Stats",
+                          ),
                     ])),
                   ],
                 ),

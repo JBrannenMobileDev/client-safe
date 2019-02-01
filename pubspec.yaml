@@ -43,6 +43,7 @@ flutter:
   assets:
     - assets/images/cameras_background.jpg
     - assets/images/flexible_space_bg.jpg
+    - assets/images/heart.png
 
 
   fonts:

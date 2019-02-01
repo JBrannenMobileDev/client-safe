@@ -14,7 +14,7 @@ class ClientSafeApp extends StatelessWidget {
     return new StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
-        title: 'Client Safe',
+        title: 'My Photo Bizz',
         home: HomePage(),
       ),
     );

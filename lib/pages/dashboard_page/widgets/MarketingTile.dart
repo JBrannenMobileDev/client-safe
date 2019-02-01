@@ -2,14 +2,12 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:client_safe/utils/Shadows.dart';
 
-class NotificationTile extends StatelessWidget {
-  NotificationTile({this.title, this.content1, this.content2, this.count, this.hasNewNotification});
+class MarketingTile extends StatelessWidget {
+  MarketingTile({this.title, this.content1, this.content2});
 
   final String title;
   final String content1;
   final String content2;
-  final String count;
-  final bool hasNewNotification;
 
   @override
   Widget build(BuildContext context) {
@@ -32,19 +30,21 @@ class NotificationTile extends StatelessWidget {
                     fontSize: 18.0,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w500,
-                    color: hasNewNotification ? const Color(ColorConstants.primary_accent) : const Color(ColorConstants.primary)),
+                    color: const Color(ColorConstants.primary_marketing),
+                ),
               ),
             ),
             Container(
               alignment: Alignment.center,
-              margin: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 24.0),
+              margin: EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 8.0),
               child: Text(
-                count,
+                "Valentine's Day",
                 style: TextStyle(
-                    fontSize: 42.0,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w500,
-                    color: hasNewNotification ? const Color(ColorConstants.primary_accent) : const Color(ColorConstants.primary)),
+                    fontSize: 36.0,
+                    fontFamily: 'Blackjack',
+                    fontWeight: FontWeight.w900,
+                  color: const Color(ColorConstants.primary_marketing),
+                ),
               ),
             ),
             Flexible(
@@ -53,7 +53,7 @@ class NotificationTile extends StatelessWidget {
                 padding: EdgeInsets.fromLTRB(8.0, 2.0, 8.0, 2.0),
                 alignment: Alignment.bottomLeft,
                 decoration: BoxDecoration(
-                  color: hasNewNotification ? const Color(ColorConstants.primary_accent) : const Color(ColorConstants.primary),
+                  color: const Color(ColorConstants.primary_marketing),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(16.0),
                       bottomRight: Radius.circular(16.0)),
