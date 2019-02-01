@@ -40,14 +40,14 @@ class ClientsPage extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    new IconButton(
-                      icon: const Icon(Icons.search),
-                      color: Colors.white,
-                      disabledColor: Colors.white,
-                      tooltip: 'Search Clients',
-                    ),
+//                    new IconButton(
+//                      icon: const Icon(Icons.search),
+//                      color: Colors.white,
+//                      disabledColor: Colors.white,
+//                      tooltip: 'Search Clients',
+//                    ),
                     Text(
-                      "Search Clients",
+                      "Clients",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 18.0,
