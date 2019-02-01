@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-class MarketingPage extends StatelessWidget{
+class CalendarPage extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Container();
   }
 
 }

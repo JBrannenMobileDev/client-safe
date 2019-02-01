@@ -1,8 +1,9 @@
-import 'package:client_safe/pages/actions_page/ActionsPage.dart';
+import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPage.dart';
 import 'package:client_safe/pages/clients_page/ClientsPage.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPage.dart';
 import 'package:client_safe/pages/jobs_page/JobsPage.dart';
-import 'package:client_safe/pages/marketing_page/MarketingPage.dart';
+import 'package:client_safe/pages/leads_page/LeadsPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
@@ -16,11 +17,11 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> {
   int _currentIndex = 2;
   final List<Widget> _children = [
-    ClientsPage(),
-    JobsPage(),
+    ClientsPage(clients: _getClientList(),),
+    LeadsPage(),
     DashboardPage(),
-    ActionsPage(),
-    MarketingPage()
+    JobsPage(),
+    CalendarPage()
   ];
 
   @override
@@ -77,4 +78,14 @@ class _HomeState extends State<HomePage> {
   }
 
   void _onSettingsSelected() {}
+
+  static List<Client> _getClientList(){
+    List<Client> result = new List();
+    for(var i = 0; i < 30; i++){
+      Client client = new Client("Shawna", "Brannen");
+      client.dateLastContacted = new DateTime.now();
+      result.add(client);
+    }
+    return result;
+  }
 }
