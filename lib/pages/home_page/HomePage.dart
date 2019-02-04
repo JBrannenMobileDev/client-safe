@@ -1,4 +1,9 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/ClientListItem.dart';
+import 'package:client_safe/models/JobListItem.dart';
+import 'package:client_safe/models/LeadListItem.dart';
+import 'package:client_safe/models/ListItem.dart';
+import 'package:client_safe/models/TitleListItem.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPage.dart';
 import 'package:client_safe/pages/clients_page/ClientsPage.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPage.dart';
@@ -17,10 +22,10 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> {
   int _currentIndex = 2;
   final List<Widget> _children = [
-    ClientsPage(clients: _getClientList(),),
-    LeadsPage(),
+    ClientsPage(clients: _getClientList()),
+    LeadsPage(getLeadList()),
     DashboardPage(),
-    JobsPage(),
+    JobsPage(getJobList()),
     CalendarPage()
   ];
 
@@ -62,9 +67,9 @@ class _HomeState extends State<HomePage> {
                 title: Text('Jobs')),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.calendar_today,
+                  Icons.stars,
                 ),
-                title: Text('Calendar'))
+                title: Text('Marketing'))
           ],
         ),
       ),
@@ -79,13 +84,32 @@ class _HomeState extends State<HomePage> {
 
   void _onSettingsSelected() {}
 
-  static List<Client> _getClientList(){
-    List<Client> result = new List();
+  static List<ListItem> _getClientList(){
+    List<ListItem> result = List();
+    result.add(TitleListItem("A"));
     for(var i = 0; i < 30; i++){
-      Client client = new Client("Shawna", "Brannen");
-      client.dateLastContacted = new DateTime.now();
+      ClientListItem client = ClientListItem("Shawna Brannen", "(951)295-0348", DateTime.now());
       result.add(client);
+      if(i%5 == 0){
+        result.add(TitleListItem("B"));
+      }
     }
     return result;
+  }
+
+  static List<LeadListItem> getLeadList(){
+    List<LeadListItem> leads = List();
+    for(var i = 0; i < 30; i++){
+      leads.add(LeadListItem("Shawna Brannen", DateTime.now(), "(951)294-0348"));
+    }
+    return leads;
+  }
+
+  static List<JobListItem> getJobList(){
+    List<JobListItem> jobs = List();
+    for(var i = 0; i < 30; i++){
+      jobs.add(JobListItem("Maternity Shoot", "Shawna Brannen", DateTime.now()));
+    }
+    return jobs;
   }
 }

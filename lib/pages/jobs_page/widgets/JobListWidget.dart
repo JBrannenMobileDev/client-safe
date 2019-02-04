@@ -3,11 +3,11 @@ import 'package:client_safe/utils/Shadows.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class ClientListWidget extends StatelessWidget {
-  ClientListWidget(this.name, this.number, this.date);
+class JobListWidget extends StatelessWidget {
+  JobListWidget(this.jobName, this.clientName, this.date);
 
-  final String name;
-  final String number;
+  final String jobName;
+  final String clientName;
   final DateTime date;
 
   @override
@@ -45,7 +45,7 @@ class ClientListWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Text(
-                    name,
+                    jobName,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 14.0,
@@ -55,7 +55,7 @@ class ClientListWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    number,
+                    clientName,
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 14.0,
@@ -65,7 +65,7 @@ class ClientListWidget extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Last contacted: " + DateFormat('MM-dd-yyyy').format(date),
+                    "Scheduled date: " + DateFormat('MM-dd-yyyy').format(date),
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 12.0,

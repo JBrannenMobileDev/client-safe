@@ -1,6 +1,10 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/ClientListItem.dart';
+import 'package:client_safe/models/ListItem.dart';
+import 'package:client_safe/models/TitleListItem.dart';
 import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
 import 'package:client_safe/pages/clients_page/widgets/ClientSearchButtons.dart';
+import 'package:client_safe/pages/clients_page/widgets/TitleWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +13,7 @@ class ClientsPage extends StatelessWidget {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   ClientsPage({this.clients});
-  final List<Client> clients;
+  final List<ListItem> clients;
 
   @override
   @override
@@ -84,7 +88,7 @@ class ClientsPage extends StatelessWidget {
           new SliverList(
               delegate: new SliverChildListDelegate(<Widget>[
                 new ListView.builder(
-                  reverse: true,
+                  reverse: false,
                   padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
@@ -99,6 +103,13 @@ class ClientsPage extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return ClientListWidget(name: clients.elementAt(index).name, date: clients.elementAt(index).dateLastContacted,);
+    ListItem item = clients.elementAt(index);
+    if(item is TitleListItem){
+      return TitleWidget(item.title);
+    }else
+    if(item is ClientListItem){
+      return ClientListWidget(item.name, item.number, item.lastContactedDate);
+    }
+    return Container();
   }
 }

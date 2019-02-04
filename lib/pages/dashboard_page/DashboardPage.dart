@@ -48,6 +48,15 @@ class DashboardPage extends StatelessWidget {
                       expandedHeight: 200.0,
                       actions: <Widget>[
                         new IconButton(
+                          icon: const Icon(Icons.search),
+                          tooltip: 'Search',
+                          onPressed: () {
+                            _scaffoldKey.currentState.showSnackBar(
+                                const SnackBar(
+                                    content: const Text("Under construction")));
+                          },
+                        ),
+                        new IconButton(
                           icon: const Icon(Icons.settings),
                           tooltip: 'Settings',
                           onPressed: () {
@@ -86,8 +95,17 @@ class DashboardPage extends StatelessWidget {
                               title: "Client Alerts",
                               count: "0",
                               hasNewNotification: false,
-                              content1: "Birthday: Amanda Sheeby",
-                              content2: "Graduation: Albert Plop",
+                              content1: " ",
+                              content2: " ",
+                            ),
+                          ),
+                          Expanded(
+                            child: NotificationTile(
+                              title: "Lead Alerts",
+                              count: "0",
+                              hasNewNotification: false,
+                              content1: " ",
+                              content2: " ",
                             ),
                           ),
                         ],

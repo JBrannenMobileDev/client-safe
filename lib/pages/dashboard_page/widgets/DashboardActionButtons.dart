@@ -86,11 +86,11 @@ class DashboardActionButtons extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Icon(
-                  Icons.search,
+                  Icons.add,
                   color: const Color(ColorConstants.primary),
                 ),
                 Text(
-                  "Search",
+                  "Lead",
                   style: TextStyle(
                       fontSize: 18.0,
                       fontFamily: 'Raleway',

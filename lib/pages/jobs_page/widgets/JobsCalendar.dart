@@ -2,29 +2,35 @@ import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/Calenda
 import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/CalendarDayName.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/CalendarRow.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/HostDetectionUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:client_safe/utils/Shadows.dart';
 
-class DashboardCalendar extends StatelessWidget {
+class JobsCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(8.0, 32.0, 8.0, 16.0),
-      height: 85.0,
+      margin: HostDetectionUtil.isIos(context) ? EdgeInsets.fromLTRB(0.0, 62.0, 0.0, 0.0) : EdgeInsets.fromLTRB(0.0, 42.0, 0.0, 0.0),
       decoration: BoxDecoration(
         color: const Color(ColorConstants.primary_bg_grey),
-        borderRadius: BorderRadius.all(Radius.circular(16.0)),
-        boxShadow: ElevationToShadow.values.elementAt(1),
       ),
       child: Stack(
         children: <Widget>[
           Container(
-            height: 24.0,
+            alignment: Alignment.topCenter,
+            height: 48.0,
             decoration: BoxDecoration(
               color: const Color(ColorConstants.primary),
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(16.0),
-                  topRight: Radius.circular(16.0)),
+            ),
+            child: Text(
+              "January",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 18.0,
+                fontFamily: 'Raleway',
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
+              ),
             ),
           ),
           PageView(
@@ -32,6 +38,7 @@ class DashboardCalendar extends StatelessWidget {
               Column(
                 children: <Widget>[
                   Container(
+                    margin: EdgeInsets.fromLTRB(0.0, 24.0, 0.0, 0.0),
                     padding: EdgeInsets.fromLTRB(0.0, 4.0, 0.0, 4.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -46,7 +53,27 @@ class DashboardCalendar extends StatelessWidget {
                       ],
                     ),
                   ),
-                  CalendarRow(61.0),
+                  CalendarRow(52.0),
+                  Container(
+                    height: 1.0,
+                    color: const Color(ColorConstants.primary_divider),
+                  ),
+                  CalendarRow(52.0),
+                  Container(
+                    height: 1.0,
+                    color: const Color(ColorConstants.primary_divider),
+                  ),
+                  CalendarRow(52.0),
+                  Container(
+                    height: 1.0,
+                    color: const Color(ColorConstants.primary_divider),
+                  ),
+                  CalendarRow(52.0),
+                  Container(
+                    height: 1.0,
+                    color: const Color(ColorConstants.primary_divider),
+                  ),
+                  CalendarRow(52.0),
                 ],
               ),
               Column(
