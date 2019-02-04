@@ -10,6 +10,9 @@ Future main() async {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
+      statusBarColor: Color(0x00000000)
+  ));
   final store = new Store<AppState>(
       appReducers,
       initialState: AppState.initial(),

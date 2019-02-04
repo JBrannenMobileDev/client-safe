@@ -9,7 +9,7 @@ class DashboardCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.fromLTRB(8.0, 32.0, 8.0, 16.0),
+      margin: EdgeInsets.fromLTRB(8.0, 16.0, 8.0, 16.0),
       height: 85.0,
       decoration: BoxDecoration(
         color: const Color(ColorConstants.primary_bg_grey),
