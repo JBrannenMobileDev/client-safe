@@ -35,11 +35,20 @@ class _HomeState extends State<HomePage> {
       body: _children[_currentIndex],
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: const Color(ColorConstants.primary_dark),
-        ),
+          canvasColor: Colors.white,
+          primaryColor: Color(ColorConstants.primary_black),
+          textTheme: Theme
+              .of(context)
+              .textTheme
+              .copyWith(
+                caption: new TextStyle(
+                    color: Color(ColorConstants.primary_button_negative_grey)
+                )
+          ),
+      ),
         child: BottomNavigationBar(
+          elevation: 0.0,
           type: BottomNavigationBarType.fixed,
-          fixedColor: Colors.white,
           onTap: onTabTapped,
           currentIndex: _currentIndex, // this will be set when a new tab is tapped
           items: [
@@ -47,29 +56,27 @@ class _HomeState extends State<HomePage> {
               icon: new Icon(
                 Icons.people,
               ),
-              title: new Text('Clients'),
-            ),
+              title: Container(height: 0.0)),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.assignment_ind,
+                  Icons.message,
                 ),
-                title: Text('Leads')),
+                title: Container(height: 0.0)),
             BottomNavigationBarItem(
               icon: new Icon(
-                Icons.dashboard,
+                Icons.home,
               ),
-              title: new Text('Dashboard'),
-            ),
+              title: Container(height: 0.0)),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.photo_camera,
                 ),
-                title: Text('Jobs')),
+                title: Container(height: 0.0)),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.stars,
+                  Icons.folder,
                 ),
-                title: Text('Marketing'))
+                title: Container(height: 0.0))
           ],
         ),
       ),

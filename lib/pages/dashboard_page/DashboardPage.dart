@@ -1,6 +1,9 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardActionButtons.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/HomeActivityWidget.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/HomeCard.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/HomeCardTop.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/MarketingTile.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/calendar_widget/DashboardCalendar.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/DashboardMessageWidget.dart';
@@ -25,27 +28,24 @@ class DashboardPage extends StatelessWidget {
             new DisposeDataListenersActions(store.state.homePageState)),
         converter: (Store<AppState> store) => DashbaordPageState.create(store),
         builder: (BuildContext context, DashbaordPageState pageState) =>
-            Scaffold(
-              body: Container(
-                decoration: BoxDecoration(
-                  color: const Color(ColorConstants.primary_light),
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/cameras_background.jpg'),
-                    repeat: ImageRepeat.repeat,
-                    colorFilter: new ColorFilter.mode(
-                        Colors.white.withOpacity(0.05), BlendMode.dstATop),
-                    fit: BoxFit.contain,
-                  ),
+        Scaffold(
+          body: Container(
+            color: Color(ColorConstants.primary_bg_grey),
+            child: Stack(
+              children: <Widget>[
+                Container(
+                  color: Color(ColorConstants.primary),
+                  height: 600.0,
                 ),
-                child: new CustomScrollView(
+                CustomScrollView(
                   slivers: <Widget>[
                     new SliverAppBar(
                       backgroundColor: const Color(ColorConstants.primary),
-                      pinned: false,
-                      floating: true,
-                      snap: false,
-                      forceElevated: true,
-                      expandedHeight: 200.0,
+                      elevation: 0.0,
+                      pinned: true,
+                      floating: false,
+                      forceElevated: false,
+                      expandedHeight: 280.0,
                       actions: <Widget>[
                         new IconButton(
                           icon: const Icon(Icons.search),
@@ -69,59 +69,22 @@ class DashboardPage extends StatelessWidget {
                       flexibleSpace: new FlexibleSpaceBar(
                         background: Stack(
                           children: <Widget>[
-                            DashboardActionButtons(),
-                            DashboardMessageWidget(),
+                            HomeActivityWidget(),
                           ],
                         ),
                       ),
                     ),
                     new SliverList(
                         delegate: new SliverChildListDelegate(<Widget>[
-                      DashboardCalendar(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          Expanded(
-                            child: NotificationTile(
-                              title: "Job Alerts",
-                              count: "2",
-                              hasNewNotification: true,
-                              content1: "Contract: Shawna Brannen Maternity Shoot",
-                              content2: "Post Shoot Feedback: Adam Smith",
-                            ),
-                          ),
-                          Expanded(
-                            child: NotificationTile(
-                              title: "Client Alerts",
-                              count: "0",
-                              hasNewNotification: false,
-                              content1: " ",
-                              content2: " ",
-                            ),
-                          ),
-                          Expanded(
-                            child: NotificationTile(
-                              title: "Lead Alerts",
-                              count: "0",
-                              hasNewNotification: false,
-                              content1: " ",
-                              content2: " ",
-                            ),
-                          ),
-                        ],
-                      ),
-                      MarketingTile(
-                          title: "Marketing Opportunity",
-                          content1: "Create a Valentine's Day promotion!",
-                          content2: "Send an email or postcard style message.",
-                      ),
-                          JobStatsTile(
-                            title: "Job Stats",
-                          ),
-                    ])),
+                          HomeCardTop(),
+                          HomeCard(),
+                          HomeCard(),
+                        ])),
                   ],
                 ),
-              ),
+              ],
             ),
+          ),
+        ),
       );
 }
