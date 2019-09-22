@@ -28,13 +28,22 @@ class DashboardPage extends StatelessWidget {
             child: Stack(
               children: <Widget>[
                 Container(
-                  color: Color(ColorConstants.primary),
+                  decoration: BoxDecoration(
+                    color: const Color(ColorConstants.primary),
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/cameras_background.jpg'),
+                      repeat: ImageRepeat.repeat,
+                      colorFilter: new ColorFilter.mode(
+                          Colors.white.withOpacity(0.05), BlendMode.dstATop),
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                   height: 600.0,
                 ),
                 CustomScrollView(
                   slivers: <Widget>[
                     new SliverAppBar(
-                      backgroundColor: const Color(ColorConstants.primary),
+                      backgroundColor: Colors.transparent,
                       elevation: 0.0,
                       pinned: true,
                       floating: false,
@@ -88,9 +97,56 @@ class DashboardPage extends StatelessWidget {
                         ])),
                   ],
                 ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(8.0, 48.0, 0.0, 0.0),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.add_circle_outline,
+                      color: Colors.white,
+                      size: 32.0,
+                    ),
+                    tooltip: 'Add',
+                    onPressed: () {
+                      _onAddButtonPressed(context);
+                    },
+                  ),
+                ),
               ],
             ),
           ),
         ),
       );
+
+  void _onAddButtonPressed(BuildContext context) {
+    showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
+        ),
+        context: context,
+        builder: (BuildContext context) {
+          return Container(
+            height: 200.0,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text("Add Contact"),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.camera),
+                  title: Text("Add Job"),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.folder),
+                  title: Text("Add to Collection"),
+                  onTap: () {},
+                ),
+              ],
+            ),
+          );
+        });
+  }
 }
