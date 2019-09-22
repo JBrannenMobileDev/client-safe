@@ -1,7 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/HomeCard.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/NotificationsCard.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -57,6 +57,13 @@ class DashboardPage extends StatelessWidget {
 
                           },
                         ),
+                        IconButton(
+                          icon: const Icon(Icons.add_circle_outline),
+                          tooltip: 'Add',
+                          onPressed: () {
+                            _onAddButtonPressed(context);
+                          },
+                        ),
                         new IconButton(
                           icon: const Icon(Icons.settings),
                           tooltip: 'Settings',
@@ -77,7 +84,7 @@ class DashboardPage extends StatelessWidget {
                     ),
                     new SliverList(
                         delegate: new SliverChildListDelegate(<Widget>[
-                          NotificationsCard(pageState: pageState),
+                          JobsHomeCard(pageState: pageState),
                           HomeCard(
                             cardHeight: 200.0,
                             paddingLeft: 26.0,
@@ -96,20 +103,6 @@ class DashboardPage extends StatelessWidget {
                           ),
                         ])),
                   ],
-                ),
-                Container(
-                  margin: EdgeInsets.fromLTRB(8.0, 48.0, 0.0, 0.0),
-                  child: IconButton(
-                    icon: const Icon(
-                      Icons.add_circle_outline,
-                      color: Colors.white,
-                      size: 32.0,
-                    ),
-                    tooltip: 'Add',
-                    onPressed: () {
-                      _onAddButtonPressed(context);
-                    },
-                  ),
                 ),
               ],
             ),

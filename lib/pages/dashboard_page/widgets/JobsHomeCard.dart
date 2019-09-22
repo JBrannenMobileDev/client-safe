@@ -3,8 +3,11 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class NotificationsCard extends StatelessWidget{
-  NotificationsCard({this.pageState});
+import 'JobListItem.dart';
+
+class JobsHomeCard extends StatelessWidget{
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  JobsHomeCard({this.pageState});
 
   final DashboardPageState pageState;
 
@@ -28,10 +31,22 @@ class NotificationsCard extends StatelessWidget{
                     Radius.circular(8.0)
                 )
             ),
-          )
+            child: ListView.builder(
+                reverse: false,
+                padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                shrinkWrap: true,
+                physics: ClampingScrollPhysics(),
+                key: _listKey,
+                itemCount: pageState.currentJobs.length < 6 ? pageState.currentJobs.length : 5,
+                itemBuilder: _buildItem,
+              ),
+          ),
         ],
       ),
     );
   }
 
+  Widget _buildItem(BuildContext context, int index) {
+    return JobListItem(job: pageState.currentJobs.elementAt(index));
+  }
 }

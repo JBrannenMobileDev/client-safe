@@ -1,5 +1,4 @@
 import 'package:client_safe/models/ClientListItem.dart';
-import 'package:client_safe/models/JobListItem.dart';
 import 'package:client_safe/models/LeadListItem.dart';
 import 'package:client_safe/models/ListItem.dart';
 import 'package:client_safe/models/TitleListItem.dart';
@@ -24,7 +23,7 @@ class _HomeState extends State<HomePage> {
     ClientsPage(clients: _getClientList()),
     MessagesPage(getLeadList()),
     DashboardPage(),
-    JobsPage(getJobList()),
+    JobsPage(),
     CollectionsPage(),
   ];
 
@@ -109,13 +108,5 @@ class _HomeState extends State<HomePage> {
       leads.add(LeadListItem("Shawna Brannen", DateTime.now(), "(951)294-0348"));
     }
     return leads;
-  }
-
-  static List<JobListItem> getJobList(){
-    List<JobListItem> jobs = List();
-    for(var i = 0; i < 30; i++){
-      jobs.add(JobListItem("Maternity Shoot", "Shawna Brannen", DateTime.now()));
-    }
-    return jobs;
   }
 }

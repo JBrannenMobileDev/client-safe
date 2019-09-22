@@ -1,13 +1,9 @@
-import 'package:client_safe/models/JobListItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
 class JobsPage extends StatelessWidget{
   static final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-
-  JobsPage(this.jobs);
-  final List<JobListItem> jobs;
 
   @override
   @override
@@ -83,7 +79,7 @@ class JobsPage extends StatelessWidget{
                   shrinkWrap: true,
                   physics: ClampingScrollPhysics(),
                   key: _listKey,
-                  itemCount: jobs.length,
+                  itemCount: 10,
                   itemBuilder: _buildItem,
                 ),
               ])),
@@ -93,7 +89,6 @@ class JobsPage extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    JobListItem item = jobs.elementAt(index);
     return Container();
   }
 }
