@@ -1,67 +1,86 @@
-import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Action.dart';
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/Notifications.dart';
 import 'package:redux/redux.dart';
+import '../../AppState.dart';
 
-enum AppBarBehavior { normal, pinned, floating, snapping }
-
-class DashbaordPageState {
-  final String accountName;
+class DashboardPageState {
+  final String jobsProfitTotal;
   final List<Action> actionItems;
-  final List<Client> recentClients;
-  final Function() onAddNewClientClicked;
+  final List<Client> recentLeads;
+  final List<Job> currentJobs;
+  final List<Notifications> unseenNotifications;
+  final Function() onAddClicked;
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
-  final Function(Client) onClientClicked;
+  final Function(Client) onLeadClicked;
+  final Function(Job) onJobClicked;
 
-  DashbaordPageState(
-      this.accountName,
-      this.actionItems,
-      this.recentClients,
-      this.onAddNewClientClicked,
-      this.onSearchClientsClicked,
-      this.onActionItemClicked,
-      this.onClientClicked,
-  );
+  DashboardPageState({
+    this.jobsProfitTotal,
+    this.actionItems,
+    this.recentLeads,
+    this.currentJobs,
+    this.unseenNotifications,
+    this.onAddClicked,
+    this.onSearchClientsClicked,
+    this.onActionItemClicked,
+    this.onLeadClicked,
+    this.onJobClicked,
+  });
 
-  factory DashbaordPageState.initial() => DashbaordPageState("", new List(), new List(), null, null, null, null,);
-
-  factory DashbaordPageState.create(Store<AppState> store) {
-    return new DashbaordPageState(
-      store.state.homePageState.accountName,
-      store.state.homePageState.actionItems,
-      store.state.homePageState.recentClients,
-//      () => store.dispatch(AddNewClientAction(store.state.homePageState)),
-//      () => store.dispatch(SearchAllClientsAction(store.state.homePageState)),
-//      (action) => store.dispatch(ActionItemClicked(store.state.accountDetailsState, recentItem)),
-//      (client) => store.dispatch(RecentClientCLickedAction(store.state.accountDetailsState, accountItem)),
-      () => store.dispatch(null),
-      () => store.dispatch(null),
-      (action) => store.dispatch(null),
-      (client) => store.dispatch(null),
+  DashboardPageState copyWith({
+    String jobsProfitTotal,
+    List<Action> actionItems,
+    List<Client> recentLeads,
+    List<Job> currentJobs,
+    List<Notifications> unseenNotifications,
+    Function() onAddClicked,
+    Function() onSearchClientsClicked,
+    Function(Action) onActionItemClicked,
+    Function(Client) onLeadClicked,
+    Function(Job) onJobClicked,
+  }){
+    return DashboardPageState(
+      jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
+      actionItems: actionItems ?? this.actionItems,
+      recentLeads: recentLeads ?? this.recentLeads,
+      currentJobs: currentJobs ?? this.currentJobs,
+      unseenNotifications: unseenNotifications ?? this.unseenNotifications,
+      onAddClicked: onAddClicked ?? this.onAddClicked,
+      onSearchClientsClicked: onSearchClientsClicked ?? this.onSearchClientsClicked,
+      onActionItemClicked: onActionItemClicked ?? onActionItemClicked,
+      onLeadClicked: onLeadClicked ?? this.onLeadClicked,
+      onJobClicked: onJobClicked ?? this.onJobClicked,
     );
   }
 
-  @override
-  int get hashCode =>
-    accountName.hashCode ^
-    actionItems.hashCode ^
-    recentClients.hashCode ^
-    onAddNewClientClicked.hashCode ^
-    onSearchClientsClicked.hashCode ^
-    onActionItemClicked.hashCode ^
-    onClientClicked.hashCode
-    ;
+  static DashboardPageState fromStore(Store<AppState> store) {
+    return DashboardPageState(
+      jobsProfitTotal: store.state.dashboardPageState.jobsProfitTotal,
+      actionItems: store.state.dashboardPageState.actionItems,
+      recentLeads: store.state.dashboardPageState.recentLeads,
+      currentJobs: store.state.dashboardPageState.currentJobs,
+      unseenNotifications: store.state.dashboardPageState.unseenNotifications,
+      onAddClicked: store.state.dashboardPageState.onAddClicked,
+      onSearchClientsClicked: store.state.dashboardPageState.onSearchClientsClicked,
+      onActionItemClicked: store.state.dashboardPageState.onActionItemClicked,
+      onLeadClicked: store.state.dashboardPageState.onLeadClicked,
+      onJobClicked: store.state.dashboardPageState.onJobClicked,
+    );
+  }
 
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is DashbaordPageState &&
-          accountName == other.accountName &&
-          actionItems == other.actionItems &&
-          recentClients == other.recentClients &&
-          onAddNewClientClicked == other.onAddNewClientClicked &&
-          onSearchClientsClicked == other.onSearchClientsClicked &&
-          onActionItemClicked == other.onActionItemClicked &&
-          onClientClicked == other.onClientClicked;
+  factory DashboardPageState.initial() => DashboardPageState(
+    jobsProfitTotal: "",
+    actionItems: new List(),
+    recentLeads: new List(),
+    currentJobs: new List(),
+    unseenNotifications: new List(),
+    onAddClicked: null,
+    onSearchClientsClicked: null,
+    onActionItemClicked: null,
+    onLeadClicked: null,
+    onJobClicked: null,
+  );
 }

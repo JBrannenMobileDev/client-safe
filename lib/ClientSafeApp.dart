@@ -15,8 +15,8 @@ class ClientSafeApp extends StatelessWidget {
     return new StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
-        color: const Color(ColorConstants.primary_dark),
-        title: 'My Photo Bizz',
+        color: const Color(ColorConstants.primary),
+        title: 'Client Safe',
         home: HomePage(),
       ),
     );

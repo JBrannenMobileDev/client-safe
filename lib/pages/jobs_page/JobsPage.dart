@@ -1,7 +1,4 @@
 import 'package:client_safe/models/JobListItem.dart';
-import 'package:client_safe/models/ListItem.dart';
-import 'package:client_safe/pages/jobs_page/widgets/JobListWidget.dart';
-import 'package:client_safe/pages/jobs_page/widgets/JobsCalendar.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
@@ -73,7 +70,7 @@ class JobsPage extends StatelessWidget{
             flexibleSpace: new FlexibleSpaceBar(
               background: Stack(
                 children: <Widget>[
-                  JobsCalendar(),
+                  Container(),
                 ],
               ),
             ),
@@ -97,6 +94,6 @@ class JobsPage extends StatelessWidget{
 
   Widget _buildItem(BuildContext context, int index) {
     JobListItem item = jobs.elementAt(index);
-    return JobListWidget(item.jobName, item.clientName, item.jobDate);
+    return Container();
   }
 }

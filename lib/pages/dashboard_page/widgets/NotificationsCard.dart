@@ -1,7 +1,12 @@
+import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/widgets.dart';
 
-class HomeCardTop extends StatelessWidget{
+class NotificationsCard extends StatelessWidget{
+  NotificationsCard({this.pageState});
+
+  final DashboardPageState pageState;
+
   @override
   Widget build(BuildContext context) {
     return Container(

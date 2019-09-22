@@ -1,12 +1,12 @@
 import 'package:client_safe/models/LeadListItem.dart';
-import 'package:client_safe/pages/leads_page/widgets/LeadListWidget.dart';
+import 'package:client_safe/pages/messages_page/widgets/LeadListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
-class LeadsPage extends StatelessWidget{
+class MessagesPage extends StatelessWidget{
   final List<LeadListItem> leads;
 
-  LeadsPage(this.leads);
+  MessagesPage(this.leads);
 
   static final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
