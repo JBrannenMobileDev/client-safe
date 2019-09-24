@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/widgets.dart';
 
 class JobListItem extends StatelessWidget{
@@ -7,7 +8,33 @@ class JobListItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    return Padding(
+      padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Container(
+                height: 48.0,
+                width: 48.0,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: job.clientGender == Job.GENDER_MALE ? ImageUtil.getMalePersonIcon()
+                        : (job.clientGender == Job.GENDER_FEMALE ? ImageUtil.getFemalePersonIcon()
+                        : ImageUtil.getGenderNeutralPersonIcon()),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              )
+            ],
+          ),
+          Row(
+            children: <Widget>[
+
+            ],
+          )
+        ],
+      ),
+    );
   }
 }

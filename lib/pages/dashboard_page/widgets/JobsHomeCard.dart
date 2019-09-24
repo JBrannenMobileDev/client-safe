@@ -1,3 +1,4 @@
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,8 @@ class JobsHomeCard extends StatelessWidget{
                 shrinkWrap: true,
                 physics: ClampingScrollPhysics(),
                 key: _listKey,
-                itemCount: pageState.currentJobs.length < 6 ? pageState.currentJobs.length : 5,
+//                itemCount: pageState.currentJobs.length < 6 ? pageState.currentJobs.length : 5,
+                itemCount: 2,
                 itemBuilder: _buildItem,
               ),
           ),
@@ -47,6 +49,17 @@ class JobsHomeCard extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return JobListItem(job: pageState.currentJobs.elementAt(index));
+//    return JobListItem(job: pageState.currentJobs.elementAt(index));
+
+
+    return JobListItem(job: Job(
+      jobTitle: "Sunflower Shoot",
+      clientName: "Allie ",
+      clientGender: Job.GENDER_FEMALE,
+      type: Job.JOB_TYPE_ANNIVERSARY,
+      lengthInHours: 1,
+      price: 350.0,
+      dateTime: DateTime(2019, 10, 5, 18)
+    ));
   }
 }
