@@ -19,9 +19,7 @@ class JobListItem extends StatelessWidget{
                 width: 48.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: job.clientGender == Job.GENDER_MALE ? ImageUtil.getMalePersonIcon()
-                        : (job.clientGender == Job.GENDER_FEMALE ? ImageUtil.getFemalePersonIcon()
-                        : ImageUtil.getGenderNeutralPersonIcon()),
+                    image: ImageUtil.getRandomJobIcon(),
                     fit: BoxFit.contain,
                   ),
                 ),

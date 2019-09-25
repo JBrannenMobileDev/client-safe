@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:client_safe/models/Job.dart';
 import 'package:flutter/widgets.dart';
 
 class ImageUtil{
@@ -32,5 +33,29 @@ class ImageUtil{
 
   static AssetImage getGenderNeutralPersonIcon(){
     return AssetImage('assets/images/gender_nuetral_white_hair.png');
+  }
+
+  static AssetImage getRandomJobIcon(){
+    List<String> jobIcons = [
+      'assets/images/job_types/anniversary.png',
+      'assets/images/job_types/birthday.png',
+      'assets/images/job_types/breastfeeding.png',
+      'assets/images/job_types/commercial_advertising.png',
+      'assets/images/job_types/engagement.png',
+      'assets/images/job_types/family_portrait.png',
+      'assets/images/job_types/maternity.png',
+      'assets/images/job_types/modeling.png',
+      'assets/images/job_types/nature.png',
+      'assets/images/job_types/newborn.png',
+      'assets/images/job_types/other.png',
+      'assets/images/job_types/pet.png',
+      'assets/images/job_types/real_estate_architecture.png',
+      'assets/images/job_types/wdding.png',
+      'assets/images/job_types/event.png'];
+    return AssetImage(jobIcons[Random().nextInt(15)]);
+  }
+
+  static AssetImage getJobIcon(String jobType){
+    return AssetImage(jobType);
   }
 }

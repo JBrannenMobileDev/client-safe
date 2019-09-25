@@ -47,26 +47,41 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/cameras_background.jpg
-    - assets/images/flexible_space_bg.jpg
-    - assets/images/heart.png
-    - assets/images/female_blonde.png
-    - assets/images/female_blue_afro.png
-    - assets/images/female_brown_ponytail.png
-    - assets/images/female_bun_brown_hair.png
-    - assets/images/female_flat_brown_hair.png
-    - assets/images/gender_nuetral_white_hair.png
-    - assets/images/male_black_hair.png
-    - assets/images/male_black_hair_2.png
-    - assets/images/male_brown_hair_collar.png
-    - assets/images/male_brown_hair_goat.png
-    - assets/images/male_messy_black_hair.png
-    - assets/images/male_white_hair.png
-    - assets/images/male_white_hair_tanktop.png
-    - assets/images/middle_age_male_brown_hair.png
-    - assets/images/young_female_black_hair.png
-    - assets/images/young_male.png
+    - assets/images/backgrounds/cameras_background.jpg
+    - assets/images/backgrounds/flexible_space_bg.jpg
 
+    - assets/images/people/female_blonde.png
+    - assets/images/people/female_blue_afro.png
+    - assets/images/people/female_brown_ponytail.png
+    - assets/images/people/female_bun_brown_hair.png
+    - assets/images/people/female_flat_brown_hair.png
+    - assets/images/people/gender_nuetral_white_hair.png
+    - assets/images/people/male_black_hair.png
+    - assets/images/people/male_black_hair_2.png
+    - assets/images/people/male_brown_hair_collar.png
+    - assets/images/people/male_brown_hair_goat.png
+    - assets/images/people/male_messy_black_hair.png
+    - assets/images/people/male_white_hair.png
+    - assets/images/people/male_white_hair_tanktop.png
+    - assets/images/people/middle_age_male_brown_hair.png
+    - assets/images/people/young_female_black_hair.png
+    - assets/images/people/young_male.png
+
+    - assets/images/job_types/maternity.png
+    - assets/images/job_types/engagement.png
+    - assets/images/job_types/family_portrait.png
+    - assets/images/job_types/newborn.png
+    - assets/images/job_types/other.png
+    - assets/images/job_types/wedding.png
+    - assets/images/job_types/pet.png
+    - assets/images/job_types/commercial_advertising.png
+    - assets/images/job_types/modeling.png
+    - assets/images/job_types/real_estate_architecture.png
+    - assets/images/job_types/breastfeeding.png
+    - assets/images/job_types/event.png
+    - assets/images/job_types/nature.png
+    - assets/images/job_types/anniversary.png
+    - assets/images/job_types/birthday.png
 
   fonts:
     - family: Blackjack

@@ -55,7 +55,6 @@ class JobsHomeCard extends StatelessWidget{
     return JobListItem(job: Job(
       jobTitle: "Sunflower Shoot",
       clientName: "Allie ",
-      clientGender: Job.GENDER_FEMALE,
       type: Job.JOB_TYPE_ANNIVERSARY,
       lengthInHours: 1,
       price: 350.0,
