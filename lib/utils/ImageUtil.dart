@@ -50,12 +50,16 @@ class ImageUtil{
       'assets/images/job_types/other.png',
       'assets/images/job_types/pet.png',
       'assets/images/job_types/real_estate_architecture.png',
-      'assets/images/job_types/wdding.png',
+      'assets/images/job_types/wedding.png',
       'assets/images/job_types/event.png'];
     return AssetImage(jobIcons[Random().nextInt(15)]);
   }
 
   static AssetImage getJobIcon(String jobType){
     return AssetImage(jobType);
+  }
+
+  static AssetImage getCamerasBg(){
+    return AssetImage('assets/images/backgrounds/cameras_background.jpg');
   }
 }

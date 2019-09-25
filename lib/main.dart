@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:redux/redux.dart';
 
-Future main() async {
+main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown]);
@@ -36,5 +37,6 @@ Future main() async {
       appReducers,
       initialState: AppState.initial(),
       middleware: createAppMiddleware());
+
   runApp(new ClientSafeApp(store));
 }

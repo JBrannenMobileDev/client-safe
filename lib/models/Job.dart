@@ -4,7 +4,7 @@ class Job {
   static const String JOB_TYPE_FAMILY_PORTRAIT = 'assets/images/job_types/family_portrait.png';
   static const String JOB_TYPE_NEWBORN = 'assets/images/job_types/newborn.png';
   static const String JOB_TYPE_OTHER = 'assets/images/job_types/other.png';
-  static const String JOB_TYPE_WEDDING = 'assets/images/job_types/wdding.png';
+  static const String JOB_TYPE_WEDDING = 'assets/images/job_types/wedding.png';
   static const String JOB_TYPE_PET = 'assets/images/job_types/pet.png';
   static const String JOB_TYPE_COMMERCIAL_ADVERTISING = 'assets/images/job_types/commercial_advertising.png';
   static const String JOB_TYPE_MODELING = 'assets/images/job_types/modeling.png';
@@ -41,4 +41,42 @@ class Job {
     this.dateTime,
     this.type,
   });
+
+  String getJobType(){
+    switch(type){
+      case JOB_TYPE_ANNIVERSARY:
+        return "Anniversary";
+      case JOB_TYPE_BIRTHDAY:
+        return "Birthday";
+      case JOB_TYPE_BREASTFEEDING:
+        return "Breastfeeding";
+      case JOB_TYPE_COMMERCIAL_ADVERTISING:
+        return "Commercial/Advertising";
+      case JOB_TYPE_ENGAGEMENT:
+        return "Engagement";
+      case JOB_TYPE_EVENT:
+        return "Event";
+      case JOB_TYPE_FAMILY_PORTRAIT:
+        return "Family Portrait";
+      case JOB_TYPE_HEAD_SHOTS:
+        return "Head Shots";
+      case JOB_TYPE_MATERNITY:
+        return "Maternity";
+      case JOB_TYPE_MODELING:
+        return "Modeling";
+      case JOB_TYPE_NATURE:
+        return "Nature";
+      case JOB_TYPE_NEWBORN:
+        return "Newborn";
+      case JOB_TYPE_OTHER:
+        return "";
+      case JOB_TYPE_PET:
+        return "Pet";
+      case JOB_TYPE_REAL_ESTATE_ARCHITECTURE:
+        return "RealEstate/Architecture";
+      case JOB_TYPE_WEDDING:
+        return "Wedding";
+    }
+    return "";
+  }
 }
