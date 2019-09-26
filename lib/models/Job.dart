@@ -20,6 +20,16 @@ class Job {
   static const String GENDER_MALE = "male";
   static const String GENDER_NEUTRAL = "neutral";
 
+  static const String JOB_STAGE_INQUIRY = "assets/images/job_progress/inquiry.png";
+  static const String JOB_STAGE_FOLLOW_UP = "assets/images/job_progress/follow_up.png";
+  static const String JOB_STAGE_SEND_PROPOSAL = "assets/images/job_progress/proposal_sent.png";
+  static const String JOB_STAGE_SIGN_PROPOSAL = "assets/images/job_progress/proposal_signed.png";
+  static const String JOB_STAGE_PLANNING = "assets/images/job_progress/planning.png";
+  static const String JOB_STAGE_EDITING = "assets/images/job_progress/editing.png";
+  static const String JOB_STAGE_SEND_GALLERY = "assets/images/job_progress/send_gallery.png";
+  static const String JOB_STAGE_COLLECT_PAYMENT = "assets/images/job_progress/collect_payment.png";
+  static const String JOB_STAGE_GET_FEEDBACK = "assets/images/job_progress/get_feedback.png";
+
   String clientId;
   String clientName;
   String jobTitle;

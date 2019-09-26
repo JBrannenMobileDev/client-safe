@@ -83,6 +83,17 @@ flutter:
     - assets/images/job_types/anniversary.png
     - assets/images/job_types/birthday.png
 
+    - assets/images/job_progress/check_mark.png
+    - assets/images/job_progress/collect_payment.png
+    - assets/images/job_progress/editing.png
+    - assets/images/job_progress/follow_up.png
+    - assets/images/job_progress/get_feedback.png
+    - assets/images/job_progress/inquiry.png
+    - assets/images/job_progress/planning.png
+    - assets/images/job_progress/proposal_sent.png
+    - assets/images/job_progress/proposal_signed.png
+    - assets/images/job_progress/send_gallery.png
+
   fonts:
     - family: Blackjack
       fonts:
