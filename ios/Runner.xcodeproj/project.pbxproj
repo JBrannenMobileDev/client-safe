@@ -280,7 +280,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh",
 				"${PODS_ROOT}/../.symlinks/flutter/ios/Flutter.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -289,7 +289,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Runner/Pods-Runner-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -376,7 +376,7 @@
 		};
 		249021D4217E4FDB00AE95B9 /* Profile */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5C74BBBCE84A2A75D0C9A841 /* Pods-Runner.profile.xcconfig */;
+			baseConfigurationReference = 8C2E4E406E7D4CE0FB6AEC5B /* Pods-Runner.profile.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -447,7 +447,7 @@
 		};
 		D741C02623375A21009A3BD9 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3E908167C9180104F653AE90 /* Pods-Runner.debug.xcconfig */;
+			baseConfigurationReference = 68C29C74762E6EF10D3C9BE4 /* Pods-Runner.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -518,7 +518,7 @@
 		};
 		D741C02823375A32009A3BD9 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A1515A667E983C09C767CAE2 /* Pods-Runner.release.xcconfig */;
+			baseConfigurationReference = 56A6DE21A0503A17FFD375A3 /* Pods-Runner.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";

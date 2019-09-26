@@ -3,6 +3,7 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/HomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -31,7 +32,7 @@ class DashboardPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(ColorConstants.primary),
                     image: DecorationImage(
-                      image: AssetImage('assets/images/cameras_background.jpg'),
+                      image: ImageUtil.getCamerasBg(),
                       repeat: ImageRepeat.repeat,
                       colorFilter: new ColorFilter.mode(
                           Colors.white.withOpacity(0.05), BlendMode.dstATop),
