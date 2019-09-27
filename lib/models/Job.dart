@@ -29,6 +29,7 @@ class Job {
   static const String JOB_STAGE_SEND_GALLERY = "assets/images/job_progress/send_gallery.png";
   static const String JOB_STAGE_COLLECT_PAYMENT = "assets/images/job_progress/collect_payment.png";
   static const String JOB_STAGE_GET_FEEDBACK = "assets/images/job_progress/get_feedback.png";
+  static const String JOB_STAGE_COMPLETED_CHECK = "assets/images/job_progress/check_mark.png";
 
   String clientId;
   String clientName;
@@ -88,5 +89,29 @@ class Job {
         return "Wedding";
     }
     return "";
+  }
+
+  static int getJobStagePosition(String stage){
+    switch(stage){
+      case JOB_STAGE_INQUIRY:
+        return 0;
+      case JOB_STAGE_FOLLOW_UP:
+        return 1;
+      case JOB_STAGE_SEND_PROPOSAL:
+        return 2;
+      case JOB_STAGE_SIGN_PROPOSAL:
+        return 3;
+      case JOB_STAGE_PLANNING:
+        return 4;
+      case JOB_STAGE_EDITING:
+        return 5;
+      case JOB_STAGE_SEND_GALLERY:
+        return 6;
+      case JOB_STAGE_COLLECT_PAYMENT:
+        return 7;
+      case JOB_STAGE_GET_FEEDBACK:
+        return 8;
+    }
+    return 0;
   }
 }

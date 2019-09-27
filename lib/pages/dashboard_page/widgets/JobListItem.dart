@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/JobStageTrackingWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/widgets.dart';
@@ -66,11 +67,7 @@ class JobListItem extends StatelessWidget{
               ),
             ],
           ),
-          Row(
-            children: <Widget>[
-
-            ],
-          )
+          JobStageTrackingWidget(Job.JOB_STAGE_SEND_PROPOSAL, [Job.JOB_STAGE_INQUIRY, Job.JOB_STAGE_FOLLOW_UP]),
         ],
       ),
     );

@@ -32,7 +32,7 @@ class DashboardPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: const Color(ColorConstants.primary),
                     image: DecorationImage(
-                      image: ImageUtil.getCamerasBg(),
+                      image: AssetImage(ImageUtil.CAMERA_BG),
                       repeat: ImageRepeat.repeat,
                       colorFilter: new ColorFilter.mode(
                           Colors.white.withOpacity(0.05), BlendMode.dstATop),
