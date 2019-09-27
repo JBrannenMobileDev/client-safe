@@ -17,15 +17,16 @@ class JobsHomeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Stack(
+        alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 60.0),
-            height: 215.0,
+            height: 340.0,
             color: Color(ColorConstants.primary_bg_grey),
           ),
           Container(
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
-            padding: EdgeInsets.only(bottom: 16.0),
+            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.white),
                 borderRadius: new BorderRadius.all(Radius.circular(8.0))),
@@ -60,14 +61,16 @@ class JobsHomeCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                ListView.builder(
-                  reverse: false,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  key: _listKey,
-                  //                itemCount: pageState.currentJobs.length < 6 ? pageState.currentJobs.length : 5,
-                  itemCount: 2,
-                  itemBuilder: _buildItem,
+                Container(
+                  child: ListView.builder(
+                    reverse: false,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    key: _listKey,
+                    //                itemCount: pageState.currentJobs.length < 6 ? pageState.currentJobs.length : 5,
+                    itemCount: 2,
+                    itemBuilder: _buildItem,
+                  ),
                 ),
               ],
             ),

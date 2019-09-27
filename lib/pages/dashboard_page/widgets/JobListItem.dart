@@ -12,13 +12,14 @@ class JobListItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      padding: EdgeInsets.fromLTRB(26.0, 0.0, 0.0, 16.0),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Row(
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 16.0),
+                margin: EdgeInsets.only(right: 18.0),
                 height: 48.0,
                 width: 48.0,
                 decoration: BoxDecoration(
@@ -67,7 +68,7 @@ class JobListItem extends StatelessWidget{
               ),
             ],
           ),
-          JobStageTrackingWidget(Job.JOB_STAGE_SEND_PROPOSAL, [Job.JOB_STAGE_INQUIRY, Job.JOB_STAGE_FOLLOW_UP]),
+          JobStageTrackingWidget(Job.JOB_STAGE_SIGN_PROPOSAL, [Job.JOB_STAGE_INQUIRY, Job.JOB_STAGE_FOLLOW_UP, Job.JOB_STAGE_SEND_PROPOSAL]),
         ],
       ),
     );
