@@ -27,6 +27,7 @@ class DashboardPage extends StatelessWidget {
           body: Container(
             color: Color(ColorConstants.primary_bg_grey),
             child: Stack(
+              alignment: Alignment.topCenter,
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(

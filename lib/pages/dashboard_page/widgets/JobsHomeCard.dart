@@ -62,6 +62,7 @@ class JobsHomeCard extends StatelessWidget {
                   ),
                 ),
                 Container(
+                  alignment: Alignment.topCenter,
                   child: ListView.builder(
                     reverse: false,
                     shrinkWrap: true,

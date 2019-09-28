@@ -12,16 +12,18 @@ class JobListItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.fromLTRB(26.0, 0.0, 0.0, 16.0),
+      padding: EdgeInsets.fromLTRB(24.0, 0.0, 0.0, 0.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 18.0),
-                height: 48.0,
-                width: 48.0,
+                margin: EdgeInsets.only(right: 18.0, top: 4.0),
+                height: 32.0,
+                width: 32.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
                     image: ImageUtil.getRandomJobIcon(),
@@ -33,14 +35,17 @@ class JobListItem extends StatelessWidget{
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      job.jobTitle,
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 4.0),
+                      child: Text(
+                        job.jobTitle,
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.primary_black),
+                        ),
                       ),
                     ),
                     Text(
