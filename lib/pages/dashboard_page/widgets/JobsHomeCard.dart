@@ -21,7 +21,7 @@ class JobsHomeCard extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 60.0),
-            height: 340.0,
+            height: 188.0,
             color: Color(ColorConstants.primary_bg_grey),
           ),
           Container(
