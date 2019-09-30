@@ -1,38 +1,33 @@
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/widgets.dart';
 
+import 'BaseHomeCard.dart';
+import 'JobListItem.dart';
+
 class HomeCard extends StatelessWidget{
   HomeCard({
-    this.paddingLeft,
-    this.paddingTop,
-    this.paddingRight,
-    this.paddingBottom,
-    this.cardHeight,
-    this.cardContents});
+    this.cardTitle,
+    this.listItemWidget});
 
-  final double paddingLeft;
-  final double paddingTop;
-  final double paddingRight;
-  final double paddingBottom;
-  final double cardHeight;
-  final Widget cardContents;
+  final String cardTitle;
+  final Widget listItemWidget;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
       color: Color(ColorConstants.primary_bg_grey),
-      child: Container(
-        height: cardHeight,
-        decoration: new BoxDecoration(
-            color: Color(ColorConstants.white),
-            borderRadius: new BorderRadius.all(
-                Radius.circular(8.0)
-            )
-        ),
-        child: cardContents,
+      child: BaseHomeCard(
+        cardTitle: "Notifications",
+        listItemWidget: JobListItem(
+            job: Job(
+                jobTitle: "Sunflower Shoot",
+                clientName: "Allie Graham",
+                type: Job.JOB_TYPE_ANNIVERSARY,
+                lengthInHours: 1,
+                price: 350.0,
+                dateTime: DateTime(2019, 10, 5, 18))),
       ),
     );
   }
-
 }

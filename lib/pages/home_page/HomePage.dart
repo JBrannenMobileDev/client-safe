@@ -67,7 +67,7 @@ class _HomeState extends State<HomePage> {
               title: Container(height: 0.0)),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.photo_camera,
+                  Icons.camera,
                 ),
                 title: Container(height: 0.0)),
             BottomNavigationBarItem(
