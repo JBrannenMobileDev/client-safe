@@ -1,9 +1,9 @@
-import 'package:client_safe/pages/dashboard_page/widgets/new_contact_pages/Children.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/new_contact_pages/ImportantDates.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/new_contact_pages/MarriedSpouse.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/new_contact_pages/NameAndGender.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/new_contact_pages/Notes.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/new_contact_pages/PhoneEmailInstagram.dart';
+import 'package:client_safe/pages/new_contact_pages/Children.dart';
+import 'package:client_safe/pages/new_contact_pages/ImportantDates.dart';
+import 'package:client_safe/pages/new_contact_pages/MarriedSpouse.dart';
+import 'package:client_safe/pages/new_contact_pages/NameAndGender.dart';
+import 'package:client_safe/pages/new_contact_pages/Notes.dart';
+import 'package:client_safe/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -19,6 +19,7 @@ class _NewContactPageState extends State<NewContactPage> {
   final controller = PageController(
     initialPage: 0,
   );
+  final double pageWidth = 400.0;
   int currentPageIndex = 0;
   bool isLastPage = false;
 
@@ -28,7 +29,7 @@ class _NewContactPageState extends State<NewContactPage> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          width: 350.0,
+          width: 400.0,
           padding: EdgeInsets.only(top: 16.0, bottom: 18.0),
           decoration: new BoxDecoration(
               color: Color(ColorConstants.white),
@@ -51,7 +52,7 @@ class _NewContactPageState extends State<NewContactPage> {
                 ),
               ),
               Container(
-                height: 200.0,
+                height: 225.0,
                 child: PageView(
                   controller: controller,
                   physics: BouncingScrollPhysics(),
@@ -130,10 +131,10 @@ class _NewContactPageState extends State<NewContactPage> {
   }
 
   void onNextPressed() {
-    if (currentPageIndex < 5) {
-      controller.animateTo((currentPageIndex + 1.0)*350, duration: Duration(milliseconds: 250), curve: Curves.ease);
+    if (!isLastPage) {
+      controller.animateTo((currentPageIndex + 1.0)*pageWidth, duration: Duration(milliseconds: 250), curve: Curves.ease);
     }
-    if(currentPageIndex == 5){
+    if(isLastPage){
 
     }
   }
@@ -142,7 +143,7 @@ class _NewContactPageState extends State<NewContactPage> {
     if (currentPageIndex == 0) {
       Navigator.of(context).pop();
     }else{
-      controller.animateTo((currentPageIndex - 1.0)*350, duration: Duration(milliseconds: 250), curve: Curves.ease);
+      controller.animateTo((currentPageIndex - 1.0)*pageWidth, duration: Duration(milliseconds: 250), curve: Curves.ease);
     }
   }
 }

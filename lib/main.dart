@@ -4,6 +4,7 @@ import 'package:client_safe/AppMiddleware.dart';
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/ClientSafeApp.dart';
 import 'package:client_safe/AppReducers.dart';
+
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,11 +13,11 @@ import 'package:redux/redux.dart';
 main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
-      [DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown]);
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-      statusBarColor: Color(0x00000000)
-  ));
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
+      statusBarColor: Color(0x00000000),
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark));
 
 //  await FirebaseApp.configure(
 //      name: 'db2',
@@ -33,10 +34,8 @@ main() {
 //      )
 //  );
 
-  final store = new Store<AppState>(
-      appReducers,
-      initialState: AppState.initial(),
-      middleware: createAppMiddleware());
+  final store = new Store<AppState>(appReducers,
+      initialState: AppState.initial(), middleware: createAppMiddleware());
 
   runApp(new ClientSafeApp(store));
 }

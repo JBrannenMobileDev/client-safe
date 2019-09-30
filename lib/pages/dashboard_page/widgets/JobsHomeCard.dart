@@ -25,7 +25,7 @@ class JobsHomeCard extends StatelessWidget {
             color: Color(ColorConstants.primary_bg_grey),
           ),
           BaseHomeCard(
-            cardTitle: "Current Jobs",
+            cardTitle: "Upcoming Jobs",
             listItemWidget: JobListItem(
                 job: Job(
                     jobTitle: "Sunflower Shoot",

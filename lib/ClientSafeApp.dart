@@ -19,7 +19,6 @@ class ClientSafeApp extends StatelessWidget {
         title: 'Client Safe',
         home: HomePage(),
         theme: ThemeData(
-          accentColor: Colors.white,
           primaryColor: Color(ColorConstants.primary),
           iconTheme: IconThemeData(color: Colors.white),
           primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
