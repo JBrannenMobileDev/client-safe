@@ -56,10 +56,10 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Does client have significant other?",
+                    "Does client have a significant other?",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 16.0,
                       fontFamily: 'Raleway',
                       fontWeight: FontWeight.w600,
                       color: Color(ColorConstants.primary_black),
@@ -99,8 +99,8 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
               margin: EdgeInsets.only(top: 95.0),
               child: Column(
                 children: <Widget>[
-                  sharedValue == 1 || sharedValue == 0 ? NewContactTextField(firstNameTextController, "Spouse First Name", TextInputType.text) : SizedBox(),
-                  sharedValue == 1 || sharedValue == 0 ? NewContactTextField(lastNameTextController, "Spouse Last Name", TextInputType.text) : SizedBox(),
+                  sharedValue == 1 || sharedValue == 0 ? NewContactTextField(firstNameTextController, "First Name", TextInputType.text) : SizedBox(),
+                  sharedValue == 1 || sharedValue == 0 ? NewContactTextField(lastNameTextController, "Last Name", TextInputType.text) : SizedBox(),
                 ],
               ),
             ),

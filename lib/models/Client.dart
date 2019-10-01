@@ -2,6 +2,12 @@ import 'package:client_safe/models/Child.dart';
 import 'package:client_safe/models/Job.dart';
 
 class Client{
+  static const String IMPORTANT_DATE_ANNIVERSARY = "Anniversary";
+  static const String IMPORTANT_DATE_BIRTHDAY = "Birthday";
+  static const String IMPORTANT_DATE_GRADUATION = "Graduation";
+  static const String IMPORTANT_DATE_PREGNANCY_DUE_DATE = "Pregnancy Due Date";
+  static const String IMPORTANT_DATE_CUSTOM = "Custom";
+
   String clientId;
   String name;
   String firstName;

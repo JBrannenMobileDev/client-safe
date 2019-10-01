@@ -30,7 +30,7 @@ class _NewContactPageState extends State<NewContactPage> {
       body: Center(
         child: Container(
           width: 400.0,
-          padding: EdgeInsets.only(top: 16.0, bottom: 18.0),
+          padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
           decoration: new BoxDecoration(
               color: Color(ColorConstants.white),
               borderRadius: new BorderRadius.all(Radius.circular(16.0))),
