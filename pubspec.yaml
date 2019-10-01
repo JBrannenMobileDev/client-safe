@@ -27,6 +27,8 @@ dependencies:
 #  firebase_core: "^0.4.0"
 #  cloud_firestore: "0.12.7"
   shared_preferences: "^0.4.2"
+  flutter_datetime_picker: "^1.2.6"
+  flutter_rounded_date_picker: "^0.2.3"
 
 
 dev_dependencies:

@@ -1,7 +1,10 @@
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/HostDetectionUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_rounded_date_picker/rounded_date_picker.dart';
 
 class ImportantDates extends StatefulWidget {
   @override
@@ -16,6 +19,20 @@ class _ImportantDates extends State<ImportantDates> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime selectedDate = DateTime.now();
+
+    Future<Null> _selectDate(BuildContext context) async {
+      final DateTime picked = await RoundedDatePicker.show(context,
+          initialDate: DateTime.now(),
+          firstDate: DateTime(DateTime.now().year - 1),
+          lastDate: DateTime(DateTime.now().year + 1),
+          borderRadius: 16);
+      if (picked != null && picked != selectedDate)
+        setState(() {
+          selectedDate = picked;
+        });
+    }
+
     return Padding(
       padding: EdgeInsets.only(left: 26.0, right: 26.0),
       child: Column(
@@ -68,6 +85,15 @@ class _ImportantDates extends State<ImportantDates> {
                         setState(() {
                           if(selected){
                             _selectedIndexes.add(index);
+                            HostDetectionUtil.isIos(context) ? DatePicker.showDatePicker(context,
+                                showTitleActions: true,
+                                minTime: DateTime(2018, 3, 5),
+                                maxTime: DateTime(2019, 6, 7), onChanged: (date) {
+                                  print('change $date');
+                                }, onConfirm: (date) {
+                                  print('confirm $date');
+                                }, currentTime: DateTime.now(), locale: LocaleType.en)
+                                : _selectDate(context);
                           }else{
                             _selectedIndexes.remove(index);
                           }
