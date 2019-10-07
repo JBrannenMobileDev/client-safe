@@ -1,3 +1,5 @@
+import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,20 +8,27 @@ import 'package:flutter/widgets.dart';
 import 'NewContactTextField.dart';
 
 class NameAndGender extends StatefulWidget {
+  final NewContactPageState pageState;
+
+  NameAndGender(this.pageState);
+
   @override
   _NameAndGenderState createState() {
-    return _NameAndGenderState();
+    return _NameAndGenderState(pageState);
   }
 }
 
 class _NameAndGenderState extends State<NameAndGender> {
+  final NewContactPageState pageState;
   final firstNameTextController = TextEditingController();
   final lastNameTextController = TextEditingController();
-  final Map<int, Widget> children = const <int, Widget>{
-    0: Text('Male'),
-    1: Text('Female'),
+  final Map<int, Widget> genders = const <int, Widget>{
+    0: Text(Client.GENDER_MALE),
+    1: Text(Client.GENDER_FEMALE),
   };
-  int sharedValue = 0;
+  int genderIndex = 1;
+
+  _NameAndGenderState(this.pageState);
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +44,18 @@ class _NameAndGenderState extends State<NameAndGender> {
               borderColor: Color(ColorConstants.primary),
               selectedColor: Color(ColorConstants.primary),
               unselectedColor: Colors.white,
-              children: children,
-              onValueChanged: (int newValue) {
+              children: genders,
+              onValueChanged: (int genderIndex) {
+                pageState.onGenderSelected(genderIndex);
                 setState(() {
-                  sharedValue = newValue;
+                  this.genderIndex = genderIndex;
                 });
               },
-              groupValue: sharedValue,
+              groupValue: genderIndex,
             ),
           ),
-          NewContactTextField(firstNameTextController, "First Name", TextInputType.text),
-          NewContactTextField(lastNameTextController, "Last Name", TextInputType.text),
+          NewContactTextField(firstNameTextController, "First Name", TextInputType.text, 65.0, pageState.onClientFirstNameChanged),
+          NewContactTextField(lastNameTextController, "Last Name", TextInputType.text, 65.0, pageState.onClientLastNameChanged),
         ],
       ),
     );

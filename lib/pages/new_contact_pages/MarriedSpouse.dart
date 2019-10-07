@@ -1,30 +1,38 @@
+import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'NewContactTextField.dart';
 
-class MarriedSpouse extends StatefulWidget{
+class MarriedSpouse extends StatefulWidget {
+  final NewContactPageState pageState;
 
+  MarriedSpouse(this.pageState);
 
   @override
   _MarriedSpouseState createState() {
-    return _MarriedSpouseState();
+    return _MarriedSpouseState(pageState);
   }
 }
 
-class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateMixin{
+class _MarriedSpouseState extends State<MarriedSpouse>
+    with TickerProviderStateMixin {
+  final NewContactPageState pageState;
   AnimationController _controller;
   Animation<Offset> _offsetFloat;
   bool _visible = false;
   final firstNameTextController = TextEditingController();
   final lastNameTextController = TextEditingController();
-  final Map<int, Widget> children = const <int, Widget>{
-    0: Text('Married'),
-    1: Text('Engaged'),
-    2: Text('Single'),
+  final Map<int, Widget> statuses = const <int, Widget>{
+    0: Text(Client.RELATIONSHIP_MARRIED),
+    1: Text(Client.RELATIONSHIP_ENGAGED),
+    2: Text(Client.RELATIONSHIP_SINGLE),
   };
-  int sharedValue = 2;
+  int statusIndex = 2;
+
+  _MarriedSpouseState(this.pageState);
 
   @override
   void initState() {
@@ -35,8 +43,8 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
     _offsetFloat = Tween<Offset>(begin: Offset.zero, end: Offset(0.0, -0.3))
         .animate(_controller);
 
-    _offsetFloat.addListener((){
-      setState((){});
+    _offsetFloat.addListener(() {
+      setState(() {});
     });
   }
 
@@ -56,7 +64,9 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "Does client have a significant other?",
+                    "Does " +
+                        pageState.newContactFirstName +
+                        " have a significant other?",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 16.0,
@@ -72,20 +82,21 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
                       borderColor: Color(ColorConstants.primary),
                       selectedColor: Color(ColorConstants.primary),
                       unselectedColor: Colors.white,
-                      children: children,
-                      onValueChanged: (int newValue) {
+                      children: statuses,
+                      onValueChanged: (int statusIndex) {
+                        pageState.onRelationshipStatusChanged(statusIndex);
                         setState(() {
-                          sharedValue = newValue;
-                          if(newValue == 0 || newValue == 1){
+                          this.statusIndex = statusIndex;
+                          if (statusIndex == 0 || statusIndex == 1) {
                             _controller.forward();
                             _visible = true;
-                          }else{
+                          } else {
                             _controller.reverse();
                             _visible = false;
                           }
                         });
                       },
-                      groupValue: sharedValue,
+                      groupValue: statusIndex,
                     ),
                   ),
                 ],
@@ -99,8 +110,18 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
               margin: EdgeInsets.only(top: 95.0),
               child: Column(
                 children: <Widget>[
-                  sharedValue == 1 || sharedValue == 0 ? NewContactTextField(firstNameTextController, "First Name", TextInputType.text) : SizedBox(),
-                  sharedValue == 1 || sharedValue == 0 ? NewContactTextField(lastNameTextController, "Last Name", TextInputType.text) : SizedBox(),
+                  statusIndex == 1 || statusIndex == 0
+                      ? NewContactTextField(
+                          firstNameTextController,
+                          "First Name",
+                          TextInputType.text,
+                          65.0,
+                          pageState.onSpouseFirstNameChanged)
+                      : SizedBox(),
+                  statusIndex == 1 || statusIndex == 0
+                      ? NewContactTextField(lastNameTextController, "Last Name",
+                          TextInputType.text, 65.0, pageState.onSpouseLastNameChanged)
+                      : SizedBox(),
                 ],
               ),
             ),

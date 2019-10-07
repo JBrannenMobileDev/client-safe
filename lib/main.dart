@@ -34,7 +34,8 @@ main() {
 //      )
 //  );
 
-  final store = new Store<AppState>(appReducers,
+  final store = new Store<AppState>(
+      appReducers,
       initialState: AppState.initial(), middleware: createAppMiddleware());
 
   runApp(new ClientSafeApp(store));

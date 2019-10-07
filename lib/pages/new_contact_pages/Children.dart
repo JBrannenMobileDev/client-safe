@@ -1,17 +1,24 @@
+import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 
 class Children extends StatefulWidget{
+  final NewContactPageState pageState;
+
+  Children(this.pageState);
 
   @override
   State<StatefulWidget> createState() {
-    return _ChildrenState();
+    return _ChildrenState(pageState);
   }
 }
 
 class _ChildrenState extends State<Children>{
-  double _value = 0.0;
+  final NewContactPageState pageState;
+  int _numOfChildren = 0;
+
+  _ChildrenState(this.pageState);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class _ChildrenState extends State<Children>{
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Text(
-          _value.toString(),
+          _numOfChildren.toString(),
           textAlign: TextAlign.start,
           style: TextStyle(
             fontSize: 64.0,
@@ -30,7 +37,7 @@ class _ChildrenState extends State<Children>{
           ),
         ),
         Text(
-          "How many children does Client have?",
+          "How many children does " + pageState.newContactFirstName + " have?",
           textAlign: TextAlign.start,
           style: TextStyle(
             fontSize: 16.0,
@@ -43,13 +50,14 @@ class _ChildrenState extends State<Children>{
           margin: EdgeInsets.only(top: 16.0),
           width: 250.0,
           child: CupertinoSlider(
-            value: _value,
+            value: _numOfChildren.toDouble(),
             min: 0.0,
             max: 10.0,
             divisions: 10,
-            onChanged: (double value) {
+            onChanged: (double numOfChildren) {
               setState(() {
-                _value = value;
+                _numOfChildren = numOfChildren.toInt();
+                pageState.onNumberOfChildrenChanged(numOfChildren.toInt());
               });
             },
           ),

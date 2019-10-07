@@ -3,6 +3,7 @@ import 'package:client_safe/pages/home_page/HomePageState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/pages/messages_page/MessagesPageState.dart';
+import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/search_page/SearchPageState.dart';
 import 'package:client_safe/pages/settings_page/SettingsPageState.dart';
 import 'package:meta/meta.dart';
@@ -11,6 +12,7 @@ import 'pages/clients_page/ClientsPageState.dart';
 
 @immutable
 class AppState {
+  final NewContactPageState newContactPageState;
   final HomePageState homePageState;
   final DashboardPageState dashboardPageState;
   final ClientsPageState clientsPageState;
@@ -21,6 +23,7 @@ class AppState {
   final SearchPageState searchPageState;
 
   AppState({
+    @required this.newContactPageState,
     @required this.homePageState,
     @required this.dashboardPageState,
     @required this.clientsPageState,
@@ -33,6 +36,7 @@ class AppState {
 
   factory AppState.initial() {
     return AppState(
+      newContactPageState: NewContactPageState.initial(),
       homePageState: HomePageState.initial(),
       dashboardPageState: DashboardPageState.initial(),
       clientsPageState: ClientsPageState.initial(),
@@ -45,6 +49,7 @@ class AppState {
   }
 
   AppState copyWith({
+    NewContactPageState newContactPageState,
     HomePageState homePageState,
     DashboardPageState dashboardPageState,
     ClientsPageState clientsPageState,
@@ -55,6 +60,7 @@ class AppState {
     SearchPageState searchPageState,
   }){
     return AppState(
+      newContactPageState: newContactPageState ?? this.newContactPageState,
       homePageState: homePageState ?? this.homePageState,
       dashboardPageState: dashboardPageState ?? this.dashboardPageState,
       clientsPageState: clientsPageState ?? this.clientsPageState,
@@ -68,6 +74,7 @@ class AppState {
 
   @override
   int get hashCode =>
+    newContactPageState.hashCode ^
     homePageState.hashCode ^
     dashboardPageState.hashCode ^
     clientsPageState.hashCode ^
@@ -81,6 +88,7 @@ class AppState {
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is AppState &&
+              newContactPageState == other.newContactPageState &&
               homePageState == other.homePageState &&
               dashboardPageState == other.dashboardPageState &&
               clientsPageState == other.clientsPageState &&
