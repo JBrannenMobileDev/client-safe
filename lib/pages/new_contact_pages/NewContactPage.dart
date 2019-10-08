@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_contact_pages/Children.dart';
 import 'package:client_safe/pages/new_contact_pages/ImportantDates.dart';
@@ -7,6 +9,7 @@ import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/Notes.dart';
 import 'package:client_safe/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -18,7 +21,7 @@ class NewContactPage extends StatefulWidget {
   }
 }
 
-class _NewContactPageState extends State<NewContactPage> {
+class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAliveClientMixin{
   final controller = PageController(
     initialPage: 0,
   );
@@ -26,8 +29,8 @@ class _NewContactPageState extends State<NewContactPage> {
   int currentPageIndex = 0;
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, NewContactPageState>(
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, NewContactPageState>(
         converter: (store) => NewContactPageState.fromStore(store),
         builder: (BuildContext context, NewContactPageState pageState) =>
             Scaffold(
@@ -57,7 +60,7 @@ class _NewContactPageState extends State<NewContactPage> {
                     ),
                   ),
                   Container(
-                    height: 225.0,
+                    height: 232.0,
                     child: PageView(
                       controller: controller,
                       physics: BouncingScrollPhysics(),
@@ -66,12 +69,12 @@ class _NewContactPageState extends State<NewContactPage> {
                         currentPageIndex = index;
                       },
                       children: <Widget>[
-                        NameAndGender(pageState),
-                        PhoneEmailInstagram(pageState),
-                        MarriedSpouse(pageState),
-                        Children(pageState),
-                        ImportantDates(pageState),
-                        Notes(pageState),
+                        NameAndGender(),
+                        PhoneEmailInstagram(),
+                        MarriedSpouse(),
+                        Children(),
+                        ImportantDates(),
+                        Notes(),
                       ],
                     ),
                   ),
@@ -133,13 +136,33 @@ class _NewContactPageState extends State<NewContactPage> {
           ),
         ),
       );
+  }
 
   void onNextPressed(NewContactPageState pageState) {
     if (pageState.pageViewIndex != 5) {
+      pageState.onNextPressed();
       controller.animateTo((currentPageIndex + 1.0) * pageWidth,
           duration: Duration(milliseconds: 250), curve: Curves.ease);
     }
     if (pageState.pageViewIndex == 5) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          Future.delayed(Duration(seconds: 2), () {
+            pageState.onCancelPressed();
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(true);
+            Navigator.of(context).pop(true);
+          });
+          return Padding(
+            padding: EdgeInsets.all(96.0),
+            child: FlareActor("assets/animations/success_check.flr",
+                alignment: Alignment.center,
+                fit: BoxFit.contain,
+                animation: "show_check"),
+          );
+        },
+      );
       if (pageState.saveButtonEnabled) {
         pageState.onSavePressed();
       } else {}
@@ -151,8 +174,12 @@ class _NewContactPageState extends State<NewContactPage> {
       Navigator.of(context).pop();
       pageState.onCancelPressed();
     } else {
+      pageState.onBackPressed();
       controller.animateTo((currentPageIndex - 1.0) * pageWidth,
           duration: Duration(milliseconds: 250), curve: Curves.ease);
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

@@ -5,6 +5,8 @@ import 'NewContactPageState.dart';
 
 final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, ClearStateAction>(_clearState),
+  TypedReducer<NewContactPageState, IncrementPageViewIndex>(_incrementPageViewIndex),
+  TypedReducer<NewContactPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewContactPageState, UpdateNewContactFirstNameAction>(_updateNewContactFirstName),
   TypedReducer<NewContactPageState, UpdateNewContactLastNameAction>(_updateNewContactLastName),
   TypedReducer<NewContactPageState, UpdateGenderSelectionAction>(_updateGender),
@@ -23,6 +25,22 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
 NewContactPageState _updateNotes(NewContactPageState previousState, UpdateNotesAction action) {
   return previousState.copyWith(
       notes: action.notes
+  );
+}
+
+NewContactPageState _incrementPageViewIndex(NewContactPageState previousState, IncrementPageViewIndex action) {
+  int incrementedIndex = previousState.pageViewIndex;
+  incrementedIndex++;
+  return previousState.copyWith(
+      pageViewIndex: incrementedIndex
+  );
+}
+
+NewContactPageState _decrementPageViewIndex(NewContactPageState previousState, DecrementPageViewIndex action) {
+  int decrementedIndex = previousState.pageViewIndex;
+  decrementedIndex--;
+  return previousState.copyWith(
+      pageViewIndex: decrementedIndex
   );
 }
 

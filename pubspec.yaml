@@ -29,6 +29,7 @@ dependencies:
   shared_preferences: "^0.4.2"
   flutter_datetime_picker: "^1.2.6"
   flutter_rounded_date_picker: "^0.2.3"
+  flare_flutter: "^1.5.4"
 
 
 dev_dependencies:
@@ -95,6 +96,8 @@ flutter:
     - assets/images/job_progress/proposal_sent.png
     - assets/images/job_progress/proposal_signed.png
     - assets/images/job_progress/send_gallery.png
+
+    - assets/animations/success_check.flr
 
   fonts:
     - family: Blackjack

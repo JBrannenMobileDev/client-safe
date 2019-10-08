@@ -1,5 +1,7 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/ImportantDate.dart';
+import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -21,6 +23,8 @@ class NewContactPageState {
   final String notes;
   final Function() onSavePressed;
   final Function() onCancelPressed;
+  final Function() onNextPressed;
+  final Function() onBackPressed;
   final Function(int) onGenderSelected;
   final Function(String) onClientFirstNameChanged;
   final Function(String) onClientLastNameChanged;
@@ -52,6 +56,8 @@ class NewContactPageState {
     @required this.notes,
     @required this.onSavePressed,
     @required this.onCancelPressed,
+    @required this.onNextPressed,
+    @required this.onBackPressed,
     @required this.onGenderSelected,
     @required this.onClientFirstNameChanged,
     @required this.onClientLastNameChanged,
@@ -84,6 +90,8 @@ class NewContactPageState {
     String notes,
     Function() onSavePressed,
     Function() onCancelPressed,
+    Function() onNextPressed,
+    Function() onBackPressed,
     Function(int) onGenderSelected,
     Function(String) onClientFirstNameChanged,
     Function(String) onClientLastNameChanged,
@@ -115,6 +123,8 @@ class NewContactPageState {
       notes: notes?? this.notes,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
+      onNextPressed: onNextPressed?? this.onNextPressed,
+      onBackPressed: onBackPressed?? this.onBackPressed,
       onGenderSelected: onGenderSelected?? this.onGenderSelected,
       onClientFirstNameChanged: onClientFirstNameChanged?? this.onClientFirstNameChanged,
       onClientLastNameChanged: onClientLastNameChanged?? this.onClientLastNameChanged,
@@ -135,12 +145,12 @@ class NewContactPageState {
         pageViewIndex: 0,
         saveButtonEnabled: false,
         isFemale: true,
-        newContactFirstName: "",
+        newContactFirstName: "Client",
         newContactLastName: "",
         newContactPhone: "",
         newContactEmail: "",
         newContactInstagramUrl: "",
-        relationshipStatus: "",
+        relationshipStatus: Client.RELATIONSHIP_SINGLE,
         spouseFirstName: "",
         spouseLastName: "",
         numberOfChildren: 0,
@@ -148,6 +158,8 @@ class NewContactPageState {
         notes: "",
         onSavePressed: null,
         onCancelPressed: null,
+        onNextPressed: null,
+        onBackPressed: null,
         onGenderSelected: null,
         onRelationshipStatusChanged: null,
         onClientFirstNameChanged: null,
@@ -180,20 +192,22 @@ class NewContactPageState {
       importantDates: store.state.newContactPageState.importantDates,
       notes: store.state.newContactPageState.notes,
       onSavePressed: () => store.dispatch(null),
-      onCancelPressed: () => store.dispatch(null),
-      onGenderSelected: (genderIndex) => store.dispatch(null),
-      onClientFirstNameChanged: (firstName) => store.dispatch(null),
-      onClientLastNameChanged: (lastName) => store.dispatch(null),
-      onPhoneTextChanged: (phoneNum) => store.dispatch(null),
-      onEmailTextChanged: (email) => store.dispatch(null),
-      onInstagramUrlChanged: (instaUrl) => store.dispatch(null),
-      onSpouseFirstNameChanged: (spouseFirstName) => store.dispatch(null),
-      onSpouseLastNameChanged: (spouseLastName) => store.dispatch(null),
-      onNumberOfChildrenChanged: (numOfChildren) => store.dispatch(null),
-      onImportantDateAdded: (importantDate) => store.dispatch(null),
-      onImportantDateRemoved: (chipIndex) => store.dispatch(null),
-      onNotesChanged: (notes) => store.dispatch(null),
-      onRelationshipStatusChanged: (statusIndex) => store.dispatch(null),
+      onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
+      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
+      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newContactPageState)),
+      onGenderSelected: (genderIndex) => store.dispatch(UpdateGenderSelectionAction(store.state.newContactPageState, genderIndex)),
+      onClientFirstNameChanged: (firstName) => store.dispatch(UpdateNewContactFirstNameAction(store.state.newContactPageState, firstName)),
+      onClientLastNameChanged: (lastName) => store.dispatch(UpdateNewContactLastNameAction(store.state.newContactPageState, lastName)),
+      onPhoneTextChanged: (phoneNum) => store.dispatch(UpdatePhoneNumAction(store.state.newContactPageState, phoneNum)),
+      onEmailTextChanged: (email) => store.dispatch(UpdateEmailAction(store.state.newContactPageState, email)),
+      onInstagramUrlChanged: (instaUrl) => store.dispatch(UpdateInstagramUrlAction(store.state.newContactPageState, instaUrl)),
+      onSpouseFirstNameChanged: (spouseFirstName) => store.dispatch(UpdateSpouseFirstNameAction(store.state.newContactPageState, spouseFirstName)),
+      onSpouseLastNameChanged: (spouseLastName) => store.dispatch(UpdateSpouseLastNameAction(store.state.newContactPageState, spouseLastName)),
+      onNumberOfChildrenChanged: (numOfChildren) => store.dispatch(UpdateNumOfChildrenAction(store.state.newContactPageState, numOfChildren)),
+      onImportantDateAdded: (importantDate) => store.dispatch(AddImportantDateAction(store.state.newContactPageState, importantDate)),
+      onImportantDateRemoved: (chipIndex) => store.dispatch(RemoveImportantDateAction(store.state.newContactPageState, chipIndex)),
+      onNotesChanged: (notes) => store.dispatch(UpdateNotesAction(store.state.newContactPageState, notes)),
+      onRelationshipStatusChanged: (statusIndex) => store.dispatch(UpdateRelationshipAction(store.state.newContactPageState, statusIndex)),
     );
   }
 
@@ -215,6 +229,8 @@ class NewContactPageState {
       notes.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
+      onNextPressed.hashCode ^
+      onBackPressed.hashCode ^
       onGenderSelected.hashCode ^
       onClientFirstNameChanged.hashCode ^
       onClientLastNameChanged.hashCode ^
@@ -249,6 +265,8 @@ class NewContactPageState {
           notes == other.notes &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
+          onNextPressed == other.onNextPressed &&
+          onBackPressed == other.onBackPressed &&
           onGenderSelected == other.onGenderSelected &&
           onClientFirstNameChanged == other.onClientFirstNameChanged &&
           onClientLastNameChanged == other.onClientLastNameChanged &&

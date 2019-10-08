@@ -7,6 +7,16 @@ class ClearStateAction{
   ClearStateAction(this.pageState);
 }
 
+class IncrementPageViewIndex{
+  final NewContactPageState pageState;
+  IncrementPageViewIndex(this.pageState);
+}
+
+class DecrementPageViewIndex{
+  final NewContactPageState pageState;
+  DecrementPageViewIndex(this.pageState);
+}
+
 class UpdateNewContactFirstNameAction{
   final NewContactPageState pageState;
   final String firstName;
