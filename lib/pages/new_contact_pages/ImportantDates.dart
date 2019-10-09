@@ -3,13 +3,11 @@ import 'dart:async';
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/HostDetectionUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:flutter_rounded_date_picker/rounded_date_picker.dart';
 import 'package:intl/intl.dart';
 
 import 'NewContactPageState.dart';
@@ -45,16 +43,16 @@ class _ImportantDates extends State<ImportantDates> {
 
     Future<Null> _selectDate(BuildContext context,
         NewContactPageState pageState, String type, int chipIndex) async {
-      final DateTime picked = await RoundedDatePicker.show(context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(DateTime.now().year - 2),
-          lastDate: DateTime(DateTime.now().year + 10),
-          borderRadius: 16);
-      if (picked != null && picked != selectedDate)
-        _onConfirmedImportantDate(picked, pageState, type, chipIndex);
-      setState(() {
-        selectedDate = picked;
-      });
+//      final DateTime picked = await RoundedDatePicker.show(context,
+//          initialDate: DateTime.now(),
+//          firstDate: DateTime(DateTime.now().year - 2),
+//          lastDate: DateTime(DateTime.now().year + 10),
+//          borderRadius: 16);
+//      if (picked != null && picked != selectedDate)
+//        _onConfirmedImportantDate(picked, pageState, type, chipIndex);
+//      setState(() {
+//        selectedDate = picked;
+//      });
     }
 
     return StoreConnector<AppState, NewContactPageState>(
@@ -131,7 +129,8 @@ class _ImportantDates extends State<ImportantDates> {
                             onSelected: (bool selected) {
                               setState(() {
                                 if (selected) {
-                                  HostDetectionUtil.isIos(context)
+//                                  HostDetectionUtil.isIos(context)
+                                    true
                                       ? DatePicker.showDatePicker(context,
                                           showTitleActions: true,
                                           minTime:

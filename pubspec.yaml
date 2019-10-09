@@ -28,13 +28,11 @@ dependencies:
 #  cloud_firestore: "0.12.7"
   shared_preferences: "^0.4.2"
   flutter_datetime_picker: "^1.2.6"
-  flutter_rounded_date_picker: "^0.2.3"
   flare_flutter: "^1.5.4"
   sembast: "^2.1.0"
   equatable: ^0.2.3
   path_provider: ^0.5.0+1
-  vibrate: ^0.0.4
-
+  flutter_device_type: ^0.2.0
 
 dev_dependencies:
   flutter_test:

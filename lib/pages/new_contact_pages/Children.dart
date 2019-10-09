@@ -2,9 +2,9 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:vibrate/vibrate.dart';
 
 class Children extends StatefulWidget {
 
@@ -66,7 +66,6 @@ class _ChildrenState extends State<Children> {
       );
 
   void vibrate() async {
-    bool canVibrate = await Vibrate.canVibrate;
-    canVibrate ? Vibrate.feedback(FeedbackType.medium) : null;
+    HapticFeedback.mediumImpact();
   }
 }
