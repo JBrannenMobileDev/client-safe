@@ -1,6 +1,16 @@
 import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 
+class SaveNewContactAction{
+  final NewContactPageState pageState;
+  SaveNewContactAction(this.pageState);
+}
+
+class SetClientIconAction{
+  final NewContactPageState pageState;
+  final String clientIcon;
+  SetClientIconAction(this.pageState, this.clientIcon);
+}
 
 class ClearStateAction{
   final NewContactPageState pageState;

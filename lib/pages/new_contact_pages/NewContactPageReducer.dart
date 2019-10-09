@@ -20,7 +20,14 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, AddImportantDateAction>(_addImportantDate),
   TypedReducer<NewContactPageState, RemoveImportantDateAction>(_removeImportantDate),
   TypedReducer<NewContactPageState, UpdateNotesAction>(_updateNotes),
+  TypedReducer<NewContactPageState, SetClientIconAction>(_setClientIcon),
 ]);
+
+NewContactPageState _setClientIcon(NewContactPageState previousState, SetClientIconAction action){
+  return previousState.copyWith(
+    clientIcon: action.clientIcon
+  );
+}
 
 NewContactPageState _updateNotes(NewContactPageState previousState, UpdateNotesAction action) {
   return previousState.copyWith(
@@ -125,7 +132,8 @@ NewContactPageState _updateNewContactLastName(NewContactPageState previousState,
 NewContactPageState _updateGender(NewContactPageState previousState, UpdateGenderSelectionAction action) {
   bool isFemale = action.genderIndex == 1;
   return previousState.copyWith(
-      isFemale: isFemale
+      isFemale: isFemale,
+      clientIcon: null,
   );
 }
 

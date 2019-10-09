@@ -20,6 +20,7 @@ class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin{
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StoreConnector<AppState, NewContactPageState>(
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>

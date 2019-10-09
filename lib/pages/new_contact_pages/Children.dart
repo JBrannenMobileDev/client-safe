@@ -4,6 +4,7 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:vibrate/vibrate.dart';
 
 class Children extends StatefulWidget {
 
@@ -55,6 +56,7 @@ class _ChildrenState extends State<Children> {
                 max: 10.0,
                 divisions: 10,
                 onChanged: (double numOfChildren) {
+                  vibrate();
                   pageState.onNumberOfChildrenChanged(numOfChildren.toInt());
                 },
               ),
@@ -62,4 +64,9 @@ class _ChildrenState extends State<Children> {
           ],
         ),
       );
+
+  void vibrate() async {
+    bool canVibrate = await Vibrate.canVibrate;
+    canVibrate ? Vibrate.feedback(FeedbackType.medium) : null;
+  }
 }

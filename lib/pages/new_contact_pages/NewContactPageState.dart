@@ -21,6 +21,7 @@ class NewContactPageState {
   final int numberOfChildren;
   final List<ImportantDate> importantDates;
   final String notes;
+  final String clientIcon;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -38,6 +39,7 @@ class NewContactPageState {
   final Function(ImportantDate) onImportantDateAdded;
   final Function(int) onImportantDateRemoved;
   final Function(String) onNotesChanged;
+  final Function(String) onClientIconSelected;
 
   NewContactPageState({
     @required this.pageViewIndex,
@@ -54,6 +56,7 @@ class NewContactPageState {
     @required this.numberOfChildren,
     @required this.importantDates,
     @required this.notes,
+    @required this.clientIcon,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -71,6 +74,7 @@ class NewContactPageState {
     @required this.onImportantDateAdded,
     @required this.onImportantDateRemoved,
     @required this.onNotesChanged,
+    @required this.onClientIconSelected,
   });
 
   NewContactPageState copyWith({
@@ -88,6 +92,7 @@ class NewContactPageState {
     int numberOfChildren,
     List<ImportantDate> importantDates,
     String notes,
+    String clientIcon,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -105,6 +110,7 @@ class NewContactPageState {
     Function(ImportantDate) onImportantDateAdded,
     Function(int) onImportantDateRemoved,
     Function(String) onNotesChanged,
+    Function(String) onClientIconSelected,
   }){
     return NewContactPageState(
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
@@ -121,6 +127,7 @@ class NewContactPageState {
       numberOfChildren: numberOfChildren?? this.numberOfChildren,
       importantDates: importantDates?? this.importantDates,
       notes: notes?? this.notes,
+      clientIcon: clientIcon?? this.clientIcon,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -138,6 +145,7 @@ class NewContactPageState {
       onImportantDateRemoved: onImportantDateRemoved?? this.onImportantDateRemoved,
       onNotesChanged: onNotesChanged?? this.onNotesChanged,
       onRelationshipStatusChanged: onRelationshipStatusChanged?? this.onRelationshipStatusChanged,
+      onClientIconSelected: onClientIconSelected?? this.onClientIconSelected,
     );
   }
 
@@ -156,6 +164,7 @@ class NewContactPageState {
         numberOfChildren: 0,
         importantDates: List(),
         notes: "",
+        clientIcon: null,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -173,6 +182,7 @@ class NewContactPageState {
         onImportantDateAdded: null,
         onImportantDateRemoved: null,
         onNotesChanged: null,
+        onClientIconSelected: null,
       );
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
@@ -191,6 +201,7 @@ class NewContactPageState {
       numberOfChildren: store.state.newContactPageState.numberOfChildren,
       importantDates: store.state.newContactPageState.importantDates,
       notes: store.state.newContactPageState.notes,
+      clientIcon: store.state.newContactPageState.clientIcon,
       onSavePressed: () => store.dispatch(null),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
@@ -208,6 +219,7 @@ class NewContactPageState {
       onImportantDateRemoved: (chipIndex) => store.dispatch(RemoveImportantDateAction(store.state.newContactPageState, chipIndex)),
       onNotesChanged: (notes) => store.dispatch(UpdateNotesAction(store.state.newContactPageState, notes)),
       onRelationshipStatusChanged: (statusIndex) => store.dispatch(UpdateRelationshipAction(store.state.newContactPageState, statusIndex)),
+      onClientIconSelected: (fileLocation) => store.dispatch(SetClientIconAction(store.state.newContactPageState, fileLocation)),
     );
   }
 
@@ -227,6 +239,7 @@ class NewContactPageState {
       numberOfChildren.hashCode ^
       importantDates.hashCode ^
       notes.hashCode ^
+      clientIcon.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -263,6 +276,7 @@ class NewContactPageState {
           numberOfChildren == other.numberOfChildren &&
           importantDates == other.importantDates &&
           notes == other.notes &&
+          clientIcon == other.clientIcon &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&

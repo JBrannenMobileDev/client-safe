@@ -8,6 +8,7 @@ import 'package:client_safe/pages/new_contact_pages/NameAndGender.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/Notes.dart';
 import 'package:client_safe/pages/new_contact_pages/PhoneEmailInstagram.dart';
+import 'package:client_safe/pages/new_contact_pages/ProfileIcons.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -25,11 +26,16 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
   final controller = PageController(
     initialPage: 0,
   );
+
   final double pageWidth = 400.0;
   int currentPageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+    controller.addListener((){
+      currentPageIndex = controller.page.toInt();
+    });
     return StoreConnector<AppState, NewContactPageState>(
         converter: (store) => NewContactPageState.fromStore(store),
         builder: (BuildContext context, NewContactPageState pageState) =>
@@ -37,7 +43,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
           backgroundColor: Colors.transparent,
           body: Center(
             child: Container(
-              width: 400.0,
+              width: pageWidth,
               padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
               decoration: new BoxDecoration(
                   color: Color(ColorConstants.white),
@@ -65,9 +71,6 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
                       controller: controller,
                       physics: BouncingScrollPhysics(),
                       pageSnapping: true,
-                      onPageChanged: (index) {
-                        currentPageIndex = index;
-                      },
                       children: <Widget>[
                         NameAndGender(),
                         PhoneEmailInstagram(),
@@ -75,6 +78,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
                         Children(),
                         ImportantDates(),
                         Notes(),
+                        ProfileIcons(),
                       ],
                     ),
                   ),
@@ -117,7 +121,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
                             onNextPressed(pageState);
                           },
                           child: Text(
-                            pageState.pageViewIndex == 5 ? "Save" : "Next",
+                            pageState.pageViewIndex == 6 ? "Save" : "Next",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 18.0,
@@ -139,12 +143,11 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
   }
 
   void onNextPressed(NewContactPageState pageState) {
-    if (pageState.pageViewIndex != 5) {
+    if (pageState.pageViewIndex != 6) {
       pageState.onNextPressed();
-      controller.animateTo((currentPageIndex + 1.0) * pageWidth,
-          duration: Duration(milliseconds: 250), curve: Curves.ease);
+      controller.animateToPage(currentPageIndex + 1, duration: Duration(milliseconds: 250), curve: Curves.ease);
     }
-    if (pageState.pageViewIndex == 5) {
+    if (pageState.pageViewIndex == 6) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -175,8 +178,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
       pageState.onCancelPressed();
     } else {
       pageState.onBackPressed();
-      controller.animateTo((currentPageIndex - 1.0) * pageWidth,
-          duration: Duration(milliseconds: 250), curve: Curves.ease);
+      controller.animateToPage(currentPageIndex - 1, duration: Duration(milliseconds: 250), curve: Curves.ease);
     }
   }
 
