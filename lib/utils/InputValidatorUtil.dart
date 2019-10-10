@@ -1,13 +1,13 @@
 class InputValidatorUtil{
-  bool isEmailValid(String email){
-    return true;
+  static bool isEmailValid(String email){
+    return email.contains('@') || email.isEmpty;
   }
 
-  bool isPhoneNumberValid(String phoneNumber){
-    return true;
+  static bool isPhoneNumberValid(String phoneNumber){
+    return phoneNumber.length == 10 || phoneNumber.length == 11 || phoneNumber.isEmpty;
   }
 
-  bool isInstagramUrlValid(String instagramUrl){
-    return true;
+  static bool isInstagramUrlValid(String instagramUrl){
+    return instagramUrl.contains('https://instagram.com/') || instagramUrl.isEmpty;
   }
 }

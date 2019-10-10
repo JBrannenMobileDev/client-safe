@@ -97,7 +97,7 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
                               "First Name",
                               TextInputType.text,
                               60.0,
-                              pageState.onSpouseFirstNameChanged)
+                              pageState.onSpouseFirstNameChanged, NewContactPageState.NO_ERROR)
                           : SizedBox(),
                       getRelationshipIndex(pageState.relationshipStatus) == 1 ||
                               getRelationshipIndex(pageState.relationshipStatus) == 0
@@ -105,8 +105,8 @@ class _MarriedSpouseState extends State<MarriedSpouse> with TickerProviderStateM
                               lastNameTextController,
                               "Last Name",
                               TextInputType.text,
-                          60.0,
-                              pageState.onSpouseLastNameChanged)
+                              60.0,
+                              pageState.onSpouseLastNameChanged, NewContactPageState.NO_ERROR)
                           : SizedBox(),
                     ],
                   ),

@@ -10,8 +10,10 @@ import 'package:client_safe/pages/new_contact_pages/Notes.dart';
 import 'package:client_safe/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:client_safe/pages/new_contact_pages/ProfileIcons.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/InputValidatorUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -143,9 +145,54 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
   }
 
   void onNextPressed(NewContactPageState pageState) {
+    bool canProgress = false;
     if (pageState.pageViewIndex != 6) {
-      pageState.onNextPressed();
-      controller.animateToPage(currentPageIndex + 1, duration: Duration(milliseconds: 250), curve: Curves.ease);
+      switch(pageState.pageViewIndex){
+        case 0:
+          if(!pageState.newContactFirstName.contains("Client")){
+            canProgress = true;
+          }else{
+            pageState.onErrorStateChanged(NewContactPageState.ERROR_FIRST_NAME_MISSING);
+            HapticFeedback.heavyImpact();
+          }
+          break;
+        case 1:
+          if((pageState.newContactPhone.isNotEmpty || pageState.newContactEmail.isNotEmpty || pageState.newContactInstagramUrl.isNotEmpty)
+                  &&(InputValidatorUtil.isEmailValid(pageState.newContactEmail)
+                    && InputValidatorUtil.isPhoneNumberValid(pageState.newContactPhone)
+                    && InputValidatorUtil.isInstagramUrlValid(pageState.newContactInstagramUrl))){
+            canProgress = true;
+          }else{
+            if(pageState.newContactPhone.isEmpty && pageState.newContactEmail.isEmpty && pageState.newContactInstagramUrl.isEmpty){
+              pageState.onErrorStateChanged(NewContactPageState.ERROR_MISSING_CONTACT_INFO);
+              HapticFeedback.heavyImpact();
+            }
+
+            if(!InputValidatorUtil.isEmailValid(pageState.newContactEmail)){
+              pageState.onErrorStateChanged(NewContactPageState.ERROR_EMAIL_NAME_INVALID);
+              HapticFeedback.heavyImpact();
+            }
+
+            if(!InputValidatorUtil.isPhoneNumberValid(pageState.newContactPhone)){
+              pageState.onErrorStateChanged(NewContactPageState.ERROR_PHONE_INVALID);
+              HapticFeedback.heavyImpact();
+            }
+
+            if(!InputValidatorUtil.isInstagramUrlValid(pageState.newContactInstagramUrl)){
+              pageState.onErrorStateChanged(NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
+              HapticFeedback.heavyImpact();
+            }
+          }
+          break;
+        default:
+          canProgress = true;
+          break;
+      }
+
+      if(canProgress){
+        pageState.onNextPressed();
+        controller.animateToPage(currentPageIndex + 1, duration: Duration(milliseconds: 250), curve: Curves.ease);
+      }
     }
     if (pageState.pageViewIndex == 6) {
       showDialog(

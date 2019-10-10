@@ -45,7 +45,7 @@ class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin{
               ),
             ),
             NewContactTextField(firstNameTextController, "Notes",
-                TextInputType.multiline, 124.0, pageState.onNotesChanged),
+                TextInputType.multiline, 124.0, pageState.onNotesChanged, NewContactPageState.NO_ERROR),
           ],
         ),
       ),

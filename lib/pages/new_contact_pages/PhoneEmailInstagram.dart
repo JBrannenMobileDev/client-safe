@@ -31,15 +31,15 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram> with Automati
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               NewContactTextField(phoneTextController, "Phone",
-                  TextInputType.phone, 60.0, pageState.onPhoneTextChanged),
+                  TextInputType.phone, 60.0, pageState.onPhoneTextChanged, NewContactPageState.ERROR_PHONE_INVALID),
               NewContactTextField(
                   emailTextController,
                   "Email",
                   TextInputType.emailAddress,
                   60.0,
-                  pageState.onEmailTextChanged),
+                  pageState.onEmailTextChanged, NewContactPageState.ERROR_EMAIL_NAME_INVALID),
               NewContactTextField(instagramUrlTextController, "Instagram URL",
-                  TextInputType.url,  60.0,pageState.onInstagramUrlChanged),
+                  TextInputType.url,  60.0,pageState.onInstagramUrlChanged, NewContactPageState.ERROR_INSTAGRAM_URL_INVALID),
             ],
           ),
         ),

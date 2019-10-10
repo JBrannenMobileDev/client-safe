@@ -40,7 +40,7 @@ class JobListItem extends StatelessWidget{
                         job.jobTitle,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 16.0,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),

@@ -6,6 +6,12 @@ class SaveNewContactAction{
   SaveNewContactAction(this.pageState);
 }
 
+class UpdateErrorStateAction{
+  final NewContactPageState pageState;
+  final String errorCode;
+  UpdateErrorStateAction(this.pageState, this.errorCode);
+}
+
 class SetClientIconAction{
   final NewContactPageState pageState;
   final String clientIcon;

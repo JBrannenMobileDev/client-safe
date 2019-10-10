@@ -7,6 +7,13 @@ import 'package:redux/redux.dart';
 
 @immutable
 class NewContactPageState {
+  static const String NO_ERROR = "noError";
+  static const String ERROR_FIRST_NAME_MISSING = "missingFirstName";
+  static const String ERROR_PHONE_INVALID = "invalidPhone";
+  static const String ERROR_EMAIL_NAME_INVALID = "invalidEmail";
+  static const String ERROR_INSTAGRAM_URL_INVALID = "invalidInstaUrl";
+  static const String ERROR_MISSING_CONTACT_INFO = "missingContactInfo";
+
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool isFemale;
@@ -22,6 +29,7 @@ class NewContactPageState {
   final List<ImportantDate> importantDates;
   final String notes;
   final String clientIcon;
+  final String errorState;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -40,6 +48,7 @@ class NewContactPageState {
   final Function(int) onImportantDateRemoved;
   final Function(String) onNotesChanged;
   final Function(String) onClientIconSelected;
+  final Function(String) onErrorStateChanged;
 
   NewContactPageState({
     @required this.pageViewIndex,
@@ -57,6 +66,7 @@ class NewContactPageState {
     @required this.importantDates,
     @required this.notes,
     @required this.clientIcon,
+    @required this.errorState,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -75,6 +85,7 @@ class NewContactPageState {
     @required this.onImportantDateRemoved,
     @required this.onNotesChanged,
     @required this.onClientIconSelected,
+    @required this.onErrorStateChanged,
   });
 
   NewContactPageState copyWith({
@@ -93,6 +104,7 @@ class NewContactPageState {
     List<ImportantDate> importantDates,
     String notes,
     String clientIcon,
+    String errorState,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -111,6 +123,7 @@ class NewContactPageState {
     Function(int) onImportantDateRemoved,
     Function(String) onNotesChanged,
     Function(String) onClientIconSelected,
+    Function(String) onErrorStateChanged,
   }){
     return NewContactPageState(
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
@@ -128,6 +141,7 @@ class NewContactPageState {
       importantDates: importantDates?? this.importantDates,
       notes: notes?? this.notes,
       clientIcon: clientIcon?? this.clientIcon,
+      errorState: errorState?? this.errorState,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -146,6 +160,7 @@ class NewContactPageState {
       onNotesChanged: onNotesChanged?? this.onNotesChanged,
       onRelationshipStatusChanged: onRelationshipStatusChanged?? this.onRelationshipStatusChanged,
       onClientIconSelected: onClientIconSelected?? this.onClientIconSelected,
+      onErrorStateChanged: onErrorStateChanged?? this.onErrorStateChanged,
     );
   }
 
@@ -165,6 +180,7 @@ class NewContactPageState {
         importantDates: List(),
         notes: "",
         clientIcon: null,
+        errorState: NO_ERROR,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -183,6 +199,7 @@ class NewContactPageState {
         onImportantDateRemoved: null,
         onNotesChanged: null,
         onClientIconSelected: null,
+        onErrorStateChanged: null,
       );
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
@@ -202,6 +219,7 @@ class NewContactPageState {
       importantDates: store.state.newContactPageState.importantDates,
       notes: store.state.newContactPageState.notes,
       clientIcon: store.state.newContactPageState.clientIcon,
+      errorState: store.state.newContactPageState.errorState,
       onSavePressed: () => store.dispatch(null),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
@@ -220,6 +238,7 @@ class NewContactPageState {
       onNotesChanged: (notes) => store.dispatch(UpdateNotesAction(store.state.newContactPageState, notes)),
       onRelationshipStatusChanged: (statusIndex) => store.dispatch(UpdateRelationshipAction(store.state.newContactPageState, statusIndex)),
       onClientIconSelected: (fileLocation) => store.dispatch(SetClientIconAction(store.state.newContactPageState, fileLocation)),
+      onErrorStateChanged: (errorCode) => store.dispatch(UpdateErrorStateAction(store.state.newContactPageState, errorCode)),
     );
   }
 
@@ -240,6 +259,7 @@ class NewContactPageState {
       importantDates.hashCode ^
       notes.hashCode ^
       clientIcon.hashCode ^
+      errorState.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -256,7 +276,8 @@ class NewContactPageState {
       onNumberOfChildrenChanged.hashCode ^
       onImportantDateAdded.hashCode ^
       onImportantDateRemoved.hashCode ^
-      onNotesChanged.hashCode;
+      onNotesChanged.hashCode ^
+      onErrorStateChanged.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -277,6 +298,7 @@ class NewContactPageState {
           importantDates == other.importantDates &&
           notes == other.notes &&
           clientIcon == other.clientIcon &&
+          errorState == other.errorState &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
@@ -293,5 +315,6 @@ class NewContactPageState {
           onNumberOfChildrenChanged == other.onNumberOfChildrenChanged &&
           onImportantDateAdded == other.onImportantDateAdded &&
           onImportantDateRemoved == other.onImportantDateRemoved &&
-          onNotesChanged == other.onNotesChanged;
+          onNotesChanged == other.onNotesChanged &&
+          onErrorStateChanged == other.onErrorStateChanged;
 }
