@@ -1,115 +1,126 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/ClientListItem.dart';
-import 'package:client_safe/models/ListItem.dart';
-import 'package:client_safe/models/TitleListItem.dart';
+import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
 import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
-import 'package:client_safe/pages/clients_page/widgets/ClientSearchButtons.dart';
-import 'package:client_safe/pages/clients_page/widgets/TitleWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:sider_bar/sider_bar.dart';
 
-class ClientsPage extends StatelessWidget {
-  static final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+class ClientsPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _ClientsPageState();
+  }
+}
 
-  ClientsPage({this.clients});
-  final List<ListItem> clients;
+class _ClientsPageState extends State<ClientsPage> {
+  final String alphabet = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+  ScrollController _controller = ScrollController();
+  final Map<int, Widget> genders = const <int, Widget>{
+    0: Text("Clients"),
+    1: Text("Leads"),
+  };
+  List<String> alphabetList;
 
   @override
+  void initState() {
+    super.initState();
+
+    alphabetList =
+        List<String>.generate(alphabet.length, (index) => alphabet[index]);
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: const Color(ColorConstants.primary_light),
-        image: DecorationImage(
-          image: AssetImage('assets/images/cameras_background.jpg'),
-          repeat: ImageRepeat.repeat,
-          colorFilter: new ColorFilter.mode(
-              Colors.white.withOpacity(0.05), BlendMode.dstATop),
-          fit: BoxFit.contain,
-        ),
-      ),
-      child: new CustomScrollView(
-        slivers: <Widget>[
-          new SliverAppBar(
-            backgroundColor: const Color(ColorConstants.primary),
-            pinned: true,
-            floating: true,
-            snap: false,
-            forceElevated: true,
-            expandedHeight: 200.0,
-            title: Title(
-              color: Colors.white,
-              child: Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-//                    new IconButton(
-//                      icon: const Icon(Icons.search),
-//                      color: Colors.white,
-//                      disabledColor: Colors.white,
-//                      tooltip: 'Search Clients',
-//                    ),
-                    Text(
-                      "Clients",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
+  Widget build(BuildContext context) =>
+      StoreConnector<AppState, ClientsPageState>(
+        converter: (store) => ClientsPageState.fromStore(store),
+        builder: (BuildContext context, ClientsPageState pageState) => Scaffold(
+          body: CustomScrollView(
+            slivers: <Widget>[
+              SliverAppBar(
+                backgroundColor: Colors.white,
+                title: Center(
+                  child: Text(
+                    pageState.filterType,
+                    style: TextStyle(
+                      fontFamily: 'Raleway',
+                      color: const Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                ),
+                actions: <Widget>[
+
+                ],
+                bottom: PreferredSize(
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 16.0),
+                      width: 250.0,
+                      child: CupertinoSegmentedControl<int>(
+                        borderColor: Color(ColorConstants.primary),
+                        selectedColor: Color(ColorConstants.primary),
+                        unselectedColor: Colors.white,
+                        children: genders,
+                        onValueChanged: (int filterTypeIndex) {
+                          pageState.onFilterChanged(
+                              filterTypeIndex == 0 ? "Clients" : "Leads");
+                        },
+                        groupValue:
+                        pageState.filterType.contains("Leads") ? 1 : 0,
                       ),
                     ),
-                  ],
-                ),
-              ),
-            ),
-            actions: <Widget>[
-              Container(
-                margin: EdgeInsets.fromLTRB(0.0, 16.0, 16.0, 0.0),
-                child: Text(
-                  "Filter",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontFamily: 'Raleway',
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white,
-                  ),
+                    preferredSize: Size.fromHeight(44.0),
                 ),
               ),
             ],
-            flexibleSpace: new FlexibleSpaceBar(
-              background: Stack(
-                children: <Widget>[ClientSearchButtons()],
-              ),
-            ),
           ),
-          new SliverList(
-              delegate: new SliverChildListDelegate(<Widget>[
-                new ListView.builder(
-                  reverse: false,
-                  padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
-                  shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
-                  key: _listKey,
-                  itemCount: clients.length,
-                  itemBuilder: _buildItem,
-                ),
-          ])),
-        ],
-      ),
-    );
-  }
 
-  Widget _buildItem(BuildContext context, int index) {
-    ListItem item = clients.elementAt(index);
-    if(item is TitleListItem){
-      return TitleWidget(item.title);
-    }else
-    if(item is ClientListItem){
-      return ClientListWidget(item.name, item.number, item.lastContactedDate);
-    }
-    return Container();
-  }
+//              new AppBar(
+//                title: new Text(pageState.filterType),
+//                flexibleSpace: Container(
+//                  margin: EdgeInsets.only(top: 44.0, bottom: 24.0),
+//                  height: 300.0,
+//                  width: 185.0,
+//                  child: CupertinoSegmentedControl<int>(
+//                    borderColor: Colors.white,
+//                    selectedColor: Colors.white,
+//                    unselectedColor: Color(ColorConstants.primary),
+//                    children: genders,
+//                    onValueChanged: (int filterTypeIndex) {
+//                      pageState.onFilterChanged(
+//                          filterTypeIndex == 0 ? "Clients" : "Leads");
+//                    },
+//                    groupValue: pageState.filterType.contains("Leads") ? 1 : 0,
+//                  ),
+//                ),
+//              ),
+//              body: Stack(
+//                alignment: AlignmentDirectional.centerEnd,
+//                children: <Widget>[
+//                  ListView.builder(
+//                    controller: _controller,
+//                    itemCount: pageState.filterType.contains("Leads")
+//                        ? pageState.leads.length
+//                        : pageState.clients.length,
+//                    itemBuilder: _buildItem,
+//                  ),
+//                  SideBar(
+//                      list: alphabetList,
+//                      textColor: Color(ColorConstants.primary),
+//                      color: Color(ColorConstants.primary).withOpacity(0.2),
+//                      valueChanged: (value) {
+//                        _controller
+//                            .jumpTo(alphabetList.indexOf(value) * 44.0);
+//                      })
+//                ],
+        ),
+      );
+}
+
+Widget _buildItem(BuildContext context, int index) {
+  return StoreConnector<AppState, ClientsPageState>(
+    converter: (store) => ClientsPageState.fromStore(store),
+    builder: (BuildContext context, ClientsPageState pageState) =>
+        ClientListWidget(index),
+  );
 }

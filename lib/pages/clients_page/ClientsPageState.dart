@@ -1,67 +1,80 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Action.dart';
 import 'package:client_safe/models/Client.dart';
+import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
-enum AppBarBehavior { normal, pinned, floating, snapping }
-
 class ClientsPageState {
-  final String accountName;
-  final List<Action> actionItems;
-  final List<Client> recentClients;
-  final Function() onAddNewClientClicked;
-  final Function() onSearchClientsClicked;
-  final Function(Action) onActionItemClicked;
+  final String filterType;
+  final Client selectedClient;
+  final List<Client> clients;
+  final List<Client> leads;
+  final Function(String) onFilterChanged;
   final Function(Client) onClientClicked;
 
-  ClientsPageState(
-      this.accountName,
-      this.actionItems,
-      this.recentClients,
-      this.onAddNewClientClicked,
-      this.onSearchClientsClicked,
-      this.onActionItemClicked,
-      this.onClientClicked,
+  ClientsPageState({
+    @required this.filterType,
+    @required this.selectedClient,
+    @required this.clients,
+    @required this.leads,
+    @required this.onFilterChanged,
+    @required this.onClientClicked,
+  });
+
+  ClientsPageState copyWith({
+    String filterType,
+    Client selectedClient,
+    List<Client> clients,
+    List<Client> leads,
+    Function(String) onFilterChanged,
+    Function(String) onClientClicked,
+  }){
+    return ClientsPageState(
+      filterType: filterType?? this.filterType,
+      selectedClient: selectedClient?? this.selectedClient,
+      clients: clients?? this.clients,
+      leads: leads?? this.leads,
+      onFilterChanged: onFilterChanged?? this.onFilterChanged,
+      onClientClicked: onClientClicked?? this.onClientClicked,
+    );
+  }
+
+  factory ClientsPageState.initial() => ClientsPageState(
+    filterType: "Leads",
+    selectedClient: null,
+    clients: List(),
+    leads: List(),
+    onFilterChanged: null,
+    onClientClicked: null,
   );
 
-  factory ClientsPageState.initial() => ClientsPageState("", new List(), new List(), null, null, null, null,);
-
-  factory ClientsPageState.create(Store<AppState> store) {
-    return new ClientsPageState(
-      store.state.homePageState.accountName,
-      store.state.homePageState.actionItems,
-      store.state.homePageState.recentClients,
-//      () => store.dispatch(AddNewClientAction(store.state.homePageState)),
-//      () => store.dispatch(SearchAllClientsAction(store.state.homePageState)),
-//      (action) => store.dispatch(ActionItemClicked(store.state.accountDetailsState, recentItem)),
-//      (client) => store.dispatch(RecentClientCLickedAction(store.state.accountDetailsState, accountItem)),
-      () => store.dispatch(null),
-      () => store.dispatch(null),
-      (action) => store.dispatch(null),
-      (client) => store.dispatch(null),
+  factory ClientsPageState.fromStore(Store<AppState> store) {
+    return ClientsPageState(
+      filterType: store.state.clientsPageState.filterType,
+      selectedClient: store.state.clientsPageState.selectedClient,
+      clients: store.state.clientsPageState.clients,
+      leads: store.state.clientsPageState.leads,
+      onFilterChanged: (filterType) => store.dispatch(null),
+      onClientClicked: (client) => store.dispatch(null),
     );
   }
 
   @override
   int get hashCode =>
-    accountName.hashCode ^
-    actionItems.hashCode ^
-    recentClients.hashCode ^
-    onAddNewClientClicked.hashCode ^
-    onSearchClientsClicked.hashCode ^
-    onActionItemClicked.hashCode ^
-    onClientClicked.hashCode
-    ;
+    filterType.hashCode ^
+    selectedClient.hashCode ^
+    clients.hashCode ^
+    leads.hashCode ^
+    onFilterChanged.hashCode ^
+    onClientClicked.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ClientsPageState &&
-          accountName == other.accountName &&
-          actionItems == other.actionItems &&
-          recentClients == other.recentClients &&
-          onAddNewClientClicked == other.onAddNewClientClicked &&
-          onSearchClientsClicked == other.onSearchClientsClicked &&
-          onActionItemClicked == other.onActionItemClicked &&
+          filterType == other.filterType &&
+          selectedClient == other.selectedClient &&
+          clients == other.clients &&
+          leads == other.leads &&
+          onFilterChanged == other.onFilterChanged &&
           onClientClicked == other.onClientClicked;
 }

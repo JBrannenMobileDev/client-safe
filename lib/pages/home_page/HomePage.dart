@@ -20,7 +20,7 @@ class HomePage extends StatefulWidget {
 class _HomeState extends State<HomePage> {
   int _currentIndex = 2;
   final List<Widget> _children = [
-    ClientsPage(clients: _getClientList()),
+    ClientsPage(),
     MessagesPage(getLeadList()),
     DashboardPage(),
     JobsPage(),
