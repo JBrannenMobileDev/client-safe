@@ -8,17 +8,20 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'NewContactTextField.dart';
 
 class PhoneEmailInstagram extends StatefulWidget {
-
   @override
   _PhoneEmailInstagramState createState() {
     return _PhoneEmailInstagramState();
   }
 }
 
-class _PhoneEmailInstagramState extends State<PhoneEmailInstagram> with AutomaticKeepAliveClientMixin{
+class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
+    with AutomaticKeepAliveClientMixin {
   final phoneTextController = TextEditingController();
   final emailTextController = TextEditingController();
   final instagramUrlTextController = TextEditingController();
+  final FocusNode _phoneFocus = FocusNode();
+  final FocusNode _emailFocus = FocusNode();
+  final FocusNode _instagramFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) =>
@@ -30,20 +33,54 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram> with Automati
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              NewContactTextField(phoneTextController, "Phone",
-                  TextInputType.phone, 60.0, pageState.onPhoneTextChanged, NewContactPageState.ERROR_PHONE_INVALID),
+              NewContactTextField(
+                  phoneTextController,
+                  "Phone",
+                  TextInputType.phone,
+                  60.0,
+                  pageState.onPhoneTextChanged,
+                  NewContactPageState.ERROR_PHONE_INVALID,
+                  TextInputAction.next,
+                  _phoneFocus,
+                  onPhoneAction),
               NewContactTextField(
                   emailTextController,
                   "Email",
                   TextInputType.emailAddress,
                   60.0,
-                  pageState.onEmailTextChanged, NewContactPageState.ERROR_EMAIL_NAME_INVALID),
-              NewContactTextField(instagramUrlTextController, "Instagram URL",
-                  TextInputType.url,  60.0,pageState.onInstagramUrlChanged, NewContactPageState.ERROR_INSTAGRAM_URL_INVALID),
+                  pageState.onEmailTextChanged,
+                  NewContactPageState.ERROR_EMAIL_NAME_INVALID,
+                  TextInputAction.next,
+                  _emailFocus,
+                  onEmailAction),
+              NewContactTextField(
+                  instagramUrlTextController,
+                  "Instagram URL",
+                  TextInputType.url,
+                  60.0,
+                  pageState.onInstagramUrlChanged,
+                  NewContactPageState.ERROR_INSTAGRAM_URL_INVALID,
+                  TextInputAction.done,
+                  _instagramFocus,
+                  onInstagramAction),
             ],
           ),
         ),
       );
+
+  void onPhoneAction(){
+    _phoneFocus.unfocus();
+    FocusScope.of(context).requestFocus(_emailFocus);
+  }
+
+  void onEmailAction(){
+    _emailFocus.unfocus();
+    FocusScope.of(context).requestFocus(_instagramFocus);
+  }
+
+  void onInstagramAction(){
+    _emailFocus.unfocus();
+  }
 
   @override
   bool get wantKeepAlive => true;

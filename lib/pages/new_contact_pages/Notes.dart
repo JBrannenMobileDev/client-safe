@@ -1,6 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactTextField.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -14,9 +15,10 @@ class Notes extends StatefulWidget {
   }
 }
 
-class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin{
+class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin {
   final firstNameTextController = TextEditingController();
   final lastNameTextController = TextEditingController();
+  final FocusNode _notesFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -44,12 +46,24 @@ class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin{
                 ),
               ),
             ),
-            NewContactTextField(firstNameTextController, "Notes",
-                TextInputType.multiline, 124.0, pageState.onNotesChanged, NewContactPageState.NO_ERROR),
+            NewContactTextField(
+                firstNameTextController,
+                "Notes",
+                TextInputType.multiline,
+                124.0,
+                pageState.onNotesChanged,
+                NewContactPageState.NO_ERROR,
+                TextInputAction.done,
+                _notesFocus,
+                onNotesAction),
           ],
         ),
       ),
     );
+  }
+
+  void onNotesAction(){
+    _notesFocus.unfocus();
   }
 
   @override

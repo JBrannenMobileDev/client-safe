@@ -29,7 +29,6 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
     initialPage: 0,
   );
 
-  final double pageWidth = 400.0;
   int currentPageIndex = 0;
 
   @override
@@ -45,7 +44,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
           backgroundColor: Colors.transparent,
           body: Center(
             child: Container(
-              width: pageWidth,
+              width: 400.0,
               padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
               decoration: new BoxDecoration(
                   color: Color(ColorConstants.white),
@@ -191,38 +190,37 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
 
       if(canProgress){
         pageState.onNextPressed();
-        controller.animateToPage(currentPageIndex + 1, duration: Duration(milliseconds: 250), curve: Curves.ease);
+        controller.animateToPage(currentPageIndex + 1, duration: Duration(milliseconds: 150), curve: Curves.ease);
       }
     }
     if (pageState.pageViewIndex == 6) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          Future.delayed(Duration(seconds: 2), () {
-            pageState.onCancelPressed();
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pop(true);
-            Navigator.of(context).pop(true);
-          });
           return Padding(
             padding: EdgeInsets.all(96.0),
             child: FlareActor("assets/animations/success_check.flr",
                 alignment: Alignment.center,
                 fit: BoxFit.contain,
-                animation: "show_check"),
+                animation: "show_check",
+                callback: onFlareCompleted,
+            ),
           );
         },
       );
-      if (pageState.saveButtonEnabled) {
-        pageState.onSavePressed();
-      } else {}
+      pageState.onSavePressed();
     }
+  }
+
+  void onFlareCompleted(String unused){
+    Navigator.of(context).pop(true);
+    Navigator.of(context).pop(true);
   }
 
   void onBackPressed(NewContactPageState pageState) {
     if (pageState.pageViewIndex == 0) {
-      Navigator.of(context).pop();
       pageState.onCancelPressed();
+      Navigator.of(context).pop();
     } else {
       pageState.onBackPressed();
       controller.animateToPage(currentPageIndex - 1, duration: Duration(milliseconds: 250), curve: Curves.ease);

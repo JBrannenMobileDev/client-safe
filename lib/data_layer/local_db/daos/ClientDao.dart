@@ -43,10 +43,7 @@ class ClientDao extends Equatable{
       SortOrder('firstName'),
     ]);
 
-    final recordSnapshots = await _clientStore.find(
-      await _db,
-      finder: finder,
-    );
+    final recordSnapshots = await _clientStore.find(await _db);
 
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {

@@ -12,9 +12,13 @@ class NewContactTextField extends StatelessWidget {
   final double height;
   final String inputTypeError;
   final Function(String) onTextInputChanged;
+  final TextInputAction keyboardAction;
+  final FocusNode focusNode;
+  final Function onFocusAction;
 
   NewContactTextField(this._controller, this.hintText, this.inputType,
-      this.height, this.onTextInputChanged, this.inputTypeError);
+      this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
+      this.focusNode, this.onFocusAction);
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +29,16 @@ class NewContactTextField extends StatelessWidget {
               margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
               height: height,
               child: TextFormField(
+                focusNode: focusNode,
+                textInputAction: keyboardAction,
                 maxLines: 24,
                 controller: _controller,
                 onChanged: (text) {
                   onTextInputChanged(text);
                   pageState.onErrorStateChanged(NewContactPageState.NO_ERROR);
+                },
+                onFieldSubmitted: (term){
+                  onFocusAction();
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,

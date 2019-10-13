@@ -13,7 +13,6 @@ import 'package:intl/intl.dart';
 import 'NewContactPageState.dart';
 
 class ImportantDates extends StatefulWidget {
-
   @override
   State<StatefulWidget> createState() {
     return _ImportantDates();
@@ -25,7 +24,7 @@ class ImportantDates extends StatefulWidget {
     for (ImportantDate date in pageState.importantDates) {
       if (date.chipIndex == chipIndex) desiredDate = date.date;
     }
-    return DateFormat('EEE, MMM d').format(desiredDate);
+    return DateFormat('MMM d, yyyy').format(desiredDate);
   }
 }
 
@@ -130,13 +129,15 @@ class _ImportantDates extends State<ImportantDates> {
                               setState(() {
                                 if (selected) {
 //                                  HostDetectionUtil.isIos(context)
-                                    true
+                                  true
                                       ? DatePicker.showDatePicker(context,
                                           showTitleActions: true,
-                                          minTime:
-                                              DateTime(DateTime.now().year - 2),
+                                          minTime: DateTime(
+                                              DateTime.now().year - 115),
                                           maxTime: DateTime(
-                                              DateTime.now().year + 10),
+                                              DateTime.now().year,
+                                              DateTime.now().month,
+                                              DateTime.now().day),
                                           onConfirm: (date) {
                                           _onConfirmedImportantDate(
                                               date,
@@ -195,8 +196,8 @@ class _ImportantDates extends State<ImportantDates> {
 
   void _onConfirmedImportantDate(DateTime importantDate,
       NewContactPageState pageState, String type, int chipIndex) {
-    pageState
-        .onImportantDateAdded(ImportantDate(importantDate, type, chipIndex));
+    pageState.onImportantDateAdded(
+        ImportantDate(date: importantDate, type: type, chipIndex: chipIndex));
   }
 
   void _onRemoveImportantDate(int chipIndex, NewContactPageState pageState) {
@@ -205,8 +206,8 @@ class _ImportantDates extends State<ImportantDates> {
 
   bool isSelected(int index, NewContactPageState pageState) {
     bool isSelected = false;
-    for(ImportantDate importantDate in pageState.importantDates){
-      if(importantDate.chipIndex == index) isSelected = true;
+    for (ImportantDate importantDate in pageState.importantDates) {
+      if (importantDate.chipIndex == index) isSelected = true;
     }
     return isSelected;
   }

@@ -220,7 +220,7 @@ class NewContactPageState {
       notes: store.state.newContactPageState.notes,
       clientIcon: store.state.newContactPageState.clientIcon,
       errorState: store.state.newContactPageState.errorState,
-      onSavePressed: () => store.dispatch(null),
+      onSavePressed: () => store.dispatch(SaveNewContactAction(store.state.newContactPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newContactPageState)),

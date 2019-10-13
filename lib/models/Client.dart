@@ -55,7 +55,7 @@ class Client{
       'spouseFirstName': spouseFirstName,
       'spouseLastName' : spouseLastName,
       'numOfChildren' : numOfChildren,
-      'importantDates' : importantDates,
+      'importantDates' : convertImportantDatesToMaps(importantDates),
       'dateLastContacted' : dateLastContacted,
       'albumLinks' : albumLinks,
       'instagramProfileUrl' : instagramProfileUrl,
@@ -75,7 +75,7 @@ class Client{
       spouseFirstName: map['spouseFirstName'],
       spouseLastName: map['spouseLastName'],
       numOfChildren: map['numOfChildren'],
-      importantDates: map['importanDates'],
+      importantDates: convertMapsToImportantDates(map['importantDates']),
       dateLastContacted: map['dateLastContacted'],
       albumLinks: map['albumLinks'],
       instagramProfileUrl: map['instagramProfileUrl'],
@@ -83,5 +83,21 @@ class Client{
       jobs: map['jobs'],
       notes: map['notes'],
     );
+  }
+
+  List<Map<String, dynamic>> convertImportantDatesToMaps(List<ImportantDate> importantDates){
+    List<Map<String, dynamic>> listOfMaps = List();
+    for(ImportantDate importantDate in importantDates){
+      listOfMaps.add(importantDate.toMap());
+    }
+    return listOfMaps;
+  }
+
+  static List<ImportantDate> convertMapsToImportantDates(List listOfMaps){
+    List<ImportantDate> listOfImportantDates = List();
+    for(Map map in listOfMaps){
+      listOfImportantDates.add(ImportantDate.fromMap(map));
+    }
+    return listOfImportantDates;
   }
 }

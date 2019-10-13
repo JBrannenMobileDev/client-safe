@@ -1,16 +1,21 @@
-import 'dart:io';
-
 import 'package:client_safe/AppMiddleware.dart';
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/ClientSafeApp.dart';
 import 'package:client_safe/AppReducers.dart';
+import 'package:client_safe/data_layer/local_db/SembastDb.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:sembast/sembast_io.dart';
 
 //import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart' as sembast;
+import 'package:sembast/sembast_io.dart';
 
-main() {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -33,8 +38,7 @@ main() {
 //        databaseURL: 'https://flutterfire-cd2f7.firebaseio.com',
 //      )
 //  );
-
-  final store = new Store<AppState>(
+  final store = Store<AppState>(
       appReducers,
       initialState: AppState.initial(), middleware: createAppMiddleware());
 

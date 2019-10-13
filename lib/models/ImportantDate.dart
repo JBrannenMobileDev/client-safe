@@ -1,3 +1,5 @@
+import 'package:flutter/widgets.dart';
+
 class ImportantDate{
   static const String TYPE_ANNIVERSARY = "Anniversary";
   static const String TYPE_GRADUATION = "Graduation";
@@ -8,5 +10,25 @@ class ImportantDate{
   final String type;
   final int chipIndex;
 
-  ImportantDate(this.date, this.type, this.chipIndex);
+  ImportantDate({
+    @required this.date,
+    @required this.type,
+    @required this.chipIndex
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'date' : date.millisecondsSinceEpoch,
+      'type' : type,
+      'chipIndex' : chipIndex
+    };
+  }
+
+  static ImportantDate fromMap(Map<String, dynamic> map) {
+    return ImportantDate(
+      date: DateTime.fromMillisecondsSinceEpoch(map['date']),
+      type: map['type'],
+      chipIndex: map['chipIndex'],
+    );
+  }
 }
