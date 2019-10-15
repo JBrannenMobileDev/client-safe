@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_contact_pages/Children.dart';
 import 'package:client_safe/pages/new_contact_pages/ImportantDates.dart';
+import 'package:client_safe/pages/new_contact_pages/LeadSourceSelection.dart';
 import 'package:client_safe/pages/new_contact_pages/MarriedSpouse.dart';
 import 'package:client_safe/pages/new_contact_pages/NameAndGender.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
@@ -25,6 +26,7 @@ class NewContactPage extends StatefulWidget {
 }
 
 class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAliveClientMixin{
+  final int pageCount = 7;
   final controller = PageController(
     initialPage: 0,
   );
@@ -69,8 +71,8 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
                   Container(
                     height: 232.0,
                     child: PageView(
+                      physics: NeverScrollableScrollPhysics(),
                       controller: controller,
-                      physics: BouncingScrollPhysics(),
                       pageSnapping: true,
                       children: <Widget>[
                         NameAndGender(),
@@ -80,6 +82,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
                         ImportantDates(),
                         Notes(),
                         ProfileIcons(),
+                        LeadSourceSelection(),
                       ],
                     ),
                   ),
@@ -122,7 +125,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
                             onNextPressed(pageState);
                           },
                           child: Text(
-                            pageState.pageViewIndex == 6 ? "Save" : "Next",
+                            pageState.pageViewIndex == pageCount ? "Save" : "Next",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 18.0,
@@ -145,7 +148,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
 
   void onNextPressed(NewContactPageState pageState) {
     bool canProgress = false;
-    if (pageState.pageViewIndex != 6) {
+    if (pageState.pageViewIndex != pageCount) {
       switch(pageState.pageViewIndex){
         case 0:
           if(!pageState.newContactFirstName.contains("Client")){
@@ -193,7 +196,7 @@ class _NewContactPageState extends State<NewContactPage> with AutomaticKeepAlive
         controller.animateToPage(currentPageIndex + 1, duration: Duration(milliseconds: 150), curve: Curves.ease);
       }
     }
-    if (pageState.pageViewIndex == 6) {
+    if (pageState.pageViewIndex == pageCount) {
       showDialog(
         context: context,
         builder: (BuildContext context) {

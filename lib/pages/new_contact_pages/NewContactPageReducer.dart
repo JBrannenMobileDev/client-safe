@@ -21,6 +21,7 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, RemoveImportantDateAction>(_removeImportantDate),
   TypedReducer<NewContactPageState, UpdateNotesAction>(_updateNotes),
   TypedReducer<NewContactPageState, SetClientIconAction>(_setClientIcon),
+  TypedReducer<NewContactPageState, SetLeadSourceAction>(_setLeadSource),
   TypedReducer<NewContactPageState, UpdateErrorStateAction>(_updateErrorState),
 ]);
 
@@ -33,6 +34,12 @@ NewContactPageState _updateErrorState(NewContactPageState previousState, UpdateE
 NewContactPageState _setClientIcon(NewContactPageState previousState, SetClientIconAction action){
   return previousState.copyWith(
     clientIcon: action.clientIcon
+  );
+}
+
+NewContactPageState _setLeadSource(NewContactPageState previousState, SetLeadSourceAction action){
+  return previousState.copyWith(
+      leadSource: action.leadSource
   );
 }
 

@@ -28,6 +28,7 @@ class NewContactPageState {
   final int numberOfChildren;
   final List<ImportantDate> importantDates;
   final String notes;
+  final String leadSource;
   final String clientIcon;
   final String errorState;
   final Function() onSavePressed;
@@ -49,6 +50,7 @@ class NewContactPageState {
   final Function(String) onNotesChanged;
   final Function(String) onClientIconSelected;
   final Function(String) onErrorStateChanged;
+  final Function(String) onLeadSourceSelected;
 
   NewContactPageState({
     @required this.pageViewIndex,
@@ -65,6 +67,7 @@ class NewContactPageState {
     @required this.numberOfChildren,
     @required this.importantDates,
     @required this.notes,
+    @required this.leadSource,
     @required this.clientIcon,
     @required this.errorState,
     @required this.onSavePressed,
@@ -86,6 +89,7 @@ class NewContactPageState {
     @required this.onNotesChanged,
     @required this.onClientIconSelected,
     @required this.onErrorStateChanged,
+    @required this.onLeadSourceSelected,
   });
 
   NewContactPageState copyWith({
@@ -103,6 +107,7 @@ class NewContactPageState {
     int numberOfChildren,
     List<ImportantDate> importantDates,
     String notes,
+    String leadSource,
     String clientIcon,
     String errorState,
     Function() onSavePressed,
@@ -124,6 +129,7 @@ class NewContactPageState {
     Function(String) onNotesChanged,
     Function(String) onClientIconSelected,
     Function(String) onErrorStateChanged,
+    Function(String) onLeadSourceSelected,
   }){
     return NewContactPageState(
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
@@ -140,6 +146,7 @@ class NewContactPageState {
       numberOfChildren: numberOfChildren?? this.numberOfChildren,
       importantDates: importantDates?? this.importantDates,
       notes: notes?? this.notes,
+      leadSource: leadSource?? this.leadSource,
       clientIcon: clientIcon?? this.clientIcon,
       errorState: errorState?? this.errorState,
       onSavePressed: onSavePressed?? this.onSavePressed,
@@ -161,6 +168,7 @@ class NewContactPageState {
       onRelationshipStatusChanged: onRelationshipStatusChanged?? this.onRelationshipStatusChanged,
       onClientIconSelected: onClientIconSelected?? this.onClientIconSelected,
       onErrorStateChanged: onErrorStateChanged?? this.onErrorStateChanged,
+      onLeadSourceSelected: onLeadSourceSelected?? this.onLeadSourceSelected,
     );
   }
 
@@ -179,6 +187,7 @@ class NewContactPageState {
         numberOfChildren: 0,
         importantDates: List(),
         notes: "",
+        leadSource: null,
         clientIcon: null,
         errorState: NO_ERROR,
         onSavePressed: null,
@@ -200,6 +209,7 @@ class NewContactPageState {
         onNotesChanged: null,
         onClientIconSelected: null,
         onErrorStateChanged: null,
+        onLeadSourceSelected: null,
       );
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
@@ -218,6 +228,7 @@ class NewContactPageState {
       numberOfChildren: store.state.newContactPageState.numberOfChildren,
       importantDates: store.state.newContactPageState.importantDates,
       notes: store.state.newContactPageState.notes,
+      leadSource: store.state.newContactPageState.leadSource,
       clientIcon: store.state.newContactPageState.clientIcon,
       errorState: store.state.newContactPageState.errorState,
       onSavePressed: () => store.dispatch(SaveNewContactAction(store.state.newContactPageState)),
@@ -239,6 +250,7 @@ class NewContactPageState {
       onRelationshipStatusChanged: (statusIndex) => store.dispatch(UpdateRelationshipAction(store.state.newContactPageState, statusIndex)),
       onClientIconSelected: (fileLocation) => store.dispatch(SetClientIconAction(store.state.newContactPageState, fileLocation)),
       onErrorStateChanged: (errorCode) => store.dispatch(UpdateErrorStateAction(store.state.newContactPageState, errorCode)),
+      onLeadSourceSelected: (fileLocation) => store.dispatch(SetLeadSourceAction(store.state.newContactPageState, fileLocation)),
     );
   }
 
@@ -258,6 +270,7 @@ class NewContactPageState {
       numberOfChildren.hashCode ^
       importantDates.hashCode ^
       notes.hashCode ^
+      leadSource.hashCode ^
       clientIcon.hashCode ^
       errorState.hashCode ^
       onSavePressed.hashCode ^
@@ -277,7 +290,8 @@ class NewContactPageState {
       onImportantDateAdded.hashCode ^
       onImportantDateRemoved.hashCode ^
       onNotesChanged.hashCode ^
-      onErrorStateChanged.hashCode;
+      onErrorStateChanged.hashCode ^
+      onLeadSourceSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -297,6 +311,7 @@ class NewContactPageState {
           numberOfChildren == other.numberOfChildren &&
           importantDates == other.importantDates &&
           notes == other.notes &&
+          leadSource == other.leadSource &&
           clientIcon == other.clientIcon &&
           errorState == other.errorState &&
           onSavePressed == other.onSavePressed &&
@@ -316,5 +331,6 @@ class NewContactPageState {
           onImportantDateAdded == other.onImportantDateAdded &&
           onImportantDateRemoved == other.onImportantDateRemoved &&
           onNotesChanged == other.onNotesChanged &&
-          onErrorStateChanged == other.onErrorStateChanged;
+          onErrorStateChanged == other.onErrorStateChanged &&
+          onLeadSourceSelected == other.onLeadSourceSelected;
 }

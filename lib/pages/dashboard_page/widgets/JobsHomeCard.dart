@@ -22,7 +22,7 @@ class JobsHomeCard extends StatelessWidget {
           Container(
             padding: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
             margin: EdgeInsets.only(top: 60.0),
-            height: Device.get().isIphoneX ? 208.0 : 188.0,
+            height: Device.get().isIphoneX ? 208.0 : 184.0,
             color: Color(ColorConstants.primary_bg_grey),
           ),
           BaseHomeCard(

@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:client_safe/models/Client.dart';
 import 'package:flutter/widgets.dart';
 
 class ImageUtil{
@@ -40,6 +41,48 @@ class ImageUtil{
     'assets/images/job_types/real_estate_architecture.png',
     'assets/images/job_types/wedding.png',
     'assets/images/job_types/event.png'];
+
+  static List<String> leadSourceIcons = [
+    'assets/images/lead_source_type/lead_source_word_of_mouth.png',
+    'assets/images/lead_source_type/lead_source_instagram.png',
+    'assets/images/lead_source_type/lead_source_giveaway.png',
+    'assets/images/lead_source_type/lead_source_website.png',
+    'assets/images/lead_source_type/lead_source_blog.png',
+    'assets/images/lead_source_type/lead_source_business_card.png',
+    'assets/images/lead_source_type/lead_source_facebook.png',
+    'assets/images/lead_source_type/lead_source_instagram_influencer.png',
+  ];
+
+  static String getLeadSourceText(String fileLocation){
+    String leadSourceTitle = "";
+    switch(fileLocation){
+      case 'assets/images/lead_source_type/lead_source_word_of_mouth.png':
+        leadSourceTitle = Client.LEAD_SOURCE_WORD_OF_MOUTH;
+        break;
+      case 'assets/images/lead_source_type/lead_source_instagram.png':
+        leadSourceTitle = Client.LEAD_SOURCE_INSTAGRAM;
+        break;
+      case 'assets/images/lead_source_type/lead_source_giveaway.png':
+        leadSourceTitle = Client.LEAD_SOURCE_GIVEAWAY;
+        break;
+      case 'assets/images/lead_source_type/lead_source_website.png':
+        leadSourceTitle = Client.LEAD_SOURCE_WEBSITE;
+        break;
+      case 'assets/images/lead_source_type/lead_source_blog.png':
+        leadSourceTitle = Client.LEAD_SOURCE_BLOG;
+        break;
+      case 'assets/images/lead_source_type/lead_source_business_card.png':
+        leadSourceTitle = Client.LEAD_SOURCE_BUSINESS_CARD;
+        break;
+      case 'assets/images/lead_source_type/lead_source_facebook.png':
+        leadSourceTitle = Client.LEAD_SOURCE_FACEBOOK;
+        break;
+      case 'assets/images/lead_source_type/lead_source_instagram_influencer.png':
+        leadSourceTitle = Client.LEAD_SOURCE_SOCIAL_MEDIA_INFLUENCER;
+        break;
+    }
+    return leadSourceTitle;
+  }
 
   static AssetImage getRandomJobIcon(){
     return AssetImage(jobIcons[Random().nextInt(15)]);

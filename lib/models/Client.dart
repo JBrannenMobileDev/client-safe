@@ -10,12 +10,22 @@ class Client{
   static const String RELATIONSHIP_ENGAGED = "Engaged";
   static const String RELATIONSHIP_SINGLE = "Single";
 
+  static const String LEAD_SOURCE_WORD_OF_MOUTH = "Word of Mouth";
+  static const String LEAD_SOURCE_INSTAGRAM = "Instagram";
+  static const String LEAD_SOURCE_FACEBOOK = "Facebook";
+  static const String LEAD_SOURCE_BUSINESS_CARD = "Business Card";
+  static const String LEAD_SOURCE_WEBSITE = "Website";
+  static const String LEAD_SOURCE_BLOG = "Blog";
+  static const String LEAD_SOURCE_SOCIAL_MEDIA_INFLUENCER = "Social Media Influencer";
+  static const String LEAD_SOURCE_GIVEAWAY = "Free Giveaway";
+
   int id;
   String firstName;
   String lastName;
   String email;
   String phone;
   String gender;
+  String leadSource;
   String spouseFirstName;
   String spouseLastName;
   int numOfChildren;
@@ -33,6 +43,7 @@ class Client{
     this.email,
     this.phone,
     this.gender,
+    this.leadSource,
     this.spouseFirstName,
     this.spouseLastName,
     this.numOfChildren,
@@ -52,6 +63,7 @@ class Client{
       'email' : email,
       'phone' : phone,
       'gender' : gender,
+      'leadSource' : leadSource,
       'spouseFirstName': spouseFirstName,
       'spouseLastName' : spouseLastName,
       'numOfChildren' : numOfChildren,
@@ -72,6 +84,7 @@ class Client{
       email: map['email'],
       phone: map['phone'],
       gender: map['gender'],
+      leadSource: map['leadSource'],
       spouseFirstName: map['spouseFirstName'],
       spouseLastName: map['spouseLastName'],
       numOfChildren: map['numOfChildren'],

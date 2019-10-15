@@ -12,6 +12,13 @@ class UpdateErrorStateAction{
   UpdateErrorStateAction(this.pageState, this.errorCode);
 }
 
+
+class SetLeadSourceAction{
+  final NewContactPageState pageState;
+  final String leadSource;
+  SetLeadSourceAction(this.pageState, this.leadSource);
+}
+
 class SetClientIconAction{
   final NewContactPageState pageState;
   final String clientIcon;
