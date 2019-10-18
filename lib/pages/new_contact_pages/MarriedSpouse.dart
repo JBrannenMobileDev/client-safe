@@ -77,6 +77,7 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                         unselectedColor: Colors.white,
                         children: statuses,
                         onValueChanged: (int statusIndex) {
+                          pageState.onRelationshipStatusChanged(statusIndex);
                           setState(() {
                             if (statusIndex == 0 || statusIndex == 1) {
                               _controller.forward();
@@ -115,7 +116,9 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                               NewContactPageState.NO_ERROR,
                               TextInputAction.next,
                               _firstNameFocus,
-                              onFirstNameAction)
+                              onFirstNameAction,
+                              TextCapitalization.words,
+                              null)
                           : SizedBox(),
                       getRelationshipIndex(pageState.relationshipStatus) == 1 ||
                               getRelationshipIndex(
@@ -130,7 +133,9 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                               NewContactPageState.NO_ERROR,
                               TextInputAction.done,
                               _lastNameFocus,
-                              onLastNameAction)
+                              onLastNameAction,
+                              TextCapitalization.words,
+                              null)
                           : SizedBox(),
                     ],
                   ),

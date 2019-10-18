@@ -60,7 +60,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                   fontSize: 18.0,
                   fontFamily: 'Raleway',
                   fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.primary),
                 ),
               ),
             ),

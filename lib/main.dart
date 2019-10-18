@@ -40,7 +40,8 @@ main() async {
 //  );
   final store = Store<AppState>(
       appReducers,
-      initialState: AppState.initial(), middleware: createAppMiddleware());
+      initialState: AppState.initial(),
+      middleware: createAppMiddleware());
 
   runApp(new ClientSafeApp(store));
 }

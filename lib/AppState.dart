@@ -1,3 +1,4 @@
+import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPageState.dart';
 import 'package:client_safe/pages/home_page/HomePageState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
@@ -16,6 +17,7 @@ class AppState {
   final HomePageState homePageState;
   final DashboardPageState dashboardPageState;
   final ClientsPageState clientsPageState;
+  final ClientDetailsPageState clientDetailsPageState;
   final MessagesPageState messagesPageState;
   final JobsPageState jobsPageState;
   final CollectionsPageState collectionsPageState;
@@ -27,6 +29,7 @@ class AppState {
     @required this.homePageState,
     @required this.dashboardPageState,
     @required this.clientsPageState,
+    @required this.clientDetailsPageState,
     @required this.messagesPageState,
     @required this.jobsPageState,
     @required this.collectionsPageState,
@@ -40,6 +43,7 @@ class AppState {
       homePageState: HomePageState.initial(),
       dashboardPageState: DashboardPageState.initial(),
       clientsPageState: ClientsPageState.initial(),
+      clientDetailsPageState: ClientDetailsPageState.initial(),
       messagesPageState: MessagesPageState.initial(),
       jobsPageState: JobsPageState.initial(),
       collectionsPageState: CollectionsPageState.initial(),
@@ -53,6 +57,7 @@ class AppState {
     HomePageState homePageState,
     DashboardPageState dashboardPageState,
     ClientsPageState clientsPageState,
+    ClientDetailsPageState clientDetailsPageState,
     MessagesPageState messagesPageState,
     JobsPageState jobsPageState,
     CollectionsPageState collectionsPageState,
@@ -64,6 +69,7 @@ class AppState {
       homePageState: homePageState ?? this.homePageState,
       dashboardPageState: dashboardPageState ?? this.dashboardPageState,
       clientsPageState: clientsPageState ?? this.clientsPageState,
+      clientDetailsPageState: clientDetailsPageState?? this.clientDetailsPageState,
       messagesPageState: messagesPageState ?? this.messagesPageState,
       jobsPageState: jobsPageState ?? this.jobsPageState,
       collectionsPageState: collectionsPageState ?? this.collectionsPageState,
@@ -78,6 +84,7 @@ class AppState {
     homePageState.hashCode ^
     dashboardPageState.hashCode ^
     clientsPageState.hashCode ^
+    clientDetailsPageState.hashCode ^
     messagesPageState.hashCode ^
     jobsPageState.hashCode ^
     collectionsPageState.hashCode ^
@@ -92,6 +99,7 @@ class AppState {
               homePageState == other.homePageState &&
               dashboardPageState == other.dashboardPageState &&
               clientsPageState == other.clientsPageState &&
+              clientDetailsPageState == other.clientDetailsPageState &&
               messagesPageState == other.messagesPageState &&
               jobsPageState == other.jobsPageState &&
               collectionsPageState == other.collectionsPageState &&

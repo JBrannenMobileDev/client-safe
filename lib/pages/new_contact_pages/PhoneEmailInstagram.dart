@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -14,6 +15,31 @@ class PhoneEmailInstagram extends StatefulWidget {
   }
 }
 
+class NumberTextInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
+
+      int selectionIndex = newValue.selection.end;
+      String resultNum = "";
+      String numsOnly = newValue.text.replaceAll("[\\D]", "");
+
+      if(numsOnly.length == 10){
+        resultNum = "(" + numsOnly.substring(0, 3) + ") " + numsOnly.substring(3, 6) + "-" + numsOnly.substring(6, numsOnly.length);
+        selectionIndex = selectionIndex + 4;
+      }else if(numsOnly.length == 11){
+        resultNum = "+" + numsOnly.substring(0,1) + "(" + numsOnly.substring(1, 4) + ") " + numsOnly.substring(4, 7) + "-" + numsOnly.substring(7, numsOnly.length);
+        selectionIndex = selectionIndex + 5;
+      }else{
+        resultNum = numsOnly;
+      }
+    return new TextEditingValue(
+      text: resultNum,
+      selection: new TextSelection.collapsed(offset: selectionIndex),
+    );
+  }
+}
+
 class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
     with AutomaticKeepAliveClientMixin {
   final phoneTextController = TextEditingController();
@@ -22,6 +48,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _instagramFocus = FocusNode();
+  final _mobileFormatter = NumberTextInputFormatter();
 
   @override
   Widget build(BuildContext context) =>
@@ -42,7 +69,12 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   NewContactPageState.ERROR_PHONE_INVALID,
                   TextInputAction.next,
                   _phoneFocus,
-                  onPhoneAction),
+                  onPhoneAction,
+                  TextCapitalization.none,
+                  <TextInputFormatter>[
+                    WhitelistingTextInputFormatter.digitsOnly,
+                    _mobileFormatter,
+                  ]),
               NewContactTextField(
                   emailTextController,
                   "Email",
@@ -52,7 +84,9 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   NewContactPageState.ERROR_EMAIL_NAME_INVALID,
                   TextInputAction.next,
                   _emailFocus,
-                  onEmailAction),
+                  onEmailAction,
+                  TextCapitalization.none,
+                  null),
               NewContactTextField(
                   instagramUrlTextController,
                   "Instagram URL",
@@ -62,7 +96,9 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   NewContactPageState.ERROR_INSTAGRAM_URL_INVALID,
                   TextInputAction.done,
                   _instagramFocus,
-                  onInstagramAction),
+                  onInstagramAction,
+                  TextCapitalization.none,
+                  null),
             ],
           ),
         ),

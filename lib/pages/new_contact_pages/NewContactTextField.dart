@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -15,10 +16,12 @@ class NewContactTextField extends StatelessWidget {
   final TextInputAction keyboardAction;
   final FocusNode focusNode;
   final Function onFocusAction;
+  final TextCapitalization capitalization;
+  final List<TextInputFormatter> inputFormatter;
 
   NewContactTextField(this._controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
-      this.focusNode, this.onFocusAction);
+      this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter);
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +83,8 @@ class NewContactTextField extends StatelessWidget {
                   ),
                 ),
                 keyboardType: inputType,
+                textCapitalization: capitalization,
+                inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w600,

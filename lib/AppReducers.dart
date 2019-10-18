@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageReducer.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPageReducer.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageReducer.dart';
@@ -15,6 +16,7 @@ AppState appReducers(AppState state, dynamic action) =>
         homePageState: homePageReducer(state.homePageState, action),
         dashboardPageState: dashboardPageReducer(state.dashboardPageState, action),
         clientsPageState: clientsPageReducer(state.clientsPageState, action),
+        clientDetailsPageState: clientDetailsPageReducer(state.clientDetailsPageState, action),
         messagesPageState: messagesPageReducer(state.messagesPageState, action),
         jobsPageState: jobsPageReducer(state.jobsPageState, action),
         collectionsPageState: collectionsPageReducer(state.collectionsPageState, action),

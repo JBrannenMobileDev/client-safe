@@ -24,11 +24,13 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       email: action.pageState.newContactEmail,
       phone: action.pageState.newContactPhone,
       instagramProfileUrl: action.pageState.newContactInstagramUrl,
+      relationshipStatus: action.pageState.relationshipStatus,
       spouseFirstName: action.pageState.spouseFirstName,
       spouseLastName: action.pageState.spouseLastName,
       numOfChildren: action.pageState.numberOfChildren,
       importantDates: action.pageState.importantDates,
       notes: action.pageState.notes,
+      leadSource: action.pageState.leadSource,
       iconUrl: action.pageState.clientIcon != null ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale),
     );
     await clientDao.insert(client);

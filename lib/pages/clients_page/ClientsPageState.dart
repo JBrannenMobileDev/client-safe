@@ -1,5 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPage.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:flutter/widgets.dart';
@@ -67,7 +68,7 @@ class ClientsPageState {
       clients: store.state.clientsPageState.clients,
       leads: store.state.clientsPageState.leads,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.clientsPageState, filterType)),
-      onClientClicked: (client) => store.dispatch(null),
+      onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       fetchClientData: () => store.dispatch(FetchClientData(store.state.clientsPageState)),
     );
   }

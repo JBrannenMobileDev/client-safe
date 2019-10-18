@@ -40,6 +40,7 @@ class Job {
   String professionalUserId;
   DateTime dateTime;
   String type;
+  String stage;
 
   Job({
     this.clientId,
@@ -51,6 +52,7 @@ class Job {
     this.professionalUserId,
     this.dateTime,
     this.type,
+    this.stage,
   });
 
   String getJobType(){

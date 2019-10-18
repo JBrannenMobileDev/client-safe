@@ -26,6 +26,7 @@ class Client{
   String phone;
   String gender;
   String leadSource;
+  String relationshipStatus;
   String spouseFirstName;
   String spouseLastName;
   int numOfChildren;
@@ -44,6 +45,7 @@ class Client{
     this.phone,
     this.gender,
     this.leadSource,
+    this.relationshipStatus,
     this.spouseFirstName,
     this.spouseLastName,
     this.numOfChildren,
@@ -64,6 +66,7 @@ class Client{
       'phone' : phone,
       'gender' : gender,
       'leadSource' : leadSource,
+      'relationshipStatus' : relationshipStatus,
       'spouseFirstName': spouseFirstName,
       'spouseLastName' : spouseLastName,
       'numOfChildren' : numOfChildren,
@@ -85,6 +88,7 @@ class Client{
       phone: map['phone'],
       gender: map['gender'],
       leadSource: map['leadSource'],
+      relationshipStatus: map['relationshipStatus'],
       spouseFirstName: map['spouseFirstName'],
       spouseLastName: map['spouseLastName'],
       numOfChildren: map['numOfChildren'],
@@ -112,5 +116,13 @@ class Client{
       listOfImportantDates.add(ImportantDate.fromMap(map));
     }
     return listOfImportantDates;
+  }
+
+  String getClientFullName(){
+    return firstName + " " + lastName;
+  }
+
+  String getClientSpouseFullName(){
+    return spouseFirstName + " " + spouseLastName;
   }
 }
