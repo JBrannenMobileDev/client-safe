@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:redux/redux.dart';
 import 'NewContactPageState.dart';
@@ -23,7 +24,29 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, SetClientIconAction>(_setClientIcon),
   TypedReducer<NewContactPageState, SetLeadSourceAction>(_setLeadSource),
   TypedReducer<NewContactPageState, UpdateErrorStateAction>(_updateErrorState),
+  TypedReducer<NewContactPageState, LoadExistingClientData>(_loadClient),
 ]);
+
+NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingClientData action){
+  return previousState.copyWith(
+    id: action.client.id,
+    shouldClear: false,
+    newContactFirstName: action.client.firstName,
+    newContactLastName: action.client.lastName,
+    isFemale: action.client.gender == Client.GENDER_FEMALE,
+    newContactPhone: action.client.phone,
+    newContactEmail: action.client.email,
+    newContactInstagramUrl: action.client.instagramProfileUrl,
+    relationshipStatus: action.client.relationshipStatus,
+    spouseFirstName: action.client.spouseFirstName,
+    spouseLastName: action.client.spouseLastName,
+    numberOfChildren: action.client.numOfChildren,
+    importantDates: action.client.importantDates,
+    clientIcon: action.client.iconUrl,
+    leadSource: action.client.leadSource,
+    notes: action.client.notes,
+  );
+}
 
 NewContactPageState _updateErrorState(NewContactPageState previousState, UpdateErrorStateAction action){
   return previousState.copyWith(
@@ -66,7 +89,12 @@ NewContactPageState _decrementPageViewIndex(NewContactPageState previousState, D
 }
 
 NewContactPageState _removeImportantDate(NewContactPageState previousState, RemoveImportantDateAction action) {
-  previousState.importantDates.removeAt(action.chipIndex);
+  for(ImportantDate date in previousState.importantDates){
+    if(date.chipIndex == action.chipIndex){
+      previousState.importantDates.remove(date);
+      break;
+    }
+  }
   return previousState.copyWith(
       importantDates: previousState.importantDates
   );

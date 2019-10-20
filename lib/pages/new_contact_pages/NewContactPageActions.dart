@@ -1,5 +1,12 @@
+import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
+
+class LoadExistingClientData{
+  final NewContactPageState pageState;
+  final Client client;
+  LoadExistingClientData(this.pageState, this.client);
+}
 
 class SaveNewContactAction{
   final NewContactPageState pageState;

@@ -6,3 +6,8 @@ class InitializeClientDetailsAction{
   final Client client;
   InitializeClientDetailsAction(this.pageState, this.client);
 }
+
+class DeleteClientAction{
+  final ClientDetailsPageState pageState;
+  DeleteClientAction(this.pageState);
+}

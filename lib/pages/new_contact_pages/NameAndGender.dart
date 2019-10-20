@@ -31,6 +31,10 @@ class _NameAndGenderState extends State<NameAndGender>
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewContactPageState>(
+      onInit: (store) {
+        firstNameTextController.text = store.state.newContactPageState.newContactFirstName;
+        lastNameTextController.text = store.state.newContactPageState.newContactLastName;
+      },
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
           Container(
@@ -56,7 +60,6 @@ class _NameAndGenderState extends State<NameAndGender>
                 firstNameTextController,
                 "First Name",
                 TextInputType.text,
-
                 60.0,
                 pageState.onClientFirstNameChanged,
                 NewContactPageState.ERROR_FIRST_NAME_MISSING,

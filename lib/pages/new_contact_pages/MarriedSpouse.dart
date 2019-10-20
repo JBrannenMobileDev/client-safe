@@ -38,6 +38,10 @@ class _MarriedSpouseState extends State<MarriedSpouse>
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, NewContactPageState>(
+        onInit: (store) {
+          firstNameTextController.text = store.state.newContactPageState.spouseFirstName;
+          lastNameTextController.text = store.state.newContactPageState.spouseLastName;
+        },
         converter: (store) => NewContactPageState.fromStore(store),
         builder: (BuildContext context, NewContactPageState pageState) =>
             Container(

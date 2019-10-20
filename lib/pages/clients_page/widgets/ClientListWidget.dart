@@ -24,21 +24,18 @@ class ClientListWidget extends StatelessWidget {
         },
         child: Row(
           children: <Widget>[
-            Hero(
-              tag: 'clientIcon',
-              child: Container(
-                margin: EdgeInsets.only(left: 32.0, right: 16.0, top: 4.0),
-                height: 44.0,
-                width: 44.0,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image:
-                        AssetImage(getClient(clientIndex, pageState).iconUrl),
-                    fit: BoxFit.contain,
-                  ),
-                  color: const Color(ColorConstants.primary_bg_grey),
-                  borderRadius: BorderRadius.all(Radius.circular(8.0)),
+          Container(
+              margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0),
+              height: 44.0,
+              width: 44.0,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image:
+                      AssetImage(getClient(clientIndex, pageState).iconUrl),
+                  fit: BoxFit.contain,
                 ),
+                color: const Color(ColorConstants.primary_bg_grey),
+                borderRadius: BorderRadius.all(Radius.circular(22.0)),
               ),
             ),
             Expanded(
@@ -50,17 +47,14 @@ class ClientListWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Hero(
-                        tag: 'clientName',
-                        child: Text(
-                          getClient(clientIndex, pageState).getClientFullName(),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w600,
-                            color: const Color(ColorConstants.primary_black),
-                          ),
+                      Text(
+                        getClient(clientIndex, pageState).getClientFullName(),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 16.0,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w600,
+                          color: const Color(ColorConstants.primary_black),
                         ),
                       ),
                       Text(

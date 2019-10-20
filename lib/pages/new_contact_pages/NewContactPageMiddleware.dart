@@ -2,6 +2,8 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/ImportantDate.dart';
+import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
@@ -18,6 +20,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
   void saveClient(Store<AppState> store, action, NextDispatcher next) async{
     ClientDao clientDao = ClientDao();
     Client client = Client(
+      id: action.pageState.id,
       firstName: action.pageState.newContactFirstName,
       lastName: action.pageState.newContactLastName,
       gender: action.pageState.isFemale ? Client.GENDER_FEMALE : Client.GENDER_MALE,
@@ -33,6 +36,9 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       leadSource: action.pageState.leadSource,
       iconUrl: action.pageState.clientIcon != null ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale),
     );
-    await clientDao.insert(client);
+    await clientDao.insertOrUpdate(client);
+    store.dispatch(ClearStateAction(store.state.newContactPageState));
+    store.dispatch(FetchClientData(store.state.clientsPageState));
+    store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));
   }
 }

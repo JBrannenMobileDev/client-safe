@@ -16,14 +16,16 @@ class Notes extends StatefulWidget {
 }
 
 class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin {
-  final firstNameTextController = TextEditingController();
-  final lastNameTextController = TextEditingController();
+  final notesController = TextEditingController();
   final FocusNode _notesFocus = FocusNode();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewContactPageState>(
+      onInit: (store) {
+        notesController.text = store.state.newContactPageState.notes;
+      },
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
           Container(
@@ -47,7 +49,7 @@ class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin {
               ),
             ),
             NewContactTextField(
-                firstNameTextController,
+                notesController,
                 "Notes",
                 TextInputType.multiline,
                 124.0,

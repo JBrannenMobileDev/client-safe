@@ -56,22 +56,21 @@ flutter:
     - assets/images/backgrounds/cameras_background.jpg
     - assets/images/backgrounds/flexible_space_bg.jpg
 
-    - assets/images/people/female_blonde.png
-    - assets/images/people/female_blue_afro.png
-    - assets/images/people/female_brown_ponytail.png
-    - assets/images/people/female_bun_brown_hair.png
-    - assets/images/people/female_flat_brown_hair.png
-    - assets/images/people/gender_nuetral_white_hair.png
-    - assets/images/people/male_black_hair.png
-    - assets/images/people/male_black_hair_2.png
-    - assets/images/people/male_brown_hair_collar.png
-    - assets/images/people/male_brown_hair_goat.png
-    - assets/images/people/male_messy_black_hair.png
-    - assets/images/people/male_white_hair.png
-    - assets/images/people/male_white_hair_tanktop.png
-    - assets/images/people/middle_age_male_brown_hair.png
-    - assets/images/people/young_female_black_hair.png
-    - assets/images/people/young_male.png
+    - assets/images/people/male1.png
+    - assets/images/people/male2.png
+    - assets/images/people/male3.png
+    - assets/images/people/male4.png
+    - assets/images/people/male5.png
+    - assets/images/people/male6.png
+    - assets/images/people/male7.png
+    - assets/images/people/male8.png
+    - assets/images/people/female1.png
+    - assets/images/people/female2.png
+    - assets/images/people/female3.png
+    - assets/images/people/female4.png
+    - assets/images/people/female5.png
+    - assets/images/people/female6.png
+    - assets/images/people/female7.png
 
     - assets/images/job_types/maternity.png
     - assets/images/job_types/engagement.png

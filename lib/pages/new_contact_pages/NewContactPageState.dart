@@ -14,9 +14,11 @@ class NewContactPageState {
   static const String ERROR_INSTAGRAM_URL_INVALID = "invalidInstaUrl";
   static const String ERROR_MISSING_CONTACT_INFO = "missingContactInfo";
 
+  final int id;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool isFemale;
+  final bool shouldClear;
   final String newContactFirstName;
   final String newContactLastName;
   final String newContactPhone;
@@ -53,9 +55,11 @@ class NewContactPageState {
   final Function(String) onLeadSourceSelected;
 
   NewContactPageState({
+    @required this.id,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.isFemale,
+    @required this.shouldClear,
     @required this.newContactFirstName,
     @required this.newContactLastName,
     @required this.newContactPhone,
@@ -93,9 +97,11 @@ class NewContactPageState {
   });
 
   NewContactPageState copyWith({
+    int id,
     int pageViewIndex,
     saveButtonEnabled,
     bool isFemale,
+    bool shouldClear,
     String newContactFirstName,
     String newContactLastName,
     String newContactPhone,
@@ -132,9 +138,11 @@ class NewContactPageState {
     Function(String) onLeadSourceSelected,
   }){
     return NewContactPageState(
+      id: id?? this.id,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       isFemale: isFemale?? this.isFemale,
+      shouldClear: shouldClear?? this.shouldClear,
       newContactFirstName: newContactFirstName?? this.newContactFirstName,
       newContactLastName: newContactLastName?? this.newContactLastName,
       newContactPhone: newContactPhone?? this.newContactPhone,
@@ -173,10 +181,12 @@ class NewContactPageState {
   }
 
   factory NewContactPageState.initial() => NewContactPageState(
+        id: null,
         pageViewIndex: 0,
         saveButtonEnabled: false,
         isFemale: true,
-        newContactFirstName: "Client",
+        shouldClear: true,
+        newContactFirstName: "",
         newContactLastName: "",
         newContactPhone: "",
         newContactEmail: "",
@@ -214,9 +224,11 @@ class NewContactPageState {
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
     return NewContactPageState(
+      id: store.state.newContactPageState.id,
       pageViewIndex: store.state.newContactPageState.pageViewIndex,
       saveButtonEnabled: store.state.newContactPageState.saveButtonEnabled,
       isFemale: store.state.newContactPageState.isFemale,
+      shouldClear: store.state.newContactPageState.shouldClear,
       newContactFirstName: store.state.newContactPageState.newContactFirstName,
       newContactLastName: store.state.newContactPageState.newContactLastName,
       newContactPhone: store.state.newContactPageState.newContactPhone,
@@ -256,9 +268,11 @@ class NewContactPageState {
 
   @override
   int get hashCode =>
+      id.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       isFemale.hashCode ^
+      shouldClear.hashCode ^
       newContactFirstName.hashCode ^
       newContactLastName.hashCode ^
       newContactPhone.hashCode ^
@@ -297,9 +311,11 @@ class NewContactPageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is NewContactPageState &&
+          id == other.id &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           isFemale == other.isFemale &&
+          shouldClear == other.shouldClear &&
           newContactFirstName == other.newContactFirstName &&
           newContactLastName == other.newContactLastName &&
           newContactPhone == other.newContactPhone &&

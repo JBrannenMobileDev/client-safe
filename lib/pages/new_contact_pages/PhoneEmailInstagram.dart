@@ -53,6 +53,11 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, NewContactPageState>(
+        onInit: (store) {
+          phoneTextController.text = store.state.newContactPageState.newContactPhone;
+          emailTextController.text = store.state.newContactPageState.newContactEmail;
+          emailTextController.text = store.state.newContactPageState.newContactInstagramUrl;
+        },
         converter: (store) => NewContactPageState.fromStore(store),
         builder: (BuildContext context, NewContactPageState pageState) =>
             Container(

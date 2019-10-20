@@ -135,7 +135,7 @@ class _ImportantDates extends State<ImportantDates> {
                                           minTime: DateTime(
                                               DateTime.now().year - 115),
                                           maxTime: DateTime(
-                                              DateTime.now().year,
+                                              DateTime.now().year + 5,
                                               DateTime.now().month,
                                               DateTime.now().day),
                                           onConfirm: (date) {

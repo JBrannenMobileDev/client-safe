@@ -19,6 +19,21 @@ class ClientDao extends Equatable{
     await _clientStore.add(await _db, client.toMap());
   }
 
+  Future insertOrUpdate(Client client) async {
+    List<Client> clientList = await getAllSortedByFirstName();
+    bool alreadyExists = false;
+    for(Client singleClient in clientList){
+      if(singleClient.id == client.id){
+        alreadyExists = true;
+      }
+    }
+    if(alreadyExists){
+      await update(client);
+    }else{
+      await insert(client);
+    }
+  }
+
   Future update(Client client) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
@@ -43,7 +58,7 @@ class ClientDao extends Equatable{
       SortOrder('firstName'),
     ]);
 
-    final recordSnapshots = await _clientStore.find(await _db);
+    final recordSnapshots = await _clientStore.find(await _db, finder: finder);
 
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {

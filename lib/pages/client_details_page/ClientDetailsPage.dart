@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
@@ -6,6 +8,8 @@ import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
 import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
+import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
+import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,14 +50,11 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     floating: false,
                     forceElevated: false,
                     centerTitle: true,
-                    title: Hero(
-                      tag: 'clientName',
-                      child: Text(
-                        pageState.client?.getClientFullName() ?? "",
-                        style: TextStyle(
-                          fontFamily: 'Raleway',
-                          color: const Color(ColorConstants.primary_black),
-                        ),
+                    title: Text(
+                      pageState.client?.getClientFullName() ?? "",
+                      style: TextStyle(
+                        fontFamily: 'Raleway',
+                        color: const Color(ColorConstants.primary_black),
                       ),
                     ),
                     actions: <Widget>[
@@ -62,7 +63,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                         color: Color(ColorConstants.primary),
                         tooltip: 'Delete',
                         onPressed: () {
-                          pageState.onDeleteClientClicked();
+                          _ackAlert(context, pageState);
                         },
                       ),
                       IconButton(
@@ -70,7 +71,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                         color: Color(ColorConstants.primary),
                         tooltip: 'Edit',
                         onPressed: () {
-                          pageState.onEditClientClicked();
+                          pageState.onEditClientClicked(pageState.client);
+                          UserOptionsUtil.showNewContactDialog(context);
                         },
                       ),
                     ],
@@ -92,24 +94,22 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Hero(
-                                tag: 'clientIcon',
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      top: Device.get().isIphoneX ? 92.0 : 72.0),
-                                  height: 116.0,
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(
-                                          pageState.client?.iconUrl ?? ""),
-                                      fit: BoxFit.contain,
-                                    ),
-                                    borderRadius:
-                                    BorderRadius.all(Radius.circular(8.0)),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: Device.get().isIphoneX ? 92.0 : 72.0),
+                                height: 116.0,
+                                width: MediaQuery.of(context).size.width / 3,
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        pageState.client?.iconUrl ?? ""),
+                                    fit: BoxFit.contain,
                                   ),
+                                  borderRadius:
+                                  BorderRadius.all(Radius.circular(8.0)),
                                 ),
                               ),
+
 //                              Container(
 //                                margin: EdgeInsets.only(top: Device.get().isIphoneX ? 92.0 : 72.0),
 //                                height: 132.0,
@@ -282,6 +282,48 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
           ),
         ),
       );
+}
+
+Future<void> _ackAlert(BuildContext context, ClientDetailsPageState pageState) {
+  return showDialog<void>(
+    context: context,
+    builder: (BuildContext context) {
+      return Device.get().isIos ?
+      CupertinoAlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('This contact will be gone for good!'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () {
+              pageState.onDeleteClientClicked();
+              Navigator.of(context).pop(true);
+            },
+            child: new Text('Yes'),
+          ),
+        ],
+      ) : AlertDialog(
+        title: new Text('Are you sure?'),
+        content: new Text('This contact will be gone for good!'),
+        actions: <Widget>[
+          new FlatButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: new Text('No'),
+          ),
+          new FlatButton(
+            onPressed: () {
+              pageState.onDeleteClientClicked();
+              Navigator.of(context).pop(true);
+            },
+            child: new Text('Yes'),
+          ),
+        ],
+      );
+    },
+  );
 }
 
 Widget _buildItem(BuildContext context, int index) {

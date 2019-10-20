@@ -1,13 +1,15 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
 class ClientDetailsPageState {
   final Client client;
   final List<Job> clientJobs;
-  final Function() onEditClientClicked;
+  final Function(Client) onEditClientClicked;
   final Function() onDeleteClientClicked;
   final Function() onCallClientClicked;
   final Function() onMessageClientClicked;
@@ -30,7 +32,7 @@ class ClientDetailsPageState {
   ClientDetailsPageState copyWith({
     Client client,
     List<Job> clientJobs,
-    Function() onEditClientClicked,
+    Function(Client) onEditClientClicked,
     Function() onDeleteClientClicked,
     Function() onCallClientClicked,
     Function() onMessageClientClicked,
@@ -67,8 +69,8 @@ class ClientDetailsPageState {
     return ClientDetailsPageState(
       client: store.state.clientDetailsPageState.client,
       clientJobs: store.state.clientDetailsPageState.clientJobs,
-      onEditClientClicked: () => store.dispatch(null),
-      onDeleteClientClicked: () => store.dispatch(null),
+      onEditClientClicked: (client) => store.dispatch(LoadExistingClientData(store.state.newContactPageState, client)),
+      onDeleteClientClicked: () => store.dispatch(DeleteClientAction(store.state.clientDetailsPageState)),
       onCallClientClicked: () => store.dispatch(null),
       onMessageClientClicked: () => store.dispatch(null),
       onEmailClientClicked: () => store.dispatch(null),
