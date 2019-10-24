@@ -16,6 +16,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void _loadAllClients(Store<AppState> store, action, NextDispatcher next) async{
     ClientDao clientDao = ClientDao();
     List<Client> allClients = await clientDao.getAllSortedByFirstName();
-    next(SetAllClientsToStateAction(store.state.newJobPageState, allClients));
+    store.dispatch(SetAllClientsToStateAction(store.state.newJobPageState, allClients));
   }
 }

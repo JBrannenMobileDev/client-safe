@@ -117,7 +117,7 @@ class NewJobPageState {
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newJobPageState)),
-      onClientSelected: (client) => store.dispatch(SetClientAction(store.state.newJobPageState, client)),
+      onClientSelected: (client) => store.dispatch(ClientSelectedAction(store.state.newJobPageState, client)),
       onClientSearchTextChanged: (text) => store.dispatch(FilterClientList(store.state.newJobPageState, text)),
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newJobPageState)),
     );

@@ -48,7 +48,7 @@ class DashboardPage extends StatelessWidget {
                           fit: BoxFit.contain,
                         ),
                       ),
-                      height: 600.0,
+                      height: 700.0,
                     ),
                     CustomScrollView(
                       slivers: <Widget>[

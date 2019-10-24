@@ -8,6 +8,7 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewJobPageState, UpdateErrorStateAction>(_updateErrorState),
   TypedReducer<NewJobPageState, SetAllClientsToStateAction>(_setAllClients),
+  TypedReducer<NewJobPageState, ClientSelectedAction>(_setSelectedClient),
 ]);
 
 NewJobPageState _updateErrorState(NewJobPageState previousState, UpdateErrorStateAction action){
@@ -39,5 +40,12 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
 NewJobPageState _setAllClients(NewJobPageState previousState, SetAllClientsToStateAction action) {
   return previousState.copyWith(
     allClients: action.allClients,
+    filteredClients: action.allClients,
+  );
+}
+
+NewJobPageState _setSelectedClient(NewJobPageState previousState, ClientSelectedAction action) {
+  return previousState.copyWith(
+    selectedClient: action.client,
   );
 }

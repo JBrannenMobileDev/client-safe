@@ -20,18 +20,18 @@ class ClientListWidget extends StatelessWidget {
       builder: (BuildContext context, ClientsPageState pageState) =>
           new FlatButton(
         onPressed: () {
-          _onClientTapped(getClient(clientIndex, pageState), pageState, context);
+          _onClientTapped(
+              getClient(clientIndex, pageState), pageState, context);
         },
         child: Row(
           children: <Widget>[
-          Container(
+            Container(
               margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0),
               height: 44.0,
               width: 44.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image:
-                      AssetImage(getClient(clientIndex, pageState).iconUrl),
+                  image: AssetImage(getClient(clientIndex, pageState).iconUrl),
                   fit: BoxFit.contain,
                 ),
                 color: const Color(ColorConstants.primary_bg_grey),
@@ -102,9 +102,7 @@ class ClientListWidget extends StatelessWidget {
       Client selectedClient, ClientsPageState pageState, BuildContext context) {
     pageState.onClientClicked(selectedClient);
     Navigator.of(context).push(
-      new MaterialPageRoute(
-          builder: (context) => ClientDetailsPage()
-      ),
+      new MaterialPageRoute(builder: (context) => ClientDetailsPage()),
     );
   }
 }

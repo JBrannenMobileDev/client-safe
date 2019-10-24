@@ -28,12 +28,6 @@ class SaveNewJobAction{
   SaveNewJobAction(this.pageState);
 }
 
-class SetClientAction{
-  final NewJobPageState pageState;
-  final Client client;
-  SetClientAction(this.pageState, this.client);
-}
-
 class FilterClientList{
   final NewJobPageState pageState;
   final String textInput;
@@ -54,4 +48,10 @@ class SetAllClientsToStateAction{
   final NewJobPageState pageState;
   final List<Client> allClients;
   SetAllClientsToStateAction(this.pageState, this.allClients);
+}
+
+class ClientSelectedAction{
+  final NewJobPageState pageState;
+  final Client client;
+  ClientSelectedAction(this.pageState, this.client);
 }

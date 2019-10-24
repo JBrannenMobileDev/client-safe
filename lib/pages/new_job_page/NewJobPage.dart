@@ -94,7 +94,7 @@ class _NewJobPageState extends State<NewJobPage> {
                       ),
                     ),
                     Container(
-                      height: 232.0,
+                      height: 375.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
