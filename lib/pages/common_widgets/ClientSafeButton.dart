@@ -12,6 +12,7 @@ class ClientSafeButton extends StatelessWidget{
   final double marginBottom;
   final Function onPressed;
   final Icon icon;
+  final String urlText;
 
   ClientSafeButton({
     this.height,
@@ -23,6 +24,7 @@ class ClientSafeButton extends StatelessWidget{
     this.marginBottom,
     this.onPressed,
     this.icon,
+    this.urlText,
   });
 
   @override
@@ -38,7 +40,7 @@ class ClientSafeButton extends StatelessWidget{
           shape: new RoundedRectangleBorder(
               borderRadius: new BorderRadius.circular(8.0),
               side: BorderSide(color: Color(ColorConstants.primary))),
-          onPressed: () {},
+          onPressed: () => onPressed(urlText),
           color: Color(ColorConstants.primary),
           textColor: Colors.white,
           child: Row(

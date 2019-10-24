@@ -5,6 +5,7 @@ import 'package:client_safe/pages/dashboard_page/widgets/HomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
@@ -149,7 +150,14 @@ class DashboardPage extends StatelessWidget {
                 ListTile(
                   leading: Icon(Icons.camera),
                   title: Text("Start New Job"),
-                  onTap: () {},
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return NewJobPage();
+                      },
+                    );
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.folder),

@@ -6,10 +6,7 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactTextField.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
-import 'NewContactTextField.dart';
 
 class ProfileIcons extends StatefulWidget {
   @override
@@ -54,7 +51,7 @@ class _ProfileIcons extends State<ProfileIcons>
             ),
             GridView.builder(
                 shrinkWrap: true,
-                itemCount: pageState.isFemale ? 7 : 8,
+                itemCount: 8,
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4),
                 itemBuilder: (BuildContext context, int index) {

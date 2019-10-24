@@ -56,7 +56,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
         onInit: (store) {
           phoneTextController.text = store.state.newContactPageState.newContactPhone;
           emailTextController.text = store.state.newContactPageState.newContactEmail;
-          emailTextController.text = store.state.newContactPageState.newContactInstagramUrl;
+          instagramUrlTextController.text = store.state.newContactPageState.newContactInstagramUrl;
         },
         converter: (store) => NewContactPageState.fromStore(store),
         builder: (BuildContext context, NewContactPageState pageState) =>

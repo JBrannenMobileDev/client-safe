@@ -5,6 +5,7 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/pages/messages_page/MessagesPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/search_page/SearchPageState.dart';
 import 'package:client_safe/pages/settings_page/SettingsPageState.dart';
 import 'package:meta/meta.dart';
@@ -13,6 +14,7 @@ import 'pages/clients_page/ClientsPageState.dart';
 
 @immutable
 class AppState {
+  final NewJobPageState newJobPageState;
   final NewContactPageState newContactPageState;
   final HomePageState homePageState;
   final DashboardPageState dashboardPageState;
@@ -35,6 +37,7 @@ class AppState {
     @required this.collectionsPageState,
     @required this.settingsPageState,
     @required this.searchPageState,
+    @required this.newJobPageState,
   });
 
   factory AppState.initial() {
@@ -49,6 +52,7 @@ class AppState {
       collectionsPageState: CollectionsPageState.initial(),
       settingsPageState: SettingsPageState.initial(),
       searchPageState: SearchPageState.initial(),
+      newJobPageState: NewJobPageState.initial(),
     );
   }
 
@@ -63,6 +67,7 @@ class AppState {
     CollectionsPageState collectionsPageState,
     SettingsPageState settingsPageState,
     SearchPageState searchPageState,
+    NewJobPageState newJobPageState,
   }){
     return AppState(
       newContactPageState: newContactPageState ?? this.newContactPageState,
@@ -75,6 +80,7 @@ class AppState {
       collectionsPageState: collectionsPageState ?? this.collectionsPageState,
       settingsPageState: settingsPageState ?? this.settingsPageState,
       searchPageState: searchPageState ?? this.searchPageState,
+      newJobPageState: newJobPageState ?? this.newJobPageState,
     );
   }
 
@@ -89,7 +95,8 @@ class AppState {
     jobsPageState.hashCode ^
     collectionsPageState.hashCode ^
     settingsPageState.hashCode ^
-    searchPageState.hashCode;
+    searchPageState.hashCode ^
+    newJobPageState.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -104,5 +111,6 @@ class AppState {
               jobsPageState == other.jobsPageState &&
               collectionsPageState == other.collectionsPageState &&
               settingsPageState == other.settingsPageState &&
-              searchPageState == other.searchPageState;
+              searchPageState == other.searchPageState &&
+              newJobPageState == other.newJobPageState;
 }

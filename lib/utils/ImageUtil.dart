@@ -11,8 +11,9 @@ class ImageUtil{
     "assets/images/people/female3.png",
     "assets/images/people/female4.png",
     "assets/images/people/female5.png",
+    "assets/images/people/female7.png",
     "assets/images/people/female6.png",
-    "assets/images/people/female7.png"
+    "assets/images/people/female8.png"
   ];
   static List<String> maleIcons = [
     "assets/images/people/male1.png",
@@ -20,8 +21,8 @@ class ImageUtil{
     "assets/images/people/male3.png",
     "assets/images/people/male4.png",
     "assets/images/people/male5.png",
-    "assets/images/people/male6.png",
     "assets/images/people/male7.png",
+    "assets/images/people/male6.png",
     "assets/images/people/male8.png"
   ];
 
@@ -47,10 +48,10 @@ class ImageUtil{
     'assets/images/lead_source_type/lead_source_instagram.png',
     'assets/images/lead_source_type/lead_source_giveaway.png',
     'assets/images/lead_source_type/lead_source_website.png',
-    'assets/images/lead_source_type/lead_source_blog.png',
     'assets/images/lead_source_type/lead_source_business_card.png',
     'assets/images/lead_source_type/lead_source_facebook.png',
     'assets/images/lead_source_type/lead_source_instagram_influencer.png',
+    'assets/images/lead_source_type/lead_source_other.png',
   ];
 
   static String getLeadSourceText(String fileLocation){
@@ -68,9 +69,6 @@ class ImageUtil{
       case 'assets/images/lead_source_type/lead_source_website.png':
         leadSourceTitle = Client.LEAD_SOURCE_WEBSITE;
         break;
-      case 'assets/images/lead_source_type/lead_source_blog.png':
-        leadSourceTitle = Client.LEAD_SOURCE_BLOG;
-        break;
       case 'assets/images/lead_source_type/lead_source_business_card.png':
         leadSourceTitle = Client.LEAD_SOURCE_BUSINESS_CARD;
         break;
@@ -79,6 +77,9 @@ class ImageUtil{
         break;
       case 'assets/images/lead_source_type/lead_source_instagram_influencer.png':
         leadSourceTitle = Client.LEAD_SOURCE_SOCIAL_MEDIA_INFLUENCER;
+        break;
+      case 'assets/images/lead_source_type/lead_source_other.png':
+        leadSourceTitle = Client.LEAD_SOURCE_OTHER;
         break;
     }
     return leadSourceTitle;
@@ -90,7 +91,7 @@ class ImageUtil{
 
   static AssetImage getRandomPersonIcon(bool isFemale) {
     if(isFemale){
-      return AssetImage(femaleIcons[Random().nextInt(7)]);
+      return AssetImage(femaleIcons[Random().nextInt(8)]);
     }else{
       return AssetImage(maleIcons[Random().nextInt(8)]);
     }

@@ -10,6 +10,7 @@ import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -200,15 +201,16 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               ClientSafeButton(
-                                height: 48.0,
-                                width: 65.0,
-                                text: "",
-                                marginLeft: 32.0,
-                                marginTop: 0.0,
-                                marginRight: 4.0,
-                                marginBottom: 0.0,
-                                onPressed: null,
-                                icon: Icon(Icons.phone, color: Colors.white),
+                                  height: 48.0,
+                                  width: 65.0,
+                                  text: "",
+                                  marginLeft: 32.0,
+                                  marginTop: 0.0,
+                                  marginRight: 4.0,
+                                  marginBottom: 0.0,
+                                  onPressed: onCallPressed,
+                                  icon: Icon(Icons.phone, color: Colors.white),
+                                  urlText: pageState.client.phone,
                               ),
                               ClientSafeButton(
                                 height: 48.0,
@@ -218,8 +220,9 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 marginTop: 0.0,
                                 marginRight: 4.0,
                                 marginBottom: 0.0,
-                                onPressed: null,
+                                onPressed: onSMSPressed,
                                 icon: Icon(Icons.message, color: Colors.white),
+                                urlText: pageState.client.phone,
                               ),
                               ClientSafeButton(
                                 height: 48.0,
@@ -229,8 +232,9 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 marginTop: 0.0,
                                 marginRight: 4.0,
                                 marginBottom: 0.0,
-                                onPressed: null,
+                                onPressed: onEmailPressed,
                                 icon: Icon(Icons.email, color: Colors.white),
+                                urlText: pageState.client.email,
                               ),
                               ClientSafeButton(
                                 height: 48.0,
@@ -332,4 +336,16 @@ Widget _buildItem(BuildContext context, int index) {
     builder: (BuildContext context, ClientDetailsPageState pageState) =>
         JobListItem(job: pageState.client.jobs.elementAt(index)),
   );
+}
+
+void onCallPressed(String phoneNum){
+  if(phoneNum.isNotEmpty) IntentLauncherUtil.makePhoneCall(phoneNum);
+}
+
+void onEmailPressed(String email){
+  if(email.isNotEmpty) IntentLauncherUtil.sendEmail(email, "", "");
+}
+
+void onSMSPressed(String sms){
+  if(sms.isNotEmpty) IntentLauncherUtil.sendSMS(sms);
 }

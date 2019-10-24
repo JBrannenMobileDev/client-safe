@@ -6,10 +6,7 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactTextField.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
-import 'NewContactTextField.dart';
 
 class LeadSourceSelection extends StatefulWidget {
   @override
