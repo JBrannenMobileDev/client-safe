@@ -79,7 +79,7 @@ class _NewContactPageState extends State<NewContactPage> {
             backgroundColor: Colors.transparent,
             body: Center(
               child: Container(
-                width: 400.0,
+                width: 375.0,
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
                 decoration: new BoxDecoration(
                     color: Color(ColorConstants.white),

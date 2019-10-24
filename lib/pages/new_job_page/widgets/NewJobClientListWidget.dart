@@ -25,7 +25,7 @@ class NewJobClientListWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 2.0, bottom: 2.0),
+              margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
               decoration: BoxDecoration(

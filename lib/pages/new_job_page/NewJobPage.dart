@@ -71,7 +71,7 @@ class _NewJobPageState extends State<NewJobPage> {
             backgroundColor: Colors.transparent,
             body: Center(
               child: Container(
-                width: 400.0,
+                width: 375.0,
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
                 decoration: new BoxDecoration(
                     color: Color(ColorConstants.white),
@@ -81,7 +81,7 @@ class _NewJobPageState extends State<NewJobPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(bottom: 16.0),
+                      padding: EdgeInsets.only(bottom: 4.0),
                       child: Text(
                         pageState.shouldClear ? "New Job" : "Edit Job",
                         textAlign: TextAlign.start,
@@ -93,8 +93,10 @@ class _NewJobPageState extends State<NewJobPage> {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 375.0,
+                    ConstrainedBox(
+                      constraints: BoxConstraints(
+                        maxHeight: 380.0
+                      ),
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
@@ -135,12 +137,14 @@ class _NewJobPageState extends State<NewJobPage> {
                             color: Colors.white,
                             textColor: Color(ColorConstants.primary_black),
                             disabledColor: Colors.white,
+
                             disabledTextColor:
                                 Color(ColorConstants.primary_bg_grey),
                             padding: EdgeInsets.all(8.0),
                             splashColor: Color(ColorConstants.primary),
                             onPressed: () {
-                              onNextPressed(pageState);
+                              // ignore: unnecessary_statements
+                              pageState.selectedClient == null ? null : onNextPressed(pageState);
                             },
                             child: Text(
                               pageState.pageViewIndex == pageCount
