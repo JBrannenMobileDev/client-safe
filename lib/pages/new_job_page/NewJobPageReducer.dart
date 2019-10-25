@@ -44,6 +44,7 @@ NewJobPageState _setAllClients(
   return previousState.copyWith(
     allClients: action.allClients,
     filteredClients: action.allClients,
+    isFinishedFetchingClients: true,
   );
 }
 

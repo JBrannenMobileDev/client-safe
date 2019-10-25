@@ -13,6 +13,7 @@ class NewJobPageState {
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
+  final bool isFinishedFetchingClients;
   final String errorState;
   final Client selectedClient;
   final String clientSearchText;
@@ -31,6 +32,7 @@ class NewJobPageState {
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
+    @required this.isFinishedFetchingClients,
     @required this.errorState,
     @required this.clientSearchText,
     @required this.onSavePressed,
@@ -50,6 +52,7 @@ class NewJobPageState {
     int pageViewIndex,
     bool saveButtonEnabled,
     bool shouldClear,
+    bool isFinishedFetchingClients,
     String errorState,
     Client selectedClient,
     String clientSearchText,
@@ -68,6 +71,7 @@ class NewJobPageState {
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
+      isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
       errorState: errorState?? this.errorState,
       selectedClient: selectedClient?? this.selectedClient,
       clientSearchText: clientSearchText?? this.clientSearchText,
@@ -88,6 +92,7 @@ class NewJobPageState {
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
+        isFinishedFetchingClients: false,
         errorState: NO_ERROR,
         selectedClient: null,
         clientSearchText: "",
@@ -108,6 +113,7 @@ class NewJobPageState {
       pageViewIndex: store.state.newJobPageState.pageViewIndex,
       saveButtonEnabled: store.state.newJobPageState.saveButtonEnabled,
       shouldClear: store.state.newJobPageState.shouldClear,
+      isFinishedFetchingClients: store.state.newJobPageState.isFinishedFetchingClients,
       errorState: store.state.newJobPageState.errorState,
       selectedClient: store.state.newJobPageState.selectedClient,
       clientSearchText: store.state.newJobPageState.clientSearchText,
@@ -129,6 +135,7 @@ class NewJobPageState {
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
+      isFinishedFetchingClients.hashCode ^
       errorState.hashCode ^
       selectedClient.hashCode ^
       clientSearchText.hashCode ^
@@ -150,6 +157,7 @@ class NewJobPageState {
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&
+          isFinishedFetchingClients == other.isFinishedFetchingClients &&
           errorState == other.errorState &&
           selectedClient == other.selectedClient &&
           clientSearchText == other.clientSearchText &&

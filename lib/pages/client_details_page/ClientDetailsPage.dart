@@ -9,6 +9,7 @@ import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -279,13 +280,23 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                 marginTop: 0.0,
                 marginRight: 32.0,
                 marginBottom: Device.get().isIphoneX ? 52.0 : 22,
-                onPressed: null,
+                onPressed: _showNewJobDialog,
                 icon: Icon(Icons.camera, color: Colors.white),
+                urlText: "",
               ),
             ],
           ),
         ),
       );
+
+  void _showNewJobDialog(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewJobPage();
+      },
+    );
+  }
 }
 
 Future<void> _ackAlert(BuildContext context, ClientDetailsPageState pageState) {
