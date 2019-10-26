@@ -120,6 +120,20 @@ flutter:
     - assets/images/lead_source_type/lead_source_website.png
     - assets/images/lead_source_type/lead_source_word_of_mouth.png
 
+    - assets/images/collection_icons/collection_contracts.png
+    - assets/images/collection_icons/collection_photoshoot_locations.png
+    - assets/images/collection_icons/collection_pricing_profiles.png
+    - assets/images/collection_icons/collection_example_poses.png
+
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_bills.png
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_coins.png
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_dollar.png
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_free.png
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_money_bag.png
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_price_tag.png
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale.png
+    - assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale_tag.png
+
     - assets/animations/success_check.flr
 
   fonts:

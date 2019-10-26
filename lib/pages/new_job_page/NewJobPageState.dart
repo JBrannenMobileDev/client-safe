@@ -17,6 +17,7 @@ class NewJobPageState {
   final String errorState;
   final Client selectedClient;
   final String clientSearchText;
+  final String jobTitle;
   final List<Client> allClients;
   final List<Client> filteredClients;
   final Function() onSavePressed;
@@ -26,6 +27,7 @@ class NewJobPageState {
   final Function(Client) onClientSelected;
   final Function(String) onClientSearchTextChanged;
   final Function() onClearInputSelected;
+  final Function(String) onJobTitleTextChanged;
 
   NewJobPageState({
     @required this.id,
@@ -35,6 +37,7 @@ class NewJobPageState {
     @required this.isFinishedFetchingClients,
     @required this.errorState,
     @required this.clientSearchText,
+    @required this.jobTitle,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -45,6 +48,7 @@ class NewJobPageState {
     @required this.onClearInputSelected,
     @required this.allClients,
     @required this.filteredClients,
+    @required this.onJobTitleTextChanged,
   });
 
   NewJobPageState copyWith({
@@ -56,6 +60,7 @@ class NewJobPageState {
     String errorState,
     Client selectedClient,
     String clientSearchText,
+    String jobTitle,
     List<Client> allClients,
     List<Client> filteredClients,
     Function() onSavePressed,
@@ -65,6 +70,7 @@ class NewJobPageState {
     Function(Client) onClientSelected,
     Function(String) onClientSearchTextChanged,
     Function() onClearInputSelected,
+    Function(String) onJobTitleTextChanged,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -75,6 +81,7 @@ class NewJobPageState {
       errorState: errorState?? this.errorState,
       selectedClient: selectedClient?? this.selectedClient,
       clientSearchText: clientSearchText?? this.clientSearchText,
+      jobTitle: jobTitle?? this.jobTitle,
       allClients: allClients?? this.allClients,
       filteredClients: filteredClients?? this.filteredClients,
       onSavePressed: onSavePressed?? this.onSavePressed,
@@ -84,6 +91,7 @@ class NewJobPageState {
       onClientSelected:  onClientSelected?? this.onClientSelected,
       onClientSearchTextChanged: onClientSearchTextChanged?? this.onClientSearchTextChanged,
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
+      onJobTitleTextChanged: onJobTitleTextChanged?? this.onJobTitleTextChanged,
     );
   }
 
@@ -96,6 +104,7 @@ class NewJobPageState {
         errorState: NO_ERROR,
         selectedClient: null,
         clientSearchText: "",
+        jobTitle: "",
         allClients: List(),
         filteredClients: List(),
         onSavePressed: null,
@@ -105,6 +114,7 @@ class NewJobPageState {
         onClientSelected: null,
         onClientSearchTextChanged: null,
         onClearInputSelected: null,
+        onJobTitleTextChanged: null,
       );
 
   factory NewJobPageState.fromStore(Store<AppState> store) {
@@ -117,6 +127,7 @@ class NewJobPageState {
       errorState: store.state.newJobPageState.errorState,
       selectedClient: store.state.newJobPageState.selectedClient,
       clientSearchText: store.state.newJobPageState.clientSearchText,
+      jobTitle: store.state.newJobPageState.jobTitle,
       allClients: store.state.newJobPageState.allClients,
       filteredClients: store.state.newJobPageState.filteredClients,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
@@ -126,6 +137,7 @@ class NewJobPageState {
       onClientSelected: (client) => store.dispatch(ClientSelectedAction(store.state.newJobPageState, client)),
       onClientSearchTextChanged: (text) => store.dispatch(FilterClientList(store.state.newJobPageState, text)),
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newJobPageState)),
+      onJobTitleTextChanged: (jobTitle) => store.dispatch(SetJobTitleAction(store.state.newJobPageState, jobTitle)),
     );
   }
 

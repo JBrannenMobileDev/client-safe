@@ -148,7 +148,7 @@ class DashboardPage extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.camera),
+                  leading: Icon(Icons.business_center),
                   title: Text("Start New Job"),
                   onTap: () {
                     showDialog(

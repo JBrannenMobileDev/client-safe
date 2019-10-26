@@ -1,6 +1,4 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
 import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';

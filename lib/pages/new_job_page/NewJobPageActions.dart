@@ -8,6 +8,12 @@ class UpdateErrorStateAction{
   UpdateErrorStateAction(this.pageState, this.errorCode);
 }
 
+class SetJobTitleAction{
+  final NewJobPageState pageState;
+  final String jobTitle;
+  SetJobTitleAction(this.pageState, this.jobTitle);
+}
+
 class ClearStateAction{
   final NewJobPageState pageState;
   ClearStateAction(this.pageState);

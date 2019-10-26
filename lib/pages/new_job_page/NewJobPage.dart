@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_job_page/ClientSelectionForm.dart';
+import 'package:client_safe/pages/new_job_page/JobNameForm.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
@@ -59,7 +60,9 @@ class _NewJobPageState extends State<NewJobPage> {
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      setState(() {
+        currentPageIndex = controller.page.toInt();
+      });
     });
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) => store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null,
@@ -95,7 +98,7 @@ class _NewJobPageState extends State<NewJobPage> {
                     ),
                     ConstrainedBox(
                       constraints: BoxConstraints(
-                        maxHeight: 380.0
+                        maxHeight: getDialogHeight(currentPageIndex),
                       ),
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
@@ -103,6 +106,7 @@ class _NewJobPageState extends State<NewJobPage> {
                         pageSnapping: true,
                         children: <Widget>[
                           ClientSelectionForm(),
+                          JobNameForm(),
                         ],
                       ),
                     ),
@@ -176,13 +180,10 @@ class _NewJobPageState extends State<NewJobPage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-
+          canProgress = pageState.selectedClient != null;
           break;
         case 1:
-
-          break;
-        default:
-          canProgress = true;
+          canProgress = pageState.jobTitle.length > 0;
           break;
       }
 
@@ -226,5 +227,21 @@ class _NewJobPageState extends State<NewJobPage> {
       controller.animateToPage(currentPageIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }
+  }
+
+  double getDialogHeight(int currentPageIndex) {
+    double height = 380.0;
+    switch(currentPageIndex){
+      case 0:
+        height = 380.0;
+        break;
+      case 1:
+        height = 200.0;
+        break;
+      case 2:
+
+        break;
+    }
+    return height;
   }
 }
