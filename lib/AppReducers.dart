@@ -8,12 +8,14 @@ import 'package:client_safe/pages/jobs_page/JobsPageReducer.dart';
 import 'package:client_safe/pages/messages_page/MessagesPageReducer.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageReducer.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:client_safe/pages/search_page/SearchPageReducer.dart';
 import 'package:client_safe/pages/settings_page/SettingsPageReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) =>
     AppState(
+        pricingProfilePageState: newPricingProfilePageReducer(state.pricingProfilePageState, action),
         pricingProfilesPageState: pricingProfilesReducer(state.pricingProfilesPageState, action),
         newJobPageState: newJobPageReducer(state.newJobPageState, action),
         newContactPageState: newContactPageReducer(state.newContactPageState, action),

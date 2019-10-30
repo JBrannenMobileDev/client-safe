@@ -6,6 +6,7 @@ import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/pages/messages_page/MessagesPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/pages/search_page/SearchPageState.dart';
 import 'package:client_safe/pages/settings_page/SettingsPageState.dart';
@@ -15,6 +16,7 @@ import 'pages/clients_page/ClientsPageState.dart';
 
 @immutable
 class AppState {
+  final NewPricingProfilePageState pricingProfilePageState;
   final PricingProfilesPageState pricingProfilesPageState;
   final NewJobPageState newJobPageState;
   final NewContactPageState newContactPageState;
@@ -29,6 +31,7 @@ class AppState {
   final SearchPageState searchPageState;
 
   AppState({
+    @required this.pricingProfilePageState,
     @required this.pricingProfilesPageState,
     @required this.newContactPageState,
     @required this.homePageState,
@@ -45,6 +48,7 @@ class AppState {
 
   factory AppState.initial() {
     return AppState(
+      pricingProfilePageState: NewPricingProfilePageState.initial(),
       pricingProfilesPageState: PricingProfilesPageState.initial(),
       newContactPageState: NewContactPageState.initial(),
       homePageState: HomePageState.initial(),
@@ -61,6 +65,7 @@ class AppState {
   }
 
   AppState copyWith({
+    NewPricingProfilePageState pricingProfilePageState,
     PricingProfilesPageState pricingProfilesPageState,
     NewContactPageState newContactPageState,
     HomePageState homePageState,
@@ -75,6 +80,7 @@ class AppState {
     NewJobPageState newJobPageState,
   }){
     return AppState(
+      pricingProfilePageState: pricingProfilePageState ?? this.pricingProfilePageState,
       pricingProfilesPageState: pricingProfilesPageState ?? this.pricingProfilesPageState,
       newContactPageState: newContactPageState ?? this.newContactPageState,
       homePageState: homePageState ?? this.homePageState,
@@ -92,6 +98,7 @@ class AppState {
 
   @override
   int get hashCode =>
+    pricingProfilePageState.hashCode ^
     pricingProfilesPageState.hashCode ^
     newContactPageState.hashCode ^
     homePageState.hashCode ^
@@ -109,6 +116,7 @@ class AppState {
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is AppState &&
+              pricingProfilePageState == other.pricingProfilePageState &&
               pricingProfilesPageState == other.pricingProfilesPageState &&
               newContactPageState == other.newContactPageState &&
               homePageState == other.homePageState &&

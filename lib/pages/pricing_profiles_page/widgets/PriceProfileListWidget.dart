@@ -1,12 +1,7 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPage.dart';
-import 'package:client_safe/pages/clients_page/ClientsPage.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -23,12 +18,16 @@ class PriceProfileListWidget extends StatelessWidget {
       builder: (BuildContext context, PricingProfilesPageState pageState) =>
           new FlatButton(
         onPressed: () {
-          _onProfileTapped(getProfile(profileIndex, pageState), pageState, context);
+          _onProfileSelected(getProfile(profileIndex, pageState), pageState, context);
         },
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(32.0),
+            ),
         child: Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0),
+              margin: EdgeInsets.only(left: 4.0, right: 16.0, top: 4.0),
               height: 44.0,
               width: 44.0,
               decoration: BoxDecoration(
@@ -36,8 +35,7 @@ class PriceProfileListWidget extends StatelessWidget {
                   image: AssetImage(getProfile(profileIndex, pageState).icon),
                   fit: BoxFit.contain,
                 ),
-                color: const Color(ColorConstants.primary_bg_grey),
-                borderRadius: BorderRadius.all(Radius.circular(22.0)),
+                color: Colors.transparent,
               ),
             ),
             Expanded(
@@ -59,16 +57,43 @@ class PriceProfileListWidget extends StatelessWidget {
                           color: const Color(ColorConstants.primary_black),
                         ),
                       ),
-                      Text(
-                        _buildSubtitleText(pageState, profileIndex),
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
-                          color:
-                              const Color(ColorConstants.primary_bg_grey_dark),
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            _buildSubtitlePriceText(pageState, profileIndex),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w400,
+                              color:
+                              const Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                          Text(
+                            _buildSubtitleLengthText(pageState, profileIndex),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w400,
+                              color:
+                              const Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                          Text(
+                            _buildSubtitleEditsText(pageState, profileIndex),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w400,
+                              color:
+                              const Color(ColorConstants.primary_black),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -85,17 +110,32 @@ class PriceProfileListWidget extends StatelessWidget {
     return pageState.pricingProfiles.elementAt(index);
   }
 
-  String _buildSubtitleText(PricingProfilesPageState pageState, int index) {
+  String _buildSubtitlePriceText(PricingProfilesPageState pageState, int index) {
     PriceProfile profile = getProfile(index, pageState);
-    int price = profile.price;
-    int length = profile.timeInMin;
-    int edits = profile.numOfEdits;
+    int price = profile.priceFives + profile.priceHundreds;
     String textToDisplay = "";
-    textToDisplay = "Price:  \$$price  -  Length:  $length  -  Edits:  $edits";
+    textToDisplay = "Price:  \$$price" + ".00";
     return textToDisplay;
   }
 
-  _onProfileTapped(PriceProfile selectedProfile, PricingProfilesPageState pageState, BuildContext context) {
+  String _buildSubtitleLengthText(PricingProfilesPageState pageState, int index) {
+    PriceProfile profile = getProfile(index, pageState);
+    int lengthHours = profile.timeInHours;
+    String hrText = profile.timeInHours != 0 && profile.timeInHours == 1 ? "hr" : "hrs";
+    String textToDisplay = "";
+    textToDisplay = "Shoot length:  $lengthHours $hrText";
+    return textToDisplay;
+  }
+
+  String _buildSubtitleEditsText(PricingProfilesPageState pageState, int index) {
+    PriceProfile profile = getProfile(index, pageState);
+    int edits = profile.numOfEdits;
+    String textToDisplay = "";
+    textToDisplay = "Edits:  $edits";
+    return textToDisplay;
+  }
+
+  _onProfileSelected(PriceProfile selectedProfile, PricingProfilesPageState pageState, BuildContext context) {
     pageState.onProfileSelected(selectedProfile);
     UserOptionsUtil.showNewPriceProfileDialog(context);
   }

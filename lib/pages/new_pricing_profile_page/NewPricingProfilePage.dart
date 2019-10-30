@@ -1,18 +1,16 @@
 import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_contact_pages/Children.dart';
-import 'package:client_safe/pages/new_contact_pages/ImportantDates.dart';
-import 'package:client_safe/pages/new_contact_pages/LeadSourceSelection.dart';
-import 'package:client_safe/pages/new_contact_pages/MarriedSpouse.dart';
-import 'package:client_safe/pages/new_contact_pages/NameAndGender.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:client_safe/pages/new_contact_pages/Notes.dart';
-import 'package:client_safe/pages/new_contact_pages/PhoneEmailInstagram.dart';
-import 'package:client_safe/pages/new_contact_pages/ProfileIcons.dart';
+import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileIconSelection.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewProfileLengthSelection.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewProfileName.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewProfileNumOfEditsSelection.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewProfilePriceSelection.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/InputValidatorUtil.dart';
+import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -20,15 +18,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class NewContactPage extends StatefulWidget {
+class NewPricingProfilePage extends StatefulWidget {
   @override
-  _NewContactPageState createState() {
-    return _NewContactPageState();
+  _NewPricingProfilePageState createState() {
+    return _NewPricingProfilePageState();
   }
 }
 
-class _NewContactPageState extends State<NewContactPage> {
-  final int pageCount = 7;
+class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
+  final int pageCount = 4;
   final controller = PageController(
     initialPage: 0,
   );
@@ -68,10 +66,10 @@ class _NewContactPageState extends State<NewContactPage> {
     controller.addListener(() {
       currentPageIndex = controller.page.toInt();
     });
-    return StoreConnector<AppState, NewContactPageState>(
-      onInit: (store) => store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null,
-      converter: (store) => NewContactPageState.fromStore(store),
-      builder: (BuildContext context, NewContactPageState pageState) =>
+    return StoreConnector<AppState, NewPricingProfilePageState>(
+      onInit: (store) => store.state.pricingProfilePageState.shouldClear ? store.dispatch(ClearStateAction(store.state.pricingProfilePageState)) : null,
+      converter: (store) => NewPricingProfilePageState.fromStore(store),
+      builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
@@ -89,32 +87,50 @@ class _NewContactPageState extends State<NewContactPage> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 16.0),
-                      child: Text(
-                        pageState.shouldClear ? "New Contact" : "Edit Contact",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                      child: Stack(
+
+                        children: <Widget>[
+                          Text(
+                            pageState.shouldClear ? "New Price Profile" : "Edit Price Profile",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.delete),
+                            tooltip: 'Delete',
+                            onPressed: () {
+                              pageState.onDeleteProfileSelected(PriceProfile(
+                                id: pageState.id,
+                                profileName: pageState.profileName,
+                                icon: pageState.profileIcon,
+                                priceFives: pageState.priceFives,
+                                priceHundreds: pageState.priceHundreds,
+                                timeInMin: pageState.lengthInMinutes,
+                                timeInHours: pageState.lengthInHours,
+                                numOfEdits: pageState.numOfEdits
+                              ));
+                            },
+                          )
+                        ],
                       ),
                     ),
                     Container(
-                      height: 232.0,
+                      height: 270.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
                         pageSnapping: true,
                         children: <Widget>[
-                          NameAndGender(),
-                          PhoneEmailInstagram(),
-                          MarriedSpouse(),
-                          Children(),
-                          ImportantDates(),
-                          Notes(),
-                          ProfileIcons(),
-                          LeadSourceSelection(),
+                          NewProfileName(),
+                          NewProfilePriceSelection(),
+                          NewProfileLengthSelection(),
+                          NewProfileNumberOfEditsSelection(),
+                          NewPricingProfileIconSelection(),
                         ],
                       ),
                     ),
@@ -181,58 +197,27 @@ class _NewContactPageState extends State<NewContactPage> {
     );
   }
 
-  void onNextPressed(NewContactPageState pageState) {
+  void onNextPressed(NewPricingProfilePageState pageState) {
     bool canProgress = false;
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          if (!pageState.newContactFirstName.contains("Client")) {
+          if (pageState.profileName.length > 0) {
             canProgress = true;
           } else {
             pageState.onErrorStateChanged(
-                NewContactPageState.ERROR_FIRST_NAME_MISSING);
+                NewPricingProfilePageState.ERROR_PROFILE_NAME_MISSING);
             HapticFeedback.heavyImpact();
           }
           break;
         case 1:
-          if ((pageState.newContactPhone.isNotEmpty ||
-                  pageState.newContactEmail.isNotEmpty ||
-                  pageState.newContactInstagramUrl.isNotEmpty) &&
-              (InputValidatorUtil.isEmailValid(pageState.newContactEmail) &&
-                  InputValidatorUtil.isPhoneNumberValid(
-                      pageState.newContactPhone) &&
-                  InputValidatorUtil.isInstagramUrlValid(
-                      pageState.newContactInstagramUrl))) {
-            canProgress = true;
-          } else {
-            if (pageState.newContactPhone.isEmpty &&
-                pageState.newContactEmail.isEmpty &&
-                pageState.newContactInstagramUrl.isEmpty) {
-              pageState.onErrorStateChanged(
-                  NewContactPageState.ERROR_MISSING_CONTACT_INFO);
-              HapticFeedback.heavyImpact();
-            }
-
-            if (!InputValidatorUtil.isEmailValid(pageState.newContactEmail)) {
-              pageState.onErrorStateChanged(
-                  NewContactPageState.ERROR_EMAIL_NAME_INVALID);
-              HapticFeedback.heavyImpact();
-            }
-
-            if (!InputValidatorUtil.isPhoneNumberValid(
-                pageState.newContactPhone)) {
-              pageState
-                  .onErrorStateChanged(NewContactPageState.ERROR_PHONE_INVALID);
-              HapticFeedback.heavyImpact();
-            }
-
-            if (!InputValidatorUtil.isInstagramUrlValid(
-                pageState.newContactInstagramUrl)) {
-              pageState.onErrorStateChanged(
-                  NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
-              HapticFeedback.heavyImpact();
-            }
-          }
+          canProgress = true;
+          break;
+        case 2:
+          canProgress = true;
+          break;
+        case 3:
+          canProgress = true;
           break;
         default:
           canProgress = true;
@@ -243,6 +228,7 @@ class _NewContactPageState extends State<NewContactPage> {
         pageState.onNextPressed();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
+        if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
       }
     }
     if (pageState.pageViewIndex == pageCount) {
@@ -270,7 +256,7 @@ class _NewContactPageState extends State<NewContactPage> {
     Navigator.of(context).pop(true);
   }
 
-  void onBackPressed(NewContactPageState pageState) {
+  void onBackPressed(NewPricingProfilePageState pageState) {
     if (pageState.pageViewIndex == 0) {
       pageState.onCancelPressed();
       Navigator.of(context).pop();

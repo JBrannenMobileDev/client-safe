@@ -8,6 +8,10 @@ import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageMiddleware.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageMiddleware.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
+import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
+import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
 import 'package:redux/redux.dart';
 
 List<Middleware<AppState>> createAppMiddleware() {
@@ -17,6 +21,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, InitializeClientDetailsAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteClientAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllClientsAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePricingProfileAction>(NewPricingProfilePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchPricingProfilesAction>(PricingProfilesPageMiddleware()));
   return middlewareList;
 }
 

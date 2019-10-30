@@ -133,4 +133,8 @@ class ImageUtil{
       return AssetImage(maleIcons[Random().nextInt(8)]);
     }
   }
+
+  static AssetImage getDefaultPricingProfileIcon() {
+    return AssetImage(pricingProfileIcons[0]);
+  }
 }

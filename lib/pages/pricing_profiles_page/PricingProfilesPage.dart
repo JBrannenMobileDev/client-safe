@@ -1,4 +1,6 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -14,6 +16,7 @@ class PricingProfilesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, PricingProfilesPageState>(
+        onInit: (store) => store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState)),
         converter: (Store<AppState> store) => PricingProfilesPageState.fromStore(store),
         builder: (BuildContext context, PricingProfilesPageState pageState) =>
             Scaffold(
@@ -48,15 +51,28 @@ class PricingProfilesPage extends StatelessWidget {
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        ListView.builder(
+                        pageState.pricingProfiles.length > 0 ? ListView.builder(
                           reverse: false,
-                          padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                          padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                           shrinkWrap: true,
                           controller: _controller,
                           physics: ClampingScrollPhysics(),
                           key: _listKey,
                           itemCount: pageState.pricingProfiles.length,
                           itemBuilder: _buildItem,
+                        ) :
+                        Padding(
+                          padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
+                          child: Text(
+                            "You have not created any pricing profiles yet. To create a new pricing profile, select the plus icon.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w400,
+                              color: const Color(ColorConstants.white),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -70,7 +86,10 @@ class PricingProfilesPage extends StatelessWidget {
     return StoreConnector<AppState, PricingProfilesPageState>(
       converter: (store) => PricingProfilesPageState.fromStore(store),
       builder: (BuildContext context, PricingProfilesPageState pageState) =>
-          PriceProfileListWidget(index),
+          Container(
+            margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: PriceProfileListWidget(index),
+          ),
     );
   }
 }

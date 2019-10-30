@@ -1,4 +1,5 @@
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -17,7 +18,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewContactPage();
+        return NewPricingProfilePage();
       },
     );
   }
@@ -65,7 +66,7 @@ class UserOptionsUtil {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 200.0,
+            height: 233.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
@@ -73,7 +74,7 @@ class UserOptionsUtil {
                   leading: Icon(Icons.monetization_on),
                   title: Text("New Pricing Profile"),
                   onTap: () {
-                    showNewContactDialog(context);
+                    showNewPriceProfileDialog(context);
                   },
                 ),
                 ListTile(
@@ -84,6 +85,11 @@ class UserOptionsUtil {
                 ListTile(
                   leading: Icon(Icons.insert_drive_file),
                   title: Text("New Contract Template"),
+                  onTap: () {},
+                ),
+                ListTile(
+                  leading: Icon(Icons.image),
+                  title: Text("New Example Pose"),
                   onTap: () {},
                 ),
               ],
