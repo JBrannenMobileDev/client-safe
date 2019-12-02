@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class NewPricingProfilePage extends StatefulWidget {
@@ -88,10 +89,10 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                     Padding(
                       padding: EdgeInsets.only(bottom: 16.0),
                       child: Stack(
-
+                        alignment: Alignment.center,
                         children: <Widget>[
                           Text(
-                            pageState.shouldClear ? "New Price Profile" : "Edit Price Profile",
+                            pageState.shouldClear ? "New Price Package" : "Edit Price Package",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 24.0,
@@ -100,22 +101,29 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                               color: Color(ColorConstants.primary_black),
                             ),
                           ),
-                          IconButton(
-                            icon: const Icon(Icons.delete),
-                            tooltip: 'Delete',
-                            onPressed: () {
-                              pageState.onDeleteProfileSelected(PriceProfile(
-                                id: pageState.id,
-                                profileName: pageState.profileName,
-                                icon: pageState.profileIcon,
-                                priceFives: pageState.priceFives,
-                                priceHundreds: pageState.priceHundreds,
-                                timeInMin: pageState.lengthInMinutes,
-                                timeInHours: pageState.lengthInHours,
-                                numOfEdits: pageState.numOfEdits
-                              ));
-                            },
-                          )
+                          !pageState.shouldClear ? Container(
+                            margin: EdgeInsets.only(right: 300.0),
+                            child: IconButton(
+                              icon: const Icon(Icons.delete),
+                              tooltip: 'Delete',
+                              color: Color(ColorConstants.primary),
+                              onPressed: () {
+                                _ackAlert(context, pageState);
+                              },
+                            ),
+                          ) : SizedBox(),
+                          !pageState.shouldClear ? Container(
+                            margin: EdgeInsets.only(left: 300.0),
+                            child: IconButton(
+                              icon: const Icon(Icons.save),
+                              tooltip: 'Save',
+                              color: Color(ColorConstants.primary),
+                              onPressed: () {
+                                showSuccessAnimation();
+                                pageState.onSavePressed();
+                              },
+                            ),
+                          ) : SizedBox(),
                         ],
                       ),
                     ),
@@ -232,23 +240,87 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
       }
     }
     if (pageState.pageViewIndex == pageCount) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.all(96.0),
-            child: FlareActor(
-              "assets/animations/success_check.flr",
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              animation: "show_check",
-              callback: onFlareCompleted,
-            ),
-          );
-        },
-      );
+      showSuccessAnimation();
       pageState.onSavePressed();
     }
+  }
+
+  Future<void> _ackAlert(BuildContext context, NewPricingProfilePageState pageState) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This price package will be gone for good!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteProfileSelected(PriceProfile(
+                    id: pageState.id,
+                    profileName: pageState.profileName,
+                    icon: pageState.profileIcon,
+                    priceFives: pageState.priceFives,
+                    priceHundreds: pageState.priceHundreds,
+                    timeInMin: pageState.lengthInMinutes,
+                    timeInHours: pageState.lengthInHours,
+                    numOfEdits: pageState.numOfEdits
+                ));
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This price package will be gone for good!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteProfileSelected(PriceProfile(
+                    id: pageState.id,
+                    profileName: pageState.profileName,
+                    icon: pageState.profileIcon,
+                    priceFives: pageState.priceFives,
+                    priceHundreds: pageState.priceHundreds,
+                    timeInMin: pageState.lengthInMinutes,
+                    timeInHours: pageState.lengthInHours,
+                    numOfEdits: pageState.numOfEdits
+                ));
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void showSuccessAnimation(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.all(96.0),
+          child: FlareActor(
+            "assets/animations/success_check.flr",
+            alignment: Alignment.center,
+            fit: BoxFit.contain,
+            animation: "show_check",
+            callback: onFlareCompleted,
+          ),
+        );
+      },
+    );
   }
 
   void onFlareCompleted(String unused) {

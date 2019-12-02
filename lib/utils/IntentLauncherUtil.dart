@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 class IntentLauncherUtil{
   static Future<bool> launchURL(String url) async {
     if (await canLaunch(url)) {
-      await launch(url);
+      await launch(url, forceSafariVC: false);
       return true;
     } else {
       return false;
@@ -13,7 +13,8 @@ class IntentLauncherUtil{
   }
 
   static Future<bool> makePhoneCall(String phoneNum) async {
-    String formattedPhoneNum = 'tel:$phoneNum';
+    String trimmedPhoneNum = trimPhoneNumber(phoneNum);
+    String formattedPhoneNum = 'tel:$trimmedPhoneNum';
     if (await canLaunch(formattedPhoneNum)) {
       await launch(formattedPhoneNum);
       return true;
@@ -23,7 +24,8 @@ class IntentLauncherUtil{
   }
 
   static Future<bool> sendSMS(String phoneNum) async {
-    String formattedPhoneNum = 'sms:$phoneNum';
+    String trimmedPhoneNum = trimPhoneNumber(phoneNum);
+    String formattedPhoneNum = 'sms:$trimmedPhoneNum';
     if (await canLaunch(formattedPhoneNum)) {
       await launch(formattedPhoneNum);
       return true;
@@ -40,5 +42,10 @@ class IntentLauncherUtil{
     } else {
       return false;
     }
+  }
+
+  static String trimPhoneNumber(String phoneNum){
+    String trimmedPhoneNum = phoneNum.replaceAll(new RegExp("[^0-9.]"),'');
+    return trimmedPhoneNum;
   }
 }

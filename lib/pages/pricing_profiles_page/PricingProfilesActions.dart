@@ -12,3 +12,9 @@ class SetPricingProfilesAction{
   SetPricingProfilesAction(this.pageState, this.priceProfiles);
 }
 
+class DeletePriceProfileAction{
+  final PricingProfilesPageState pageState;
+  final PriceProfile priceProfile;
+  DeletePriceProfileAction(this.pageState, this.priceProfile);
+}
+

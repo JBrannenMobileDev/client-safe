@@ -6,6 +6,7 @@ import 'package:client_safe/pages/new_job_page/JobNameForm.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
+import 'package:client_safe/pages/new_job_page/PricingProfileSelectionForm.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,7 +23,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage> {
-  final int pageCount = 9;
+  final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
@@ -107,6 +108,7 @@ class _NewJobPageState extends State<NewJobPage> {
                         children: <Widget>[
                           ClientSelectionForm(),
                           JobNameForm(),
+                          PricingProfileSelectionForm(),
                         ],
                       ),
                     ),
@@ -184,6 +186,9 @@ class _NewJobPageState extends State<NewJobPage> {
           break;
         case 1:
           canProgress = pageState.jobTitle.length > 0;
+          break;
+        case 2:
+          canProgress = pageState.selectedPriceProfile != null;
           break;
       }
 

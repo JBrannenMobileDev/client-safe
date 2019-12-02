@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/data_layer/device_contacts/DeviceContactsDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
@@ -36,6 +37,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       iconUrl: action.pageState.clientIcon != null ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale),
     );
     await clientDao.insertOrUpdate(client);
+    DeviceContactsDao.addOrUpdateContact(client);
     store.dispatch(ClearStateAction(store.state.newContactPageState));
     store.dispatch(FetchClientData(store.state.clientsPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));

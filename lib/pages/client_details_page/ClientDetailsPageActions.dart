@@ -11,3 +11,10 @@ class DeleteClientAction{
   final ClientDetailsPageState pageState;
   DeleteClientAction(this.pageState);
 }
+
+class InstagramSelectedAction{
+  final ClientDetailsPageState pageState;
+  InstagramSelectedAction(this.pageState);
+}
+
+

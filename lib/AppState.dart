@@ -3,9 +3,11 @@ import 'package:client_safe/pages/collections_page/CollectionsPageState.dart';
 import 'package:client_safe/pages/home_page/HomePageState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
+import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
 import 'package:client_safe/pages/messages_page/MessagesPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/pages/search_page/SearchPageState.dart';
@@ -16,6 +18,8 @@ import 'pages/clients_page/ClientsPageState.dart';
 
 @immutable
 class AppState {
+  final NewLocationPageState newLocationPageState;
+  final LocationsPageState locationsPageState;
   final NewPricingProfilePageState pricingProfilePageState;
   final PricingProfilesPageState pricingProfilesPageState;
   final NewJobPageState newJobPageState;
@@ -31,6 +35,8 @@ class AppState {
   final SearchPageState searchPageState;
 
   AppState({
+    @required this.newLocationPageState,
+    @required this.locationsPageState,
     @required this.pricingProfilePageState,
     @required this.pricingProfilesPageState,
     @required this.newContactPageState,
@@ -48,6 +54,8 @@ class AppState {
 
   factory AppState.initial() {
     return AppState(
+      newLocationPageState: NewLocationPageState.initial(),
+      locationsPageState: LocationsPageState.initial(),
       pricingProfilePageState: NewPricingProfilePageState.initial(),
       pricingProfilesPageState: PricingProfilesPageState.initial(),
       newContactPageState: NewContactPageState.initial(),
@@ -65,6 +73,8 @@ class AppState {
   }
 
   AppState copyWith({
+    NewLocationPageState newLocationPageState,
+    LocationsPageState locationsPageState,
     NewPricingProfilePageState pricingProfilePageState,
     PricingProfilesPageState pricingProfilesPageState,
     NewContactPageState newContactPageState,
@@ -80,6 +90,8 @@ class AppState {
     NewJobPageState newJobPageState,
   }){
     return AppState(
+      newLocationPageState: newLocationPageState ?? this.newLocationPageState,
+      locationsPageState: locationsPageState ?? this.locationsPageState,
       pricingProfilePageState: pricingProfilePageState ?? this.pricingProfilePageState,
       pricingProfilesPageState: pricingProfilesPageState ?? this.pricingProfilesPageState,
       newContactPageState: newContactPageState ?? this.newContactPageState,
@@ -98,6 +110,8 @@ class AppState {
 
   @override
   int get hashCode =>
+  newLocationPageState.hashCode ^
+    locationsPageState.hashCode ^
     pricingProfilePageState.hashCode ^
     pricingProfilesPageState.hashCode ^
     newContactPageState.hashCode ^
@@ -116,6 +130,8 @@ class AppState {
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is AppState &&
+              newLocationPageState == other.newLocationPageState &&
+              locationsPageState == other.locationsPageState &&
               pricingProfilePageState == other.pricingProfilePageState &&
               pricingProfilesPageState == other.pricingProfilesPageState &&
               newContactPageState == other.newContactPageState &&

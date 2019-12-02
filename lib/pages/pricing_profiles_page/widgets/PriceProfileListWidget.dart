@@ -3,7 +3,9 @@ import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class PriceProfileListWidget extends StatelessWidget {
@@ -25,11 +27,14 @@ class PriceProfileListWidget extends StatelessWidget {
                 borderRadius: new BorderRadius.circular(32.0),
             ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 4.0, right: 16.0, top: 4.0),
-              height: 44.0,
-              width: 44.0,
+              alignment: Alignment.center,
+              margin: EdgeInsets.only(left: 4.0, right: 16.0),
+              height: 40.0,
+              width: 40.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: AssetImage(getProfile(profileIndex, pageState).icon),
@@ -40,11 +45,12 @@ class PriceProfileListWidget extends StatelessWidget {
             ),
             Expanded(
               child: Container(
-                height: 64.0,
+                height: 88.0,
                 margin: EdgeInsets.only(right: 32.0),
                 child: Container(
+                  margin: EdgeInsets.only(right: 20.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
@@ -57,20 +63,20 @@ class PriceProfileListWidget extends StatelessWidget {
                           color: const Color(ColorConstants.primary_black),
                         ),
                       ),
+                      Text(
+                        _buildSubtitlePriceText(pageState, profileIndex),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w400,
+                          color:
+                          const Color(ColorConstants.primary_black),
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          Text(
-                            _buildSubtitlePriceText(pageState, profileIndex),
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w400,
-                              color:
-                              const Color(ColorConstants.primary_black),
-                            ),
-                          ),
                           Text(
                             _buildSubtitleLengthText(pageState, profileIndex),
                             textAlign: TextAlign.start,
@@ -92,12 +98,23 @@ class PriceProfileListWidget extends StatelessWidget {
                               color:
                               const Color(ColorConstants.primary_black),
                             ),
-                          )
+                          ),
                         ],
                       ),
                     ],
                   ),
                 ),
+              ),
+            ),
+            Container(
+              width: 40.0,
+              child: IconButton(
+                icon: const Icon(Icons.edit),
+                tooltip: 'Edit',
+                color: Color(ColorConstants.primary),
+                onPressed: () {
+                  _onProfileSelected(getProfile(profileIndex, pageState), pageState, context);
+                },
               ),
             ),
           ],
@@ -114,16 +131,18 @@ class PriceProfileListWidget extends StatelessWidget {
     PriceProfile profile = getProfile(index, pageState);
     int price = profile.priceFives + profile.priceHundreds;
     String textToDisplay = "";
-    textToDisplay = "Price:  \$$price" + ".00";
+    textToDisplay = "PRICE:  \$$price" + ".00";
     return textToDisplay;
   }
 
   String _buildSubtitleLengthText(PricingProfilesPageState pageState, int index) {
     PriceProfile profile = getProfile(index, pageState);
     int lengthHours = profile.timeInHours;
-    String hrText = profile.timeInHours != 0 && profile.timeInHours == 1 ? "hr" : "hrs";
+    int lengthInMin = profile.timeInMin;
+    String hrText = profile.timeInHours != 0 ? profile.timeInHours == 1 ? "$lengthHours hr" : "$lengthHours hrs" : "";
+    String minText = profile.timeInMin != null && profile.timeInMin != 0 ? "$lengthInMin min" : "";
     String textToDisplay = "";
-    textToDisplay = "Shoot length:  $lengthHours $hrText";
+    textToDisplay = "LENGTH:  $hrText $minText";
     return textToDisplay;
   }
 
@@ -131,7 +150,7 @@ class PriceProfileListWidget extends StatelessWidget {
     PriceProfile profile = getProfile(index, pageState);
     int edits = profile.numOfEdits;
     String textToDisplay = "";
-    textToDisplay = "Edits:  $edits";
+    textToDisplay = "EDITS:  $edits";
     return textToDisplay;
   }
 

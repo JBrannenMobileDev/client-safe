@@ -30,7 +30,7 @@ class PricingProfilesPage extends StatelessWidget {
                     centerTitle: true,
                     title: Center(
                       child: Text(
-                        "Pricing Profiles",
+                        "Pricing Packages",
                         style: TextStyle(
                           fontFamily: 'Raleway',
                           color: const Color(ColorConstants.white),

@@ -1,0 +1,148 @@
+import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/locations_page/LocationsActions.dart';
+import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
+
+import 'package:client_safe/pages/new_location_page/NewLocationActions.dart' as newLocation;
+import 'package:client_safe/pages/locations_page/widgets/LocationListWidget.dart';
+import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:client_safe/utils/UserPermissionsUtil.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:redux/redux.dart';
+
+class LocationsPage extends StatelessWidget {
+  final ScrollController _controller = ScrollController();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
+  @override
+  Widget build(BuildContext context) => StoreConnector<AppState, LocationsPageState>(
+        onInit: (store)  async {
+          store.dispatch(newLocation.ClearStateAction(store.state.newLocationPageState));
+          store.dispatch(FetchLocationsAction(store.state.locationsPageState));
+          PermissionStatus locationStatus = await UserPermissionsUtil.getPermissionStatus(PermissionGroup.locationWhenInUse);
+          if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.disabled
+              || locationStatus == PermissionStatus.unknown){
+            _checkPermissions(context, store.state.locationsPageState);
+          }
+        },
+        converter: (Store<AppState> store) => LocationsPageState.fromStore(store),
+        builder: (BuildContext context, LocationsPageState pageState) =>
+            Scaffold(
+              backgroundColor: Color(ColorConstants.primary_locations),
+              body: CustomScrollView(
+                slivers: <Widget>[
+                  SliverAppBar(
+                    brightness: Brightness.dark,
+                    backgroundColor: Color(ColorConstants.primary_locations),
+                    pinned: true,
+                    centerTitle: true,
+                    title: Center(
+                      child: Text(
+                        "Locations",
+                        style: TextStyle(
+                          fontFamily: 'Raleway',
+                          color: const Color(ColorConstants.white),
+                        ),
+                      ),
+                    ),
+                    actions: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.add_circle_outline),
+                        color: Color(ColorConstants.white),
+                        tooltip: 'Add',
+                        onPressed: () {
+                          UserOptionsUtil.showNewLocationDialog(context);
+                        },
+                      ),
+                    ],
+                  ),
+                  SliverList(
+                    delegate: new SliverChildListDelegate(
+                      <Widget>[
+                        pageState.locations.length > 0 ? ListView.builder(
+                          reverse: false,
+                          padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
+                          shrinkWrap: true,
+                          controller: _controller,
+                          physics: ClampingScrollPhysics(),
+                          key: _listKey,
+                          itemCount: pageState.locations.length,
+                          itemBuilder: _buildItem,
+                        ) :
+                        Padding(
+                          padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
+                          child: Text(
+                            "You have not saved any locations yet. To create a new location, select the plus icon.",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w400,
+                              color: const Color(ColorConstants.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+      );
+
+  Widget _buildItem(BuildContext context, int index) {
+    return StoreConnector<AppState, LocationsPageState>(
+      converter: (store) => LocationsPageState.fromStore(store),
+      builder: (BuildContext context, LocationsPageState pageState) =>
+          Container(
+            margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            child: LocationListWidget(index),
+          ),
+    );
+  }
+
+  Future<void> _checkPermissions(BuildContext context, LocationsPageState pageState){
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Request Location Permission'),
+          content: new Text('This permission will be used for saving session locations.'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () async {
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Request Location Permission'),
+          content: new Text('This permission will be used for saving session locations.'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () async{
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}

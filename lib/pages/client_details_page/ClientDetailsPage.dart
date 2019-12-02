@@ -11,6 +11,7 @@ import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -75,6 +76,13 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                         onPressed: () {
                           pageState.onEditClientClicked(pageState.client);
                           UserOptionsUtil.showNewContactDialog(context);
+                        },
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.info),
+                        color: Color(ColorConstants.primary),
+                        tooltip: 'Info',
+                        onPressed: () {
                         },
                       ),
                     ],
@@ -237,16 +245,35 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 icon: Icon(Icons.email, color: Colors.white),
                                 urlText: pageState.client.email,
                               ),
-                              ClientSafeButton(
-                                height: 48.0,
-                                width: 65.0,
-                                text: "",
-                                marginLeft: 4.0,
-                                marginTop: 0.0,
-                                marginRight: 32.0,
-                                marginBottom: 0.0,
-                                onPressed: null,
-                                icon: Icon(Icons.info, color: Colors.white),
+                              Container(
+                                alignment: Alignment.bottomCenter,
+                                margin: EdgeInsets.only(left: 4.0, right: 32.0),
+                                child: SizedBox(
+                                  width: 65.0,
+                                  height: 48.0,
+                                  child: FlatButton(
+                                    padding: EdgeInsets.all(0.0),
+                                    shape: new RoundedRectangleBorder(
+                                        borderRadius: new BorderRadius.circular(8.0),
+                                        side: BorderSide(color: Color(ColorConstants.primary))),
+                                    onPressed: () {
+                                      pageState.onInstagramSelected();
+                                    },
+                                    color: Color(ColorConstants.primary),
+                                    child: Container(
+                                      height: 32.0,
+                                      width: 65.0,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage("assets/images/instagram_logo_icon.png"),
+                                          fit: BoxFit.contain,
+                                        ),
+                                        borderRadius:
+                                        BorderRadius.all(Radius.circular(8.0)),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),
@@ -281,7 +308,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                 marginRight: 32.0,
                 marginBottom: Device.get().isIphoneX ? 52.0 : 22,
                 onPressed: _showNewJobDialog,
-                icon: Icon(Icons.camera, color: Colors.white),
+                icon: Icon(Icons.business_center, color: Colors.white),
                 urlText: "",
               ),
             ],

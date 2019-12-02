@@ -61,6 +61,8 @@ class ImageUtil{
     'assets/images/collection_icons/collection_example_poses.png',
   ];
 
+  static String locationPin = 'assets/images/collection_icons/location_pin.png';
+
   static List<String> pricingProfileIcons = [
     'assets/images/collection_icons/pricing_profile_icons/pricing_profile_bills.png',
     'assets/images/collection_icons/pricing_profile_icons/pricing_profile_coins.png',
@@ -76,16 +78,16 @@ class ImageUtil{
     String iconName = "";
     switch(fileLocation){
       case 'assets/images/collection_icons/collection_pricing_profiles.png':
-        iconName = "Pricing Profiles";
+        iconName = "Packages";
         break;
       case 'assets/images/collection_icons/collection_photoshoot_locations.png':
-        iconName = "Photoshoot Locations";
+        iconName = "Locations";
         break;
       case 'assets/images/collection_icons/collection_contracts.png':
-        iconName = "Contract Templates";
+        iconName = "Contracts";
         break;
       case 'assets/images/collection_icons/collection_example_poses.png':
-        iconName = "Example Poses";
+        iconName = "Poses";
         break;
     }
     return iconName;

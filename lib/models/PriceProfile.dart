@@ -25,7 +25,7 @@ class PriceProfile{
       'profileName': profileName,
       'priceFives' : priceFives,
       'priceHundreds' : priceHundreds,
-      'timeInMinutes' : timeInMin,
+      'timeInMin' : timeInMin,
       'timeInHours' : timeInHours,
       'numOfEdits' : numOfEdits,
       'icon' : icon,

@@ -1,5 +1,6 @@
 
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 
 class UpdateErrorStateAction{
@@ -12,6 +13,12 @@ class SetJobTitleAction{
   final NewJobPageState pageState;
   final String jobTitle;
   SetJobTitleAction(this.pageState, this.jobTitle);
+}
+
+class SetSelectedPriceProfile{
+  final NewJobPageState pageState;
+  final PriceProfile priceProfile;
+  SetSelectedPriceProfile(this.pageState, this.priceProfile);
 }
 
 class ClearStateAction{
@@ -53,7 +60,8 @@ class FetchAllClientsAction{
 class SetAllClientsToStateAction{
   final NewJobPageState pageState;
   final List<Client> allClients;
-  SetAllClientsToStateAction(this.pageState, this.allClients);
+  final List<PriceProfile> allPriceProfiles;
+  SetAllClientsToStateAction(this.pageState, this.allClients, this.allPriceProfiles);
 }
 
 class ClientSelectedAction{

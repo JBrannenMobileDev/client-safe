@@ -1,4 +1,5 @@
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationNamePage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,6 +24,15 @@ class UserOptionsUtil {
     );
   }
 
+  static void showNewLocationDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewLocationNamePage();
+      },
+    );
+  }
+
   static void showDashboardOptionsSheet(BuildContext context) {
     showModalBottomSheet(
         shape: RoundedRectangleBorder(
@@ -37,7 +47,7 @@ class UserOptionsUtil {
               children: <Widget>[
                 ListTile(
                   leading: Icon(Icons.person),
-                  title: Text("Add New Contact"),
+                  title: Text("Add New Client"),
                   onTap: () {
                     showNewContactDialog(context);
                   },

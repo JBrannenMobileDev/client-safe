@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
@@ -12,14 +13,14 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
     if(action is SavePricingProfileAction){
-      saveClient(store, action, next);
+      saveProfile(store, action, next);
     }
-    if(action is DeletePriceProfileAction){
+    if(action is prefix0.DeletePriceProfileAction){
       _deletePricingProfile(store, action, next);
     }
   }
 
-  void saveClient(Store<AppState> store, action, NextDispatcher next) async{
+  void saveProfile(Store<AppState> store, action, NextDispatcher next) async{
     PriceProfileDao priceProfileDao = PriceProfileDao();
     PriceProfile priceProfile = PriceProfile(
       id: store.state.pricingProfilePageState.id,

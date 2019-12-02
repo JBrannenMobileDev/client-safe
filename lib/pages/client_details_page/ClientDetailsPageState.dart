@@ -16,6 +16,7 @@ class ClientDetailsPageState {
   final Function() onEmailClientClicked;
   final Function() onStartNewJobClicked;
   final Function() onJobSelected;
+  final Function() onInstagramSelected;
 
   ClientDetailsPageState({
     @required this.client,
@@ -27,6 +28,7 @@ class ClientDetailsPageState {
     @required this.onEmailClientClicked,
     @required this.onStartNewJobClicked,
     @required this.onJobSelected,
+    @required this.onInstagramSelected,
   });
 
   ClientDetailsPageState copyWith({
@@ -39,6 +41,7 @@ class ClientDetailsPageState {
     Function() onEmailClientClicked,
     Function() onStartNewJobClicked,
     Function() onJobSelected,
+    Function() onInstagramSelected,
   }){
     return ClientDetailsPageState(
       client: client?? this.client,
@@ -50,6 +53,7 @@ class ClientDetailsPageState {
       onEmailClientClicked: onEmailClientClicked?? this.onEmailClientClicked,
       onStartNewJobClicked: onStartNewJobClicked?? this.onStartNewJobClicked,
       onJobSelected: onJobSelected?? this.onJobSelected,
+      onInstagramSelected: onInstagramSelected?? this.onInstagramSelected,
     );
   }
 
@@ -63,6 +67,7 @@ class ClientDetailsPageState {
     onEmailClientClicked: null,
     onStartNewJobClicked: null,
     onJobSelected: null,
+    onInstagramSelected: null,
   );
 
   factory ClientDetailsPageState.fromStore(Store<AppState> store) {
@@ -76,6 +81,7 @@ class ClientDetailsPageState {
       onEmailClientClicked: () => store.dispatch(null),
       onStartNewJobClicked: () => store.dispatch(null),
       onJobSelected: () => store.dispatch(null),
+      onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
     );
   }
 

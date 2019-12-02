@@ -29,7 +29,7 @@ class _NewProfileLengthSelection extends State<NewProfileLengthSelection> with A
           Container(
         margin: EdgeInsets.only(left: 26.0, right: 26.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Row(
@@ -114,7 +114,9 @@ class _NewProfileLengthSelection extends State<NewProfileLengthSelection> with A
                     max: 55.0,
                     divisions: 11,
                     onChanged: (double min) {
-                      vibrate();
+                      if(min % 1 == 0){
+                        vibrate();
+                      }
                       pageState.onLengthInMinutesChanged(min.round());
                     },
                   ),
@@ -145,7 +147,9 @@ class _NewProfileLengthSelection extends State<NewProfileLengthSelection> with A
                     max: 24.0,
                     divisions: 24,
                     onChanged: (double hours) {
-                      vibrate();
+                      if(hours % 1 == 0){
+                        vibrate();
+                      }
                       pageState.onLengthInHoursChanged(hours.round());
                     },
                   ),

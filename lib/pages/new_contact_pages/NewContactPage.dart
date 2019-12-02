@@ -13,12 +13,15 @@ import 'package:client_safe/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:client_safe/pages/new_contact_pages/ProfileIcons.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/InputValidatorUtil.dart';
+import 'package:client_safe/utils/UserPermissionsUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class NewContactPage extends StatefulWidget {
   @override
@@ -69,7 +72,14 @@ class _NewContactPageState extends State<NewContactPage> {
       currentPageIndex = controller.page.toInt();
     });
     return StoreConnector<AppState, NewContactPageState>(
-      onInit: (store) => store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null,
+      onInit: (store) async{
+        store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
+        PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(PermissionGroup.contacts);
+        if(readContactsStatus == PermissionStatus.denied || readContactsStatus == PermissionStatus.disabled
+            || readContactsStatus == PermissionStatus.unknown){
+          _checkPermissions(context, store.state.newContactPageState);
+        }
+      },
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
           WillPopScope(
@@ -90,7 +100,7 @@ class _NewContactPageState extends State<NewContactPage> {
                     Padding(
                       padding: EdgeInsets.only(bottom: 16.0),
                       child: Text(
-                        pageState.shouldClear ? "New Contact" : "Edit Contact",
+                        pageState.shouldClear ? "New Client" : "Edit Client",
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
@@ -178,6 +188,48 @@ class _NewContactPageState extends State<NewContactPage> {
             ),
         ),
       ),
+    );
+  }
+
+  Future<void> _checkPermissions(BuildContext context, NewContactPageState pageState){
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Request Contacts Permission'),
+          content: new Text('These permissions will be used to save clients you add to your device contacts app.'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () async {
+                await UserPermissionsUtil.requestPermission(PermissionGroup.contacts);
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Request Contacts Permission'),
+          content: new Text('These permissions will be used to save clients you add to your device contacts app.'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () async{
+                await UserPermissionsUtil.requestPermission(PermissionGroup.contacts);
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
     );
   }
 

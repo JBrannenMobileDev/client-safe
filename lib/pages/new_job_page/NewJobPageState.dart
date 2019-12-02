@@ -1,5 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -18,8 +19,10 @@ class NewJobPageState {
   final Client selectedClient;
   final String clientSearchText;
   final String jobTitle;
+  final PriceProfile selectedPriceProfile;
   final List<Client> allClients;
   final List<Client> filteredClients;
+  final List<PriceProfile> pricingProfiles;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -28,6 +31,7 @@ class NewJobPageState {
   final Function(String) onClientSearchTextChanged;
   final Function() onClearInputSelected;
   final Function(String) onJobTitleTextChanged;
+  final Function(PriceProfile) onPriceProfileSelected;
 
   NewJobPageState({
     @required this.id,
@@ -38,6 +42,7 @@ class NewJobPageState {
     @required this.errorState,
     @required this.clientSearchText,
     @required this.jobTitle,
+    @required this.selectedPriceProfile,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -49,6 +54,8 @@ class NewJobPageState {
     @required this.allClients,
     @required this.filteredClients,
     @required this.onJobTitleTextChanged,
+    @required this.pricingProfiles,
+    @required this.onPriceProfileSelected,
   });
 
   NewJobPageState copyWith({
@@ -61,8 +68,10 @@ class NewJobPageState {
     Client selectedClient,
     String clientSearchText,
     String jobTitle,
+    PriceProfile selectedPriceProfile,
     List<Client> allClients,
     List<Client> filteredClients,
+    List<PriceProfile> pricingProfiles,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -71,6 +80,7 @@ class NewJobPageState {
     Function(String) onClientSearchTextChanged,
     Function() onClearInputSelected,
     Function(String) onJobTitleTextChanged,
+    Function(PriceProfile) onPriceProfileSelected,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -82,8 +92,10 @@ class NewJobPageState {
       selectedClient: selectedClient?? this.selectedClient,
       clientSearchText: clientSearchText?? this.clientSearchText,
       jobTitle: jobTitle?? this.jobTitle,
+      selectedPriceProfile: selectedPriceProfile?? this.selectedPriceProfile,
       allClients: allClients?? this.allClients,
       filteredClients: filteredClients?? this.filteredClients,
+      pricingProfiles: pricingProfiles?? this.pricingProfiles,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -92,6 +104,7 @@ class NewJobPageState {
       onClientSearchTextChanged: onClientSearchTextChanged?? this.onClientSearchTextChanged,
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
       onJobTitleTextChanged: onJobTitleTextChanged?? this.onJobTitleTextChanged,
+      onPriceProfileSelected: onPriceProfileSelected?? this.onPriceProfileSelected,
     );
   }
 
@@ -105,8 +118,10 @@ class NewJobPageState {
         selectedClient: null,
         clientSearchText: "",
         jobTitle: "",
+        selectedPriceProfile: null,
         allClients: List(),
         filteredClients: List(),
+        pricingProfiles: List(),
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -115,6 +130,7 @@ class NewJobPageState {
         onClientSearchTextChanged: null,
         onClearInputSelected: null,
         onJobTitleTextChanged: null,
+        onPriceProfileSelected: null,
       );
 
   factory NewJobPageState.fromStore(Store<AppState> store) {
@@ -128,8 +144,10 @@ class NewJobPageState {
       selectedClient: store.state.newJobPageState.selectedClient,
       clientSearchText: store.state.newJobPageState.clientSearchText,
       jobTitle: store.state.newJobPageState.jobTitle,
+      selectedPriceProfile: store.state.newJobPageState.selectedPriceProfile,
       allClients: store.state.newJobPageState.allClients,
       filteredClients: store.state.newJobPageState.filteredClients,
+      pricingProfiles: store.state.newJobPageState.pricingProfiles,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -138,6 +156,7 @@ class NewJobPageState {
       onClientSearchTextChanged: (text) => store.dispatch(FilterClientList(store.state.newJobPageState, text)),
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newJobPageState)),
       onJobTitleTextChanged: (jobTitle) => store.dispatch(SetJobTitleAction(store.state.newJobPageState, jobTitle)),
+      onPriceProfileSelected: (priceProfile) => store.dispatch(SetSelectedPriceProfile(store.state.newJobPageState, priceProfile)),
     );
   }
 
@@ -152,7 +171,9 @@ class NewJobPageState {
       selectedClient.hashCode ^
       clientSearchText.hashCode ^
       allClients.hashCode ^
+      selectedPriceProfile.hashCode ^
       filteredClients.hashCode ^
+      pricingProfiles.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -175,6 +196,8 @@ class NewJobPageState {
           clientSearchText == other.clientSearchText &&
           allClients == other.allClients &&
           filteredClients == other.filteredClients &&
+          selectedPriceProfile == other.selectedPriceProfile &&
+          pricingProfiles == other.pricingProfiles &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&

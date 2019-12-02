@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
@@ -19,6 +21,7 @@ class NewProfileNumberOfEditsSelection extends StatefulWidget {
 }
 
 class _NewProfileNumberOfEditsSelection extends State<NewProfileNumberOfEditsSelection> with AutomaticKeepAliveClientMixin {
+  int maxEdits = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +78,19 @@ class _NewProfileNumberOfEditsSelection extends State<NewProfileNumberOfEditsSel
               child: CupertinoSlider(
                 value: pageState.numOfEdits.toDouble(),
                 min: 0.0,
-                max: 100.0,
-                divisions: 100,
+                max: maxEdits.toDouble(),
+                divisions: maxEdits,
                 onChanged: (double num) {
-                  vibrate();
-                  pageState.onNumOfEditsChanged(num.round());
+                  if(num % 1 == 0){
+                    vibrate();
+                  }
+                  if(num == maxEdits){
+                    sleep(const Duration(milliseconds: 500));
+                    setState(() {
+                      maxEdits = maxEdits + 10;
+                    });
+                  }
+                  pageState.onNumOfEditsChanged(num.toInt());
                 },
               ),
             ),

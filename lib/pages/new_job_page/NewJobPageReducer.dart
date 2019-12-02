@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:redux/redux.dart';
 import 'NewJobPageState.dart';
@@ -12,7 +13,14 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, ClientSelectedAction>(_setSelectedClient),
   TypedReducer<NewJobPageState, FilterClientList>(_filterClients),
   TypedReducer<NewJobPageState, SetJobTitleAction>(_setJobTitle),
+  TypedReducer<NewJobPageState, SetSelectedPriceProfile>(_setSelectedPriceProfile),
 ]);
+
+NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {
+  PriceProfile newProfile;
+  if(previousState.selectedPriceProfile != action.priceProfile) newProfile = action.priceProfile;
+  return previousState.copyWith(selectedPriceProfile: newProfile);
+}
 
 NewJobPageState _setJobTitle(NewJobPageState previousState, SetJobTitleAction action) {
   return previousState.copyWith(jobTitle: action.jobTitle);
@@ -42,6 +50,7 @@ NewJobPageState _setAllClients(NewJobPageState previousState, SetAllClientsToSta
   return previousState.copyWith(
     allClients: action.allClients,
     filteredClients: action.allClients,
+    pricingProfiles: action.allPriceProfiles,
     isFinishedFetchingClients: true,
   );
 }

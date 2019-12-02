@@ -1,15 +1,19 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
 
 class NewProfilePriceSelection extends StatefulWidget {
   @override
@@ -18,7 +22,12 @@ class NewProfilePriceSelection extends StatefulWidget {
   }
 }
 
-class _NewProfilePriceSelection extends State<NewProfilePriceSelection> with AutomaticKeepAliveClientMixin {
+class _NewProfilePriceSelection extends State<NewProfilePriceSelection>
+    with AutomaticKeepAliveClientMixin {
+  int maxSizeLarge = 1000;
+  int maxSizeSmall = 95;
+  int previousLargeValue = 0;
+  int previousSmallValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +38,11 @@ class _NewProfilePriceSelection extends State<NewProfilePriceSelection> with Aut
           Container(
         margin: EdgeInsets.only(left: 26.0, right: 26.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              "\$" + (pageState.priceFives+pageState.priceHundreds).toString() + ".00",
+              TextFormatterUtil.formatCurrency(pageState.priceFives + pageState.priceHundreds),
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 54.0,
@@ -76,10 +85,13 @@ class _NewProfilePriceSelection extends State<NewProfilePriceSelection> with Aut
                   child: CupertinoSlider(
                     value: pageState.priceFives.toDouble(),
                     min: 0.0,
-                    max: 95.0,
-                    divisions: 95~/5,
+                    max: maxSizeSmall.toDouble(),
+                    divisions: maxSizeSmall ~/ 5,
                     onChanged: (double price) {
-                      vibrate();
+                      if(price.round() != previousSmallValue){
+                        vibrate();
+                      }
+                      previousSmallValue = price.round();
                       pageState.onPriceFivesChanged(price.round());
                     },
                   ),
@@ -107,10 +119,19 @@ class _NewProfilePriceSelection extends State<NewProfilePriceSelection> with Aut
                   child: CupertinoSlider(
                     value: pageState.priceHundreds.toDouble(),
                     min: 0.0,
-                    max: 1000.0,
-                    divisions: 1000~/100,
-                    onChanged: (double price) {
-                      vibrate();
+                    max: maxSizeLarge.toDouble(),
+                    divisions: maxSizeLarge ~/ 100,
+                    onChanged: (double price) async {
+                      if(price.round() != previousLargeValue){
+                        vibrate();
+                      }
+                      previousLargeValue = price.round();
+                      if (price == maxSizeLarge) {
+                        sleep(const Duration(milliseconds: 500));
+                        setState(() {
+                          maxSizeLarge = maxSizeLarge + 500;
+                        });
+                      }
                       pageState.onPriceHundredsChanged(price.round());
                     },
                   ),

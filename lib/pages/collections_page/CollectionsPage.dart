@@ -1,5 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPageState.dart';
+import 'package:client_safe/pages/locations_page/LocationsPage.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
@@ -27,7 +28,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              brightness: Brightness.dark,
+              brightness: Brightness.light,
               backgroundColor: Colors.white,
               pinned: true,
               centerTitle: true,
@@ -69,8 +70,8 @@ class _CollectionsPageState extends State<CollectionsPage> {
                             child: Column(
                               children: <Widget>[
                                 Container(
-                                  height: 124.0,
-                                  width: 124.0,
+                                  height: 116.0,
+                                  width: 116.0,
                                   decoration: BoxDecoration(
                                     image: DecorationImage(
                                       image: AssetImage(collectionIcons.elementAt(index)),
@@ -79,10 +80,11 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                   ),
                                 ),
                                 Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 4.0),
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 4.0, bottom: 32.0),
                                     child: Text(
                                       ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
+                                      textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 16.0,
                                         fontFamily: 'Raleway',
@@ -113,7 +115,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 1:
-
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => LocationsPage()),
+        );
         break;
       case 2:
 
