@@ -39,7 +39,7 @@ dependencies:
   flutter_launcher_icons: "^0.7.3"
   contacts_service: ^0.3.6
   permission_handler: ^4.0.0
-  image_picker: ^0.6.1
+  image_picker: ^0.6.2
   google_maps_flutter: ^0.5.21
   geolocator: ^5.1.5
 

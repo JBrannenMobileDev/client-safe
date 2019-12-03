@@ -34,9 +34,9 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, prefix1.DeletePriceProfileAction>(PricingProfilesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteLocationAction>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchLocationsAction>(LocationsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, prefix2.FetchLocationsAction>(NewLocationPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, prefix2.SaveLocationAction>(LocationsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, prefix2.SaveLocationAction>(NewLocationPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.ClearStateAction>(NewLocationPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, prefix2.DeleteLocation>(NewLocationPageMiddleware()));
   return middlewareList;
 }
 

@@ -18,3 +18,9 @@ class DeleteLocationAction{
   DeleteLocationAction(this.pageState, this.location);
 }
 
+class SaveImagePathAction{
+  final LocationsPageState pageState;
+  final String imagePath;
+  SaveImagePathAction(this.pageState, this.imagePath);
+}
+

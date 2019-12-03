@@ -28,19 +28,20 @@ class _NewLocationPage extends State<NewLocationPage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewLocationPageState>(
-        onInit: (store) {
+        onInit: (store) async{
           store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
-        },
-        onWillChange: (pageState) async {
           final GoogleMapController controller = await _controller.future;
           controller.animateCamera(
             CameraUpdate.newCameraPosition(
               CameraPosition(
-                target: LatLng(pageState.newLocationLatitude, pageState.newLocationLongitude),
+                target: LatLng(store.state.newLocationPageState.newLocationLatitude, store.state.newLocationPageState.newLocationLongitude),
                 zoom: 15,
               ),
             ),
           );
+        },
+        onDidChange: (pageState) async {
+
         },
         converter: (Store<AppState> store) =>
             NewLocationPageState.fromStore(store),
@@ -97,8 +98,8 @@ class _NewLocationPage extends State<NewLocationPage> {
                         borderRadius: new BorderRadius.circular(25.0),
                         side: BorderSide(color: Color(ColorConstants.primary))),
                     onPressed: (){
-                      showSuccessAnimation();
                       pageState.onSaveLocationSelected();
+                      showSuccessAnimation();
                     },
                     color: Color(ColorConstants.primary),
                     textColor: Colors.white,
@@ -155,6 +156,7 @@ class _NewLocationPage extends State<NewLocationPage> {
   }
 
   void onFlareCompleted(String unused) {
+    Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
   }

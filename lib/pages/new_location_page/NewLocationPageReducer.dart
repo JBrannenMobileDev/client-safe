@@ -2,7 +2,7 @@ import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:redux/redux.dart';
 
-final locationsReducer = combineReducers<NewLocationPageState>([
+final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, SetLocationsAction>(_setLocations),
   TypedReducer<NewLocationPageState, SetLatLongAction>(_setLatLong),
   TypedReducer<NewLocationPageState, ClearStateAction>(_clearState),

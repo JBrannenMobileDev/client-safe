@@ -32,11 +32,15 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     next(SetLocationsAction(store.state.newLocationPageState, locations));
   }
 
-  void _saveLocation(Store<AppState> store, action, NextDispatcher next) async{
+  void _saveLocation(Store<AppState> store, SaveLocationAction action, NextDispatcher next) async{
     LocationDao locationDao = LocationDao();
-    await locationDao.insertOrUpdate(action.location);
+    Location location = Location(
+      locationName: action.pageState.locationName,
+      latitude: action.pageState.newLocationLatitude,
+      longitude: action.pageState.newLocationLongitude,
+    );
+    await locationDao.insertOrUpdate(location);
     store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   void _deleteLocation(Store<AppState> store, action, NextDispatcher next) async{

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
@@ -64,18 +66,17 @@ class LocationsPage extends StatelessWidget {
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        pageState.locations.length > 0 ? ListView.builder(
-                          reverse: false,
-                          padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
-                          shrinkWrap: true,
-                          controller: _controller,
-                          physics: ClampingScrollPhysics(),
-                          key: _listKey,
-                          itemCount: pageState.locations.length,
-                          itemBuilder: _buildItem,
+                        pageState.locations.length > 0 ? Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            itemCount: pageState.locations.length,
+                            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                            itemBuilder: _buildItem,
+                          ),
                         ) :
                         Padding(
-                          padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
+                          padding: EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
                           child: Text(
                             "You have not saved any locations yet. To create a new location, select the plus icon.",
                             textAlign: TextAlign.center,
@@ -100,10 +101,14 @@ class LocationsPage extends StatelessWidget {
       converter: (store) => LocationsPageState.fromStore(store),
       builder: (BuildContext context, LocationsPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            height: _getItemWidthHeight(context) + 100,
             child: LocationListWidget(index),
           ),
     );
+  }
+
+  double _getItemWidthHeight(BuildContext context){
+    return (MediaQuery.of(context).size.width - 94) / 2.0;
   }
 
   Future<void> _checkPermissions(BuildContext context, LocationsPageState pageState){

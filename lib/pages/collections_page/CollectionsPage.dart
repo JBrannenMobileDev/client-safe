@@ -81,7 +81,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                 ),
                                 Center(
                                   child: Container(
-                                    margin: EdgeInsets.only(top: 4.0, bottom: 32.0),
+                                    margin: EdgeInsets.only(top: 4.0, bottom: 16.0),
                                     child: Text(
                                       ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,

@@ -1,5 +1,4 @@
 import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -43,6 +42,7 @@ class NewLocationPageState{
     List<Location> locations,
     Function(int) onLocationChanged,
     Function() onDeleteLocationSelected,
+    Function() onSaveLocationSelected,
     Function() onDeleteSelected,
     Function() onCanceledSelected,
     Function(String) onLocationNameChanged,
@@ -55,7 +55,7 @@ class NewLocationPageState{
       newLocationLongitude: newLocationLongitude?? this.newLocationLongitude,
       locations: locations?? this.locations,
       onLocationChanged: onLocationChanged?? this.onLocationChanged,
-      onSaveLocationSelected: onDeleteLocationSelected?? this.onSaveLocationSelected,
+      onSaveLocationSelected: onSaveLocationSelected?? this.onSaveLocationSelected,
       onCanceledSelected: onCanceledSelected?? this.onCanceledSelected,
       onDeleteSelected: onDeleteSelected?? this.onDeleteSelected,
       onLocationNameChanged: onLocationNameChanged?? this.onLocationNameChanged,
