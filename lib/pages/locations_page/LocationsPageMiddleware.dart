@@ -39,7 +39,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _shareDirections(Store<AppState> store, ShareLocationSelected action){
-    Share.share('https://www.google.com/maps/search/?api=1&query=${action.location.latitude},${action.location.longitude}');
+    Share.share('Here are the driving directions. \nLocation: ${action.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${action.location.latitude},${action.location.longitude}');
   }
 
   void fetchProfiles(Store<AppState> store, NextDispatcher next) async{

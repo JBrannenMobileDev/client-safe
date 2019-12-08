@@ -8,6 +8,6 @@ final locationsReducer = combineReducers<LocationsPageState>([
 
 LocationsPageState _setLocations(LocationsPageState previousState, SetLocationsAction action){
   return previousState.copyWith(
-    locations: action.locations
+      locations: action.locations
   );
 }

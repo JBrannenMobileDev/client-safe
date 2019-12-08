@@ -1,12 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/VibrateUtil.dart';
@@ -25,6 +23,7 @@ class LocationListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LocationsPageState>(
+      onInit: (store) => store.state.newLocationPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newLocationPageState)) : null,
       converter: (store) => LocationsPageState.fromStore(store),
       builder: (BuildContext context, LocationsPageState pageState) =>
       Column(
@@ -84,6 +83,10 @@ class LocationListWidget extends StatelessWidget {
                   onLongPress: () {
                     VibrateUtil.vibrateHeavy();
                     getImage(pageState);
+                  },
+                  onTap: () {
+                    pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
+                    UserOptionsUtil.showNewLocationDialog(context);
                   },
                 ),
               ),

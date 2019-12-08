@@ -49,6 +49,9 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewLocationPageState>(
+      onInit: (store) {
+        store.dispatch(InitializeLocationAction(store.state.newLocationPageState));
+      },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
           WillPopScope(
@@ -100,7 +103,7 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
                               color: Color(ColorConstants.primary),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSaveLocationSelected();
+                                pageState.onSaveLocationSelected(pageState.selectedLocation);
                               },
                             ),
                           ) : SizedBox(),
@@ -242,6 +245,7 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
   }
 
   void onBackPressed(NewLocationPageState pageState) {
+    pageState.onCanceledSelected();
     Navigator.of(context).pop();
   }
 }

@@ -22,8 +22,8 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteLocation){
       _deleteLocation(store, action, next);
     }
-    if(action is ClearStateAction){
-      _clearState(store, action, next);
+    if(action is InitializeLocationAction){
+      _initializeLocation(store, action, next);
     }
   }
 
@@ -35,23 +35,26 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
   void _saveLocation(Store<AppState> store, SaveLocationAction action, NextDispatcher next) async{
     LocationDao locationDao = LocationDao();
-    Location location = Location(
-      locationName: action.pageState.locationName,
-      latitude: action.pageState.newLocationLatitude,
-      longitude: action.pageState.newLocationLongitude,
-    );
+    Location location = action.selectedLocation;
+    location.id = action.pageState.id;
+    location.locationName = action.pageState.locationName;
+    location.latitude = action.pageState.newLocationLatitude;
+    location.longitude = action.pageState.newLocationLongitude;
     await locationDao.insertOrUpdate(location);
+    store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
   }
 
-  void _deleteLocation(Store<AppState> store, action, NextDispatcher next) async{
+  void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
     LocationDao locationDao = LocationDao();
-    await locationDao.delete(action.location);
-    store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
+    await locationDao.delete(action.pageState.selectedLocation);
+    store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
+    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
-  Future _clearState(store, action, next) async {
+  Future _initializeLocation(Store<AppState> store, action, next) async {
     Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
     store.dispatch(SetLatLongAction(store.state.newLocationPageState, position.latitude, position.longitude));
+    if(store.state.newLocationPageState.shouldClear) store.dispatch(ClearStateAction(store.state.newLocationPageState));
   }
 }

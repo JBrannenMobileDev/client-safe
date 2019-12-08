@@ -27,7 +27,7 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
     super.build(context);
     return StoreConnector<AppState, NewLocationPageState>(
       onInit: (store) {
-        locationNameTextController.text = store.state.pricingProfilePageState.profileName;
+        locationNameTextController.text = store.state.newLocationPageState.locationName;
       },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>

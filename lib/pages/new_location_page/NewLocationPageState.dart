@@ -6,25 +6,28 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
 class NewLocationPageState{
-
+  final int id;
   final bool shouldClear;
   final String locationName;
   final String newLocationAddress;
   final double newLocationLatitude;
   final double newLocationLongitude;
+  final Location selectedLocation;
   final List<Location> locations;
   final Function(LatLng) onLocationChanged;
-  final Function() onSaveLocationSelected;
+  final Function(Location) onSaveLocationSelected;
   final Function() onDeleteSelected;
   final Function() onCanceledSelected;
   final Function(String) onLocationNameChanged;
 
   NewLocationPageState({
+    @required this.id,
     @required this.shouldClear,
     @required this.locationName,
     @required this.newLocationAddress,
     @required this.newLocationLatitude,
     @required this.newLocationLongitude,
+    @required this.selectedLocation,
     @required this.locations,
     @required this.onLocationChanged,
     @required this.onSaveLocationSelected,
@@ -34,25 +37,29 @@ class NewLocationPageState{
   });
 
   NewLocationPageState copyWith({
+    int id,
     bool shouldClear,
     String locationName,
     String newLocationAddress,
     double newLocationLatitude,
     double newLocationLongitude,
+    Location selectedLocation,
     List<Location> locations,
     Function(int) onLocationChanged,
     Function() onDeleteLocationSelected,
-    Function() onSaveLocationSelected,
+    Function(Location) onSaveLocationSelected,
     Function() onDeleteSelected,
     Function() onCanceledSelected,
     Function(String) onLocationNameChanged,
   }){
     return NewLocationPageState(
+      id: id?? this.id,
       shouldClear: shouldClear?? this.shouldClear,
       locationName: locationName?? this.locationName,
       newLocationAddress: newLocationAddress?? this.newLocationAddress,
       newLocationLatitude: newLocationLatitude?? this.newLocationLatitude,
       newLocationLongitude: newLocationLongitude?? this.newLocationLongitude,
+      selectedLocation: selectedLocation?? this.selectedLocation,
       locations: locations?? this.locations,
       onLocationChanged: onLocationChanged?? this.onLocationChanged,
       onSaveLocationSelected: onSaveLocationSelected?? this.onSaveLocationSelected,
@@ -63,11 +70,13 @@ class NewLocationPageState{
   }
 
   factory NewLocationPageState.initial() => NewLocationPageState(
+    id: null,
     shouldClear: true,
     locationName: "",
     newLocationAddress: "",
     newLocationLatitude: 0.0,
     newLocationLongitude: 0.0,
+    selectedLocation: null,
     locations: List(),
     onLocationChanged: null,
     onSaveLocationSelected: null,
@@ -78,14 +87,16 @@ class NewLocationPageState{
 
   factory NewLocationPageState.fromStore(Store<AppState> store) {
     return NewLocationPageState(
+      id: store.state.newLocationPageState.id,
       shouldClear: store.state.newLocationPageState.shouldClear,
       locationName: store.state.newLocationPageState.locationName,
       newLocationAddress: store.state.newLocationPageState.newLocationAddress,
       newLocationLatitude: store.state.newLocationPageState.newLocationLatitude,
       newLocationLongitude: store.state.newLocationPageState.newLocationLongitude,
+      selectedLocation: store.state.newLocationPageState.selectedLocation,
       locations: store.state.newLocationPageState.locations,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
-      onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
+      onSaveLocationSelected: (location) => store.dispatch(SaveLocationAction(store.state.newLocationPageState, location)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
       onDeleteSelected: () => store.dispatch(DeleteLocation(store.state.newLocationPageState)),
       onLocationNameChanged: (name) => store.dispatch(UpdateLocationName(store.state.newLocationPageState, name)),
@@ -94,11 +105,13 @@ class NewLocationPageState{
 
   @override
   int get hashCode =>
+      id.hashCode ^
       shouldClear.hashCode ^
       locationName.hashCode ^
       newLocationAddress.hashCode ^
       newLocationLatitude.hashCode ^
       newLocationLongitude.hashCode ^
+      selectedLocation.hashCode ^
       locations.hashCode ^
       onLocationChanged.hashCode ^
       onSaveLocationSelected.hashCode ^
@@ -110,11 +123,13 @@ class NewLocationPageState{
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is NewLocationPageState &&
+              id == other.id &&
               shouldClear == other.shouldClear &&
               locationName == other.locationName &&
               newLocationAddress == other.newLocationAddress &&
               newLocationLatitude == other.newLocationLatitude &&
               newLocationLongitude == other.newLocationLongitude &&
+              selectedLocation == other.selectedLocation &&
               locations == other.locations &&
               onLocationChanged == other.onLocationChanged &&
               onSaveLocationSelected == other.onSaveLocationSelected &&

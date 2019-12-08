@@ -8,6 +8,7 @@ final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, ClearStateAction>(_clearState),
   TypedReducer<NewLocationPageState, UpdateLocation>(_updateLocation),
   TypedReducer<NewLocationPageState, UpdateLocationName>(_updateLocationName),
+  TypedReducer<NewLocationPageState, LoadExistingLocationData>(_loadLocationData)
 ]);
 
 NewLocationPageState _setLocations(NewLocationPageState previousState, SetLocationsAction action){
@@ -24,7 +25,11 @@ NewLocationPageState _setLatLong(NewLocationPageState previousState, SetLatLongA
 }
 
 NewLocationPageState _clearState(NewLocationPageState previousState, ClearStateAction action) {
-  return action.pageState;
+  NewLocationPageState newState = NewLocationPageState.initial();
+  return newState.copyWith(
+    newLocationLatitude: previousState.newLocationLatitude,
+    newLocationLongitude: previousState.newLocationLongitude,
+  );
 }
 
 NewLocationPageState _updateLocation(NewLocationPageState previousState, UpdateLocation action) {
@@ -37,5 +42,16 @@ NewLocationPageState _updateLocation(NewLocationPageState previousState, UpdateL
 NewLocationPageState _updateLocationName(NewLocationPageState previousState, UpdateLocationName action) {
   return previousState.copyWith(
     locationName: action.locationName,
+  );
+}
+
+NewLocationPageState _loadLocationData(NewLocationPageState previousState, LoadExistingLocationData action){
+  return previousState.copyWith(
+    id: action.location.id,
+    selectedLocation: action.location,
+    shouldClear: false,
+    locationName: action.location.locationName,
+    newLocationLatitude: action.location.latitude,
+    newLocationLongitude: action.location.longitude,
   );
 }

@@ -4,7 +4,6 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
 
-import 'package:client_safe/pages/new_location_page/NewLocationActions.dart' as newLocation;
 import 'package:client_safe/pages/locations_page/widgets/LocationListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -18,13 +17,10 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
 class LocationsPage extends StatelessWidget {
-  final ScrollController _controller = ScrollController();
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, LocationsPageState>(
         onInit: (store)  async {
-          store.dispatch(newLocation.ClearStateAction(store.state.newLocationPageState));
           store.dispatch(FetchLocationsAction(store.state.locationsPageState));
           PermissionStatus locationStatus = await UserPermissionsUtil.getPermissionStatus(PermissionGroup.locationWhenInUse);
           if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.disabled
