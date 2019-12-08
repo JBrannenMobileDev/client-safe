@@ -42,6 +42,8 @@ dependencies:
   image_picker: ^0.6.2
   google_maps_flutter: ^0.5.21
   geolocator: ^5.1.5
+  android_intent: ^0.3.4
+  share: ^0.6.3
 
 flutter_icons:
   android: true

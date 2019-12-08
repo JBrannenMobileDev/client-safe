@@ -10,13 +10,17 @@ class LocationsPageState{
   final List<Location> locations;
   final Function(Location) onLocationSelected;
   final Function(Location) onDeleteLocationSelected;
-  final Function(String) saveImagePath;
+  final Function(String, Location) saveImagePath;
+  final Function(Location) onDrivingDirectionsSelected;
+  final Function(Location) onShareLocationSelected;
 
   LocationsPageState({
     @required this.locations,
     @required this.onLocationSelected,
     @required this.onDeleteLocationSelected,
     @required this.saveImagePath,
+    @required this.onDrivingDirectionsSelected,
+    @required this.onShareLocationSelected,
   });
 
   LocationsPageState copyWith({
@@ -24,12 +28,16 @@ class LocationsPageState{
     Function(int) onLocationSelected,
     Function(PriceProfile) onDeleteLocationSelected,
     Function(String) saveImagePath,
+    Function(Location) onDrivingDirectionsSelected,
+    Function(Location) onShareLocationSelected,
   }){
     return LocationsPageState(
       locations: locations?? this.locations,
       onLocationSelected: onLocationSelected?? this.onLocationSelected,
       onDeleteLocationSelected: onDeleteLocationSelected?? this.onDeleteLocationSelected,
       saveImagePath: saveImagePath?? this.saveImagePath,
+      onDrivingDirectionsSelected: onDrivingDirectionsSelected?? this.onDrivingDirectionsSelected,
+      onShareLocationSelected: onShareLocationSelected?? this.onShareLocationSelected,
     );
   }
 
@@ -38,6 +46,8 @@ class LocationsPageState{
     onLocationSelected: null,
     onDeleteLocationSelected: null,
     saveImagePath: null,
+    onDrivingDirectionsSelected: null,
+    onShareLocationSelected: null,
   );
 
   factory LocationsPageState.fromStore(Store<AppState> store) {
@@ -45,7 +55,9 @@ class LocationsPageState{
       locations: store.state.locationsPageState.locations,
       onLocationSelected: null,
       onDeleteLocationSelected: (location) => store.dispatch(DeleteLocationAction(store.state.locationsPageState, location)),
-      saveImagePath: (imagePath) => store.dispatch(SaveImagePathAction(store.state.locationsPageState, imagePath)),
+      saveImagePath: (imagePath, location) => store.dispatch(SaveImagePathAction(store.state.locationsPageState, imagePath, location)),
+      onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsSelected(store.state.locationsPageState, location)),
+      onShareLocationSelected: (location) => store.dispatch(ShareLocationSelected(store.state.locationsPageState, location)),
     );
   }
 
@@ -54,7 +66,9 @@ class LocationsPageState{
       locations.hashCode ^
       onLocationSelected.hashCode ^
       onDeleteLocationSelected.hashCode ^
-      saveImagePath.hashCode ;
+      saveImagePath.hashCode ^
+      onDrivingDirectionsSelected.hashCode ^
+      onShareLocationSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -63,5 +77,7 @@ class LocationsPageState{
               locations == other.locations &&
               onLocationSelected == other.onLocationSelected &&
               onDeleteLocationSelected == other.onDeleteLocationSelected &&
-              saveImagePath == other.saveImagePath;
+              saveImagePath == other.saveImagePath &&
+              onDrivingDirectionsSelected == other.onDrivingDirectionsSelected &&
+              onShareLocationSelected == other.onShareLocationSelected;
 }

@@ -21,6 +21,19 @@ class DeleteLocationAction{
 class SaveImagePathAction{
   final LocationsPageState pageState;
   final String imagePath;
-  SaveImagePathAction(this.pageState, this.imagePath);
+  final Location location;
+  SaveImagePathAction(this.pageState, this.imagePath, this.location);
+}
+
+class DrivingDirectionsSelected{
+  final LocationsPageState pageState;
+  final Location location;
+  DrivingDirectionsSelected(this.pageState, this.location);
+}
+
+class ShareLocationSelected{
+  final LocationsPageState pageState;
+  final Location location;
+  ShareLocationSelected(this.pageState, this.location);
 }
 

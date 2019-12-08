@@ -4,6 +4,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
+import 'package:client_safe/pages/locations_page/LocationsActions.dart' as locations;
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:redux/redux.dart';
@@ -40,14 +41,13 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
       longitude: action.pageState.newLocationLongitude,
     );
     await locationDao.insertOrUpdate(location);
-    store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
+    store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
   }
 
   void _deleteLocation(Store<AppState> store, action, NextDispatcher next) async{
     LocationDao locationDao = LocationDao();
     await locationDao.delete(action.location);
     store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   Future _clearState(store, action, next) async {
