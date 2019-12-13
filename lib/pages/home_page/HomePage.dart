@@ -57,14 +57,14 @@ class _HomeState extends State<HomePage> {
               title: Container(height: 0.0)),
             BottomNavigationBarItem(
                 icon: Icon(
-                  Icons.message,
+                  Icons.calendar_today,
                 ),
                 title: Container(height: 0.0)),
             BottomNavigationBarItem(
-              icon: new Icon(
-                Icons.home,
-              ),
-              title: Container(height: 0.0)),
+                icon: Icon(
+                  Icons.home,
+                ),
+                title: Container(height: 0.0)),
             BottomNavigationBarItem(
                 icon: Icon(
                   Icons.business_center,

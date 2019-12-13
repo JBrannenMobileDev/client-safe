@@ -44,6 +44,7 @@ dependencies:
   geolocator: ^5.1.5
   android_intent: ^0.3.4
   share: ^0.6.3
+  flutter_statusbarcolor: ^0.2.3
 
 flutter_icons:
   android: true
@@ -147,6 +148,9 @@ flutter:
 
     - assets/animations/success_check.flr
 
+    - assets/images/backgrounds/image_background.png
+    - assets/images/calendar.png
+    - assets/images/clock.png
   fonts:
     - family: Blackjack
       fonts:

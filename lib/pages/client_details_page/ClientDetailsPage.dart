@@ -307,7 +307,9 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                 marginTop: 0.0,
                 marginRight: 32.0,
                 marginBottom: Device.get().isIphoneX ? 52.0 : 22,
-                onPressed: _showNewJobDialog,
+                onPressed: () {
+                  _showNewJobDialog(pageState);
+                },
                 icon: Icon(Icons.business_center, color: Colors.white),
                 urlText: "",
               ),
@@ -316,7 +318,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
         ),
       );
 
-  void _showNewJobDialog(){
+  void _showNewJobDialog(ClientDetailsPageState pageState){
+    pageState.onStartNewJobClicked();
     showDialog(
       context: context,
       builder: (BuildContext context) {

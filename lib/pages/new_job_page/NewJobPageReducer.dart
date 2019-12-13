@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:redux/redux.dart';
@@ -9,17 +10,24 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, IncrementPageViewIndex>(_incrementPageViewIndex),
   TypedReducer<NewJobPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewJobPageState, UpdateErrorStateAction>(_updateErrorState),
-  TypedReducer<NewJobPageState, SetAllClientsToStateAction>(_setAllClients),
+  TypedReducer<NewJobPageState, SetAllToStateAction>(_setAllClients),
   TypedReducer<NewJobPageState, ClientSelectedAction>(_setSelectedClient),
   TypedReducer<NewJobPageState, FilterClientList>(_filterClients),
   TypedReducer<NewJobPageState, SetJobTitleAction>(_setJobTitle),
   TypedReducer<NewJobPageState, SetSelectedPriceProfile>(_setSelectedPriceProfile),
+  TypedReducer<NewJobPageState, SetSelectedLocation>(_setSelectedLocation),
 ]);
 
 NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {
   PriceProfile newProfile;
   if(previousState.selectedPriceProfile != action.priceProfile) newProfile = action.priceProfile;
   return previousState.copyWith(selectedPriceProfile: newProfile);
+}
+
+NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedLocation action) {
+  Location newLocation;
+  if(previousState.selectedLocation != action.location) newLocation = action.location;
+  return previousState.copyWith(selectedLocation: newLocation);
 }
 
 NewJobPageState _setJobTitle(NewJobPageState previousState, SetJobTitleAction action) {
@@ -46,11 +54,12 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
   return NewJobPageState.initial();
 }
 
-NewJobPageState _setAllClients(NewJobPageState previousState, SetAllClientsToStateAction action) {
+NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateAction action) {
   return previousState.copyWith(
     allClients: action.allClients,
     filteredClients: action.allClients,
     pricingProfiles: action.allPriceProfiles,
+    locations: action.allLocations,
     isFinishedFetchingClients: true,
   );
 }

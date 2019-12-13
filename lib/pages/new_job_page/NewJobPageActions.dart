@@ -1,5 +1,6 @@
 
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 
@@ -19,6 +20,12 @@ class SetSelectedPriceProfile{
   final NewJobPageState pageState;
   final PriceProfile priceProfile;
   SetSelectedPriceProfile(this.pageState, this.priceProfile);
+}
+
+class SetSelectedLocation{
+  final NewJobPageState pageState;
+  final Location location;
+  SetSelectedLocation(this.pageState, this.location);
 }
 
 class ClearStateAction{
@@ -57,11 +64,12 @@ class FetchAllClientsAction{
   FetchAllClientsAction(this.pageState);
 }
 
-class SetAllClientsToStateAction{
+class SetAllToStateAction{
   final NewJobPageState pageState;
   final List<Client> allClients;
   final List<PriceProfile> allPriceProfiles;
-  SetAllClientsToStateAction(this.pageState, this.allClients, this.allPriceProfiles);
+  final List<Location> allLocations;
+  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations);
 }
 
 class ClientSelectedAction{

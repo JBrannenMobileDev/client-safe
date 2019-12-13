@@ -98,7 +98,7 @@ class _NewLocationPage extends State<NewLocationPage> {
                         borderRadius: new BorderRadius.circular(25.0),
                         side: BorderSide(color: Color(ColorConstants.primary))),
                     onPressed: (){
-                      pageState.onSaveLocationSelected(pageState.selectedLocation);
+                      pageState.onSaveLocationSelected();
                       showSuccessAnimation();
                     },
                     color: Color(ColorConstants.primary),

@@ -12,10 +12,9 @@ class NewLocationPageState{
   final String newLocationAddress;
   final double newLocationLatitude;
   final double newLocationLongitude;
-  final Location selectedLocation;
   final List<Location> locations;
   final Function(LatLng) onLocationChanged;
-  final Function(Location) onSaveLocationSelected;
+  final Function() onSaveLocationSelected;
   final Function() onDeleteSelected;
   final Function() onCanceledSelected;
   final Function(String) onLocationNameChanged;
@@ -27,7 +26,6 @@ class NewLocationPageState{
     @required this.newLocationAddress,
     @required this.newLocationLatitude,
     @required this.newLocationLongitude,
-    @required this.selectedLocation,
     @required this.locations,
     @required this.onLocationChanged,
     @required this.onSaveLocationSelected,
@@ -43,7 +41,6 @@ class NewLocationPageState{
     String newLocationAddress,
     double newLocationLatitude,
     double newLocationLongitude,
-    Location selectedLocation,
     List<Location> locations,
     Function(int) onLocationChanged,
     Function() onDeleteLocationSelected,
@@ -59,7 +56,6 @@ class NewLocationPageState{
       newLocationAddress: newLocationAddress?? this.newLocationAddress,
       newLocationLatitude: newLocationLatitude?? this.newLocationLatitude,
       newLocationLongitude: newLocationLongitude?? this.newLocationLongitude,
-      selectedLocation: selectedLocation?? this.selectedLocation,
       locations: locations?? this.locations,
       onLocationChanged: onLocationChanged?? this.onLocationChanged,
       onSaveLocationSelected: onSaveLocationSelected?? this.onSaveLocationSelected,
@@ -76,7 +72,6 @@ class NewLocationPageState{
     newLocationAddress: "",
     newLocationLatitude: 0.0,
     newLocationLongitude: 0.0,
-    selectedLocation: null,
     locations: List(),
     onLocationChanged: null,
     onSaveLocationSelected: null,
@@ -93,10 +88,9 @@ class NewLocationPageState{
       newLocationAddress: store.state.newLocationPageState.newLocationAddress,
       newLocationLatitude: store.state.newLocationPageState.newLocationLatitude,
       newLocationLongitude: store.state.newLocationPageState.newLocationLongitude,
-      selectedLocation: store.state.newLocationPageState.selectedLocation,
       locations: store.state.newLocationPageState.locations,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
-      onSaveLocationSelected: (location) => store.dispatch(SaveLocationAction(store.state.newLocationPageState, location)),
+      onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
       onDeleteSelected: () => store.dispatch(DeleteLocation(store.state.newLocationPageState)),
       onLocationNameChanged: (name) => store.dispatch(UpdateLocationName(store.state.newLocationPageState, name)),
@@ -111,7 +105,6 @@ class NewLocationPageState{
       newLocationAddress.hashCode ^
       newLocationLatitude.hashCode ^
       newLocationLongitude.hashCode ^
-      selectedLocation.hashCode ^
       locations.hashCode ^
       onLocationChanged.hashCode ^
       onSaveLocationSelected.hashCode ^
@@ -129,7 +122,6 @@ class NewLocationPageState{
               newLocationAddress == other.newLocationAddress &&
               newLocationLatitude == other.newLocationLatitude &&
               newLocationLongitude == other.newLocationLongitude &&
-              selectedLocation == other.selectedLocation &&
               locations == other.locations &&
               onLocationChanged == other.onLocationChanged &&
               onSaveLocationSelected == other.onSaveLocationSelected &&

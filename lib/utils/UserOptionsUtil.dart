@@ -1,3 +1,4 @@
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationNamePage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';

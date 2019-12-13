@@ -23,7 +23,6 @@ class LocationListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LocationsPageState>(
-      onInit: (store) => store.state.newLocationPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newLocationPageState)) : null,
       converter: (store) => LocationsPageState.fromStore(store),
       builder: (BuildContext context, LocationsPageState pageState) =>
       Column(
@@ -38,9 +37,10 @@ class LocationListWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
-                       image: Image.file(File(pageState.locations.elementAt(locationIndex).imagePath ?? "")).image,
+                       image: pageState.locations.elementAt(locationIndex).imagePath != null ? Image.file(File(pageState.locations.elementAt(locationIndex).imagePath ?? "")).image
+                        : AssetImage("assets/images/backgrounds/image_background.png"),
                       ),
-                      color: Colors.white,
+                      color: Color(ColorConstants.primary_black),
                       borderRadius: new BorderRadius.circular(16.0),
                     ),
                     child: Container(
@@ -50,7 +50,8 @@ class LocationListWidget extends StatelessWidget {
                         pageState.locations.elementAt(locationIndex).imagePath == null ? "Long press to set an image." : "",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 14.0,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w800,
                           fontFamily: 'Raleway',
                           color: const Color(ColorConstants.primary_black),
                         ),
@@ -58,11 +59,11 @@ class LocationListWidget extends StatelessWidget {
                     ),
                 ),
               ),
-              pageState.locations.elementAt(locationIndex).imagePath != null ? Container(
+              Container(
                 height: _getItemWidthHeight(context),
                 margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                 decoration: BoxDecoration(
-                    color: Colors.white,
+                    color: Color(ColorConstants.primary_black),
                     borderRadius: new BorderRadius.circular(16.0),
                     gradient: LinearGradient(
                         begin: FractionalOffset.center,
@@ -75,7 +76,7 @@ class LocationListWidget extends StatelessWidget {
                           0.0,
                           1.0
                         ])),
-              ) : SizedBox(),
+              ),
               Container(
                 height: _getItemWidthHeight(context),
                 width: double.maxFinite,
@@ -84,7 +85,7 @@ class LocationListWidget extends StatelessWidget {
                     VibrateUtil.vibrateHeavy();
                     getImage(pageState);
                   },
-                  onTap: () {
+                  onTap: () async{
                     pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
                     UserOptionsUtil.showNewLocationDialog(context);
                   },
@@ -138,7 +139,7 @@ class LocationListWidget extends StatelessWidget {
                   fontSize: 16.0,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Raleway',
-                  color: const Color(ColorConstants.white),
+                  color: const Color(ColorConstants.primary_black),
                 ),
               ),
             ),

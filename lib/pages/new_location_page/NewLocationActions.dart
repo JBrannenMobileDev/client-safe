@@ -22,8 +22,7 @@ class SetLocationsAction{
 
 class SaveLocationAction{
   final NewLocationPageState pageState;
-  final Location selectedLocation;
-  SaveLocationAction(this.pageState, this.selectedLocation);
+  SaveLocationAction(this.pageState);
 }
 
 class SetLatLongAction{

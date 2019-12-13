@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationTextField.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -49,7 +50,7 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
                 ),
               ),
             ),
-            NewPricingProfileTextField(
+            NewLocationTextField(
                 locationNameTextController,
                 "Location Name",
                 TextInputType.text,

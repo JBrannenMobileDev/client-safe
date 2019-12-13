@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:geolocator/geolocator.dart';
 
 class NewLocationNamePage extends StatefulWidget {
   @override
@@ -49,8 +50,13 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewLocationPageState>(
-      onInit: (store) {
-        store.dispatch(InitializeLocationAction(store.state.newLocationPageState));
+      onInit: (store) async {
+        if(store.state.newLocationPageState.shouldClear){
+          Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+          store.dispatch(SetLatLongAction(store.state.newLocationPageState, positionLastKnown.latitude, positionLastKnown.longitude));
+          Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          store.dispatch(SetLatLongAction(store.state.newLocationPageState, position.latitude, position.longitude));
+        }
       },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
@@ -103,7 +109,7 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
                               color: Color(ColorConstants.primary),
                               onPressed: () {
                                 showSuccessAnimation();
-                                pageState.onSaveLocationSelected(pageState.selectedLocation);
+                                pageState.onSaveLocationSelected();
                               },
                             ),
                           ) : SizedBox(),

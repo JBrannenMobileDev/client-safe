@@ -35,7 +35,10 @@ class LocationsPage extends StatelessWidget {
               body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    brightness: Brightness.dark,
+                    iconTheme: IconThemeData(
+                      color: Color(ColorConstants.primary_black), //change your color here
+                    ),
+                    brightness: Brightness.light,
                     backgroundColor: Color(ColorConstants.primary_locations),
                     pinned: true,
                     centerTitle: true,
@@ -44,14 +47,14 @@ class LocationsPage extends StatelessWidget {
                         "Locations",
                         style: TextStyle(
                           fontFamily: 'Raleway',
-                          color: const Color(ColorConstants.white),
+                          color: const Color(ColorConstants.primary_black),
                         ),
                       ),
                     ),
                     actions: <Widget>[
                       IconButton(
                         icon: const Icon(Icons.add_circle_outline),
-                        color: Color(ColorConstants.white),
+                        color: Color(ColorConstants.primary_black),
                         tooltip: 'Add',
                         onPressed: () {
                           UserOptionsUtil.showNewLocationDialog(context);
@@ -80,7 +83,7 @@ class LocationsPage extends StatelessWidget {
                               fontSize: 18.0,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w400,
-                              color: const Color(ColorConstants.white),
+                              color: const Color(ColorConstants.primary_black),
                             ),
                           ),
                         ),

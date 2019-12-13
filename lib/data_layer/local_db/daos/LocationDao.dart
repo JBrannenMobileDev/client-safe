@@ -45,8 +45,8 @@ class LocationDao extends Equatable{
     );
   }
 
-  Future delete(Location location) async {
-    final finder = Finder(filter: Filter.byKey(location.id));
+  Future delete(int id) async {
+    final finder = Finder(filter: Filter.byKey(id));
     await _locationStore.delete(
       await _db,
       finder: finder,

@@ -2,16 +2,16 @@ import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_job_page/ClientSelectionForm.dart';
+import 'package:client_safe/pages/new_job_page/DateAndTimeForm.dart';
 import 'package:client_safe/pages/new_job_page/JobNameForm.dart';
+import 'package:client_safe/pages/new_job_page/LocationSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/PricingProfileSelectionForm.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -23,7 +23,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage> {
-  final int pageCount = 2;
+  final int pageCount = 4;
   final controller = PageController(
     initialPage: 0,
   );
@@ -109,6 +109,8 @@ class _NewJobPageState extends State<NewJobPage> {
                           ClientSelectionForm(),
                           JobNameForm(),
                           PricingProfileSelectionForm(),
+                          LocationSelectionForm(),
+                          DateAndTimeForm(),
                         ],
                       ),
                     ),
@@ -190,6 +192,12 @@ class _NewJobPageState extends State<NewJobPage> {
         case 2:
           canProgress = pageState.selectedPriceProfile != null;
           break;
+        case 3:
+          canProgress = pageState.selectedLocation != null;
+          break;
+        case 4:
+
+          break;
       }
 
       if (canProgress) {
@@ -244,8 +252,13 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 200.0;
         break;
       case 2:
-
+        height = 380.0;
         break;
+      case 3:
+        height = 500.0;
+        break;
+      case 4:
+        height = 300.0;
     }
     return height;
   }

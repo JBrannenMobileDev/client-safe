@@ -20,7 +20,7 @@ NewLocationPageState _setLocations(NewLocationPageState previousState, SetLocati
 NewLocationPageState _setLatLong(NewLocationPageState previousState, SetLatLongAction action){
   return previousState.copyWith(
     newLocationLatitude: action.lat,
-    newLocationLongitude: action.long
+    newLocationLongitude: action.long,
   );
 }
 
@@ -48,7 +48,6 @@ NewLocationPageState _updateLocationName(NewLocationPageState previousState, Upd
 NewLocationPageState _loadLocationData(NewLocationPageState previousState, LoadExistingLocationData action){
   return previousState.copyWith(
     id: action.location.id,
-    selectedLocation: action.location,
     shouldClear: false,
     locationName: action.location.locationName,
     newLocationLatitude: action.location.latitude,

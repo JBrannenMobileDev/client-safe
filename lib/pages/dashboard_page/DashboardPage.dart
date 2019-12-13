@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
@@ -53,7 +55,7 @@ class DashboardPage extends StatelessWidget {
                     CustomScrollView(
                       slivers: <Widget>[
                         new SliverAppBar(
-                          brightness: Brightness.dark,
+                          brightness: Brightness.light,
                           backgroundColor: Colors.transparent,
                           elevation: 0.0,
                           pinned: true,
