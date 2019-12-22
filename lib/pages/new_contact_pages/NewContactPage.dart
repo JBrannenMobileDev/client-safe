@@ -111,7 +111,7 @@ class _NewContactPageState extends State<NewContactPage> {
                       ),
                     ),
                     Container(
-                      height: 232.0,
+                      height: 236.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,

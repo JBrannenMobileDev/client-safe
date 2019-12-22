@@ -4,6 +4,7 @@ import 'package:client_safe/ClientSafeApp.dart';
 import 'package:client_safe/AppReducers.dart';
 import 'package:client_safe/data_layer/local_db/SembastDb.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast_io.dart';
@@ -21,8 +22,9 @@ main() {
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light.copyWith(
-      statusBarColor: Color(ColorConstants.primary_black), // Color for Android
-      statusBarBrightness: Brightness.light)); // Dark == white status bar -- for IOS.
+      statusBarColor: Color(0x00000000),
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.light));
 
 //  await FirebaseApp.configure(
 //      name: 'db2',
@@ -43,5 +45,5 @@ main() {
       initialState: AppState.initial(),
       middleware: createAppMiddleware());
 
-  runApp(new ClientSafeApp(store));
+  initializeDateFormatting("ENG").then((_) => runApp(new ClientSafeApp(store)));
 }

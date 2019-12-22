@@ -45,6 +45,8 @@ dependencies:
   android_intent: ^0.3.4
   share: ^0.6.3
   flutter_statusbarcolor: ^0.2.3
+  table_calendar: ^2.2.1
+  flutter_rounded_date_picker: ^0.3.0
 
 flutter_icons:
   android: true

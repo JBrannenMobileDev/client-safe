@@ -5,6 +5,7 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import 'NewContactTextField.dart';
@@ -43,7 +44,7 @@ class _NameAndGenderState extends State<NameAndGender>
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: 16.0, bottom: 24.0),
+              margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
               width: 250.0,
               child: CupertinoSegmentedControl<int>(
                 borderColor: Color(ColorConstants.primary),
@@ -55,6 +56,28 @@ class _NameAndGenderState extends State<NameAndGender>
                 },
                 groupValue: pageState.isFemale ? 1 : 0,
               ),
+            ),Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                IconButton(
+                  color: Color(ColorConstants.primary),
+                  icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid) : Icon(Icons.people),
+                  tooltip: 'Search',
+                  onPressed: () {
+
+                  },
+                ),
+                Text(
+                  "Device Contacts",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.w800,
+                    color: Color(ColorConstants.primary),
+                  ),
+                ),
+              ],
             ),
             NewContactTextField(
                 firstNameTextController,

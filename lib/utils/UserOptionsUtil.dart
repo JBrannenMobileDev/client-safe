@@ -1,5 +1,7 @@
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationNamePage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +32,24 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewLocationNamePage();
+      },
+    );
+  }
+
+  static void showDeviceContactsDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DeviceContactsPage();
+      },
+    );
+  }
+
+  static void showDateSelectionCalendarDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SizedBox();
       },
     );
   }

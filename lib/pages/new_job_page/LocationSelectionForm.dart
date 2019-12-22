@@ -119,6 +119,7 @@ class _LocationSelectionFormState
                     marginLeft: 32.0,
                     marginTop: 0.0,
                     marginRight: 32.0,
+                    marginBottom: 0.0,
                     onPressed: () {
                       UserOptionsUtil.showNewLocationDialog(context);
                     },

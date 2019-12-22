@@ -66,7 +66,7 @@ class _PricingProfileSelectionFormState
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: 65.0,
-                      maxHeight: 300.0,
+                      maxHeight: 350.0,
                     ),
                     child: ListView.builder(
                       reverse: false,
@@ -120,6 +120,7 @@ class _PricingProfileSelectionFormState
                     marginLeft: 32.0,
                     marginTop: 0.0,
                     marginRight: 32.0,
+                    marginBottom: 0.0,
                     onPressed: () {
                       UserOptionsUtil.showNewPriceProfileDialog(context);
                     },

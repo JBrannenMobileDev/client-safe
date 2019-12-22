@@ -6,7 +6,6 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageReducer.dart';
 import 'package:client_safe/pages/home_page/HomePageReducer.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageReducer.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageReducer.dart';
-import 'package:client_safe/pages/messages_page/MessagesPageReducer.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageReducer.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageReducer.dart';
@@ -27,7 +26,6 @@ AppState appReducers(AppState state, dynamic action) =>
         dashboardPageState: dashboardPageReducer(state.dashboardPageState, action),
         clientsPageState: clientsPageReducer(state.clientsPageState, action),
         clientDetailsPageState: clientDetailsPageReducer(state.clientDetailsPageState, action),
-        messagesPageState: messagesPageReducer(state.messagesPageState, action),
         jobsPageState: jobsPageReducer(state.jobsPageState, action),
         collectionsPageState: collectionsPageReducer(state.collectionsPageState, action),
         settingsPageState: settingsPageReducer(state.settingsPageState, action),
