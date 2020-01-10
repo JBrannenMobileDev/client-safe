@@ -1,4 +1,9 @@
-class Job {
+import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/JobStage.dart';
+import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PriceProfile.dart';
+
+class Job implements Event{
   static const String JOB_TYPE_MATERNITY = 'assets/images/job_types/maternity.png';
   static const String JOB_TYPE_ENGAGEMENT = 'assets/images/job_types/engagement.png';
   static const String JOB_TYPE_FAMILY_PORTRAIT = 'assets/images/job_types/family_portrait.png';
@@ -20,40 +25,83 @@ class Job {
   static const String GENDER_MALE = "male";
   static const String GENDER_NEUTRAL = "neutral";
 
-  static const String JOB_STAGE_INQUIRY = "assets/images/job_progress/inquiry.png";
-  static const String JOB_STAGE_FOLLOW_UP = "assets/images/job_progress/follow_up.png";
-  static const String JOB_STAGE_SEND_PROPOSAL = "assets/images/job_progress/proposal_sent.png";
-  static const String JOB_STAGE_SIGN_PROPOSAL = "assets/images/job_progress/proposal_signed.png";
-  static const String JOB_STAGE_PLANNING = "assets/images/job_progress/planning.png";
-  static const String JOB_STAGE_EDITING = "assets/images/job_progress/editing.png";
-  static const String JOB_STAGE_SEND_GALLERY = "assets/images/job_progress/send_gallery.png";
-  static const String JOB_STAGE_COLLECT_PAYMENT = "assets/images/job_progress/collect_payment.png";
-  static const String JOB_STAGE_GET_FEEDBACK = "assets/images/job_progress/get_feedback.png";
-  static const String JOB_STAGE_COMPLETED_CHECK = "assets/images/job_progress/check_mark.png";
-
-  String clientId;
+  int id;
+  int clientId;
   String clientName;
   String jobTitle;
-  int lengthInHours;
+  PriceProfile priceProfile;
+  Location location;
   String notes;
-  double price;
   String professionalUserId;
   DateTime dateTime;
   String type;
-  String stage;
+  JobStage stage;
+  List<JobStage> completedStages;
 
   Job({
+    this.id,
     this.clientId,
     this.clientName,
     this.jobTitle,
-    this.lengthInHours,
     this.notes,
-    this.price,
     this.professionalUserId,
     this.dateTime,
     this.type,
     this.stage,
+    this.completedStages,
+    this.location,
+    this.priceProfile,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id' : id,
+      'clientId': clientId,
+      'clientName' : clientName,
+      'jobTitle' : jobTitle,
+      'notes' : notes,
+      'professionalUserId' : professionalUserId,
+      'dateTime' : dateTime,
+      'type' : type,
+      'stage' : stage.toMap(),
+      'location' : location.toMap(),
+      'priceProfile' : priceProfile.toMap(),
+      'completedStages' : convertCompletedStagesToMap(completedStages),
+    };
+  }
+
+  static Job fromMap(Map<String, dynamic> map) {
+    return Job(
+      id: map['id'],
+      clientId: map['clientId'],
+      clientName: map['clientName'],
+      jobTitle: map['jobTitle'],
+      notes: map['notes'],
+      professionalUserId: map['professionalUserId'],
+      dateTime: map['dateTime'],
+      type: map['type'],
+      stage: JobStage.fromMap(map['stage']),
+      location: Location.fromMap(map['location']),
+      priceProfile: PriceProfile.fromMap(map['priceProfile']),
+      completedStages: convertMapsToJobStages(map['completedStages']),
+    );
+  }
+
+  List<Map<String, dynamic>> convertCompletedStagesToMap(List<JobStage> completedStages){
+    List<Map<String, dynamic>> listOfMaps = List();
+    for(JobStage jobStage in completedStages){
+      listOfMaps.add(jobStage.toMap());
+    }
+    return listOfMaps;
+  }
+
+  static List<JobStage> convertMapsToJobStages(List listOfMaps){
+    List<JobStage> listOfJobStages = List();
+    for(Map map in listOfMaps){
+      listOfJobStages.add(JobStage.fromMap(map));
+    }
+    return listOfJobStages;
+  }
 
   String getJobType(){
     switch(type){
@@ -82,7 +130,7 @@ class Job {
       case JOB_TYPE_NEWBORN:
         return "Newborn";
       case JOB_TYPE_OTHER:
-        return "";
+        return "Other";
       case JOB_TYPE_PET:
         return "Pet";
       case JOB_TYPE_REAL_ESTATE_ARCHITECTURE:
@@ -94,26 +142,42 @@ class Job {
   }
 
   static int getJobStagePosition(String stage){
-    switch(stage){
-      case JOB_STAGE_INQUIRY:
-        return 0;
-      case JOB_STAGE_FOLLOW_UP:
+    switch(stage) {
+      case JobStage.STAGE_1_INQUIRY_RECEIVED:
         return 1;
-      case JOB_STAGE_SEND_PROPOSAL:
+      case JobStage.STAGE_2_FOLLOWUP_SENT:
         return 2;
-      case JOB_STAGE_SIGN_PROPOSAL:
+      case JobStage.STAGE_3_PROPOSAL_SENT:
         return 3;
-      case JOB_STAGE_PLANNING:
+      case JobStage.STAGE_4_PROPOSAL_SIGNED:
         return 4;
-      case JOB_STAGE_EDITING:
+      case JobStage.STAGE_5_PLANNING_COMPLETE:
         return 5;
-      case JOB_STAGE_SEND_GALLERY:
+      case JobStage.STAGE_6_SESSION_COMPLETE:
         return 6;
-      case JOB_STAGE_COLLECT_PAYMENT:
+      case JobStage.STAGE_7_EDITING_COMPLETE:
         return 7;
-      case JOB_STAGE_GET_FEEDBACK:
+      case JobStage.STAGE_8_GALLERY_SENT:
         return 8;
+      case JobStage.STAGE_9_PAYMENT_REQUESTED:
+        return 9;
+      case JobStage.STAGE_10_PAYMENT_RECEIVED:
+        return 10;
+      case JobStage.STAGE_11_FEEDBACK_REQUESTED:
+        return 11;
+      case JobStage.STAGE_12_FEEDBACK_RECEIVED:
+        return 12;
     }
-    return 0;
+    return 1;
+  }
+
+  @override
+  DateTime getDatetime() {
+    return dateTime;
+  }
+
+  @override
+  String getTitle() {
+    return jobTitle;
   }
 }

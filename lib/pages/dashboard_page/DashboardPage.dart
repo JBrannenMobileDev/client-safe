@@ -1,16 +1,16 @@
 import 'dart:ui';
 
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/HomeCard.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/BaseHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
@@ -50,7 +50,7 @@ class DashboardPage extends StatelessWidget {
                           fit: BoxFit.contain,
                         ),
                       ),
-                      height: 700.0,
+                      height: 435.0,
                     ),
                     CustomScrollView(
                       slivers: <Widget>[
@@ -61,7 +61,7 @@ class DashboardPage extends StatelessWidget {
                           pinned: true,
                           floating: false,
                           forceElevated: false,
-                          expandedHeight: 280.0,
+                          expandedHeight: 315.0,
                           actions: <Widget>[
                             new IconButton(
                               icon: const Icon(Icons.search),
@@ -94,28 +94,7 @@ class DashboardPage extends StatelessWidget {
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
                               JobsHomeCard(pageState: pageState),
-                              HomeCard(
-                                cardTitle: "Recent Leads",
-                                listItemWidget: JobListItem(
-                                    job: Job(
-                                        jobTitle: "Sunflower Shoot",
-                                        clientName: "Allie Graham",
-                                        type: Job.JOB_TYPE_ANNIVERSARY,
-                                        lengthInHours: 1,
-                                        price: 350.0,
-                                        dateTime: DateTime(2019, 10, 5, 18))),
-                              ),
-                              HomeCard(
-                                cardTitle: "Notifications",
-                                listItemWidget: JobListItem(
-                                    job: Job(
-                                        jobTitle: "Sunflower Shoot",
-                                        clientName: "Allie Graham",
-                                        type: Job.JOB_TYPE_ANNIVERSARY,
-                                        lengthInHours: 1,
-                                        price: 350.0,
-                                        dateTime: DateTime(2019, 10, 5, 18))),
-                              ),
+                              StatsHomeCard(cardTitle: "Stats", pageState: pageState),
                             ])),
                       ],
                     ),

@@ -1,5 +1,9 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/DeviceCalendarEvent.dart';
+import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
@@ -22,10 +26,20 @@ class NewJobPageState {
   final String jobTitle;
   final PriceProfile selectedPriceProfile;
   final Location selectedLocation;
+  final DateTime selectedDate;
+  final DateTime selectedTime;
+  final DateTime sunsetDateTime;
+  final List<JobStage> selectedJobStages;
+  final JobStage currentJobStage;
+  final String jobType;
+  final String jobTypeIcon;
+  final List<Job> upcomingJobs;
+  final List<DeviceCalendarEvent> deviceCalendarEvents;
   final List<Client> allClients;
   final List<Client> filteredClients;
   final List<PriceProfile> pricingProfiles;
   final List<Location> locations;
+  final Map<DateTime, List<Event>> eventMap;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -36,6 +50,10 @@ class NewJobPageState {
   final Function(String) onJobTitleTextChanged;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(Location) onLocationSelected;
+  final Function(DateTime) onDateSelected;
+  final Function(JobStage) onJobStageSelected;
+  final Function(String) onJobTypeSelected;
+  final Function(DateTime) onTimeSelected;
 
   NewJobPageState({
     @required this.id,
@@ -48,6 +66,14 @@ class NewJobPageState {
     @required this.jobTitle,
     @required this.selectedPriceProfile,
     @required this.selectedLocation,
+    @required this.selectedDate,
+    @required this.selectedTime,
+    @required this.sunsetDateTime,
+    @required this.selectedJobStages,
+    @required this.jobType,
+    @required this.jobTypeIcon,
+    @required this.upcomingJobs,
+    @required this.deviceCalendarEvents,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -62,7 +88,13 @@ class NewJobPageState {
     @required this.pricingProfiles,
     @required this.onPriceProfileSelected,
     @required this.locations,
+    @required this.eventMap,
     @required this.onLocationSelected,
+    @required this.onDateSelected,
+    @required this.onJobStageSelected,
+    @required this.onJobTypeSelected,
+    @required this.currentJobStage,
+    @required this.onTimeSelected,
   });
 
   NewJobPageState copyWith({
@@ -81,6 +113,16 @@ class NewJobPageState {
     List<Client> filteredClients,
     List<PriceProfile> pricingProfiles,
     List<Location> locations,
+    DateTime selectedDate,
+    DateTime selectedTime,
+    DateTime sunsetDateTime,
+    List<JobStage> selectedJobStages,
+    String jobType,
+    String jobTypeIcon,
+    JobStage currentJobStage,
+    List<Job> upcomingJobs,
+    List<DeviceCalendarEvent> deviceCalendarEvents,
+    Map<DateTime, List<Event>> eventMap,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -91,6 +133,10 @@ class NewJobPageState {
     Function(String) onJobTitleTextChanged,
     Function(PriceProfile) onPriceProfileSelected,
     Function(Location) onLocationSelected,
+    Function(DateTime) onDateSelected,
+    Function(String) onJobStageSelected,
+    Function(String) onJobTypeSelected,
+    Function(DateTime) onTimeSelected,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -108,6 +154,16 @@ class NewJobPageState {
       pricingProfiles: pricingProfiles?? this.pricingProfiles,
       selectedLocation: selectedLocation?? this.selectedLocation,
       locations: locations?? this.locations,
+      selectedDate: selectedDate?? this.selectedDate,
+      selectedTime: selectedTime?? this.selectedTime,
+      sunsetDateTime: sunsetDateTime?? this.sunsetDateTime,
+      selectedJobStages: selectedJobStages?? this.selectedJobStages,
+      jobType: jobType?? this.jobType,
+      jobTypeIcon: jobTypeIcon?? this.jobTypeIcon,
+      currentJobStage: currentJobStage?? this.currentJobStage,
+      upcomingJobs: upcomingJobs?? this.upcomingJobs,
+      eventMap: eventMap?? this.eventMap,
+      deviceCalendarEvents: deviceCalendarEvents?? this.deviceCalendarEvents,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -118,6 +174,10 @@ class NewJobPageState {
       onJobTitleTextChanged: onJobTitleTextChanged?? this.onJobTitleTextChanged,
       onPriceProfileSelected: onPriceProfileSelected?? this.onPriceProfileSelected,
       onLocationSelected: onLocationSelected?? this.onLocationSelected,
+      onDateSelected: onDateSelected?? this.onDateSelected,
+      onJobStageSelected: onJobStageSelected?? this.onJobStageSelected,
+      onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
+      onTimeSelected: onTimeSelected?? this.onTimeSelected,
     );
   }
 
@@ -137,6 +197,16 @@ class NewJobPageState {
         filteredClients: List(),
         pricingProfiles: List(),
         locations: List(),
+        currentJobStage: JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED),
+        selectedDate: null,
+        selectedTime: DateTime.now(),
+        sunsetDateTime: null,
+        selectedJobStages: List(),
+        jobType: Job.JOB_TYPE_OTHER,
+        jobTypeIcon: 'assets/images/job_types/other.png',
+        upcomingJobs: List(),
+        deviceCalendarEvents: List(),
+        eventMap: Map(),
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -147,6 +217,10 @@ class NewJobPageState {
         onJobTitleTextChanged: null,
         onPriceProfileSelected: null,
         onLocationSelected: null,
+        onDateSelected: null,
+        onJobStageSelected: null,
+        onJobTypeSelected: null,
+        onTimeSelected: null,
       );
 
   factory NewJobPageState.fromStore(Store<AppState> store) {
@@ -166,6 +240,16 @@ class NewJobPageState {
       filteredClients: store.state.newJobPageState.filteredClients,
       pricingProfiles: store.state.newJobPageState.pricingProfiles,
       locations: store.state.newJobPageState.locations,
+      selectedDate: store.state.newJobPageState.selectedDate,
+      selectedTime: store.state.newJobPageState.selectedTime,
+      sunsetDateTime: store.state.newJobPageState.sunsetDateTime,
+      selectedJobStages: store.state.newJobPageState.selectedJobStages,
+      jobType: store.state.newJobPageState.jobType,
+      jobTypeIcon: store.state.newJobPageState.jobTypeIcon,
+      currentJobStage: store.state.newJobPageState.currentJobStage,
+      upcomingJobs: store.state.newJobPageState.upcomingJobs,
+      eventMap: store.state.newJobPageState.eventMap,
+      deviceCalendarEvents: store.state.newJobPageState.deviceCalendarEvents,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -176,6 +260,10 @@ class NewJobPageState {
       onJobTitleTextChanged: (jobTitle) => store.dispatch(SetJobTitleAction(store.state.newJobPageState, jobTitle)),
       onPriceProfileSelected: (priceProfile) => store.dispatch(SetSelectedPriceProfile(store.state.newJobPageState, priceProfile)),
       onLocationSelected: (location) => store.dispatch(SetSelectedLocation(store.state.newJobPageState, location)),
+      onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.newJobPageState, selectedDate)),
+      onJobStageSelected: (jobStage) => store.dispatch(SetSelectedJobStageAction(store.state.newJobPageState, jobStage)),
+      onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
+      onTimeSelected: (time) => store.dispatch(SetSelectedTimeAction(store.state.newJobPageState, time)),
     );
   }
 
@@ -195,6 +283,15 @@ class NewJobPageState {
       filteredClients.hashCode ^
       pricingProfiles.hashCode ^
       locations.hashCode ^
+      selectedDate.hashCode ^
+      selectedTime.hashCode ^
+      sunsetDateTime.hashCode ^
+      selectedJobStages.hashCode ^
+      jobType.hashCode ^
+      jobTypeIcon.hashCode ^
+      currentJobStage.hashCode ^
+      upcomingJobs.hashCode ^
+      deviceCalendarEvents.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -202,7 +299,11 @@ class NewJobPageState {
       onClientSelected.hashCode ^
       onClientSearchTextChanged.hashCode ^
       onClearInputSelected.hashCode ^
-      onLocationSelected.hashCode ;
+      onLocationSelected.hashCode ^
+      onDateSelected.hashCode ^
+      onJobStageSelected.hashCode ^
+      eventMap.hashCode ^
+      onTimeSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -222,11 +323,24 @@ class NewJobPageState {
           selectedLocation == other.selectedLocation &&
           pricingProfiles == other.pricingProfiles &&
           locations == other.locations &&
+          selectedDate == other.selectedDate &&
+          selectedTime == other.selectedTime &&
+          sunsetDateTime == other.sunsetDateTime &&
+          selectedJobStages == other.selectedJobStages &&
+          jobType == other.jobType &&
+          jobTypeIcon == other.jobTypeIcon &&
+          currentJobStage == other.currentJobStage &&
+          upcomingJobs == other.upcomingJobs &&
+          deviceCalendarEvents == other.deviceCalendarEvents &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&
           onClientSelected == other.onClientSelected &&
           onClientSearchTextChanged == other.onClientSearchTextChanged &&
-          onClearInputSelected == other.onClearInputSelected;
+          onClearInputSelected == other.onClearInputSelected &&
+          onDateSelected == other.onDateSelected &&
+          onJobStageSelected == other.onJobStageSelected &&
+          eventMap == other.eventMap &&
+          onTimeSelected == other.onTimeSelected;
 }

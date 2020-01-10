@@ -1,5 +1,7 @@
 
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
@@ -8,6 +10,41 @@ class UpdateErrorStateAction{
   final NewJobPageState pageState;
   final String errorCode;
   UpdateErrorStateAction(this.pageState, this.errorCode);
+}
+
+class SetSelectedTimeAction{
+  final NewJobPageState pageState;
+  final DateTime time;
+  SetSelectedTimeAction(this.pageState, this.time);
+}
+
+class SetSunsetTimeAction{
+  final NewJobPageState pageState;
+  final DateTime sunset;
+  SetSunsetTimeAction(this.pageState, this.sunset);
+}
+
+class FetchTimeOfSunsetAction{
+  final NewJobPageState pageState;
+  FetchTimeOfSunsetAction(this.pageState);
+}
+
+class SetSelectedDateAction{
+  final NewJobPageState pageState;
+  final DateTime selectedDate;
+  SetSelectedDateAction(this.pageState, this.selectedDate);
+}
+
+class SetSelectedJobStageAction{
+  final NewJobPageState pageState;
+  final JobStage jobStage;
+  SetSelectedJobStageAction(this.pageState, this.jobStage);
+}
+
+class SetSelectedJobTypeAction{
+  final NewJobPageState pageState;
+  final String jobType;
+  SetSelectedJobTypeAction(this.pageState, this.jobType);
 }
 
 class SetJobTitleAction{
@@ -69,7 +106,8 @@ class SetAllToStateAction{
   final List<Client> allClients;
   final List<PriceProfile> allPriceProfiles;
   final List<Location> allLocations;
-  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations);
+  final List<Job> upcomingJobs;
+  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs);
 }
 
 class ClientSelectedAction{

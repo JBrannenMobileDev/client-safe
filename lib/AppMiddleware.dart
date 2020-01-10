@@ -39,6 +39,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, prefix2.DeleteLocation>(NewLocationPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DrivingDirectionsSelected>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ShareLocationSelected>(LocationsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
   return middlewareList;
 }
 

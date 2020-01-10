@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_job_page/ClientSelectionForm.dart';
-import 'package:client_safe/pages/new_job_page/DateAndTimeForm.dart';
+import 'package:client_safe/pages/new_job_page/DateForm.dart';
 import 'package:client_safe/pages/new_job_page/JobNameForm.dart';
+import 'package:client_safe/pages/new_job_page/JobTypeSelection.dart';
 import 'package:client_safe/pages/new_job_page/LocationSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/PricingProfileSelectionForm.dart';
+import 'package:client_safe/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -23,7 +25,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage> {
-  final int pageCount = 4;
+  final int pageCount = 6;
   final controller = PageController(
     initialPage: 0,
   );
@@ -75,7 +77,7 @@ class _NewJobPageState extends State<NewJobPage> {
             backgroundColor: Colors.transparent,
             body: Center(
               child: Container(
-                width: 375.0,
+                width: getDialogWidth(currentPageIndex),
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
                 decoration: new BoxDecoration(
                     color: Color(ColorConstants.white),
@@ -110,12 +112,16 @@ class _NewJobPageState extends State<NewJobPage> {
                           JobNameForm(),
                           PricingProfileSelectionForm(),
                           LocationSelectionForm(),
-                          DateAndTimeForm(),
+                          DateForm(),
+                          TimeSelectionForm(),
+                          JobTypeSelection(),
+//                          JobStageSelectionForm(),
+//                          JobNotesForm(),
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: 26.0, right: 26.0),
+                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -196,7 +202,10 @@ class _NewJobPageState extends State<NewJobPage> {
           canProgress = pageState.selectedLocation != null;
           break;
         case 4:
-
+          canProgress = pageState.selectedDate != null;
+          break;
+        case 5:
+          canProgress = pageState.selectedTime != null;
           break;
       }
 
@@ -204,6 +213,7 @@ class _NewJobPageState extends State<NewJobPage> {
         pageState.onNextPressed();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
+        FocusScope.of(context).unfocus();
       }
     }
     if (pageState.pageViewIndex == pageCount) {
@@ -252,14 +262,49 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 200.0;
         break;
       case 2:
-        height = 380.0;
+        height = 414.0;
         break;
       case 3:
         height = 500.0;
         break;
       case 4:
-        height = 400.0;
+        height = 600.0;
+        break;
+      case 5:
+        height = 300.0;
+        break;
+      case 6:
+        height = 450.0;
+        break;
     }
     return height;
+  }
+
+  double getDialogWidth(int currentPageIndex) {
+    double width = 450.0;
+    switch(currentPageIndex){
+      case 0:
+        width = 450.0;
+        break;
+      case 1:
+        width = 450.0;
+        break;
+      case 2:
+        width = 450.0;
+        break;
+      case 3:
+        width = 450.0;
+        break;
+      case 4:
+        width = 450.0;
+        break;
+      case 5:
+        width = 450.0;
+        break;
+      case 5:
+        width = 450.0;
+        break;
+    }
+    return width;
   }
 }

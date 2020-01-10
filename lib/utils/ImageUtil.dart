@@ -41,7 +41,63 @@ class ImageUtil{
     'assets/images/job_types/pet.png',
     'assets/images/job_types/real_estate_architecture.png',
     'assets/images/job_types/wedding.png',
-    'assets/images/job_types/event.png'];
+    'assets/images/job_types/event.png',
+    'assets/images/people/gender_nuetral_white_hair.png',
+  ];
+
+  static String getJobTypeText(int index) {
+    switch(index){
+      case 0:
+        return 'Anniversary';
+        break;
+      case 1:
+        return 'Birthday';
+        break;
+      case 2:
+        return 'Breastfeeding';
+        break;
+      case 3:
+        return 'Advertising';
+        break;
+      case 4:
+        return 'Engagement';
+        break;
+      case 5:
+        return 'Family';
+        break;
+      case 6:
+        return 'Maternity';
+        break;
+      case 7:
+        return 'Modeling';
+        break;
+      case 8:
+        return 'Nature';
+        break;
+      case 9:
+        return 'Newborn';
+        break;
+      case 10:
+        return 'Other';
+        break;
+      case 11:
+        return 'Pet';
+        break;
+      case 12:
+        return 'Architecture';
+        break;
+      case 13:
+        return 'Wedding';
+        break;
+      case 14:
+        return 'Event';
+        break;
+      case 15:
+        return 'Headshots';
+        break;
+    }
+    return '';
+  }
 
   static List<String> leadSourceIcons = [
     'assets/images/lead_source_type/lead_source_word_of_mouth.png',

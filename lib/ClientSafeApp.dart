@@ -17,6 +17,8 @@ class ClientSafeApp extends StatelessWidget {
     return new StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
+        builder: (context, child) =>
+            MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false), child: child),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,
         color: const Color(ColorConstants.primary),
         title: 'Client Safe',

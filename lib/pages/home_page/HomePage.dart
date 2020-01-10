@@ -31,6 +31,7 @@ class _HomeState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
+      backgroundColor: Colors.white,
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Colors.white,
@@ -44,38 +45,41 @@ class _HomeState extends State<HomePage> {
                 )
           ),
       ),
-        child: BottomNavigationBar(
-          elevation: 0.0,
-          type: BottomNavigationBarType.fixed,
-          onTap: onTabTapped,
-          currentIndex: _currentIndex, // this will be set when a new tab is tapped
-          items: [
-            BottomNavigationBarItem(
-              icon: new Icon(
-                Icons.people,
-              ),
-              title: Container(height: 0.0)),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.calendar_today,
-                ),
-                title: Container(height: 0.0)),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                ),
-                title: Container(height: 0.0)),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.business_center,
-                ),
-                title: Container(height: 0.0)),
-            BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.folder,
-                ),
-                title: Container(height: 0.0))
-          ],
+        child: Padding(
+          padding: EdgeInsets.only(left: 32.0, right: 32.0),
+          child: BottomNavigationBar(
+            elevation: 0.0,
+            type: BottomNavigationBarType.fixed,
+            onTap: onTabTapped,
+            currentIndex: _currentIndex, // this will be set when a new tab is tapped
+            items: [
+              BottomNavigationBarItem(
+                  icon: new Icon(
+                    Icons.people,
+                  ),
+                  title: Container(height: 0.0)),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.calendar_today,
+                  ),
+                  title: Container(height: 0.0)),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.home,
+                  ),
+                  title: Container(height: 0.0)),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.business_center,
+                  ),
+                  title: Container(height: 0.0)),
+              BottomNavigationBarItem(
+                  icon: Icon(
+                    Icons.folder,
+                  ),
+                  title: Container(height: 0.0))
+            ],
+          ),
         ),
       ),
     );

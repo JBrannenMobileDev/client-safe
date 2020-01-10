@@ -10,7 +10,7 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 dependencies:
   flutter:
@@ -47,6 +47,7 @@ dependencies:
   flutter_statusbarcolor: ^0.2.3
   table_calendar: ^2.2.1
   flutter_rounded_date_picker: ^0.3.0
+  sunrise_sunset: ^1.0.3
 
 flutter_icons:
   android: true
@@ -94,6 +95,7 @@ flutter:
     - assets/images/people/female6.png
     - assets/images/people/female7.png
     - assets/images/people/female8.png
+    - assets/images/people/gender_nuetral_white_hair.png
 
     - assets/images/job_types/maternity.png
     - assets/images/job_types/engagement.png
@@ -112,15 +114,17 @@ flutter:
     - assets/images/job_types/birthday.png
 
     - assets/images/job_progress/check_mark.png
-    - assets/images/job_progress/collect_payment.png
-    - assets/images/job_progress/editing.png
-    - assets/images/job_progress/follow_up.png
-    - assets/images/job_progress/get_feedback.png
-    - assets/images/job_progress/inquiry.png
-    - assets/images/job_progress/planning.png
+    - assets/images/job_progress/payment_requested.png
+    - assets/images/job_progress/editing_complete.png
+    - assets/images/job_progress/followup_sent.png
+    - assets/images/job_progress/feedback_received.png
+    - assets/images/job_progress/inquiry_received.png
+    - assets/images/job_progress/planning_complete.png
     - assets/images/job_progress/proposal_sent.png
     - assets/images/job_progress/proposal_signed.png
-    - assets/images/job_progress/send_gallery.png
+    - assets/images/job_progress/gallery_sent.png
+    - assets/images/job_progress/feedback_received.png
+    - assets/images/job_progress/session_complete.png
 
     - assets/images/lead_source_type/lead_source_blog.png
     - assets/images/lead_source_type/lead_source_business_card.png

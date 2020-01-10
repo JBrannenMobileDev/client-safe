@@ -1,4 +1,6 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
@@ -16,7 +18,32 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetJobTitleAction>(_setJobTitle),
   TypedReducer<NewJobPageState, SetSelectedPriceProfile>(_setSelectedPriceProfile),
   TypedReducer<NewJobPageState, SetSelectedLocation>(_setSelectedLocation),
+  TypedReducer<NewJobPageState, SetSelectedDateAction>(_setSelectedDate),
+  TypedReducer<NewJobPageState, SetSelectedJobStageAction>(_setJobStage),
+  TypedReducer<NewJobPageState, SetSelectedJobTypeAction>(_setJobType),
+  TypedReducer<NewJobPageState, SetSunsetTimeAction>(_setSunsetTime),
+  TypedReducer<NewJobPageState, SetSelectedTimeAction>(_setSelectedTime),
 ]);
+
+NewJobPageState _setSelectedTime(NewJobPageState previousState, SetSelectedTimeAction action) {
+  return previousState.copyWith(selectedTime: action.time);
+}
+
+NewJobPageState _setSelectedDate(NewJobPageState previousState, SetSelectedDateAction action) {
+  return previousState.copyWith(selectedDate: action.selectedDate);
+}
+
+NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeAction action) {
+  return previousState.copyWith(sunsetDateTime: action.sunset);
+}
+
+NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageAction action) {
+  return previousState.copyWith(currentJobStage: action.jobStage);
+}
+
+NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedJobTypeAction action) {
+  return previousState.copyWith(jobType: action.jobType);
+}
 
 NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {
   PriceProfile newProfile;
@@ -55,12 +82,26 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
 }
 
 NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateAction action) {
+  Map<DateTime, List<Event>> eventMap = Map();
+  for(Job job in action.upcomingJobs) {
+    if(eventMap.containsKey(job.dateTime)){
+      List<Event> eventList = eventMap.remove(job.dateTime);
+      eventList.add(job);
+      eventMap.putIfAbsent(job.dateTime, () => eventList);
+    }else{
+      List<Event> newEventList = List();
+      newEventList.add(job);
+      eventMap.putIfAbsent(job.dateTime, () => newEventList);
+    }
+  }
   return previousState.copyWith(
     allClients: action.allClients,
     filteredClients: action.allClients,
     pricingProfiles: action.allPriceProfiles,
     locations: action.allLocations,
+    upcomingJobs: action.upcomingJobs,
     isFinishedFetchingClients: true,
+    eventMap: eventMap,
   );
 }
 

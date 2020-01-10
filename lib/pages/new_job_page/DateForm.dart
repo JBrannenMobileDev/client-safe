@@ -1,53 +1,28 @@
-import 'dart:async';
-
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class DateAndTimeForm extends StatefulWidget {
+class DateForm extends StatefulWidget {
   @override
-  _DateAndTimeFormState createState() {
-    return _DateAndTimeFormState();
+  _DateFormState createState() {
+    return _DateFormState();
   }
 }
 
-class _DateAndTimeFormState extends State<DateAndTimeForm> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
-  DateTime selectedData;
-  Map<DateTime, List> _events;
-  List _selectedEvents;
+class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   AnimationController _animationController;
   CalendarController _calendarController;
 
   @override
   void initState() {
     super.initState();
-    final _selectedDay = DateTime.now();
 
-    _events = {
-      _selectedDay.subtract(Duration(days: 30)): ['Event A0', 'Event B0', 'Event C0'],
-      _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-      _selectedDay.subtract(Duration(days: 20)): ['Event A2', 'Event B2', 'Event C2', 'Event D2'],
-      _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-      _selectedDay.subtract(Duration(days: 10)): ['Event A4', 'Event B4', 'Event C4'],
-      _selectedDay.subtract(Duration(days: 4)): ['Event A5', 'Event B5', 'Event C5'],
-      _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-      _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-      _selectedDay.add(Duration(days: 1)): ['Event A8', 'Event B8', 'Event C8', 'Event D8'],
-      _selectedDay.add(Duration(days: 7)): ['Event A10', 'Event B10', 'Event C10'],
-      _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-      _selectedDay.add(Duration(days: 17)): ['Event A12', 'Event B12', 'Event C12', 'Event D12'],
-      _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-      _selectedDay.add(Duration(days: 26)): ['Event A14', 'Event B14', 'Event C14'],
-    };
-
-    _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
 
     _animationController = AnimationController(
@@ -65,10 +40,9 @@ class _DateAndTimeFormState extends State<DateAndTimeForm> with AutomaticKeepAli
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events) {
-    print('CALLBACK: _onDaySelected');
+  void _onDaySelected(DateTime day, List events, NewJobPageState pageState) {
     setState(() {
-      _selectedEvents = events;
+      _buildEventList(pageState);
     });
   }
 
@@ -83,12 +57,12 @@ class _DateAndTimeFormState extends State<DateAndTimeForm> with AutomaticKeepAli
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
-        margin: EdgeInsets.only(left: 26.0, right: 26.0),
+        margin: EdgeInsets.only(left: 8.0, right: 8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 8.0),
+              padding: EdgeInsets.only(bottom: 4.0),
               child: Text(
                 "Select a date for this job.",
                 textAlign: TextAlign.center,
@@ -100,32 +74,19 @@ class _DateAndTimeFormState extends State<DateAndTimeForm> with AutomaticKeepAli
                 ),
               ),
             ),
-            _buildTableCalendarWithBuilders(),
-//                Container(
-//                  height: 56.0,
-//                  width: 56.0,
-//                  margin: EdgeInsets.only(top: 32.0, bottom: 8.0),
-//                  decoration: BoxDecoration(
-//                    image: DecorationImage(
-//                      fit: BoxFit.cover,
-//                      image: AssetImage("assets/images/clock.png"),
-//                    ),
-//                  ),
-//                ),
-//                Container(
-//                  margin: EdgeInsets.only(left: 64.0, right: 64.0),
-//                  child: Text(
-//                    "Sunset is at 4:43 PM",
-//                    textAlign: TextAlign.center,
-//                    style: TextStyle(
-//                      fontSize: 18.0,
-//                      fontFamily: 'Raleway',
-//                      fontWeight: FontWeight.w400,
-//                      color: Color(ColorConstants.primary_black),
-//                    ),
-//                  ),
-//                ),
-
+            pageState.selectedDate != null ? Text(
+                DateFormat('MMM d, yyyy').format(pageState.selectedDate),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w800,
+                  color: Color(ColorConstants.primary),
+                ),
+              ) : SizedBox(),
+            _buildTableCalendarWithBuilders(pageState),
+            const SizedBox(height: 8.0),
+            Expanded(child: _buildEventList(pageState)),
           ],
         ),
       ),
@@ -133,11 +94,11 @@ class _DateAndTimeFormState extends State<DateAndTimeForm> with AutomaticKeepAli
   }
 
   // More advanced TableCalendar configuration (using Builders & Styles)
-  Widget _buildTableCalendarWithBuilders() {
+  Widget _buildTableCalendarWithBuilders(NewJobPageState pageState) {
     return TableCalendar(
       locale: 'en_US',
       calendarController: _calendarController,
-      events: _events,
+      events: pageState.eventMap,
       initialCalendarFormat: CalendarFormat.month,
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -213,7 +174,8 @@ class _DateAndTimeFormState extends State<DateAndTimeForm> with AutomaticKeepAli
         },
       ),
       onDaySelected: (date, events) {
-        _onDaySelected(date, events);
+        pageState.onDateSelected(date);
+        _onDaySelected(date, events, pageState);
         _animationController.forward(from: 0.0);
       },
       onVisibleDaysChanged: _onVisibleDaysChanged,
@@ -223,19 +185,70 @@ class _DateAndTimeFormState extends State<DateAndTimeForm> with AutomaticKeepAli
   Widget _buildEventsMarker(DateTime date, List events) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      width: 6.0,
-      height: 6.0,
-      child: Row(
+      child: _buildMultipleEvents(date, events)
+    );
+  }
+
+  Widget _buildMultipleEvents(DateTime date, List events) {
+    if (events.length > 3) {
+      return Row(
         children: <Widget>[
-          //create a build method to make the multi dots.
-          events.length < 5 ? Container(
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(ColorConstants.primary_black)
-            ),
-          ) :
+          blackEventDot(),
+          blackEventDot(),
+          blackEventDot(),
+          blackEventDot(),
         ],
+      );
+    } else if(events.length == 3) {
+      return Row(
+        children: <Widget>[
+          blackEventDot(),
+          blackEventDot(),
+          blackEventDot(),
+        ],
+      );
+    } else if(events.length == 2) {
+      return Row(
+        children: <Widget>[
+          blackEventDot(),
+          blackEventDot(),
+        ],
+      );
+    } else if(events.length == 1) {
+      return blackEventDot();
+    } else {
+      return SizedBox();
+    }
+  }
+
+  Widget blackEventDot() {
+    return Container(
+      width: 8.0,
+      height: 8.0,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Color(ColorConstants.primary_black)
       ),
+    );
+  }
+
+  Widget _buildEventList(NewJobPageState pageState) {
+    List eventList = List();
+    eventList.addAll(pageState.upcomingJobs);
+    eventList.addAll(pageState.deviceCalendarEvents);
+    return ListView(
+      children: eventList.map((event) => Container(
+        decoration: BoxDecoration(
+          border: Border.all(width: 1.0, color: Color(ColorConstants.primary)),
+          borderRadius: BorderRadius.circular(32.0),
+        ),
+        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
+        child: ListTile(
+          title: Text(event.getTitle()),
+          onTap: () => print('$event tapped!'),
+        ),
+      ))
+          .toList(),
     );
   }
 

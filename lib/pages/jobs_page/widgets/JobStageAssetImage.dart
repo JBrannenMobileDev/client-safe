@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -46,7 +47,7 @@ class JobStateAssetImage extends StatelessWidget{
             width: 16.0,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(Job.JOB_STAGE_COMPLETED_CHECK),
+                image: JobStage.getStageImageStatic(stage),
                 fit: BoxFit.contain,
               ),
             ),
