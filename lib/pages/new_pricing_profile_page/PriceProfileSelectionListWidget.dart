@@ -23,10 +23,10 @@ class PriceProfileSelectionListWidget extends StatelessWidget {
         onPressed: () {
           _onProfileSelected(getProfile(profileIndex, pageState), pageState, context);
         },
-            color: pageState.selectedPriceProfile == getProfile(profileIndex, pageState) ? Color(ColorConstants.primary) : Colors.white,
+            color: pageState.selectedPriceProfile == getProfile(profileIndex, pageState) ? Color(ColorConstants.getPrimaryColor()) : Colors.white,
             shape: RoundedRectangleBorder(
                 side: BorderSide(
-                  color: Color(ColorConstants.primary),
+                  color: Color(ColorConstants.getPrimaryColor()),
                   width: 2.0,
                 ),
                 borderRadius: new BorderRadius.circular(32.0),

@@ -21,7 +21,7 @@ class JobsHomeCard extends StatelessWidget {
             padding: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
             margin: EdgeInsets.only(top: 60.0),
             height: Device.get().isIphoneX ? 110.0 : 90.0,
-            color: const Color(ColorConstants.primary_bg_grey),
+            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
           ),
           BaseHomeCard(
             cardTitle: "Upcoming Jobs",

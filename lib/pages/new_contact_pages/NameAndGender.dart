@@ -47,8 +47,8 @@ class _NameAndGenderState extends State<NameAndGender>
               margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
               width: 250.0,
               child: CupertinoSegmentedControl<int>(
-                borderColor: Color(ColorConstants.primary),
-                selectedColor: Color(ColorConstants.primary),
+                borderColor: Color(ColorConstants.getPrimaryColor()),
+                selectedColor: Color(ColorConstants.getPrimaryColor()),
                 unselectedColor: Colors.white,
                 children: genders,
                 onValueChanged: (int genderIndex) {
@@ -60,7 +60,7 @@ class _NameAndGenderState extends State<NameAndGender>
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 IconButton(
-                  color: Color(ColorConstants.primary),
+                  color: Color(ColorConstants.getPrimaryColor()),
                   icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid) : Icon(Icons.people),
                   tooltip: 'Search',
                   onPressed: () {
@@ -74,7 +74,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     fontSize: 16.0,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w800,
-                    color: Color(ColorConstants.primary),
+                    color: Color(ColorConstants.getPrimaryColor()),
                   ),
                 ),
               ],

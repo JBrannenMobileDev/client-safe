@@ -22,7 +22,7 @@ class JobsPage extends StatelessWidget{
       child: new CustomScrollView(
         slivers: <Widget>[
           new SliverAppBar(
-            backgroundColor: const Color(ColorConstants.primary),
+            backgroundColor: Color(ColorConstants.getPrimaryColor()),
             pinned: true,
             floating: true,
             snap: false,

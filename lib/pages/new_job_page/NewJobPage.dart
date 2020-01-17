@@ -132,7 +132,7 @@ class _NewJobPageState extends State<NewJobPage> {
                             disabledTextColor:
                                 Color(ColorConstants.primary_bg_grey),
                             padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.primary),
+                            splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onBackPressed(pageState);
                             },
@@ -155,7 +155,7 @@ class _NewJobPageState extends State<NewJobPage> {
                             disabledTextColor:
                                 Color(ColorConstants.primary_bg_grey),
                             padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.primary),
+                            splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               // ignore: unnecessary_statements
                               pageState.selectedClient == null ? null : onNextPressed(pageState);

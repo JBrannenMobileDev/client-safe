@@ -31,10 +31,10 @@ class _HomeState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
-      backgroundColor: Colors.white,
+      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Colors.white,
+          canvasColor: Color(ColorConstants.getPrimaryWhite()),
           primaryColor: Color(ColorConstants.primary_black),
           textTheme: Theme
               .of(context)

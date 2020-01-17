@@ -113,7 +113,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm>
                   fontSize: 24.0,
                   fontFamily: 'Raleway',
                   fontWeight: FontWeight.w800,
-                  color: Color(ColorConstants.primary),
+                  color: Color(ColorConstants.getPrimaryColor()),
                 ),
               ),
             ),

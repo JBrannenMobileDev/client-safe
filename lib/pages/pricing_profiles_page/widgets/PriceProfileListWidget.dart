@@ -111,7 +111,7 @@ class PriceProfileListWidget extends StatelessWidget {
               child: IconButton(
                 icon: const Icon(Icons.edit),
                 tooltip: 'Edit',
-                color: Color(ColorConstants.primary),
+                color: Color(ColorConstants.getPrimaryColor()),
                 onPressed: () {
                   _onProfileSelected(getProfile(profileIndex, pageState), pageState, context);
                 },

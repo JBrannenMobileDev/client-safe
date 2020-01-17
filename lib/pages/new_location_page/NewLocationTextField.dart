@@ -52,21 +52,21 @@ class NewLocationTextField extends StatelessWidget {
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.primary),
+                      color: Color(ColorConstants.getPrimaryColor()),
                       width: 1.0,
                     ),
                   ),
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.primary),
+                      color: Color(ColorConstants.getPrimaryColor()),
                       width: 1.0,
                     ),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.primary),
+                      color: Color(ColorConstants.getPrimaryColor()),
                       width: 1.0,
                     ),
                   ),

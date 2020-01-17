@@ -34,13 +34,13 @@ class DashboardPage extends StatelessWidget {
         builder: (BuildContext context, DashboardPageState pageState) =>
             Scaffold(
               body: Container(
-                color: Color(ColorConstants.primary_bg_grey),
+                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                        color: const Color(ColorConstants.primary),
+                        color: Color(ColorConstants.getPrimaryColorForDashboard()).withOpacity(0.75),
                         image: DecorationImage(
                           image: AssetImage(ImageUtil.CAMERA_BG),
                           repeat: ImageRepeat.repeat,

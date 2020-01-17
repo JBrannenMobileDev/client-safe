@@ -56,7 +56,7 @@ class NewPricingProfileTextField extends StatelessWidget {
                                   NewContactPageState.NO_ERROR &&
                               inputTypeError == pageState.errorState
                           ? Colors.red
-                          : Color(ColorConstants.primary),
+                          : Color(ColorConstants.getPrimaryColor()),
                       width: 1.0,
                     ),
                   ),
@@ -67,7 +67,7 @@ class NewPricingProfileTextField extends StatelessWidget {
                           NewContactPageState.NO_ERROR &&
                           inputTypeError == pageState.errorState
                           ? Colors.red
-                          : Color(ColorConstants.primary),
+                          : Color(ColorConstants.getPrimaryColor()),
                       width: 1.0,
                     ),
                   ),
@@ -78,7 +78,7 @@ class NewPricingProfileTextField extends StatelessWidget {
                           NewContactPageState.NO_ERROR &&
                           inputTypeError == pageState.errorState
                           ? Colors.red
-                          : Color(ColorConstants.primary),
+                          : Color(ColorConstants.getPrimaryColor()),
                       width: 1.0,
                     ),
                   ),

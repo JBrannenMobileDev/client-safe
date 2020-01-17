@@ -20,11 +20,11 @@ class ClientSafeApp extends StatelessWidget {
         builder: (context, child) =>
             MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false), child: child),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,
-        color: const Color(ColorConstants.primary),
-        title: 'Client Safe',
+        color: Color(ColorConstants.getPrimaryColor()),
+        title: 'DandyLight',
         home: HomePage(),
         theme: ThemeData(
-          primaryColor: Color(ColorConstants.primary),
+          primaryColor: Color(ColorConstants.getPrimaryColor()),
           iconTheme: IconThemeData(color: Colors.white),
           primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
               color: Colors.white,

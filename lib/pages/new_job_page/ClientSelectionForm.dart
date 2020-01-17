@@ -64,7 +64,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
-                                color: Color(ColorConstants.primary),
+                                color: Color(ColorConstants.getPrimaryColor()),
                                 width: 1.0,
                               ),
                             ),
@@ -92,7 +92,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                       child: IconButton(
                         icon: const Icon(Icons.close),
                         tooltip: 'Close',
-                        color: Color(ColorConstants.primary),
+                        color: Color(ColorConstants.getPrimaryColor()),
                         onPressed: () {
                           setState(() {
                             searchHasFocus = false;
@@ -107,7 +107,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                       child: IconButton(
                         icon: const Icon(Icons.search),
                         tooltip: 'Search',
-                        color: Color(ColorConstants.primary),
+                        color: Color(ColorConstants.getPrimaryColor()),
                         onPressed: () {
                           setState(() {
                             searchHasFocus = true;
@@ -128,7 +128,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                       fontSize: 18.0,
                       fontFamily: 'Raleway',
                       fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary),
+                      color: Color(ColorConstants.getPrimaryColor()),
                     ),
                   ),
                 ),

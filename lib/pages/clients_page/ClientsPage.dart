@@ -66,7 +66,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         actions: <Widget>[
                           IconButton(
                             icon: const Icon(Icons.add_circle_outline),
-                            color: Color(ColorConstants.primary),
+                            color: Color(ColorConstants.getPrimaryColor()),
                             tooltip: 'Add',
                             onPressed: () {
                               UserOptionsUtil.showNewContactDialog(context);
@@ -78,8 +78,8 @@ class _ClientsPageState extends State<ClientsPage> {
                             width: 300.0,
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSegmentedControl<int>(
-                              borderColor: Color(ColorConstants.primary),
-                              selectedColor: Color(ColorConstants.primary),
+                              borderColor: Color(ColorConstants.getPrimaryColor()),
+                              selectedColor: Color(ColorConstants.getPrimaryColor()),
                               unselectedColor: Colors.white,
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {
@@ -116,8 +116,8 @@ class _ClientsPageState extends State<ClientsPage> {
                   ),
                   SideBar(
                       list: alphabetList,
-                      textColor: Color(ColorConstants.primary),
-                      color: Color(ColorConstants.primary).withOpacity(0.2),
+                      textColor: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getPrimaryColor()).withOpacity(0.2),
                       valueChanged: (value) {
                         _controller.jumpTo(alphabetList.indexOf(value) * 44.0);
                       })

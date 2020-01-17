@@ -24,12 +24,12 @@ class _CollectionsPageState extends State<CollectionsPage> {
       converter: (store) => CollectionsPageState.fromStore(store),
       builder: (BuildContext context, CollectionsPageState pageState) =>
           Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
         body: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
               brightness: Brightness.light,
-              backgroundColor: Colors.white,
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               pinned: true,
               centerTitle: true,
               title: Center(
@@ -44,7 +44,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
               actions: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.add_circle_outline),
-                  color: Color(ColorConstants.primary),
+                  color: Color(ColorConstants.getPrimaryColor()),
                   tooltip: 'Add',
                   onPressed: () {
                     UserOptionsUtil.showCollectionOptionsSheet(context);

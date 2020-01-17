@@ -95,7 +95,7 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
                             child: IconButton(
                               icon: const Icon(Icons.delete),
                               tooltip: 'Delete',
-                              color: Color(ColorConstants.primary),
+                              color: Color(ColorConstants.getPrimaryColor()),
                               onPressed: () {
                                 _ackAlert(context, pageState);
                               },
@@ -106,7 +106,7 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
                             child: IconButton(
                               icon: const Icon(Icons.save),
                               tooltip: 'Save',
-                              color: Color(ColorConstants.primary),
+                              color: Color(ColorConstants.getPrimaryColor()),
                               onPressed: () {
                                 showSuccessAnimation();
                                 pageState.onSaveLocationSelected();
@@ -129,7 +129,7 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
                             disabledTextColor:
                                 Color(ColorConstants.primary_bg_grey),
                             padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.primary),
+                            splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onBackPressed(pageState);
                             },
@@ -151,7 +151,7 @@ class _NewLocationNamePageState extends State<NewLocationNamePage> {
                             disabledTextColor:
                                 Color(ColorConstants.primary_bg_grey),
                             padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.primary),
+                            splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onNextPressed(pageState);
                             },

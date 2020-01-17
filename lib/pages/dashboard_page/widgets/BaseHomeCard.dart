@@ -19,7 +19,7 @@ class BaseHomeCard extends StatelessWidget{
         margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
         decoration: new BoxDecoration(
-            color: Color(ColorConstants.white),
+            color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: new BorderRadius.all(Radius.circular(8.0))),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,

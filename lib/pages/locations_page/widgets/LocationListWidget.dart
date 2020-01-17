@@ -40,7 +40,7 @@ class LocationListWidget extends StatelessWidget {
                        image: pageState.locations.elementAt(locationIndex).imagePath != null ? Image.file(File(pageState.locations.elementAt(locationIndex).imagePath ?? "")).image
                         : AssetImage("assets/images/backgrounds/image_background.png"),
                       ),
-                      color: Color(ColorConstants.primary_black),
+                      color: Color(ColorConstants.getPrimaryWhite()),
                       borderRadius: new BorderRadius.circular(16.0),
                     ),
                     child: Container(
@@ -53,7 +53,7 @@ class LocationListWidget extends StatelessWidget {
                           fontSize: 16.0,
                           fontWeight: FontWeight.w800,
                           fontFamily: 'Raleway',
-                          color: const Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                       ),
                     ),
@@ -63,7 +63,7 @@ class LocationListWidget extends StatelessWidget {
                 height: _getItemWidthHeight(context),
                 margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                 decoration: BoxDecoration(
-                    color: Color(ColorConstants.primary_black),
+                    color: Color(ColorConstants.getPrimaryWhite()),
                     borderRadius: new BorderRadius.circular(16.0),
                     gradient: LinearGradient(
                         begin: FractionalOffset.center,
@@ -139,7 +139,7 @@ class LocationListWidget extends StatelessWidget {
                   fontSize: 16.0,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'Raleway',
-                  color: const Color(ColorConstants.primary_black),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
             ),

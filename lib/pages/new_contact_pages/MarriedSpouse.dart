@@ -76,8 +76,8 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                       margin: EdgeInsets.only(top: 8.0),
                       width: 250.0,
                       child: CupertinoSegmentedControl<int>(
-                        borderColor: Color(ColorConstants.primary),
-                        selectedColor: Color(ColorConstants.primary),
+                        borderColor: Color(ColorConstants.getPrimaryColor()),
+                        selectedColor: Color(ColorConstants.getPrimaryColor()),
                         unselectedColor: Colors.white,
                         children: statuses,
                         onValueChanged: (int statusIndex) {

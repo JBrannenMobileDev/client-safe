@@ -31,15 +31,15 @@ class LocationsPage extends StatelessWidget {
         converter: (Store<AppState> store) => LocationsPageState.fromStore(store),
         builder: (BuildContext context, LocationsPageState pageState) =>
             Scaffold(
-              backgroundColor: Color(ColorConstants.primary_locations),
+              backgroundColor: Color(ColorConstants.getCollectionColor2()),
               body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
                     iconTheme: IconThemeData(
-                      color: Color(ColorConstants.primary_black), //change your color here
+                      color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                     ),
                     brightness: Brightness.light,
-                    backgroundColor: Color(ColorConstants.primary_locations),
+                    backgroundColor: Color(ColorConstants.getCollectionColor2()),
                     pinned: true,
                     centerTitle: true,
                     title: Center(
@@ -47,14 +47,14 @@ class LocationsPage extends StatelessWidget {
                         "Locations",
                         style: TextStyle(
                           fontFamily: 'Raleway',
-                          color: const Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                       ),
                     ),
                     actions: <Widget>[
                       IconButton(
                         icon: const Icon(Icons.add_circle_outline),
-                        color: Color(ColorConstants.primary_black),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                         tooltip: 'Add',
                         onPressed: () {
                           UserOptionsUtil.showNewLocationDialog(context);
@@ -83,7 +83,7 @@ class LocationsPage extends StatelessWidget {
                               fontSize: 18.0,
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w400,
-                              color: const Color(ColorConstants.primary_black),
+                              color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                         ),

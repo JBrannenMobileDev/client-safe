@@ -76,7 +76,7 @@ class JobListItem extends StatelessWidget{
             margin: EdgeInsets.only(right: 24.0),
             child: Icon(
               Icons.chevron_right,
-              color: Color(ColorConstants.primary_bg_grey),
+              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
             ),
           )
         ],

@@ -1,7 +1,7 @@
 
 class ColorConstants{
 
-  //App colors
+  //Set 1
   static const int black_overlay_light = 0x25000000;
   static const int black_overlay_medium = 0x50000000;
   static const int black_overlay_dark = 0x75000000;
@@ -18,4 +18,47 @@ class ColorConstants{
   static const int primary_bg_grey_dark = 0xffc9d3d6;
   static const int primary_divider = 0xffe0e0e0;
   static const int white = 0xffffffff;
+
+  //Set 2
+  static const int gold = 0xffE1BD5B;
+  static const int goldDashboard = 0xffCBA63A;
+  static const int blue = 0xffC2D3CB;
+  static const int peach_dark = 0xffCD755D;
+  static const int peach_light = 0xffECA99A;
+  static const int cream = 0xffFFffff;
+  static const int grey = 0xffE4E4E4;
+  static const int green = 0xff31636D;
+  static const int charcoal = 0xff504B47;
+
+  static int getPrimaryColor(){
+    return gold;
+  }
+
+  static int getPrimaryColorForDashboard(){
+    return goldDashboard;
+  }
+
+  static int getPrimaryWhite(){
+    return cream;
+  }
+
+  static int getPrimaryBackgroundGrey(){
+    return grey;
+  }
+
+  static int getCollectionColor1(){
+    return peach_dark;
+  }
+
+  static int getCollectionColor2(){
+    return green;
+  }
+
+  static int getCollectionColor3(){
+    return peach_light;
+  }
+
+  static int getCollectionColor4(){
+    return gold;
+  }
 }

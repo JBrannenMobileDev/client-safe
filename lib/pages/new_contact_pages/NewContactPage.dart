@@ -140,7 +140,7 @@ class _NewContactPageState extends State<NewContactPage> {
                             disabledTextColor:
                                 Color(ColorConstants.primary_bg_grey),
                             padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.primary),
+                            splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onBackPressed(pageState);
                             },
@@ -162,7 +162,7 @@ class _NewContactPageState extends State<NewContactPage> {
                             disabledTextColor:
                                 Color(ColorConstants.primary_bg_grey),
                             padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.primary),
+                            splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onNextPressed(pageState);
                             },

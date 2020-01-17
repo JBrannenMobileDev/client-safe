@@ -113,8 +113,8 @@ class ImageUtil{
   static List<String> collectionIcons = [
     'assets/images/collection_icons/collection_pricing_profiles.png',
     'assets/images/collection_icons/collection_photoshoot_locations.png',
-    'assets/images/collection_icons/collection_contracts.png',
     'assets/images/collection_icons/collection_example_poses.png',
+    'assets/images/collection_icons/collection_contracts.png',
   ];
 
   static String locationPin = 'assets/images/collection_icons/location_pin.png';

@@ -18,7 +18,7 @@ class NewJobClientListWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(18.0),
             ),
-            color: pageState.filteredClients.elementAt(clientIndex).id == pageState.selectedClient?.id ? Color(ColorConstants.primary) : Colors.transparent,
+            color: pageState.filteredClients.elementAt(clientIndex).id == pageState.selectedClient?.id ? Color(ColorConstants.getPrimaryColor()) : Colors.transparent,
         onPressed: () {
           pageState.onClientSelected(pageState.filteredClients.elementAt(clientIndex));
         },

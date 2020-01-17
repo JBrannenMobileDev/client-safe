@@ -89,8 +89,8 @@ class JobLocationListWidget extends StatelessWidget {
                               begin: FractionalOffset.center,
                               end: FractionalOffset.bottomCenter,
                               colors: [
-                                Color(ColorConstants.primary).withOpacity(0.5),
-                                Color(ColorConstants.primary).withOpacity(0.5),
+                                Color(ColorConstants.getPrimaryColor()).withOpacity(0.5),
+                                Color(ColorConstants.getPrimaryColor()).withOpacity(0.5),
                               ],
                               stops: [
                                 0.0,
@@ -121,7 +121,7 @@ class JobLocationListWidget extends StatelessWidget {
                   fontFamily: 'Raleway',
                   color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
                       ? const Color(ColorConstants.primary_black)
-                      : const Color(ColorConstants.primary),
+                      : Color(ColorConstants.getPrimaryColor()),
                 ),
               ),
             ),

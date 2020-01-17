@@ -47,7 +47,7 @@ class _NewLocationPage extends State<NewLocationPage> {
             NewLocationPageState.fromStore(store),
         builder: (BuildContext context, NewLocationPageState pageState) =>
             Scaffold(
-          backgroundColor: Color(ColorConstants.primary_locations),
+          backgroundColor: Color(ColorConstants.getCollectionColor2()),
           body: Stack(
             alignment: Alignment.center,
             children: <Widget>[
@@ -96,13 +96,13 @@ class _NewLocationPage extends State<NewLocationPage> {
                     padding: EdgeInsets.all(0.0),
                     shape: new RoundedRectangleBorder(
                         borderRadius: new BorderRadius.circular(25.0),
-                        side: BorderSide(color: Color(ColorConstants.primary))),
+                        side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
                     onPressed: (){
                       pageState.onSaveLocationSelected();
                       showSuccessAnimation();
                     },
-                    color: Color(ColorConstants.primary),
-                    textColor: Colors.white,
+                    color: Color(ColorConstants.getPrimaryColor()),
+                    textColor: Color(ColorConstants.getPrimaryWhite()),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -113,7 +113,7 @@ class _NewLocationPage extends State<NewLocationPage> {
                             fontSize: 18.0,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w600,
-                            color: Colors.white,
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ],

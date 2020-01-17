@@ -58,7 +58,7 @@ class _LocationSelectionFormState
                         fontSize: 18.0,
                         fontFamily: 'Raleway',
                         fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary),
+                        color: Color(ColorConstants.getPrimaryColor()),
                       ),
                     ),
                   ),

@@ -123,7 +123,7 @@ class _ImportantDates extends State<ImportantDates> {
                             ),
                             backgroundColor:
                                 Color(ColorConstants.primary_bg_grey),
-                            selectedColor: Color(ColorConstants.primary),
+                            selectedColor: Color(ColorConstants.getPrimaryColor()),
                             selected: isSelected(index, pageState),
                             onSelected: (bool selected) {
                               setState(() {

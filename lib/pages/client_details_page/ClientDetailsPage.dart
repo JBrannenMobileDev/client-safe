@@ -63,7 +63,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     actions: <Widget>[
                       IconButton(
                         icon: const Icon(Icons.delete),
-                        color: Color(ColorConstants.primary),
+                        color: Color(ColorConstants.getPrimaryColor()),
                         tooltip: 'Delete',
                         onPressed: () {
                           _ackAlert(context, pageState);
@@ -71,7 +71,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.edit),
-                        color: Color(ColorConstants.primary),
+                        color: Color(ColorConstants.getPrimaryColor()),
                         tooltip: 'Edit',
                         onPressed: () {
                           pageState.onEditClientClicked(pageState.client);
@@ -80,7 +80,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       ),
                       IconButton(
                         icon: const Icon(Icons.info),
-                        color: Color(ColorConstants.primary),
+                        color: Color(ColorConstants.getPrimaryColor()),
                         tooltip: 'Info',
                         onPressed: () {
                         },
@@ -88,7 +88,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     ],
                     leading: IconButton(
                       icon: const Icon(Icons.close),
-                      color: Color(ColorConstants.primary),
+                      color: Color(ColorConstants.getPrimaryColor()),
                       tooltip: 'Close',
                       onPressed: () {
                         Navigator.of(context).pop();
@@ -255,11 +255,11 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                     padding: EdgeInsets.all(0.0),
                                     shape: new RoundedRectangleBorder(
                                         borderRadius: new BorderRadius.circular(8.0),
-                                        side: BorderSide(color: Color(ColorConstants.primary))),
+                                        side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
                                     onPressed: () {
                                       pageState.onInstagramSelected();
                                     },
-                                    color: Color(ColorConstants.primary),
+                                    color: Color(ColorConstants.getPrimaryColor()),
                                     child: Container(
                                       height: 32.0,
                                       width: 65.0,

@@ -22,14 +22,14 @@ class StatsHomeCard extends StatelessWidget{
             padding: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
             height: 400.0,
             decoration: BoxDecoration(
-              color: const Color(ColorConstants.primary_bg_grey),
+              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
             ),
           ),
           Container(
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
             padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
             decoration: new BoxDecoration(
-                color: Color(ColorConstants.white),
+                color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(8.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,

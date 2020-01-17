@@ -20,12 +20,12 @@ class PricingProfilesPage extends StatelessWidget {
         converter: (Store<AppState> store) => PricingProfilesPageState.fromStore(store),
         builder: (BuildContext context, PricingProfilesPageState pageState) =>
             Scaffold(
-              backgroundColor: Color(ColorConstants.primary_pricing_profile),
+              backgroundColor: Color(ColorConstants.getCollectionColor1()),
               body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
                     brightness: Brightness.dark,
-                    backgroundColor: Color(ColorConstants.primary_pricing_profile),
+                    backgroundColor: Color(ColorConstants.getCollectionColor1()),
                     pinned: true,
                     centerTitle: true,
                     title: Center(
