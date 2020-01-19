@@ -3,27 +3,27 @@ import 'package:client_safe/models/Client.dart';
 import 'package:flutter/widgets.dart';
 
 class ImageUtil{
-  static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.jpg";
+  static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";
 
   static List<String> femaleIcons = [
-    "assets/images/people/female1.png",
-    "assets/images/people/female2.png",
-    "assets/images/people/female3.png",
-    "assets/images/people/female4.png",
-    "assets/images/people/female5.png",
-    "assets/images/people/female7.png",
-    "assets/images/people/female6.png",
-    "assets/images/people/female8.png"
+    "assets/images/people/girl1.png",
+    "assets/images/people/girl2.png",
+    "assets/images/people/girl3.png",
+    "assets/images/people/girl4.png",
+    "assets/images/people/girl5.png",
+    "assets/images/people/girl7.png",
+    "assets/images/people/girl6.png",
+    "assets/images/people/girl8.png"
   ];
   static List<String> maleIcons = [
-    "assets/images/people/male1.png",
-    "assets/images/people/male2.png",
-    "assets/images/people/male3.png",
-    "assets/images/people/male4.png",
-    "assets/images/people/male5.png",
-    "assets/images/people/male7.png",
-    "assets/images/people/male6.png",
-    "assets/images/people/male8.png"
+    "assets/images/people/boy1.png",
+    "assets/images/people/boy2.png",
+    "assets/images/people/boy3.png",
+    "assets/images/people/boy4.png",
+    "assets/images/people/boy5.png",
+    "assets/images/people/boy7.png",
+    "assets/images/people/boy6.png",
+    "assets/images/people/boy8.png"
   ];
 
   static List<String> jobIcons = [

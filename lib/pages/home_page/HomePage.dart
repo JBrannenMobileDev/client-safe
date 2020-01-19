@@ -56,26 +56,31 @@ class _HomeState extends State<HomePage> {
               BottomNavigationBarItem(
                   icon: new Icon(
                     Icons.people,
+                    color: _currentIndex == 0 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                   ),
                   title: Container(height: 0.0)),
               BottomNavigationBarItem(
                   icon: Icon(
                     Icons.calendar_today,
+                    color: _currentIndex == 1 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                   ),
                   title: Container(height: 0.0)),
               BottomNavigationBarItem(
                   icon: Icon(
                     Icons.home,
+                    color: _currentIndex == 2 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                   ),
                   title: Container(height: 0.0)),
               BottomNavigationBarItem(
                   icon: Icon(
                     Icons.business_center,
+                    color: _currentIndex == 3 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                   ),
                   title: Container(height: 0.0)),
               BottomNavigationBarItem(
                   icon: Icon(
                     Icons.folder,
+                    color: _currentIndex == 4 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                   ),
                   title: Container(height: 0.0))
             ],

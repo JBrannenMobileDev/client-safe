@@ -15,10 +15,26 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatefulWidget {
   const DashboardPage({Key key, this.destination}) : super(key: key);
-
   final DashboardPage destination;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _DashboardPageState();
+  }
+}
+
+class _DashboardPageState extends State<DashboardPage> {
+  ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController()
+      ..addListener(() => setState(() {}));
+  }
 
   @override
   Widget build(BuildContext context) =>
@@ -40,23 +56,21 @@ class DashboardPage extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPrimaryColorForDashboard()).withOpacity(0.75),
+                        color: Color(ColorConstants.getPrimaryColor()),
                         image: DecorationImage(
                           image: AssetImage(ImageUtil.CAMERA_BG),
                           repeat: ImageRepeat.repeat,
-                          colorFilter: new ColorFilter.mode(
-                              Colors.white.withOpacity(0.05),
-                              BlendMode.dstATop),
                           fit: BoxFit.contain,
                         ),
                       ),
                       height: 435.0,
                     ),
                     CustomScrollView(
+                      controller: _scrollController,
                       slivers: <Widget>[
                         new SliverAppBar(
                           brightness: Brightness.light,
-                          backgroundColor: Colors.transparent,
+                          backgroundColor: _isMinimized ? Colors.black26 : Colors.transparent,
                           elevation: 0.0,
                           pinned: true,
                           floating: false,
@@ -149,5 +163,10 @@ class DashboardPage extends StatelessWidget {
             ),
           );
         });
+  }
+
+  bool get _isMinimized {
+    return _scrollController.hasClients
+        && _scrollController.offset > 260.0;
   }
 }
