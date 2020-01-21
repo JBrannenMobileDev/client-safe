@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 
 class ImageUtil{
   static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";
+  static const String DANDY_BG = "assets/images/backgrounds/dandy_light_background.png";
 
   static List<String> femaleIcons = [
     "assets/images/people/girl1.png",

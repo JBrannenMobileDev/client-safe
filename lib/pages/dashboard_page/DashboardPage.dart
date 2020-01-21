@@ -58,7 +58,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryColor()),
                         image: DecorationImage(
-                          image: AssetImage(ImageUtil.CAMERA_BG),
+                          image: AssetImage(ImageUtil.DANDY_BG),
                           repeat: ImageRepeat.repeat,
                           fit: BoxFit.contain,
                         ),
@@ -70,7 +70,7 @@ class _DashboardPageState extends State<DashboardPage> {
                       slivers: <Widget>[
                         new SliverAppBar(
                           brightness: Brightness.light,
-                          backgroundColor: _isMinimized ? Colors.black26 : Colors.transparent,
+                          backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
                           elevation: 0.0,
                           pinned: true,
                           floating: false,
@@ -168,5 +168,33 @@ class _DashboardPageState extends State<DashboardPage> {
   bool get _isMinimized {
     return _scrollController.hasClients
         && _scrollController.offset > 260.0;
+  }
+
+  Color _getAppBarColor(){
+    if(_scrollController.offset > 260 && _scrollController.offset <= 262){
+      return Colors.black.withOpacity(0.08);
+    }else if(_scrollController.offset > 262 && _scrollController.offset <= 263){
+      return Colors.black.withOpacity(0.09);
+    }else if(_scrollController.offset > 263 && _scrollController.offset <= 264){
+      return Colors.black.withOpacity(0.10);
+    }else if(_scrollController.offset > 264 && _scrollController.offset <= 265){
+      return Colors.black.withOpacity(0.11);
+    }else if(_scrollController.offset > 265 && _scrollController.offset <= 266){
+      return Colors.black.withOpacity(0.12);
+    }else if(_scrollController.offset > 266 && _scrollController.offset <= 267){
+      return Colors.black.withOpacity(0.13);
+    }else if(_scrollController.offset > 267 && _scrollController.offset <= 268){
+      return Colors.black.withOpacity(0.15);
+    }else if(_scrollController.offset > 268 && _scrollController.offset <= 269){
+      return Colors.black.withOpacity(0.17);
+    }else if(_scrollController.offset > 269 && _scrollController.offset <= 270){
+      return Colors.black.withOpacity(0.19);
+    }else if(_scrollController.offset > 270 && _scrollController.offset <= 271){
+      return Colors.black.withOpacity(0.22);
+    }else if(_scrollController.offset > 272 && _scrollController.offset <= 273){
+      return Colors.black.withOpacity(0.24);
+    } else {
+      return Colors.black.withOpacity(0.26);
+    }
   }
 }

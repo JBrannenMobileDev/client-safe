@@ -26,7 +26,7 @@ class ColorConstants{
   static const int peach_dark = 0xffCD755D;
   static const int peach_light = 0xffECA99A;
   static const int cream = 0xffFFffff;
-  static const int grey = 0xffD4D5C7;
+  static const int grey = 0xffe3e1da;
   static const int green = 0xff31636D;
   static const int charcoal = 0xff504B47;
   static const int black = 0xff444444;
