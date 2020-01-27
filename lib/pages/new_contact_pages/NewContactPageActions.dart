@@ -1,6 +1,7 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:contacts_service/contacts_service.dart';
 
 class LoadExistingClientData{
   final NewContactPageState pageState;
@@ -8,9 +9,37 @@ class LoadExistingClientData{
   LoadExistingClientData(this.pageState, this.client);
 }
 
+class FilterDeviceContactsAction{
+  final NewContactPageState pageState;
+  final String textInput;
+  FilterDeviceContactsAction(this.pageState, this.textInput);
+}
+
+class ClearDeviceContactsAction{
+  final NewContactPageState pageState;
+  ClearDeviceContactsAction(this.pageState);
+}
+
+class SetSelectedDeviceContactAction{
+  final NewContactPageState pageState;
+  final Contact selectedContact;
+  SetSelectedDeviceContactAction(this.pageState, this.selectedContact);
+}
+
 class SaveNewContactAction{
   final NewContactPageState pageState;
   SaveNewContactAction(this.pageState);
+}
+
+class GetDeviceContactsAction{
+  final NewContactPageState pageState;
+  GetDeviceContactsAction(this.pageState);
+}
+
+class LoadDeviceContacts{
+  final NewContactPageState pageState;
+  final List<Contact> deviceContacts;
+  LoadDeviceContacts(this.pageState, this.deviceContacts);
 }
 
 class UpdateErrorStateAction{

@@ -23,6 +23,7 @@ class ColorConstants{
   static const int gold = 0xffE1BD5B;
   static const int goldDashboard = 0xffCBA63A;
   static const int blue = 0xffC2D3CB;
+  static const int blue_light = 0xffBDD5D0;
   static const int peach_dark = 0xffCD755D;
   static const int peach_light = 0xffECA99A;
   static const int cream = 0xffFFffff;

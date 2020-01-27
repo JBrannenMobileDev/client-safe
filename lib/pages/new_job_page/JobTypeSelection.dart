@@ -57,16 +57,13 @@ class _JobTypeSelection extends State<JobTypeSelection>
                       pageState.onJobTypeSelected(jobTypeIcons.elementAt(index));
                     },
                     child: Column(
-
                       children: <Widget>[
                         Container(
                           margin: EdgeInsets.only(bottom: 8.0),
-                          height: 36.0,
-                          width: 36.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage(jobTypeIcons.elementAt(index)),
-                              fit: BoxFit.fitHeight,
+                              fit: BoxFit.fitWidth,
                             ),
                           ),
                           child: pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) != index ? new Container(
@@ -75,8 +72,8 @@ class _JobTypeSelection extends State<JobTypeSelection>
                           ) : SizedBox(),
                         ),
                         Text(
-                          ImageUtil.getJobTypeText(index),
-                          textAlign: TextAlign.start,
+                          ImageUtil.getJobTypeText(jobTypeIcons.elementAt(index)),
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 12.0,
                             fontFamily: 'Raleway',

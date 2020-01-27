@@ -83,6 +83,6 @@ class JobDao extends Equatable{
       job.id = snapshot.key;
       return job;
     }).toList();
-    return jobList.where((job) => (job.dateTime.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch)).toList();
+    return jobList.where((job) => (job.selectedDate.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch)).toList();
   }
 }

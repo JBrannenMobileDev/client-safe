@@ -19,7 +19,8 @@ class JobStage {
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
-      'stage': stage,
+      'stage' : stage,
+      'value' : value,
     };
   }
 
@@ -27,16 +28,15 @@ class JobStage {
     return JobStage(
       id: map['id'],
       stage: map['stage'],
+      value: map['value'],
     );
   }
 
-  JobStage({
-    this.id,
-    this.stage
-  });
+  JobStage({this.id, this.stage, this.value});
 
   int id;
   String stage;
+  int value;
 
   AssetImage getStageImage() {
     String imageLocation = 'assets/images/job_progress/inquiry_received.png';
@@ -126,5 +126,56 @@ class JobStage {
         imageLocation = 'assets/images/job_progress/check_mark.png';
     }
     return AssetImage(imageLocation);
+  }
+
+  static int getStageValue(String stage){
+    switch(stage) {
+      case STAGE_1_INQUIRY_RECEIVED:
+        return 1;
+        break;
+      case STAGE_2_FOLLOWUP_SENT:
+        return 2;
+        break;
+      case STAGE_3_PROPOSAL_SENT:
+        return 3;
+        break;
+      case STAGE_4_PROPOSAL_SIGNED:
+        return 4;
+        break;
+      case STAGE_5_PLANNING_COMPLETE:
+        return 5;
+        break;
+      case STAGE_6_SESSION_COMPLETE:
+        return 6;
+        break;
+      case STAGE_7_EDITING_COMPLETE:
+        return 7;
+        break;
+      case STAGE_8_GALLERY_SENT:
+        return 8;
+        break;
+      case STAGE_9_PAYMENT_REQUESTED:
+        return 9;
+        break;
+      case STAGE_10_PAYMENT_RECEIVED:
+        return 10;
+        break;
+      case STAGE_11_FEEDBACK_REQUESTED:
+        return 11;
+        break;
+      case STAGE_12_FEEDBACK_RECEIVED:
+        return 12;
+        break;
+      case STAGE_COMPLETED_CHECK:
+        return 13;
+    }
+    return 0;
+  }
+
+  static bool containsJobStageIcon(List<JobStage> selectedStages, String jobIcon){
+    for(JobStage selectedStage in selectedStages) {
+      if(selectedStage.stage == jobIcon) return true;
+    }
+    return false;
   }
 }

@@ -39,12 +39,11 @@ class _DashboardPageState extends State<DashboardPage> {
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, DashboardPageState>(
-        onInit: (store) =>
-            store.dispatch(
-                new InitDashboardPageAction(store.state.dashboardPageState)),
-        onDispose: (store) =>
-            store.dispatch(
-                new DisposeDataListenersActions(store.state.homePageState)),
+        onInit: (store) => {
+          store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState)),
+          store.dispatch(new LoadJobsAction(store.state.dashboardPageState)),
+        },
+        onDispose: (store) => store.dispatch(new DisposeDataListenersActions(store.state.homePageState)),
         converter: (Store<AppState> store) =>
             DashboardPageState.fromStore(store),
         builder: (BuildContext context, DashboardPageState pageState) =>

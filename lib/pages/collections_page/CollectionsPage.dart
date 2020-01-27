@@ -59,7 +59,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     padding: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0),
                     child: GridView.builder(
                         shrinkWrap: true,
-                        itemCount: 4,
+                        itemCount: 5,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {

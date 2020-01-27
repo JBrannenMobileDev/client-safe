@@ -43,62 +43,23 @@ class ImageUtil{
     'assets/images/job_types/real_estate_architecture.png',
     'assets/images/job_types/wedding.png',
     'assets/images/job_types/event.png',
-    'assets/images/people/gender_nuetral_white_hair.png',
+    'assets/images/people/girl3.png',
   ];
 
-  static String getJobTypeText(int index) {
-    switch(index){
-      case 0:
-        return 'Anniversary';
-        break;
-      case 1:
-        return 'Birthday';
-        break;
-      case 2:
-        return 'Breastfeeding';
-        break;
-      case 3:
-        return 'Advertising';
-        break;
-      case 4:
-        return 'Engagement';
-        break;
-      case 5:
-        return 'Family';
-        break;
-      case 6:
-        return 'Maternity';
-        break;
-      case 7:
-        return 'Modeling';
-        break;
-      case 8:
-        return 'Nature';
-        break;
-      case 9:
-        return 'Newborn';
-        break;
-      case 10:
-        return 'Other';
-        break;
-      case 11:
-        return 'Pet';
-        break;
-      case 12:
-        return 'Architecture';
-        break;
-      case 13:
-        return 'Wedding';
-        break;
-      case 14:
-        return 'Event';
-        break;
-      case 15:
-        return 'Headshots';
-        break;
-    }
-    return '';
-  }
+  static List<String> jobStageIcons = [
+    'assets/images/job_progress/inquiry_received.png',
+    'assets/images/job_progress/followup_sent.png',
+    'assets/images/job_progress/proposal_sent.png',
+    'assets/images/job_progress/proposal_signed.png',
+    'assets/images/job_progress/planning_complete.png',
+    'assets/images/job_progress/session_complete.png',
+    'assets/images/job_progress/editing_complete.png',
+    'assets/images/job_progress/gallery_sent.png',
+    'assets/images/job_progress/payment_requested.png',
+    'assets/images/job_progress/feedback_requested.png',
+    'assets/images/job_progress/feedback_received.png',
+    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_money_bag.png',
+  ];
 
   static List<String> leadSourceIcons = [
     'assets/images/lead_source_type/lead_source_word_of_mouth.png',
@@ -116,6 +77,7 @@ class ImageUtil{
     'assets/images/collection_icons/collection_photoshoot_locations.png',
     'assets/images/collection_icons/collection_example_poses.png',
     'assets/images/collection_icons/collection_contracts.png',
+    'assets/images/collection_icons/collection_work_flows.png',
   ];
 
   static String locationPin = 'assets/images/collection_icons/location_pin.png';
@@ -130,6 +92,94 @@ class ImageUtil{
     'assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale.png',
     'assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale_tag.png',
   ];
+
+  static AssetImage getJobStageCompleteIcon() {
+    return AssetImage('assets/images/job_progress/check_mark.png');
+  }
+
+  static String getJobStageText(String icon) {
+    switch(icon) {
+      case 'assets/images/job_progress/inquiry_received.png':
+        return 'Inquiry received';
+      case 'assets/images/job_progress/followup_sent.png':
+        return 'Followup sent';
+      case 'assets/images/job_progress/proposal_sent.png':
+        return 'Contract sent';
+      case 'assets/images/job_progress/proposal_signed.png':
+        return 'Contract signed';
+      case 'assets/images/job_progress/planning_complete.png':
+        return 'Planning complete';
+      case 'assets/images/job_progress/session_complete.png':
+        return 'Session complete';
+      case 'assets/images/job_progress/editing_complete.png':
+        return 'Editing complete';
+      case 'assets/images/job_progress/gallery_sent.png':
+        return 'Gallery sent';
+      case 'assets/images/job_progress/payment_requested.png':
+        return 'Payment requested';
+      case 'assets/images/job_progress/feedback_requested.png':
+        return 'Feedback requested';
+      case 'assets/images/job_progress/feedback_received.png':
+        return 'Feedback received';
+      case 'assets/images/collection_icons/pricing_profile_icons/pricing_profile_money_bag.png':
+        return 'Payment received';
+    }
+    return'';
+  }
+
+  static String getJobTypeText(String icon) {
+    switch(icon){
+      case 'assets/images/job_types/anniversary.png':
+        return 'Anniversary';
+        break;
+      case 'assets/images/job_types/birthday.png':
+        return 'Birthday';
+        break;
+      case 'assets/images/job_types/breastfeeding.png':
+        return 'Breastfeeding';
+        break;
+      case 'assets/images/job_types/commercial_advertising.png':
+        return 'Advertising';
+        break;
+      case 'assets/images/job_types/engagement.png':
+        return 'Engagement';
+        break;
+      case 'assets/images/job_types/family_portrait.png':
+        return 'Family';
+        break;
+      case 'assets/images/job_types/maternity.png':
+        return 'Maternity';
+        break;
+      case 'assets/images/job_types/modeling.png':
+        return 'Modeling';
+        break;
+      case 'assets/images/job_types/nature.png':
+        return 'Nature';
+        break;
+      case 'assets/images/job_types/newborn.png':
+        return 'Newborn';
+        break;
+      case 'assets/images/job_types/other.png':
+        return 'Other';
+        break;
+      case 'assets/images/job_types/pet.png':
+        return 'Pet';
+        break;
+      case 'assets/images/job_types/real_estate_architecture.png':
+        return 'Architecture';
+        break;
+      case 'assets/images/job_types/wedding.png':
+        return 'Wedding';
+        break;
+      case 'assets/images/job_types/event.png':
+        return 'Event';
+        break;
+      case 'assets/images/people/girl3.png':
+        return 'Headshots';
+        break;
+    }
+    return '';
+  }
 
   static String getCollectionIconName(String fileLocation){
     String iconName = "";
@@ -146,6 +196,8 @@ class ImageUtil{
       case 'assets/images/collection_icons/collection_example_poses.png':
         iconName = "Poses";
         break;
+      case 'assets/images/collection_icons/collection_work_flows.png':
+        iconName = 'Workflows';
     }
     return iconName;
   }

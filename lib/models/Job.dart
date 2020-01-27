@@ -33,7 +33,8 @@ class Job implements Event{
   Location location;
   String notes;
   String professionalUserId;
-  DateTime dateTime;
+  DateTime selectedDate;
+  DateTime selectedTime;
   String type;
   JobStage stage;
   List<JobStage> completedStages;
@@ -45,7 +46,8 @@ class Job implements Event{
     this.jobTitle,
     this.notes,
     this.professionalUserId,
-    this.dateTime,
+    this.selectedDate,
+    this.selectedTime,
     this.type,
     this.stage,
     this.completedStages,
@@ -61,7 +63,8 @@ class Job implements Event{
       'jobTitle' : jobTitle,
       'notes' : notes,
       'professionalUserId' : professionalUserId,
-      'dateTime' : dateTime,
+      'selectedDate' : selectedDate,
+      'selectedTime' : selectedTime,
       'type' : type,
       'stage' : stage.toMap(),
       'location' : location.toMap(),
@@ -78,7 +81,8 @@ class Job implements Event{
       jobTitle: map['jobTitle'],
       notes: map['notes'],
       professionalUserId: map['professionalUserId'],
-      dateTime: map['dateTime'],
+      selectedDate: map['selectedDate'],
+      selectedTime: map['selectedTime'],
       type: map['type'],
       stage: JobStage.fromMap(map['stage']),
       location: Location.fromMap(map['location']),
@@ -172,8 +176,13 @@ class Job implements Event{
   }
 
   @override
-  DateTime getDatetime() {
-    return dateTime;
+  DateTime getSelectedDate() {
+    return selectedDate;
+  }
+
+  @override
+  DateTime getSelectedTime() {
+    return selectedTime;
   }
 
   @override

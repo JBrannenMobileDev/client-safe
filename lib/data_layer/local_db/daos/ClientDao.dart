@@ -9,11 +9,11 @@ class ClientDao extends Equatable{
   static const String CLIENT_STORE_NAME = 'clients';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  final _clientStore = intMapStoreFactory.store(CLIENT_STORE_NAME);
+  static final _clientStore = intMapStoreFactory.store(CLIENT_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<Database> get _db async => await SembastDb.instance.database;
 
   Future insert(Client client) async {
     await _clientStore.add(await _db, client.toMap());
@@ -53,7 +53,7 @@ class ClientDao extends Equatable{
     );
   }
 
-  Future<List<Client>> getAllSortedByFirstName() async {
+  static Future<List<Client>> getAllSortedByFirstName() async {
     final finder = Finder(sortOrders: [
       SortOrder('firstName'),
     ]);

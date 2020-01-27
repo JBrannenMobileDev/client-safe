@@ -7,6 +7,7 @@ import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:redux/redux.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
@@ -37,11 +38,10 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     PriceProfileDao priceProfileDao = PriceProfileDao();
-    ClientDao clientDao = ClientDao();
     LocationDao locationDao = LocationDao();
     JobDao jobDao = JobDao();
     List<PriceProfile> allPriceProfiles = await priceProfileDao.getAllSortedByName();
-    List<Client> allClients = await clientDao.getAllSortedByFirstName();
+    List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     List<Location> allLocations = await locationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await jobDao.getAllUpcomingJobs();
     store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs));
@@ -54,11 +54,16 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       clientId: store.state.newJobPageState.selectedClient.id,
       clientName: store.state.newJobPageState.selectedClient.getClientFullName(),
       jobTitle: store.state.newJobPageState.jobTitle,
-      dateTime: store.state.newJobPageState.selectedDate,
+      selectedDate: store.state.newJobPageState.selectedDate,
+      selectedTime: store.state.newJobPageState.selectedTime,
       type: store.state.newJobPageState.jobType,
       stage: store.state.newJobPageState.currentJobStage,
-      completedStages: store.state.newJobPageState.selectedJobStages
+      completedStages: store.state.newJobPageState.selectedJobStages,
+      location: store.state.newJobPageState.selectedLocation,
+      priceProfile: store.state.newJobPageState.selectedPriceProfile,
       );
     await jobDao.insertOrUpdate(jobToSave);
+//    store.dispatch(ClearStateAction(store.state.newJobPageState));
+//    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 }

@@ -6,6 +6,7 @@ import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.d
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
 
 class NewContactPageMiddleware extends MiddlewareClass<AppState> {
@@ -15,6 +16,15 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveNewContactAction){
       saveClient(store, action, next);
     }
+
+    if(action is GetDeviceContactsAction) {
+      _loadDeviceContacts(store, action, next);
+    }
+  }
+
+  void _loadDeviceContacts(Store<AppState> store, action, NextDispatcher next) async{
+    List<Contact> allContacts = await DeviceContactsDao.getNonClientDeviceContacts(await ClientDao.getAllSortedByFirstName());
+    store.dispatch(LoadDeviceContacts(store.state.newContactPageState, allContacts));
   }
 
   void saveClient(Store<AppState> store, action, NextDispatcher next) async{

@@ -1,6 +1,8 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:client_safe/utils/TextFormatterUtil.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
 import 'NewContactPageState.dart';
 
@@ -25,7 +27,29 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, SetLeadSourceAction>(_setLeadSource),
   TypedReducer<NewContactPageState, UpdateErrorStateAction>(_updateErrorState),
   TypedReducer<NewContactPageState, LoadExistingClientData>(_loadClient),
+  TypedReducer<NewContactPageState, LoadDeviceContacts>(_loadDeviceContacts),
+  TypedReducer<NewContactPageState, SetSelectedDeviceContactAction>(_setSelectedDeviceContact),
+  TypedReducer<NewContactPageState, ClearDeviceContactsAction>(_clearDeviceContacts),
+  TypedReducer<NewContactPageState, FilterDeviceContactsAction>(_filterContacts),
 ]);
+
+NewContactPageState _filterContacts(NewContactPageState previousState, FilterDeviceContactsAction action) {
+  List<Contact> filteredClients = action.textInput.length > 0
+      ? previousState.deviceContacts
+      .where((client) => client
+      .displayName
+      .toLowerCase()
+      .contains(action.textInput.toLowerCase()))
+      .toList()
+      : previousState.deviceContacts;
+  if(action.textInput.length == 0){
+    filteredClients = previousState.deviceContacts;
+  }
+  return previousState.copyWith(
+    filteredDeviceContacts: filteredClients,
+    searchText: action.textInput,
+  );
+}
 
 NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingClientData action){
   return previousState.copyWith(
@@ -48,9 +72,38 @@ NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingC
   );
 }
 
+NewContactPageState _setSelectedDeviceContact(NewContactPageState previousState, SetSelectedDeviceContactAction action){
+  String phone = action.selectedContact.phones != null && action.selectedContact.phones.isNotEmpty ? action.selectedContact.phones.toList().elementAt(0).value : '';
+  String email = action.selectedContact.emails!= null && action.selectedContact.emails.isNotEmpty ? action.selectedContact.emails.toList().elementAt(0).value : '';
+  phone = TextFormatterUtil.formatPhoneNum(phone);
+  return previousState.copyWith(
+      selectedDeviceContact: action.selectedContact,
+      deviceContacts: List(),
+      newContactFirstName: action.selectedContact.givenName,
+      newContactLastName: action.selectedContact.familyName,
+      newContactPhone: phone,
+      newContactEmail: email,
+  );
+}
+
+
+
+NewContactPageState _clearDeviceContacts(NewContactPageState previousState, ClearDeviceContactsAction action){
+  return previousState.copyWith(
+      deviceContacts: List()
+  );
+}
+
 NewContactPageState _updateErrorState(NewContactPageState previousState, UpdateErrorStateAction action){
   return previousState.copyWith(
       errorState: action.errorCode
+  );
+}
+
+NewContactPageState _loadDeviceContacts(NewContactPageState previousState, LoadDeviceContacts action){
+  return previousState.copyWith(
+      deviceContacts: action.deviceContacts,
+      filteredDeviceContacts: action.deviceContacts,
   );
 }
 

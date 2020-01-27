@@ -71,18 +71,35 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                     onTap: () {
                       pageState.onLeadSourceSelected(leadSourceIcons.elementAt(index));
                     },
-                    child: Container(
-                      margin: EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 4.0),
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(leadSourceIcons.elementAt(index)),
-                          fit: BoxFit.contain,
+                    child:
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(bottom: 8.0),
+                          height: 36.0,
+                          width: 36.0,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: AssetImage(leadSourceIcons.elementAt(index)),
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                          child: pageState.leadSource != null && getIconPosition(pageState, leadSourceIcons) != index ? new Container(
+                            decoration: new BoxDecoration(
+                                color: Colors.white.withOpacity(0.5)),
+                          ) : SizedBox(),
                         ),
-                      ),
-                      child: pageState.leadSource != null && getIconPosition(pageState, leadSourceIcons) != index ? new Container(
-                        decoration: new BoxDecoration(
-                            color: Colors.white.withOpacity(0.5)),
-                      ) : SizedBox(),
+                        Text(
+                          ImageUtil.getLeadSourceText(leadSourceIcons.elementAt(index)),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontFamily: 'Raleway',
+                            fontWeight: FontWeight.w400,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }),

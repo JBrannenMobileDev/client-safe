@@ -7,7 +7,12 @@ class DeviceCalendarEvent implements Event{
   DeviceCalendarEvent(this.date, this.title);
 
   @override
-  DateTime getDatetime() {
+  DateTime getSelectedDate() {
+    return date;
+  }
+
+  @override
+  DateTime getSelectedTime() {
     return date;
   }
 

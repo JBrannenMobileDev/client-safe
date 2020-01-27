@@ -22,7 +22,7 @@ class NumberTextInputFormatter extends TextInputFormatter {
 
       int selectionIndex = newValue.selection.end;
       String resultNum = "";
-      String numsOnly = newValue.text.replaceAll("[\\D]", "");
+      String numsOnly = newValue.text.replaceAll(RegExp('[^0-9]+'), "");
 
       if(numsOnly.length == 10){
         resultNum = "(" + numsOnly.substring(0, 3) + ") " + numsOnly.substring(3, 6) + "-" + numsOnly.substring(6, numsOnly.length);

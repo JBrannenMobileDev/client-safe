@@ -14,8 +14,7 @@ class ClientsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchClients(Store<AppState> store, NextDispatcher next) async{
-      ClientDao clientDao = ClientDao();
-      List<Client> clients = await clientDao.getAllSortedByFirstName();
+      List<Client> clients = await ClientDao.getAllSortedByFirstName();
       next(SetClientsData(store.state.clientsPageState, clients));
   }
 }

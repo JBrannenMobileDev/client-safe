@@ -1,9 +1,11 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
 import 'NewJobPageState.dart';
 
@@ -38,11 +40,25 @@ NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeActio
 }
 
 NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageAction action) {
-  return previousState.copyWith(currentJobStage: action.jobStage);
+  List<JobStage> selectedJobStagesUpdated = List();
+  bool shouldKeep = true;
+  for(JobStage stageFromList in previousState.selectedJobStages){
+    if(stageFromList.stage == action.jobStage.stage){
+      shouldKeep = false;
+    }else{
+      selectedJobStagesUpdated.add(stageFromList);
+    }
+  }
+  if(shouldKeep) selectedJobStagesUpdated.add(action.jobStage);
+  selectedJobStagesUpdated.sort((a, b) => a.stage.compareTo(b.stage));
+  JobStage currentJobStage = selectedJobStagesUpdated.last;
+  return previousState.copyWith(currentJobStage: currentJobStage, selectedJobStages: selectedJobStagesUpdated);
 }
 
 NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedJobTypeAction action) {
-  return previousState.copyWith(jobType: action.jobType);
+  return previousState.copyWith(
+      jobType: ImageUtil.getJobTypeText(action.jobType),
+      jobTypeIcon: action.jobType);
 }
 
 NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {
@@ -84,14 +100,14 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
 NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateAction action) {
   Map<DateTime, List<Event>> eventMap = Map();
   for(Job job in action.upcomingJobs) {
-    if(eventMap.containsKey(job.dateTime)){
-      List<Event> eventList = eventMap.remove(job.dateTime);
+    if(eventMap.containsKey(job.selectedDate)){
+      List<Event> eventList = eventMap.remove(job.selectedDate);
       eventList.add(job);
-      eventMap.putIfAbsent(job.dateTime, () => eventList);
+      eventMap.putIfAbsent(job.selectedDate, () => eventList);
     }else{
       List<Event> newEventList = List();
       newEventList.add(job);
-      eventMap.putIfAbsent(job.dateTime, () => newEventList);
+      eventMap.putIfAbsent(job.selectedDate, () => newEventList);
     }
   }
   return previousState.copyWith(

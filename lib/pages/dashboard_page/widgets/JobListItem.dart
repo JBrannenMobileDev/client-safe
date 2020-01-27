@@ -58,7 +58,7 @@ class JobListItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                      DateFormat("EEEE, LLLL dd").format(job.dateTime),
+                      DateFormat("EEEE, LLLL dd").format(job.selectedDate),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.0,

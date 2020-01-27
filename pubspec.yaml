@@ -123,6 +123,7 @@ flutter:
     - assets/images/job_progress/proposal_sent.png
     - assets/images/job_progress/proposal_signed.png
     - assets/images/job_progress/gallery_sent.png
+    - assets/images/job_progress/feedback_requested.png
     - assets/images/job_progress/feedback_received.png
     - assets/images/job_progress/session_complete.png
 
@@ -140,6 +141,7 @@ flutter:
     - assets/images/collection_icons/collection_photoshoot_locations.png
     - assets/images/collection_icons/collection_pricing_profiles.png
     - assets/images/collection_icons/collection_example_poses.png
+    - assets/images/collection_icons/collection_work_flows.png
     - assets/images/collection_icons/location_pin.png
     - assets/images/collection_icons/location_pin_green.png
 

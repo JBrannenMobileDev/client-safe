@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -29,6 +30,10 @@ class NewContactPageState {
   final String spouseLastName;
   final int numberOfChildren;
   final List<ImportantDate> importantDates;
+  final List<Contact> deviceContacts;
+  final List<Contact> filteredDeviceContacts;
+  final Contact selectedDeviceContact;
+  final String searchText;
   final String notes;
   final String leadSource;
   final String clientIcon;
@@ -53,6 +58,10 @@ class NewContactPageState {
   final Function(String) onClientIconSelected;
   final Function(String) onErrorStateChanged;
   final Function(String) onLeadSourceSelected;
+  final Function() onGetDeviceContactsSelected;
+  final Function(Contact) onDeviceContactSelected;
+  final Function() onCloseSelected;
+  final Function(String) onContactSearchTextChanged;
 
   NewContactPageState({
     @required this.id,
@@ -70,6 +79,10 @@ class NewContactPageState {
     @required this.spouseLastName,
     @required this.numberOfChildren,
     @required this.importantDates,
+    @required this.deviceContacts,
+    @required this.filteredDeviceContacts,
+    @required this.selectedDeviceContact,
+    @required this.searchText,
     @required this.notes,
     @required this.leadSource,
     @required this.clientIcon,
@@ -94,6 +107,10 @@ class NewContactPageState {
     @required this.onClientIconSelected,
     @required this.onErrorStateChanged,
     @required this.onLeadSourceSelected,
+    @required this.onGetDeviceContactsSelected,
+    @required this.onDeviceContactSelected,
+    @required this.onCloseSelected,
+    @required this.onContactSearchTextChanged,
   });
 
   NewContactPageState copyWith({
@@ -112,6 +129,10 @@ class NewContactPageState {
     String spouseLastName,
     int numberOfChildren,
     List<ImportantDate> importantDates,
+    List<Contact> deviceContacts,
+    List<Contact> filteredDeviceContacts,
+    Contact selectedDeviceContact,
+    String searchText,
     String notes,
     String leadSource,
     String clientIcon,
@@ -136,6 +157,10 @@ class NewContactPageState {
     Function(String) onClientIconSelected,
     Function(String) onErrorStateChanged,
     Function(String) onLeadSourceSelected,
+    Function() onGetDeviceContactsSelected,
+    Function(Contact) onDeviceContactSelected,
+    Function() onCLoseSelected,
+    Function(String) onContactSearchTextChanged,
   }){
     return NewContactPageState(
       id: id?? this.id,
@@ -153,6 +178,10 @@ class NewContactPageState {
       spouseLastName: spouseLastName?? this.spouseLastName,
       numberOfChildren: numberOfChildren?? this.numberOfChildren,
       importantDates: importantDates?? this.importantDates,
+      deviceContacts: deviceContacts?? this.deviceContacts,
+      filteredDeviceContacts: filteredDeviceContacts?? this.filteredDeviceContacts,
+      selectedDeviceContact: selectedDeviceContact?? this.selectedDeviceContact,
+      searchText: searchText?? this.searchText,
       notes: notes?? this.notes,
       leadSource: leadSource?? this.leadSource,
       clientIcon: clientIcon?? this.clientIcon,
@@ -177,6 +206,10 @@ class NewContactPageState {
       onClientIconSelected: onClientIconSelected?? this.onClientIconSelected,
       onErrorStateChanged: onErrorStateChanged?? this.onErrorStateChanged,
       onLeadSourceSelected: onLeadSourceSelected?? this.onLeadSourceSelected,
+      onGetDeviceContactsSelected: onGetDeviceContactsSelected?? this.onGetDeviceContactsSelected,
+      onDeviceContactSelected: onDeviceContactSelected?? this.onDeviceContactSelected,
+      onCloseSelected: onCLoseSelected?? this.onCloseSelected,
+      onContactSearchTextChanged: onContactSearchTextChanged?? this.onContactSearchTextChanged,
     );
   }
 
@@ -196,6 +229,10 @@ class NewContactPageState {
         spouseLastName: "",
         numberOfChildren: 0,
         importantDates: List(),
+        deviceContacts: List(),
+        filteredDeviceContacts: List(),
+        selectedDeviceContact: null,
+        searchText: '',
         notes: "",
         leadSource: null,
         clientIcon: null,
@@ -220,6 +257,10 @@ class NewContactPageState {
         onClientIconSelected: null,
         onErrorStateChanged: null,
         onLeadSourceSelected: null,
+        onGetDeviceContactsSelected: null,
+        onDeviceContactSelected: null,
+        onCloseSelected: null,
+        onContactSearchTextChanged: null,
       );
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
@@ -239,6 +280,9 @@ class NewContactPageState {
       spouseLastName: store.state.newContactPageState.spouseLastName,
       numberOfChildren: store.state.newContactPageState.numberOfChildren,
       importantDates: store.state.newContactPageState.importantDates,
+      deviceContacts: store.state.newContactPageState.deviceContacts,
+      filteredDeviceContacts: store.state.newContactPageState.filteredDeviceContacts,
+      searchText: store.state.newContactPageState.searchText,
       notes: store.state.newContactPageState.notes,
       leadSource: store.state.newContactPageState.leadSource,
       clientIcon: store.state.newContactPageState.clientIcon,
@@ -263,6 +307,10 @@ class NewContactPageState {
       onClientIconSelected: (fileLocation) => store.dispatch(SetClientIconAction(store.state.newContactPageState, fileLocation)),
       onErrorStateChanged: (errorCode) => store.dispatch(UpdateErrorStateAction(store.state.newContactPageState, errorCode)),
       onLeadSourceSelected: (fileLocation) => store.dispatch(SetLeadSourceAction(store.state.newContactPageState, fileLocation)),
+      onGetDeviceContactsSelected: () => store.dispatch(GetDeviceContactsAction(store.state.newContactPageState)),
+      onDeviceContactSelected: (contact) => store.dispatch(SetSelectedDeviceContactAction(store.state.newContactPageState, contact)),
+      onCloseSelected: () => store.dispatch(ClearDeviceContactsAction(store.state.newContactPageState)),
+      onContactSearchTextChanged: (text) => store.dispatch(FilterDeviceContactsAction(store.state.newContactPageState, text)),
     );
   }
 
@@ -283,6 +331,10 @@ class NewContactPageState {
       spouseLastName.hashCode ^
       numberOfChildren.hashCode ^
       importantDates.hashCode ^
+      deviceContacts.hashCode ^
+      filteredDeviceContacts.hashCode ^
+      selectedDeviceContact.hashCode ^
+      searchText.hashCode ^
       notes.hashCode ^
       leadSource.hashCode ^
       clientIcon.hashCode ^
@@ -305,7 +357,10 @@ class NewContactPageState {
       onImportantDateRemoved.hashCode ^
       onNotesChanged.hashCode ^
       onErrorStateChanged.hashCode ^
-      onLeadSourceSelected.hashCode;
+      onLeadSourceSelected.hashCode ^
+      onDeviceContactSelected.hashCode ^
+      onCloseSelected.hashCode ^
+      onContactSearchTextChanged.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -326,6 +381,10 @@ class NewContactPageState {
           spouseLastName == other.spouseLastName &&
           numberOfChildren == other.numberOfChildren &&
           importantDates == other.importantDates &&
+          deviceContacts == other.deviceContacts &&
+          filteredDeviceContacts == other.filteredDeviceContacts &&
+          selectedDeviceContact == other.selectedDeviceContact &&
+          searchText == other.searchText &&
           notes == other.notes &&
           leadSource == other.leadSource &&
           clientIcon == other.clientIcon &&
@@ -348,5 +407,8 @@ class NewContactPageState {
           onImportantDateRemoved == other.onImportantDateRemoved &&
           onNotesChanged == other.onNotesChanged &&
           onErrorStateChanged == other.onErrorStateChanged &&
-          onLeadSourceSelected == other.onLeadSourceSelected;
+          onLeadSourceSelected == other.onLeadSourceSelected &&
+          onDeviceContactSelected == other.onDeviceContactSelected &&
+          onCloseSelected == other.onCloseSelected &&
+          onContactSearchTextChanged == other.onContactSearchTextChanged;
 }

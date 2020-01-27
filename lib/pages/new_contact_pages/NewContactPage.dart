@@ -99,19 +99,48 @@ class _NewContactPageState extends State<NewContactPage> {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 16.0),
-                      child: Text(
-                        pageState.shouldClear ? "New Client" : "Edit Client",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                      child:
+                      Stack(
+                        alignment: Alignment.center,
+                        children: <Widget>[
+                          Text(
+                            pageState.shouldClear ? "New Client" : "Edit Client",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                          !pageState.shouldClear ? Container(
+                            margin: EdgeInsets.only(right: 300.0),
+                            child: IconButton(
+                              icon: const Icon(Icons.close),
+                              tooltip: 'Delete',
+                              color: Color(ColorConstants.getPrimaryColor()),
+                              onPressed: () {
+                                Navigator.of(context).pop(true);
+                              },
+                            ),
+                          ) : SizedBox(),
+                          !pageState.shouldClear ? Container(
+                            margin: EdgeInsets.only(left: 300.0),
+                            child: IconButton(
+                              icon: const Icon(Icons.save),
+                              tooltip: 'Save',
+                              color: Color(ColorConstants.getPrimaryColor()),
+                              onPressed: () {
+                                showSuccessAnimation();
+                                pageState.onSavePressed();
+                              },
+                            ),
+                          ) : SizedBox(),
+                        ],
                       ),
                     ),
                     Container(
-                      height: 236.0,
+                      height: currentPageIndex == 0 && pageState.deviceContacts.length > 0 ? 370.0 : 236.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
@@ -298,23 +327,27 @@ class _NewContactPageState extends State<NewContactPage> {
       }
     }
     if (pageState.pageViewIndex == pageCount) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return Padding(
-            padding: EdgeInsets.all(96.0),
-            child: FlareActor(
-              "assets/animations/success_check.flr",
-              alignment: Alignment.center,
-              fit: BoxFit.contain,
-              animation: "show_check",
-              callback: onFlareCompleted,
-            ),
-          );
-        },
-      );
+      showSuccessAnimation();
       pageState.onSavePressed();
     }
+  }
+
+  void showSuccessAnimation(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.all(96.0),
+          child: FlareActor(
+            "assets/animations/success_check.flr",
+            alignment: Alignment.center,
+            fit: BoxFit.contain,
+            animation: "show_check",
+            callback: onFlareCompleted,
+          ),
+        );
+      },
+    );
   }
 
   void onFlareCompleted(String unused) {

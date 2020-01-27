@@ -4,6 +4,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_job_page/ClientSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/DateForm.dart';
 import 'package:client_safe/pages/new_job_page/JobNameForm.dart';
+import 'package:client_safe/pages/new_job_page/JobStageSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/JobTypeSelection.dart';
 import 'package:client_safe/pages/new_job_page/LocationSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
@@ -25,7 +26,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage> {
-  final int pageCount = 6;
+  final int pageCount = 7;
   final controller = PageController(
     initialPage: 0,
   );
@@ -115,7 +116,7 @@ class _NewJobPageState extends State<NewJobPage> {
                           DateForm(),
                           TimeSelectionForm(),
                           JobTypeSelection(),
-//                          JobStageSelectionForm(),
+                          JobStageSelectionForm(),
 //                          JobNotesForm(),
                         ],
                       ),
@@ -157,8 +158,7 @@ class _NewJobPageState extends State<NewJobPage> {
                             padding: EdgeInsets.all(8.0),
                             splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
-                              // ignore: unnecessary_statements
-                              pageState.selectedClient == null ? null : onNextPressed(pageState);
+                              onNextPressed(pageState);
                             },
                             child: Text(
                               pageState.pageViewIndex == pageCount
@@ -207,6 +207,8 @@ class _NewJobPageState extends State<NewJobPage> {
         case 5:
           canProgress = pageState.selectedTime != null;
           break;
+        case 6:
+          canProgress = true;
       }
 
       if (canProgress) {
@@ -276,6 +278,9 @@ class _NewJobPageState extends State<NewJobPage> {
       case 6:
         height = 450.0;
         break;
+      case 7:
+        height = 500.0;
+        break;
     }
     return height;
   }
@@ -302,6 +307,9 @@ class _NewJobPageState extends State<NewJobPage> {
         width = 450.0;
         break;
       case 5:
+        width = 450.0;
+        break;
+      case 6:
         width = 450.0;
         break;
     }

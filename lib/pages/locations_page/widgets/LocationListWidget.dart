@@ -86,8 +86,10 @@ class LocationListWidget extends StatelessWidget {
                     getImage(pageState);
                   },
                   onTap: () async{
-                    pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
-                    UserOptionsUtil.showNewLocationDialog(context);
+                    if(pageState.locations.elementAt(locationIndex).imagePath != null) {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                          FullScreenImageView(Image.file(File(pageState.locations.elementAt(locationIndex).imagePath)).image)));
+                    }
                   },
                 ),
               ),
@@ -117,11 +119,12 @@ class LocationListWidget extends StatelessWidget {
                     ),
                     IconButton(
                       iconSize: 24.0,
-                      icon: Icon(Device.get().isIos ? CupertinoIcons.delete_simple : Icons.delete),
+                      icon: Icon(Device.get().isIos ? CupertinoIcons.pen : Icons.edit),
                       color: Color(ColorConstants.white),
-                      tooltip: 'Delete',
+                      tooltip: 'Edit',
                       onPressed: () {
-                        _ackAlert(context, pageState);
+                        pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
+                        UserOptionsUtil.showNewLocationDialog(context);
                       },
                     ),
                   ],
@@ -149,6 +152,7 @@ class LocationListWidget extends StatelessWidget {
     );
   }
    double _getItemWidthHeight(BuildContext context){
+
     return (MediaQuery.of(context).size.width - 110) / 2.0;
    }
 
@@ -156,50 +160,38 @@ class LocationListWidget extends StatelessWidget {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     pageState.saveImagePath(image.path, pageState.locations.elementAt(locationIndex));
   }
+}
 
-  _onLocationSelected(PriceProfile selectedProfile,
-      LocationsPageState pageState, BuildContext context) {
-//    pageState.onProfileSelected(selectedProfile);
-//    UserOptionsUtil.showNewPriceProfileDialog(context);
-  }
+class FullScreenImageView extends StatelessWidget{
+  final ImageProvider imageProvider;
+  FullScreenImageView(this.imageProvider);
 
-  Future<void> _ackAlert(BuildContext context, LocationsPageState pageState) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Device.get().isIos ?
-        CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This location will be gone for good!'),
-          actions: <Widget>[
-            new FlatButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            new FlatButton(
-              onPressed: () {
-                pageState.onDeleteLocationSelected(pageState.locations.elementAt(locationIndex));
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        ) : AlertDialog(
-          title: new Text('Are you sure?'),
-          content: new Text('This location will be gone for good!'),
-          actions: <Widget>[
-            new FlatButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            new FlatButton(
-              onPressed: () {
-                pageState.onDeleteLocationSelected(pageState.locations.elementAt(locationIndex));
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+
+        children: <Widget>[
+          Image(
+            image: imageProvider,
+            fit: BoxFit.cover,
+            height: double.infinity,
+            width: double.infinity,
+            alignment: Alignment.center,
+          ),
+          IconButton(
+            iconSize: 24.0,
+            icon: const Icon(Icons.arrow_back_ios),
+            color: Color(ColorConstants.white),
+            tooltip: 'Back',
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
+        ],
+      ) ,
     );
   }
+
+
 }
