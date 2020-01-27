@@ -88,7 +88,7 @@ class LocationListWidget extends StatelessWidget {
                   onTap: () async{
                     if(pageState.locations.elementAt(locationIndex).imagePath != null) {
                       Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                          FullScreenImageView(Image.file(File(pageState.locations.elementAt(locationIndex).imagePath)).image)));
+                          FullScreenImageView(pageState, locationIndex)));
                     }
                   },
                 ),
@@ -163,33 +163,83 @@ class LocationListWidget extends StatelessWidget {
 }
 
 class FullScreenImageView extends StatelessWidget{
-  final ImageProvider imageProvider;
-  FullScreenImageView(this.imageProvider);
+  final LocationsPageState pageState;
+  final int locationIndex;
+  FullScreenImageView(this.pageState, this.locationIndex);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
+    return StoreConnector<AppState, LocationsPageState>(
+    converter: (store) => LocationsPageState.fromStore(store),
+    builder: (BuildContext context, LocationsPageState pageState) =>
+    Scaffold(
+        body: Stack(
 
-        children: <Widget>[
-          Image(
-            image: imageProvider,
-            fit: BoxFit.cover,
-            height: double.infinity,
-            width: double.infinity,
-            alignment: Alignment.center,
-          ),
-          IconButton(
-            iconSize: 24.0,
-            icon: const Icon(Icons.arrow_back_ios),
-            color: Color(ColorConstants.white),
-            tooltip: 'Back',
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-          ),
-        ],
-      ) ,
+          children: <Widget>[
+            Image(
+                image: Image.file(File(pageState.locations.elementAt(locationIndex).imagePath)).image,
+                fit: BoxFit.cover,
+                height: double.infinity,
+                width: double.infinity,
+                alignment: Alignment.center,
+            ),
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: FractionalOffset.topCenter,
+                    end: FractionalOffset.center,
+                    colors: [
+                      Colors.black.withOpacity(0.65),
+                      Colors.transparent,
+                    ],
+                    stops: [
+                      0.0,
+                      0.5,
+                    ]),
+              ),
+            ),
+            Positioned(
+              child: AppBar(
+                title: Text(pageState.locations.elementAt(locationIndex).locationName, style: TextStyle(color: Colors.white),),
+                centerTitle: true,
+                automaticallyImplyLeading: true,
+                backgroundColor: Colors.transparent,
+                elevation: 0,
+                actions: <Widget>[
+                  IconButton(
+                    iconSize: 24.0,
+                    icon: const Icon(Icons.directions),
+                    color: Color(ColorConstants.white),
+                    tooltip: 'Driving Directions',
+                    onPressed: () {
+                      pageState.onDrivingDirectionsSelected(pageState.locations.elementAt(locationIndex));
+                    },
+                  ),
+                  IconButton(
+                    iconSize: 24.0,
+                    icon: Icon(Device.get().isIos ? CupertinoIcons.share : Icons.share),
+                    color: Color(ColorConstants.white),
+                    tooltip: 'Share',
+                    onPressed: () {
+                      pageState.onShareLocationSelected(pageState.locations.elementAt(locationIndex));
+                    },
+                  ),
+                  IconButton(
+                    iconSize: 24.0,
+                    icon: Icon(Device.get().isIos ? CupertinoIcons.pen : Icons.edit),
+                    color: Color(ColorConstants.white),
+                    tooltip: 'Edit',
+                    onPressed: () {
+                      pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
+                      UserOptionsUtil.showNewLocationDialog(context);
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 

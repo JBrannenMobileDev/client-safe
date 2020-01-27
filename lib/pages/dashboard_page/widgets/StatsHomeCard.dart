@@ -53,11 +53,11 @@ class StatsHomeCard extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0, left: 64.0, right: 64.0),
+                  margin: EdgeInsets.only(top: 16.0, bottom: 8.0, left: 26.0, right: 26.0),
                   height: 64.0,
                   child: Text(
                     "This feature will be available in future updates of Client Safe.",
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 18.0,
                       fontFamily: 'Raleway',

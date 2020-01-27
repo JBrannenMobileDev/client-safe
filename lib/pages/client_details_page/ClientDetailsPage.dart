@@ -284,7 +284,20 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        ListView.builder(
+                        Padding(
+                          padding: EdgeInsets.only(left: 32.0),
+                          child: Text(
+                            'Jobs',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                        ),
+                        pageState.clientJobs.length > 0 ? ListView.builder(
                           reverse: false,
                           padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
                           shrinkWrap: true,
@@ -293,6 +306,18 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                           key: _listKey,
                           itemCount: pageState.clientJobs.length,
                           itemBuilder: _buildItem,
+                        ) : Container(
+                          margin: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0),
+                          child: Text(
+                            "You have not started any jobs with " + pageState.client.getClientFullName() + " yet. All jobs started for " + pageState.client.getClientFullName() + " will show up here.",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 18.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w400,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
                         ),
                       ],
                     ),

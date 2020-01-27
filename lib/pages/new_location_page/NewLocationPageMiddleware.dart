@@ -39,6 +39,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     location.locationName = action.pageState.locationName;
     location.latitude = action.pageState.newLocationLatitude;
     location.longitude = action.pageState.newLocationLongitude;
+    location.imagePath = action.pageState.imagePath;
     await locationDao.insertOrUpdate(location);
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));

@@ -12,6 +12,7 @@ class NewLocationPageState{
   final String newLocationAddress;
   final double newLocationLatitude;
   final double newLocationLongitude;
+  final String imagePath;
   final List<Location> locations;
   final Function(LatLng) onLocationChanged;
   final Function() onSaveLocationSelected;
@@ -26,6 +27,7 @@ class NewLocationPageState{
     @required this.newLocationAddress,
     @required this.newLocationLatitude,
     @required this.newLocationLongitude,
+    @required this.imagePath,
     @required this.locations,
     @required this.onLocationChanged,
     @required this.onSaveLocationSelected,
@@ -41,6 +43,7 @@ class NewLocationPageState{
     String newLocationAddress,
     double newLocationLatitude,
     double newLocationLongitude,
+    String imagePath,
     List<Location> locations,
     Function(int) onLocationChanged,
     Function() onDeleteLocationSelected,
@@ -56,6 +59,7 @@ class NewLocationPageState{
       newLocationAddress: newLocationAddress?? this.newLocationAddress,
       newLocationLatitude: newLocationLatitude?? this.newLocationLatitude,
       newLocationLongitude: newLocationLongitude?? this.newLocationLongitude,
+      imagePath: imagePath?? this.imagePath,
       locations: locations?? this.locations,
       onLocationChanged: onLocationChanged?? this.onLocationChanged,
       onSaveLocationSelected: onSaveLocationSelected?? this.onSaveLocationSelected,
@@ -72,6 +76,7 @@ class NewLocationPageState{
     newLocationAddress: "",
     newLocationLatitude: 0.0,
     newLocationLongitude: 0.0,
+    imagePath: '',
     locations: List(),
     onLocationChanged: null,
     onSaveLocationSelected: null,
@@ -88,6 +93,7 @@ class NewLocationPageState{
       newLocationAddress: store.state.newLocationPageState.newLocationAddress,
       newLocationLatitude: store.state.newLocationPageState.newLocationLatitude,
       newLocationLongitude: store.state.newLocationPageState.newLocationLongitude,
+      imagePath: store.state.newLocationPageState.imagePath,
       locations: store.state.newLocationPageState.locations,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
       onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
@@ -105,6 +111,7 @@ class NewLocationPageState{
       newLocationAddress.hashCode ^
       newLocationLatitude.hashCode ^
       newLocationLongitude.hashCode ^
+      imagePath.hashCode ^
       locations.hashCode ^
       onLocationChanged.hashCode ^
       onSaveLocationSelected.hashCode ^
@@ -122,6 +129,7 @@ class NewLocationPageState{
               newLocationAddress == other.newLocationAddress &&
               newLocationLatitude == other.newLocationLatitude &&
               newLocationLongitude == other.newLocationLongitude &&
+              imagePath == other.imagePath &&
               locations == other.locations &&
               onLocationChanged == other.onLocationChanged &&
               onSaveLocationSelected == other.onSaveLocationSelected &&

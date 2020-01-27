@@ -24,7 +24,7 @@ class PriceProfileListWidget extends StatelessWidget {
         },
             color: Colors.white,
             shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(32.0),
+                borderRadius: new BorderRadius.circular(16.0),
             ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

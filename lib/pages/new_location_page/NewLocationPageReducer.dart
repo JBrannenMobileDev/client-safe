@@ -52,5 +52,6 @@ NewLocationPageState _loadLocationData(NewLocationPageState previousState, LoadE
     locationName: action.location.locationName,
     newLocationLatitude: action.location.latitude,
     newLocationLongitude: action.location.longitude,
+    imagePath: action.location.imagePath,
   );
 }
