@@ -68,10 +68,10 @@ class LeadsHomeCard extends StatelessWidget{
                     itemCount: pageState.potentialJobs.length,
                     itemBuilder: _buildItem,
                   ) : Container(
-                  margin: EdgeInsets.only(top: 0.0, bottom: 8.0, left: 26.0, right: 26.0),
+                  margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
                   height: 64.0,
                   child: Text(
-                    "You do not have any leads. If you start a job and have not received a signed contract, that job will appear here as a lead.",
+                    "You do not have any leads. A lead will turn into a job once a job contract is signed.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 18.0,

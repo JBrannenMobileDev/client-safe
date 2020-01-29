@@ -7,6 +7,7 @@ import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:redux/redux.dart';
@@ -63,5 +64,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(ClearStateAction(store.state.newJobPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.clientDetailsPageState.client));
   }
 }

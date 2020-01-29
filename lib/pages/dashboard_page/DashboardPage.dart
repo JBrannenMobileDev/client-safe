@@ -67,6 +67,16 @@ class _DashboardPageState extends State<DashboardPage> {
                       slivers: <Widget>[
                         new SliverAppBar(
                           brightness: Brightness.light,
+                          title: Text(
+                            'DandyLight',
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: 'Blackjack',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.primary_black),
+                              ),
+                            ),
+                          titleSpacing: 48.0,
                           backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
                           elevation: 0.0,
                           pinned: true,
@@ -74,11 +84,6 @@ class _DashboardPageState extends State<DashboardPage> {
                           forceElevated: false,
                           expandedHeight: 315.0,
                           actions: <Widget>[
-                            new IconButton(
-                              icon: const Icon(Icons.search),
-                              tooltip: 'Search',
-                              onPressed: () {},
-                            ),
                             IconButton(
                               icon: const Icon(Icons.add_circle_outline),
                               tooltip: 'Add',

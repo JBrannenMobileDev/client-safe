@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as jobs;
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart' as locations;
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
@@ -43,6 +44,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     await locationDao.insertOrUpdate(location);
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
+    store.dispatch(jobs.FetchAllClientsAction(store.state.newJobPageState));
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{

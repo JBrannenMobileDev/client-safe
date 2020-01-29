@@ -1,8 +1,9 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as prefix0;
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
+import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix1;
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
@@ -15,7 +16,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SavePricingProfileAction){
       saveProfile(store, action, next);
     }
-    if(action is prefix0.DeletePriceProfileAction){
+    if(action is prefix1.DeletePriceProfileAction){
       _deletePricingProfile(store, action, next);
     }
   }
@@ -36,6 +37,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
     await priceProfileDao.insertOrUpdate(priceProfile);
     store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
+    store.dispatch(prefix0.FetchAllClientsAction(store.state.newJobPageState));
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{

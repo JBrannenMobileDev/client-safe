@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
 
 class InitializeClientDetailsAction{
@@ -15,6 +16,12 @@ class DeleteClientAction{
 class InstagramSelectedAction{
   final ClientDetailsPageState pageState;
   InstagramSelectedAction(this.pageState);
+}
+
+class SetClientJobsAction{
+  final ClientDetailsPageState pageState;
+  final List<Job> clientJobs;
+  SetClientJobsAction(this.pageState, this.clientJobs);
 }
 
 

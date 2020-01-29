@@ -1,6 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/device_contacts/DeviceContactsDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
@@ -24,8 +25,9 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _initializedClientDetailsState(Store<AppState> store, NextDispatcher next, InitializeClientDetailsAction action) {
-      next(InitializeClientDetailsAction(store.state.clientDetailsPageState, action.client));
+  void _initializedClientDetailsState(Store<AppState> store, NextDispatcher next, InitializeClientDetailsAction action) async{
+    next(InitializeClientDetailsAction(store.state.clientDetailsPageState, action.client));
+    store.dispatch(SetClientJobsAction(store.state.clientDetailsPageState, await JobDao.getAllJobs()));
   }
 
   void _deleteClient(Store<AppState> store, NextDispatcher next) async{

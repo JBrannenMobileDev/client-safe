@@ -14,6 +14,9 @@ class ClientSafeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setSystemUIOverlayStyle(
+        SystemUiOverlayStyle(statusBarBrightness: Brightness.light) // Or Brightness.dark
+    );
     return new StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
@@ -25,12 +28,10 @@ class ClientSafeApp extends StatelessWidget {
         home: HomePage(),
         theme: ThemeData(
           primaryColor: Color(ColorConstants.getPrimaryColor()),
-          iconTheme: IconThemeData(color: Colors.white),
+          iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
           primaryIconTheme: Theme.of(context).primaryIconTheme.copyWith(
-              color: Colors.white,
+              color: Color(ColorConstants.getPrimaryBlack()),
           ),
-          brightness: Brightness.light,
-          primaryColorBrightness: Brightness.light
         ),
       ),
     );

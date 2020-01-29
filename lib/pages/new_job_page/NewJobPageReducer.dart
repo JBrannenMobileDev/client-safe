@@ -6,7 +6,6 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
-import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'NewJobPageState.dart';
 
@@ -26,10 +25,18 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetSelectedJobTypeAction>(_setJobType),
   TypedReducer<NewJobPageState, SetSunsetTimeAction>(_setSunsetTime),
   TypedReducer<NewJobPageState, SetSelectedTimeAction>(_setSelectedTime),
+  TypedReducer<NewJobPageState, InitializeNewContactPageAction>(_loadWithSelectedClient),
 ]);
 
 NewJobPageState _setSelectedTime(NewJobPageState previousState, SetSelectedTimeAction action) {
   return previousState.copyWith(selectedTime: action.time);
+}
+
+NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, InitializeNewContactPageAction action) {
+  return previousState.copyWith(
+      selectedClient: action.client,
+      shouldClear: false,
+  );
 }
 
 NewJobPageState _setSelectedDate(NewJobPageState previousState, SetSelectedDateAction action) {
@@ -51,7 +58,7 @@ NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageA
     }
   }
   if(shouldKeep) selectedJobStagesUpdated.add(action.jobStage);
-  selectedJobStagesUpdated.sort((a, b) => a.stage.compareTo(b.stage));
+  selectedJobStagesUpdated.sort((a, b) => b.value.compareTo(a.value));
   JobStage currentJobStage = selectedJobStagesUpdated.last;
   return previousState.copyWith(currentJobStage: currentJobStage, selectedJobStages: selectedJobStagesUpdated);
 }

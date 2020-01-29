@@ -4,19 +4,19 @@ import 'package:client_safe/models/JobStage.dart';
 class JobUtil {
   static List<Job> getJobsInProgress(List<Job> jobs) {
     List<Job> _jobsInProgress = jobs.where((job) => (_containsJobStage(JobStage.STAGE_4_PROPOSAL_SIGNED, job.completedStages))).toList();
-    _jobsInProgress.sort((job1, job2) => job1.getMillisecondsUntilJob().compareTo(job2.getMillisecondsUntilJob()));
+    _jobsInProgress.sort((job1, job2) => job2.getMillisecondsUntilJob().compareTo(job1.getMillisecondsUntilJob()));
     return _jobsInProgress;
   }
 
   static List<Job> getPotentialJobs(List<Job> jobs) {
     List<Job> _jobsInProgress = jobs.where((job) => (_containsJobStage(JobStage.STAGE_1_INQUIRY_RECEIVED, job.completedStages) && !_containsJobStage(JobStage.STAGE_4_PROPOSAL_SIGNED, job.completedStages))).toList();
-    _jobsInProgress.sort((job1, job2) => job1.getMillisecondsUntilJob().compareTo(job2.getMillisecondsUntilJob()));
+    _jobsInProgress.sort((job1, job2) => job2.getMillisecondsUntilJob().compareTo(job1.getMillisecondsUntilJob()));
     return _jobsInProgress;
   }
 
   static List<Job> getJobsCompleted(List<Job> jobs) {
     List<Job> _jobsCompleted = jobs.where((job) => (_containsJobStage(JobStage.STAGE_10_PAYMENT_RECEIVED, job.completedStages))).toList();
-    _jobsCompleted.sort((job1, job2) => job1.getMillisecondsUntilJob().compareTo(job2.getMillisecondsUntilJob()));
+    _jobsCompleted.sort((job1, job2) => job2.getMillisecondsUntilJob().compareTo(job1.getMillisecondsUntilJob()));
     return _jobsCompleted;
   }
 

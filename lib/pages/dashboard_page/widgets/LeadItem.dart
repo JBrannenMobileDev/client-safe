@@ -26,7 +26,7 @@ class LeadItem extends StatelessWidget{
                 width: 42.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: job.completedStages.last.getStageImage(),
+                    image: job.stage.getNextStageImage(),
                     fit: BoxFit.contain,
                   ),
                 ),

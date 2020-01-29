@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,7 +25,7 @@ class JobInProgressItem extends StatelessWidget{
                 width: 42.0,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: job.completedStages.last.getStageImage(),
+                    image: job.stage.getNextStageImage(),
                     fit: BoxFit.contain,
                   ),
                 ),
@@ -47,7 +48,7 @@ class JobInProgressItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                      'Next stage: ' + job.completedStages.last.getNextStageName(),
+                    'Next: ' + JobStage.getNextStageNameStatic(JobStage.getStageValue(job.stage.stage)),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.0,

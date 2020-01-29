@@ -1,17 +1,10 @@
 import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
-import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
-import 'package:client_safe/utils/GlobalKeyUtil.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -20,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sider_bar/sider_bar.dart';
 
 class ClientDetailsPage extends StatefulWidget {
   @override
@@ -119,91 +111,6 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   BorderRadius.all(Radius.circular(8.0)),
                                 ),
                               ),
-
-//                              Container(
-//                                margin: EdgeInsets.only(top: Device.get().isIphoneX ? 92.0 : 72.0),
-//                                height: 132.0,
-//                                alignment: Alignment.center,
-//                                width: (MediaQuery.of(context).size.width / 3)*2,
-//                                child: Column(
-//                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                                  crossAxisAlignment: CrossAxisAlignment.start,
-//                                  children: <Widget>[
-//                                    Text(
-//                                      "Gender:  " + pageState.client.gender,
-//                                      overflow: TextOverflow.clip,
-//                                      maxLines: 1,
-//                                      style: TextStyle(
-//                                        fontSize: 16.0,
-//                                        fontFamily: 'Raleway',
-//                                        color: Color(ColorConstants.primary_black),
-//                                      ),
-//                                    ),
-//                                    Text(
-//                                      "Phone:  " + pageState.client.phone,
-//                                      overflow: TextOverflow.clip,
-//                                      maxLines: 1,
-//                                      style: TextStyle(
-//                                        fontSize: 16.0,
-//                                        fontFamily: 'Raleway',
-//                                        color: Color(ColorConstants.primary_black),
-//                                      ),
-//                                    ),
-//                                    Text(
-//                                      "Email:  " + pageState.client.email,
-//                                      overflow: TextOverflow.clip,
-//                                      maxLines: 1,
-//                                      style: TextStyle(
-//                                        fontSize: 16.0,
-//                                        fontFamily: 'Raleway',
-//                                        color: Color(ColorConstants.primary_black),
-//                                      ),
-//                                    ),
-//                                    Text(
-//                                      "Instagram URL:  " + pageState.client.instagramProfileUrl,
-//                                      overflow: TextOverflow.clip,
-//                                      maxLines: 1,
-//                                      style: TextStyle(
-//                                        fontSize: 16.0,
-//                                        fontFamily: 'Raleway',
-//                                        color: Color(ColorConstants.primary_black),
-//                                      ),
-//                                    ),
-////                                  Text(
-////                                    "Relationship status:  " + pageState.client.relationshipStatus,
-////                                    style: TextStyle(
-////                                      fontSize: 16.0,
-////                                      fontFamily: 'Raleway',
-////                                      color: Color(ColorConstants.primary_black),
-////                                    ),
-////                                  ),
-////                                  pageState.client.relationshipStatus != Client.RELATIONSHIP_SINGLE ? Text(
-////                                    "Partner name:  " + pageState.client.getClientSpouseFullName(),
-////                                    style: TextStyle(
-////                                      fontSize: 16.0,
-////                                      fontFamily: 'Raleway',
-////                                      color: Color(ColorConstants.primary_black),
-////                                    ),
-////                                  ) : SizedBox(),
-////                                  Text(
-////                                    "Number of children:  " + pageState.client.numOfChildren.toString(),
-////                                    style: TextStyle(
-////                                      fontSize: 16.0,
-////                                      fontFamily: 'Raleway',
-////                                      color: Color(ColorConstants.primary_black),
-////                                    ),
-////                                  ),
-////                                  Text(
-////                                    "Lead source:  " + pageState.client.leadSource,
-////                                    style: TextStyle(
-////                                      fontSize: 16.0,
-////                                      fontFamily: 'Raleway',
-////                                      color: Color(ColorConstants.primary_black),
-////                                    ),
-////                                  ),
-//                                  ],
-//                                ),
-//                              ),
                             ],
                           ),
                           Row(
@@ -219,7 +126,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   marginBottom: 0.0,
                                   onPressed: onCallPressed,
                                   icon: Icon(Icons.phone, color: Colors.white),
-                                  urlText: pageState.client.phone,
+                                  urlText: pageState.client?.phone,
                               ),
                               ClientSafeButton(
                                 height: 48.0,
@@ -231,7 +138,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 marginBottom: 0.0,
                                 onPressed: onSMSPressed,
                                 icon: Icon(Icons.message, color: Colors.white),
-                                urlText: pageState.client.phone,
+                                urlText: pageState.client?.phone,
                               ),
                               ClientSafeButton(
                                 height: 48.0,
@@ -243,7 +150,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 marginBottom: 0.0,
                                 onPressed: onEmailPressed,
                                 icon: Icon(Icons.email, color: Colors.white),
-                                urlText: pageState.client.email,
+                                urlText: pageState.client?.email,
                               ),
                               Container(
                                 alignment: Alignment.bottomCenter,
@@ -309,7 +216,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                         ) : Container(
                           margin: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0),
                           child: Text(
-                            "You have not started any jobs with " + pageState.client.getClientFullName() + " yet. All jobs started for " + pageState.client.getClientFullName() + " will show up here.",
+                            pageState.client != null? "You have not started any jobs with " + pageState.client?.getClientFullName() ?? "" + " yet. All jobs started for " + pageState.client?.getClientFullName() ?? "" + " will show up here." : '',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 18.0,
@@ -344,7 +251,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
       );
 
   void _showNewJobDialog(ClientDetailsPageState pageState){
-    pageState.onStartNewJobClicked();
+    pageState.onStartNewJobClicked(pageState.client);
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -400,7 +307,7 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, ClientDetailsPageState>(
     converter: (store) => ClientDetailsPageState.fromStore(store),
     builder: (BuildContext context, ClientDetailsPageState pageState) =>
-        JobInProgressItem(job: pageState.client.jobs.elementAt(index)),
+        JobInProgressItem(job: pageState.clientJobs.elementAt(index)),
   );
 }
 

@@ -12,6 +12,12 @@ class UpdateErrorStateAction{
   UpdateErrorStateAction(this.pageState, this.errorCode);
 }
 
+class InitializeNewContactPageAction{
+  final NewJobPageState pageState;
+  final Client client;
+  InitializeNewContactPageAction(this.pageState, this.client);
+}
+
 class SetSelectedTimeAction{
   final NewJobPageState pageState;
   final DateTime time;
