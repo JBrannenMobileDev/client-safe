@@ -59,7 +59,8 @@ class _JobTypeSelection extends State<JobTypeSelection>
                     child: Column(
                       children: <Widget>[
                         Container(
-                          margin: EdgeInsets.only(bottom: 8.0),
+                          height: 36.0,
+                          width: 36.0,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: AssetImage(jobTypeIcons.elementAt(index)),

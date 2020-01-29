@@ -24,8 +24,8 @@ class NewJobStagesListWidget extends StatelessWidget {
         onPressed: () {
           pageState.onJobStageSelected(
               JobStage(
-                  stage: jobStageIcons.elementAt(index),
-                  value: JobStage.getStageValue(jobStageIcons.elementAt(index))
+                  stage: JobStage.getStageFromIcon(jobStageIcons.elementAt(index)),
+                  value: JobStage.getStageValue(JobStage.getStageFromIcon(jobStageIcons.elementAt(index))),
               ));
         },
         child: Row(
@@ -74,16 +74,17 @@ class NewJobStagesListWidget extends StatelessWidget {
               ),
             ),
             JobStage.containsJobStageIcon(pageState.selectedJobStages, jobStageIcons.elementAt(index)) ? Container(
+              alignment: Alignment.center,
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
-              height: 44.0,
-              width: 44.0,
+              height: 24.0,
+              width: 24.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   image: ImageUtil.getJobStageCompleteIcon(),
                   fit: BoxFit.contain,
                 ),
                 color: const Color(ColorConstants.primary_bg_grey),
-                borderRadius: BorderRadius.all(Radius.circular(22.0)),
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
             ) : SizedBox(),
           ],

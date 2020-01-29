@@ -6,6 +6,7 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'NewJobPageState.dart';
 

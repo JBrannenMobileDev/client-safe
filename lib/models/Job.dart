@@ -63,8 +63,8 @@ class Job implements Event{
       'jobTitle' : jobTitle,
       'notes' : notes,
       'professionalUserId' : professionalUserId,
-      'selectedDate' : selectedDate,
-      'selectedTime' : selectedTime,
+      'selectedDate' : selectedDate.millisecondsSinceEpoch,
+      'selectedTime' : selectedTime.millisecondsSinceEpoch,
       'type' : type,
       'stage' : stage.toMap(),
       'location' : location.toMap(),
@@ -81,8 +81,8 @@ class Job implements Event{
       jobTitle: map['jobTitle'],
       notes: map['notes'],
       professionalUserId: map['professionalUserId'],
-      selectedDate: map['selectedDate'],
-      selectedTime: map['selectedTime'],
+      selectedDate: DateTime.fromMillisecondsSinceEpoch(map['selectedDate']),
+      selectedTime: DateTime.fromMillisecondsSinceEpoch(map['selectedTime']),
       type: map['type'],
       stage: JobStage.fromMap(map['stage']),
       location: Location.fromMap(map['location']),
@@ -188,5 +188,10 @@ class Job implements Event{
   @override
   String getTitle() {
     return jobTitle;
+  }
+
+  double getMillisecondsUntilJob() {
+//    jobList.where((job) => (job.selectedDate.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch)).toList()
+    return 5;
   }
 }

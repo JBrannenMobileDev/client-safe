@@ -1,31 +1,32 @@
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/widgets.dart';
 
-class BaseHomeCard extends StatelessWidget{
+class BaseHomeCardInProgress extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  BaseHomeCard({
+  BaseHomeCardInProgress({
     this.cardTitle,
-    this.pageState});
+    this.pageState,
+    this.jobs});
 
   final String cardTitle;
   final DashboardPageState pageState;
+  final List<Job> jobs;
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 10.0),
+        margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 18.0),
         padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 16.0),
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: new BorderRadius.all(Radius.circular(8.0))),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.fromLTRB(26.0, 26.0, 26.0, 0.0),
+              margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 18.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -33,8 +34,8 @@ class BaseHomeCard extends StatelessWidget{
                     cardTitle,
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 22.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 24.0,
+                      fontFamily: 'Blackjack',
                       fontWeight: FontWeight.w800,
                       color: Color(ColorConstants.primary_black),
                     ),
@@ -43,24 +44,24 @@ class BaseHomeCard extends StatelessWidget{
                     "View all",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 18.0,
+                      fontSize: 16.0,
                       fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                       color: Color(ColorConstants.primary_black),
                     ),
                   )
                 ],
               ),
             ),
-            pageState.currentJobs.length > 0 ? Container(
-              alignment: Alignment.topCenter,
+            jobs.length > 0 ? Container(
               child: ListView.builder(
+                padding: EdgeInsets.all(0.0),
                 reverse: false,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 key: _listKey,
                 //                itemCount: pageState.currentJobs.length < 6 ? pageState.currentJobs.length : 5,
-                itemCount: pageState.currentJobs.length,
+                itemCount: jobs.length,
                 itemBuilder: _buildItem,
               ),
             ) : Container(
@@ -83,7 +84,7 @@ class BaseHomeCard extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return JobListItem(job: pageState.currentJobs.elementAt(index));
+    return JobInProgressItem(job: jobs.elementAt(index));
   }
 
 }

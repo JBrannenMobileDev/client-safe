@@ -28,7 +28,6 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveClient(Store<AppState> store, action, NextDispatcher next) async{
-    ClientDao clientDao = ClientDao();
     Client client = Client(
       id: action.pageState.id,
       firstName: action.pageState.newContactFirstName,
@@ -46,7 +45,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       leadSource: action.pageState.leadSource,
       iconUrl: action.pageState.clientIcon != null ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale),
     );
-    await clientDao.insertOrUpdate(client);
+    await ClientDao.insertOrUpdate(client);
     DeviceContactsDao.addOrUpdateContact(client);
     store.dispatch(ClearStateAction(store.state.newContactPageState));
     store.dispatch(FetchClientData(store.state.clientsPageState));

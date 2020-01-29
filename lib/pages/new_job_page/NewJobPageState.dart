@@ -199,7 +199,7 @@ class NewJobPageState {
         locations: List(),
         currentJobStage: JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED),
         selectedDate: null,
-        selectedTime: DateTime.now(),
+        selectedTime: null,
         sunsetDateTime: null,
         selectedJobStages: List(),
         jobType: Job.JOB_TYPE_OTHER,

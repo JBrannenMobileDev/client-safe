@@ -219,6 +219,7 @@ class _NewJobPageState extends State<NewJobPage> {
       }
     }
     if (pageState.pageViewIndex == pageCount) {
+      pageState.onSavePressed();
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -234,11 +235,10 @@ class _NewJobPageState extends State<NewJobPage> {
           );
         },
       );
-      pageState.onSavePressed();
     }
   }
 
-  void onFlareCompleted(String unused) {
+  void onFlareCompleted(String unused, ) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
   }

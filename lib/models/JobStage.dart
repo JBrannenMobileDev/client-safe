@@ -172,10 +172,122 @@ class JobStage {
     return 0;
   }
 
+  static String getStageFromValue(int value){
+    switch(value) {
+      case 1:
+        return STAGE_1_INQUIRY_RECEIVED;
+        break;
+      case 2:
+        return STAGE_2_FOLLOWUP_SENT;
+        break;
+      case 3:
+        return STAGE_3_PROPOSAL_SENT;
+        break;
+      case 4:
+        return STAGE_4_PROPOSAL_SIGNED;
+        break;
+      case 5:
+        return STAGE_5_PLANNING_COMPLETE;
+        break;
+      case 6:
+        return STAGE_6_SESSION_COMPLETE;
+        break;
+      case 7:
+        return STAGE_7_EDITING_COMPLETE;
+        break;
+      case 8:
+        return STAGE_8_GALLERY_SENT;
+        break;
+      case 9:
+        return STAGE_9_PAYMENT_REQUESTED;
+        break;
+      case 10:
+        return STAGE_10_PAYMENT_RECEIVED;
+        break;
+      case 11:
+        return STAGE_11_FEEDBACK_REQUESTED;
+        break;
+      case 12:
+        return STAGE_12_FEEDBACK_RECEIVED;
+        break;
+      case 13:
+        return STAGE_COMPLETED_CHECK;
+    }
+    return STAGE_1_INQUIRY_RECEIVED;
+  }
+
   static bool containsJobStageIcon(List<JobStage> selectedStages, String jobIcon){
     for(JobStage selectedStage in selectedStages) {
-      if(selectedStage.stage == jobIcon) return true;
+      if(selectedStage.stage == getStageFromIcon(jobIcon)) return true;
     }
     return false;
+  }
+
+  static String getStageFromIcon(String iconLocation) {
+    switch(iconLocation){
+      case 'assets/images/job_progress/inquiry_received.png':
+        return STAGE_1_INQUIRY_RECEIVED;
+      case 'assets/images/job_progress/followup_sent.png':
+        return STAGE_2_FOLLOWUP_SENT;
+      case 'assets/images/job_progress/proposal_sent.png':
+        return STAGE_3_PROPOSAL_SENT;
+      case 'assets/images/job_progress/proposal_signed.png':
+        return STAGE_4_PROPOSAL_SIGNED;
+      case 'assets/images/job_progress/planning_complete.png':
+        return STAGE_5_PLANNING_COMPLETE;
+      case 'assets/images/job_progress/session_complete.png':
+        return STAGE_6_SESSION_COMPLETE;
+      case 'assets/images/job_progress/editing_complete.png':
+        return STAGE_7_EDITING_COMPLETE;
+      case 'assets/images/job_progress/gallery_sent.png':
+        return STAGE_8_GALLERY_SENT;
+      case 'assets/images/job_progress/payment_requested.png':
+        return STAGE_9_PAYMENT_REQUESTED;
+      case 'assets/images/job_progress/payment_received.png':
+        return STAGE_10_PAYMENT_RECEIVED;
+      case 'assets/images/job_progress/feedback_requested.png':
+        return STAGE_11_FEEDBACK_REQUESTED;
+      case 'assets/images/job_progress/feedback_received.png':
+        return STAGE_12_FEEDBACK_RECEIVED;
+    }
+    return '';
+  }
+
+  static String getStageTextFromValue(int value) {
+    switch(value){
+      case 1:
+        return 'Receive inquiry';
+      case 2:
+        return 'Send followup';
+      case 3:
+        return 'Send proposal';
+      case 4:
+        return 'Receive signed proposal';
+      case 5:
+        return 'Complete planning';
+      case 6:
+        return 'Complete photoshoot session';
+      case 7:
+        return 'Complete editing';
+      case 8:
+        return 'Send gallery';
+      case 9:
+        return 'Request payment';
+      case 10:
+        return 'Receive payment';
+      case 11:
+        return 'Request feedback';
+      case 12:
+        return 'Receive feedback';
+    }
+    return '';
+  }
+
+  String getNextStageName() {
+    return getStageTextFromValue(value++);
+  }
+
+  static String getNextStageNameStatic(int value) {
+    return getStageTextFromValue(value++);
   }
 }

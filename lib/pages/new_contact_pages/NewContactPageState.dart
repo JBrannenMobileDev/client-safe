@@ -281,6 +281,7 @@ class NewContactPageState {
       numberOfChildren: store.state.newContactPageState.numberOfChildren,
       importantDates: store.state.newContactPageState.importantDates,
       deviceContacts: store.state.newContactPageState.deviceContacts,
+      selectedDeviceContact: store.state.newContactPageState.selectedDeviceContact,
       filteredDeviceContacts: store.state.newContactPageState.filteredDeviceContacts,
       searchText: store.state.newContactPageState.searchText,
       notes: store.state.newContactPageState.notes,

@@ -7,7 +7,7 @@ import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
 import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
@@ -400,7 +400,7 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, ClientDetailsPageState>(
     converter: (store) => ClientDetailsPageState.fromStore(store),
     builder: (BuildContext context, ClientDetailsPageState pageState) =>
-        JobListItem(job: pageState.client.jobs.elementAt(index)),
+        JobInProgressItem(job: pageState.client.jobs.elementAt(index)),
   );
 }
 

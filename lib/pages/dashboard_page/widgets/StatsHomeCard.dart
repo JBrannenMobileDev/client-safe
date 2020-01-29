@@ -1,6 +1,4 @@
-import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobListItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/widgets.dart';
 
@@ -44,7 +42,7 @@ class StatsHomeCard extends StatelessWidget{
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 22.0,
-                          fontFamily: 'Raleway',
+                          fontFamily: 'Blackjack',
                           fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.primary_black),
                         ),
@@ -56,7 +54,7 @@ class StatsHomeCard extends StatelessWidget{
                   margin: EdgeInsets.only(top: 16.0, bottom: 8.0, left: 26.0, right: 26.0),
                   height: 64.0,
                   child: Text(
-                    "This feature will be available in future updates of Client Safe.",
+                    "This feature will be available in future updates of DandyLight.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 18.0,

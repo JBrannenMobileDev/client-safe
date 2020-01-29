@@ -6,6 +6,8 @@ import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageMiddleware.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageMiddleware.dart';
+import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
+import 'package:client_safe/pages/jobs_page/JobsPageMiddleware.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageMiddleware.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
@@ -45,6 +47,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
   return middlewareList;
 }
 

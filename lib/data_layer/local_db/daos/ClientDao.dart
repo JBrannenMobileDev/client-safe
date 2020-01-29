@@ -15,11 +15,11 @@ class ClientDao extends Equatable{
   // singleton instance of an opened database.
   static Future<Database> get _db async => await SembastDb.instance.database;
 
-  Future insert(Client client) async {
+  static Future insert(Client client) async {
     await _clientStore.add(await _db, client.toMap());
   }
 
-  Future insertOrUpdate(Client client) async {
+  static Future insertOrUpdate(Client client) async {
     List<Client> clientList = await getAllSortedByFirstName();
     bool alreadyExists = false;
     for(Client singleClient in clientList){
@@ -34,7 +34,7 @@ class ClientDao extends Equatable{
     }
   }
 
-  Future update(Client client) async {
+  static Future update(Client client) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(client.id));
@@ -45,7 +45,7 @@ class ClientDao extends Equatable{
     );
   }
 
-  Future delete(Client client) async {
+  static Future delete(Client client) async {
     final finder = Finder(filter: Filter.byKey(client.id));
     await _clientStore.delete(
       await _db,

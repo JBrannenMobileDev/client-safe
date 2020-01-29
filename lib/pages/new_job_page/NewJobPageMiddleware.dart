@@ -39,16 +39,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     PriceProfileDao priceProfileDao = PriceProfileDao();
     LocationDao locationDao = LocationDao();
-    JobDao jobDao = JobDao();
     List<PriceProfile> allPriceProfiles = await priceProfileDao.getAllSortedByName();
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     List<Location> allLocations = await locationDao.getAllSortedMostFrequent();
-    List<Job> upcomingJobs = await jobDao.getAllUpcomingJobs();
+    List<Job> upcomingJobs = await JobDao.getAllJobs();
     store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs));
   }
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
-    JobDao jobDao = JobDao();
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
       clientId: store.state.newJobPageState.selectedClient.id,
@@ -62,8 +60,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile,
       );
-    await jobDao.insertOrUpdate(jobToSave);
-//    store.dispatch(ClearStateAction(store.state.newJobPageState));
-//    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(ClearStateAction(store.state.newJobPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 }

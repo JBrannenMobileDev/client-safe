@@ -31,7 +31,6 @@ class Client{
   String spouseLastName;
   int numOfChildren;
   List<ImportantDate> importantDates;
-  DateTime dateLastContacted;
   List<String> albumLinks;
   String instagramProfileUrl;
   String iconUrl;
@@ -51,7 +50,6 @@ class Client{
     this.spouseLastName,
     this.numOfChildren,
     this.importantDates,
-    this.dateLastContacted,
     this.albumLinks,
     this.instagramProfileUrl,
     this.iconUrl,
@@ -73,7 +71,6 @@ class Client{
       'spouseLastName' : spouseLastName,
       'numOfChildren' : numOfChildren,
       'importantDates' : convertImportantDatesToMaps(importantDates),
-      'dateLastContacted' : dateLastContacted,
       'albumLinks' : albumLinks,
       'instagramProfileUrl' : instagramProfileUrl,
       'iconUrl' : iconUrl,
@@ -96,7 +93,6 @@ class Client{
       spouseLastName: map['spouseLastName'],
       numOfChildren: map['numOfChildren'],
       importantDates: convertMapsToImportantDates(map['importantDates']),
-      dateLastContacted: map['dateLastContacted'],
       albumLinks: map['albumLinks'],
       instagramProfileUrl: map['instagramProfileUrl'],
       iconUrl: map['iconUrl'],

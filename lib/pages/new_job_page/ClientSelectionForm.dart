@@ -29,8 +29,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.dispatch(FetchAllClientsAction(store.state.newJobPageState));
-        searchTextController.text =
-            store.state.newJobPageState.clientSearchText;
+        searchTextController.text = store.state.newJobPageState.clientSearchText;
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>

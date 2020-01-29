@@ -2,15 +2,13 @@ import 'dart:ui';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/BaseHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
+import 'package:client_safe/pages/dashboard_page/widgets/LeadsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
@@ -107,7 +105,8 @@ class _DashboardPageState extends State<DashboardPage> {
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
                               JobsHomeCard(pageState: pageState),
-                              StatsHomeCard(cardTitle: "Stats", pageState: pageState),
+                              LeadsHomeCard(cardTitle: 'Leads',pageState: pageState),
+                              StatsHomeCard(cardTitle: "Insights", pageState: pageState),
                             ])),
                       ],
                     ),
@@ -118,50 +117,7 @@ class _DashboardPageState extends State<DashboardPage> {
       );
 
   void _onAddButtonPressed(BuildContext context) {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 200.0,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text("Add New Contact"),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return NewContactPage();
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.business_center),
-                  title: Text("Start New Job"),
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return NewJobPage();
-                      },
-                    );
-                  },
-                ),
-                ListTile(
-                  leading: Icon(Icons.folder),
-                  title: Text("Add to Collection"),
-                  onTap: () {},
-                ),
-              ],
-            ),
-          );
-        });
+    UserOptionsUtil.showDashboardOptionsSheet(context);
   }
 
   bool get _isMinimized {

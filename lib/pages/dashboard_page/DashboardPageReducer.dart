@@ -13,5 +13,7 @@ DashboardPageState _setupDataListeners(DashboardPageState previousState, InitDas
 }
 
 DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateAction action) {
-  return previousState.copyWith(currentJobs: action.upcomingJobs);
+  return previousState.copyWith(
+      currentJobs: action.upcomingJobs,
+      potentialJobs: action.potentialJobs);
 }
