@@ -160,7 +160,7 @@ flutter:
     - assets/images/calendar.png
     - assets/images/clock.png
 
-    - assets/images/reminders/checklist.png
+    - assets/images/reminders/camera.png
   fonts:
     - family: Blackjack
       fonts:

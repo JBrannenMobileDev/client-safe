@@ -24,7 +24,8 @@ class DashboardPage extends StatefulWidget {
   }
 }
 
-class _DashboardPageState extends State<DashboardPage> with TickerProviderStateMixin{
+class _DashboardPageState extends State<DashboardPage>
+    with TickerProviderStateMixin {
   ScrollController _scrollController;
   AnimationController _controller;
   AnimationController _repeatController;
@@ -43,12 +44,13 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
       vsync: this,
       duration: const Duration(milliseconds: 2000),
     );
-    _circleOpacity = Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
+    _circleOpacity =
+        Tween<double>(begin: 1.0, end: 0.0).animate(CurvedAnimation(
       parent: _repeatController,
       curve: Curves.fastOutSlowIn,
     ));
-    _circleSize = Tween<double>(begin: 96.0, end: 175.0)
-        .animate(CurvedAnimation(
+    _circleSize =
+        Tween<double>(begin: 96.0, end: 175.0).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.fastOutSlowIn,
     ));
@@ -58,7 +60,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
   }
 
   @override
-  void dispose(){
+  void dispose() {
     _repeatController.dispose();
     super.dispose();
   }
@@ -133,9 +135,31 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                         background: Stack(
                           alignment: Alignment.topLeft,
                           children: <Widget>[
+                            Padding(
+                              padding: const EdgeInsets.only(top: 126.0, left: 24.0),
+                              child: Wrap(
+                                direction: Axis.vertical,
+                                children: <Widget>[
+                                  RotatedBox(
+                                    quarterTurns: 1,
+                                    child: Text(
+                                      'Reminders',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 18.0,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w800,
+                                        color: Color(
+                                            ColorConstants.getPrimaryBlack()),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             Container(
                               alignment: Alignment.center,
-                              margin: EdgeInsets.only(top: 96.0, left: 24.0),
+                              margin: EdgeInsets.only(top: 96.0, left: 48.0),
                               height: 150.0,
                               width: 150.0,
                               child: Stack(
@@ -156,24 +180,22 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                                   Container(
                                     height: 96.0,
                                     width: 96.0,
-                                    padding: EdgeInsets.all(24.0),
+                                    padding: EdgeInsets.all(18.0),
                                     decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                        fit: BoxFit.scaleDown,
-                                        image: AssetImage(
-                                            "assets/images/job_progress/session_complete.png"),
-                                      ),
                                       borderRadius: BorderRadius.circular(48.0),
                                       color: Colors.white,
                                     ),
-                                  )
+                                    child: Image.asset(
+                                      "assets/images/reminders/camera.png",
+                                    ),
+                                  ),
                                 ],
-                             ),
+                              ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 56.0, top: 232.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                              padding: EdgeInsets.only(left: 80.0, top: 232.0),
+                              child: Stack(
+                                alignment: Alignment.topLeft,
                                 children: <Widget>[
                                   Text(
                                     'Prepare for your shoot!',
@@ -186,37 +208,46 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                                           ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
-                                  Text(
-                                    '✔ Camera battery',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(
-                                          ColorConstants.getPrimaryBlack()),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 18.0),
+                                    child: Text(
+                                      '✔ Camera battery',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(
+                                            ColorConstants.getPrimaryBlack()),
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    '✔ SD Cards',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(
-                                          ColorConstants.getPrimaryBlack()),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 34.0),
+                                    child: Text(
+                                      '✔ SD Cards',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(
+                                            ColorConstants.getPrimaryBlack()),
+                                      ),
                                     ),
                                   ),
-                                  Text(
-                                    '✔ Weather',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 16.0,
-                                      fontFamily: 'Raleway',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(
-                                          ColorConstants.getPrimaryBlack()),
+                                  Padding(
+                                    padding: EdgeInsets.only(top: 50.0),
+                                    child: Text(
+                                      '✔ Weather',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontFamily: 'Raleway',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(
+                                            ColorConstants.getPrimaryBlack()),
+                                      ),
                                     ),
                                   ),
                                 ],
