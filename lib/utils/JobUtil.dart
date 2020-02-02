@@ -8,7 +8,7 @@ class JobUtil {
     return _jobsInProgress;
   }
 
-  static List<Job> getPotentialJobs(List<Job> jobs) {
+  static List<Job> getLeads(List<Job> jobs) {
     List<Job> _jobsInProgress = jobs.where((job) => (_containsJobStage(JobStage.STAGE_1_INQUIRY_RECEIVED, job.completedStages) && !_containsJobStage(JobStage.STAGE_4_PROPOSAL_SIGNED, job.completedStages))).toList();
     _jobsInProgress.sort((job1, job2) => job2.getMillisecondsUntilJob().compareTo(job1.getMillisecondsUntilJob()));
     return _jobsInProgress;

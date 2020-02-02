@@ -58,7 +58,7 @@ NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageA
     }
   }
   if(shouldKeep) selectedJobStagesUpdated.add(action.jobStage);
-  selectedJobStagesUpdated.sort((a, b) => b.value.compareTo(a.value));
+  selectedJobStagesUpdated.sort((a, b) => a.value.compareTo(b.value));
   JobStage currentJobStage = selectedJobStagesUpdated.last;
   return previousState.copyWith(currentJobStage: currentJobStage, selectedJobStages: selectedJobStagesUpdated);
 }

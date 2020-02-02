@@ -13,6 +13,6 @@ class JobsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchJobs(Store<AppState> store, NextDispatcher next) async{
-      next(SetJobsDataAction(store.state.jobsPageState, await JobDao.getAllJobs()));
+      store.dispatch(SetJobsDataAction(store.state.jobsPageState, await JobDao.getAllJobs()));
   }
 }

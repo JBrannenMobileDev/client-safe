@@ -154,10 +154,13 @@ flutter:
     - assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale_tag.png
 
     - assets/animations/success_check.flr
+    - assets/animations/new_alert_flare_light_blue.flr
 
     - assets/images/backgrounds/image_background.png
     - assets/images/calendar.png
     - assets/images/clock.png
+
+    - assets/images/reminders/checklist.png
   fonts:
     - family: Blackjack
       fonts:

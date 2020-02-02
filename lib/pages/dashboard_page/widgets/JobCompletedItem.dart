@@ -1,13 +1,14 @@
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class JobInProgressItem extends StatelessWidget{
+class JobCompletedItem extends StatelessWidget{
   final Job job;
-  JobInProgressItem({this.job});
+  JobCompletedItem({this.job});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class JobInProgressItem extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(right: 18.0, top: 4.0),
+                margin: EdgeInsets.only(right: 18.0, top: 0.0),
                 height: 42.0,
                 width: 42.0,
                 decoration: BoxDecoration(
@@ -30,9 +31,9 @@ class JobInProgressItem extends StatelessWidget{
                   ),
                 ),
               ),
-              Flexible(
-                child: Column(
+              Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 4.0),
@@ -48,17 +49,7 @@ class JobInProgressItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                    'Next: ' + JobStage.getNextStageNameStatic(JobStage.getStageValue(job.stage.stage)),
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w400,
-                        color: Color(ColorConstants.primary_black),
-                      ),
-                    ),
-                    Text(
-                      DateFormat('EEE, MMM d').format(job.selectedDate) + ' · ' + DateFormat('h:mm a').format(job.selectedTime),
+                      job.clientName + ' · ' + job.getJobType(),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.0,
@@ -68,7 +59,6 @@ class JobInProgressItem extends StatelessWidget{
                       ),
                     ),
                   ],
-                ),
               ),
             ],
           ),

@@ -9,7 +9,7 @@ import 'JobsPage.dart';
 class JobsPageState {
   final String filterType;
   final Job selectedJob;
-  final List<Job> allJobs;
+  final List<Job> leads;
   final List<Job> jobsInProgress;
   final List<Job> jobsCompleted;
   final Function(String) onFilterChanged;
@@ -19,7 +19,7 @@ class JobsPageState {
   JobsPageState({
     @required this.filterType,
     @required this.selectedJob,
-    @required this.allJobs,
+    @required this.leads,
     @required this.jobsInProgress,
     @required this.jobsCompleted,
     @required this.onFilterChanged,
@@ -30,7 +30,7 @@ class JobsPageState {
   JobsPageState copyWith({
     String filterType,
     Job selectedClient,
-    List<Job> allJobs,
+    List<Job> leads,
     List<Job> jobsInProgress,
     List<Job> jobsCompleted,
     Function(String) onFilterChanged,
@@ -40,7 +40,7 @@ class JobsPageState {
     return JobsPageState(
       filterType: filterType?? this.filterType,
       selectedJob: selectedClient?? this.selectedJob,
-      allJobs: allJobs?? this.allJobs,
+      leads: leads?? this.leads,
       jobsInProgress: jobsInProgress?? this.jobsInProgress,
       jobsCompleted: jobsCompleted?? this.jobsCompleted,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
@@ -52,7 +52,7 @@ class JobsPageState {
   factory JobsPageState.initial() => JobsPageState(
     filterType: JobsPage.FILTER_TYPE_IN_PROGRESS,
     selectedJob: null,
-    allJobs: List(),
+    leads: List(),
     jobsInProgress: List(),
     jobsCompleted: List(),
     onFilterChanged: null,
@@ -64,7 +64,7 @@ class JobsPageState {
     return JobsPageState(
       filterType: store.state.jobsPageState.filterType,
       selectedJob: store.state.jobsPageState.selectedJob,
-      allJobs: store.state.jobsPageState.allJobs,
+      leads: store.state.jobsPageState.leads,
       jobsInProgress: store.state.jobsPageState.jobsInProgress,
       jobsCompleted: store.state.jobsPageState.jobsCompleted,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
@@ -78,7 +78,7 @@ class JobsPageState {
   int get hashCode =>
       filterType.hashCode ^
       selectedJob.hashCode ^
-      allJobs.hashCode ^
+      leads.hashCode ^
       jobsInProgress.hashCode ^
       jobsCompleted.hashCode ^
       onFilterChanged.hashCode ^
@@ -90,7 +90,7 @@ class JobsPageState {
           other is JobsPageState &&
               filterType == other.filterType &&
               selectedJob == other.selectedJob &&
-              allJobs == other.allJobs &&
+              leads == other.leads &&
               jobsInProgress == other.jobsInProgress &&
               jobsCompleted == other.jobsCompleted &&
               onFilterChanged == other.onFilterChanged &&

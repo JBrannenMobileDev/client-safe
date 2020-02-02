@@ -9,11 +9,11 @@ final jobsPageReducer = combineReducers<JobsPageState>([
 ]);
 
 JobsPageState _setJobData(JobsPageState previousState, SetJobsDataAction action){
-  action.jobs.sort((job1, job2) => job1.getMillisecondsUntilJob().compareTo(job2.getMillisecondsUntilJob()));
+  action.jobs.sort((job1, job2) => job1.selectedDate.millisecondsSinceEpoch.compareTo(job2.selectedDate.millisecondsSinceEpoch));
   return previousState.copyWith(
       jobsInProgress: JobUtil.getJobsInProgress(action.jobs),
       jobsCompleted: JobUtil.getJobsCompleted(action.jobs),
-      allJobs: action.jobs,
+      leads: JobUtil.getLeads(action.jobs),
   );
 }
 
