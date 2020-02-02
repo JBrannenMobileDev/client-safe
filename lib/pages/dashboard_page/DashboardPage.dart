@@ -62,6 +62,7 @@ class _DashboardPageState extends State<DashboardPage>
   @override
   void dispose() {
     _repeatController.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -148,7 +149,7 @@ class _DashboardPageState extends State<DashboardPage>
                                       style: TextStyle(
                                         fontSize: 18.0,
                                         fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w800,
+                                        fontWeight: FontWeight.w600,
                                         color: Color(
                                             ColorConstants.getPrimaryBlack()),
                                       ),

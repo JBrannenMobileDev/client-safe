@@ -1,9 +1,7 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobCompletedItem.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -43,7 +41,6 @@ class _JobsPageState extends State<JobsPage> {
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, JobsPageState>(
-        onInit: (store) => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
         converter: (store) => JobsPageState.fromStore(store),
         builder: (BuildContext context, JobsPageState pageState) => Scaffold(
           backgroundColor: Colors.white,
@@ -72,7 +69,7 @@ class _JobsPageState extends State<JobsPage> {
                             color: Color(ColorConstants.getPrimaryColor()),
                             tooltip: 'Add',
                             onPressed: () {
-                              UserOptionsUtil.showDashboardOptionsSheet(context);
+                              UserOptionsUtil.showNewJobDialog(context);
                             },
                           ),
                         ],
@@ -132,7 +129,7 @@ class _JobsPageState extends State<JobsPage> {
 
 Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, JobsPageState>(
-    converter: (store) => JobsPageState.initial(),
+    converter: (store) => JobsPageState.fromStore(store),
     builder: (BuildContext context, JobsPageState pageState) =>
     pageState.filterType == JobsPage.FILTER_TYPE_LEADS
         ? LeadItem(job: pageState.leads.elementAt(index)) : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS

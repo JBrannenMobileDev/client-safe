@@ -189,9 +189,4 @@ class Job implements Event{
   String getTitle() {
     return jobTitle;
   }
-
-  double getMillisecondsUntilJob() {
-//    jobList.where((job) => (job.selectedDate.millisecondsSinceEpoch > DateTime.now().millisecondsSinceEpoch)).toList()
-    return 5;
-  }
 }

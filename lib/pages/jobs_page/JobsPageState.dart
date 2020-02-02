@@ -14,7 +14,6 @@ class JobsPageState {
   final List<Job> jobsCompleted;
   final Function(String) onFilterChanged;
   final Function(Job) onJobClicked;
-  final Function() fetchJobs;
 
   JobsPageState({
     @required this.filterType,
@@ -24,28 +23,25 @@ class JobsPageState {
     @required this.jobsCompleted,
     @required this.onFilterChanged,
     @required this.onJobClicked,
-    @required this.fetchJobs,
   });
 
   JobsPageState copyWith({
     String filterType,
-    Job selectedClient,
+    Job selectedJob,
     List<Job> leads,
     List<Job> jobsInProgress,
     List<Job> jobsCompleted,
     Function(String) onFilterChanged,
     Function(String) onJobClicked,
-    Function() fetchJobs,
   }){
     return JobsPageState(
       filterType: filterType?? this.filterType,
-      selectedJob: selectedClient?? this.selectedJob,
+      selectedJob: selectedJob?? this.selectedJob,
       leads: leads?? this.leads,
       jobsInProgress: jobsInProgress?? this.jobsInProgress,
       jobsCompleted: jobsCompleted?? this.jobsCompleted,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
-      onJobClicked: jobsCompleted?? this.onJobClicked,
-      fetchJobs: fetchJobs?? this.fetchJobs,
+      onJobClicked: onJobClicked?? this.onJobClicked,
     );
   }
 
@@ -57,7 +53,6 @@ class JobsPageState {
     jobsCompleted: List(),
     onFilterChanged: null,
     onJobClicked: null,
-    fetchJobs: null,
   );
 
   factory JobsPageState.fromStore(Store<AppState> store) {
@@ -70,7 +65,6 @@ class JobsPageState {
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
 //      onJobClicked: (client) => store.dispatch(InitializeJobDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => null,
-      fetchJobs: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
     );
   }
 
