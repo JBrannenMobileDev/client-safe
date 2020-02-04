@@ -118,6 +118,17 @@ NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateActio
       eventMap.putIfAbsent(job.selectedDate, () => newEventList);
     }
   }
+  for(Event event in action.eventsFromDevice){
+    if(eventMap.containsKey(event.selectedDate)){
+      List<Event> eventList = eventMap.remove(event.selectedDate);
+      eventList.add(event);
+      eventMap.putIfAbsent(event.selectedDate, () => eventList);
+    }else{
+      List<Event> newEventList = List();
+      newEventList.add(event);
+      eventMap.putIfAbsent(event.selectedDate, () => newEventList);
+    }
+  }
   return previousState.copyWith(
     allClients: action.allClients,
     filteredClients: action.allClients,

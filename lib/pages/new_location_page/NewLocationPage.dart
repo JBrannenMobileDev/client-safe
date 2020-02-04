@@ -10,8 +10,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:latlong/latlong.dart';
 import 'package:redux/redux.dart';
 
 class NewLocationPage extends StatefulWidget {
@@ -23,22 +24,12 @@ class NewLocationPage extends StatefulWidget {
 
 
 class _NewLocationPage extends State<NewLocationPage> {
-  final Completer<GoogleMapController> _controller = Completer();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewLocationPageState>(
         onInit: (store) async{
           store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
-          final GoogleMapController controller = await _controller.future;
-          controller.animateCamera(
-            CameraUpdate.newCameraPosition(
-              CameraPosition(
-                target: LatLng(store.state.newLocationPageState.newLocationLatitude, store.state.newLocationPageState.newLocationLongitude),
-                zoom: 15,
-              ),
-            ),
-          );
         },
         onDidChange: (pageState) async {
 
@@ -51,27 +42,56 @@ class _NewLocationPage extends State<NewLocationPage> {
           body: Stack(
             alignment: Alignment.center,
             children: <Widget>[
-              GoogleMap(
-                initialCameraPosition: CameraPosition(
-                  target: LatLng(pageState.newLocationLatitude, pageState.newLocationLongitude),
-                  zoom: 15,
+//              GoogleMap(
+//                initialCameraPosition: CameraPosition(
+//                  target: LatLng(pageState.newLocationLatitude, pageState.newLocationLongitude),
+//                  zoom: 15,
+//                ),
+//                onMapCreated: (GoogleMapController controller) {
+//                  _controller.complete(controller);
+//                },
+//                mapToolbarEnabled: false,
+//                myLocationEnabled: true,
+//                compassEnabled: false,
+//                onCameraIdle: () async{
+//                  final GoogleMapController controller = await _controller.future;
+//                  LatLng latLng = await controller.getLatLng(
+//                    ScreenCoordinate(
+//                      x: (MediaQuery.of(context).size.width/2).round(),
+//                      y: (MediaQuery.of(context).size.height/2).round(),
+//                    )
+//                  );
+//                  pageState.onLocationChanged(latLng);
+//                },
+//              ),
+              FlutterMap(
+                options: new MapOptions(
+                  center: new LatLng(51.5, -0.09),
+                  zoom: 13.0,
                 ),
-                onMapCreated: (GoogleMapController controller) {
-                  _controller.complete(controller);
-                },
-                mapToolbarEnabled: false,
-                myLocationEnabled: true,
-                compassEnabled: false,
-                onCameraIdle: () async{
-                  final GoogleMapController controller = await _controller.future;
-                  LatLng latLng = await controller.getLatLng(
-                    ScreenCoordinate(
-                      x: (MediaQuery.of(context).size.width/2).round(),
-                      y: (MediaQuery.of(context).size.height/2).round(),
-                    )
-                  );
-                  pageState.onLocationChanged(latLng);
-                },
+                layers: [
+                  new TileLayerOptions(
+                    urlTemplate: "https://api.tiles.mapbox.com/v4/"
+                        "{id}/{z}/{x}/{y}@2x.png?access_token={accessToken}",
+                    additionalOptions: {
+                      'accessToken': '<PUT_ACCESS_TOKEN_HERE>',
+                      'id': 'mapbox.streets',
+                    },
+                  ),
+                  new MarkerLayerOptions(
+                    markers: [
+                      new Marker(
+                        width: 80.0,
+                        height: 80.0,
+                        point: new LatLng(51.5, -0.09),
+                        builder: (ctx) =>
+                        new Container(
+                          child: new FlutterLogo(),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 36.0),
