@@ -1,4 +1,6 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/pages/calendar_page/JobCalendarItem.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,7 +44,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
 
   void _onDaySelected(DateTime day, List events, NewJobPageState pageState) {
     setState(() {
-      _buildEventList(pageState);
+      _buildEventList(_getEventListForSelectedDate(pageState));
     });
   }
 
@@ -86,7 +88,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
               ) : SizedBox(height: 21.0,),
             _buildTableCalendarWithBuilders(pageState),
             const SizedBox(height: .0),
-            Expanded(child: _buildEventList(pageState)),
+            Expanded(child: _buildEventList(_getEventListForSelectedDate(pageState))),
           ],
         ),
       ),
@@ -232,26 +234,29 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     );
   }
 
-  Widget _buildEventList(NewJobPageState pageState) {
-    List eventList = List();
-    eventList.addAll(pageState.upcomingJobs);
-    eventList.addAll(pageState.deviceCalendarEvents);
+  Widget _buildEventList(List<Event> eventsForSelectedDay) {
     return ListView(
-      children: eventList.map((event) => Container(
-        decoration: BoxDecoration(
-          border: Border.all(width: 1.0, color: Color(ColorConstants.getPrimaryColor())),
-          borderRadius: BorderRadius.circular(32.0),
-        ),
-        margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
-        child: ListTile(
-          title: Text(event.getTitle()),
-          onTap: () => print('$event tapped!'),
-        ),
-      ))
+      children: eventsForSelectedDay
+          .map((event) => JobCalendarItem(event: event))
           .toList(),
     );
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  List<Event> _getEventListForSelectedDate(NewJobPageState pageState) {
+    if(pageState.selectedDate != null){
+      for(List<Event> events in pageState.eventMap.values){
+        for(Event event in events){
+          if(event.selectedDate.year == pageState.selectedDate.year &&
+              event.selectedDate.month == pageState.selectedDate.month &&
+              event.selectedDate.day == pageState.selectedDate.day){
+            return events;
+          }
+        }
+      }
+    }
+    return List();
+  }
 }

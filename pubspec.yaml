@@ -37,16 +37,18 @@ dependencies:
   url_launcher: ^5.2.3
   sms: ^0.2.4
   flutter_launcher_icons: "^0.7.3"
-  contacts_service: ^0.3.6
+  contacts_service: ^0.3.10
   permission_handler: ^4.0.0
-  image_picker: ^0.6.2
-  google_maps_flutter: ^0.5.21
-  geolocator: ^5.1.5
+  image_picker: ^0.6.3
+#  geolocator: ^5.1.5
   android_intent: ^0.3.4
   share: ^0.6.3
   table_calendar: ^2.2.1
   flutter_rounded_date_picker: ^0.3.0
   sunrise_sunset: ^1.0.3
+  flutter_map: ^0.8.2
+  latlong: ^0.6.1
+  device_calendar: ^3.0.0
 
 flutter_icons:
   android: true
@@ -125,6 +127,7 @@ flutter:
     - assets/images/job_progress/feedback_requested.png
     - assets/images/job_progress/feedback_received.png
     - assets/images/job_progress/session_complete.png
+    - assets/images/job_progress/device_event.png
 
     - assets/images/lead_source_type/lead_source_blog.png
     - assets/images/lead_source_type/lead_source_business_card.png

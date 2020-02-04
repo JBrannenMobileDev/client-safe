@@ -1,6 +1,5 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/DeviceCalendarEvent.dart';
 import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
@@ -34,7 +33,6 @@ class NewJobPageState {
   final String jobType;
   final String jobTypeIcon;
   final List<Job> upcomingJobs;
-  final List<DeviceCalendarEvent> deviceCalendarEvents;
   final List<Client> allClients;
   final List<Client> filteredClients;
   final List<PriceProfile> pricingProfiles;
@@ -73,7 +71,6 @@ class NewJobPageState {
     @required this.jobType,
     @required this.jobTypeIcon,
     @required this.upcomingJobs,
-    @required this.deviceCalendarEvents,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -121,7 +118,6 @@ class NewJobPageState {
     String jobTypeIcon,
     JobStage currentJobStage,
     List<Job> upcomingJobs,
-    List<DeviceCalendarEvent> deviceCalendarEvents,
     Map<DateTime, List<Event>> eventMap,
     Function() onSavePressed,
     Function() onCancelPressed,
@@ -163,7 +159,6 @@ class NewJobPageState {
       currentJobStage: currentJobStage?? this.currentJobStage,
       upcomingJobs: upcomingJobs?? this.upcomingJobs,
       eventMap: eventMap?? this.eventMap,
-      deviceCalendarEvents: deviceCalendarEvents?? this.deviceCalendarEvents,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -205,7 +200,6 @@ class NewJobPageState {
         jobType: Job.JOB_TYPE_OTHER,
         jobTypeIcon: 'assets/images/job_types/other.png',
         upcomingJobs: List(),
-        deviceCalendarEvents: List(),
         eventMap: Map(),
         onSavePressed: null,
         onCancelPressed: null,
@@ -249,7 +243,6 @@ class NewJobPageState {
       currentJobStage: store.state.newJobPageState.currentJobStage,
       upcomingJobs: store.state.newJobPageState.upcomingJobs,
       eventMap: store.state.newJobPageState.eventMap,
-      deviceCalendarEvents: store.state.newJobPageState.deviceCalendarEvents,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -291,7 +284,6 @@ class NewJobPageState {
       jobTypeIcon.hashCode ^
       currentJobStage.hashCode ^
       upcomingJobs.hashCode ^
-      deviceCalendarEvents.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -331,7 +323,6 @@ class NewJobPageState {
           jobTypeIcon == other.jobTypeIcon &&
           currentJobStage == other.currentJobStage &&
           upcomingJobs == other.upcomingJobs &&
-          deviceCalendarEvents == other.deviceCalendarEvents &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&

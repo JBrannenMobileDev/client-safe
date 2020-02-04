@@ -248,4 +248,8 @@ class ImageUtil{
   static AssetImage getDefaultPricingProfileIcon() {
     return AssetImage(pricingProfileIcons[0]);
   }
+
+  static AssetImage getDeviceEventAssetImage() {
+    return AssetImage('assets/images/job_progress/device_event.png');
+  }
 }

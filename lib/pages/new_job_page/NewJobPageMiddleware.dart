@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
@@ -7,9 +9,11 @@ import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/models/Event.dart' as dandylightEvent;
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
 
@@ -44,7 +48,17 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     List<Location> allLocations = await locationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();
-    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs));
+    DeviceCalendarPlugin deviceCalendarPlugin = DeviceCalendarPlugin();
+    Calendar calendar = Calendar();
+    DateTime startDate = DateTime.now().add(Duration(days: -30));
+    DateTime endDate = DateTime.now().add(Duration(days: 1080));
+    List<dandylightEvent.Event> eventsFromDevice = List();
+    Result<UnmodifiableListView<Event>> deviceEvents = await deviceCalendarPlugin
+        .retrieveEvents(calendar.id, RetrieveEventsParams(startDate: startDate, endDate: endDate));
+    for(Event deviceEvent in deviceEvents.data){
+      eventsFromDevice.add(dandylightEvent.Event.fromDeviceEvent(deviceEvent));
+    }
+    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs, eventsFromDevice));
   }
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
