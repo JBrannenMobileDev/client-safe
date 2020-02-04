@@ -361,6 +361,7 @@ class NewContactPageState {
       onLeadSourceSelected.hashCode ^
       onDeviceContactSelected.hashCode ^
       onCloseSelected.hashCode ^
+      onGetDeviceContactsSelected.hashCode ^
       onContactSearchTextChanged.hashCode;
 
   @override
@@ -411,5 +412,6 @@ class NewContactPageState {
           onLeadSourceSelected == other.onLeadSourceSelected &&
           onDeviceContactSelected == other.onDeviceContactSelected &&
           onCloseSelected == other.onCloseSelected &&
+          onGetDeviceContactsSelected == other.onGetDeviceContactsSelected &&
           onContactSearchTextChanged == other.onContactSearchTextChanged;
 }

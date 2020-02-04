@@ -1,8 +1,8 @@
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong/latlong.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 
 
 class FetchLocationsAction{

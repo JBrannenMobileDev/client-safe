@@ -3,7 +3,6 @@ import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/widgets.dart';
 
-
 class Event{
   DateTime selectedDate;
   DateTime selectedTime;

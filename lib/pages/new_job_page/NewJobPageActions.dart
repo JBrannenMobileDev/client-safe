@@ -1,6 +1,5 @@
 
 import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
@@ -114,8 +113,7 @@ class SetAllToStateAction{
   final List<PriceProfile> allPriceProfiles;
   final List<Location> allLocations;
   final List<Job> upcomingJobs;
-  final List<Event> eventsFromDevice;
-  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs,  this.eventsFromDevice);
+  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs);
 }
 
 class ClientSelectedAction{
