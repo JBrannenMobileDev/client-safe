@@ -4,7 +4,6 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
 
@@ -30,12 +29,12 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsSelected action)async{
-    Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
-    IntentLauncherUtil.launchDrivingDirections(
-        position.latitude.toString(),
-        position.longitude.toString(),
-        action.location.latitude.toString(),
-        action.location.longitude.toString());
+//    Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+//    IntentLauncherUtil.launchDrivingDirections(
+//        position.latitude.toString(),
+//        position.longitude.toString(),
+//        action.location.latitude.toString(),
+//        action.location.longitude.toString());
   }
 
   void _shareDirections(Store<AppState> store, ShareLocationSelected action){

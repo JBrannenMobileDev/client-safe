@@ -2,8 +2,9 @@ import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:flutter/src/painting/image_resolution.dart';
 
-class Job implements Event{
+class Job {
   static const String JOB_TYPE_MATERNITY = 'assets/images/job_types/maternity.png';
   static const String JOB_TYPE_ENGAGEMENT = 'assets/images/job_types/engagement.png';
   static const String JOB_TYPE_FAMILY_PORTRAIT = 'assets/images/job_types/family_portrait.png';
@@ -173,20 +174,5 @@ class Job implements Event{
         return 12;
     }
     return 1;
-  }
-
-  @override
-  DateTime getSelectedDate() {
-    return selectedDate;
-  }
-
-  @override
-  DateTime getSelectedTime() {
-    return selectedTime;
-  }
-
-  @override
-  String getTitle() {
-    return jobTitle;
   }
 }

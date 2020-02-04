@@ -110,11 +110,11 @@ NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateActio
   for(Job job in action.upcomingJobs) {
     if(eventMap.containsKey(job.selectedDate)){
       List<Event> eventList = eventMap.remove(job.selectedDate);
-      eventList.add(job);
+      eventList.add(Event.fromJob(job));
       eventMap.putIfAbsent(job.selectedDate, () => eventList);
     }else{
       List<Event> newEventList = List();
-      newEventList.add(job);
+      newEventList.add(Event.fromJob(job));
       eventMap.putIfAbsent(job.selectedDate, () => newEventList);
     }
   }

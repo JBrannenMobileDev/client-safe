@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/calendar_page/JobCalendarItem.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -89,7 +90,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
     Scaffold(
-    backgroundColor: Color(ColorConstants.primary_bg_grey),
+    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
     body:Stack(
             children: <Widget>[
               Container(
@@ -306,26 +307,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   Widget _buildEventList() {
     return ListView(
       children: _selectedEvents
-          .map((event) => Container(
-        alignment: Alignment.center,
-        height: 96.0,
-        decoration: BoxDecoration(
-          color: Color(ColorConstants.white),
-          border: Border.all(color: Color(ColorConstants.white), width: 0.0),
-          borderRadius: BorderRadius.circular(32.0),
-        ),
-        margin: const EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
-        child: Text(
-          event.toString(),
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            color: Color(ColorConstants.primary_black),
-            fontSize: 18.0,
-            fontFamily: 'Raleway',
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-      ))
+          .map((event) => JobCalendarItem(event: event))
           .toList(),
     );
   }
