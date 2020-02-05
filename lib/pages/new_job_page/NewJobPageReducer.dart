@@ -26,6 +26,7 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetSunsetTimeAction>(_setSunsetTime),
   TypedReducer<NewJobPageState, SetSelectedTimeAction>(_setSelectedTime),
   TypedReducer<NewJobPageState, InitializeNewContactPageAction>(_loadWithSelectedClient),
+  TypedReducer<NewJobPageState, InitNewJobPageWithDateAction>(_loadWithSelectedDate),
 ]);
 
 NewJobPageState _setSelectedTime(NewJobPageState previousState, SetSelectedTimeAction action) {
@@ -36,6 +37,13 @@ NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, Initializ
   return previousState.copyWith(
       selectedClient: action.client,
       shouldClear: false,
+  );
+}
+
+NewJobPageState _loadWithSelectedDate(NewJobPageState previousState, InitNewJobPageWithDateAction action) {
+  return previousState.copyWith(
+    selectedDate: action.selectedDate,
+    shouldClear: false,
   );
 }
 

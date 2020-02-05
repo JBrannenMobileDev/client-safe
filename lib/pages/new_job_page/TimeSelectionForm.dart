@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,22 +42,37 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                   color: Color(ColorConstants.primary_black),
                 ),
             ),
-            Container(
-              margin: EdgeInsets.only(bottom: 6.0),
-              child: Text(
-                "Sunset is at " +
-                    (pageState.sunsetDateTime != null
-                        ? DateFormat('h:mm a').format(pageState.sunsetDateTime)
-                        : ""),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w400,
-                  color: Color(ColorConstants.primary_black),
-                ),
+            pageState.sunsetDateTime != null ? Padding(
+              padding: EdgeInsets.only(top: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    child: new Image.asset(
+                      'assets/images/sunset.png',
+                      height: 48.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 8.0, right: 8.0),
+                    child: Text(
+                      "Sunset is at " +
+                          (pageState.sunsetDateTime != null
+                              ? DateFormat('h:mm a').format(pageState.sunsetDateTime)
+                              : ""),
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontFamily: 'Raleway',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPrimaryColor()),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
+            ) : SizedBox(),
             Padding(
               padding: EdgeInsets.only(bottom: 8.0),
               child: Text(

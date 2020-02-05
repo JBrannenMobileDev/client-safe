@@ -121,3 +121,9 @@ class ClientSelectedAction{
   final Client client;
   ClientSelectedAction(this.pageState, this.client);
 }
+
+class InitNewJobPageWithDateAction{
+  final NewJobPageState pageState;
+  final DateTime selectedDate;
+  InitNewJobPageWithDateAction(this.pageState, this.selectedDate);
+}

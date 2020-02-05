@@ -252,4 +252,8 @@ class ImageUtil{
   static AssetImage getDeviceEventAssetImage() {
     return AssetImage('assets/images/job_progress/device_event.png');
   }
+
+  static AssetImage getSunsetAssetImage() {
+    return AssetImage('assets/images/sunset.png');
+  }
 }

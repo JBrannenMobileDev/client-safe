@@ -1,3 +1,4 @@
+import 'package:client_safe/pages/calendar_page/CalendarPageState.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPageState.dart';
 import 'package:client_safe/pages/home_page/HomePageState.dart';
@@ -31,6 +32,7 @@ class AppState {
   final CollectionsPageState collectionsPageState;
   final SettingsPageState settingsPageState;
   final SearchPageState searchPageState;
+  final CalendarPageState calendarPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -47,6 +49,7 @@ class AppState {
     @required this.settingsPageState,
     @required this.searchPageState,
     @required this.newJobPageState,
+    @required this.calendarPageState,
   });
 
   factory AppState.initial() {
@@ -65,6 +68,7 @@ class AppState {
       settingsPageState: SettingsPageState.initial(),
       searchPageState: SearchPageState.initial(),
       newJobPageState: NewJobPageState.initial(),
+      calendarPageState: CalendarPageState.initial(),
     );
   }
 
@@ -83,6 +87,7 @@ class AppState {
     SettingsPageState settingsPageState,
     SearchPageState searchPageState,
     NewJobPageState newJobPageState,
+    CalendarPageState calendarPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -99,6 +104,7 @@ class AppState {
       settingsPageState: settingsPageState ?? this.settingsPageState,
       searchPageState: searchPageState ?? this.searchPageState,
       newJobPageState: newJobPageState ?? this.newJobPageState,
+      calendarPageState: calendarPageState ?? this.calendarPageState,
     );
   }
 
@@ -117,7 +123,8 @@ class AppState {
     collectionsPageState.hashCode ^
     settingsPageState.hashCode ^
     searchPageState.hashCode ^
-    newJobPageState.hashCode;
+    newJobPageState.hashCode ^
+    calendarPageState.hashCode ;
 
   @override
   bool operator ==(Object other) =>
@@ -136,5 +143,6 @@ class AppState {
               collectionsPageState == other.collectionsPageState &&
               settingsPageState == other.settingsPageState &&
               searchPageState == other.searchPageState &&
-              newJobPageState == other.newJobPageState;
+              newJobPageState == other.newJobPageState &&
+              calendarPageState == other.calendarPageState;
 }

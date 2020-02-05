@@ -1,92 +1,72 @@
 import 'package:client_safe/models/Event.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/locations_page/LocationsActions.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as newJobActions;
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
-class LocationsPageState{
-
-  final List<Event> locations;
+class CalendarPageState{
   final bool shouldClear;
-  final Function(Location) onLocationSelected;
-  final Function(Location) onDeleteLocationSelected;
-  final Function(String, Location) saveImagePath;
-  final Function(Location) onDrivingDirectionsSelected;
-  final Function(Location) onShareLocationSelected;
+  final Map<DateTime, List<Event>> eventMap;
+  final Function(DateTime) onDateSelected;
+  final Function() onAddNewJobSelected;
+  final DateTime selectedDate;
 
-  LocationsPageState({
-    @required this.locations,
+  CalendarPageState({
     @required this.shouldClear,
-    @required this.onLocationSelected,
-    @required this.onDeleteLocationSelected,
-    @required this.saveImagePath,
-    @required this.onDrivingDirectionsSelected,
-    @required this.onShareLocationSelected,
+    @required this.eventMap,
+    @required this.onDateSelected,
+    @required this.selectedDate,
+    @required this.onAddNewJobSelected,
   });
 
-  LocationsPageState copyWith({
-    List<Location> locations,
+  CalendarPageState copyWith({
     bool shouldClear,
-    Function(int) onLocationSelected,
-    Function(PriceProfile) onDeleteLocationSelected,
-    Function(String) saveImagePath,
-    Function(Location) onDrivingDirectionsSelected,
-    Function(Location) onShareLocationSelected,
+    Map<DateTime, List<Event>> eventMap,
+    Function(DateTime) onDateSelected,
+    DateTime selectedDate,
+    Function() onAddNewJobSelected,
   }){
-    return LocationsPageState(
-      locations: locations?? this.locations,
+    return CalendarPageState(
       shouldClear: shouldClear?? this.shouldClear,
-      onLocationSelected: onLocationSelected?? this.onLocationSelected,
-      onDeleteLocationSelected: onDeleteLocationSelected?? this.onDeleteLocationSelected,
-      saveImagePath: saveImagePath?? this.saveImagePath,
-      onDrivingDirectionsSelected: onDrivingDirectionsSelected?? this.onDrivingDirectionsSelected,
-      onShareLocationSelected: onShareLocationSelected?? this.onShareLocationSelected,
+      eventMap: eventMap?? this.eventMap,
+      onDateSelected: onDateSelected?? this.onDateSelected,
+      selectedDate: selectedDate?? this.selectedDate,
+      onAddNewJobSelected: onAddNewJobSelected?? this.onAddNewJobSelected,
     );
   }
 
-  factory LocationsPageState.initial() => LocationsPageState(
-    locations: List(),
+  factory CalendarPageState.initial() => CalendarPageState(
     shouldClear: true,
-    onLocationSelected: null,
-    onDeleteLocationSelected: null,
-    saveImagePath: null,
-    onDrivingDirectionsSelected: null,
-    onShareLocationSelected: null,
+    eventMap: Map(),
+    onDateSelected: null,
+    selectedDate: null,
+    onAddNewJobSelected: null,
   );
 
-  factory LocationsPageState.fromStore(Store<AppState> store) {
-    return LocationsPageState(
-      shouldClear: store.state.locationsPageState.shouldClear,
-      onLocationSelected: (location) => store.dispatch(LoadExistingLocationData(store.state.newLocationPageState, location)),
-      onDeleteLocationSelected: (location) => store.dispatch(DeleteLocationAction(store.state.locationsPageState, location)),
-      saveImagePath: (imagePath, location) => store.dispatch(SaveImagePathAction(store.state.locationsPageState, imagePath, location)),
-      onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsSelected(store.state.locationsPageState, location)),
-      onShareLocationSelected: (location) => store.dispatch(ShareLocationSelected(store.state.locationsPageState, location)),
-    );
+  factory CalendarPageState.fromStore(Store<AppState> store) {
+    return CalendarPageState(
+      shouldClear: store.state.calendarPageState.shouldClear,
+      eventMap: store.state.calendarPageState.eventMap,
+      selectedDate: store.state.calendarPageState.selectedDate,
+      onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState, store.state.calendarPageState.selectedDate)),
+      onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.calendarPageState, selectedDate)),
+      );
   }
 
   @override
   int get hashCode =>
-      locations.hashCode ^
       shouldClear.hashCode ^
-      onLocationSelected.hashCode ^
-      onDeleteLocationSelected.hashCode ^
-      saveImagePath.hashCode ^
-      onDrivingDirectionsSelected.hashCode ^
-      onShareLocationSelected.hashCode;
+      eventMap.hashCode ^
+      onDateSelected.hashCode ^
+      selectedDate.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is LocationsPageState &&
-              locations == other.locations &&
+          other is CalendarPageState &&
               shouldClear == other.shouldClear &&
-              onLocationSelected == other.onLocationSelected &&
-              onDeleteLocationSelected == other.onDeleteLocationSelected &&
-              saveImagePath == other.saveImagePath &&
-              onDrivingDirectionsSelected == other.onDrivingDirectionsSelected &&
-              onShareLocationSelected == other.onShareLocationSelected;
+              eventMap == other.eventMap &&
+              onDateSelected == other.onDateSelected &&
+              selectedDate == other.selectedDate;
 }

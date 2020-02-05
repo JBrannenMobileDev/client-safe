@@ -1,5 +1,7 @@
 
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPageMiddleware.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageMiddleware.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
@@ -48,6 +50,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchAllJobsAction>(CalendarPageMiddleware()));
   return middlewareList;
 }
 

@@ -1,8 +1,10 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPageState.dart';
 import 'package:client_safe/pages/calendar_page/JobCalendarItem.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,45 +19,14 @@ class CalendarPage extends StatefulWidget {
   }
 }
 
-// Example holidays
-final Map<DateTime, List> _holidays = {
-  DateTime(2019, 1, 1): ['New Year\'s Day'],
-  DateTime(2019, 1, 6): ['Epiphany'],
-  DateTime(2019, 2, 14): ['Valentine\'s Day'],
-  DateTime(2019, 4, 21): ['Easter Sunday'],
-  DateTime(2019, 4, 22): ['Easter Monday'],
-};
-
-class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMixin {
-  Map<DateTime, List> _events;
-  List _selectedEvents;
+class _CalendarPageState extends State<CalendarPage>
+    with TickerProviderStateMixin {
   AnimationController _animationController;
   CalendarController _calendarController;
 
   @override
   void initState() {
     super.initState();
-    final _selectedDay = DateTime.now();
-
-    _events = {
-      _selectedDay.subtract(Duration(days: 30)): ['Event A0', 'Event B0', 'Event C0'],
-      _selectedDay.subtract(Duration(days: 27)): ['Event A1'],
-      _selectedDay.subtract(Duration(days: 20)): ['Event A2', 'Event B2', 'Event C2', 'Event D2'],
-      _selectedDay.subtract(Duration(days: 16)): ['Event A3', 'Event B3'],
-      _selectedDay.subtract(Duration(days: 10)): ['Event A4', 'Event B4', 'Event C4'],
-      _selectedDay.subtract(Duration(days: 4)): ['Event A5', 'Event B5', 'Event C5'],
-      _selectedDay.subtract(Duration(days: 2)): ['Event A6', 'Event B6'],
-      _selectedDay: ['Event A7', 'Event B7', 'Event C7', 'Event D7'],
-      _selectedDay.add(Duration(days: 1)): ['Event A8', 'Event B8', 'Event C8', 'Event D8'],
-      _selectedDay.add(Duration(days: 3)): Set.from(['Event A9', 'Event A9', 'Event B9']).toList(),
-      _selectedDay.add(Duration(days: 7)): ['Event A10', 'Event B10', 'Event C10'],
-      _selectedDay.add(Duration(days: 11)): ['Event A11', 'Event B11'],
-      _selectedDay.add(Duration(days: 17)): ['Event A12', 'Event B12', 'Event C12', 'Event D12'],
-      _selectedDay.add(Duration(days: 22)): ['Event A13', 'Event B13'],
-      _selectedDay.add(Duration(days: 26)): ['Event A14', 'Event B14', 'Event C14'],
-    };
-
-    _selectedEvents = _events[_selectedDay] ?? [];
     _calendarController = CalendarController();
 
     _animationController = AnimationController(
@@ -73,122 +44,60 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     super.dispose();
   }
 
-  void _onDaySelected(DateTime day, List events) {
-    print('CALLBACK: _onDaySelected');
+  void _onDaySelected(DateTime day, List events, CalendarPageState pageState) {
     setState(() {
-      _selectedEvents = events;
+      _buildEventList(_getEventListForSelectedDate(pageState));
     });
-  }
-
-  void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
   }
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, NewJobPageState>(
-      converter: (store) => NewJobPageState.fromStore(store),
-      builder: (BuildContext context, NewJobPageState pageState) =>
-    Scaffold(
-    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-    body:Stack(
-            children: <Widget>[
-              Container(
-                height: Device.get().isIphoneX ? 560.0 : 540.0,
-                color: Colors.white,
+    return StoreConnector<AppState, CalendarPageState>(
+      onInit: (store) =>
+          store.dispatch(FetchAllJobsAction(store.state.calendarPageState)),
+      converter: (store) => CalendarPageState.fromStore(store),
+      builder: (BuildContext context, CalendarPageState pageState) => Scaffold(
+        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+        body: Stack(
+          children: <Widget>[
+            Container(
+              height: Device.get().isIphoneX ? 560.0 : 540.0,
+              color: Colors.white,
+            ),
+            Padding(
+              padding:
+                  EdgeInsets.only(top: Device.get().isIphoneX ? 44.0 : 24.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  _buildTableCalendarWithBuilders(pageState),
+                  const SizedBox(height: 8.0),
+                  Expanded(
+                      child: _buildEventList(
+                          _getEventListForSelectedDate(pageState))),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.only(top: Device.get().isIphoneX ? 44.0 : 24.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    _buildTableCalendar(),
-                    const SizedBox(height: 8.0),
-                    Expanded(child: _buildEventList()),
-                  ],
-                ),
-              ),
-            ],
-          ),
-    ),
-    );
-  }
-
-  // Simple TableCalendar configuration (using Styles)
-  Widget _buildTableCalendar() {
-    return TableCalendar(
-      daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: TextStyle(
-          fontSize: 16.0,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.w600,
-          color: Color(ColorConstants.primary_black),
+            ),
+          ],
         ),
-        weekendStyle: TextStyle(
-          fontSize: 16.0,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.w600,
-          color: Color(ColorConstants.getPrimaryColor()),
-        ),
+        floatingActionButton: FloatingActionButton(
+            elevation: 0.0,
+            child: Icon(Icons.add),
+            backgroundColor: Color(ColorConstants.getPrimaryColor()),
+            onPressed: () {
+              pageState.onAddNewJobSelected();
+              UserOptionsUtil.showNewJobDialog(context);
+            }),
       ),
-      calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
-      startingDayOfWeek: StartingDayOfWeek.monday,
-      calendarStyle: CalendarStyle(
-        weekdayStyle: TextStyle(
-          fontSize: 16.0,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.w600,
-          color: Color(ColorConstants.primary_black),
-        ),
-        weekendStyle: TextStyle(
-          fontSize: 16.0,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.w600,
-          color: Color(ColorConstants.getCollectionColor1()),
-        ),
-        selectedColor: Color(ColorConstants.getCollectionColor1()),
-        todayColor: Color(ColorConstants.getPrimaryColor()),
-        markersColor: Color(ColorConstants.primary_black),
-        outsideDaysVisible: true,
-      ),
-      headerStyle: HeaderStyle(
-        titleTextStyle: TextStyle(
-          fontSize: 24.0,
-          fontFamily: 'Raleway',
-          fontWeight: FontWeight.w800,
-          color: Color(ColorConstants.primary_black),
-        ),
-        centerHeaderTitle: true,
-        leftChevronIcon: Icon(
-          CupertinoIcons.back,
-          color: Color(ColorConstants.primary_button_negative_grey)
-        ),
-        rightChevronIcon: Icon(
-            CupertinoIcons.forward,
-            color: Color(ColorConstants.primary_button_negative_grey)
-        ),
-        formatButtonVisible: false,
-        formatButtonTextStyle: TextStyle().copyWith(color: Colors.white, fontSize: 15.0),
-        formatButtonDecoration: BoxDecoration(
-          color: Color(ColorConstants.getPrimaryColor()),
-          borderRadius: BorderRadius.circular(16.0),
-        ),
-
-      ),
-      onDaySelected: _onDaySelected,
-      onVisibleDaysChanged: _onVisibleDaysChanged,
     );
   }
 
   // More advanced TableCalendar configuration (using Builders & Styles)
-  Widget _buildTableCalendarWithBuilders() {
+  Widget _buildTableCalendarWithBuilders(CalendarPageState pageState) {
     return TableCalendar(
-      locale: 'pl_PL',
+      locale: 'en_US',
       calendarController: _calendarController,
-      events: _events,
-      holidays: _holidays,
+      events: pageState.eventMap,
       initialCalendarFormat: CalendarFormat.month,
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
@@ -197,13 +106,23 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
+      initialSelectedDay: pageState.selectedDate,
       calendarStyle: CalendarStyle(
-        outsideDaysVisible: false,
-        weekendStyle: TextStyle().copyWith(color: Colors.blue[800]),
-        holidayStyle: TextStyle().copyWith(color: Colors.blue[800]),
+        outsideDaysVisible: true,
+        outsideWeekendStyle: TextStyle()
+            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
+        outsideHolidayStyle: TextStyle()
+            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
+        outsideStyle: TextStyle()
+            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
+        weekendStyle:
+            TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
+        holidayStyle:
+            TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Colors.blue[600]),
+        weekendStyle:
+            TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
       ),
       headerStyle: HeaderStyle(
         centerHeaderTitle: true,
@@ -214,9 +133,12 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           return FadeTransition(
             opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
             child: Container(
+              alignment: Alignment.center,
               margin: const EdgeInsets.all(4.0),
-              padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-              color: Colors.deepOrange[300],
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Color(ColorConstants.getPrimaryColor()),
+              ),
               width: 100,
               height: 100,
               child: Text(
@@ -228,9 +150,12 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         },
         todayDayBuilder: (context, date, _) {
           return Container(
+            alignment: Alignment.center,
             margin: const EdgeInsets.all(4.0),
-            padding: const EdgeInsets.only(top: 5.0, left: 6.0),
-            color: Colors.amber[400],
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Color(ColorConstants.getCollectionColor1()),
+            ),
             width: 100,
             height: 100,
             child: Text(
@@ -245,19 +170,8 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
           if (events.isNotEmpty) {
             children.add(
               Positioned(
-                right: 1,
                 bottom: 1,
                 child: _buildEventsMarker(date, events),
-              ),
-            );
-          }
-
-          if (holidays.isNotEmpty) {
-            children.add(
-              Positioned(
-                right: -2,
-                top: -2,
-                child: _buildHolidaysMarker(),
               ),
             );
           }
@@ -266,49 +180,83 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         },
       ),
       onDaySelected: (date, events) {
-        _onDaySelected(date, events);
+        pageState.onDateSelected(date);
+        _onDaySelected(date, events, pageState);
         _animationController.forward(from: 0.0);
       },
-      onVisibleDaysChanged: _onVisibleDaysChanged,
     );
   }
 
   Widget _buildEventsMarker(DateTime date, List events) {
     return AnimatedContainer(
-      duration: const Duration(milliseconds: 300),
+        duration: const Duration(milliseconds: 300),
+        child: _buildMultipleEvents(date, events));
+  }
+
+  Widget _buildMultipleEvents(DateTime date, List events) {
+    if (events.length > 3) {
+      return Row(
+        children: <Widget>[
+          blackEventDot(),
+          blackEventDot(),
+          blackEventDot(),
+          blackEventDot(),
+        ],
+      );
+    } else if (events.length == 3) {
+      return Row(
+        children: <Widget>[
+          blackEventDot(),
+          blackEventDot(),
+          blackEventDot(),
+        ],
+      );
+    } else if (events.length == 2) {
+      return Row(
+        children: <Widget>[
+          blackEventDot(),
+          blackEventDot(),
+        ],
+      );
+    } else if (events.length == 1) {
+      return blackEventDot();
+    } else {
+      return SizedBox();
+    }
+  }
+
+  Widget blackEventDot() {
+    return Container(
+      width: 8.0,
+      height: 8.0,
       decoration: BoxDecoration(
-        shape: BoxShape.rectangle,
-        color: _calendarController.isSelected(date)
-            ? Colors.brown[500]
-            : _calendarController.isToday(date) ? Colors.brown[300] : Colors.blue[400],
-      ),
-      width: 16.0,
-      height: 16.0,
-      child: Center(
-        child: Text(
-          '${events.length}',
-          style: TextStyle().copyWith(
-            color: Colors.white,
-            fontSize: 12.0,
-          ),
-        ),
-      ),
+          shape: BoxShape.circle, color: Color(ColorConstants.primary_black)),
     );
   }
 
-  Widget _buildHolidaysMarker() {
-    return Icon(
-      Icons.add_box,
-      size: 20.0,
-      color: Colors.blueGrey[800],
-    );
-  }
-
-  Widget _buildEventList() {
+  Widget _buildEventList(List<Event> eventsForSelectedDay) {
     return ListView(
-      children: _selectedEvents
+      children: eventsForSelectedDay
           .map((event) => JobCalendarItem(event: event))
           .toList(),
     );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+
+  List<Event> _getEventListForSelectedDate(CalendarPageState pageState) {
+    if (pageState.selectedDate != null) {
+      for (List<Event> events in pageState.eventMap.values) {
+        for (Event event in events) {
+          if (event.selectedDate.year == pageState.selectedDate.year &&
+              event.selectedDate.month == pageState.selectedDate.month &&
+              event.selectedDate.day == pageState.selectedDate.day) {
+            return events;
+          }
+        }
+      }
+    }
+    return List();
   }
 }

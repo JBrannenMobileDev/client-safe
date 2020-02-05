@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPageReducer.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageReducer.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPageReducer.dart';
@@ -30,4 +31,5 @@ AppState appReducers(AppState state, dynamic action) =>
         collectionsPageState: collectionsPageReducer(state.collectionsPageState, action),
         settingsPageState: settingsPageReducer(state.settingsPageState, action),
         searchPageState: searchPageReducer(state.searchPageState, action),
+        calendarPageState: calendarPageReducer(state.calendarPageState, action),
     );

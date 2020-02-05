@@ -273,7 +273,7 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 600.0;
         break;
       case 5:
-        height = 300.0;
+        height = 325.0;
         break;
       case 6:
         height = 450.0;

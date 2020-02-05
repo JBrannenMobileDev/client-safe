@@ -24,7 +24,6 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
   @override
   void initState() {
     super.initState();
-
     _calendarController = CalendarController();
 
     _animationController = AnimationController(
@@ -47,11 +46,6 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       _buildEventList(_getEventListForSelectedDate(pageState));
     });
   }
-
-  void _onVisibleDaysChanged(DateTime first, DateTime last, CalendarFormat format) {
-    print('CALLBACK: _onVisibleDaysChanged');
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +103,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
+      initialSelectedDay: pageState.selectedDate,
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideWeekendStyle: TextStyle().copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
@@ -180,7 +175,6 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         _onDaySelected(date, events, pageState);
         _animationController.forward(from: 0.0);
       },
-      onVisibleDaysChanged: _onVisibleDaysChanged,
     );
   }
 
