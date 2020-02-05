@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
 
 class ClientSelectedAction{
@@ -15,7 +16,8 @@ class FilterChangedAction{
 class SetClientsData{
   final ClientsPageState pageState;
   final List<Client> clients;
-  SetClientsData(this.pageState, this.clients);
+  final List<Job> allJobs;
+  SetClientsData(this.pageState, this.clients, this.allJobs);
 }
 
 class FetchClientData{

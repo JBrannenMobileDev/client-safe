@@ -36,12 +36,12 @@ class _NameAndGenderState extends State<NameAndGender>
     super.build(context);
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
-        firstNameTextController.text = store.state.newContactPageState.newContactFirstName;
-        lastNameTextController.text = store.state.newContactPageState.newContactLastName;
+        firstNameTextController.value = firstNameTextController.value.copyWith(text:store.state.newContactPageState.newContactFirstName);
+        lastNameTextController.value = lastNameTextController.value.copyWith(text:store.state.newContactPageState.newContactLastName,);
       },
       onWillChange: (state) {
-        firstNameTextController.text = state.newContactFirstName;
-        lastNameTextController.text = state.newContactLastName;
+        firstNameTextController.value = firstNameTextController.value.copyWith(text:state.newContactFirstName);
+        lastNameTextController.value = lastNameTextController.value.copyWith(text:state.newContactLastName,);
         searchTextController.value = searchTextController.value.copyWith(text:state.searchText,);
       },
       converter: (store) => NewContactPageState.fromStore(store),
@@ -109,7 +109,7 @@ class _NameAndGenderState extends State<NameAndGender>
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 0.0),
-                  height: 315.0,
+                  height: 295.0,
                   child: ListView.builder(
                     reverse: false,
                     padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),

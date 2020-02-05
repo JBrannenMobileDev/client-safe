@@ -58,7 +58,7 @@ class JobInProgressItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                      DateFormat('EEE, MMM d').format(job.selectedDate) + ' · ' + DateFormat('h:mm a').format(job.selectedTime),
+                      (job.selectedDate != null ? DateFormat('EEE, MMM d').format(job.selectedDate) : '') + ' · ' + (job.selectedTime != null ? DateFormat('h:mm a').format(job.selectedTime) : ''),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.0,

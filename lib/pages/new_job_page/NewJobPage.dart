@@ -87,18 +87,35 @@ class _NewJobPageState extends State<NewJobPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 4.0),
-                      child: Text(
-                        pageState.shouldClear ? "New Job" : "Edit Job",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.primary_black),
+                    Stack(
+                      alignment: Alignment.center,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 4.0),
+                          child: Text(
+                            pageState.shouldClear ? "New Job" : "Edit Job",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
                         ),
-                      ),
+                        Container(
+                          margin: EdgeInsets.only(right: 300.0),
+                          child: IconButton(
+                            icon: const Icon(Icons.close),
+                            tooltip: 'Delete',
+                            color: Color(ColorConstants.getPrimaryColor()),
+                            onPressed: () {
+                              pageState.onCancelPressed();
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                     ConstrainedBox(
                       constraints: BoxConstraints(
@@ -196,16 +213,16 @@ class _NewJobPageState extends State<NewJobPage> {
           canProgress = pageState.jobTitle.length > 0;
           break;
         case 2:
-          canProgress = pageState.selectedPriceProfile != null;
+          canProgress = true;
           break;
         case 3:
-          canProgress = pageState.selectedLocation != null;
+          canProgress = true;
           break;
         case 4:
-          canProgress = pageState.selectedDate != null;
+          canProgress = true;
           break;
         case 5:
-          canProgress = pageState.selectedTime != null;
+          canProgress = true;
           break;
         case 6:
           canProgress = true;

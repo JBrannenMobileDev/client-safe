@@ -35,8 +35,10 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
     Location selectedLocation = store.state.newJobPageState.selectedLocation;
     DateTime selectedDate = store.state.newJobPageState.selectedDate;
-    final response = await SunriseSunset.getResults(date: selectedDate, latitude: selectedLocation.latitude, longitude: selectedLocation.longitude);
-    store.dispatch(SetSunsetTimeAction(store.state.newJobPageState, response.data.sunset.toLocal()));
+    if(selectedLocation != null && selectedDate != null) {
+      final response = await SunriseSunset.getResults(date: selectedDate, latitude: selectedLocation.latitude, longitude: selectedLocation.longitude);
+      store.dispatch(SetSunsetTimeAction(store.state.newJobPageState, response.data.sunset.toLocal()));
+    }
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {

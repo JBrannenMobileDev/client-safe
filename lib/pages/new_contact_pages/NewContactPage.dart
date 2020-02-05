@@ -113,17 +113,18 @@ class _NewContactPageState extends State<NewContactPage> {
                               color: Color(ColorConstants.primary_black),
                             ),
                           ),
-                          !pageState.shouldClear ? Container(
+                          Container(
                             margin: EdgeInsets.only(right: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.close),
                               tooltip: 'Delete',
                               color: Color(ColorConstants.getPrimaryColor()),
                               onPressed: () {
+                                pageState.onCancelPressed();
                                 Navigator.of(context).pop(true);
                               },
                             ),
-                          ) : SizedBox(),
+                          ),
                           !pageState.shouldClear ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
@@ -140,7 +141,7 @@ class _NewContactPageState extends State<NewContactPage> {
                       ),
                     ),
                     Container(
-                      height: currentPageIndex == 0 && pageState.deviceContacts.length > 0 ? 370.0 : 236.0,
+                      height: currentPageIndex == 0 && pageState.deviceContacts.length > 0 ? 350.0 : 236.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
