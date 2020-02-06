@@ -98,8 +98,7 @@ class ClientListWidget extends StatelessWidget {
     return textToDisplay;
   }
 
-  _onClientTapped(
-      Client selectedClient, ClientsPageState pageState, BuildContext context) {
+  _onClientTapped(Client selectedClient, ClientsPageState pageState, BuildContext context) {
     pageState.onClientClicked(selectedClient);
     Navigator.of(context).push(
       new MaterialPageRoute(builder: (context) => ClientDetailsPage()),

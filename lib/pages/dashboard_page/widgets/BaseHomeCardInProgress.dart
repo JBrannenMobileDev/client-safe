@@ -54,12 +54,11 @@ class BaseHomeCardInProgress extends StatelessWidget{
             ),
             jobs.length > 0 ? Container(
               child: ListView.builder(
-                padding: EdgeInsets.all(0.0),
+                padding: EdgeInsets.only(bottom: 16.0),
                 reverse: false,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 key: _listKey,
-                //                itemCount: pageState.currentJobs.length < 6 ? pageState.currentJobs.length : 5,
                 itemCount: jobs.length,
                 itemBuilder: _buildItem,
               ),

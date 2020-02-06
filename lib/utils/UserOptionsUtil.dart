@@ -131,7 +131,9 @@ class UserOptionsUtil {
                 ListTile(
                   leading: Icon(Icons.location_on),
                   title: Text("New Photoshoot Location"),
-                  onTap: () {},
+                  onTap: () {
+                    showNewLocationDialog(context);
+                  },
                 ),
                 ListTile(
                   leading: Icon(Icons.insert_drive_file),

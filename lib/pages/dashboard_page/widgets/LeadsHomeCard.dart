@@ -32,7 +32,7 @@ class LeadsHomeCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 18.0),
+                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -60,7 +60,7 @@ class LeadsHomeCard extends StatelessWidget{
                   ),
                 ),
                 pageState.potentialJobs.length > 0 ? ListView.builder(
-                  padding: EdgeInsets.only(top:0.0, bottom: 8.0),
+                  padding: EdgeInsets.only(top:0.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),

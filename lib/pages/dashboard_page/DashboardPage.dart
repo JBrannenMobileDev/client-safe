@@ -55,8 +55,8 @@ class _DashboardPageState extends State<DashboardPage>
       curve: Curves.fastOutSlowIn,
     ));
     _circleSize.addListener(() => this.setState(() {}));
-    _controller.repeat();
-    _repeatController.repeat();
+//    _controller.repeat();
+//    _repeatController.repeat();
   }
 
   @override
