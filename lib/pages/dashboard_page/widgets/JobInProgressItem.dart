@@ -2,6 +2,7 @@ import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -13,7 +14,7 @@ class JobInProgressItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: () => _onClientTapped(context),
+      onPressed: () => NavigationUtil.onClientTapped(context),
       child: Padding(
       padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 8.0),
       child: Stack(
@@ -85,11 +86,6 @@ class JobInProgressItem extends StatelessWidget{
           ],
         ),
       ),
-    );
-  }
-
-  _onClientTapped(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage()),
     );
   }
 }

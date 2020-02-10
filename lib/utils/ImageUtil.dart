@@ -53,12 +53,12 @@ class ImageUtil{
     'assets/images/job_progress/proposal_signed.png',
     'assets/images/job_progress/planning_complete.png',
     'assets/images/job_progress/session_complete.png',
+    'assets/images/job_progress/payment_requested.png',
+    'assets/images/job_progress/payment_received.png',
     'assets/images/job_progress/editing_complete.png',
     'assets/images/job_progress/gallery_sent.png',
-    'assets/images/job_progress/payment_requested.png',
     'assets/images/job_progress/feedback_requested.png',
     'assets/images/job_progress/feedback_received.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_money_bag.png',
   ];
 
   static List<String> leadSourceIcons = [
@@ -94,7 +94,7 @@ class ImageUtil{
   ];
 
   static AssetImage getJobStageCompleteIcon() {
-    return AssetImage('assets/images/job_progress/check_mark.png');
+    return AssetImage('assets/images/job_progress/complete_check.png');
   }
 
   static String getJobStageText(String icon) {
@@ -120,8 +120,8 @@ class ImageUtil{
       case 'assets/images/job_progress/feedback_requested.png':
         return 'Feedback requested';
       case 'assets/images/job_progress/feedback_received.png':
-        return 'Feedback received';
-      case 'assets/images/collection_icons/pricing_profile_icons/pricing_profile_money_bag.png':
+        return 'Job Complete';
+      case 'assets/images/job_progress/payment_received.png':
         return 'Payment received';
     }
     return'';
@@ -255,5 +255,48 @@ class ImageUtil{
 
   static AssetImage getSunsetAssetImage() {
     return AssetImage('assets/images/sunset.png');
+  }
+
+  static AssetImage getJobStageImage(int index) {
+    String imageLocation = '';
+    switch(index){
+      case 0:
+        imageLocation = jobStageIcons[0];
+        break;
+      case 1:
+        imageLocation = jobStageIcons[1];
+        break;
+      case 2:
+        imageLocation = jobStageIcons[2];
+        break;
+      case 3:
+        imageLocation = jobStageIcons[3];
+        break;
+      case 4:
+        imageLocation = jobStageIcons[4];
+        break;
+      case 5:
+        imageLocation = jobStageIcons[5];
+        break;
+      case 6:
+        imageLocation = jobStageIcons[6];
+        break;
+      case 7:
+        imageLocation = jobStageIcons[7];
+        break;
+      case 8:
+        imageLocation = jobStageIcons[8];
+        break;
+      case 9:
+        imageLocation = jobStageIcons[9];
+        break;
+      case 10:
+        imageLocation = jobStageIcons[10];
+        break;
+      case 11:
+        imageLocation = jobStageIcons[11];
+        break;
+    }
+    return AssetImage(imageLocation);
   }
 }

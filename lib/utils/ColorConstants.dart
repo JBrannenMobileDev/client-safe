@@ -21,6 +21,7 @@ class ColorConstants{
 
   //Set 2
   static const int gold = 0xffE1BD5B;
+  static const int gold_dark = 0xffad9144;
   static const int goldDashboard = 0xffCBA63A;
   static const int blue = 0xffC2D3CB;
   static const int blue_light = 0xffBDD5D0;
@@ -34,6 +35,9 @@ class ColorConstants{
 
   static int getPrimaryColor(){
     return gold;
+  }
+  static int getPrimaryDarkColor(){
+    return gold_dark;
   }
 
   static int getPrimaryColorForDashboard(){

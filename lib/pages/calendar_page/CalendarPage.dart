@@ -242,17 +242,16 @@ class _CalendarPageState extends State<CalendarPage>
     );
   }
 
-  @override
-  bool get wantKeepAlive => true;
-
   List<Event> _getEventListForSelectedDate(CalendarPageState pageState) {
     if (pageState.selectedDate != null) {
       for (List<Event> events in pageState.eventMap.values) {
         for (Event event in events) {
-          if (event.selectedDate.year == pageState.selectedDate.year &&
-              event.selectedDate.month == pageState.selectedDate.month &&
-              event.selectedDate.day == pageState.selectedDate.day) {
-            return events;
+          if(event.selectedDate != null){
+            if (event.selectedDate.year == pageState.selectedDate.year &&
+                event.selectedDate.month == pageState.selectedDate.month &&
+                event.selectedDate.day == pageState.selectedDate.day) {
+              return events;
+            }
           }
         }
       }

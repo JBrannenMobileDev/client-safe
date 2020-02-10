@@ -124,6 +124,8 @@ flutter:
     - assets/images/job_progress/feedback_requested.png
     - assets/images/job_progress/feedback_received.png
     - assets/images/job_progress/session_complete.png
+    - assets/images/job_progress/complete_check.png
+    - assets/images/job_progress/payment_received.png
 
     - assets/images/lead_source_type/lead_source_blog.png
     - assets/images/lead_source_type/lead_source_business_card.png
