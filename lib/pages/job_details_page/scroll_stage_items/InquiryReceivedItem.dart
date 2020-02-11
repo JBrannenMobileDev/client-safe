@@ -13,21 +13,17 @@ class InquiryReceivedItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 172.0,
-      width: 172.0,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Stack(
-
+      width: 196.0,
+      child: Stack(
+            alignment: Alignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(top: 56.0),
+                margin: EdgeInsets.only(left: 42.0, bottom: 32.0),
                 height: 2.0,
-                color: Color(ColorConstants.getPrimaryBlack()),
+                color: Color(ColorConstants.getPrimaryDarkColor()),
               ),
               Container(
-                margin: EdgeInsets.only(right: 32.0),
+                margin: EdgeInsets.only(bottom: 32.0),
                 height: 112.0,
                 width: 112.0,
                 decoration: BoxDecoration(
@@ -42,7 +38,7 @@ class InquiryReceivedItem extends StatelessWidget{
                 opacity: 1,
                 child: Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 6.0, left: 84.0),
+                  margin: EdgeInsets.only(left: 78.0, bottom: 108.0),
                   height: 24.0,
                   width: 24.0,
                   decoration: BoxDecoration(
@@ -63,13 +59,8 @@ class InquiryReceivedItem extends StatelessWidget{
                   ),
                 ),
               ),
-            ],
-          ),
-          Stack(
-            alignment: Alignment.topLeft,
-            children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 8.0),
+                padding: EdgeInsets.only(left: 24.0, top: 118.0),
                 child: Text(
                   'Inquiry received!',
                   textAlign: TextAlign.start,
@@ -77,15 +68,12 @@ class InquiryReceivedItem extends StatelessWidget{
                     fontSize: 16.0,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w800,
-                    color: Color(
-                        ColorConstants.getPrimaryBlack()),
+                    color: Colors.black26,
                   ),
                 ),
               ),
             ],
           ),
-        ],
-      ),
     );
   }
 

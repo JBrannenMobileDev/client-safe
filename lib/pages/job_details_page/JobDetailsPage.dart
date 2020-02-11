@@ -5,10 +5,23 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
+import 'package:client_safe/pages/job_details_page/ClientDetailsCard.dart';
+import 'package:client_safe/pages/job_details_page/JobInfoCard.dart';
+import 'package:client_safe/pages/job_details_page/RemindersCard.dart';
 import 'package:client_safe/pages/job_details_page/scroll_stage_items/ContractSentItem.dart';
 import 'package:client_safe/pages/job_details_page/scroll_stage_items/ContractSignedItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/DepositReceivedItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/EditingCompleteItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/FeedbackReceivedItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/FeedbackRequestedItem.dart';
 import 'package:client_safe/pages/job_details_page/scroll_stage_items/FollowupSentItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/GallerySentItem.dart';
 import 'package:client_safe/pages/job_details_page/scroll_stage_items/InquiryReceivedItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/JobCompleteItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/PaymentReceivedItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/PaymentRequestedItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/PlanningCompleteItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/SessionCompleteItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -31,11 +44,14 @@ class JobDetailsPage extends StatefulWidget {
 class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStateMixin {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _scrollController;
+  ScrollController _stagesScrollController;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController()..addListener(() => setState(() {}));
+    _stagesScrollController = ScrollController();
+
   }
 
   @override
@@ -74,7 +90,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         new SliverAppBar(
                           brightness: Brightness.light,
                           title: Text(
-                            'Job Name',
+                            'Brannen Family Shoot',
                             style: TextStyle(
                               fontSize: 24.0,
                               fontFamily: 'Blackjack',
@@ -117,21 +133,34 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                     ),
                                   ),
                                 ),
-                                Container(
-                                  height: 250.0,
-                                  margin: EdgeInsets.only(top: 124.0),
-                                  child: ListView(
-                                    key: _listKey,
-                                    scrollDirection: Axis.horizontal,
-                                    children: <Widget>[
-                                      SizedBox(
-                                        width: 32.0,
-                                      ),
-                                      InquiryReceivedItem(),
-                                      FollowupSentItem(),
-                                      ContractSentItem(),
-                                      ContractSignedItem(),
-                                    ],
+                                SafeArea(
+                                  child: Container(
+                                    height: 316.0,
+                                    margin: EdgeInsets.only(top: 0.0),
+                                    child: ListView(
+                                      key: _listKey,
+                                      scrollDirection: Axis.horizontal,
+                                      controller: _stagesScrollController,
+                                      children: <Widget>[
+                                        SizedBox(
+                                          width: 32.0,
+                                        ),
+                                        InquiryReceivedItem(),
+                                        FollowupSentItem(),
+                                        ContractSentItem(),
+                                        ContractSignedItem(),
+                                        DepositReceivedItem(),
+                                        PlanningCompleteItem(),
+                                        SessionCompleteItem(),
+                                        PaymentRequestedItem(),
+                                        PaymentReceivedItem(),
+                                        EditingCompleteItem(),
+                                        GallerySentItem(),
+                                        FeedbackRequestedItem(),
+                                        FeedbackReceivedItem(),
+                                        JobCompleteItem(),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -140,10 +169,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
-                              JobsHomeCard(pageState: pageState),
-                              LeadsHomeCard(cardTitle: 'Leads', pageState: pageState),
-                              StatsHomeCard(
-                                  cardTitle: "Insights", pageState: pageState),
+                              RemindersCard(),
+                              JobInfoCard(),
+                              ClientDetailsCard(),
                             ])),
                       ],
                     ),

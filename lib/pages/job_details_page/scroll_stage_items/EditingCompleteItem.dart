@@ -7,19 +7,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-class ContractSignedItem extends StatefulWidget {
+class EditingCompleteItem extends StatefulWidget {
   final double scrollPosition;
 
-  ContractSignedItem({this.scrollPosition});
+  EditingCompleteItem({this.scrollPosition});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractSignedItemState();
+    return _EditingCompleteItemState();
   }
 }
 
-class _ContractSignedItemState extends State<ContractSignedItem>
-    with TickerProviderStateMixin {
+class _EditingCompleteItemState extends State<EditingCompleteItem> with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _repeatController;
   Animation<double> _circleOpacity;
@@ -93,7 +92,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(56.0),
                       image: DecorationImage(
-                        image: ImageUtil.getJobStageImage(3),
+                        image: ImageUtil.getJobStageImage(9),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -117,7 +116,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                       Padding(
                         padding: EdgeInsets.only(left: 42.0, top: 208.0),
                         child: Text(
-                          'Contract signed?',
+                          'Editing complete?',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 16.0,
@@ -130,7 +129,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                       Padding(
                         padding: EdgeInsets.only(left: 42.0, top: 8.0),
                         child: Text(
-                          'Receive a signed contract.',
+                          'Finish editing photos to complete this stage.',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14.0,
@@ -138,38 +137,6 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                             fontWeight: FontWeight.w600,
                             color: Colors.black26,
                           ),
-                        ),
-                      ),
-                      Container(
-                        width: 124.0,
-                        height: 38.0,
-                        margin: EdgeInsets.only(left: 42.0, top: 8.0),
-                        padding: EdgeInsets.only(top: 4.0, left: 16.0, bottom: 4.0, right: 8.0),
-                        decoration: BoxDecoration(
-                          borderRadius: new BorderRadius.circular(8.0),
-                          color: Colors.black12,
-                        ),
-                        child: Row(
-                          children: <Widget>[
-                            Icon(
-                              Icons.message,
-                              color: Colors.black26,
-                              size: 24.0,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                'Resend',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.black26,
-                                ),
-                              ),
-                            ),
-                          ],
                         ),
                       ),
                     ],

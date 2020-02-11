@@ -7,18 +7,18 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-class ContractSignedItem extends StatefulWidget {
+class FeedbackReceivedItem extends StatefulWidget {
   final double scrollPosition;
 
-  ContractSignedItem({this.scrollPosition});
+  FeedbackReceivedItem({this.scrollPosition});
 
   @override
   State<StatefulWidget> createState() {
-    return _ContractSignedItemState();
+    return _FeedbackReceivedItemState();
   }
 }
 
-class _ContractSignedItemState extends State<ContractSignedItem>
+class _FeedbackReceivedItemState extends State<FeedbackReceivedItem>
     with TickerProviderStateMixin {
   AnimationController _controller;
   AnimationController _repeatController;
@@ -64,7 +64,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) =>
             Container(
-              width: 196.0,
+              width: 204.0,
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
@@ -93,7 +93,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(56.0),
                       image: DecorationImage(
-                        image: ImageUtil.getJobStageImage(3),
+                        image: ImageUtil.getJobStageImage(12),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -117,7 +117,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                       Padding(
                         padding: EdgeInsets.only(left: 42.0, top: 208.0),
                         child: Text(
-                          'Contract signed?',
+                          'Feedback received?',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 16.0,
@@ -130,7 +130,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                       Padding(
                         padding: EdgeInsets.only(left: 42.0, top: 8.0),
                         child: Text(
-                          'Receive a signed contract.',
+                          'Receive feedback to complete this stage.',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 14.0,
@@ -152,7 +152,7 @@ class _ContractSignedItemState extends State<ContractSignedItem>
                         child: Row(
                           children: <Widget>[
                             Icon(
-                              Icons.message,
+                              Icons.feedback,
                               color: Colors.black26,
                               size: 24.0,
                             ),

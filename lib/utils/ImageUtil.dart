@@ -51,6 +51,7 @@ class ImageUtil{
     'assets/images/job_progress/followup_sent.png',
     'assets/images/job_progress/proposal_sent.png',
     'assets/images/job_progress/proposal_signed.png',
+    'assets/images/job_progress/deposit_received.png',
     'assets/images/job_progress/planning_complete.png',
     'assets/images/job_progress/session_complete.png',
     'assets/images/job_progress/payment_requested.png',
@@ -59,6 +60,7 @@ class ImageUtil{
     'assets/images/job_progress/gallery_sent.png',
     'assets/images/job_progress/feedback_requested.png',
     'assets/images/job_progress/feedback_received.png',
+    'assets/images/job_progress/job_complete.png',
   ];
 
   static List<String> leadSourceIcons = [
@@ -123,6 +125,10 @@ class ImageUtil{
         return 'Job Complete';
       case 'assets/images/job_progress/payment_received.png':
         return 'Payment received';
+      case 'assets/images/job_progress/deposit_received.png':
+        return 'Deposit received';
+      case 'assets/images/job_progress/job_complete.png':
+        return 'Job complete';
     }
     return'';
   }
@@ -295,6 +301,12 @@ class ImageUtil{
         break;
       case 11:
         imageLocation = jobStageIcons[11];
+        break;
+      case 12:
+        imageLocation = jobStageIcons[12];
+        break;
+      case 13:
+        imageLocation = jobStageIcons[13];
         break;
     }
     return AssetImage(imageLocation);
