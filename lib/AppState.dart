@@ -3,6 +3,7 @@ import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dar
 import 'package:client_safe/pages/collections_page/CollectionsPageState.dart';
 import 'package:client_safe/pages/home_page/HomePageState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
@@ -33,6 +34,7 @@ class AppState {
   final SettingsPageState settingsPageState;
   final SearchPageState searchPageState;
   final CalendarPageState calendarPageState;
+  final JobDetailsPageState jobDetailsPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -50,6 +52,7 @@ class AppState {
     @required this.searchPageState,
     @required this.newJobPageState,
     @required this.calendarPageState,
+    @required this.jobDetailsPageState,
   });
 
   factory AppState.initial() {
@@ -69,6 +72,7 @@ class AppState {
       searchPageState: SearchPageState.initial(),
       newJobPageState: NewJobPageState.initial(),
       calendarPageState: CalendarPageState.initial(),
+      jobDetailsPageState: JobDetailsPageState.initial(),
     );
   }
 
@@ -88,6 +92,7 @@ class AppState {
     SearchPageState searchPageState,
     NewJobPageState newJobPageState,
     CalendarPageState calendarPageState,
+    JobDetailsPageState jobDetailsPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -105,6 +110,7 @@ class AppState {
       searchPageState: searchPageState ?? this.searchPageState,
       newJobPageState: newJobPageState ?? this.newJobPageState,
       calendarPageState: calendarPageState ?? this.calendarPageState,
+      jobDetailsPageState: jobDetailsPageState ?? this.jobDetailsPageState,
     );
   }
 
@@ -124,6 +130,7 @@ class AppState {
     settingsPageState.hashCode ^
     searchPageState.hashCode ^
     newJobPageState.hashCode ^
+    jobDetailsPageState.hashCode ^
     calendarPageState.hashCode ;
 
   @override
@@ -144,5 +151,6 @@ class AppState {
               settingsPageState == other.settingsPageState &&
               searchPageState == other.searchPageState &&
               newJobPageState == other.newJobPageState &&
+              jobDetailsPageState == other.jobDetailsPageState &&
               calendarPageState == other.calendarPageState;
 }

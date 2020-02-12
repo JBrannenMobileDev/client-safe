@@ -8,10 +8,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 class ContractSentItem extends StatefulWidget {
-  final double scrollPosition;
-
-  ContractSentItem({this.scrollPosition});
-
   @override
   State<StatefulWidget> createState() {
     return _ContractSentItemState();
@@ -24,6 +20,11 @@ class _ContractSentItemState extends State<ContractSentItem>
   AnimationController _repeatController;
   Animation<double> _circleOpacity;
   Animation<double> _circleSize;
+
+  GlobalKey key = GlobalKey();
+  RenderBox box;
+  Offset position;
+  double xOffset = 0;
 
   @override
   void initState() {
@@ -61,9 +62,19 @@ class _ContractSentItemState extends State<ContractSentItem>
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, JobDetailsPageState>(
+        onDidChange: (pageState) => {
+          if(key.currentContext != null){
+            box = key.currentContext.findRenderObject(),
+            position = box.localToGlobal(Offset.zero),
+            setState(() {
+              xOffset = position.dx;
+            }),
+          },
+        },
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) =>
             Container(
+              key: key,
               width: 196.0,
               child: Stack(
                 alignment: Alignment.center,
@@ -89,7 +100,7 @@ class _ContractSentItemState extends State<ContractSentItem>
                   Container(
                     margin: EdgeInsets.only(bottom: 32.0, right: 16.0, left: 16.0),
                     height: 112.0,
-                    width: 112.0,
+                    width: _getCircleWidth(xOffset.round()),
                     decoration: BoxDecoration(
                       borderRadius: new BorderRadius.circular(56.0),
                       image: DecorationImage(
@@ -102,7 +113,7 @@ class _ContractSentItemState extends State<ContractSentItem>
                     opacity: .5,
                     child: Container(
                       margin: EdgeInsets.only(bottom: 32.0),
-                      height: 36.0,
+                      height: _getCheckHeight(xOffset),
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: ImageUtil.getJobStageCompleteIcon(),
@@ -178,4 +189,34 @@ class _ContractSentItemState extends State<ContractSentItem>
               ),
             ),
       );
+
+  double _getCircleWidth(int xOffset) {
+    if(xOffset <= 26){
+      double result = (112 - ((26-xOffset)*0.5)).roundToDouble();
+      if(result < 64) result = 64;
+      return result;
+    }
+    if(xOffset > 26){
+      double result = 112 - ((xOffset - 26)*0.5);
+      if(result < 64) result = 64.0;
+      return result;
+    }
+
+    return 64.roundToDouble();
+  }
+
+  _getCheckHeight(double xOffset) {
+    if(xOffset <= 26){
+      double result = (32 - ((26-xOffset)*0.175)).roundToDouble();
+      if(result < 16) result = 16;
+      return result;
+    }
+    if(xOffset > 26){
+      double result = 32 - ((xOffset - 26)*0.175);
+      if(result < 16) result = 16.0;
+      return result;
+    }
+
+    return 16.roundToDouble();
+  }
 }

@@ -5,6 +5,7 @@ import 'package:client_safe/pages/clients_page/ClientsPageReducer.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPageReducer.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageReducer.dart';
 import 'package:client_safe/pages/home_page/HomePageReducer.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageReducer.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageReducer.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageReducer.dart';
@@ -32,4 +33,5 @@ AppState appReducers(AppState state, dynamic action) =>
         settingsPageState: settingsPageReducer(state.settingsPageState, action),
         searchPageState: searchPageReducer(state.searchPageState, action),
         calendarPageState: calendarPageReducer(state.calendarPageState, action),
+        jobDetailsPageState: jobDetailsReducer(state.jobDetailsPageState, action),
     );

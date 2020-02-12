@@ -1,11 +1,8 @@
 import 'dart:ui';
 
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/LeadsHomeCard.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
 import 'package:client_safe/pages/job_details_page/ClientDetailsCard.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/job_details_page/JobInfoCard.dart';
 import 'package:client_safe/pages/job_details_page/RemindersCard.dart';
 import 'package:client_safe/pages/job_details_page/scroll_stage_items/ContractSentItem.dart';
@@ -29,7 +26,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 
 class JobDetailsPage extends StatefulWidget {
   const JobDetailsPage({Key key, this.destination}) : super(key: key);
@@ -42,32 +38,30 @@ class JobDetailsPage extends StatefulWidget {
 }
 
 class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStateMixin {
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _listKeyVertical = GlobalKey<AnimatedListState>();
+  final GlobalKey<AnimatedListState> _listKeyStates = GlobalKey<AnimatedListState>();
   ScrollController _scrollController;
-  ScrollController _stagesScrollController;
+  ScrollController _stagesScrollController = ScrollController();
+  double scrollPosition = 400;
 
   @override
   void initState() {
     super.initState();
     _scrollController = ScrollController()..addListener(() => setState(() {}));
-    _stagesScrollController = ScrollController();
-
   }
 
   @override
   Widget build(BuildContext context) =>
-      StoreConnector<AppState, DashboardPageState>(
+      StoreConnector<AppState, JobDetailsPageState>(
         onInit: (store) => {
-          store.dispatch(
-              new InitDashboardPageAction(store.state.dashboardPageState)),
-          store.dispatch(new LoadJobsAction(store.state.dashboardPageState)),
+
         },
-        onDispose: (store) => store.dispatch(
-            new DisposeDataListenersActions(store.state.homePageState)),
-        converter: (Store<AppState> store) =>
-            DashboardPageState.fromStore(store),
-        builder: (BuildContext context, DashboardPageState pageState) =>
-            Scaffold(
+        converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
+        builder: (BuildContext context, JobDetailsPageState pageState) {
+          _stagesScrollController..addListener(() => setState(() {
+            pageState.onOffsetChanged(_stagesScrollController.offset);
+          }));
+          return Scaffold(
               body: Container(
                 color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                 child: Stack(
@@ -85,6 +79,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       height: 435.0,
                     ),
                     CustomScrollView(
+                      key: _listKeyVertical,
                       controller: _scrollController,
                       slivers: <Widget>[
                         new SliverAppBar(
@@ -138,7 +133,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                     height: 316.0,
                                     margin: EdgeInsets.only(top: 0.0),
                                     child: ListView(
-                                      key: _listKey,
+                                      key: _listKeyStates,
                                       scrollDirection: Axis.horizontal,
                                       controller: _stagesScrollController,
                                       children: <Widget>[
@@ -178,7 +173,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   ],
                 ),
               ),
-            ),
+            );
+        },
       );
 
   void _onAddButtonPressed(BuildContext context) {
