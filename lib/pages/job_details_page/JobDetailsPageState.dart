@@ -8,45 +8,37 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
 class JobDetailsPageState {
-  final double stageScrollOffset;
-  final Function(double) onOffsetChanged;
+  final Job job;
 
   JobDetailsPageState({
-    @required this.stageScrollOffset,
-    @required this.onOffsetChanged,
+    @required this.job,
   });
 
   JobDetailsPageState copyWith({
-    double stageScrollOffset,
-    Function(double) onOffsetChanged,
+    Job job,
   }){
     return JobDetailsPageState(
-      stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
-      onOffsetChanged: onOffsetChanged ?? this.onOffsetChanged,
+      job: job ?? this.job,
     );
   }
 
   static JobDetailsPageState fromStore(Store<AppState> store) {
     return JobDetailsPageState(
-      stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
-      onOffsetChanged: (offset) => store.dispatch(ScrollOffsetChangedAction(store.state.jobDetailsPageState, offset)),
+      job: store.state.jobDetailsPageState.job,
     );
   }
 
   factory JobDetailsPageState.initial() => JobDetailsPageState(
-    stageScrollOffset: 20.0,
-    onOffsetChanged: null,
+    job: null,
   );
 
   @override
   int get hashCode =>
-      stageScrollOffset.hashCode ^
-      onOffsetChanged.hashCode;
+      job.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is JobDetailsPageState &&
-              stageScrollOffset == other.stageScrollOffset &&
-              onOffsetChanged == other.onOffsetChanged;
+              job == other.job;
 }

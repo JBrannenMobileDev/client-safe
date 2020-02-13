@@ -19,7 +19,7 @@ class FollowupSentItem extends StatefulWidget {
 }
 
 class _FollowupSentItemState extends State<FollowupSentItem>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin{
   AnimationController _controller;
   AnimationController _repeatController;
   Animation<double> _circleOpacity;
@@ -59,8 +59,8 @@ class _FollowupSentItemState extends State<FollowupSentItem>
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, JobDetailsPageState>(
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) =>
             Container(
@@ -115,7 +115,7 @@ class _FollowupSentItemState extends State<FollowupSentItem>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 42.0, top: 208.0),
+                        padding: EdgeInsets.only(left: 42.0, top: 188.0),
                         child: Text(
                           'Followup sent?',
                           textAlign: TextAlign.start,
@@ -182,4 +182,5 @@ class _FollowupSentItemState extends State<FollowupSentItem>
               ),
         ),
       );
+  }
 }

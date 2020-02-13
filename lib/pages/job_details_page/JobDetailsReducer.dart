@@ -3,11 +3,11 @@ import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:redux/redux.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([
-  TypedReducer<JobDetailsPageState, ScrollOffsetChangedAction>(_setOffset),
+  TypedReducer<JobDetailsPageState, SetJobInfo>(_setJobInfo),
 ]);
 
-JobDetailsPageState _setOffset(JobDetailsPageState previousState, ScrollOffsetChangedAction action){
+JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobInfo action){
   return previousState.copyWith(
-    stageScrollOffset: action.offset,
+    job: action.job,
   );
 }

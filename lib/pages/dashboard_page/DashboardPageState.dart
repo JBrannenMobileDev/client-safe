@@ -2,6 +2,7 @@ import 'package:client_safe/models/Action.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Notifications.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
@@ -72,7 +73,7 @@ class DashboardPageState {
       onSearchClientsClicked: store.state.dashboardPageState.onSearchClientsClicked,
       onActionItemClicked: store.state.dashboardPageState.onActionItemClicked,
       onLeadClicked: store.state.dashboardPageState.onLeadClicked,
-      onJobClicked: store.state.dashboardPageState.onJobClicked,
+      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
     );
   }
 

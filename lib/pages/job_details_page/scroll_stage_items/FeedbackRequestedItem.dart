@@ -19,7 +19,7 @@ class FeedbackRequestedItem extends StatefulWidget {
 }
 
 class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin{
   AnimationController _controller;
   AnimationController _repeatController;
   Animation<double> _circleOpacity;
@@ -46,9 +46,9 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
           parent: _controller,
           curve: Curves.fastOutSlowIn,
         ));
-    _circleSize.addListener(() => this.setState(() {}));
-    _controller.repeat();
-    _repeatController.repeat();
+//    _circleSize.addListener(() => this.setState(() {}));
+//    _controller.repeat();
+//    _repeatController.repeat();
   }
 
   @override
@@ -59,8 +59,8 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, JobDetailsPageState>(
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) =>
             Container(
@@ -98,24 +98,24 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
                       ),
                     ),
                   ),
-                  Opacity(
-                    opacity: .5,
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 32.0),
-                      height: 36.0,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: ImageUtil.getJobStageCompleteIcon(),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
+//                  Opacity(
+//                    opacity: .5,
+//                    child: Container(
+//                      margin: EdgeInsets.only(bottom: 32.0),
+//                      height: 36.0,
+//                      decoration: BoxDecoration(
+//                        image: DecorationImage(
+//                          image: ImageUtil.getJobStageCompleteIcon(),
+//                          fit: BoxFit.contain,
+//                        ),
+//                      ),
+//                    ),
+//                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 48.0, top: 208.0),
+                        padding: EdgeInsets.only(left: 48.0, top: 188.0),
                         child: Text(
                           'Feedback requested?',
                           textAlign: TextAlign.start,
@@ -123,7 +123,7 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
                             fontSize: 16.0,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w800,
-                            color: Colors.black26,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                           ),
                         ),
                       ),
@@ -136,7 +136,7 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
                             fontSize: 14.0,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w600,
-                            color: Colors.black26,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                           ),
                         ),
                       ),
@@ -147,13 +147,13 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
                         padding: EdgeInsets.only(top: 4.0, left: 16.0, bottom: 4.0, right: 8.0),
                         decoration: BoxDecoration(
                             borderRadius: new BorderRadius.circular(8.0),
-                            color: Colors.black12,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                         ),
                         child: Row(
                           children: <Widget>[
                             Icon(
                               Icons.feedback,
-                              color: Colors.black26,
+                              color: Color(ColorConstants.getPrimaryColor()),
                               size: 24.0,
                             ),
                             Padding(
@@ -165,7 +165,7 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
                                   fontSize: 16.0,
                                   fontFamily: 'Raleway',
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.black26,
+                                  color: Color(ColorConstants.getPrimaryColor()),
                                 ),
                               ),
                             ),
@@ -178,4 +178,5 @@ class _FeedbackRequestedItemState extends State<FeedbackRequestedItem>
               ),
             ),
       );
+  }
 }

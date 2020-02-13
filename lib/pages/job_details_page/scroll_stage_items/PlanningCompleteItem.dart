@@ -45,9 +45,9 @@ class _PlanningCompleteItemState extends State<PlanningCompleteItem> with Ticker
           parent: _controller,
           curve: Curves.fastOutSlowIn,
         ));
-    _circleSize.addListener(() => this.setState(() {}));
-    _controller.repeat();
-    _repeatController.repeat();
+//    _circleSize.addListener(() => this.setState(() {}));
+//    _controller.repeat();
+//    _repeatController.repeat();
   }
 
   @override
@@ -58,8 +58,8 @@ class _PlanningCompleteItemState extends State<PlanningCompleteItem> with Ticker
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, JobDetailsPageState>(
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) =>
             Container(
@@ -97,24 +97,24 @@ class _PlanningCompleteItemState extends State<PlanningCompleteItem> with Ticker
                       ),
                     ),
                   ),
-                  Opacity(
-                    opacity: 0.5,
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 32.0),
-                      height: 36.0,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: ImageUtil.getJobStageCompleteIcon(),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                    ),
-                  ),
+//                  Opacity(
+//                    opacity: 0.5,
+//                    child: Container(
+//                      margin: EdgeInsets.only(bottom: 32.0),
+//                      height: 36.0,
+//                      decoration: BoxDecoration(
+//                        image: DecorationImage(
+//                          image: ImageUtil.getJobStageCompleteIcon(),
+//                          fit: BoxFit.contain,
+//                        ),
+//                      ),
+//                    ),
+//                  ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 48.0, top: 208.0),
+                        padding: EdgeInsets.only(left: 48.0, top: 188.0),
                         child: Text(
                           'Planning complete?',
                           textAlign: TextAlign.start,
@@ -122,7 +122,7 @@ class _PlanningCompleteItemState extends State<PlanningCompleteItem> with Ticker
                             fontSize: 16.0,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w800,
-                            color: Colors.black26,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                           ),
                         ),
                       ),
@@ -135,7 +135,7 @@ class _PlanningCompleteItemState extends State<PlanningCompleteItem> with Ticker
                             fontSize: 14.0,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w600,
-                            color: Colors.black26,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                           ),
                         ),
                       ),
@@ -145,4 +145,5 @@ class _PlanningCompleteItemState extends State<PlanningCompleteItem> with Ticker
               ),
             ),
       );
+  }
 }

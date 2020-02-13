@@ -82,7 +82,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return JobInProgressItem(job: jobs.elementAt(index));
+    return JobInProgressItem(job: jobs.elementAt(index), pageState: pageState);
   }
 
 }

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:client_safe/AppState.dart';
@@ -37,31 +38,30 @@ class JobDetailsPage extends StatefulWidget {
   }
 }
 
-class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStateMixin {
+class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStateMixin{
   final GlobalKey<AnimatedListState> _listKeyVertical = GlobalKey<AnimatedListState>();
   final GlobalKey<AnimatedListState> _listKeyStates = GlobalKey<AnimatedListState>();
   ScrollController _scrollController;
   ScrollController _stagesScrollController = ScrollController();
-  double scrollPosition = 400;
+  double scrollPosition = 0;
 
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(() => setState(() {}));
+    _scrollController = ScrollController();
   }
 
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, JobDetailsPageState>(
-        onInit: (store) => {
-
-        },
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) {
-          _stagesScrollController..addListener(() => setState(() {
-            pageState.onOffsetChanged(_stagesScrollController.offset);
-          }));
-          return Scaffold(
+          Timer(Duration(milliseconds: 500), () => _stagesScrollController.animateTo(
+            _getScrollToOffset(pageState),
+            curve: Curves.easeInOutCubic,
+            duration: const Duration(milliseconds: 1500),
+          ));
+              return Scaffold(
               body: Container(
                 color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                 child: Stack(
@@ -85,7 +85,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         new SliverAppBar(
                           brightness: Brightness.light,
                           title: Text(
-                            'Brannen Family Shoot',
+                            pageState.job.jobTitle,
                             style: TextStyle(
                               fontSize: 24.0,
                               fontFamily: 'Blackjack',
@@ -129,34 +129,67 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                   ),
                                 ),
                                 SafeArea(
-                                  child: Container(
-                                    height: 316.0,
-                                    margin: EdgeInsets.only(top: 0.0),
-                                    child: ListView(
-                                      key: _listKeyStates,
-                                      scrollDirection: Axis.horizontal,
-                                      controller: _stagesScrollController,
+                                  child: SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    controller: _stagesScrollController,
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         SizedBox(
-                                          width: 32.0,
-                                        ),
-                                        InquiryReceivedItem(),
-                                        FollowupSentItem(),
-                                        ContractSentItem(),
-                                        ContractSignedItem(),
-                                        DepositReceivedItem(),
-                                        PlanningCompleteItem(),
-                                        SessionCompleteItem(),
-                                        PaymentRequestedItem(),
-                                        PaymentReceivedItem(),
-                                        EditingCompleteItem(),
-                                        GallerySentItem(),
-                                        FeedbackRequestedItem(),
-                                        FeedbackReceivedItem(),
-                                        JobCompleteItem(),
+                                            height: 347.0,
+                                            child: ListView.builder(
+                                              shrinkWrap: true,
+                                              scrollDirection: Axis.horizontal,
+                                              physics: NeverScrollableScrollPhysics(),
+                                              padding: const EdgeInsets.all(16.0),
+                                              itemCount: 15,
+                                              itemBuilder: _buildItem,
+                                            ),
+                                          ),
                                       ],
                                     ),
                                   ),
+
+
+
+
+
+//                                  Container(
+//                                    height: 316.0,
+//                                    margin: EdgeInsets.only(top: 0.0),
+//                                    child:ListView.builder(
+//                                      scrollDirection: Axis.horizontal,
+//                                      controller: _stagesScrollController,
+//                                      itemCount: 15,
+//                                      itemBuilder: _buildItem,
+//                                    ),
+////                                    ListView(
+////                                      key: _listKeyStates,
+////                                      cacheExtent: 15,
+////                                      addAutomaticKeepAlives: true,
+////                                      scrollDirection: Axis.horizontal,
+////                                      controller: _stagesScrollController,
+////                                      children: <Widget>[
+////                                        SizedBox(
+////                                          width: 32.0,
+////                                        ),
+////                                        InquiryReceivedItem(),
+////                                        FollowupSentItem(),
+////                                        ContractSentItem(),
+////                                        ContractSignedItem(),
+////                                        DepositReceivedItem(),
+////                                        PlanningCompleteItem(),
+////                                        SessionCompleteItem(),
+////                                        PaymentRequestedItem(),
+////                                        PaymentReceivedItem(),
+////                                        EditingCompleteItem(),
+////                                        GallerySentItem(),
+////                                        FeedbackRequestedItem(),
+////                                        FeedbackReceivedItem(),
+////                                        JobCompleteItem(),
+////                                      ],
+////                                    ),
+//                                  ),
                                 ),
                               ],
                             ),
@@ -222,4 +255,52 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
       return Colors.black.withOpacity(0.26);
     }
   }
+
+  double _getScrollToOffset(JobDetailsPageState pageState) {
+    switch(pageState.job.)
+    return 232.0;
+  }
+}
+
+Widget _buildItem(BuildContext context, int index) {
+  return StoreConnector<AppState, JobDetailsPageState>(
+    converter: (store) => JobDetailsPageState.fromStore(store),
+    builder: (BuildContext context, JobDetailsPageState pageState) => _getWidgetForIndex(index),
+  );
+}
+
+_getWidgetForIndex(int index) {
+  switch(index){
+    case 0:
+      return SizedBox(width: 32.0);
+    case 1:
+      return InquiryReceivedItem();
+    case 2:
+      return FollowupSentItem();
+    case 3:
+      return ContractSentItem();
+    case 4:
+      return ContractSignedItem();
+    case 5:
+      return DepositReceivedItem();
+    case 6:
+      return PlanningCompleteItem();
+    case 7:
+      return SessionCompleteItem();
+    case 8:
+      return PaymentRequestedItem();
+    case 9:
+      return PaymentReceivedItem();
+    case 10:
+      return EditingCompleteItem();
+    case 11:
+      return GallerySentItem();
+    case 12:
+      return FeedbackRequestedItem();
+    case 13:
+      return FeedbackReceivedItem();
+    case 14:
+      return JobCompleteItem();
+  }
+  return 0;
 }

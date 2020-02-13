@@ -15,7 +15,7 @@ class ContractSentItem extends StatefulWidget {
 }
 
 class _ContractSentItemState extends State<ContractSentItem>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin{
   AnimationController _controller;
   AnimationController _repeatController;
   Animation<double> _circleOpacity;
@@ -47,9 +47,9 @@ class _ContractSentItemState extends State<ContractSentItem>
           parent: _controller,
           curve: Curves.fastOutSlowIn,
         ));
-    _circleSize.addListener(() => this.setState(() {}));
-    _controller.repeat();
-    _repeatController.repeat();
+//    _circleSize.addListener(() => this.setState(() {}));
+//    _controller.repeat();
+//    _repeatController.repeat();
   }
 
   @override
@@ -60,22 +60,20 @@ class _ContractSentItemState extends State<ContractSentItem>
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, JobDetailsPageState>(
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, JobDetailsPageState>(
         onDidChange: (pageState) => {
           if(key.currentContext != null){
             box = key.currentContext.findRenderObject(),
             position = box.localToGlobal(Offset.zero),
-            setState(() {
-              xOffset = position.dx;
-            }),
+            xOffset = position.dx,
           },
         },
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) =>
             Container(
               key: key,
-              width: 196.0,
+              width: 156.0,
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
@@ -97,23 +95,23 @@ class _ContractSentItemState extends State<ContractSentItem>
 //                      ),
 //                    ),
 //                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 32.0, right: 16.0, left: 16.0),
-                    height: 112.0,
-                    width: _getCircleWidth(xOffset.round()),
-                    decoration: BoxDecoration(
-                      borderRadius: new BorderRadius.circular(56.0),
-                      image: DecorationImage(
-                        image: ImageUtil.getJobStageImage(2),
-                        fit: BoxFit.contain,
+                    Container(
+                      margin: EdgeInsets.only(bottom: 32.0, right: 16.0, left: 16.0),
+                      height: 72.0,
+                      width: 72.0,
+                      decoration: BoxDecoration(
+                        borderRadius: new BorderRadius.circular(56.0),
+                        image: DecorationImage(
+                          image: ImageUtil.getJobStageImage(2),
+                          fit: BoxFit.contain,
+                        ),
                       ),
                     ),
-                  ),
                   Opacity(
                     opacity: .5,
                     child: Container(
                       margin: EdgeInsets.only(bottom: 32.0),
-                      height: _getCheckHeight(xOffset),
+                      height: 24.0,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: ImageUtil.getJobStageCompleteIcon(),
@@ -126,46 +124,46 @@ class _ContractSentItemState extends State<ContractSentItem>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(left: 42.0, top: 208.0),
+                        padding: EdgeInsets.only(left: 44.0, top: 172.0),
                         child: Text(
                           'Contract sent?',
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 16.0,
+                            fontSize: 12.0,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w800,
-                            color: Colors.black26,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                           ),
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: 42.0, top: 8.0),
+                        padding: EdgeInsets.only(left: 44.0, top: 8.0),
                         child: Text(
                           'Send a contract to complete this stage.',
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 14.0,
+                            fontSize: 10.0,
                             fontFamily: 'Raleway',
                             fontWeight: FontWeight.w600,
-                            color: Colors.black26,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                           ),
                         ),
                       ),
                       Container(
-                        width: 104.0,
-                        height: 38.0,
-                        margin: EdgeInsets.only(left: 42.0, top: 8.0),
+                        width: 84.0,
+                        height: 28.0,
+                        margin: EdgeInsets.only(left: 44.0, top: 8.0),
                         padding: EdgeInsets.only(top: 4.0, left: 16.0, bottom: 4.0, right: 8.0),
                         decoration: BoxDecoration(
                             borderRadius: new BorderRadius.circular(8.0),
-                            color: Colors.black12,
+                            color: Color(ColorConstants.getPrimaryDarkColor()),
                         ),
                         child: Row(
                           children: <Widget>[
                             Icon(
                               Icons.message,
-                              color: Colors.black26,
-                              size: 24.0,
+                              color: Color(ColorConstants.getPrimaryColor()),
+                              size: 16.0,
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 8.0),
@@ -173,10 +171,10 @@ class _ContractSentItemState extends State<ContractSentItem>
                                 'Send',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontSize: 16.0,
+                                  fontSize: 12.0,
                                   fontFamily: 'Raleway',
                                   fontWeight: FontWeight.w600,
-                                  color: Colors.black26,
+                                  color: Color(ColorConstants.getPrimaryColor()),
                                 ),
                               ),
                             ),
@@ -189,6 +187,7 @@ class _ContractSentItemState extends State<ContractSentItem>
               ),
             ),
       );
+  }
 
   double _getCircleWidth(int xOffset) {
     if(xOffset <= 26){

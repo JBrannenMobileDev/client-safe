@@ -18,7 +18,7 @@ class JobCompleteItem extends StatefulWidget {
   }
 }
 
-class _JobCompleteItemState extends State<JobCompleteItem> with TickerProviderStateMixin {
+class _JobCompleteItemState extends State<JobCompleteItem> with TickerProviderStateMixin{
   AnimationController _controller;
   AnimationController _repeatController;
   Animation<double> _circleOpacity;
@@ -45,34 +45,35 @@ class _JobCompleteItemState extends State<JobCompleteItem> with TickerProviderSt
           parent: _controller,
           curve: Curves.fastOutSlowIn,
         ));
-    _circleSize.addListener(() => this.setState(() {}));
-    _controller.repeat();
-    _repeatController.repeat();
+//    _circleSize.addListener(() => this.setState(() {}));
+//    _controller.repeat();
+//    _repeatController.repeat();
   }
 
-  @override
-  void dispose() {
-    _repeatController.dispose();
-    _controller.dispose();
-    super.dispose();
-  }
+    @override
+    void dispose() {
+      _repeatController.dispose();
+      _controller.dispose();
+      super.dispose();
+    }
 
-  @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, JobDetailsPageState>(
-        converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
-        builder: (BuildContext context, JobDetailsPageState pageState) =>
-            Container(
-              width: 196.0,
-              margin: EdgeInsets.only(right: 165.0),
-              child: Stack(
-                alignment: Alignment.center,
-                children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 32.0, right: 56.0),
-                    height: 2.0,
-                    color: Color(ColorConstants.getPrimaryDarkColor()),
-                  ),
+    @override
+    Widget build(BuildContext context) {
+      return StoreConnector<AppState, JobDetailsPageState>(
+          converter: (Store<AppState> store) =>
+              JobDetailsPageState.fromStore(store),
+          builder: (BuildContext context, JobDetailsPageState pageState) =>
+              Container(
+                width: 196.0,
+                margin: EdgeInsets.only(right: 165.0),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 32.0, right: 56.0),
+                      height: 2.0,
+                      color: Color(ColorConstants.getPrimaryDarkColor()),
+                    ),
 //                  FadeTransition(
 //                    opacity: _circleOpacity,
 //                    child: Container(
@@ -86,64 +87,67 @@ class _JobCompleteItemState extends State<JobCompleteItem> with TickerProviderSt
 //                      ),
 //                    ),
 //                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 32.0, right: 16.0, left: 16.0),
-                    height: 112.0,
-                    width: 112.0,
-                    decoration: BoxDecoration(
-                      borderRadius: new BorderRadius.circular(56.0),
-                      image: DecorationImage(
-                        image: ImageUtil.getJobStageImage(13),
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                  Opacity(
-                    opacity: 0.5,
-                    child: Container(
-                      margin: EdgeInsets.only(bottom: 32.0),
-                      height: 36.0,
+                    Container(
+                      margin: EdgeInsets.only(
+                          bottom: 32.0, right: 16.0, left: 16.0),
+                      height: 112.0,
+                      width: 112.0,
                       decoration: BoxDecoration(
+                        borderRadius: new BorderRadius.circular(56.0),
                         image: DecorationImage(
-                          image: ImageUtil.getJobStageCompleteIcon(),
+                          image: ImageUtil.getJobStageImage(13),
                           fit: BoxFit.contain,
                         ),
                       ),
                     ),
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 0.0, top: 208.0),
-                        child: Text(
-                          'Job complete?',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w800,
-                            color: Colors.black26,
+//                    Opacity(
+//                      opacity: 0.5,
+//                      child: Container(
+//                        margin: EdgeInsets.only(bottom: 32.0),
+//                        height: 36.0,
+//                        decoration: BoxDecoration(
+//                          image: DecorationImage(
+//                            image: ImageUtil.getJobStageCompleteIcon(),
+//                            fit: BoxFit.contain,
+//                          ),
+//                        ),
+//                      ),
+//                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 0.0, top: 188.0),
+                          child: Text(
+                            'Job complete?',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.getPrimaryDarkColor()),
+                            ),
                           ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 0.0, top: 8.0),
-                        child: Text(
-                          '',
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w600,
-                            color: Colors.black26,
+                        Padding(
+                          padding: EdgeInsets.only(left: 0.0, top: 8.0),
+                          child: Text(
+                            '',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryDarkColor()),
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                  ],
+                ),
               ),
-            ),
-      );
+        );
+    }
 }
+

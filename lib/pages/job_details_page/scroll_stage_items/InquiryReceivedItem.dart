@@ -18,14 +18,14 @@ class InquiryReceivedItem extends StatelessWidget{
             alignment: Alignment.center,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 42.0, bottom: 32.0),
+                margin: EdgeInsets.only(left: 64.0, bottom: 32.0),
                 height: 2.0,
                 color: Color(ColorConstants.getPrimaryDarkColor()),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 32.0),
-                height: 112.0,
-                width: 112.0,
+                height: 72.0,
+                width: 72.0,
                 decoration: BoxDecoration(
                   borderRadius: new BorderRadius.circular(56.0),
                   image: DecorationImage(
@@ -38,7 +38,7 @@ class InquiryReceivedItem extends StatelessWidget{
                 opacity: 1,
                 child: Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.only(left: 78.0, bottom: 108.0),
+                  margin: EdgeInsets.only(left: 56.0, bottom: 78.0),
                   height: 24.0,
                   width: 24.0,
                   decoration: BoxDecoration(
@@ -60,15 +60,15 @@ class InquiryReceivedItem extends StatelessWidget{
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 24.0, top: 118.0),
+                padding: EdgeInsets.only(left: 48.0, top: 64.0),
                 child: Text(
                   'Inquiry received!',
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    fontSize: 16.0,
+                    fontSize: 14.0,
                     fontFamily: 'Raleway',
                     fontWeight: FontWeight.w800,
-                    color: Colors.black26,
+                    color: Color(ColorConstants.getPrimaryDarkColor()),
                   ),
                 ),
               ),

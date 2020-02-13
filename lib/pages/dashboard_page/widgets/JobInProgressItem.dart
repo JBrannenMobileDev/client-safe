@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
+import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
@@ -9,12 +10,17 @@ import 'package:intl/intl.dart';
 
 class JobInProgressItem extends StatelessWidget{
   final Job job;
-  JobInProgressItem({this.job});
+  final DashboardPageState pageState;
+  JobInProgressItem({this.job, this.pageState});
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: () => NavigationUtil.onClientTapped(context),
+      onPressed: () =>
+      {
+        pageState.onJobClicked(job),
+        NavigationUtil.onClientTapped(context),
+      },
       child: Padding(
       padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 8.0),
       child: Stack(

@@ -5,14 +5,16 @@ class JobStage {
   static const String STAGE_2_FOLLOWUP_SENT = "Followup Sent";
   static const String STAGE_3_PROPOSAL_SENT = "Proposal Sent";
   static const String STAGE_4_PROPOSAL_SIGNED = "Proposal Signed";
-  static const String STAGE_5_PLANNING_COMPLETE = "Planning Complete";
-  static const String STAGE_6_SESSION_COMPLETE = "Session Complete";
-  static const String STAGE_7_EDITING_COMPLETE = "Editing Complete";
-  static const String STAGE_8_GALLERY_SENT = "Gallery Sent";
-  static const String STAGE_9_PAYMENT_REQUESTED = "Payment Requested";
-  static const String STAGE_10_PAYMENT_RECEIVED = "Payment Received";
-  static const String STAGE_11_FEEDBACK_REQUESTED = "Feedback Requested";
-  static const String STAGE_12_FEEDBACK_RECEIVED = "Feedback Recieved";
+  static const String STAGE_5_DEPOSIT_RECEIVED = "Deposit received";
+  static const String STAGE_6_PLANNING_COMPLETE = "Planning Complete";
+  static const String STAGE_7_SESSION_COMPLETE = "Session Complete";
+  static const String STAGE_8_PAYMENT_REQUESTED = "Payment Requested";
+  static const String STAGE_9_PAYMENT_RECEIVED = "Payment Received";
+  static const String STAGE_10_EDITING_COMPLETE = "Editing Complete";
+  static const String STAGE_11_GALLERY_SENT = "Gallery Sent";
+  static const String STAGE_12_FEEDBACK_REQUESTED = "Feedback Requested";
+  static const String STAGE_13_FEEDBACK_RECEIVED = "Feedback Recieved";
+  static const String STAGE_14_JOB_COMPLETE = "Job complete";
 
   static const String STAGE_COMPLETED_CHECK = "Completed";
 
@@ -143,29 +145,35 @@ class JobStage {
       case STAGE_4_PROPOSAL_SIGNED:
         imageLocation = 'assets/images/job_progress/proposal_signed.png';
         break;
-      case STAGE_5_PLANNING_COMPLETE:
+      case STAGE_5_DEPOSIT_RECEIVED:
+        imageLocation = 'assets/images/job_progress/deposit_received.png';
+        break;
+      case STAGE_6_PLANNING_COMPLETE:
         imageLocation = 'assets/images/job_progress/planning_complete.png';
         break;
-      case STAGE_6_SESSION_COMPLETE:
+      case STAGE_7_SESSION_COMPLETE:
         imageLocation = 'assets/images/job_progress/session_complete.png';
         break;
-      case STAGE_7_EDITING_COMPLETE:
-        imageLocation = 'assets/images/job_progress/editing_complete.png';
-        break;
-      case STAGE_8_GALLERY_SENT:
-        imageLocation = 'assets/images/job_progress/gallery_sent.png';
-        break;
-      case STAGE_9_PAYMENT_REQUESTED:
+      case STAGE_8_PAYMENT_REQUESTED:
         imageLocation = 'assets/images/job_progress/payment_requested.png';
         break;
-      case STAGE_10_PAYMENT_RECEIVED:
+      case STAGE_9_PAYMENT_RECEIVED:
         imageLocation = 'assets/images/job_progress/payment_received.png';
         break;
-      case STAGE_11_FEEDBACK_REQUESTED:
+      case STAGE_10_EDITING_COMPLETE:
+        imageLocation = 'assets/images/job_progress/editing_complete.png';
+        break;
+      case STAGE_11_GALLERY_SENT:
+        imageLocation = 'assets/images/job_progress/gallery_sent.png';
+        break;
+      case STAGE_12_FEEDBACK_REQUESTED:
         imageLocation = 'assets/images/job_progress/feedback_requested.png';
         break;
-      case STAGE_12_FEEDBACK_RECEIVED:
+      case STAGE_13_FEEDBACK_RECEIVED:
         imageLocation = 'assets/images/job_progress/feedback_received.png';
+        break;
+      case STAGE_14_JOB_COMPLETE:
+        imageLocation = 'assets/images/job_progress/job_complete.png';
         break;
       case STAGE_COMPLETED_CHECK:
         imageLocation = 'assets/images/job_progress/check_mark.png';
@@ -187,6 +195,8 @@ class JobStage {
       case STAGE_4_PROPOSAL_SIGNED:
         return 4;
         break;
+      case STAGE_5_DEPOSIT_RECEIVED:
+        return 5;
       case STAGE_5_PLANNING_COMPLETE:
         return 5;
         break;
