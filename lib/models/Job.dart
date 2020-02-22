@@ -156,22 +156,26 @@ class Job {
         return 3;
       case JobStage.STAGE_4_PROPOSAL_SIGNED:
         return 4;
-      case JobStage.STAGE_5_PLANNING_COMPLETE:
+      case JobStage.STAGE_5_DEPOSIT_RECEIVED:
         return 5;
-      case JobStage.STAGE_6_SESSION_COMPLETE:
+      case JobStage.STAGE_6_PLANNING_COMPLETE:
         return 6;
-      case JobStage.STAGE_7_EDITING_COMPLETE:
+      case JobStage.STAGE_7_SESSION_COMPLETE:
         return 7;
-      case JobStage.STAGE_8_GALLERY_SENT:
+      case JobStage.STAGE_8_PAYMENT_REQUESTED:
         return 8;
-      case JobStage.STAGE_9_PAYMENT_REQUESTED:
+      case JobStage.STAGE_9_PAYMENT_RECEIVED:
         return 9;
-      case JobStage.STAGE_10_PAYMENT_RECEIVED:
+      case JobStage.STAGE_10_EDITING_COMPLETE:
         return 10;
-      case JobStage.STAGE_11_FEEDBACK_REQUESTED:
+      case JobStage.STAGE_11_GALLERY_SENT:
         return 11;
-      case JobStage.STAGE_12_FEEDBACK_RECEIVED:
+      case JobStage.STAGE_12_FEEDBACK_REQUESTED:
         return 12;
+      case JobStage.STAGE_13_FEEDBACK_RECEIVED:
+        return 13;
+      case JobStage.STAGE_14_JOB_COMPLETE:
+        return 14;
     }
     return 1;
   }

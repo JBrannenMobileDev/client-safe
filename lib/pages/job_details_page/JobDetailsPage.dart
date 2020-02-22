@@ -2,24 +2,13 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/pages/job_details_page/ClientDetailsCard.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/job_details_page/JobInfoCard.dart';
 import 'package:client_safe/pages/job_details_page/RemindersCard.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/ContractSentItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/ContractSignedItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/DepositReceivedItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/EditingCompleteItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/FeedbackReceivedItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/FeedbackRequestedItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/FollowupSentItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/GallerySentItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/InquiryReceivedItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/JobCompleteItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/PaymentReceivedItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/PaymentRequestedItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/PlanningCompleteItem.dart';
-import 'package:client_safe/pages/job_details_page/scroll_stage_items/SessionCompleteItem.dart';
+import 'package:client_safe/pages/job_details_page/scroll_stage_items/StageItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -40,27 +29,24 @@ class JobDetailsPage extends StatefulWidget {
 
 class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStateMixin{
   final GlobalKey<AnimatedListState> _listKeyVertical = GlobalKey<AnimatedListState>();
-  final GlobalKey<AnimatedListState> _listKeyStates = GlobalKey<AnimatedListState>();
-  ScrollController _scrollController;
+  ScrollController _scrollController = ScrollController();
   ScrollController _stagesScrollController = ScrollController();
   double scrollPosition = 0;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController();
-  }
-
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) {
-          Timer(Duration(milliseconds: 500), () => _stagesScrollController.animateTo(
-            _getScrollToOffset(pageState),
-            curve: Curves.easeInOutCubic,
-            duration: const Duration(milliseconds: 1500),
-          ));
+          if(pageState.newStagAnimationIndex != -1) {
+            Timer(Duration(milliseconds: 150), () =>
+                _stagesScrollController.animateTo(
+                  _getScrollToOffset(pageState),
+                  curve: Curves.easeInOutCubic,
+                  duration: const Duration(milliseconds: 1000),
+                ),
+            );
+            pageState.setNewIndexForStageAnimation(-1);
+          }
               return Scaffold(
               body: Container(
                 color: Color(ColorConstants.getPrimaryBackgroundGrey()),
@@ -142,54 +128,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                               scrollDirection: Axis.horizontal,
                                               physics: NeverScrollableScrollPhysics(),
                                               padding: const EdgeInsets.all(16.0),
-                                              itemCount: 15,
+                                              itemCount: 14,
                                               itemBuilder: _buildItem,
                                             ),
                                           ),
                                       ],
                                     ),
                                   ),
-
-
-
-
-
-//                                  Container(
-//                                    height: 316.0,
-//                                    margin: EdgeInsets.only(top: 0.0),
-//                                    child:ListView.builder(
-//                                      scrollDirection: Axis.horizontal,
-//                                      controller: _stagesScrollController,
-//                                      itemCount: 15,
-//                                      itemBuilder: _buildItem,
-//                                    ),
-////                                    ListView(
-////                                      key: _listKeyStates,
-////                                      cacheExtent: 15,
-////                                      addAutomaticKeepAlives: true,
-////                                      scrollDirection: Axis.horizontal,
-////                                      controller: _stagesScrollController,
-////                                      children: <Widget>[
-////                                        SizedBox(
-////                                          width: 32.0,
-////                                        ),
-////                                        InquiryReceivedItem(),
-////                                        FollowupSentItem(),
-////                                        ContractSentItem(),
-////                                        ContractSignedItem(),
-////                                        DepositReceivedItem(),
-////                                        PlanningCompleteItem(),
-////                                        SessionCompleteItem(),
-////                                        PaymentRequestedItem(),
-////                                        PaymentReceivedItem(),
-////                                        EditingCompleteItem(),
-////                                        GallerySentItem(),
-////                                        FeedbackRequestedItem(),
-////                                        FeedbackReceivedItem(),
-////                                        JobCompleteItem(),
-////                                      ],
-////                                    ),
-//                                  ),
                                 ),
                               ],
                             ),
@@ -257,50 +202,47 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   }
 
   double _getScrollToOffset(JobDetailsPageState pageState) {
-    switch(pageState.job.)
-    return 232.0;
+    switch(pageState.job.stage.stage){
+      case JobStage.STAGE_1_INQUIRY_RECEIVED:
+        return 0;
+      case JobStage.STAGE_2_FOLLOWUP_SENT:
+        return 200.0;
+      case JobStage.STAGE_3_PROPOSAL_SENT:
+        return 400.0;
+      case JobStage.STAGE_4_PROPOSAL_SIGNED:
+        return 600.0;
+      case JobStage.STAGE_5_DEPOSIT_RECEIVED:
+        return 800.0;
+      case JobStage.STAGE_6_PLANNING_COMPLETE:
+        return 1000.0;
+      case JobStage.STAGE_7_SESSION_COMPLETE:
+        return 1200.0;
+      case JobStage.STAGE_8_PAYMENT_REQUESTED:
+        return 1400.0;
+      case JobStage.STAGE_9_PAYMENT_RECEIVED:
+        return 1600.0;
+      case JobStage.STAGE_10_EDITING_COMPLETE:
+        return 1800.0;
+      case JobStage.STAGE_11_GALLERY_SENT:
+        return 2000.0;
+      case JobStage.STAGE_12_FEEDBACK_REQUESTED:
+        return 2200.0;
+      case JobStage.STAGE_13_FEEDBACK_RECEIVED:
+        return 2400.0;
+      case JobStage.STAGE_14_JOB_COMPLETE:
+        return 2600.0;
+    }
+    return 0.0;
   }
-}
 
-Widget _buildItem(BuildContext context, int index) {
-  return StoreConnector<AppState, JobDetailsPageState>(
-    converter: (store) => JobDetailsPageState.fromStore(store),
-    builder: (BuildContext context, JobDetailsPageState pageState) => _getWidgetForIndex(index),
-  );
-}
-
-_getWidgetForIndex(int index) {
-  switch(index){
-    case 0:
-      return SizedBox(width: 32.0);
-    case 1:
-      return InquiryReceivedItem();
-    case 2:
-      return FollowupSentItem();
-    case 3:
-      return ContractSentItem();
-    case 4:
-      return ContractSignedItem();
-    case 5:
-      return DepositReceivedItem();
-    case 6:
-      return PlanningCompleteItem();
-    case 7:
-      return SessionCompleteItem();
-    case 8:
-      return PaymentRequestedItem();
-    case 9:
-      return PaymentReceivedItem();
-    case 10:
-      return EditingCompleteItem();
-    case 11:
-      return GallerySentItem();
-    case 12:
-      return FeedbackRequestedItem();
-    case 13:
-      return FeedbackReceivedItem();
-    case 14:
-      return JobCompleteItem();
+  Widget _buildItem(BuildContext context, int index) {
+    return StoreConnector<AppState, JobDetailsPageState>(
+      converter: (store) => JobDetailsPageState.fromStore(store),
+      builder: (BuildContext context, JobDetailsPageState pageState) => _getWidgetForIndex(index, pageState.job),
+    );
   }
-  return 0;
+
+  _getWidgetForIndex(int index, Job job) {
+    return StageItem(index, job);
+  }
 }

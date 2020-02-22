@@ -22,11 +22,13 @@ class NewJobStagesListWidget extends StatelessWidget {
                 borderRadius: new BorderRadius.circular(18.0),
             ),
         onPressed: () {
-          pageState.onJobStageSelected(
-              JobStage(
-                  stage: JobStage.getStageFromIcon(jobStageIcons.elementAt(index)),
-                  value: JobStage.getStageValue(JobStage.getStageFromIcon(jobStageIcons.elementAt(index))),
-              ));
+              if(index != 0){
+                pageState.onJobStageSelected(
+                    JobStage(
+                      stage: JobStage.getStageFromIcon(jobStageIcons.elementAt(index)),
+                      value: JobStage.getStageValue(JobStage.getStageFromIcon(jobStageIcons.elementAt(index))),
+                    ));
+              }
         },
         child: Row(
           children: <Widget>[
@@ -65,7 +67,7 @@ class NewJobStagesListWidget extends StatelessWidget {
                           fontSize: 16.0,
                           fontFamily: 'Raleway',
                           fontWeight: FontWeight.w600,
-                          color: JobStage.containsJobStageIcon(pageState.selectedJobStages, jobStageIcons.elementAt(index)) ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.primary_black),
+                          color: JobStage.containsJobStageIcon(pageState.selectedJobStages, jobStageIcons.elementAt(index)) || index == 0 ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
@@ -73,17 +75,16 @@ class NewJobStagesListWidget extends StatelessWidget {
                 ),
               ),
             ),
-            JobStage.containsJobStageIcon(pageState.selectedJobStages, jobStageIcons.elementAt(index)) ? Container(
+            JobStage.containsJobStageIcon(pageState.selectedJobStages, jobStageIcons.elementAt(index)) || index == 0 ? Container(
               alignment: Alignment.center,
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 24.0,
               width: 24.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: ImageUtil.getJobStageCompleteIcon(),
+                  image: ImageUtil.getJobStageCompleteIconBlack(),
                   fit: BoxFit.contain,
                 ),
-                color: const Color(ColorConstants.primary_bg_grey),
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
             ) : SizedBox(),

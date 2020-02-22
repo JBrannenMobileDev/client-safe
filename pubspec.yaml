@@ -128,6 +128,8 @@ flutter:
     - assets/images/job_progress/payment_received.png
     - assets/images/job_progress/deposit_received.png
     - assets/images/job_progress/job_complete.png
+    - assets/images/job_progress/white_check.png
+    - assets/images/job_progress/undo.png
 
     - assets/images/lead_source_type/lead_source_blog.png
     - assets/images/lead_source_type/lead_source_business_card.png
@@ -157,6 +159,8 @@ flutter:
     - assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale_tag.png
 
     - assets/animations/success_check.flr
+    - assets/animations/gold_check.flr
+    - assets/animations/black_check.flr
     - assets/animations/new_alert_flare_light_blue.flr
 
     - assets/images/backgrounds/image_background.png

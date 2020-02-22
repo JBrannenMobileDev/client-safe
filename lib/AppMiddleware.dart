@@ -8,13 +8,15 @@ import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageMiddleware.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageMiddleware.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsPageMiddleware.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageMiddleware.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageMiddleware.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageMiddleware.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as newJobPageActions;
 import 'package:client_safe/pages/new_job_page/NewJobPageMiddleware.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart' as prefix2;
 import 'package:client_safe/pages/new_location_page/NewLocationPageMiddleware.dart';
@@ -33,7 +35,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, InitializeClientDetailsAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteClientAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InstagramSelectedAction>(ClientDetailsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchAllClientsAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllClientsAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePricingProfileAction>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPricingProfilesAction>(PricingProfilesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix0.DeletePriceProfileAction>(NewPricingProfilePageMiddleware()));
@@ -45,12 +47,16 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, prefix2.DeleteLocation>(NewLocationPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DrivingDirectionsSelected>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ShareLocationSelected>(LocationsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveNewJobAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllJobsAction>(CalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedDateAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedLocation>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveStageCompleted>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UndoStageAction>(JobDetailsPageMiddleware()));
   return middlewareList;
 }
 

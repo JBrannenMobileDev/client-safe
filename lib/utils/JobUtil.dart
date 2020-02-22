@@ -15,7 +15,7 @@ class JobUtil {
   }
 
   static List<Job> getJobsCompleted(List<Job> jobs) {
-    List<Job> _jobsCompleted = jobs.where((job) => (_containsJobStage(JobStage.STAGE_10_PAYMENT_RECEIVED, job.completedStages))).toList();
+    List<Job> _jobsCompleted = jobs.where((job) => (_containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages))).toList();
     _jobsCompleted.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
     return _jobsCompleted;
   }

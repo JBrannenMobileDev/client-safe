@@ -22,7 +22,7 @@ class JobInProgressItem extends StatelessWidget{
         NavigationUtil.onClientTapped(context),
       },
       child: Padding(
-      padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 8.0),
+      padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
       child: Stack(
           alignment: Alignment.centerRight,
           children: <Widget>[
@@ -31,11 +31,11 @@ class JobInProgressItem extends StatelessWidget{
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
-                  height: 42.0,
-                  width: 42.0,
+                  height: 38.0,
+                  width: 38.0,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: job.stage.getNextStageImage(),
+                      image: job.stage.getStageImage(),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -58,7 +58,7 @@ class JobInProgressItem extends StatelessWidget{
                         ),
                       ),
                       Text(
-                        'Next: ' + JobStage.getNextStageNameStatic(JobStage.getStageValue(job.stage.stage)),
+                        'Stage: ' + JobStage.getStageTextFromValue(JobStage.getStageValue(job.stage.stage)),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 14.0,
@@ -83,7 +83,6 @@ class JobInProgressItem extends StatelessWidget{
               ],
             ),
             Container(
-              margin: EdgeInsets.only(right: 24.0),
               child: Icon(
                 Icons.chevron_right,
                 color: Color(ColorConstants.getPrimaryBackgroundGrey()),

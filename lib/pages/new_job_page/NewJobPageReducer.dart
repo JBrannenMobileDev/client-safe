@@ -67,7 +67,7 @@ NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageA
   }
   if(shouldKeep) selectedJobStagesUpdated.add(action.jobStage);
   selectedJobStagesUpdated.sort((a, b) => a.value.compareTo(b.value));
-  JobStage currentJobStage = selectedJobStagesUpdated.last;
+  JobStage currentJobStage = JobStage.getNextStage(selectedJobStagesUpdated.last);
   return previousState.copyWith(currentJobStage: currentJobStage, selectedJobStages: selectedJobStagesUpdated);
 }
 
@@ -116,14 +116,16 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
 NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateAction action) {
   Map<DateTime, List<Event>> eventMap = Map();
   for(Job job in action.upcomingJobs) {
-    if(eventMap.containsKey(job.selectedDate)){
-      List<Event> eventList = eventMap.remove(job.selectedDate);
-      eventList.add(Event.fromJob(job));
-      eventMap.putIfAbsent(job.selectedDate, () => eventList);
-    }else{
-      List<Event> newEventList = List();
-      newEventList.add(Event.fromJob(job));
-      eventMap.putIfAbsent(job.selectedDate, () => newEventList);
+    if(job.selectedDate != null) {
+      if (eventMap.containsKey(job.selectedDate)) {
+        List<Event> eventList = eventMap.remove(job.selectedDate);
+        eventList.add(Event.fromJob(job));
+        eventMap.putIfAbsent(job.selectedDate, () => eventList);
+      } else {
+        List<Event> newEventList = List();
+        newEventList.add(Event.fromJob(job));
+        eventMap.putIfAbsent(job.selectedDate, () => newEventList);
+      }
     }
   }
   return previousState.copyWith(

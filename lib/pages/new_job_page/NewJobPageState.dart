@@ -176,7 +176,10 @@ class NewJobPageState {
     );
   }
 
-  factory NewJobPageState.initial() => NewJobPageState(
+  factory NewJobPageState.initial() {
+    List<JobStage> selectedStagesInitial = List();
+    selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
+    return NewJobPageState(
         id: null,
         pageViewIndex: 0,
         saveButtonEnabled: false,
@@ -192,11 +195,11 @@ class NewJobPageState {
         filteredClients: List(),
         pricingProfiles: List(),
         locations: List(),
-        currentJobStage: JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED),
+        currentJobStage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT, value: 2),
         selectedDate: null,
         selectedTime: null,
         sunsetDateTime: null,
-        selectedJobStages: List(),
+        selectedJobStages: selectedStagesInitial,
         jobType: Job.JOB_TYPE_OTHER,
         jobTypeIcon: 'assets/images/job_types/other.png',
         upcomingJobs: List(),
@@ -216,6 +219,7 @@ class NewJobPageState {
         onJobTypeSelected: null,
         onTimeSelected: null,
       );
+  }
 
   factory NewJobPageState.fromStore(Store<AppState> store) {
     return NewJobPageState(

@@ -1,12 +1,9 @@
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
 class LeadItem extends StatelessWidget{
   final Job job;
@@ -17,7 +14,7 @@ class LeadItem extends StatelessWidget{
     return FlatButton(
       onPressed: () => NavigationUtil.onClientTapped(context),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 8.0),
+        padding: EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 18.0),
         child: Stack(
           alignment: Alignment.centerRight,
           children: <Widget>[
@@ -67,7 +64,6 @@ class LeadItem extends StatelessWidget{
               ],
             ),
             Container(
-              margin: EdgeInsets.only(right: 8.0),
               child: Icon(
                 Icons.chevron_right,
                 color: Color(ColorConstants.getPrimaryBackgroundGrey()),

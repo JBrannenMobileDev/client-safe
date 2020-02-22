@@ -30,6 +30,10 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchTimeOfSunsetAction) {
       _fetchSunsetTime(store, action, next);
     }
+    if(action is SetSelectedDateAction || action is SetSelectedLocation){
+      next(action);
+      _fetchSunsetTime(store, action, next);
+    }
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{

@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/JobStage.dart';
 import 'package:flutter/widgets.dart';
 
 class ImageUtil{
@@ -95,8 +96,16 @@ class ImageUtil{
     'assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale_tag.png',
   ];
 
-  static AssetImage getJobStageCompleteIcon() {
+  static AssetImage getJobStageCompleteIconBlack() {
     return AssetImage('assets/images/job_progress/complete_check.png');
+  }
+
+  static AssetImage getJobStageCompleteIconWhite() {
+    return AssetImage('assets/images/job_progress/white_check.png');
+  }
+
+  static AssetImage getUndoImageAsset() {
+    return AssetImage('assets/images/job_progress/undo.png');
   }
 
   static String getJobStageText(String icon) {
@@ -306,6 +315,55 @@ class ImageUtil{
         imageLocation = jobStageIcons[12];
         break;
       case 13:
+        imageLocation = jobStageIcons[13];
+        break;
+    }
+    return AssetImage(imageLocation);
+  }
+
+  static AssetImage getJobStageImageFromStage(JobStage stage) {
+    String imageLocation = '';
+    switch(stage.stage){
+      case JobStage.STAGE_1_INQUIRY_RECEIVED:
+        imageLocation = jobStageIcons[0];
+        break;
+      case JobStage.STAGE_2_FOLLOWUP_SENT:
+        imageLocation = jobStageIcons[1];
+        break;
+      case JobStage.STAGE_3_PROPOSAL_SENT:
+        imageLocation = jobStageIcons[2];
+        break;
+      case JobStage.STAGE_4_PROPOSAL_SIGNED:
+        imageLocation = jobStageIcons[3];
+        break;
+      case JobStage.STAGE_5_DEPOSIT_RECEIVED:
+        imageLocation = jobStageIcons[4];
+        break;
+      case JobStage.STAGE_6_PLANNING_COMPLETE:
+        imageLocation = jobStageIcons[5];
+        break;
+      case JobStage.STAGE_7_SESSION_COMPLETE:
+        imageLocation = jobStageIcons[6];
+        break;
+      case JobStage.STAGE_8_PAYMENT_REQUESTED:
+        imageLocation = jobStageIcons[7];
+        break;
+      case JobStage.STAGE_9_PAYMENT_RECEIVED:
+        imageLocation = jobStageIcons[8];
+        break;
+      case JobStage.STAGE_10_EDITING_COMPLETE:
+        imageLocation = jobStageIcons[9];
+        break;
+      case JobStage.STAGE_11_GALLERY_SENT:
+        imageLocation = jobStageIcons[10];
+        break;
+      case JobStage.STAGE_12_FEEDBACK_REQUESTED:
+        imageLocation = jobStageIcons[11];
+        break;
+      case JobStage.STAGE_13_FEEDBACK_RECEIVED:
+        imageLocation = jobStageIcons[12];
+        break;
+      case JobStage.STAGE_14_JOB_COMPLETE:
         imageLocation = jobStageIcons[13];
         break;
     }
