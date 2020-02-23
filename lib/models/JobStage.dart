@@ -15,7 +15,6 @@ class JobStage {
   static const String STAGE_12_FEEDBACK_REQUESTED = "Feedback Requested";
   static const String STAGE_13_FEEDBACK_RECEIVED = "Feedback Recieved";
   static const String STAGE_14_JOB_COMPLETE = "Job complete";
-
   static const String STAGE_COMPLETED_CHECK = "Completed";
 
   Map<String, dynamic> toMap() {
@@ -84,6 +83,10 @@ class JobStage {
         break;
       case STAGE_14_JOB_COMPLETE:
         imageLocation = 'assets/images/job_progress/job_complete.png';
+        break;
+      case STAGE_COMPLETED_CHECK:
+        imageLocation = 'assets/images/job_progress/job_complete.png';
+        break;
     }
     return AssetImage(imageLocation);
   }
@@ -131,6 +134,9 @@ class JobStage {
         imageLocation = 'assets/images/job_progress/job_complete.png';
         break;
       case STAGE_14_JOB_COMPLETE:
+        imageLocation = 'assets/images/job_progress/job_complete.png';
+        break;
+      case STAGE_COMPLETED_CHECK:
         imageLocation = 'assets/images/job_progress/job_complete.png';
         break;
     }
@@ -182,6 +188,9 @@ class JobStage {
       case STAGE_14_JOB_COMPLETE:
         imageLocation = 'assets/images/job_progress/job_complete.png';
         break;
+      case STAGE_COMPLETED_CHECK:
+        imageLocation = 'assets/images/job_progress/job_complete.png';
+        break;
     }
     return AssetImage(imageLocation);
   }
@@ -230,6 +239,9 @@ class JobStage {
       case STAGE_14_JOB_COMPLETE:
         return 14;
         break;
+      case STAGE_COMPLETED_CHECK:
+        return 15;
+        break;
     }
     return 0;
   }
@@ -277,6 +289,9 @@ class JobStage {
         break;
       case 14:
         return STAGE_14_JOB_COMPLETE;
+        break;
+      case 15:
+        return STAGE_COMPLETED_CHECK;
         break;
     }
     return STAGE_1_INQUIRY_RECEIVED;
@@ -353,6 +368,8 @@ class JobStage {
         return 'Receive feedback';
       case 14:
         return 'Job complete';
+      case 15:
+        return 'Job complete';
     }
     return '';
   }
@@ -407,7 +424,7 @@ class JobStage {
         return JobStage(stage: STAGE_14_JOB_COMPLETE, value: JobStage.getStageValue(STAGE_14_JOB_COMPLETE));
         break;
       case STAGE_14_JOB_COMPLETE:
-        return JobStage(stage: STAGE_14_JOB_COMPLETE, value: JobStage.getStageValue(STAGE_14_JOB_COMPLETE));
+        return JobStage(stage: STAGE_COMPLETED_CHECK, value: JobStage.getStageValue(STAGE_COMPLETED_CHECK));
         break;
     }
     return JobStage(stage: STAGE_1_INQUIRY_RECEIVED, value: JobStage.getStageValue(STAGE_1_INQUIRY_RECEIVED));
@@ -455,7 +472,7 @@ class JobStage {
         return JobStage(stage: STAGE_14_JOB_COMPLETE, value: JobStage.getStageValue(STAGE_14_JOB_COMPLETE));
         break;
       case 14:
-        return JobStage(stage: STAGE_14_JOB_COMPLETE, value: JobStage.getStageValue(STAGE_14_JOB_COMPLETE));
+        return JobStage(stage: STAGE_COMPLETED_CHECK, value: JobStage.getStageValue(STAGE_COMPLETED_CHECK));
         break;
     }
     return JobStage(stage: STAGE_1_INQUIRY_RECEIVED, value: JobStage.getStageValue(STAGE_1_INQUIRY_RECEIVED));

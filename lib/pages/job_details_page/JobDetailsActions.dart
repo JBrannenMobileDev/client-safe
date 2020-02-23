@@ -39,3 +39,8 @@ class RemoveExpandedIndexAction{
   final int index;
   RemoveExpandedIndexAction(this.pageState, this.index);
 }
+
+class DeleteJobAction{
+  final JobDetailsPageState pageState;
+  DeleteJobAction(this.pageState);
+}

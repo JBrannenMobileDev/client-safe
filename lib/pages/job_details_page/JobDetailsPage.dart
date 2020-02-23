@@ -12,8 +12,10 @@ import 'package:client_safe/pages/job_details_page/scroll_stage_items/StageItem.
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
@@ -23,7 +25,7 @@ class JobDetailsPage extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return _JobDetailsPageState();
+    return _JobDetailsPageState(-2);
   }
 }
 
@@ -32,12 +34,57 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   ScrollController _scrollController = ScrollController();
   ScrollController _stagesScrollController = ScrollController();
   double scrollPosition = 0;
+
+  _JobDetailsPageState(this.scrollPosition);
+
+  Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('All data for this job will be gone forever!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteSelected();
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('All data for this job will be gone forever!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteSelected();
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         builder: (BuildContext context, JobDetailsPageState pageState) {
-          if(pageState.newStagAnimationIndex != -1) {
+          if(pageState.newStagAnimationIndex != -1 || scrollPosition == -2) {
             Timer(Duration(milliseconds: 150), () =>
                 _stagesScrollController.animateTo(
                   _getScrollToOffset(pageState),
@@ -46,6 +93,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                 ),
             );
             pageState.setNewIndexForStageAnimation(-1);
+            if(scrollPosition == -2) scrollPosition = 0;
           }
               return Scaffold(
               body: Container(
@@ -92,7 +140,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             new IconButton(
                               icon: const Icon(Icons.delete),
                               tooltip: 'Delete Job',
-                              onPressed: () {},
+                              onPressed: () {
+                                _ackAlert(context, pageState);
+                              },
                             ),
                           ],
                           flexibleSpace: new FlexibleSpaceBar(
@@ -230,6 +280,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
       case JobStage.STAGE_13_FEEDBACK_RECEIVED:
         return 2400.0;
       case JobStage.STAGE_14_JOB_COMPLETE:
+        return 2600.0;
+      case JobStage.STAGE_COMPLETED_CHECK:
         return 2600.0;
     }
     return 0.0;

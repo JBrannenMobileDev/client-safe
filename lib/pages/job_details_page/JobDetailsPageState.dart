@@ -32,6 +32,7 @@ class JobDetailsPageState {
   final Function(int) setNewIndexForStageAnimation;
   final Function(int) addExpandedIndex;
   final Function(int) removeExpandedIndex;
+  final Function() onDeleteSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -56,6 +57,7 @@ class JobDetailsPageState {
     @required this.setNewIndexForStageAnimation,
     @required this.addExpandedIndex,
     @required this.removeExpandedIndex,
+    @required this.onDeleteSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -67,6 +69,7 @@ class JobDetailsPageState {
     Function(int) setNewIndexForStageAnimation,
     Function(int) addExpandedIndex,
     Function(int) removeExpandedIndex,
+    Function() onDeleteSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -91,6 +94,7 @@ class JobDetailsPageState {
       setNewIndexForStageAnimation: setNewIndexForStageAnimation ?? this.setNewIndexForStageAnimation,
       addExpandedIndex: addExpandedIndex ?? this.addExpandedIndex,
       removeExpandedIndex: removeExpandedIndex ?? this.removeExpandedIndex,
+      onDeleteSelected: onDeleteSelected ?? this.onDeleteSelected,
     );
   }
 
@@ -118,6 +122,7 @@ class JobDetailsPageState {
       setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
       addExpandedIndex: (index) => store.dispatch(SetExpandedIndexAction(store.state.jobDetailsPageState, index)),
       removeExpandedIndex: (index) => store.dispatch(RemoveExpandedIndexAction(store.state.jobDetailsPageState, index)),
+      onDeleteSelected: () => store.dispatch(DeleteJobAction(store.state.jobDetailsPageState)),
     );
   }
 
@@ -143,6 +148,7 @@ class JobDetailsPageState {
     onStageUndo: null,
     addExpandedIndex: null,
     removeExpandedIndex: null,
+    onDeleteSelected: null,
   );
 
   @override
@@ -167,7 +173,8 @@ class JobDetailsPageState {
       onStageCompleted.hashCode ^
       onStageUndo.hashCode ^
       addExpandedIndex.hashCode ^
-      removeExpandedIndex.hashCode;
+      removeExpandedIndex.hashCode ^
+      onDeleteSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -193,5 +200,6 @@ class JobDetailsPageState {
               onStageCompleted == other.onStageCompleted &&
               onStageUndo == other.onStageUndo &&
               addExpandedIndex == other.addExpandedIndex &&
-              removeExpandedIndex ==other.removeExpandedIndex;
+              removeExpandedIndex ==other.removeExpandedIndex &&
+              onDeleteSelected == other.onDeleteSelected;
 }

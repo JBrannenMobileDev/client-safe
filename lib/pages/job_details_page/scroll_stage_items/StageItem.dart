@@ -211,6 +211,11 @@ class _StageItemState extends State<StageItem>
         onDidChange: (pageState) => {
           setState(() {
             _setStageStatus(job, index);
+            if(isCurrentStage){
+              _pulsingCircleSize.addListener(() => this.setState(() {}));
+              _controller.repeat();
+              _pulsingRepeatController.repeat();
+            }
             if(pageState.newStagAnimationIndex == index){
               if(!_isExpanded(index, pageState)){
                 _newStageCompleteAnimation.forward();
@@ -296,11 +301,9 @@ class _StageItemState extends State<StageItem>
                             Timer(Duration(milliseconds: 300), () => {
                               pageState.onStageCompleted(pageState.job, index),
                               isStageCompleted = true,
-                              isCurrentStage = (index == 13) ? true : false,
+                              isCurrentStage = false,
                               pageState.removeExpandedIndex(index),
-                              if(JobStage.getStageValue(pageState.job.stage.stage) < 14){
-                                pageState.setNewIndexForStageAnimation((JobStage.getStageValue(pageState.job.stage.stage))),
-                              },
+                              pageState.setNewIndexForStageAnimation((JobStage.getStageValue(pageState.job.stage.stage))),
                             });
                             VibrateUtil.vibrateHeavy();
                             _newStageCompleteAnimation.reset();

@@ -2,7 +2,9 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
+import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
@@ -15,6 +17,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UndoStageAction){
       undoStage(store, next, action);
     }
+    if(action is DeleteJobAction){
+      deleteJob(store, next, action);
+    }
+  }
+
+  void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{
+    await JobDao.delete(store.state.jobDetailsPageState.job);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   void updateJobInDb(Store<AppState> store, NextDispatcher next, SaveStageCompleted action) async{
@@ -90,6 +101,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _completedStagesContainsNextStage(List<JobStage> completedStages, JobStage nextStage) {
+    if(nextStage.stage == JobStage.STAGE_COMPLETED_CHECK) return false;
     bool containsNextStage = false;
     for(JobStage completedStage in completedStages){
       if(completedStage.value == nextStage.value) return true;
