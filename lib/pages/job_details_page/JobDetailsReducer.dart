@@ -8,12 +8,19 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetNewStagAnimationIndex>(_setNewStagAnimationIndex),
   TypedReducer<JobDetailsPageState, SetExpandedIndexAction>(_setExpandedIndex),
   TypedReducer<JobDetailsPageState, RemoveExpandedIndexAction>(_removeExpandedIndex),
+  TypedReducer<JobDetailsPageState, SetClientAction>(_setClient),
 ]);
 
 JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobInfo action){
   action.job.completedStages.sort((a, b) => a.value.compareTo(b.value));
   return previousState.copyWith(
     job: action.job,
+  );
+}
+
+JobDetailsPageState _setClient(JobDetailsPageState previousState, SetClientAction action){
+  return previousState.copyWith(
+    client: action.client,
   );
 }
 

@@ -1,10 +1,13 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
+import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:redux/redux.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
@@ -20,6 +23,22 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteJobAction){
       deleteJob(store, next, action);
     }
+    if(action is SetJobInfo){
+      fetchClientForJob(store, next, action);
+    }
+    if(action is JobInstagramSelectedAction){
+      _launchInstagramProfile(store.state.jobDetailsPageState.client.instagramProfileUrl);
+    }
+  }
+
+  void _launchInstagramProfile(String instagramUrl){
+    IntentLauncherUtil.launchURL(instagramUrl);
+  }
+
+  void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action)async{
+    Client client = await ClientDao.getClientById(action.job.clientId);
+    next(action);
+    store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
   }
 
   void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{

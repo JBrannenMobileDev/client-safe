@@ -58,6 +58,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveStageCompleted>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UndoStageAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetJobInfo>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, JobInstagramSelectedAction>(JobDetailsPageMiddleware()));
 
   return middlewareList;
 }

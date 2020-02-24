@@ -67,4 +67,15 @@ class ClientDao extends Equatable{
       return client;
     }).toList();
   }
+
+  static Future<Client> getClientById(int clientId) async{
+    final finder = Finder(filter: Filter.byKey(clientId));
+    final recordSnapshots = await _clientStore.find(await _db, finder: finder);
+    // Making a List<Client> out of List<RecordSnapshot>
+    return recordSnapshots.map((snapshot) {
+      final client = Client.fromMap(snapshot.value);
+      client.id = snapshot.key;
+      return client;
+    }).toList().elementAt(0);
+  }
 }

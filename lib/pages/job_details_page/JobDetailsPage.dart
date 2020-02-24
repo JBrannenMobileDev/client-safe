@@ -193,8 +193,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
                               RemindersCard(),
-                              JobInfoCard(),
-                              ClientDetailsCard(),
+                              JobInfoCard(pageState: pageState),
+                              ClientDetailsCard(pageState: pageState),
                             ])),
                       ],
                     ),

@@ -11,6 +11,7 @@ import '../../AppState.dart';
 
 class JobDetailsPageState {
   final Job job;
+  final Client client;
   final int newStagAnimationIndex;
   final List<int> expandedIndexes;
   final Function onStage1Selected;
@@ -33,9 +34,11 @@ class JobDetailsPageState {
   final Function(int) addExpandedIndex;
   final Function(int) removeExpandedIndex;
   final Function() onDeleteSelected;
+  final Function() onInstagramSelected;
 
   JobDetailsPageState({
     @required this.job,
+    @required this.client,
     @required this.expandedIndexes,
     @required this.onStage1Selected,
     @required this.onStage2Selected,
@@ -58,10 +61,12 @@ class JobDetailsPageState {
     @required this.addExpandedIndex,
     @required this.removeExpandedIndex,
     @required this.onDeleteSelected,
+    @required this.onInstagramSelected,
   });
 
   JobDetailsPageState copyWith({
     Job job,
+    Client client,
     int newStagAnimationIndex,
     List<int> expandedIndexes,
     Function(Job, int) onStageCompleted,
@@ -70,9 +75,11 @@ class JobDetailsPageState {
     Function(int) addExpandedIndex,
     Function(int) removeExpandedIndex,
     Function() onDeleteSelected,
+    Function() onInstagramSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
+      client: client ?? this.client,
       expandedIndexes: expandedIndexes ?? this.expandedIndexes,
       onStage1Selected: onStage1Selected ?? this.onStage1Selected,
       onStage2Selected: onStage2Selected ?? this.onStage2Selected,
@@ -95,12 +102,14 @@ class JobDetailsPageState {
       addExpandedIndex: addExpandedIndex ?? this.addExpandedIndex,
       removeExpandedIndex: removeExpandedIndex ?? this.removeExpandedIndex,
       onDeleteSelected: onDeleteSelected ?? this.onDeleteSelected,
+      onInstagramSelected: onInstagramSelected ?? this.onInstagramSelected,
     );
   }
 
   static JobDetailsPageState fromStore(Store<AppState> store) {
     return JobDetailsPageState(
       job: store.state.jobDetailsPageState.job,
+      client: store.state.jobDetailsPageState.client,
       expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
       newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
       onStage1Selected: store.state.jobDetailsPageState.onStage1Selected,
@@ -123,11 +132,13 @@ class JobDetailsPageState {
       addExpandedIndex: (index) => store.dispatch(SetExpandedIndexAction(store.state.jobDetailsPageState, index)),
       removeExpandedIndex: (index) => store.dispatch(RemoveExpandedIndexAction(store.state.jobDetailsPageState, index)),
       onDeleteSelected: () => store.dispatch(DeleteJobAction(store.state.jobDetailsPageState)),
+      onInstagramSelected: () => store.dispatch(JobInstagramSelectedAction(store.state.jobDetailsPageState)),
     );
   }
 
   factory JobDetailsPageState.initial() => JobDetailsPageState(
     job: null,
+    client: null,
     newStagAnimationIndex: 2,
     expandedIndexes: List(),
     onStage1Selected: null,
@@ -149,11 +160,13 @@ class JobDetailsPageState {
     addExpandedIndex: null,
     removeExpandedIndex: null,
     onDeleteSelected: null,
+    onInstagramSelected: null,
   );
 
   @override
   int get hashCode =>
       job.hashCode ^
+      client.hashCode ^
       expandedIndexes.hashCode ^
       newStagAnimationIndex.hashCode ^
       onStage1Selected.hashCode ^
@@ -174,13 +187,15 @@ class JobDetailsPageState {
       onStageUndo.hashCode ^
       addExpandedIndex.hashCode ^
       removeExpandedIndex.hashCode ^
-      onDeleteSelected.hashCode;
+      onDeleteSelected.hashCode ^
+      onInstagramSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is JobDetailsPageState &&
               job == other.job &&
+              client == other.client &&
               expandedIndexes == other.expandedIndexes &&
               newStagAnimationIndex == other.newStagAnimationIndex &&
               onStage1Selected == other.onStage1Selected &&
@@ -201,5 +216,6 @@ class JobDetailsPageState {
               onStageUndo == other.onStageUndo &&
               addExpandedIndex == other.addExpandedIndex &&
               removeExpandedIndex ==other.removeExpandedIndex &&
-              onDeleteSelected == other.onDeleteSelected;
+              onDeleteSelected == other.onDeleteSelected &&
+              onInstagramSelected == other.onInstagramSelected;
 }

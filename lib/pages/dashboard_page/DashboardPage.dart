@@ -136,31 +136,25 @@ class _DashboardPageState extends State<DashboardPage>
                         background: Stack(
                           alignment: Alignment.topLeft,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(top: 126.0, left: 24.0),
-                              child: Wrap(
-                                direction: Axis.vertical,
-                                children: <Widget>[
-                                  RotatedBox(
-                                    quarterTurns: 1,
-                                    child: Text(
-                                      'Reminders',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(
-                                            ColorConstants.getPrimaryBlack()),
-                                      ),
-                                    ),
+                            Container(
+                              padding: EdgeInsets.only(top: 56.0),
+                              alignment: Alignment.topCenter,
+                              child: SafeArea(
+                                child: Text(
+                                  'Missions',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
-                                ],
+                                ),
                               ),
                             ),
                             Container(
                               alignment: Alignment.center,
-                              margin: EdgeInsets.only(top: 96.0, left: 48.0),
+                              margin: EdgeInsets.only(top: 112.0, left: 48.0),
                               height: 150.0,
                               width: 150.0,
                               child: Stack(
@@ -181,25 +175,25 @@ class _DashboardPageState extends State<DashboardPage>
                                   Container(
                                     height: 96.0,
                                     width: 96.0,
-                                    padding: EdgeInsets.all(18.0),
+                                    padding: EdgeInsets.only(bottom: 18.0, right: 18.0, top: 8.0, left: 8.0),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(48.0),
                                       color: Colors.white,
                                     ),
                                     child: Image.asset(
-                                      "assets/images/reminders/camera.png",
+                                      "assets/images/reminders/welcome_hand.png",
                                     ),
                                   ),
                                 ],
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(left: 80.0, top: 232.0),
+                              padding: EdgeInsets.only(left: 80.0, top: 242.0),
                               child: Stack(
                                 alignment: Alignment.topLeft,
                                 children: <Widget>[
                                   Text(
-                                    'Prepare for your shoot!',
+                                    'Welcome!',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 18.0,
@@ -209,48 +203,48 @@ class _DashboardPageState extends State<DashboardPage>
                                           ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 18.0),
-                                    child: Text(
-                                      '✔ Camera battery',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(
-                                            ColorConstants.getPrimaryBlack()),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 34.0),
-                                    child: Text(
-                                      '✔ SD Cards',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(
-                                            ColorConstants.getPrimaryBlack()),
-                                      ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 50.0),
-                                    child: Text(
-                                      '✔ Weather',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(
-                                            ColorConstants.getPrimaryBlack()),
-                                      ),
-                                    ),
-                                  ),
+//                                  Padding(
+//                                    padding: EdgeInsets.only(top: 18.0),
+//                                    child: Text(
+//                                      '✔ Camera battery',
+//                                      textAlign: TextAlign.start,
+//                                      style: TextStyle(
+//                                        fontSize: 16.0,
+//                                        fontFamily: 'Raleway',
+//                                        fontWeight: FontWeight.w600,
+//                                        color: Color(
+//                                            ColorConstants.getPrimaryBlack()),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                  Padding(
+//                                    padding: EdgeInsets.only(top: 34.0),
+//                                    child: Text(
+//                                      '✔ SD Cards',
+//                                      textAlign: TextAlign.start,
+//                                      style: TextStyle(
+//                                        fontSize: 16.0,
+//                                        fontFamily: 'Raleway',
+//                                        fontWeight: FontWeight.w600,
+//                                        color: Color(
+//                                            ColorConstants.getPrimaryBlack()),
+//                                      ),
+//                                    ),
+//                                  ),
+//                                  Padding(
+//                                    padding: EdgeInsets.only(top: 50.0),
+//                                    child: Text(
+//                                      '✔ Weather',
+//                                      textAlign: TextAlign.start,
+//                                      style: TextStyle(
+//                                        fontSize: 16.0,
+//                                        fontFamily: 'Raleway',
+//                                        fontWeight: FontWeight.w600,
+//                                        color: Color(
+//                                            ColorConstants.getPrimaryBlack()),
+//                                      ),
+//                                    ),
+//                                  ),
                                 ],
                               ),
                             ),
