@@ -2,8 +2,10 @@ import 'dart:math';
 
 import 'package:client_safe/models/Action.dart';
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Notifications.dart';
+import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
@@ -12,7 +14,10 @@ import '../../AppState.dart';
 class JobDetailsPageState {
   final Job job;
   final Client client;
+  final DateTime sunsetTime;
   final int newStagAnimationIndex;
+  final double stageScrollOffset;
+  final Map<DateTime, List<Event>> eventMap;
   final List<int> expandedIndexes;
   final Function onStage1Selected;
   final Function onStage2Selected;
@@ -35,11 +40,18 @@ class JobDetailsPageState {
   final Function(int) removeExpandedIndex;
   final Function() onDeleteSelected;
   final Function() onInstagramSelected;
+  final Function(double) onScrollOffsetChanged;
+  final Function(DateTime) onNewTimeSelected;
+  final Function(DateTime) onNewDateSelected;
+  final Function(Client) onClientClicked;
 
   JobDetailsPageState({
     @required this.job,
     @required this.client,
+    @required this.sunsetTime,
+    @required this.eventMap,
     @required this.expandedIndexes,
+    @required this.stageScrollOffset,
     @required this.onStage1Selected,
     @required this.onStage2Selected,
     @required this.onStage3Selected,
@@ -62,12 +74,18 @@ class JobDetailsPageState {
     @required this.removeExpandedIndex,
     @required this.onDeleteSelected,
     @required this.onInstagramSelected,
+    @required this.onScrollOffsetChanged,
+    @required this.onNewTimeSelected,
+    @required this.onNewDateSelected,
+    @required this.onClientClicked,
   });
 
   JobDetailsPageState copyWith({
     Job job,
     Client client,
     int newStagAnimationIndex,
+    double stageScrollOffset,
+    Map<DateTime, List<Event>> eventMap,
     List<int> expandedIndexes,
     Function(Job, int) onStageCompleted,
     Function(Job, int) onStageUndo,
@@ -76,10 +94,18 @@ class JobDetailsPageState {
     Function(int) removeExpandedIndex,
     Function() onDeleteSelected,
     Function() onInstagramSelected,
+    DateTime sunsetTime,
+    Function(double) onScrollOffsetChanged,
+    Function(DateTime) onNewTimeSelected,
+    Function(DateTime) onNewDateSelected,
+    Function(Client) onClientClicked,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
       client: client ?? this.client,
+      sunsetTime: sunsetTime ?? this.sunsetTime,
+      stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
+      eventMap: eventMap ?? this.eventMap,
       expandedIndexes: expandedIndexes ?? this.expandedIndexes,
       onStage1Selected: onStage1Selected ?? this.onStage1Selected,
       onStage2Selected: onStage2Selected ?? this.onStage2Selected,
@@ -103,6 +129,10 @@ class JobDetailsPageState {
       removeExpandedIndex: removeExpandedIndex ?? this.removeExpandedIndex,
       onDeleteSelected: onDeleteSelected ?? this.onDeleteSelected,
       onInstagramSelected: onInstagramSelected ?? this.onInstagramSelected,
+      onScrollOffsetChanged: onScrollOffsetChanged ?? this.onScrollOffsetChanged,
+      onNewTimeSelected: onNewTimeSelected ?? this.onNewTimeSelected,
+      onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
+      onClientClicked: onClientClicked ?? this.onClientClicked,
     );
   }
 
@@ -110,6 +140,9 @@ class JobDetailsPageState {
     return JobDetailsPageState(
       job: store.state.jobDetailsPageState.job,
       client: store.state.jobDetailsPageState.client,
+      sunsetTime: store.state.jobDetailsPageState.sunsetTime,
+      stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
+      eventMap: store.state.jobDetailsPageState.eventMap,
       expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
       newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
       onStage1Selected: store.state.jobDetailsPageState.onStage1Selected,
@@ -133,13 +166,20 @@ class JobDetailsPageState {
       removeExpandedIndex: (index) => store.dispatch(RemoveExpandedIndexAction(store.state.jobDetailsPageState, index)),
       onDeleteSelected: () => store.dispatch(DeleteJobAction(store.state.jobDetailsPageState)),
       onInstagramSelected: () => store.dispatch(JobInstagramSelectedAction(store.state.jobDetailsPageState)),
+      onScrollOffsetChanged: (offset) => store.dispatch(UpdateScrollOffset(store.state.jobDetailsPageState, offset)),
+      onNewTimeSelected: (newTime) => store.dispatch(UpdateJobTimeAction(store.state.jobDetailsPageState, newTime)),
+      onNewDateSelected: (newDate) => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState, newDate)),
+      onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
     );
   }
 
   factory JobDetailsPageState.initial() => JobDetailsPageState(
     job: null,
     client: null,
+    sunsetTime: null,
+    stageScrollOffset: 200.0,
     newStagAnimationIndex: 2,
+    eventMap: Map(),
     expandedIndexes: List(),
     onStage1Selected: null,
     onStage2Selected: null,
@@ -161,12 +201,19 @@ class JobDetailsPageState {
     removeExpandedIndex: null,
     onDeleteSelected: null,
     onInstagramSelected: null,
+    onScrollOffsetChanged: null,
+    onNewTimeSelected: null,
+    onNewDateSelected: null,
+    onClientClicked: null,
   );
 
   @override
   int get hashCode =>
       job.hashCode ^
       client.hashCode ^
+      sunsetTime.hashCode ^
+      stageScrollOffset.hashCode ^
+      eventMap.hashCode ^
       expandedIndexes.hashCode ^
       newStagAnimationIndex.hashCode ^
       onStage1Selected.hashCode ^
@@ -188,7 +235,11 @@ class JobDetailsPageState {
       addExpandedIndex.hashCode ^
       removeExpandedIndex.hashCode ^
       onDeleteSelected.hashCode ^
-      onInstagramSelected.hashCode;
+      onInstagramSelected.hashCode ^
+      onScrollOffsetChanged.hashCode ^
+      onNewTimeSelected.hashCode ^
+      onNewDateSelected.hashCode ^
+      onClientClicked.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -196,6 +247,9 @@ class JobDetailsPageState {
           other is JobDetailsPageState &&
               job == other.job &&
               client == other.client &&
+              sunsetTime == other.sunsetTime &&
+              stageScrollOffset == other.stageScrollOffset &&
+              eventMap == other.eventMap &&
               expandedIndexes == other.expandedIndexes &&
               newStagAnimationIndex == other.newStagAnimationIndex &&
               onStage1Selected == other.onStage1Selected &&
@@ -217,5 +271,9 @@ class JobDetailsPageState {
               addExpandedIndex == other.addExpandedIndex &&
               removeExpandedIndex ==other.removeExpandedIndex &&
               onDeleteSelected == other.onDeleteSelected &&
-              onInstagramSelected == other.onInstagramSelected;
+              onInstagramSelected == other.onInstagramSelected &&
+              onScrollOffsetChanged == other.onScrollOffsetChanged &&
+              onNewTimeSelected == other.onNewTimeSelected &&
+              onNewDateSelected == other.onNewDateSelected &&
+              onClientClicked == other.onClientClicked;
 }

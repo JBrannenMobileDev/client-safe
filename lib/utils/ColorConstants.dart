@@ -22,14 +22,11 @@ class ColorConstants{
   //Set 2
   static const int gold = 0xffE1BD5B;
   static const int gold_dark = 0xffad9144;
-  static const int goldDashboard = 0xffCBA63A;
-  static const int blue = 0xffC2D3CB;
+  static const int blue_dark = 0xff31636D;
   static const int blue_light = 0xffBDD5D0;
   static const int peach_dark = 0xffCD755D;
   static const int peach_light = 0xffECA99A;
-  static const int cream = 0xffFFffff;
   static const int grey = 0xffe3e1da;
-  static const int green = 0xff31636D;
   static const int charcoal = 0xff504B47;
   static const int black = 0xff444444;
 
@@ -40,32 +37,28 @@ class ColorConstants{
     return gold_dark;
   }
 
-  static int getPrimaryColorForDashboard(){
-    return goldDashboard;
-  }
-
   static int getPrimaryWhite(){
-    return cream;
+    return white;
   }
 
   static int getPrimaryBackgroundGrey(){
     return grey;
   }
 
-  static int getCollectionColor1(){
+  static int getPeachDark(){
     return peach_dark;
   }
 
-  static int getCollectionColor2(){
-    return green;
+  static int getBlueDark(){
+    return blue_dark;
   }
 
-  static int getCollectionColor3(){
+  static int getPeachLight(){
     return peach_light;
   }
 
-  static int getCollectionColor4(){
-    return gold;
+  static int getBlueLight(){
+    return blue_light;
   }
 
   static int getPrimaryBlack() {

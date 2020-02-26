@@ -1,3 +1,4 @@
+import 'package:client_safe/pages/job_details_page/NewDateSelectionDialog.dart';
 import 'package:client_safe/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
@@ -57,7 +58,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return SizedBox();
+        return NewDateSelectionDialog();
       },
     );
   }

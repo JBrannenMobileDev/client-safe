@@ -1,12 +1,23 @@
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 
 class SetJobInfo{
   final JobDetailsPageState pageState;
   final Job job;
   SetJobInfo(this.pageState, this.job);
+}
+
+class SetSunsetTimeForJobAction{
+  final JobDetailsPageState pageState;
+  final DateTime sunset;
+  SetSunsetTimeForJobAction(this.pageState, this.sunset);
+}
+
+class FetchTimeOfSunsetJobAction{
+  final JobDetailsPageState pageState;
+  FetchTimeOfSunsetJobAction(this.pageState);
 }
 
 class JobInstagramSelectedAction{
@@ -55,4 +66,39 @@ class SetClientAction{
   final JobDetailsPageState pageState;
   final Client client;
   SetClientAction(this.pageState, this.client);
+}
+
+class UpdateScrollOffset{
+  final JobDetailsPageState pageState;
+  final double offset;
+  UpdateScrollOffset(this.pageState, this.offset);
+}
+
+class UpdateJobTimeAction{
+  final JobDetailsPageState pageState;
+  final DateTime newTime;
+  UpdateJobTimeAction(this.pageState, this.newTime);
+}
+
+class UpdateJobDateAction{
+  final JobDetailsPageState pageState;
+  final DateTime newDate;
+  UpdateJobDateAction(this.pageState, this.newDate);
+}
+
+class SaveUpdatedJobAction{
+  final JobDetailsPageState pageState;
+  final Job job;
+  SaveUpdatedJobAction(this.pageState, this.job);
+}
+
+class SetEventMapAction{
+  final JobDetailsPageState pageState;
+  final List<Job> upcomingJobs;
+  SetEventMapAction(this.pageState, this.upcomingJobs);
+}
+
+class FetchJobsForDateSelection{
+  final JobDetailsPageState pageState;
+  FetchJobsForDateSelection(this.pageState);
 }

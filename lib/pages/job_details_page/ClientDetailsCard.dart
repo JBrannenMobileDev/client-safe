@@ -1,4 +1,5 @@
 
+import 'package:client_safe/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -51,18 +52,24 @@ class ClientDetailsCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      margin: EdgeInsets.only(bottom: 16.0),
-                      height: 96.0,
-                      width: MediaQuery.of(context).size.width / 3,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(
-                              pageState.client?.iconUrl ?? ""),
-                          fit: BoxFit.contain,
+                    GestureDetector(
+                      onTap: () {
+                        pageState.onClientClicked(pageState.client);
+                        Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(bottom: 16.0),
+                        height: 96.0,
+                        width: MediaQuery.of(context).size.width / 3,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(
+                                pageState.client?.iconUrl ?? ""),
+                            fit: BoxFit.contain,
+                          ),
+                          borderRadius:
+                          BorderRadius.all(Radius.circular(8.0)),
                         ),
-                        borderRadius:
-                        BorderRadius.all(Radius.circular(8.0)),
                       ),
                     ),
                   ],

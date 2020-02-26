@@ -5,6 +5,8 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/pages/job_details_page/ClientDetailsCard.dart';
+import 'package:client_safe/pages/job_details_page/DocumentsCard.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/job_details_page/JobInfoCard.dart';
 import 'package:client_safe/pages/job_details_page/RemindersCard.dart';
@@ -31,11 +33,11 @@ class JobDetailsPage extends StatefulWidget {
 
 class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStateMixin{
   final GlobalKey<AnimatedListState> _listKeyVertical = GlobalKey<AnimatedListState>();
-  ScrollController _scrollController = ScrollController();
-  ScrollController _stagesScrollController = ScrollController();
+  ScrollController _scrollController = ScrollController(keepScrollOffset: true);
+  ScrollController _stagesScrollController = ScrollController(keepScrollOffset: true);
   double scrollPosition = 0;
-
   _JobDetailsPageState(this.scrollPosition);
+  bool sliverCollapsed = false;
 
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
     return showDialog<void>(
@@ -80,18 +82,23 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, JobDetailsPageState>(
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
+        onInit: (appState) => {
+          appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState))
+        },
         builder: (BuildContext context, JobDetailsPageState pageState) {
           if(pageState.newStagAnimationIndex != -1 || scrollPosition == -2) {
-            Timer(Duration(milliseconds: 150), () =>
-                _stagesScrollController.animateTo(
-                  _getScrollToOffset(pageState),
-                  curve: Curves.easeInOutCubic,
-                  duration: const Duration(milliseconds: 1000),
-                ),
+            Timer(Duration(milliseconds: 150), () => {
+              _stagesScrollController.animateTo(
+                _getScrollToOffset(pageState),
+                curve: Curves.easeInOutCubic,
+                duration: const Duration(milliseconds: 1000),
+              ),
+            },
             );
+            _stagesScrollController = ScrollController(initialScrollOffset: _getScrollToOffset(pageState));
             pageState.setNewIndexForStageAnimation(-1);
             if(scrollPosition == -2) scrollPosition = 0;
           }
@@ -194,6 +201,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             delegate: new SliverChildListDelegate(<Widget>[
                               RemindersCard(),
                               JobInfoCard(pageState: pageState),
+                              DocumentsCard(),
                               ClientDetailsCard(pageState: pageState),
                             ])),
                       ],
@@ -204,6 +212,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             );
         },
       );
+  }
 
   void _onAddButtonPressed(BuildContext context) {
     UserOptionsUtil.showDashboardOptionsSheet(context);

@@ -4,11 +4,13 @@ import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:redux/redux.dart';
+import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -28,6 +30,68 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is JobInstagramSelectedAction){
       _launchInstagramProfile(store.state.jobDetailsPageState.client.instagramProfileUrl);
+    }
+    if(action is FetchTimeOfSunsetJobAction){
+      _fetchSunsetTime(store, action, next);
+    }
+    if(action is UpdateJobTimeAction){
+      _updateJobWithNewTime(store, action, next);
+    }
+    if(action is UpdateJobDateAction){
+      _updateJobWithNewDate(store, action, next);
+    }
+    if(action is FetchJobsForDateSelection){
+      _fetchAllJobs(store, action, next);
+    }
+  }
+
+  void _fetchAllJobs(Store<AppState> store, action, NextDispatcher next) async{
+    List<Job> upcomingJobs = await JobDao.getAllJobs();
+    store.dispatch(SetEventMapAction(store.state.jobDetailsPageState, upcomingJobs));
+  }
+
+  void _updateJobWithNewTime(Store<AppState> store, UpdateJobTimeAction action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+      selectedTime: action.newTime,
+      type: store.state.jobDetailsPageState.job.type,
+      stage: store.state.jobDetailsPageState.job.stage,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: store.state.jobDetailsPageState.job.location,
+      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+    );
+    JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+  }
+
+  void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+      selectedDate: action.newDate,
+      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+      type: store.state.jobDetailsPageState.job.type,
+      stage: store.state.jobDetailsPageState.job.stage,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: store.state.jobDetailsPageState.job.location,
+      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+    );
+    JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+  }
+
+  void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
+    Location selectedLocation = store.state.jobDetailsPageState.job.location;
+    DateTime selectedDate = store.state.jobDetailsPageState.job.selectedDate;
+    if(selectedLocation != null && selectedDate != null) {
+      final response = await SunriseSunset.getResults(date: selectedDate, latitude: selectedLocation.latitude, longitude: selectedLocation.longitude);
+      store.dispatch(SetSunsetTimeForJobAction(store.state.jobDetailsPageState, response.data.sunset.toLocal()));
     }
   }
 

@@ -41,7 +41,7 @@ class NewJobStagesListWidget extends StatelessWidget {
                   image: AssetImage(jobStageIcons.elementAt(index)),
                   fit: BoxFit.contain,
                 ),
-                color: Color(ColorConstants.getCollectionColor3()),
+                color: Color(ColorConstants.getPeachLight()),
                 borderRadius: BorderRadius.all(Radius.circular(22.0)),
               ),
               child: !JobStage.containsJobStageIcon(pageState.selectedJobStages, jobStageIcons.elementAt(index)) ? Container(

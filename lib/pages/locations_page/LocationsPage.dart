@@ -31,7 +31,7 @@ class LocationsPage extends StatelessWidget {
         converter: (Store<AppState> store) => LocationsPageState.fromStore(store),
         builder: (BuildContext context, LocationsPageState pageState) =>
             Scaffold(
-              backgroundColor: Color(ColorConstants.getCollectionColor2()),
+              backgroundColor: Color(ColorConstants.getBlueDark()),
               body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
@@ -39,7 +39,7 @@ class LocationsPage extends StatelessWidget {
                       color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                     ),
                     brightness: Brightness.light,
-                    backgroundColor: Color(ColorConstants.getCollectionColor2()),
+                    backgroundColor: Color(ColorConstants.getBlueDark()),
                     pinned: true,
                     centerTitle: true,
                     title: Center(

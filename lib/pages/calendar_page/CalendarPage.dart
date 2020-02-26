@@ -154,7 +154,7 @@ class _CalendarPageState extends State<CalendarPage>
             margin: const EdgeInsets.all(4.0),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: Color(ColorConstants.getCollectionColor1()),
+              color: Color(ColorConstants.getPeachDark()),
             ),
             width: 100,
             height: 100,
@@ -237,7 +237,7 @@ class _CalendarPageState extends State<CalendarPage>
   Widget _buildEventList(List<Event> eventsForSelectedDay) {
     return ListView(
       children: eventsForSelectedDay
-          .map((event) => JobCalendarItem(event: event))
+          .map((event) => JobCalendarItem(event: event, paddingRight: 24.0, paddingLeft: 24.0,))
           .toList(),
     );
   }

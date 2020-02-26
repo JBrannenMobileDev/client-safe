@@ -47,7 +47,7 @@ class _NewLocationPage extends State<NewLocationPage> {
           NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
           Scaffold(
-            backgroundColor: Color(ColorConstants.getCollectionColor2()),
+            backgroundColor: Color(ColorConstants.getBlueDark()),
             body: Stack(
               alignment: Alignment.center,
               children: <Widget>[

@@ -29,7 +29,7 @@ class StageItem extends StatefulWidget {
 }
 
 class _StageItemState extends State<StageItem>
-    with TickerProviderStateMixin{
+    with TickerProviderStateMixin, AutomaticKeepAliveClientMixin{
   AnimationController _controller;
   AnimationController _pulsingRepeatController;
   AnimationController _stageCompleteAnimation;
@@ -115,8 +115,8 @@ class _StageItemState extends State<StageItem>
         duration: Duration(milliseconds: 300)
     );
 
-    _checkCircleBgColor = ColorTween(begin: Colors.white, end: Color(ColorConstants.getCollectionColor2())).animate(_stageCompleteAnimation);
-    _checkCircleBgColorCompleted = ColorTween(begin: Color(ColorConstants.getCollectionColor2()), end: Color(ColorConstants.getCollectionColor1())).animate(_newStageCompleteAnimation);
+    _checkCircleBgColor = ColorTween(begin: Colors.white, end: Color(ColorConstants.getBlueDark())).animate(_stageCompleteAnimation);
+    _checkCircleBgColorCompleted = ColorTween(begin: Color(ColorConstants.getBlueDark()), end: Color(ColorConstants.getPeachDark())).animate(_newStageCompleteAnimation);
     _textColor = ColorTween(begin: Color(ColorConstants.getPrimaryBlack()), end: Color(ColorConstants.getPrimaryDarkColor())).animate(_stageCompleteAnimation);
     _checkCircleCheckSize = Tween<double>(begin: 20.0, end: 10.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
@@ -297,6 +297,7 @@ class _StageItemState extends State<StageItem>
                               _stageCompleteAnimation.reset();
                             _newStageCompleteAnimation.reverse();
                               pageState.removeExpandedIndex(index);
+                              pageState.setNewIndexForStageAnimation((JobStage.getStageValue(pageState.job.stage.stage)));
                           }else{
                             Timer(Duration(milliseconds: 300), () => {
                               pageState.onStageCompleted(pageState.job, index),
@@ -346,7 +347,7 @@ class _StageItemState extends State<StageItem>
                       height: 24.0,
                       width: 24.0,
                       decoration: BoxDecoration(
-                        color: Color(ColorConstants.getCollectionColor2()),
+                        color: Color(ColorConstants.getBlueDark()),
                         borderRadius: new BorderRadius.circular(12.0),
                       ),
                       padding: EdgeInsets.all(2.0),
@@ -589,8 +590,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = _containsStage(job.completedStages, JobStage.STAGE_11_GALLERY_SENT);
         stageTitle = isStageCompleted ? 'Gallery sent!' : 'Gallery sent?';
         stageSubtitle = 'Send photo gallery to complete this stage.';
-        actionButtonText = 'Send';
-        actionIcon = Icons.photo_library;
+        actionButtonText = '';
         break;
       case 11:
         stageImage = ImageUtil.getJobStageImage(index);
@@ -620,4 +620,7 @@ class _StageItemState extends State<StageItem>
         break;
     }
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }

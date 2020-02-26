@@ -8,14 +8,16 @@ import 'package:intl/intl.dart';
 
 class JobCalendarItem extends StatelessWidget{
   final Event event;
-  JobCalendarItem({this.event});
+  final double paddingLeft;
+  final double paddingRight;
+  JobCalendarItem({this.event, this.paddingLeft, this.paddingRight});
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () => NavigationUtil.onClientTapped(context),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(24.0, 0.0, 0.0, 16.0),
+        padding: EdgeInsets.fromLTRB(paddingLeft, 0.0, 0.0, 16.0),
         child: Stack(
           alignment: Alignment.centerRight,
           children: <Widget>[
@@ -76,7 +78,7 @@ class JobCalendarItem extends StatelessWidget{
               ],
             ),
             Container(
-              margin: EdgeInsets.only(right: 24.0),
+              margin: EdgeInsets.only(right: paddingRight),
               child: Icon(
                 Icons.chevron_right,
                 color: Color(ColorConstants.getPrimaryBackgroundGrey()),
