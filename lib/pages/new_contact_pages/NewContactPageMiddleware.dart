@@ -4,6 +4,7 @@ import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
+import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:contacts_service/contacts_service.dart';
@@ -49,6 +50,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     DeviceContactsDao.addOrUpdateContact(client);
     store.dispatch(ClearStateAction(store.state.newContactPageState));
     store.dispatch(FetchClientData(store.state.clientsPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));
   }
 }

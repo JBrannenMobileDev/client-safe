@@ -3,13 +3,7 @@ import 'package:client_safe/models/JobStage.dart';
 
 class JobUtil {
   static List<Job> getJobsInProgress(List<Job> jobs) {
-    List<Job> _jobsInProgress = jobs.where((job) => (job.selectedDate != null)).toList();
-    _jobsInProgress.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
-    return _jobsInProgress;
-  }
-
-  static List<Job> getLeads(List<Job> jobs) {
-    List<Job> _jobsInProgress = jobs.where((job) => (job.selectedDate == null)).toList();
+    List<Job> _jobsInProgress = jobs.where((job) => (!_containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages))).toList();
     _jobsInProgress.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
     return _jobsInProgress;
   }

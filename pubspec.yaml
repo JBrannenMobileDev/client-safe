@@ -167,6 +167,7 @@ flutter:
     - assets/images/calendar.png
     - assets/images/clock.png
     - assets/images/sunset.png
+    - assets/images/alert.png
 
     - assets/images/reminders/camera.png
     - assets/images/reminders/welcome_hand.png

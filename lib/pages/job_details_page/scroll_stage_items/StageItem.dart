@@ -207,6 +207,7 @@ class _StageItemState extends State<StageItem>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
         onDidChange: (pageState) => {
           setState(() {

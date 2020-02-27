@@ -1,3 +1,4 @@
+import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/home_page/HomePageState.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
@@ -21,6 +22,11 @@ class LoadJobsAction{
 class SetJobToStateAction{
   final DashboardPageState pageState;
   final List<Job> upcomingJobs;
-  final List<Job> potentialJobs;
-  SetJobToStateAction(this.pageState, this.upcomingJobs, this.potentialJobs);
+  SetJobToStateAction(this.pageState, this.upcomingJobs);
+}
+
+class SetClientsDashboardAction{
+  final DashboardPageState pageState;
+  final List<Client> clients;
+  SetClientsDashboardAction(this.pageState, this.clients);
 }

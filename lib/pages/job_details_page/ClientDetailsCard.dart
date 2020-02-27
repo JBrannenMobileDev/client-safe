@@ -52,8 +52,8 @@ class ClientDetailsCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
+                    FlatButton(
+                      onPressed: () {
                         pageState.onClientClicked(pageState.client);
                         Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
                       },

@@ -67,9 +67,9 @@ class Job {
       'selectedDate' : selectedDate?.millisecondsSinceEpoch ?? null,
       'selectedTime' : selectedTime?.millisecondsSinceEpoch ?? null,
       'type' : type,
-      'stage' : stage.toMap(),
-      'location' : location.toMap(),
-      'priceProfile' : priceProfile.toMap(),
+      'stage' : stage?.toMap() ?? null,
+      'location' : location?.toMap() ?? null,
+      'priceProfile' : priceProfile?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
     };
   }
@@ -86,8 +86,8 @@ class Job {
       selectedTime: map['selectedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['selectedTime']) : null,
       type: map['type'],
       stage: JobStage.fromMap(map['stage']),
-      location: Location.fromMap(map['location']),
-      priceProfile: PriceProfile.fromMap(map['priceProfile']),
+      location: map['location'] != null ? Location.fromMap(map['location']) : null,
+      priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
     );
   }

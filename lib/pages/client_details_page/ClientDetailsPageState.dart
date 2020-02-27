@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:flutter/widgets.dart';
@@ -16,7 +17,7 @@ class ClientDetailsPageState {
   final Function() onMessageClientClicked;
   final Function() onEmailClientClicked;
   final Function(Client) onStartNewJobClicked;
-  final Function() onJobSelected;
+  final Function(Job) onJobSelected;
   final Function() onInstagramSelected;
 
   ClientDetailsPageState({
@@ -41,7 +42,7 @@ class ClientDetailsPageState {
     Function() onMessageClientClicked,
     Function() onEmailClientClicked,
     Function(Client) onStartNewJobClicked,
-    Function() onJobSelected,
+    Function(Job) onJobSelected,
     Function() onInstagramSelected,
   }){
     return ClientDetailsPageState(
@@ -81,7 +82,7 @@ class ClientDetailsPageState {
       onMessageClientClicked: () => store.dispatch(null),
       onEmailClientClicked: () => store.dispatch(null),
       onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState, client)),
-      onJobSelected: () => store.dispatch(null),
+      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
     );
   }

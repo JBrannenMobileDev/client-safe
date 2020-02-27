@@ -21,7 +21,7 @@ class DocumentsCard extends StatelessWidget {
         children: <Widget>[
           Container(
             width: double.maxFinite,
-            height: 175.0,
+            height: 208.0,
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -29,7 +29,11 @@ class DocumentsCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
+                Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
                       margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
                       child: Text(
                         'Documents',
@@ -42,6 +46,168 @@ class DocumentsCard extends StatelessWidget {
                         ),
                       ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(right: 16.0),
+                      child: IconButton(
+                        icon: Icon(
+                          Icons.add_circle_outline,
+                          color: Color(ColorConstants.getPeachDark()),
+                        ),
+                        tooltip: 'New document',
+                        onPressed: null,
+                      ),
+                    ),
+                  ],
+                ),
+                FlatButton(
+                  onPressed: null,
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.description,
+                                color: Color(ColorConstants.getPeachDark()),
+                              ),
+                              tooltip: 'Contract',
+                              onPressed: null,
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Contract',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: null,
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.assignment,
+                                color: Color(ColorConstants.getPeachDark()),
+                              ),
+                              tooltip: 'Questionaire',
+                              onPressed: () {
+
+                              },
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Questionaire',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: () {
+
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: null,
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.assignment,
+                                color: Color(ColorConstants.getPeachDark()),
+                              ),
+                              tooltip: 'Feedback',
+                              onPressed: () {
+
+                              },
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Feedback',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: () {
+
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),

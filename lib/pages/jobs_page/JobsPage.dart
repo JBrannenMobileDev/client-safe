@@ -1,7 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobCompletedItem.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -13,7 +12,6 @@ import 'package:sider_bar/sider_bar.dart';
 class JobsPage extends StatefulWidget {
   static const String FILTER_TYPE_IN_PROGRESS = "In Progress";
   static const String FILTER_TYPE_COMPETED = "Completed";
-  static const String FILTER_TYPE_LEADS = "Leads";
 
   @override
   State<StatefulWidget> createState() {
@@ -26,9 +24,8 @@ class _JobsPageState extends State<JobsPage> {
   final String alphabet = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
   ScrollController _controller = ScrollController();
   final Map<int, Widget> genders = const <int, Widget>{
-    0: Text(JobsPage.FILTER_TYPE_LEADS),
-    1: Text(JobsPage.FILTER_TYPE_IN_PROGRESS),
-    2: Text(JobsPage.FILTER_TYPE_COMPETED),
+    0: Text(JobsPage.FILTER_TYPE_IN_PROGRESS),
+    1: Text(JobsPage.FILTER_TYPE_COMPETED),
   };
   List<String> alphabetList;
 
@@ -83,12 +80,9 @@ class _JobsPageState extends State<JobsPage> {
                               unselectedColor: Colors.white,
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {
-                                pageState.onFilterChanged(
-                                    filterTypeIndex == 0
-                                        ? JobsPage.FILTER_TYPE_LEADS : filterTypeIndex == 1
-                                        ? JobsPage.FILTER_TYPE_IN_PROGRESS : JobsPage.FILTER_TYPE_COMPETED);
+                                pageState.onFilterChanged(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_IN_PROGRESS : JobsPage.FILTER_TYPE_COMPETED);
                               },
-                              groupValue: pageState.filterType == JobsPage.FILTER_TYPE_LEADS ? 0 : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? 1 : 2,
+                              groupValue: pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? 0 : 1,
                             ),
                           ),
                           preferredSize: Size.fromHeight(44.0),
@@ -104,8 +98,7 @@ class _JobsPageState extends State<JobsPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_LEADS
-                                  ? pageState.leads.length : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS
+                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS
                                   ? pageState.jobsInProgress.length : pageState.jobsCompleted.length,
                               itemBuilder: _buildItem,
                             ),
@@ -131,8 +124,7 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, JobsPageState>(
     converter: (store) => JobsPageState.fromStore(store),
     builder: (BuildContext context, JobsPageState pageState) =>
-    pageState.filterType == JobsPage.FILTER_TYPE_LEADS
-        ? LeadItem(job: pageState.leads.elementAt(index)) : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS
+    pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS
         ? JobInProgressItem(job: pageState.jobsInProgress.elementAt(index)) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index)),
   );
 }

@@ -59,19 +59,19 @@ class LeadsHomeCard extends StatelessWidget{
                     ],
                   ),
                 ),
-                pageState.potentialJobs.length > 0 ? ListView.builder(
+                pageState.recentLeads.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     key: _listKey,
-                    itemCount: pageState.potentialJobs.length,
+                    itemCount: pageState.recentLeads.length,
                     itemBuilder: _buildItem,
                   ) : Container(
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
                   height: 64.0,
                   child: Text(
-                    "You do not have any leads. A lead will turn into a job once a job contract is signed.",
+                    "You do not have any leads. New clients without any jobs started will show up here.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 18.0,
@@ -90,6 +90,6 @@ class LeadsHomeCard extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return LeadItem(job: pageState.potentialJobs.elementAt(index));
+    return LeadItem(client: pageState.recentLeads.elementAt(index), pageState: pageState);
   }
 }

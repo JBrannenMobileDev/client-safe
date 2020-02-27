@@ -29,11 +29,11 @@ class JobInfoCard extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-              height: 260.0,
+              height: 484.0,
             color: Color(ColorConstants.getPrimaryBackgroundGrey())
           ),
           Container(
-            height: 260.0,
+            height: 484.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
             decoration: new BoxDecoration(
@@ -57,6 +57,116 @@ class JobInfoCard extends StatelessWidget {
                   ),
                 ),
                 FlatButton(
+                  onPressed: null,
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: 86.0,
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Job name:',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                pageState.job.jobTitle,
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: null,
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Container(
+                              width: 78.0,
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Job type:',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                pageState.job.getJobType(),
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: null,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FlatButton(
                   onPressed: () {
                     UserOptionsUtil.showDateSelectionCalendarDialog(context);
                   },
@@ -77,13 +187,12 @@ class JobInfoCard extends StatelessWidget {
                                 onPressed: null,
                               ),
                               Container(
-                                width: 200.0,
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   (pageState.job.selectedDate != null
                                       ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job
                                       .selectedDate)
-                                      : ''),
+                                      : 'Not selected'),
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -137,8 +246,8 @@ class JobInfoCard extends StatelessWidget {
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: <Widget>[
-                                      GestureDetector(
-                                        onTap: () {
+                                      FlatButton(
+                                        onPressed: () {
                                           Navigator.of(context).pop();
                                         },
                                         child: Text(
@@ -184,8 +293,8 @@ class JobInfoCard extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
+                                      FlatButton(
+                                        onPressed: () {
                                           pageState.onNewTimeSelected(newDateTimeHolder);
                                           VibrateUtil.vibrateHeavy();
                                           Navigator.of(context).pop();
@@ -234,7 +343,7 @@ class JobInfoCard extends StatelessWidget {
                                   (pageState.job.selectedTime != null
                                       ? DateFormat('h:mm a').format(pageState.job
                                       .selectedTime)
-                                      : ''),
+                                      : 'Not selected'),
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -246,15 +355,15 @@ class JobInfoCard extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              Container(
-                                margin: EdgeInsets.only(left: 32.0),
+                              pageState.job.selectedTime != null ? Container(
+                                padding: EdgeInsets.only(left: 32.0),
                                 child: new Image.asset(
                                   'assets/images/sunset.png',
                                   height: 24.0,
                                   fit: BoxFit.cover,
                                 ),
-                              ),
-                              Container(
+                              ) : SizedBox(),
+                              pageState.job.selectedTime != null ? Container(
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   (pageState.sunsetTime != null
@@ -270,7 +379,7 @@ class JobInfoCard extends StatelessWidget {
                                     color: Color(ColorConstants.getPrimaryColor()),
                                   ),
                                 ),
-                              ),
+                              ) : SizedBox(),
                             ],
                           ),
                         IconButton(
@@ -301,14 +410,12 @@ class JobInfoCard extends StatelessWidget {
                                   color: Color(ColorConstants.getPeachDark()),
                                 ),
                                 tooltip: 'Location',
-                                onPressed: () {
-
-                                },
+                                onPressed: null,
                               ),
                               Container(
-                                width: 200.0,
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
+                                  pageState.job.location == null ? 'Not selected' :
                                   pageState.job.location.locationName,
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
@@ -356,9 +463,9 @@ class JobInfoCard extends StatelessWidget {
                                 },
                               ),
                               Container(
-                                width: 200.0,
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
+                                  pageState.job.priceProfile == null ? 'Not selected' :
                                   pageState.job.priceProfile.profileName + ' package',
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
@@ -387,6 +494,72 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
+                FlatButton(
+                  onPressed: null,
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.note,
+                                color: Color(ColorConstants.getPeachDark()),
+                              ),
+                              tooltip: 'Notes',
+                              onPressed: () {
+
+                              },
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                'Notes:',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: () {
+
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.only(left: 72.0, right: 26.0),
+                  child: Text(
+                    pageState.job.notes != null ? pageState.job.notes : '',
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 4,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -397,9 +570,5 @@ class JobInfoCard extends StatelessWidget {
 
   void vibrate() async {
     HapticFeedback.mediumImpact();
-  }
-
-  void _onConfirmedTime(DateTime time, JobDetailsPageState pageState) {
-
   }
 }

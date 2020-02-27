@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
+import 'package:client_safe/pages/client_details_page/ClientJobItem.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
@@ -216,7 +217,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                         ) : Container(
                           margin: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0),
                           child: Text(
-                            pageState.client != null? "You have not started any jobs with " + pageState.client?.getClientFullName() ?? "" + " yet. All jobs started for " + pageState.client?.getClientFullName() ?? "" + " will show up here." : '',
+                            'Start a job to turn this lead into a client.',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 18.0,
@@ -307,7 +308,10 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, ClientDetailsPageState>(
     converter: (store) => ClientDetailsPageState.fromStore(store),
     builder: (BuildContext context, ClientDetailsPageState pageState) =>
-        JobInProgressItem(job: pageState.clientJobs.elementAt(index)),
+        ClientJobItem(
+            job: pageState.clientJobs.elementAt(index),
+            pageState: pageState,
+        ),
   );
 }
 

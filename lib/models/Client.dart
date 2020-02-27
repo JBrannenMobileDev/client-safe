@@ -118,10 +118,41 @@ class Client{
   }
 
   String getClientFullName(){
+
     return firstName + " " + lastName;
   }
 
   String getClientSpouseFullName(){
     return spouseFirstName + " " + spouseLastName;
+  }
+
+  String getLeadSourceName() {
+    switch(leadSource){
+      case 'assets/images/lead_source_type/lead_source_word_of_mouth.png':
+        return 'Word of mouth';
+        break;
+      case 'assets/images/lead_source_type/lead_source_instagram.png':
+        return 'Instagram';
+        break;
+      case 'assets/images/lead_source_type/lead_source_giveaway.png':
+        return 'Giveaway';
+        break;
+      case 'assets/images/lead_source_type/lead_source_website.png':
+        return 'Website';
+        break;
+      case 'assets/images/lead_source_type/lead_source_business_card.png':
+        return 'Business card';
+        break;
+      case 'assets/images/lead_source_type/lead_source_facebook.png':
+        return 'Facebook';
+        break;
+      case 'assets/images/lead_source_type/lead_source_instagram_influencer.png':
+        return 'Influencer';
+        break;
+      case 'assets/images/lead_source_type/lead_source_other.png':
+        return 'Other';
+        break;
+    }
+    return '';
   }
 }

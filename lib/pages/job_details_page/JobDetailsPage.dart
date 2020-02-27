@@ -81,6 +81,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     );
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()..addListener(() => setState(() {}));
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
@@ -124,6 +131,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       controller: _scrollController,
                       slivers: <Widget>[
                         new SliverAppBar(
+                          iconTheme: IconThemeData(
+                            color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack()), //change your color here
+                          ),
                           brightness: Brightness.light,
                           title: Text(
                             pageState.job.jobTitle,
@@ -131,7 +141,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               fontSize: 24.0,
                               fontFamily: 'Blackjack',
                               fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.primary_black),
+                              color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           centerTitle: true,
@@ -145,7 +155,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           expandedHeight: 325.0,
                           actions: <Widget>[
                             new IconButton(
-                              icon: const Icon(Icons.delete),
+                              icon: Icon(Icons.delete, color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack())),
                               tooltip: 'Delete Job',
                               onPressed: () {
                                 _ackAlert(context, pageState);
@@ -242,56 +252,124 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
       return Colors.black.withOpacity(0.13);
     } else if (_scrollController.offset > 267 &&
         _scrollController.offset <= 268) {
-      return Colors.black.withOpacity(0.15);
+      return Colors.black.withOpacity(0.14);
     } else if (_scrollController.offset > 268 &&
         _scrollController.offset <= 269) {
-      return Colors.black.withOpacity(0.17);
+      return Colors.black.withOpacity(0.15);
     } else if (_scrollController.offset > 269 &&
         _scrollController.offset <= 270) {
-      return Colors.black.withOpacity(0.19);
+      return Colors.black.withOpacity(0.16);
     } else if (_scrollController.offset > 270 &&
         _scrollController.offset <= 271) {
-      return Colors.black.withOpacity(0.22);
+      return Colors.black.withOpacity(0.17);
+    } else if (_scrollController.offset > 271 &&
+        _scrollController.offset <= 272) {
+      return Colors.black.withOpacity(0.18);
     } else if (_scrollController.offset > 272 &&
         _scrollController.offset <= 273) {
+      return Colors.black.withOpacity(0.19);
+    }else if (_scrollController.offset > 273 &&
+        _scrollController.offset <= 274) {
+      return Colors.black.withOpacity(0.20);
+    }else if (_scrollController.offset > 274 &&
+        _scrollController.offset <= 275) {
+      return Colors.black.withOpacity(0.21);
+    }else if (_scrollController.offset > 275 &&
+        _scrollController.offset <= 276) {
+      return Colors.black.withOpacity(0.22);
+    }else if (_scrollController.offset > 276 &&
+        _scrollController.offset <= 277) {
+      return Colors.black.withOpacity(0.23);
+    }else if (_scrollController.offset > 277 &&
+        _scrollController.offset <= 278) {
       return Colors.black.withOpacity(0.24);
-    } else {
+    }else if (_scrollController.offset > 278 &&
+        _scrollController.offset <= 279) {
+      return Colors.black.withOpacity(0.25);
+    }else if (_scrollController.offset > 279 &&
+        _scrollController.offset <= 280) {
       return Colors.black.withOpacity(0.26);
+    }else if (_scrollController.offset > 279 &&
+        _scrollController.offset <= 280) {
+      return Colors.black.withOpacity(0.27);
+    }else if (_scrollController.offset > 280 &&
+        _scrollController.offset <= 281) {
+      return Colors.black.withOpacity(0.28);
+    }else if (_scrollController.offset > 281 &&
+        _scrollController.offset <= 282) {
+      return Colors.black.withOpacity(0.29);
+    }else if (_scrollController.offset > 282 &&
+        _scrollController.offset <= 283) {
+      return Colors.black.withOpacity(0.30);
+    }else if (_scrollController.offset > 283 &&
+        _scrollController.offset <= 284) {
+      return Colors.black.withOpacity(0.32);
+    }else if (_scrollController.offset > 284 &&
+        _scrollController.offset <= 285) {
+      return Colors.black.withOpacity(0.33);
+    }else if (_scrollController.offset > 285 &&
+        _scrollController.offset <= 286) {
+      return Colors.black.withOpacity(0.343);
+    }else if (_scrollController.offset > 286 &&
+        _scrollController.offset <= 287) {
+      return Colors.black.withOpacity(0.35);
+    }else if (_scrollController.offset > 287 &&
+        _scrollController.offset <= 288) {
+      return Colors.black.withOpacity(0.36);
+    }else if (_scrollController.offset > 288 &&
+        _scrollController.offset <= 289) {
+      return Colors.black.withOpacity(0.37);
+    }else if (_scrollController.offset > 289 &&
+        _scrollController.offset <= 290) {
+      return Colors.black.withOpacity(0.38);
+    }else if (_scrollController.offset > 290 &&
+        _scrollController.offset <= 291) {
+      return Colors.black.withOpacity(0.39);
     }
+    return Colors.black.withOpacity(0.40);
+  }
+
+  Color _getAppBarTextColor(){
+    if (_scrollController.offset > 279){
+      return Color(ColorConstants.getPrimaryWhite());
+    }
+    return Color(ColorConstants.getPrimaryBlack());
   }
 
   double _getScrollToOffset(JobDetailsPageState pageState) {
-    switch(pageState.job.stage.stage){
-      case JobStage.STAGE_1_INQUIRY_RECEIVED:
-        return 0;
-      case JobStage.STAGE_2_FOLLOWUP_SENT:
-        return 200.0;
-      case JobStage.STAGE_3_PROPOSAL_SENT:
-        return 400.0;
-      case JobStage.STAGE_4_PROPOSAL_SIGNED:
-        return 600.0;
-      case JobStage.STAGE_5_DEPOSIT_RECEIVED:
-        return 800.0;
-      case JobStage.STAGE_6_PLANNING_COMPLETE:
-        return 1000.0;
-      case JobStage.STAGE_7_SESSION_COMPLETE:
-        return 1200.0;
-      case JobStage.STAGE_8_PAYMENT_REQUESTED:
-        return 1400.0;
-      case JobStage.STAGE_9_PAYMENT_RECEIVED:
-        return 1600.0;
-      case JobStage.STAGE_10_EDITING_COMPLETE:
-        return 1800.0;
-      case JobStage.STAGE_11_GALLERY_SENT:
-        return 2000.0;
-      case JobStage.STAGE_12_FEEDBACK_REQUESTED:
-        return 2200.0;
-      case JobStage.STAGE_13_FEEDBACK_RECEIVED:
-        return 2400.0;
-      case JobStage.STAGE_14_JOB_COMPLETE:
-        return 2600.0;
-      case JobStage.STAGE_COMPLETED_CHECK:
-        return 2600.0;
+    if(pageState.job != null) {
+      switch (pageState.job.stage.stage) {
+        case JobStage.STAGE_1_INQUIRY_RECEIVED:
+          return 0;
+        case JobStage.STAGE_2_FOLLOWUP_SENT:
+          return 200.0;
+        case JobStage.STAGE_3_PROPOSAL_SENT:
+          return 400.0;
+        case JobStage.STAGE_4_PROPOSAL_SIGNED:
+          return 600.0;
+        case JobStage.STAGE_5_DEPOSIT_RECEIVED:
+          return 800.0;
+        case JobStage.STAGE_6_PLANNING_COMPLETE:
+          return 1000.0;
+        case JobStage.STAGE_7_SESSION_COMPLETE:
+          return 1200.0;
+        case JobStage.STAGE_8_PAYMENT_REQUESTED:
+          return 1400.0;
+        case JobStage.STAGE_9_PAYMENT_RECEIVED:
+          return 1600.0;
+        case JobStage.STAGE_10_EDITING_COMPLETE:
+          return 1800.0;
+        case JobStage.STAGE_11_GALLERY_SENT:
+          return 2000.0;
+        case JobStage.STAGE_12_FEEDBACK_REQUESTED:
+          return 2200.0;
+        case JobStage.STAGE_13_FEEDBACK_RECEIVED:
+          return 2400.0;
+        case JobStage.STAGE_14_JOB_COMPLETE:
+          return 2600.0;
+        case JobStage.STAGE_COMPLETED_CHECK:
+          return 2600.0;
+      }
     }
     return 0.0;
   }

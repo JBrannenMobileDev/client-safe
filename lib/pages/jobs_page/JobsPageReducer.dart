@@ -13,7 +13,6 @@ JobsPageState _setJobData(JobsPageState previousState, SetJobsDataAction action)
   return previousState.copyWith(
       jobsInProgress: JobUtil.getJobsInProgress(action.jobs),
       jobsCompleted: JobUtil.getJobsCompleted(action.jobs),
-      leads: JobUtil.getLeads(action.jobs),
   );
 }
 

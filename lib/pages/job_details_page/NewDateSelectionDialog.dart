@@ -91,8 +91,8 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
+                    FlatButton(
+                      onPressed: () {
                         Navigator.of(context).pop();
                       },
                       child: Text(
@@ -106,8 +106,8 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
+                    FlatButton(
+                      onPressed: () {
                         pageState.onNewDateSelected(selectedDateTime);
                         VibrateUtil.vibrateHeavy();
                         Navigator.of(context).pop();
