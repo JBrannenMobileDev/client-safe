@@ -185,8 +185,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: action.job.location,
       priceProfile: action.job.priceProfile,
     );
-    JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
+    await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
@@ -218,8 +218,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: action.job.location,
       priceProfile: action.job.priceProfile,
     );
-     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
+     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
