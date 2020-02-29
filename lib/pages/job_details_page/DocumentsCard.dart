@@ -34,7 +34,7 @@ class DocumentsCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
+                      margin: EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 0.0),
                       child: Text(
                         'Documents',
                         textAlign: TextAlign.start,
@@ -47,7 +47,7 @@ class DocumentsCard extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(right: 16.0),
+                      padding: EdgeInsets.only(right: 16.0, top: 8.0),
                       child: IconButton(
                         icon: Icon(
                           Icons.add_circle_outline,
@@ -96,8 +96,8 @@ class DocumentsCard extends StatelessWidget {
                         ),
                         IconButton(
                           icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
+                            Icons.delete,
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           tooltip: 'Edit',
                           onPressed: null,
@@ -145,8 +145,8 @@ class DocumentsCard extends StatelessWidget {
                         ),
                         IconButton(
                           icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
+                            Icons.delete,
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           tooltip: 'Edit',
                           onPressed: () {
@@ -196,8 +196,8 @@ class DocumentsCard extends StatelessWidget {
                         ),
                         IconButton(
                           icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
+                            Icons.delete,
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           tooltip: 'Edit',
                           onPressed: () {

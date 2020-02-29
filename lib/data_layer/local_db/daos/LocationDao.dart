@@ -9,17 +9,17 @@ class LocationDao extends Equatable{
   static const String LOCATION_STORE_NAME = 'location';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  final _locationStore = intMapStoreFactory.store(LOCATION_STORE_NAME);
+  static final _locationStore = intMapStoreFactory.store(LOCATION_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<Database> get _db async => await SembastDb.instance.database;
 
-  Future insert(Location location) async {
+  static Future insert(Location location) async {
     await _locationStore.add(await _db, location.toMap());
   }
 
-  Future insertOrUpdate(Location location) async {
+  static Future insertOrUpdate(Location location) async {
     List<Location> locationList = await getAllSortedMostFrequent();
     bool alreadyExists = false;
     for(Location singleLocation in locationList){
@@ -34,7 +34,7 @@ class LocationDao extends Equatable{
     }
   }
 
-  Future update(Location location) async {
+  static Future update(Location location) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(location.id));
@@ -45,7 +45,7 @@ class LocationDao extends Equatable{
     );
   }
 
-  Future delete(int id) async {
+  static Future delete(int id) async {
     final finder = Finder(filter: Filter.byKey(id));
     await _locationStore.delete(
       await _db,
@@ -53,7 +53,7 @@ class LocationDao extends Equatable{
     );
   }
 
-  Future<List<Location>> getAllSortedMostFrequent() async {
+  static Future<List<Location>> getAllSortedMostFrequent() async {
     final finder = Finder(sortOrders: [
       SortOrder('numOfSessionsAtThisLocation'),
     ]);

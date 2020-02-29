@@ -1,5 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -63,8 +64,7 @@ class JobsPageState {
       jobsInProgress: store.state.jobsPageState.jobsInProgress,
       jobsCompleted: store.state.jobsPageState.jobsCompleted,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
-//      onJobClicked: (client) => store.dispatch(InitializeJobDetailsAction(store.state.clientDetailsPageState, client)),
-      onJobClicked: (job) => null,
+      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
     );
   }
 

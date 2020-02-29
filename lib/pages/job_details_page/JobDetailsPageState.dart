@@ -4,6 +4,7 @@ import 'package:client_safe/models/Action.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/Notifications.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
@@ -18,6 +19,11 @@ class JobDetailsPageState {
   final int newStagAnimationIndex;
   final double stageScrollOffset;
   final Map<DateTime, List<Event>> eventMap;
+  final List<Job> jobs;
+  final String jobTitleText;
+  final List<Location> locations;
+  final Location selectedLocation;
+  final Function(Location) onLocationSelected;
   final List<int> expandedIndexes;
   final Function onStage1Selected;
   final Function onStage2Selected;
@@ -44,12 +50,21 @@ class JobDetailsPageState {
   final Function(DateTime) onNewTimeSelected;
   final Function(DateTime) onNewDateSelected;
   final Function(Client) onClientClicked;
+  final Function(Job) onJobClicked;
+  final Function(Location) onLocationSaveSelected;
+  final Function(String) onJobTitleTextChanged;
+  final Function() onNameChangeSaved;
 
   JobDetailsPageState({
     @required this.job,
     @required this.client,
     @required this.sunsetTime,
     @required this.eventMap,
+    @required this.jobs,
+    @required this.jobTitleText,
+    @required this.locations,
+    @required this.selectedLocation,
+    @required this.onLocationSelected,
     @required this.expandedIndexes,
     @required this.stageScrollOffset,
     @required this.onStage1Selected,
@@ -78,6 +93,10 @@ class JobDetailsPageState {
     @required this.onNewTimeSelected,
     @required this.onNewDateSelected,
     @required this.onClientClicked,
+    @required this.onJobClicked,
+    @required this.onLocationSaveSelected,
+    @required this.onJobTitleTextChanged,
+    @required this.onNameChangeSaved,
   });
 
   JobDetailsPageState copyWith({
@@ -86,6 +105,11 @@ class JobDetailsPageState {
     int newStagAnimationIndex,
     double stageScrollOffset,
     Map<DateTime, List<Event>> eventMap,
+    List<Job> jobs,
+    String jobTitleText,
+    List<Location> locations,
+    Location selectedLocation,
+    Function(Location) onLocationSelected,
     List<int> expandedIndexes,
     Function(Job, int) onStageCompleted,
     Function(Job, int) onStageUndo,
@@ -99,6 +123,10 @@ class JobDetailsPageState {
     Function(DateTime) onNewTimeSelected,
     Function(DateTime) onNewDateSelected,
     Function(Client) onClientClicked,
+    Function(Job) onJobClicked,
+    Function(Location) onLocationSaveSelected,
+    Function(String) onJobTitleTextChanged,
+    Function() onNameChangeSaved,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -106,6 +134,11 @@ class JobDetailsPageState {
       sunsetTime: sunsetTime ?? this.sunsetTime,
       stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
       eventMap: eventMap ?? this.eventMap,
+      jobs: jobs ?? this.jobs,
+      jobTitleText: jobTitleText ?? this.jobTitleText,
+      locations: locations ?? this.locations,
+      selectedLocation: selectedLocation ?? this.selectedLocation,
+      onLocationSelected: onLocationSelected ?? this.onLocationSelected,
       expandedIndexes: expandedIndexes ?? this.expandedIndexes,
       onStage1Selected: onStage1Selected ?? this.onStage1Selected,
       onStage2Selected: onStage2Selected ?? this.onStage2Selected,
@@ -133,6 +166,10 @@ class JobDetailsPageState {
       onNewTimeSelected: onNewTimeSelected ?? this.onNewTimeSelected,
       onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
       onClientClicked: onClientClicked ?? this.onClientClicked,
+      onJobClicked: onJobClicked ?? this.onJobClicked,
+      onLocationSaveSelected: onLocationSaveSelected ?? this.onLocationSaveSelected,
+      onJobTitleTextChanged: onJobTitleTextChanged ?? this.onJobTitleTextChanged,
+      onNameChangeSaved: onNameChangeSaved ?? this.onNameChangeSaved,
     );
   }
 
@@ -143,6 +180,10 @@ class JobDetailsPageState {
       sunsetTime: store.state.jobDetailsPageState.sunsetTime,
       stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
       eventMap: store.state.jobDetailsPageState.eventMap,
+      jobs: store.state.jobDetailsPageState.jobs,
+      jobTitleText: store.state.jobDetailsPageState.jobTitleText,
+      locations: store.state.jobDetailsPageState.locations,
+      selectedLocation: store.state.jobDetailsPageState.selectedLocation,
       expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
       newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
       onStage1Selected: store.state.jobDetailsPageState.onStage1Selected,
@@ -170,6 +211,11 @@ class JobDetailsPageState {
       onNewTimeSelected: (newTime) => store.dispatch(UpdateJobTimeAction(store.state.jobDetailsPageState, newTime)),
       onNewDateSelected: (newDate) => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState, newDate)),
       onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
+      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+      onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
+      onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
+      onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
+      onNameChangeSaved: () => store.dispatch(SaveJobNameChangeAction(store.state.jobDetailsPageState)),
     );
   }
 
@@ -180,6 +226,10 @@ class JobDetailsPageState {
     stageScrollOffset: 200.0,
     newStagAnimationIndex: 2,
     eventMap: Map(),
+    jobs: List(),
+    jobTitleText: "",
+    locations: List(),
+    selectedLocation: null,
     expandedIndexes: List(),
     onStage1Selected: null,
     onStage2Selected: null,
@@ -205,6 +255,10 @@ class JobDetailsPageState {
     onNewTimeSelected: null,
     onNewDateSelected: null,
     onClientClicked: null,
+    onJobClicked: null,
+    onLocationSelected: null,
+    onJobTitleTextChanged: null,
+    onNameChangeSaved: null,
   );
 
   @override
@@ -214,6 +268,12 @@ class JobDetailsPageState {
       sunsetTime.hashCode ^
       stageScrollOffset.hashCode ^
       eventMap.hashCode ^
+      jobs.hashCode ^
+      jobTitleText.hashCode ^
+      onNameChangeSaved.hashCode ^
+      selectedLocation.hashCode ^
+      onLocationSelected.hashCode ^
+      locations.hashCode ^
       expandedIndexes.hashCode ^
       newStagAnimationIndex.hashCode ^
       onStage1Selected.hashCode ^
@@ -239,7 +299,9 @@ class JobDetailsPageState {
       onScrollOffsetChanged.hashCode ^
       onNewTimeSelected.hashCode ^
       onNewDateSelected.hashCode ^
-      onClientClicked.hashCode;
+      onClientClicked.hashCode ^
+      onJobClicked.hashCode ^
+      onJobTitleTextChanged.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -250,6 +312,12 @@ class JobDetailsPageState {
               sunsetTime == other.sunsetTime &&
               stageScrollOffset == other.stageScrollOffset &&
               eventMap == other.eventMap &&
+              jobs == other.jobs &&
+              jobTitleText == other.jobTitleText &&
+              onNameChangeSaved == other.onNameChangeSaved &&
+              selectedLocation == other.selectedLocation &&
+              onLocationSelected == other.onLocationSelected &&
+              locations == other.locations &&
               expandedIndexes == other.expandedIndexes &&
               newStagAnimationIndex == other.newStagAnimationIndex &&
               onStage1Selected == other.onStage1Selected &&
@@ -275,5 +343,7 @@ class JobDetailsPageState {
               onScrollOffsetChanged == other.onScrollOffsetChanged &&
               onNewTimeSelected == other.onNewTimeSelected &&
               onNewDateSelected == other.onNewDateSelected &&
-              onClientClicked == other.onClientClicked;
+              onClientClicked == other.onClientClicked &&
+              onJobClicked == other.onJobClicked &&
+              onJobTitleTextChanged == other.onJobTitleTextChanged;
 }

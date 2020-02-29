@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:redux/redux.dart';
@@ -15,7 +16,20 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, UpdateScrollOffset>(_updateScrollOffset),
   TypedReducer<JobDetailsPageState, SaveUpdatedJobAction>(_updateJob),
   TypedReducer<JobDetailsPageState, SetEventMapAction>(_setEventMap),
+  TypedReducer<JobDetailsPageState, SetNewSelectedLocation>(_setSelectedLocation),
+  TypedReducer<JobDetailsPageState, SetLocationsAction>(_setLocations),
+  TypedReducer<JobDetailsPageState, UpdateJobNameAction>(_updateJobTitle),
 ]);
+
+JobDetailsPageState _updateJobTitle(JobDetailsPageState previousState, UpdateJobNameAction action) {
+  return previousState.copyWith(jobTitleText: action.jobName);
+}
+
+JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetNewSelectedLocation action) {
+  Location newLocation;
+  if(previousState.selectedLocation != action.location) newLocation = action.location;
+  return previousState.copyWith(selectedLocation: newLocation);
+}
 
 JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapAction action) {
   Map<DateTime, List<Event>> eventMap = Map();
@@ -34,12 +48,20 @@ JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapA
   }
   return previousState.copyWith(
     eventMap: eventMap,
+    jobs: action.upcomingJobs,
   );
 }
 
 JobDetailsPageState _updateJob(JobDetailsPageState previousState, SaveUpdatedJobAction action){
   return previousState.copyWith(
     job: action.job,
+  );
+}
+
+JobDetailsPageState _setLocations(JobDetailsPageState previousState, SetLocationsAction action){
+  return previousState.copyWith(
+    locations: action.locations,
+    selectedLocation: null,
   );
 }
 
@@ -57,8 +79,10 @@ JobDetailsPageState _updateScrollOffset(JobDetailsPageState previousState, Updat
 
 JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobInfo action){
   action.job.completedStages.sort((a, b) => a.value.compareTo(b.value));
+  Location newLocation = action.job.location != null ? action.job.location : Location(locationName: '');
   return previousState.copyWith(
     job: action.job,
+    selectedLocation: newLocation,
   );
 }
 

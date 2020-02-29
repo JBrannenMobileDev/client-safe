@@ -28,28 +28,25 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next) async{
-    LocationDao locationDao = LocationDao();
-    List<Location> locations = await locationDao.getAllSortedMostFrequent();
+    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     next(SetLocationsAction(store.state.newLocationPageState, locations));
   }
 
   void _saveLocation(Store<AppState> store, SaveLocationAction action, NextDispatcher next) async{
-    LocationDao locationDao = LocationDao();
     Location location = Location();
     location.id = action.pageState.id;
     location.locationName = action.pageState.locationName;
     location.latitude = action.pageState.newLocationLatitude;
     location.longitude = action.pageState.newLocationLongitude;
     location.imagePath = action.pageState.imagePath;
-    await locationDao.insertOrUpdate(location);
+    await LocationDao.insertOrUpdate(location);
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     store.dispatch(jobs.FetchAllClientsAction(store.state.newJobPageState));
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
-    LocationDao locationDao = LocationDao();
-    await locationDao.delete(action.pageState.id);
+    await LocationDao.delete(action.pageState.id);
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

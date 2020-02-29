@@ -136,6 +136,7 @@ NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateActio
     upcomingJobs: action.upcomingJobs,
     isFinishedFetchingClients: true,
     eventMap: eventMap,
+    jobs: action.upcomingJobs,
   );
 }
 

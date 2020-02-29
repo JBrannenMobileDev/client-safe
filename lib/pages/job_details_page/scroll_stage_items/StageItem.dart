@@ -565,7 +565,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = _containsStage(job.completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED);
         stageTitle = isStageCompleted ? 'Payment requested!' : 'Payment requested?';
         stageSubtitle = 'Request a payment to complete this stage.';
-        actionButtonText = 'Send';
+        actionButtonText = 'Request';
         actionIcon = Icons.attach_money;
         break;
       case 8:

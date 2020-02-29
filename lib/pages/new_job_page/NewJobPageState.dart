@@ -5,6 +5,7 @@ import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -38,6 +39,7 @@ class NewJobPageState {
   final List<PriceProfile> pricingProfiles;
   final List<Location> locations;
   final Map<DateTime, List<Event>> eventMap;
+  final List<Job> jobs;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -52,6 +54,7 @@ class NewJobPageState {
   final Function(JobStage) onJobStageSelected;
   final Function(String) onJobTypeSelected;
   final Function(DateTime) onTimeSelected;
+  final Function(Job) onJobClicked;
 
   NewJobPageState({
     @required this.id,
@@ -86,12 +89,14 @@ class NewJobPageState {
     @required this.onPriceProfileSelected,
     @required this.locations,
     @required this.eventMap,
+    @required this.jobs,
     @required this.onLocationSelected,
     @required this.onDateSelected,
     @required this.onJobStageSelected,
     @required this.onJobTypeSelected,
     @required this.currentJobStage,
     @required this.onTimeSelected,
+    @required this.onJobClicked,
   });
 
   NewJobPageState copyWith({
@@ -119,6 +124,7 @@ class NewJobPageState {
     JobStage currentJobStage,
     List<Job> upcomingJobs,
     Map<DateTime, List<Event>> eventMap,
+    List<Job> jobs,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -133,6 +139,7 @@ class NewJobPageState {
     Function(String) onJobStageSelected,
     Function(String) onJobTypeSelected,
     Function(DateTime) onTimeSelected,
+    Function(Job) onJobClicked,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -173,6 +180,8 @@ class NewJobPageState {
       onJobStageSelected: onJobStageSelected?? this.onJobStageSelected,
       onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
       onTimeSelected: onTimeSelected?? this.onTimeSelected,
+      jobs: jobs ?? this.jobs,
+      onJobClicked: onJobClicked ?? this.onJobClicked,
     );
   }
 
@@ -204,6 +213,7 @@ class NewJobPageState {
         jobTypeIcon: 'assets/images/job_types/other.png',
         upcomingJobs: List(),
         eventMap: Map(),
+        jobs: List(),
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -218,6 +228,7 @@ class NewJobPageState {
         onJobStageSelected: null,
         onJobTypeSelected: null,
         onTimeSelected: null,
+        onJobClicked: null,
       );
   }
 
@@ -247,6 +258,7 @@ class NewJobPageState {
       currentJobStage: store.state.newJobPageState.currentJobStage,
       upcomingJobs: store.state.newJobPageState.upcomingJobs,
       eventMap: store.state.newJobPageState.eventMap,
+      jobs: store.state.newJobPageState.jobs,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -261,6 +273,7 @@ class NewJobPageState {
       onJobStageSelected: (jobStage) => store.dispatch(SetSelectedJobStageAction(store.state.newJobPageState, jobStage)),
       onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
       onTimeSelected: (time) => store.dispatch(SetSelectedTimeAction(store.state.newJobPageState, time)),
+      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
     );
   }
 
@@ -299,7 +312,9 @@ class NewJobPageState {
       onDateSelected.hashCode ^
       onJobStageSelected.hashCode ^
       eventMap.hashCode ^
-      onTimeSelected.hashCode;
+      jobs.hashCode ^
+      onTimeSelected.hashCode ^
+      onJobClicked.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -337,5 +352,7 @@ class NewJobPageState {
           onDateSelected == other.onDateSelected &&
           onJobStageSelected == other.onJobStageSelected &&
           eventMap == other.eventMap &&
-          onTimeSelected == other.onTimeSelected;
+          jobs == other.jobs &&
+          onTimeSelected == other.onTimeSelected &&
+          onJobClicked == other.onJobClicked;
 }

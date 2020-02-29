@@ -7,7 +7,6 @@ import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 
 class ClientDetailsCard extends StatelessWidget {
   ClientDetailsCard({this.pageState});
@@ -18,9 +17,8 @@ class ClientDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-      padding: EdgeInsets.only(top: 26.0, bottom: 200.0),
+      padding: EdgeInsets.only(top: 26.0),
       child: Stack(
-
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(

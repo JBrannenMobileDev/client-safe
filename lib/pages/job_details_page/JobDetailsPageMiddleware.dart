@@ -1,6 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
@@ -43,6 +44,58 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchJobsForDateSelection){
       _fetchAllJobs(store, action, next);
     }
+    if(action is FetchJobDetailsLocationsAction){
+      _fetchLocations(store, action, next);
+    }
+    if(action is UpdateNewLocationAction){
+      _updateJobLocation(store, action, next);
+    }
+    if(action is SaveJobNameChangeAction){
+      _updateJobName(store, action, next);
+    }
+  }
+
+  void _updateJobName(Store<AppState> store, SaveJobNameChangeAction action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: action.pageState.jobTitleText,
+      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+      type: store.state.jobDetailsPageState.job.type,
+      stage: store.state.jobDetailsPageState.job.stage,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: store.state.jobDetailsPageState.selectedLocation,
+      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+  }
+
+  void _updateJobLocation(Store<AppState> store, action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+      type: store.state.jobDetailsPageState.job.type,
+      stage: store.state.jobDetailsPageState.job.stage,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: action.location,
+      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+  }
+
+  void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
+    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations));
   }
 
   void _fetchAllJobs(Store<AppState> store, action, NextDispatcher next) async{
@@ -64,8 +117,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
     );
-    JobDao.insertOrUpdate(jobToSave);
+    await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
@@ -84,6 +138,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     );
     JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
@@ -132,6 +187,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     );
     JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void undoStage(Store<AppState> store, NextDispatcher next, UndoStageAction action) async{
@@ -162,8 +218,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: action.job.location,
       priceProfile: action.job.priceProfile,
     );
-    JobDao.insertOrUpdate(jobToSave);
+     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   List<JobStage> _removeStage(JobStage stageToRemove, List<JobStage> completedJobStages) {

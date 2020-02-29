@@ -2,16 +2,17 @@ import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPage.dart';
+import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class JobInProgressItem extends StatelessWidget{
+class JobsPageInProgressItem extends StatelessWidget{
   final Job job;
-  final DashboardPageState pageState;
-  JobInProgressItem({this.job, this.pageState});
+  final JobsPageState pageState;
+  JobsPageInProgressItem({this.job, this.pageState});
 
   @override
   Widget build(BuildContext context) {

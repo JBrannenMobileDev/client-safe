@@ -1,7 +1,9 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/calendar_page/JobCalendarItem.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsCalendarItem.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/VibrateUtil.dart';
@@ -45,7 +47,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
 
   void _onDaySelected(DateTime day, List events, JobDetailsPageState pageState) {
     setState(() {
-      _buildEventList(_getEventListForSelectedDate(pageState));
+      _buildEventList(_getEventListForSelectedDate(pageState), pageState);
     });
   }
 
@@ -85,7 +87,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
               ),
               _buildTableCalendarWithBuilders(pageState),
               const SizedBox(height: .0),
-              Expanded(child: _buildEventList(_getEventListForSelectedDate(pageState))),
+              Expanded(child: _buildEventList(_getEventListForSelectedDate(pageState), pageState)),
               Padding(
                 padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
                 child: Row(
@@ -272,10 +274,10 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
     );
   }
 
-  Widget _buildEventList(List<Event> eventsForSelectedDay) {
+  Widget _buildEventList(List<Job> eventsForSelectedDay, JobDetailsPageState pageState) {
     return ListView(
       children: eventsForSelectedDay
-          .map((event) => JobCalendarItem(event: event, paddingRight: 0.0, paddingLeft: 4.0,))
+          .map((job) => JobDetailsCalendarItem(job: job, paddingRight: 0.0, paddingLeft: 4.0, pageState: pageState,))
           .toList(),
     );
   }
@@ -283,7 +285,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
   @override
   bool get wantKeepAlive => true;
 
-  List<Event> _getEventListForSelectedDate(JobDetailsPageState pageState) {
+  List<Job> _getEventListForSelectedDate(JobDetailsPageState pageState) {
     if(pageState.job.selectedDate != null){
       for(List<Event> events in pageState.eventMap.values){
         for(Event event in events){
@@ -291,12 +293,22 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
             if (event.selectedDate.year == pageState.job.selectedDate.year &&
                 event.selectedDate.month == pageState.job.selectedDate.month &&
                 event.selectedDate.day == pageState.job.selectedDate.day) {
-              return events;
+              return _getListOfJobsFromEvents(events, pageState.jobs);
             }
           }
         }
       }
     }
     return List();
+  }
+
+  List<Job> _getListOfJobsFromEvents(List<Event> events, List<Job> allJobs) {
+    List<Job> jobs = List();
+    for(Event event in events){
+      for(Job job in allJobs){
+        if(job.id == event.jobId) jobs.add(job);
+      }
+    }
+    return jobs;
   }
 }

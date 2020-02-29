@@ -1,3 +1,5 @@
+import 'package:client_safe/pages/job_details_page/LocationSelectionDialog.dart';
+import 'package:client_safe/pages/job_details_page/NamgeChangeDialog.dart';
 import 'package:client_safe/pages/job_details_page/NewDateSelectionDialog.dart';
 import 'package:client_safe/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
@@ -59,6 +61,24 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewDateSelectionDialog();
+      },
+    );
+  }
+
+  static void showLocationSelectionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return LocationSelectionDialog();
+      },
+    );
+  }
+
+  static void showNameChangeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NameChangeDialog();
       },
     );
   }

@@ -171,6 +171,12 @@ flutter:
 
     - assets/images/reminders/camera.png
     - assets/images/reminders/welcome_hand.png
+
+    - assets/images/menu/home_icon.png
+    - assets/images/menu/jobs_icon.png
+    - assets/images/menu/collections_icon.png
+    - assets/images/menu/money_icon.png
+    - assets/images/menu/sunset_icon.png
   fonts:
     - family: Blackjack
       fonts:

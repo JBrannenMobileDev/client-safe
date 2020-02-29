@@ -1,6 +1,7 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 
 class SetJobInfo{
@@ -98,7 +99,41 @@ class SetEventMapAction{
   SetEventMapAction(this.pageState, this.upcomingJobs);
 }
 
+class FetchJobDetailsLocationsAction{
+  final JobDetailsPageState pageState;
+  FetchJobDetailsLocationsAction(this.pageState);
+}
+
+class SetLocationsAction{
+  final JobDetailsPageState pageState;
+  final List<Location> locations;
+  SetLocationsAction(this.pageState, this.locations);
+}
+
 class FetchJobsForDateSelection{
   final JobDetailsPageState pageState;
   FetchJobsForDateSelection(this.pageState);
+}
+
+class SetNewSelectedLocation{
+  final JobDetailsPageState pageState;
+  final Location location;
+  SetNewSelectedLocation(this.pageState, this.location);
+}
+
+class UpdateNewLocationAction{
+  final JobDetailsPageState pageState;
+  final Location location;
+  UpdateNewLocationAction(this.pageState, this.location);
+}
+
+class UpdateJobNameAction{
+  final JobDetailsPageState pageState;
+  final String jobName;
+  UpdateJobNameAction(this.pageState, this.jobName);
+}
+
+class SaveJobNameChangeAction{
+  final JobDetailsPageState pageState;
+  SaveJobNameChangeAction(this.pageState);
 }

@@ -24,7 +24,10 @@ CalendarPageState _setAllJobs(CalendarPageState previousState, SetJobsCalendarSt
       }
     }
   }
-  return previousState.copyWith(eventMap: eventMap);
+  return previousState.copyWith(
+      eventMap: eventMap,
+      jobs: action.allJobs,
+  );
 }
 
 CalendarPageState _setSelectedDate(CalendarPageState previousState, SetSelectedDateAction action) {

@@ -19,7 +19,7 @@ class ClientJobItem extends StatelessWidget{
     return FlatButton(
       onPressed: () {
         pageState.onJobSelected(job);
-        NavigationUtil.onClientTapped(context);
+        NavigationUtil.onJobTapped(context);
       },
       child: Padding(
       padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),

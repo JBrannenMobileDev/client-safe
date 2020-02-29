@@ -93,7 +93,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
-          appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState))
+          appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
+          appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {
           if(pageState.newStagAnimationIndex != -1 || scrollPosition == -2) {
@@ -132,7 +133,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       slivers: <Widget>[
                         new SliverAppBar(
                           iconTheme: IconThemeData(
-                            color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack()), //change your color here
+                            color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                           ),
                           brightness: Brightness.light,
                           title: Text(
@@ -141,21 +142,21 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               fontSize: 24.0,
                               fontFamily: 'Blackjack',
                               fontWeight: FontWeight.w800,
-                              color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack()),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           centerTitle: true,
                           titleSpacing: 48.0,
                           backgroundColor:
-                          _isMinimized ? _getAppBarColor() : Colors.transparent,
+                          Colors.transparent,
                           elevation: 0.0,
-                          pinned: true,
+                          pinned: false,
                           floating: false,
                           forceElevated: false,
                           expandedHeight: 325.0,
                           actions: <Widget>[
                             new IconButton(
-                              icon: Icon(Icons.delete, color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack())),
+                              icon: Icon(Icons.delete, color: Color(ColorConstants.getPrimaryBlack())),
                               tooltip: 'Delete Job',
                               onPressed: () {
                                 _ackAlert(context, pageState);
@@ -209,10 +210,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
-                              RemindersCard(),
                               JobInfoCard(pageState: pageState),
-                              DocumentsCard(),
                               ClientDetailsCard(pageState: pageState),
+                              DocumentsCard(),
+                              RemindersCard(),
                             ])),
                       ],
                     ),
@@ -230,110 +231,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
   bool get _isMinimized {
     return _scrollController.hasClients && _scrollController.offset > 260.0;
-  }
-
-  Color _getAppBarColor() {
-    if (_scrollController.offset > 260 && _scrollController.offset <= 262) {
-      return Colors.black.withOpacity(0.08);
-    } else if (_scrollController.offset > 262 &&
-        _scrollController.offset <= 263) {
-      return Colors.black.withOpacity(0.09);
-    } else if (_scrollController.offset > 263 &&
-        _scrollController.offset <= 264) {
-      return Colors.black.withOpacity(0.10);
-    } else if (_scrollController.offset > 264 &&
-        _scrollController.offset <= 265) {
-      return Colors.black.withOpacity(0.11);
-    } else if (_scrollController.offset > 265 &&
-        _scrollController.offset <= 266) {
-      return Colors.black.withOpacity(0.12);
-    } else if (_scrollController.offset > 266 &&
-        _scrollController.offset <= 267) {
-      return Colors.black.withOpacity(0.13);
-    } else if (_scrollController.offset > 267 &&
-        _scrollController.offset <= 268) {
-      return Colors.black.withOpacity(0.14);
-    } else if (_scrollController.offset > 268 &&
-        _scrollController.offset <= 269) {
-      return Colors.black.withOpacity(0.15);
-    } else if (_scrollController.offset > 269 &&
-        _scrollController.offset <= 270) {
-      return Colors.black.withOpacity(0.16);
-    } else if (_scrollController.offset > 270 &&
-        _scrollController.offset <= 271) {
-      return Colors.black.withOpacity(0.17);
-    } else if (_scrollController.offset > 271 &&
-        _scrollController.offset <= 272) {
-      return Colors.black.withOpacity(0.18);
-    } else if (_scrollController.offset > 272 &&
-        _scrollController.offset <= 273) {
-      return Colors.black.withOpacity(0.19);
-    }else if (_scrollController.offset > 273 &&
-        _scrollController.offset <= 274) {
-      return Colors.black.withOpacity(0.20);
-    }else if (_scrollController.offset > 274 &&
-        _scrollController.offset <= 275) {
-      return Colors.black.withOpacity(0.21);
-    }else if (_scrollController.offset > 275 &&
-        _scrollController.offset <= 276) {
-      return Colors.black.withOpacity(0.22);
-    }else if (_scrollController.offset > 276 &&
-        _scrollController.offset <= 277) {
-      return Colors.black.withOpacity(0.23);
-    }else if (_scrollController.offset > 277 &&
-        _scrollController.offset <= 278) {
-      return Colors.black.withOpacity(0.24);
-    }else if (_scrollController.offset > 278 &&
-        _scrollController.offset <= 279) {
-      return Colors.black.withOpacity(0.25);
-    }else if (_scrollController.offset > 279 &&
-        _scrollController.offset <= 280) {
-      return Colors.black.withOpacity(0.26);
-    }else if (_scrollController.offset > 279 &&
-        _scrollController.offset <= 280) {
-      return Colors.black.withOpacity(0.27);
-    }else if (_scrollController.offset > 280 &&
-        _scrollController.offset <= 281) {
-      return Colors.black.withOpacity(0.28);
-    }else if (_scrollController.offset > 281 &&
-        _scrollController.offset <= 282) {
-      return Colors.black.withOpacity(0.29);
-    }else if (_scrollController.offset > 282 &&
-        _scrollController.offset <= 283) {
-      return Colors.black.withOpacity(0.30);
-    }else if (_scrollController.offset > 283 &&
-        _scrollController.offset <= 284) {
-      return Colors.black.withOpacity(0.32);
-    }else if (_scrollController.offset > 284 &&
-        _scrollController.offset <= 285) {
-      return Colors.black.withOpacity(0.33);
-    }else if (_scrollController.offset > 285 &&
-        _scrollController.offset <= 286) {
-      return Colors.black.withOpacity(0.343);
-    }else if (_scrollController.offset > 286 &&
-        _scrollController.offset <= 287) {
-      return Colors.black.withOpacity(0.35);
-    }else if (_scrollController.offset > 287 &&
-        _scrollController.offset <= 288) {
-      return Colors.black.withOpacity(0.36);
-    }else if (_scrollController.offset > 288 &&
-        _scrollController.offset <= 289) {
-      return Colors.black.withOpacity(0.37);
-    }else if (_scrollController.offset > 289 &&
-        _scrollController.offset <= 290) {
-      return Colors.black.withOpacity(0.38);
-    }else if (_scrollController.offset > 290 &&
-        _scrollController.offset <= 291) {
-      return Colors.black.withOpacity(0.39);
-    }
-    return Colors.black.withOpacity(0.40);
-  }
-
-  Color _getAppBarTextColor(){
-    if (_scrollController.offset > 279){
-      return Color(ColorConstants.getPrimaryWhite());
-    }
-    return Color(ColorConstants.getPrimaryBlack());
   }
 
   double _getScrollToOffset(JobDetailsPageState pageState) {

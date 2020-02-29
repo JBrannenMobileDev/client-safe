@@ -1,5 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageState.dart';
 import 'package:client_safe/pages/calendar_page/JobCalendarItem.dart';
@@ -46,7 +47,7 @@ class _CalendarPageState extends State<CalendarPage>
 
   void _onDaySelected(DateTime day, List events, CalendarPageState pageState) {
     setState(() {
-      _buildEventList(_getEventListForSelectedDate(pageState));
+      _buildEventList(_getEventListForSelectedDate(pageState), pageState);
     });
   }
 
@@ -73,8 +74,7 @@ class _CalendarPageState extends State<CalendarPage>
                   _buildTableCalendarWithBuilders(pageState),
                   const SizedBox(height: 8.0),
                   Expanded(
-                      child: _buildEventList(
-                          _getEventListForSelectedDate(pageState))),
+                      child: _buildEventList(_getEventListForSelectedDate(pageState), pageState)),
                 ],
               ),
             ),
@@ -234,15 +234,15 @@ class _CalendarPageState extends State<CalendarPage>
     );
   }
 
-  Widget _buildEventList(List<Event> eventsForSelectedDay) {
+  Widget _buildEventList(List<Job> eventsForSelectedDay, CalendarPageState pageState) {
     return ListView(
       children: eventsForSelectedDay
-          .map((event) => JobCalendarItem(event: event, paddingRight: 24.0, paddingLeft: 24.0,))
+          .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, pageState: pageState,))
           .toList(),
     );
   }
 
-  List<Event> _getEventListForSelectedDate(CalendarPageState pageState) {
+  List<Job> _getEventListForSelectedDate(CalendarPageState pageState) {
     if (pageState.selectedDate != null) {
       for (List<Event> events in pageState.eventMap.values) {
         for (Event event in events) {
@@ -250,12 +250,22 @@ class _CalendarPageState extends State<CalendarPage>
             if (event.selectedDate.year == pageState.selectedDate.year &&
                 event.selectedDate.month == pageState.selectedDate.month &&
                 event.selectedDate.day == pageState.selectedDate.day) {
-              return events;
+              return _getListOfJobsFromEvents(events, pageState.jobs);
             }
           }
         }
       }
     }
     return List();
+  }
+
+  List<Job> _getListOfJobsFromEvents(List<Event> events, List<Job> allJobs) {
+    List<Job> jobs = List();
+    for(Event event in events){
+      for(Job job in allJobs){
+        if(job.id == event.jobId) jobs.add(job);
+      }
+    }
+    return jobs;
   }
 }

@@ -42,22 +42,19 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfiles(Store<AppState> store, NextDispatcher next) async{
-    LocationDao locationDao = LocationDao();
-    List<Location> locations = await locationDao.getAllSortedMostFrequent();
+    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     next(SetLocationsAction(store.state.locationsPageState, locations));
   }
 
   void _deleteLocation(Store<AppState> store, action, NextDispatcher next) async{
-    LocationDao locationDao = LocationDao();
-    await locationDao.delete(action.location.id);
+    await LocationDao.delete(action.location.id);
     store.dispatch(FetchLocationsAction(store.state.locationsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   void _saveImagePath(Store<AppState> store, SaveImagePathAction action) async{
-    LocationDao locationDao = LocationDao();
     action.location.imagePath = action.imagePath;
-    await locationDao.insertOrUpdate(action.location);
+    await LocationDao.insertOrUpdate(action.location);
     store.dispatch(FetchLocationsAction(store.state.locationsPageState));
   }
 }

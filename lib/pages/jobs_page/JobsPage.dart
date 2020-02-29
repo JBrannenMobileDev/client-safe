@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobCompletedItem.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
+import 'package:client_safe/pages/jobs_page/widgets/JobsPageInProgressItem.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -125,6 +126,6 @@ Widget _buildItem(BuildContext context, int index) {
     converter: (store) => JobsPageState.fromStore(store),
     builder: (BuildContext context, JobsPageState pageState) =>
     pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS
-        ? JobInProgressItem(job: pageState.jobsInProgress.elementAt(index)) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index)),
+        ? JobsPageInProgressItem(job: pageState.jobsInProgress.elementAt(index), pageState: pageState,) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index)),
   );
 }

@@ -1,17 +1,20 @@
+import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPage.dart';
+import 'package:client_safe/pages/calendar_page/CalendarPageState.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class JobInProgressItem extends StatelessWidget{
+class NewJobCalendarItem extends StatelessWidget{
   final Job job;
-  final DashboardPageState pageState;
-  JobInProgressItem({this.job, this.pageState});
+  final double paddingLeft;
+  final double paddingRight;
+  final NewJobPageState pageState;
+  NewJobCalendarItem({this.job, this.paddingLeft, this.paddingRight, this.pageState});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +24,8 @@ class JobInProgressItem extends StatelessWidget{
         NavigationUtil.onJobTapped(context);
       },
       child: Padding(
-      padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
-      child: Stack(
+        padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
+        child: Stack(
           alignment: Alignment.centerRight,
           children: <Widget>[
             Row(
