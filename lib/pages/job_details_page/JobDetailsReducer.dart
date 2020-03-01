@@ -20,7 +20,17 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetLocationsAction>(_setLocations),
   TypedReducer<JobDetailsPageState, UpdateJobNameAction>(_updateJobTitle),
   TypedReducer<JobDetailsPageState, UpdateSelectedJobTypeAction>(_updateJobType),
+  TypedReducer<JobDetailsPageState, SetPricingProfiles>(_setPriceProfiles),
+  TypedReducer<JobDetailsPageState, UpdateSelectedPricePackageAction>(_setSelectedPriceProfiles),
 ]);
+
+JobDetailsPageState _setSelectedPriceProfiles(JobDetailsPageState previousState, UpdateSelectedPricePackageAction action) {
+  return previousState.copyWith(selectedPriceProfile: action.selectedPriceProfile);
+}
+
+JobDetailsPageState _setPriceProfiles(JobDetailsPageState previousState, SetPricingProfiles action) {
+  return previousState.copyWith(priceProfiles: action.priceProfiles);
+}
 
 JobDetailsPageState _updateJobTitle(JobDetailsPageState previousState, UpdateJobNameAction action) {
   return previousState.copyWith(jobTitleText: action.jobName);

@@ -2,12 +2,15 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:redux/redux.dart';
@@ -47,6 +50,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchJobDetailsLocationsAction){
       _fetchLocations(store, action, next);
     }
+    if(action is FetchJobDetailsPricePackagesAction){
+      _fetchPricePackages(store, action, next);
+    }
     if(action is UpdateNewLocationAction){
       _updateJobLocation(store, action, next);
     }
@@ -56,6 +62,28 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveUpdatedJobTypeAction){
       _updateJobType(store, action, next);
     }
+    if(action is SaveUpdatedPricePackageAction){
+      _updateJobPriceProfile(store, action, next);
+    }
+  }
+
+  void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+      type: store.state.jobDetailsPageState.job.type,
+      stage: store.state.jobDetailsPageState.job.stage,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: store.state.jobDetailsPageState.selectedLocation,
+      priceProfile: action.pageState.selectedPriceProfile,
+    );
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
@@ -118,6 +146,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations));
+  }
+
+  void _fetchPricePackages(Store<AppState> store, action, NextDispatcher next) async{
+    List<PriceProfile> priceProfiles = await PriceProfileDao.getAllSortedByName();
+    store.dispatch(SetPricingProfiles(store.state.jobDetailsPageState, priceProfiles));
   }
 
   void _fetchAllJobs(Store<AppState> store, action, NextDispatcher next) async{

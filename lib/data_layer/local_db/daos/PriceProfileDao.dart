@@ -9,17 +9,17 @@ class PriceProfileDao extends Equatable{
   static const String PRICE_PROFILE_STORE_NAME = 'priceProfile';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  final _priceProfileStore = intMapStoreFactory.store(PRICE_PROFILE_STORE_NAME);
+  static final _priceProfileStore = intMapStoreFactory.store(PRICE_PROFILE_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
-  Future<Database> get _db async => await SembastDb.instance.database;
+  static Future<Database> get _db async => await SembastDb.instance.database;
 
-  Future insert(PriceProfile profile) async {
+  static Future insert(PriceProfile profile) async {
     await _priceProfileStore.add(await _db, profile.toMap());
   }
 
-  Future insertOrUpdate(PriceProfile profile) async {
+  static Future insertOrUpdate(PriceProfile profile) async {
     List<PriceProfile> profileList = await getAllSortedByName();
     bool alreadyExists = false;
     for(PriceProfile singleProfile in profileList){
@@ -34,7 +34,7 @@ class PriceProfileDao extends Equatable{
     }
   }
 
-  Future update(PriceProfile profile) async {
+  static Future update(PriceProfile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(profile.id));
@@ -45,7 +45,7 @@ class PriceProfileDao extends Equatable{
     );
   }
 
-  Future delete(PriceProfile profile) async {
+  static Future delete(PriceProfile profile) async {
     final finder = Finder(filter: Filter.byKey(profile.id));
     await _priceProfileStore.delete(
       await _db,
@@ -53,7 +53,7 @@ class PriceProfileDao extends Equatable{
     );
   }
 
-  Future<List<PriceProfile>> getAllSortedByName() async {
+  static Future<List<PriceProfile>> getAllSortedByName() async {
     final finder = Finder(sortOrders: [
       SortOrder('profileName'),
     ]);

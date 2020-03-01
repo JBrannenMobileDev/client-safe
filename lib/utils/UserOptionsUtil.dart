@@ -2,6 +2,7 @@ import 'package:client_safe/pages/job_details_page/JobTypeChangeDialog.dart.dart
 import 'package:client_safe/pages/job_details_page/LocationSelectionDialog.dart';
 import 'package:client_safe/pages/job_details_page/NameChangeDialog.dart';
 import 'package:client_safe/pages/job_details_page/NewDateSelectionDialog.dart';
+import 'package:client_safe/pages/job_details_page/PricePackageChangeDialog.dart.dart';
 import 'package:client_safe/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
@@ -89,6 +90,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return JobTypeChangeDialog();
+      },
+    );
+  }
+
+  static void showPricePackageChangeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return PricePackageChangeDialog();
       },
     );
   }

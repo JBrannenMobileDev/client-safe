@@ -28,11 +28,11 @@ class JobInfoCard extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 40.0),
-            height: 444.0,
+            height: 314.0,
             color: Color(ColorConstants.getPrimaryBackgroundGrey())
           ),
           Container(
-            height: 484.0,
+            height: 354.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
             decoration: new BoxDecoration(
@@ -449,7 +449,9 @@ class JobInfoCard extends StatelessWidget {
                 ),
 
                 FlatButton(
-                  onPressed: null,
+                  onPressed: () {
+                    UserOptionsUtil.showPricePackageChangeDialog(context);
+                  },
                   child: Container(
                     height: 48.0,
                     child: Row(
@@ -500,72 +502,72 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
-                  onPressed: null,
-                  child: Container(
-                    height: 48.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.note,
-                                color: Color(ColorConstants.getPeachDark()),
-                              ),
-                              tooltip: 'Notes',
-                              onPressed: () {
-
-                              },
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                'Notes:',
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
-                          tooltip: 'Edit',
-                          onPressed: () {
-
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 72.0, right: 26.0),
-                  child: Text(
-                    pageState.job.notes != null ? pageState.job.notes : '',
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 4,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
-                  ),
-                ),
+//                FlatButton(
+//                  onPressed: null,
+//                  child: Container(
+//                    height: 48.0,
+//                    child: Row(
+//                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                      children: <Widget>[
+//                        Row(
+//                          mainAxisAlignment: MainAxisAlignment.start,
+//                          children: <Widget>[
+//                            IconButton(
+//                              icon: Icon(
+//                                Icons.note,
+//                                color: Color(ColorConstants.getPeachDark()),
+//                              ),
+//                              tooltip: 'Notes',
+//                              onPressed: () {
+//
+//                              },
+//                            ),
+//                            Container(
+//                              padding: EdgeInsets.only(left: 8.0),
+//                              child: Text(
+//                                'Notes:',
+//                                textAlign: TextAlign.start,
+//                                overflow: TextOverflow.ellipsis,
+//                                maxLines: 1,
+//                                style: TextStyle(
+//                                  fontSize: 16.0,
+//                                  fontFamily: 'Raleway',
+//                                  fontWeight: FontWeight.w600,
+//                                  color: Color(ColorConstants.primary_black),
+//                                ),
+//                              ),
+//                            ),
+//                          ],
+//                        ),
+//                        IconButton(
+//                          icon: Icon(
+//                            Icons.edit,
+//                            color: Color(ColorConstants.getPeachDark()),
+//                          ),
+//                          tooltip: 'Edit',
+//                          onPressed: () {
+//
+//                          },
+//                        ),
+//                      ],
+//                    ),
+//                  ),
+//                ),
+//                Container(
+//                  padding: EdgeInsets.only(left: 72.0, right: 26.0),
+//                  child: Text(
+//                    pageState.job.notes != null ? pageState.job.notes : '',
+//                    textAlign: TextAlign.start,
+//                    overflow: TextOverflow.ellipsis,
+//                    maxLines: 4,
+//                    style: TextStyle(
+//                      fontSize: 16.0,
+//                      fontFamily: 'Raleway',
+//                      fontWeight: FontWeight.w600,
+//                      color: Color(ColorConstants.primary_black),
+//                    ),
+//                  ),
+//                ),
               ],
             ),
           ),

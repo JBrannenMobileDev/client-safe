@@ -18,14 +18,12 @@ class PricingProfilesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfiles(Store<AppState> store, NextDispatcher next) async{
-      PriceProfileDao priceProfileDao = PriceProfileDao();
-      List<PriceProfile> priceProfiles = await priceProfileDao.getAllSortedByName();
+      List<PriceProfile> priceProfiles = await PriceProfileDao.getAllSortedByName();
       next(SetPricingProfilesAction(store.state.pricingProfilesPageState, priceProfiles));
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
-    PriceProfileDao priceProfileDao = PriceProfileDao();
-    await priceProfileDao.delete(action.priceProfile);
+    await PriceProfileDao.delete(action.priceProfile);
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

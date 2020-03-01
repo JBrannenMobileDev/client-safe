@@ -46,8 +46,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
-    PriceProfileDao priceProfileDao = PriceProfileDao();
-    List<PriceProfile> allPriceProfiles = await priceProfileDao.getAllSortedByName();
+    List<PriceProfile> allPriceProfiles = await PriceProfileDao.getAllSortedByName();
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     List<Location> allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();

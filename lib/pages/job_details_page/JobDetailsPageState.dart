@@ -2,6 +2,7 @@ import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
@@ -23,6 +24,10 @@ class JobDetailsPageState {
   final Function(Location) onLocationSelected;
   final List<int> expandedIndexes;
   final String jobTypeIcon;
+  final PriceProfile selectedPriceProfile;
+  final List<PriceProfile> priceProfiles;
+  final Function(PriceProfile) onPriceProfileSelected;
+  final Function() onSaveUpdatedPriceProfileSelected;
   final Function(String) onJobTypeSelected;
   final Function(Job, int) onStageCompleted;
   final Function(Job, int) onStageUndo;
@@ -72,6 +77,10 @@ class JobDetailsPageState {
     @required this.jobTypeIcon,
     @required this.onJobTypeSelected,
     @required this.onJobTypeSaveSelected,
+    @required this.selectedPriceProfile,
+    @required this.priceProfiles,
+    @required this.onPriceProfileSelected,
+    @required this.onSaveUpdatedPriceProfileSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -87,6 +96,10 @@ class JobDetailsPageState {
     Function(Location) onLocationSelected,
     List<int> expandedIndexes,
     String jobTypeIcon,
+    PriceProfile selectedPriceProfile,
+    List<PriceProfile> priceProfiles,
+    Function(PriceProfile) onPriceProfileSelected,
+    Function() onSaveUpdatedPriceProfileSelected,
     Function(String) onJobTypeSelected,
     Function(Job, int) onStageCompleted,
     Function(Job, int) onStageUndo,
@@ -137,6 +150,10 @@ class JobDetailsPageState {
       onJobTypeSelected: onJobTypeSelected ?? this.onJobTypeSelected,
       jobTypeIcon: jobTypeIcon ?? this.jobTypeIcon,
       onJobTypeSaveSelected: onJobTypeSaveSelected ?? this.onJobTypeSaveSelected,
+      selectedPriceProfile: selectedPriceProfile ?? this.selectedPriceProfile,
+      priceProfiles: priceProfiles ?? this.priceProfiles,
+      onPriceProfileSelected: onPriceProfileSelected ?? this.onPriceProfileSelected,
+      onSaveUpdatedPriceProfileSelected: onSaveUpdatedPriceProfileSelected ?? this.onSaveUpdatedPriceProfileSelected,
     );
   }
 
@@ -154,6 +171,8 @@ class JobDetailsPageState {
       expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
       newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
       jobTypeIcon: store.state.jobDetailsPageState.jobTypeIcon,
+      selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
+      priceProfiles: store.state.jobDetailsPageState.priceProfiles,
       onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
       onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
       setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
@@ -172,6 +191,9 @@ class JobDetailsPageState {
       onNameChangeSaved: () => store.dispatch(SaveJobNameChangeAction(store.state.jobDetailsPageState)),
       onJobTypeSelected: (jobType) => store.dispatch(UpdateSelectedJobTypeAction(store.state.jobDetailsPageState, jobType)),
       onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
+      onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
+      onSaveUpdatedPriceProfileSelected: () => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState)),
+
     );
   }
 
@@ -204,6 +226,10 @@ class JobDetailsPageState {
     jobTypeIcon: 'assets/images/job_types/other.png',
     onJobTypeSelected: null,
     onJobTypeSaveSelected: null,
+    selectedPriceProfile: null,
+    priceProfiles: List(),
+    onPriceProfileSelected: null,
+    onSaveUpdatedPriceProfileSelected: null,
   );
 
   @override
@@ -235,7 +261,11 @@ class JobDetailsPageState {
       onJobTitleTextChanged.hashCode ^
       jobTypeIcon.hashCode ^
       onJobTypeSelected.hashCode ^
-      onJobTypeSaveSelected.hashCode;
+      onJobTypeSaveSelected.hashCode ^
+      priceProfiles.hashCode ^
+      selectedPriceProfile.hashCode ^
+      onPriceProfileSelected.hashCode ^
+      onSaveUpdatedPriceProfileSelected.hashCode ;
 
   @override
   bool operator ==(Object other) =>
@@ -268,5 +298,9 @@ class JobDetailsPageState {
               onJobTitleTextChanged == other.onJobTitleTextChanged &&
               jobTypeIcon == other.jobTypeIcon &&
               onJobTypeSelected == other.onJobTypeSelected &&
-              onJobTypeSaveSelected == other.onJobTypeSaveSelected;
+              onJobTypeSaveSelected == other.onJobTypeSaveSelected &&
+              selectedPriceProfile == other.selectedPriceProfile &&
+              priceProfiles == other.priceProfiles &&
+              onPriceProfileSelected == other.onPriceProfileSelected &&
+              onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected;
 }

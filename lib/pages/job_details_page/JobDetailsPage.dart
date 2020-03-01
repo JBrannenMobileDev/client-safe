@@ -94,6 +94,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
           appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
+          appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {

@@ -2,6 +2,7 @@ import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 
 class SetJobInfo{
@@ -147,4 +148,26 @@ class UpdateSelectedJobTypeAction{
 class SaveUpdatedJobTypeAction{
   final JobDetailsPageState pageState;
   SaveUpdatedJobTypeAction(this.pageState);
+}
+
+class FetchJobDetailsPricePackagesAction{
+  final JobDetailsPageState pageState;
+  FetchJobDetailsPricePackagesAction(this.pageState);
+}
+
+class UpdateSelectedPricePackageAction{
+  final JobDetailsPageState pageState;
+  final PriceProfile selectedPriceProfile;
+  UpdateSelectedPricePackageAction(this.pageState, this.selectedPriceProfile);
+}
+
+class SaveUpdatedPricePackageAction{
+  final JobDetailsPageState pageState;
+  SaveUpdatedPricePackageAction(this.pageState);
+}
+
+class SetPricingProfiles{
+  final JobDetailsPageState pageState;
+  final List<PriceProfile> priceProfiles;
+  SetPricingProfiles(this.pageState, this.priceProfiles);
 }
