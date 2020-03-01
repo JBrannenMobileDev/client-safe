@@ -113,7 +113,9 @@ class JobInfoCard extends StatelessWidget {
                   ),
                 ),
                 FlatButton(
-                  onPressed: null,
+                  onPressed: () {
+                    UserOptionsUtil.showJobTypeChangeDialog(context);
+                  },
                   child: Container(
                     height: 48.0,
                     child: Row(

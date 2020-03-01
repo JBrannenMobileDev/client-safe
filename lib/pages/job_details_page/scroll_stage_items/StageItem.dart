@@ -414,9 +414,7 @@ class _StageItemState extends State<StageItem>
                             color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         child: GestureDetector(
-                          onTap: () => {
-                            _getActionForStage(job.stage, pageState),
-                          },
+                          onTap: null,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -458,39 +456,6 @@ class _StageItemState extends State<StageItem>
       }
     }
     return contains;
-  }
-
-  _getActionForStage(JobStage stage, JobDetailsPageState pageState) {
-    switch(stage.stage){
-      case JobStage.STAGE_1_INQUIRY_RECEIVED:
-        return pageState.onStage1Selected;
-      case JobStage.STAGE_2_FOLLOWUP_SENT:
-        return pageState.onStage2Selected;
-      case JobStage.STAGE_3_PROPOSAL_SENT:
-        return pageState.onStage3Selected;
-      case JobStage.STAGE_4_PROPOSAL_SIGNED:
-        return pageState.onStage4Selected;
-      case JobStage.STAGE_5_DEPOSIT_RECEIVED:
-        return pageState.onStage5Selected;
-      case JobStage.STAGE_6_PLANNING_COMPLETE:
-        return pageState.onStage6Selected;
-      case JobStage.STAGE_7_SESSION_COMPLETE:
-        return pageState.onStage7Selected;
-      case JobStage.STAGE_8_PAYMENT_REQUESTED:
-        return pageState.onStage8Selected;
-      case JobStage.STAGE_9_PAYMENT_RECEIVED:
-        return pageState.onStage9Selected;
-      case JobStage.STAGE_10_EDITING_COMPLETE:
-        return pageState.onStage10Selected;
-      case JobStage.STAGE_11_GALLERY_SENT:
-        return pageState.onStage11Selected;
-      case JobStage.STAGE_12_FEEDBACK_REQUESTED:
-        return pageState.onStage12Selected;
-      case JobStage.STAGE_13_FEEDBACK_RECEIVED:
-        return pageState.onStage13Selected;
-      case JobStage.STAGE_14_JOB_COMPLETE:
-        return pageState.onStage14Selected;
-    }
   }
 
   bool _isExpanded(int index, JobDetailsPageState pageState) {

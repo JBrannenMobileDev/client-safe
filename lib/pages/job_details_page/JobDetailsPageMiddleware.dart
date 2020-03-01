@@ -53,6 +53,28 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveJobNameChangeAction){
       _updateJobName(store, action, next);
     }
+    if(action is SaveUpdatedJobTypeAction){
+      _updateJobType(store, action, next);
+    }
+  }
+
+  void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+      type: action.pageState.jobTypeIcon,
+      stage: store.state.jobDetailsPageState.job.stage,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: store.state.jobDetailsPageState.selectedLocation,
+      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateJobName(Store<AppState> store, SaveJobNameChangeAction action, NextDispatcher next) async{

@@ -137,3 +137,14 @@ class SaveJobNameChangeAction{
   final JobDetailsPageState pageState;
   SaveJobNameChangeAction(this.pageState);
 }
+
+class UpdateSelectedJobTypeAction{
+  final JobDetailsPageState pageState;
+  final String jobType;
+  UpdateSelectedJobTypeAction(this.pageState, this.jobType);
+}
+
+class SaveUpdatedJobTypeAction{
+  final JobDetailsPageState pageState;
+  SaveUpdatedJobTypeAction(this.pageState);
+}
