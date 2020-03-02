@@ -5,6 +5,7 @@ import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageState.dart';
 import 'package:client_safe/pages/calendar_page/JobCalendarItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +14,14 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarPage extends StatefulWidget {
+class TwoWeekCalendarPage extends StatefulWidget {
   @override
-  _CalendarPageState createState() {
-    return _CalendarPageState();
+  _TwoWeekCalendarPageState createState() {
+    return _TwoWeekCalendarPageState();
   }
 }
 
-class _CalendarPageState extends State<CalendarPage>
+class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
     with TickerProviderStateMixin {
   AnimationController _animationController;
   CalendarController _calendarController;
@@ -54,72 +55,60 @@ class _CalendarPageState extends State<CalendarPage>
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CalendarPageState>(
-      onInit: (store) => store.dispatch(FetchAllJobsAction(store.state.calendarPageState)),
+      onInit: (store) =>
+          store.dispatch(FetchAllJobsAction(store.state.calendarPageState)),
       converter: (store) => CalendarPageState.fromStore(store),
-      builder: (BuildContext context, CalendarPageState pageState) => Scaffold(
-        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-        body: Stack(
+      builder: (BuildContext context, CalendarPageState pageState) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
             Container(
-              height: Device.get().isIphoneX ? 560.0 : 540.0,
-              color: Colors.white,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16.0),
+              ),
             ),
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.only(top: 32.0),
+            Container(
+              padding: EdgeInsets.only(left: 16.0, right: 16.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(
+                            'Schedule',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 24.0,
+                              fontFamily: 'Blackjack',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                          IconButton(
+                            icon: Icon(
+                                Icons.event,
+                                size: 28.0,
+                                color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                            ),
+                            tooltip: 'Calendar',
+                            onPressed: () {
+                              NavigationUtil.onCalendarSelected(context);
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
                     _buildTableCalendarWithBuilders(pageState),
-                    const SizedBox(height: 8.0),
                     Expanded(
                         child: _buildEventList(_getEventListForSelectedDate(pageState), pageState)),
                   ],
                 ),
               ),
-            ),
-            SafeArea(
-              child: Container(
-                margin: EdgeInsets.only(top: 16.0),
-                alignment: Alignment.topCenter,
-                child: Text(
-                  "Calendar",
-                  style: TextStyle(
-                    fontFamily: 'Raleway',
-                    color: const Color(ColorConstants.primary_black),
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ),
-            ),
-            SafeArea(
-              child: Container(
-                alignment: Alignment.topLeft,
-                child: IconButton(
-                  icon: Icon(
-                      Icons.arrow_back_ios,
-                      color: Color(ColorConstants.getPrimaryBlack())
-                  ),
-                  tooltip: 'Add',
-                  onPressed: () {
-                    Navigator.of(context).pop(true);
-                  },
-                ),
-              ),
-            )
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-            elevation: 0.0,
-            child: Icon(Icons.add),
-            backgroundColor: Color(ColorConstants.getPrimaryColor()),
-            onPressed: () {
-              pageState.onAddNewJobSelected();
-              UserOptionsUtil.showNewJobDialog(context);
-            }),
-      ),
     );
   }
 
@@ -129,14 +118,10 @@ class _CalendarPageState extends State<CalendarPage>
       locale: 'en_US',
       calendarController: _calendarController,
       events: pageState.eventMap,
-      initialCalendarFormat: CalendarFormat.month,
+      initialCalendarFormat: CalendarFormat.twoWeeks,
       formatAnimation: FormatAnimation.slide,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.horizontalSwipe,
-      availableCalendarFormats: const {
-        CalendarFormat.month: '',
-        CalendarFormat.week: '',
-      },
       initialSelectedDay: pageState.selectedDate,
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,

@@ -7,6 +7,7 @@ import 'package:client_safe/pages/dashboard_page/widgets/LeadsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +133,7 @@ class _DashboardPageState extends State<DashboardPage>
                           ),
                           tooltip: 'Add',
                           onPressed: () {
-                            _onAddButtonPressed(context);
+                            NavigationUtil.onCalendarSelected(context);
                           },
                         ),
                         IconButton(
@@ -229,48 +230,6 @@ class _DashboardPageState extends State<DashboardPage>
                                           ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
-//                                  Padding(
-//                                    padding: EdgeInsets.only(top: 18.0),
-//                                    child: Text(
-//                                      '✔ Camera battery',
-//                                      textAlign: TextAlign.start,
-//                                      style: TextStyle(
-//                                        fontSize: 16.0,
-//                                        fontFamily: 'Raleway',
-//                                        fontWeight: FontWeight.w600,
-//                                        color: Color(
-//                                            ColorConstants.getPrimaryBlack()),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                  Padding(
-//                                    padding: EdgeInsets.only(top: 34.0),
-//                                    child: Text(
-//                                      '✔ SD Cards',
-//                                      textAlign: TextAlign.start,
-//                                      style: TextStyle(
-//                                        fontSize: 16.0,
-//                                        fontFamily: 'Raleway',
-//                                        fontWeight: FontWeight.w600,
-//                                        color: Color(
-//                                            ColorConstants.getPrimaryBlack()),
-//                                      ),
-//                                    ),
-//                                  ),
-//                                  Padding(
-//                                    padding: EdgeInsets.only(top: 50.0),
-//                                    child: Text(
-//                                      '✔ Weather',
-//                                      textAlign: TextAlign.start,
-//                                      style: TextStyle(
-//                                        fontSize: 16.0,
-//                                        fontFamily: 'Raleway',
-//                                        fontWeight: FontWeight.w600,
-//                                        color: Color(
-//                                            ColorConstants.getPrimaryBlack()),
-//                                      ),
-//                                    ),
-//                                  ),
                                 ],
                               ),
                             ),

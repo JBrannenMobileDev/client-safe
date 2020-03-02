@@ -66,7 +66,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
               margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
               height: 64.0,
               child: Text(
-                "You don't have any upcoming jobs. After you start a new job it will show up here.",
+                "You don't have any upcoming jobs. After a contract has been signed the job will show up here.",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 18.0,
