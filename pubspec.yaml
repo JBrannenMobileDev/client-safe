@@ -73,8 +73,9 @@ flutter:
     - assets/images/dandy_light_app_icon.png
 
     - assets/images/backgrounds/cameras_background.png
-
     - assets/images/backgrounds/dandy_light_background.png
+    - assets/images/backgrounds/income_background.png
+    - assets/images/backgrounds/expenses_background.png
 
     - assets/images/instagram_logo_icon.png
 

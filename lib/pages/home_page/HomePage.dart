@@ -2,7 +2,7 @@ import 'package:client_safe/models/ClientListItem.dart';
 import 'package:client_safe/models/LeadListItem.dart';
 import 'package:client_safe/models/ListItem.dart';
 import 'package:client_safe/models/TitleListItem.dart';
-import 'package:client_safe/pages/calendar_page/CalendarPage.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPage.dart';
 import 'package:client_safe/pages/clients_page/ClientsPage.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPage.dart';
@@ -21,7 +21,7 @@ class _HomeState extends State<HomePage> {
   int _currentIndex = 2;
   final List<Widget> _children = [
     ClientsPage(),
-    CalendarPage(),
+    IncomeAndExpensesPage(),
     DashboardPage(),
     JobsPage(),
     CollectionsPage(),
@@ -31,7 +31,7 @@ class _HomeState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
-      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+      backgroundColor: _currentIndex == 1 || _currentIndex == 2 ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
           canvasColor: Color(ColorConstants.getPrimaryWhite()),
@@ -45,9 +45,11 @@ class _HomeState extends State<HomePage> {
                 )
           ),
       ),
-        child: Padding(
+        child: Container(
+          color: Color(ColorConstants.getPrimaryWhite()),
           padding: EdgeInsets.only(left: 32.0, right: 32.0),
           child: BottomNavigationBar(
+            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             elevation: 0.0,
             type: BottomNavigationBarType.fixed,
             onTap: onTabTapped,

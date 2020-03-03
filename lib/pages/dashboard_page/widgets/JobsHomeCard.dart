@@ -20,7 +20,7 @@ class JobsHomeCard extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 40.0),
-            height: 130.0,
+            height: 189.0,
             color: Color(ColorConstants.getPrimaryBackgroundGrey())
           ),
           BaseHomeCardInProgress(
