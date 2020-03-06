@@ -22,11 +22,8 @@ class _MarriedSpouseState extends State<MarriedSpouse>
   final lastNameTextController = TextEditingController();
   final FocusNode _firstNameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
-  final Map<int, Widget> statuses = const <int, Widget>{
-    0: Text(Client.RELATIONSHIP_MARRIED),
-    1: Text(Client.RELATIONSHIP_ENGAGED),
-    2: Text(Client.RELATIONSHIP_SINGLE),
-  };
+  int selectorIndex = 2;
+  Map<int, Widget> statuses;
 
   @override
   void initState() {
@@ -36,8 +33,32 @@ class _MarriedSpouseState extends State<MarriedSpouse>
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, NewContactPageState>(
+  Widget build(BuildContext context) {
+    super.build(context);
+    statuses = <int, Widget>{
+      0: Text(Client.RELATIONSHIP_MARRIED,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 0
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+      1: Text(Client.RELATIONSHIP_ENGAGED,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 1
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+      2: Text(Client.RELATIONSHIP_SINGLE,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 2
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+    };
+    return StoreConnector<AppState, NewContactPageState>(
         onInit: (store) {
           firstNameTextController.text = store.state.newContactPageState.spouseFirstName;
           lastNameTextController.text = store.state.newContactPageState.spouseLastName;
@@ -53,7 +74,7 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                 margin: EdgeInsets.only(
                     bottom:
                         getRelationshipIndex(pageState.relationshipStatus) != 2
-                            ? 172.0
+                            ? 169.0
                             : 0.0),
                 alignment: Alignment.center,
                 child: Column(
@@ -73,14 +94,16 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsets.only(top: 16.0),
                       width: 250.0,
-                      child: CupertinoSegmentedControl<int>(
-                        borderColor: Color(ColorConstants.getPrimaryColor()),
-                        selectedColor: Color(ColorConstants.getPrimaryColor()),
-                        unselectedColor: Colors.white,
+                      child: CupertinoSlidingSegmentedControl<int>(
+                        backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                        thumbColor: Color(ColorConstants.getPrimaryColor()),
                         children: statuses,
                         onValueChanged: (int statusIndex) {
+                          setState(() {
+                            selectorIndex = statusIndex;
+                          });
                           pageState.onRelationshipStatusChanged(statusIndex);
                           setState(() {
                             if (statusIndex == 0 || statusIndex == 1) {
@@ -91,8 +114,7 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                           });
                           pageState.onRelationshipStatusChanged(statusIndex);
                         },
-                        groupValue:
-                            getRelationshipIndex(pageState.relationshipStatus),
+                        groupValue: selectorIndex,
                       ),
                     ),
                   ],
@@ -149,6 +171,7 @@ class _MarriedSpouseState extends State<MarriedSpouse>
           ),
         ),
       );
+  }
 
   int getRelationshipIndex(String relationshipStatus) {
     switch (relationshipStatus) {

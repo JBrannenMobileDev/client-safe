@@ -20,12 +20,13 @@ class ColorConstants{
   static const int white = 0xffffffff;
 
   //Set 2
-  static const int gold = 0xffE1BD5B;
+  static const int gold = 0xffB49347;
   static const int gold_dark = 0xffad9144;
-  static const int blue_dark = 0xff31636D;
+  static const int blue_dark = 0xff2D4341;
   static const int blue_light = 0xffBDD5D0;
-  static const int peach_dark = 0xffCD755D;
-  static const int peach_light = 0xffECA99A;
+  static const int peach_dark = 0xff935934;
+  static const int peach_light = 0xffCDA090;
+  static const int grey_alt = 0xff868982;
   static const int grey = 0xffe3e1da;
   static const int charcoal = 0xff504B47;
   static const int black = 0xff444444;

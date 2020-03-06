@@ -75,7 +75,7 @@ class _NewContactPageState extends State<NewContactPage> {
       onInit: (store) async{
         store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
         PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(PermissionGroup.contacts);
-        if(readContactsStatus == PermissionStatus.denied || readContactsStatus == PermissionStatus.disabled
+        if(readContactsStatus == PermissionStatus.denied || readContactsStatus == PermissionStatus.denied
             || readContactsStatus == PermissionStatus.unknown){
           _checkPermissions(context, store.state.newContactPageState);
         }

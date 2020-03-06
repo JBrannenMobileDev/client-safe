@@ -16,6 +16,8 @@ import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageMiddleware.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageMiddleware.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageMiddleware.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as newJobPageActions;
 import 'package:client_safe/pages/new_job_page/NewJobPageMiddleware.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart' as prefix2;
@@ -70,5 +72,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedJobTypeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobDetailsPricePackagesAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedPricePackageAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchAllInvoiceJobsAction>(NewInvoicePageMiddleware()));
   return middlewareList;
 }

@@ -102,7 +102,7 @@ class _DashboardPageState extends State<DashboardPage>
                   slivers: <Widget>[
                     new SliverAppBar(
                       iconTheme: IconThemeData(
-                        color: Color(ColorConstants.getPrimaryBlack()), //change your color here
+                        color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                       ),
                       brightness: Brightness.light,
                       title: Padding(
@@ -113,7 +113,7 @@ class _DashboardPageState extends State<DashboardPage>
                             fontSize: 24.0,
                             fontFamily: 'Blackjack',
                             fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),
@@ -129,7 +129,7 @@ class _DashboardPageState extends State<DashboardPage>
                           icon: Icon(
                               Icons.event,
                               size: 28.0,
-                              color: Color(ColorConstants.getPrimaryBlack())
+                              color: Color(ColorConstants.getPrimaryWhite())
                           ),
                           tooltip: 'Add',
                           onPressed: () {
@@ -140,7 +140,7 @@ class _DashboardPageState extends State<DashboardPage>
                           icon: Icon(
                             Icons.add_circle_outline,
                             size: 28.0,
-                            color: Color(ColorConstants.getPrimaryBlack())
+                            color: Color(ColorConstants.getPrimaryWhite())
                           ),
                           tooltip: 'Add',
                           onPressed: () {
@@ -151,7 +151,7 @@ class _DashboardPageState extends State<DashboardPage>
                           icon: Icon(
                               Icons.settings,
                               size: 28.0,
-                              color: Color(ColorConstants.getPrimaryBlack())
+                              color: Color(ColorConstants.getPrimaryWhite())
                           ),
                           tooltip: 'More',
                           onPressed: () {
@@ -174,7 +174,7 @@ class _DashboardPageState extends State<DashboardPage>
                                     fontSize: 16.0,
                                     fontFamily: 'Raleway',
                                     fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                    color: Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
                               ),
@@ -227,7 +227,7 @@ class _DashboardPageState extends State<DashboardPage>
                                       fontFamily: 'Raleway',
                                       fontWeight: FontWeight.w800,
                                       color: Color(
-                                          ColorConstants.getPrimaryBlack()),
+                                          ColorConstants.getPrimaryWhite()),
                                     ),
                                   ),
                                 ],

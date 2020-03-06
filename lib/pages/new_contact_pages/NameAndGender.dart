@@ -25,15 +25,29 @@ class _NameAndGenderState extends State<NameAndGender>
   final searchTextController = TextEditingController();
   final FocusNode _firstNameFocus = FocusNode();
   final FocusNode _lastNameFocus = FocusNode();
-  final Map<int, Widget> genders = const <int, Widget>{
-    0: Text(Client.GENDER_MALE),
-    1: Text(Client.GENDER_FEMALE),
-  };
+  int selectorIndex = 1;
+  Map<int, Widget> genders;
   ScrollController _controller = ScrollController();
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    genders = <int, Widget>{
+      0: Text(Client.GENDER_MALE,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 0
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+      1: Text(Client.GENDER_FEMALE,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 1
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+    };
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
         firstNameTextController.value = firstNameTextController.value.copyWith(text:store.state.newContactPageState.newContactFirstName);
@@ -125,15 +139,17 @@ class _NameAndGenderState extends State<NameAndGender>
               children: <Widget>[
                 Container(
                   width: 250.0,
-                  child: CupertinoSegmentedControl<int>(
-                    borderColor: Color(ColorConstants.getPrimaryColor()),
-                    selectedColor: Color(ColorConstants.getPrimaryColor()),
-                    unselectedColor: Colors.white,
+                  child: CupertinoSlidingSegmentedControl<int>(
+                    backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    thumbColor: Color(ColorConstants.getPrimaryColor()),
                     children: genders,
                     onValueChanged: (int genderIndex) {
+                      setState(() {
+                        selectorIndex = genderIndex;
+                      });
                       pageState.onGenderSelected(genderIndex);
                     },
-                    groupValue: pageState.isFemale ? 1 : 0,
+                    groupValue: selectorIndex,
                   ),
                 ),
                 InkWell(

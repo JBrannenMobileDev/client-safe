@@ -23,7 +23,7 @@ class LocationsPage extends StatelessWidget {
         onInit: (store)  async {
           store.dispatch(FetchLocationsAction(store.state.locationsPageState));
           PermissionStatus locationStatus = await UserPermissionsUtil.getPermissionStatus(PermissionGroup.locationWhenInUse);
-          if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.disabled
+          if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.denied
               || locationStatus == PermissionStatus.unknown){
             _checkPermissions(context, store.state.locationsPageState);
           }

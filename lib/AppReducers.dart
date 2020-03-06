@@ -9,6 +9,7 @@ import 'package:client_safe/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageReducer.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageReducer.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageReducer.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageReducer.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageReducer.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageReducer.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
@@ -34,4 +35,5 @@ AppState appReducers(AppState state, dynamic action) =>
         searchPageState: searchPageReducer(state.searchPageState, action),
         calendarPageState: calendarPageReducer(state.calendarPageState, action),
         jobDetailsPageState: jobDetailsReducer(state.jobDetailsPageState, action),
+        newInvoicePageState: newInvoicePageReducer(state.newInvoicePageState, action),
     );

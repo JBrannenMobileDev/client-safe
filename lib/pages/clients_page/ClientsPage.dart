@@ -23,12 +23,9 @@ class ClientsPage extends StatefulWidget {
 class _ClientsPageState extends State<ClientsPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final String alphabet = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
+  int selectorIndex = 0;
   ScrollController _controller = ScrollController();
-  final Map<int, Widget> genders = const <int, Widget>{
-    0: Text(ClientsPage.FILTER_TYPE_ALL),
-    1: Text(ClientsPage.FILTER_TYPE_CLIENTS),
-    2: Text(ClientsPage.FILTER_TYPE_LEADS),
-  };
+  Map<int, Widget> genders;
   List<String> alphabetList;
 
   @override
@@ -38,8 +35,33 @@ class _ClientsPageState extends State<ClientsPage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, ClientsPageState>(
+  Widget build(BuildContext context) {
+    genders = <int, Widget>{
+      0: Text(
+        ClientsPage.FILTER_TYPE_ALL,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 0
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),
+      ),
+      1: Text(ClientsPage.FILTER_TYPE_CLIENTS,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 1
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+      2: Text(ClientsPage.FILTER_TYPE_LEADS,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 2
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+    };
+    return StoreConnector<AppState, ClientsPageState>(
         onInit: (store) => store.dispatch(FetchClientData(store.state.clientsPageState)),
         converter: (store) => ClientsPageState.fromStore(store),
         builder: (BuildContext context, ClientsPageState pageState) => Scaffold(
@@ -56,7 +78,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         centerTitle: true,
                         title: Center(
                           child: Text(
-                            pageState.filterType + " Contacts",
+                            "Contacts",
                             style: TextStyle(
                               fontFamily: 'Raleway',
                               color: const Color(ColorConstants.primary_black),
@@ -77,18 +99,20 @@ class _ClientsPageState extends State<ClientsPage> {
                           child: Container(
                             width: 300.0,
                             margin: EdgeInsets.only(bottom: 16.0),
-                            child: CupertinoSegmentedControl<int>(
-                              borderColor: Color(ColorConstants.getPrimaryColor()),
-                              selectedColor: Color(ColorConstants.getPrimaryColor()),
-                              unselectedColor: Colors.white,
+                            child: CupertinoSlidingSegmentedControl<int>(
+                              backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              thumbColor: Color(ColorConstants.getPrimaryColor()),
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {
+                                setState(() {
+                                  selectorIndex = filterTypeIndex;
+                                });
                                 pageState.onFilterChanged(
                                     filterTypeIndex == 0
                                         ? ClientsPage.FILTER_TYPE_ALL : filterTypeIndex == 1
                                         ? ClientsPage.FILTER_TYPE_CLIENTS : ClientsPage.FILTER_TYPE_LEADS);
                               },
-                              groupValue: pageState.filterType == ClientsPage.FILTER_TYPE_ALL ? 0 : pageState.filterType == ClientsPage.FILTER_TYPE_CLIENTS ? 1 : 2,
+                              groupValue: selectorIndex,
                             ),
                           ),
                           preferredSize: Size.fromHeight(44.0),
@@ -125,6 +149,7 @@ class _ClientsPageState extends State<ClientsPage> {
           ),
         ),
       );
+  }
 }
 
 Widget _buildItem(BuildContext context, int index) {

@@ -18,7 +18,8 @@ ClientsPageState _setClientData(ClientsPageState previousState, SetClientsData a
   return previousState.copyWith(
       clients: _clients,
       leads: _leads,
-      all: action.clients
+      all: action.clients,
+      filterType: "All",
   );
 }
 

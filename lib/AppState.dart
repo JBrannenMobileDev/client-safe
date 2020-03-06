@@ -7,6 +7,7 @@ import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
@@ -35,6 +36,7 @@ class AppState {
   final SearchPageState searchPageState;
   final CalendarPageState calendarPageState;
   final JobDetailsPageState jobDetailsPageState;
+  final NewInvoicePageState newInvoicePageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -53,6 +55,7 @@ class AppState {
     @required this.newJobPageState,
     @required this.calendarPageState,
     @required this.jobDetailsPageState,
+    @required this.newInvoicePageState,
   });
 
   factory AppState.initial() {
@@ -73,6 +76,7 @@ class AppState {
       newJobPageState: NewJobPageState.initial(),
       calendarPageState: CalendarPageState.initial(),
       jobDetailsPageState: JobDetailsPageState.initial(),
+      newInvoicePageState: NewInvoicePageState.initial(),
     );
   }
 
@@ -93,6 +97,7 @@ class AppState {
     NewJobPageState newJobPageState,
     CalendarPageState calendarPageState,
     JobDetailsPageState jobDetailsPageState,
+    NewInvoicePageState newInvoicePageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -111,6 +116,7 @@ class AppState {
       newJobPageState: newJobPageState ?? this.newJobPageState,
       calendarPageState: calendarPageState ?? this.calendarPageState,
       jobDetailsPageState: jobDetailsPageState ?? this.jobDetailsPageState,
+      newInvoicePageState: newInvoicePageState ?? this.newInvoicePageState,
     );
   }
 
@@ -131,7 +137,8 @@ class AppState {
     searchPageState.hashCode ^
     newJobPageState.hashCode ^
     jobDetailsPageState.hashCode ^
-    calendarPageState.hashCode ;
+    calendarPageState.hashCode ^
+    newInvoicePageState.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -152,5 +159,6 @@ class AppState {
               searchPageState == other.searchPageState &&
               newJobPageState == other.newJobPageState &&
               jobDetailsPageState == other.jobDetailsPageState &&
-              calendarPageState == other.calendarPageState;
+              calendarPageState == other.calendarPageState &&
+              newInvoicePageState == other.newInvoicePageState;
 }

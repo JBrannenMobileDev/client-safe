@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
@@ -38,6 +39,7 @@ class Job {
   DateTime selectedTime;
   String type;
   JobStage stage;
+  Invoice invoice;
   List<JobStage> completedStages;
 
   Job({
@@ -54,6 +56,7 @@ class Job {
     this.completedStages,
     this.location,
     this.priceProfile,
+    this.invoice,
   });
 
   Map<String, dynamic> toMap() {
@@ -70,6 +73,7 @@ class Job {
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
       'priceProfile' : priceProfile?.toMap() ?? null,
+      'invoice' : invoice?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
     };
   }
@@ -88,6 +92,7 @@ class Job {
       stage: JobStage.fromMap(map['stage']),
       location: map['location'] != null ? Location.fromMap(map['location']) : null,
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
+      invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
     );
   }

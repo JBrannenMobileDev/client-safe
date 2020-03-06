@@ -24,10 +24,9 @@ class _JobsPageState extends State<JobsPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final String alphabet = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
   ScrollController _controller = ScrollController();
-  final Map<int, Widget> genders = const <int, Widget>{
-    0: Text(JobsPage.FILTER_TYPE_IN_PROGRESS),
-    1: Text(JobsPage.FILTER_TYPE_COMPETED),
-  };
+
+  int selectorIndex = 0;
+  Map<int, Widget> genders;
   List<String> alphabetList;
 
   @override
@@ -37,8 +36,24 @@ class _JobsPageState extends State<JobsPage> {
   }
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, JobsPageState>(
+  Widget build(BuildContext context) {
+    genders = <int, Widget>{
+      0: Text(JobsPage.FILTER_TYPE_IN_PROGRESS,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 0
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+      1: Text(JobsPage.FILTER_TYPE_COMPETED,
+        style: TextStyle(
+          fontFamily: 'Raleway',
+          color: Color(selectorIndex == 1
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+    };
+    return StoreConnector<AppState, JobsPageState>(
         converter: (store) => JobsPageState.fromStore(store),
         builder: (BuildContext context, JobsPageState pageState) => Scaffold(
           backgroundColor: Colors.white,
@@ -75,15 +90,17 @@ class _JobsPageState extends State<JobsPage> {
                           child: Container(
                             width: 300.0,
                             margin: EdgeInsets.only(bottom: 16.0),
-                            child: CupertinoSegmentedControl<int>(
-                              borderColor: Color(ColorConstants.getPrimaryColor()),
-                              selectedColor: Color(ColorConstants.getPrimaryColor()),
-                              unselectedColor: Colors.white,
+                            child: CupertinoSlidingSegmentedControl<int>(
+                              backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              thumbColor: Color(ColorConstants.getPrimaryColor()),
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {
+                                setState(() {
+                                  selectorIndex = filterTypeIndex;
+                                });
                                 pageState.onFilterChanged(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_IN_PROGRESS : JobsPage.FILTER_TYPE_COMPETED);
                               },
-                              groupValue: pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? 0 : 1,
+                              groupValue: selectorIndex,
                             ),
                           ),
                           preferredSize: Size.fromHeight(44.0),
@@ -119,6 +136,7 @@ class _JobsPageState extends State<JobsPage> {
           ),
         ),
       );
+  }
 }
 
 Widget _buildItem(BuildContext context, int index) {
