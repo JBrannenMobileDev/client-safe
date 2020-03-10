@@ -18,3 +18,59 @@ class SetAllJobsAction {
   final List<Client> allClients;
   SetAllJobsAction(this.pageState, this.allJobs, this.allClients);
 }
+
+class IncrementPageViewIndex{
+  final NewInvoicePageState pageState;
+  IncrementPageViewIndex(this.pageState);
+}
+
+class DecrementPageViewIndex{
+  final NewInvoicePageState pageState;
+  DecrementPageViewIndex(this.pageState);
+}
+
+class SaveNewJobAction{
+  final NewInvoicePageState pageState;
+  SaveNewJobAction(this.pageState);
+}
+
+class FilterClientList{
+  final NewInvoicePageState pageState;
+  final String textInput;
+  FilterClientList(this.pageState, this.textInput);
+}
+
+class ClearSearchInputActon{
+  final NewInvoicePageState pageState;
+  ClearSearchInputActon(this.pageState);
+}
+
+class ClearStateAction{
+  final NewInvoicePageState pageState;
+  ClearStateAction(this.pageState);
+}
+
+class SaveSelectedJobAction {
+  final NewInvoicePageState pageState;
+  final Job selectedJob;
+  SaveSelectedJobAction(this.pageState, this.selectedJob);
+}
+
+class FilterJobList{
+  final NewInvoicePageState pageState;
+  final String searchText;
+  FilterJobList(this.pageState, this.searchText);
+}
+
+class SaveSelectedFilter{
+  final NewInvoicePageState pageState;
+  final String selectedFilter;
+  SaveSelectedFilter(this.pageState, this.selectedFilter);
+}
+
+class UpdateFlatRateText{
+  final NewInvoicePageState pageState;
+  final String flatRateText;
+  UpdateFlatRateText(this.pageState, this.flatRateText);
+}
+

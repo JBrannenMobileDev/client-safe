@@ -1,5 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoiceJobListItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
@@ -117,21 +118,6 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 6.0),
-                  child: Text(
-                    pageState.selectedJob != null
-                        ? pageState.selectedJob.jobTitle
-                        : "",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryColor()),
-                    ),
-                  ),
-                ),
                 pageState.filteredJobs.length > 0 && pageState.isFinishedFetchingClients
                     ? ConstrainedBox(
                   constraints: BoxConstraints(
@@ -155,8 +141,8 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
                       child: Text(
                         pageState.allClients.length > 0
-                            ? "There are no matching clients for the name entered."
-                            : "You have not added any clients yet.",
+                            ? "There are no matching jobs for the name entered."
+                            : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 18.0,
@@ -169,7 +155,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                     ClientSafeButton(
                       height: 50.0,
                       width: 200.0,
-                      text: "Add New Client",
+                      text: "Start a new job",
                       marginLeft: 0.0,
                       marginRight: 0.0,
                       marginBottom: 0.0,
@@ -198,6 +184,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, NewJobPageState>(
     converter: (store) => NewJobPageState.fromStore(store),
     builder: (BuildContext context, NewJobPageState pageState) =>
-        NewJobClientListWidget(index),
+        NewInvoiceJobListItem(index),
   );
 }

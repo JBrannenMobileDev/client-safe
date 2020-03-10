@@ -2,7 +2,8 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -16,8 +17,15 @@ class NewInvoicePageState {
   final bool saveButtonEnabled;
   final bool shouldClear;
   final bool isFinishedFetchingClients;
+  final bool isDiscountFixedRate;
+  final double discountValue;
+  final double total;
+  final double depositValue;
+  final double unpaidAmount;
   final Job selectedJob;
   final String jobSearchText;
+  final String filterType;
+  final String flatRateText;
   final List<Job> jobs;
   final List<Job> filteredJobs;
   final List<Client> allClients;
@@ -28,6 +36,8 @@ class NewInvoicePageState {
   final Function(Job) onJobSelected;
   final Function(String) onJobSearchTextChanged;
   final Function() onClearInputSelected;
+  final Function(String) onFilterChanged;
+  final Function(String) onFlatRateTextChanged;
 
   NewInvoicePageState({
     @required this.id,
@@ -35,8 +45,14 @@ class NewInvoicePageState {
     @required this.saveButtonEnabled,
     @required this.shouldClear,
     @required this.isFinishedFetchingClients,
+    @required this.isDiscountFixedRate,
+    @required this.discountValue,
+    @required this.unpaidAmount,
+    @required this.total,
+    @required this.depositValue,
     @required this.selectedJob,
     @required this.jobSearchText,
+    @required this.filterType,
     @required this.jobs,
     @required this.filteredJobs,
     @required this.allClients,
@@ -47,6 +63,9 @@ class NewInvoicePageState {
     @required this.onJobSelected,
     @required this.onJobSearchTextChanged,
     @required this.onClearInputSelected,
+    @required this.onFilterChanged,
+    @required this.flatRateText,
+    @required this.onFlatRateTextChanged,
   });
 
   NewInvoicePageState copyWith({
@@ -55,8 +74,15 @@ class NewInvoicePageState {
     bool saveButtonEnabled,
     bool shouldClear,
     bool isFinishedFetchingClients,
+    bool isDiscountFixedRate,
+    double discountValue,
+    double total,
+    double depositValue,
+    double unpaidAmount,
     Job selectedJob,
     String jobSearchText,
+    String filterType,
+    String flatRateText,
     List<Job> jobs,
     List<Job> filteredJobs,
     List<Client> allClients,
@@ -67,6 +93,8 @@ class NewInvoicePageState {
     Function(Job) onJobSelected,
     Function(String) onJobSearchTextChanged,
     Function() onClearInputSelected,
+    Function(String) onFilterChanged,
+    Function(String) onFlatRateTextChanged,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -74,8 +102,14 @@ class NewInvoicePageState {
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
+      isDiscountFixedRate: isDiscountFixedRate ?? this.isDiscountFixedRate,
+      discountValue: discountValue ?? this.discountValue,
+      total: total ?? this.total,
+      depositValue: depositValue ?? this.depositValue,
+      unpaidAmount: unpaidAmount ?? this.unpaidAmount,
       selectedJob: selectedJob ?? this.selectedJob,
       jobSearchText: jobSearchText ?? this.jobSearchText,
+      filterType: filterType ?? this.filterType,
       jobs: jobs ?? this.jobs,
       filteredJobs:  filteredJobs ?? this.filteredJobs,
       allClients: allClients?? this.allClients,
@@ -86,6 +120,9 @@ class NewInvoicePageState {
       onJobSelected: onJobSelected ?? this.onJobSelected,
       onJobSearchTextChanged: onJobSearchTextChanged ?? this.onJobSearchTextChanged,
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
+      onFilterChanged: onFilterChanged?? this.onFilterChanged,
+      flatRateText: flatRateText ?? this.flatRateText,
+      onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
     );
   }
 
@@ -98,8 +135,14 @@ class NewInvoicePageState {
         saveButtonEnabled: false,
         shouldClear: true,
         isFinishedFetchingClients: false,
+        isDiscountFixedRate: true,
+        discountValue: 0.0,
+        total: 0.0,
+        depositValue: 0.0,
+        unpaidAmount: 0.0,
         selectedJob: null,
         jobSearchText: '',
+        filterType: PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE,
         jobs: List(),
         filteredJobs: List(),
         allClients: List(),
@@ -110,28 +153,40 @@ class NewInvoicePageState {
         onJobSelected: null,
         onJobSearchTextChanged: null,
         onClearInputSelected: null,
+        onFilterChanged: null,
+        flatRateText: '',
+        onFlatRateTextChanged: null,
       );
   }
 
   factory NewInvoicePageState.fromStore(Store<AppState> store) {
     return NewInvoicePageState(
-      id: store.state.newJobPageState.id,
-      pageViewIndex: store.state.newJobPageState.pageViewIndex,
-      saveButtonEnabled: store.state.newJobPageState.saveButtonEnabled,
-      shouldClear: store.state.newJobPageState.shouldClear,
-      isFinishedFetchingClients: store.state.newJobPageState.isFinishedFetchingClients,
+      id: store.state.newInvoicePageState.id,
+      pageViewIndex: store.state.newInvoicePageState.pageViewIndex,
+      saveButtonEnabled: store.state.newInvoicePageState.saveButtonEnabled,
+      shouldClear: store.state.newInvoicePageState.shouldClear,
+      isFinishedFetchingClients: store.state.newInvoicePageState.isFinishedFetchingClients,
       selectedJob: store.state.newInvoicePageState.selectedJob,
       jobSearchText: store.state.newInvoicePageState.jobSearchText,
-      jobs: store.state.newJobPageState.jobs,
+      filterType: store.state.newInvoicePageState.filterType,
+      jobs: store.state.newInvoicePageState.jobs,
       filteredJobs: store.state.newInvoicePageState.filteredJobs,
       allClients: store.state.newInvoicePageState.allClients,
-      onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
-      onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
-      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
-      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newJobPageState)),
-      onJobSelected: null,
-      onJobSearchTextChanged: null,
-      onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newJobPageState)),
+      flatRateText: store.state.newInvoicePageState.flatRateText,
+      isDiscountFixedRate: store.state.newInvoicePageState.isDiscountFixedRate,
+      discountValue: store.state.newInvoicePageState.discountValue,
+      total: store.state.newInvoicePageState.total,
+      depositValue: store.state.newInvoicePageState.depositValue,
+      unpaidAmount: store.state.newInvoicePageState.unpaidAmount,
+      onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newInvoicePageState)),
+      onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newInvoicePageState)),
+      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newInvoicePageState)),
+      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newInvoicePageState)),
+      onJobSelected: (selectedJob) => store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob)),
+      onJobSearchTextChanged: (searchText) => store.dispatch(FilterJobList(store.state.newInvoicePageState, searchText)),
+      onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newInvoicePageState)),
+      onFilterChanged: (selectedFilter) => store.dispatch(SaveSelectedFilter(store.state.newInvoicePageState, selectedFilter)),
+      onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateText(store.state.newInvoicePageState, flatRateText)),
     );
   }
 
@@ -153,7 +208,14 @@ class NewInvoicePageState {
       onJobSelected.hashCode ^
       onJobSearchTextChanged.hashCode ^
       onClearInputSelected.hashCode ^
-      jobs.hashCode;
+      jobs.hashCode ^
+      onFilterChanged.hashCode ^
+      isDiscountFixedRate.hashCode ^
+      discountValue.hashCode ^
+      total.hashCode ^
+      depositValue.hashCode ^
+      unpaidAmount.hashCode ^
+      filterType.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -175,5 +237,12 @@ class NewInvoicePageState {
           onJobSelected == other.onJobSelected &&
           onJobSearchTextChanged == other.onJobSearchTextChanged &&
           onClearInputSelected == other.onClearInputSelected &&
-          jobs == other.jobs;
+          jobs == other.jobs &&
+          onFilterChanged == other.onFilterChanged &&
+          isDiscountFixedRate == other.isDiscountFixedRate &&
+          discountValue == other.discountValue &&
+          total == other.total &&
+          depositValue == other.depositValue &&
+          unpaidAmount == other.depositValue &&
+          filterType == other.filterType;
 }

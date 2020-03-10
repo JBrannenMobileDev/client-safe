@@ -76,8 +76,11 @@ flutter:
 
     - assets/images/backgrounds/cameras_background.png
     - assets/images/backgrounds/dandy_light_background.png
+    - assets/images/backgrounds/home_background_lighter.png
     - assets/images/backgrounds/income_background.png
     - assets/images/backgrounds/expenses_background.png
+    - assets/images/backgrounds/income_background_lighter.png
+    - assets/images/backgrounds/expenses_background_lighter.png
 
     - assets/images/instagram_logo_icon.png
 
@@ -205,6 +208,9 @@ flutter:
         - asset: assets/fonts/Raleway-Regular.ttf
         - asset: assets/fonts/Raleway-SemiBold.ttf
         - asset: assets/fonts/Raleway-Thin.ttf
+    - family: paperdaisy
+      fonts:
+        - asset: assets/fonts/paperdaisy-demo.ttf
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

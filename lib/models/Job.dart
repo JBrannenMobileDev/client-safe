@@ -40,6 +40,7 @@ class Job {
   String type;
   JobStage stage;
   Invoice invoice;
+  double depositAmount;
   List<JobStage> completedStages;
 
   Job({
@@ -57,6 +58,7 @@ class Job {
     this.location,
     this.priceProfile,
     this.invoice,
+    this.depositAmount,
   });
 
   Map<String, dynamic> toMap() {
@@ -70,6 +72,7 @@ class Job {
       'selectedDate' : selectedDate?.millisecondsSinceEpoch ?? null,
       'selectedTime' : selectedTime?.millisecondsSinceEpoch ?? null,
       'type' : type,
+      'depositAmount' : depositAmount,
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
       'priceProfile' : priceProfile?.toMap() ?? null,
@@ -86,6 +89,7 @@ class Job {
       jobTitle: map['jobTitle'],
       notes: map['notes'],
       professionalUserId: map['professionalUserId'],
+      depositAmount: map['depositAmount'],
       selectedDate: map['selectedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['selectedDate']) : null,
       selectedTime: map['selectedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['selectedTime']) : null,
       type: map['type'],
