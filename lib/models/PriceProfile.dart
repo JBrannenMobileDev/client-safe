@@ -1,21 +1,17 @@
 class PriceProfile{
   int id;
   String profileName;
-  int priceFives;
-  int priceHundreds;
-  int timeInMin;
-  int timeInHours;
-  int numOfEdits;
+  String rateType;
+  double rate;
+  int quantity;
   String icon;
 
   PriceProfile({
     this.id,
     this.profileName,
-    this.priceFives,
-    this.priceHundreds,
-    this.timeInMin,
-    this.timeInHours,
-    this.numOfEdits,
+    this.rateType,
+    this.rate,
+    this.quantity,
     this.icon,
   });
 
@@ -23,11 +19,8 @@ class PriceProfile{
     return {
       'id' : id,
       'profileName': profileName,
-      'priceFives' : priceFives,
-      'priceHundreds' : priceHundreds,
-      'timeInMin' : timeInMin,
-      'timeInHours' : timeInHours,
-      'numOfEdits' : numOfEdits,
+      'rateType' : rateType,
+      'rate' : rate,
       'icon' : icon,
     };
   }
@@ -36,11 +29,9 @@ class PriceProfile{
     return PriceProfile(
       id: map['id'],
       profileName: map['profileName'],
-      priceFives: map['priceFives'],
-      priceHundreds: map['priceHundreds'],
-      timeInMin: map['timeInMin'],
-      timeInHours: map['timeInHours'],
-      numOfEdits: map['numOfEdits'],
+      rateType: map['rateType'],
+      rate: map['rate'],
+      quantity: map['quantity'],
       icon: map['icon'],
     );
   }

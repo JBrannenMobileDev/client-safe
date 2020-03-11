@@ -1,7 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/PriceProfileSelectionListWidget.dart';
+import 'package:client_safe/pages/new_job_page/widgets/PriceProfileSelectionListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';

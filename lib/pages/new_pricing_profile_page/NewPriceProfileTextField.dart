@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class NewInvoiceTextField extends StatelessWidget {
+class NewPriceProfileTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final String labelText;
@@ -20,8 +20,9 @@ class NewInvoiceTextField extends StatelessWidget {
   final Function onFocusAction;
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
+  final bool enabled;
 
-  NewInvoiceTextField({
+  NewPriceProfileTextField({
       this.controller,
       this.hintText,
       this.inputType,
@@ -35,6 +36,7 @@ class NewInvoiceTextField extends StatelessWidget {
       this.inputFormatter,
       this.labelText,
       this.onEditingCompleted,
+      this.enabled,
   });
 
   @override
@@ -45,6 +47,7 @@ class NewInvoiceTextField extends StatelessWidget {
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           height: height,
           child: TextFormField(
+            enabled: enabled,
             focusNode: focusNode,
             textInputAction: keyboardAction,
             maxLines: 24,

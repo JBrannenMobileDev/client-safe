@@ -12,20 +12,66 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, FilterJobList>(_filterJobs),
   TypedReducer<NewInvoicePageState, SaveSelectedFilter>(_saveSelectedFilter),
   TypedReducer<NewInvoicePageState, UpdateFlatRateText>(_updateFlatRate),
+  TypedReducer<NewInvoicePageState, SetDiscountStateAction>(_updateDiscountStage),
+  TypedReducer<NewInvoicePageState, SaveSelectedDiscountTypeAction>(_updateSelectedDiscountType),
+  TypedReducer<NewInvoicePageState, SaveFixedDiscountRateAction>(_saveFixedDiscountRate),
+  TypedReducer<NewInvoicePageState, UpdateFixedDiscountPriceAction>(_updateFixedDiscountRate),
+  TypedReducer<NewInvoicePageState, SavePercentageDiscountRateAction>(_savePercentageDiscountRate),
+  TypedReducer<NewInvoicePageState, UpdatePercentageDiscountPriceAction>(_updatePercentageDiscountRate),
 ]);
 
-NewInvoicePageState _updateFlatRate(NewInvoicePageState previousState, UpdateFlatRateText action) {
-  String rate = action.flatRateText;
-  if(rate.length == 0) rate = '\$';
+NewInvoicePageState _saveFixedDiscountRate(NewInvoicePageState previousState, SaveFixedDiscountRateAction action) {
   return previousState.copyWith(
-      flatRateText: rate,
+    discountStage: action.discountStage,
+  );
+}
+
+NewInvoicePageState _updateFixedDiscountRate(NewInvoicePageState previousState, UpdateFixedDiscountPriceAction action) {
+  return previousState.copyWith(
+    discountValue: double.parse(action.fixedDiscountRate),
+  );
+}
+
+NewInvoicePageState _savePercentageDiscountRate(NewInvoicePageState previousState, SavePercentageDiscountRateAction action) {
+  return previousState.copyWith(
+    discountStage: action.discountStage,
+  );
+}
+
+NewInvoicePageState _updatePercentageDiscountRate(NewInvoicePageState previousState, UpdatePercentageDiscountPriceAction action) {
+  double total = previousState.total;
+  double discountValue = total * ((double.parse(action.percentageDiscountRate))/100);
+  return previousState.copyWith(
+    discountValue: discountValue,
+  );
+}
+
+NewInvoicePageState _updateDiscountStage(NewInvoicePageState previousState, SetDiscountStateAction action) {
+  return previousState.copyWith(
+    discountStage: action.newStage,
+  );
+}
+
+NewInvoicePageState _updateSelectedDiscountType(NewInvoicePageState previousState, SaveSelectedDiscountTypeAction action) {
+  return previousState.copyWith(
+    discountStage: NewInvoicePageState.DISCOUNT_STAGE_AMOUNT_SELECTION,
+    discountType: action.discountType,
+  );
+}
+
+NewInvoicePageState _updateFlatRate(NewInvoicePageState previousState, UpdateFlatRateText action) {
+  return previousState.copyWith(
+      flatRateText: action.flatRateText,
   );
 }
 
 NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSelectedJobAction action) {
   return previousState.copyWith(
     selectedJob: action.selectedJob,
-    flatRateText: '\$' + (action.selectedJob.priceProfile?.priceHundreds ?? 0 + action.selectedJob.priceProfile?.priceFives ?? 0).toString(),
+//    flatRateText: '\$' + (action.selectedJob.priceProfile?.priceHundreds ?? 0 + action.selectedJob.priceProfile?.priceFives ?? 0).toString(),
+//    depositValue: action.selectedJob.depositAmount,
+//    total: (action.selectedJob.priceProfile?.priceHundreds ?? 0 + action.selectedJob.priceProfile?.priceFives ?? 0).toDouble(),
+//    unpaidAmount: (action.selectedJob.priceProfile?.priceHundreds ?? 0 + action.selectedJob.priceProfile?.priceFives ?? 0).toDouble() - action.selectedJob.depositAmount,
   );
 }
 

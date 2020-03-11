@@ -74,3 +74,41 @@ class UpdateFlatRateText{
   UpdateFlatRateText(this.pageState, this.flatRateText);
 }
 
+class SetDiscountStateAction{
+  final NewInvoicePageState pageState;
+  final String newStage;
+  SetDiscountStateAction(this.pageState, this.newStage);
+}
+
+class SaveSelectedDiscountTypeAction{
+  final NewInvoicePageState pageState;
+  final String discountType;
+  SaveSelectedDiscountTypeAction(this.pageState, this.discountType);
+}
+
+class SaveFixedDiscountRateAction{
+  final NewInvoicePageState pageState;
+  final String discountStage;
+  SaveFixedDiscountRateAction(this.pageState, this.discountStage);
+}
+
+class UpdateFixedDiscountPriceAction{
+  final NewInvoicePageState pageState;
+  final String fixedDiscountRate;
+  UpdateFixedDiscountPriceAction(this.pageState, this.fixedDiscountRate);
+}
+
+class SavePercentageDiscountRateAction{
+  final NewInvoicePageState pageState;
+  final String discountStage;
+  SavePercentageDiscountRateAction(this.pageState, this.discountStage);
+}
+
+class UpdatePercentageDiscountPriceAction{
+  final NewInvoicePageState pageState;
+  final String percentageDiscountRate;
+  UpdatePercentageDiscountPriceAction(this.pageState, this.percentageDiscountRate);
+}
+
+
+

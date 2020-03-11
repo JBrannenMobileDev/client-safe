@@ -1,6 +1,12 @@
 import 'package:client_safe/models/PriceProfile.dart';
 
 class Invoice {
+  static const String RATE_TYPE_FLAT_RATE = "Flat rate";
+  static const String RATE_TYPE_HOURLY = "Hourly";
+  static const String RATE_TYPE_QUANTITY = "Quantity";
+  static const String DISCOUNT_TYPE_FIXED_AMOUNT = "Fixed amount";
+  static const String DISCOUNT_TYPE_PERCENTAGE = "Percentage";
+
   int id;
   int clientId;
   int invoiceId;
@@ -10,10 +16,10 @@ class Invoice {
   bool depositPaid;
   bool totalPaid;
   PriceProfile priceProfile;
-  double subtotal;
   double discount;
   double total;
   String unitType;
+  double rate;
   int quantity;
   double amountDueBeforeSession;
   double amountDueAfterSession;
@@ -30,10 +36,10 @@ class Invoice {
     this.depositPaid,
     this.totalPaid,
     this.priceProfile,
-    this.subtotal,
     this.discount,
     this.total,
     this.unitType,
+    this.rate,
     this.quantity,
     this.amountDueBeforeSession,
     this.amountDueAfterSession,
@@ -52,10 +58,10 @@ class Invoice {
       'depositPaid': depositPaid,
       'totalPaid': totalPaid,
       'priceProfile': priceProfile,
-      'subtotal': subtotal,
       'discount': discount,
       'total': total,
       'unitType': unitType,
+      'rate' : rate,
       'quantity': quantity,
       'amountDueBeforeSession': amountDueBeforeSession,
       'amountDueAfterSession': amountDueAfterSession,
@@ -75,10 +81,10 @@ class Invoice {
       depositPaid: map['depositPaid'],
       totalPaid: map['totalPaid'],
       priceProfile: map['priceProfile'],
-      subtotal: map['subtotal'],
       discount: map['discount'],
       total: map['total'],
       unitType: map['unitType'],
+      rate: map['rate'],
       quantity: map['quantity'],
       amountDueBeforeSession: map['amountDueBeforeSession'],
       amountDueAfterSession: map['amountDueAfterSession'],

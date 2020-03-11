@@ -1,8 +1,10 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/new_invoice_page/JobSelectionForm.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoiceTextField.dart';
 import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/widgets/NewJobTextField.dart';
@@ -23,6 +25,8 @@ class NewInvoiceDialog extends StatefulWidget {
 }
 
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
+  var fixedTextController = TextEditingController(text: '\$');
+  var percentageTextController = TextEditingController(text: '%');
   final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
@@ -30,6 +34,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if(fixedTextController.text.length == 0) fixedTextController = TextEditingController(text: '\$');
+    if(percentageTextController.text.length == 0) percentageTextController = TextEditingController(text: '%');
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
         appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
@@ -50,19 +56,19 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
               child: Stack(
 
                 children: <Widget>[
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    tooltip: 'Close',
-                    color: Color(ColorConstants.getPrimaryColor()),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
+                      IconButton(
+                        icon: const Icon(Icons.close),
+                        tooltip: 'Close',
+                        color: Color(ColorConstants.getPrimaryColor()),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
                       Padding(
-                        padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
+                        padding: EdgeInsets.only(right: 16.0),
                         child: Text(
                           "Invoice 1000",
                           textAlign: TextAlign.center,
@@ -74,215 +80,158 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                           ),
                         ),
                       ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          maxHeight: pageState.pageViewIndex > 0 ? 196 :440.0,
-                        ),
-                        child: PageView(
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: controller,
-                          pageSnapping: true,
-                          children: <Widget>[
-                            JobSelectionForm(),
-                            PriceBreakdownForm(),
-                          ],
-                        ),
-                      ),
-                      pageState.pageViewIndex > 0 ? Padding(
-                        padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Deposit',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w400,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
-                            Text(
-                              '\$150',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ) : SizedBox(),
-                      pageState.pageViewIndex > 0 ? Padding(
-                        padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Remaining balance',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w400,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
-                            Text(
-                              '\$200',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ) : SizedBox(),
-                      pageState.pageViewIndex > 0 ? Padding(
-                        padding: EdgeInsets.only(left: pageState.discountValue > 0 ? 4.0 : 16.0, right: 16.0, bottom: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                pageState.discountValue > 0 ? Container(
-                                  width: 28.0,
-                                  margin: EdgeInsets.only(right: 16.0),
-                                  child: IconButton(
-                                    icon: Icon(
-                                        Icons.close,
-                                        size: 28.0,
-                                        color: Color(ColorConstants.getPeachDark())
-                                    ),
-                                    tooltip: 'delete',
-                                    onPressed: null,
-                                  ),
-                                ) : SizedBox(),
-                                Text(
-                                  'Discount',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'Raleway',
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                ),
-                                pageState.discountValue == 0 ? Container(
-                                  margin: EdgeInsets.only(left: 8.0),
-                                  decoration: BoxDecoration(
-                                      color: Color(ColorConstants.getPrimaryColor()),
-                                      borderRadius: BorderRadius.circular(24.0)
-                                  ),
-                                  width: 64.0,
-                                  height: 26.0,
-                                  child: FlatButton(
-                                    onPressed: () {
-
-                                    },
-                                    child: Text(
-                                      'Add',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
-                                    ),
-                                  ),
-                                ) : SizedBox(),
-                              ],
-                            ),
-                            Text(
-                              '',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ) : SizedBox(),
-                      Container(
-                        margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8.0),
-                        height: 1.0,
-                        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                      ),
-                      pageState.pageViewIndex > 0 ? Padding(
-                        padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Text(
-                              'Total',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
-                            Text(
-                              '\$350',
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ) : SizedBox(),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          FlatButton(
-                            onPressed: () {
-                              onBackPressed(pageState);
-                            },
-                            child: Text(
-                              pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: () {
-                              onNextPressed(pageState);
-                            },
-                            child: Text(
-                              pageState.pageViewIndex == pageCount-1 ? 'Save' : 'Next',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 48.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            maxHeight: pageState.pageViewIndex > 0 ? 196 :440.0,
+                          ),
+                          child: PageView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: controller,
+                            pageSnapping: true,
+                            children: <Widget>[
+                              JobSelectionForm(),
+                              PriceBreakdownForm(),
+                            ],
+                          ),
+                        ),
+                        pageState.pageViewIndex > 0 ? Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 0.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Deposit',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                              Text(
+                                '\$150',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ) : SizedBox(),
+                        pageState.pageViewIndex > 0 ? Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 0.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Remaining balance',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                              Text(
+                                '\$' + pageState.unpaidAmount.toString(),
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ) : SizedBox(),
+                        pageState.pageViewIndex > 0 ?  _buildDiscountWidget(pageState) : SizedBox(),
+                        pageState.pageViewIndex > 0 ? Container(
+                          margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 0.0),
+                          height: 1.0,
+                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                        ) : SizedBox(),
+                        pageState.pageViewIndex > 0 ? Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 48.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Text(
+                                'Total',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                              Text(
+                                '\$350',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ) : SizedBox(),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 8.0),
+                    alignment: Alignment.bottomCenter,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        FlatButton(
+                          onPressed: () {
+                            onBackPressed(pageState);
+                          },
+                          child: Text(
+                            pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                        ),
+                        FlatButton(
+                          onPressed: () {
+                            onNextPressed(pageState);
+                          },
+                          child: Text(
+                            pageState.pageViewIndex == pageCount-1 ? 'Save' : 'Next',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -361,4 +310,165 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
 
   @override
   bool get wantKeepAlive => true;
+
+  _buildDiscountWidget(NewInvoicePageState pageState) {
+    return Padding(
+      padding: EdgeInsets.only(left: pageState.discountValue > 0 ? 4.0 : 16.0, right: 16.0, bottom: 0.0),
+      child: pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_TYPE_SELECTION
+          ? Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 8.0),
+            decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryColor()),
+                borderRadius: BorderRadius.circular(24.0)
+            ),
+            width: 116.0,
+            height: 28.0,
+            child: FlatButton(
+              onPressed: () {
+                pageState.onDiscountTypeSelected(Invoice.DISCOUNT_TYPE_FIXED_AMOUNT);
+              },
+              child: Text(
+                'Fixed',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            'Or',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w600,
+              color: Color(ColorConstants.getPrimaryBlack()),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 8.0),
+            decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryColor()),
+                borderRadius: BorderRadius.circular(24.0)
+            ),
+            width: 116.0,
+            height: 28.0,
+            child: FlatButton(
+              onPressed: () {
+                pageState.onDiscountTypeSelected(Invoice.DISCOUNT_TYPE_PERCENTAGE);
+              },
+              child: Text(
+                'Percent',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ) : pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_AMOUNT_SELECTION ?
+      pageState.discountType == Invoice.DISCOUNT_TYPE_FIXED_AMOUNT ? NewInvoiceTextField(
+        controller: fixedTextController,
+        hintText: "\$",
+        inputType: TextInputType.text,
+        height: 60.0,
+        onEditingCompleted: pageState.onFixedDiscountSelectionCompleted,
+        onTextInputChanged: pageState.onFixedDiscountTextChanged,
+        capitalization: TextCapitalization.none,
+        keyboardAction: TextInputAction.done,
+        labelText: 'Fixed discount',
+      ) :
+      NewInvoiceTextField(
+        controller: percentageTextController,
+        hintText: "%",
+        inputType: TextInputType.text,
+        height: 60.0,
+        onEditingCompleted: pageState.onPercentageDiscountSelectionCompleted,
+        onTextInputChanged: pageState.onPercentageDiscountTextChanged,
+        capitalization: TextCapitalization.none,
+        keyboardAction: TextInputAction.done,
+        labelText: 'Percentage discount',
+      ) : Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_STAGE_ADDED ? Container(
+                width: 28.0,
+                margin: EdgeInsets.only(right: 16.0),
+                child: IconButton(
+                  icon: Icon(
+                      Icons.close,
+                      size: 28.0,
+                      color: Color(ColorConstants.getPeachDark())
+                  ),
+                  tooltip: 'delete',
+                  onPressed: () {
+                    pageState.onDeleteDiscountPressed();
+                  },
+                ),
+              ) : SizedBox(),
+              Text(
+                'Discount',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w400,
+                  color: Color(ColorConstants.getPrimaryBlack()),
+                ),
+              ),
+              pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_NO_STAGE ?
+              Container(
+                margin: EdgeInsets.only(left: 8.0),
+                decoration: BoxDecoration(
+                    color: Color(ColorConstants.getPrimaryColor()),
+                    borderRadius: BorderRadius.circular(24.0)
+                ),
+                width: 64.0,
+                height: 26.0,
+                child: FlatButton(
+                  onPressed: () {
+                    pageState.onAddDiscountPressed();
+                  },
+                  child: Text(
+                    'Add',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                ),
+              ) : SizedBox(),
+            ],
+          ),
+          Text(
+            '\$' + (pageState.discountValue.toInt().toString()),
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w600,
+              color: Color(ColorConstants.getPrimaryBlack()),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

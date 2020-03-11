@@ -11,6 +11,10 @@ import 'package:redux/redux.dart';
 class NewInvoicePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_JOB_TITLE_MISSING = "missingJobTitle";
+  static const String DISCOUNT_STAGE_NO_STAGE = 'noStage';
+  static const String DISCOUNT_STAGE_TYPE_SELECTION = 'typeSelection';
+  static const String DISCOUNT_STAGE_AMOUNT_SELECTION = 'amountSelection';
+  static const String DISCOUNT_STAGE_STAGE_ADDED = 'stageAdded';
 
   final int id;
   final int pageViewIndex;
@@ -26,6 +30,8 @@ class NewInvoicePageState {
   final String jobSearchText;
   final String filterType;
   final String flatRateText;
+  final String discountStage;
+  final String discountType;
   final List<Job> jobs;
   final List<Job> filteredJobs;
   final List<Client> allClients;
@@ -38,6 +44,13 @@ class NewInvoicePageState {
   final Function() onClearInputSelected;
   final Function(String) onFilterChanged;
   final Function(String) onFlatRateTextChanged;
+  final Function() onAddDiscountPressed;
+  final Function(String) onDiscountTypeSelected;
+  final Function() onDeleteDiscountPressed;
+  final Function() onFixedDiscountSelectionCompleted;
+  final Function(String) onFixedDiscountTextChanged;
+  final Function() onPercentageDiscountSelectionCompleted;
+  final Function(String) onPercentageDiscountTextChanged;
 
   NewInvoicePageState({
     @required this.id,
@@ -54,6 +67,8 @@ class NewInvoicePageState {
     @required this.jobSearchText,
     @required this.filterType,
     @required this.jobs,
+    @required this.discountStage,
+    @required this.discountType,
     @required this.filteredJobs,
     @required this.allClients,
     @required this.onSavePressed,
@@ -66,6 +81,13 @@ class NewInvoicePageState {
     @required this.onFilterChanged,
     @required this.flatRateText,
     @required this.onFlatRateTextChanged,
+    @required this.onAddDiscountPressed,
+    @required this.onDeleteDiscountPressed,
+    @required this.onDiscountTypeSelected,
+    @required this.onFixedDiscountSelectionCompleted,
+    @required this.onFixedDiscountTextChanged,
+    @required this.onPercentageDiscountSelectionCompleted,
+    @required this.onPercentageDiscountTextChanged,
   });
 
   NewInvoicePageState copyWith({
@@ -83,6 +105,8 @@ class NewInvoicePageState {
     String jobSearchText,
     String filterType,
     String flatRateText,
+    String discountStage,
+    String discountType,
     List<Job> jobs,
     List<Job> filteredJobs,
     List<Client> allClients,
@@ -95,6 +119,13 @@ class NewInvoicePageState {
     Function() onClearInputSelected,
     Function(String) onFilterChanged,
     Function(String) onFlatRateTextChanged,
+    Function() onAddDiscountPressed,
+    Function() onDeleteDiscountPressed,
+    Function(String) onDiscountTypeSelected,
+    Function() onFixedDiscountSelectionCompleted,
+    Function(String) onFixedDiscountTextChanged,
+    Function() onPercentageDiscountSelectionCompleted,
+    Function(String) onPercentageDiscountTextChanged,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -111,6 +142,8 @@ class NewInvoicePageState {
       jobSearchText: jobSearchText ?? this.jobSearchText,
       filterType: filterType ?? this.filterType,
       jobs: jobs ?? this.jobs,
+      discountStage: discountStage ?? this.discountStage,
+      discountType: discountType ?? this.discountType,
       filteredJobs:  filteredJobs ?? this.filteredJobs,
       allClients: allClients?? this.allClients,
       onSavePressed: onSavePressed?? this.onSavePressed,
@@ -123,6 +156,13 @@ class NewInvoicePageState {
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
       flatRateText: flatRateText ?? this.flatRateText,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
+      onAddDiscountPressed: onAddDiscountPressed ?? this.onAddDiscountPressed,
+      onDeleteDiscountPressed: onDeleteDiscountPressed ?? this.onDeleteDiscountPressed,
+      onDiscountTypeSelected: onDiscountTypeSelected ?? this.onDiscountTypeSelected,
+      onFixedDiscountSelectionCompleted: onFixedDiscountSelectionCompleted ?? this.onFixedDiscountSelectionCompleted,
+      onFixedDiscountTextChanged: onFixedDiscountTextChanged ?? this.onFixedDiscountTextChanged,
+      onPercentageDiscountSelectionCompleted: onPercentageDiscountSelectionCompleted ?? this.onPercentageDiscountSelectionCompleted,
+      onPercentageDiscountTextChanged: onPercentageDiscountTextChanged ?? this.onPercentageDiscountTextChanged,
     );
   }
 
@@ -144,6 +184,8 @@ class NewInvoicePageState {
         jobSearchText: '',
         filterType: PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE,
         jobs: List(),
+        discountStage: DISCOUNT_STAGE_NO_STAGE,
+        discountType: null,
         filteredJobs: List(),
         allClients: List(),
         onSavePressed: null,
@@ -156,6 +198,13 @@ class NewInvoicePageState {
         onFilterChanged: null,
         flatRateText: '',
         onFlatRateTextChanged: null,
+        onAddDiscountPressed: null,
+        onDeleteDiscountPressed: null,
+        onDiscountTypeSelected: null,
+        onFixedDiscountTextChanged: null,
+        onFixedDiscountSelectionCompleted: null,
+        onPercentageDiscountTextChanged: null,
+        onPercentageDiscountSelectionCompleted: null,
       );
   }
 
@@ -176,8 +225,10 @@ class NewInvoicePageState {
       isDiscountFixedRate: store.state.newInvoicePageState.isDiscountFixedRate,
       discountValue: store.state.newInvoicePageState.discountValue,
       total: store.state.newInvoicePageState.total,
+      discountStage: store.state.newInvoicePageState.discountStage,
       depositValue: store.state.newInvoicePageState.depositValue,
       unpaidAmount: store.state.newInvoicePageState.unpaidAmount,
+      discountType: store.state.newInvoicePageState.discountType,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newInvoicePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newInvoicePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newInvoicePageState)),
@@ -187,6 +238,13 @@ class NewInvoicePageState {
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newInvoicePageState)),
       onFilterChanged: (selectedFilter) => store.dispatch(SaveSelectedFilter(store.state.newInvoicePageState, selectedFilter)),
       onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateText(store.state.newInvoicePageState, flatRateText)),
+      onAddDiscountPressed: () => store.dispatch(SetDiscountStateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_TYPE_SELECTION)),
+      onDiscountTypeSelected: (discountType) => store.dispatch(SaveSelectedDiscountTypeAction(store.state.newInvoicePageState, discountType)),
+      onDeleteDiscountPressed: () => store.dispatch(SetDiscountStateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_NO_STAGE)),
+      onFixedDiscountSelectionCompleted: () => store.dispatch(SaveFixedDiscountRateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_STAGE_ADDED)),
+      onFixedDiscountTextChanged: (fixedDiscountRate) => store.dispatch(UpdateFixedDiscountPriceAction(store.state.newInvoicePageState, fixedDiscountRate)),
+      onPercentageDiscountSelectionCompleted: () => store.dispatch(SavePercentageDiscountRateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_STAGE_ADDED)),
+      onPercentageDiscountTextChanged: (percentageDiscountRate) => store.dispatch(UpdatePercentageDiscountPriceAction(store.state.newInvoicePageState, percentageDiscountRate)),
     );
   }
 
@@ -209,13 +267,17 @@ class NewInvoicePageState {
       onJobSearchTextChanged.hashCode ^
       onClearInputSelected.hashCode ^
       jobs.hashCode ^
+      discountStage.hashCode ^
       onFilterChanged.hashCode ^
       isDiscountFixedRate.hashCode ^
       discountValue.hashCode ^
       total.hashCode ^
       depositValue.hashCode ^
       unpaidAmount.hashCode ^
-      filterType.hashCode;
+      filterType.hashCode ^
+      onAddDiscountPressed.hashCode ^
+      onDeleteDiscountPressed.hashCode ^
+      discountType.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -238,11 +300,15 @@ class NewInvoicePageState {
           onJobSearchTextChanged == other.onJobSearchTextChanged &&
           onClearInputSelected == other.onClearInputSelected &&
           jobs == other.jobs &&
+          discountStage == other.discountStage &&
           onFilterChanged == other.onFilterChanged &&
           isDiscountFixedRate == other.isDiscountFixedRate &&
           discountValue == other.discountValue &&
           total == other.total &&
           depositValue == other.depositValue &&
           unpaidAmount == other.depositValue &&
-          filterType == other.filterType;
+          filterType == other.filterType &&
+          onAddDiscountPressed == other.onAddDiscountPressed &&
+          onDeleteDiscountPressed == other.onDeleteDiscountPressed &&
+          discountType == other.discountType;
 }

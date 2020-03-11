@@ -1,8 +1,6 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/NewPriceProfileTextField.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -48,18 +46,15 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
                 ),
               ),
             ),
-            NewPricingProfileTextField(
-                profileNameTextController,
-                "Price Profile Name",
-                TextInputType.text,
-                60.0,
-                pageState.onProfileNameChanged,
-                NewPricingProfilePageState.ERROR_PROFILE_NAME_MISSING,
-                TextInputAction.done,
-                null,
-                null,
-                TextCapitalization.words,
-                null),
+            NewPriceProfileTextField(
+                controller: profileNameTextController,
+                hintText: "Price Profile Name",
+                inputType: TextInputType.text,
+                height: 60.0,
+                onTextInputChanged: pageState.onProfileNameChanged,
+                keyboardAction: TextInputAction.done,
+                capitalization: TextCapitalization.words,
+            ),
           ],
         ),
       ),

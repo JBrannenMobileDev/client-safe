@@ -128,29 +128,20 @@ class PriceProfileListWidget extends StatelessWidget {
   }
 
   String _buildSubtitlePriceText(PricingProfilesPageState pageState, int index) {
-    PriceProfile profile = getProfile(index, pageState);
-    int price = profile.priceFives + profile.priceHundreds;
     String textToDisplay = "";
-    textToDisplay = "PRICE:  \$$price" + ".00";
+    textToDisplay = "PRICE:";
     return textToDisplay;
   }
 
   String _buildSubtitleLengthText(PricingProfilesPageState pageState, int index) {
-    PriceProfile profile = getProfile(index, pageState);
-    int lengthHours = profile.timeInHours;
-    int lengthInMin = profile.timeInMin;
-    String hrText = profile.timeInHours != 0 ? profile.timeInHours == 1 ? "$lengthHours hr" : "$lengthHours hrs" : "";
-    String minText = profile.timeInMin != null && profile.timeInMin != 0 ? "$lengthInMin min" : "";
     String textToDisplay = "";
-    textToDisplay = "LENGTH:  $hrText $minText";
+    textToDisplay = "LENGTH:";
     return textToDisplay;
   }
 
   String _buildSubtitleEditsText(PricingProfilesPageState pageState, int index) {
-    PriceProfile profile = getProfile(index, pageState);
-    int edits = profile.numOfEdits;
     String textToDisplay = "";
-    textToDisplay = "EDITS:  $edits";
+    textToDisplay = "EDITS:";
     return textToDisplay;
   }
 

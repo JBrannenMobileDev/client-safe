@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:flutter/widgets.dart';
@@ -15,25 +16,22 @@ class NewPricingProfilePageState {
   final bool shouldClear;
   final String profileName;
   final String profileIcon;
-  final int priceFives;
-  final int priceHundreds;
-  final int lengthInMinutes;
-  final int lengthInHours;
-  final int numOfEdits;
-  final String errorState;
+  final String rateType;
+  final double rate;
+  final int quantity;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
   final Function() onBackPressed;
-  final Function(PriceProfile) onDeleteProfileSelected;
+  final Function() onDeleteProfileSelected;
   final Function(String) onProfileNameChanged;
   final Function(String) onProfileIconSelected;
-  final Function(int) onPriceFivesChanged;
-  final Function(int) onPriceHundredsChanged;
-  final Function(int) onLengthInMinutesChanged;
-  final Function(int) onLengthInHoursChanged;
-  final Function(int) onNumOfEditsChanged;
-  final Function(String) onErrorStateChanged;
+  final Function(String) onFilterChanged;
+  final Function(String) onFlatRateTextChanged;
+  final Function(String) onHourlyRateTextChanged;
+  final Function(String) onHourlyQuantityTextChanged;
+  final Function(String) onItemRateTextChanged;
+  final Function(String) onItemQuantityTextChanged;
 
   NewPricingProfilePageState({
     @required this.id,
@@ -42,12 +40,6 @@ class NewPricingProfilePageState {
     @required this.shouldClear,
     @required this.profileName,
     @required this.profileIcon,
-    @required this.priceFives,
-    @required this.priceHundreds,
-    @required this.lengthInMinutes,
-    @required this.lengthInHours,
-    @required this.numOfEdits,
-    @required this.errorState,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -55,12 +47,15 @@ class NewPricingProfilePageState {
     @required this.onDeleteProfileSelected,
     @required this.onProfileNameChanged,
     @required this.onProfileIconSelected,
-    @required this.onPriceFivesChanged,
-    @required this.onPriceHundredsChanged,
-    @required this.onLengthInMinutesChanged,
-    @required this.onLengthInHoursChanged,
-    @required this.onNumOfEditsChanged,
-    @required this.onErrorStateChanged,
+    @required this.rateType,
+    @required this.rate,
+    @required this.quantity,
+    @required this.onFilterChanged,
+    @required this.onFlatRateTextChanged,
+    @required this.onHourlyRateTextChanged,
+    @required this.onHourlyQuantityTextChanged,
+    @required this.onItemRateTextChanged,
+    @required this.onItemQuantityTextChanged,
   });
 
   NewPricingProfilePageState copyWith({
@@ -70,12 +65,9 @@ class NewPricingProfilePageState {
     bool shouldClear,
     String profileName,
     String profileIcon,
-    int priceFives,
-    int priceHundreds,
-    int lengthInMinutes,
-    int lengthInHours,
-    int numOfEdits,
-    String errorState,
+    String unitType,
+    double rate,
+    int quantity,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -83,12 +75,12 @@ class NewPricingProfilePageState {
     Function(PriceProfile) onDeleteProfileSelected,
     Function(String) onProfileNameChanged,
     Function(String) onProfileIconSelected,
-    Function(int) onPriceFivesChanged,
-    Function(int) onPriceHundredsChanged,
-    Function(int) onLengthInMinutesChanged,
-    Function(int) onLengthInHoursChanged,
-    Function(int) onNumOfEditsChanged,
-    Function(String) onErrorStateChanged,
+    Function(String) onFilterChanged,
+    Function(String) onFlatRateTextChanged,
+    Function(String) onHourlyRateTextChanged,
+    Function(String) onHourlyQuantityTextChanged,
+    Function(String) onItemRateTextChanged,
+    Function(String) onItemQuantityTextChanged,
   }){
     return NewPricingProfilePageState(
       id: id?? this.id,
@@ -97,12 +89,9 @@ class NewPricingProfilePageState {
       shouldClear: shouldClear?? this.shouldClear,
       profileName: profileName?? this.profileName,
       profileIcon: profileIcon?? this.profileIcon,
-      priceFives: priceFives?? this.priceFives,
-      priceHundreds: priceHundreds?? this.priceHundreds,
-      lengthInMinutes: lengthInMinutes?? this.lengthInMinutes,
-      lengthInHours: lengthInHours?? this.lengthInHours,
-      numOfEdits: numOfEdits?? this.numOfEdits,
-      errorState: errorState?? this.errorState,
+      rateType: unitType ?? this.rateType,
+      rate: rate ?? this.rate,
+      quantity: quantity ?? this.quantity,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -110,12 +99,12 @@ class NewPricingProfilePageState {
       onDeleteProfileSelected: onDeleteProfileSelected?? this.onDeleteProfileSelected,
       onProfileNameChanged: onProfileNameChanged?? this.onProfileNameChanged,
       onProfileIconSelected: onProfileIconSelected?? this.onProfileIconSelected,
-      onPriceFivesChanged: onPriceFivesChanged?? this.onPriceFivesChanged,
-      onPriceHundredsChanged: onPriceHundredsChanged?? this.onPriceHundredsChanged,
-      onLengthInMinutesChanged: onLengthInMinutesChanged?? this.onLengthInMinutesChanged,
-      onLengthInHoursChanged: onLengthInHoursChanged?? this.onLengthInHoursChanged,
-      onNumOfEditsChanged: onNumOfEditsChanged?? this.onNumOfEditsChanged,
-      onErrorStateChanged: onErrorStateChanged?? this.onErrorStateChanged,
+      onFilterChanged: onFilterChanged ?? this.onFilterChanged,
+      onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
+      onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
+      onHourlyQuantityTextChanged: onHourlyQuantityTextChanged ?? this.onHourlyQuantityTextChanged,
+      onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
+      onItemQuantityTextChanged: onItemQuantityTextChanged ?? this.onItemQuantityTextChanged,
     );
   }
 
@@ -126,12 +115,9 @@ class NewPricingProfilePageState {
         shouldClear: true,
         profileName: "",
         profileIcon: null,
-        priceFives: 0,
-        priceHundreds: 0,
-        lengthInMinutes: 0,
-        lengthInHours: 0,
-        numOfEdits: 0,
-        errorState: NO_ERROR,
+        rateType: Invoice.RATE_TYPE_FLAT_RATE,
+        rate: 0,
+        quantity: 0,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -139,12 +125,12 @@ class NewPricingProfilePageState {
         onDeleteProfileSelected: null,
         onProfileNameChanged: null,
         onProfileIconSelected: null,
-        onPriceFivesChanged: null,
-        onPriceHundredsChanged: null,
-        onLengthInMinutesChanged: null,
-        onLengthInHoursChanged: null,
-        onNumOfEditsChanged: null,
-        onErrorStateChanged: null,
+        onFilterChanged: null,
+        onFlatRateTextChanged: null,
+        onHourlyRateTextChanged: null,
+        onHourlyQuantityTextChanged: null,
+        onItemQuantityTextChanged: null,
+        onItemRateTextChanged: null,
       );
 
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {
@@ -155,25 +141,22 @@ class NewPricingProfilePageState {
       shouldClear: store.state.pricingProfilePageState.shouldClear,
       profileName: store.state.pricingProfilePageState.profileName,
       profileIcon: store.state.pricingProfilePageState.profileIcon,
-      priceFives: store.state.pricingProfilePageState.priceFives,
-      priceHundreds: store.state.pricingProfilePageState.priceHundreds,
-      lengthInMinutes: store.state.pricingProfilePageState.lengthInMinutes,
-      lengthInHours: store.state.pricingProfilePageState.lengthInHours,
-      numOfEdits: store.state.pricingProfilePageState.numOfEdits,
-      errorState: store.state.newContactPageState.errorState,
+      rateType: store.state.pricingProfilePageState.rateType,
+      rate: store.state.pricingProfilePageState.rate,
+      quantity: store.state.pricingProfilePageState.quantity,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.pricingProfilePageState)),
-      onDeleteProfileSelected: (priceProfile) => store.dispatch(DeletePriceProfileAction(store.state.pricingProfilePageState, priceProfile)),
+      onDeleteProfileSelected: () => store.dispatch(DeletePriceProfileAction(store.state.pricingProfilePageState)),
       onProfileNameChanged: (profileName) => store.dispatch(UpdateProfileNameAction(store.state.pricingProfilePageState, profileName)),
       onProfileIconSelected: (fileLocation) => store.dispatch(SetProfileIconAction(store.state.pricingProfilePageState, fileLocation)),
-      onPriceFivesChanged: (priceFives) => store.dispatch(UpdateProfilePriceFivesAction(store.state.pricingProfilePageState, priceFives)),
-      onPriceHundredsChanged: (priceHundreds) => store.dispatch(UpdateProfilePriceHundredsAction(store.state.pricingProfilePageState, priceHundreds)),
-      onLengthInMinutesChanged: (lengthInMinutes) => store.dispatch(UpdateProfileLengthAction(store.state.pricingProfilePageState, lengthInMinutes)),
-      onLengthInHoursChanged: (lengthInHours) => store.dispatch(UpdateProfileLengthInHoursAction(store.state.pricingProfilePageState, lengthInHours)),
-      onNumOfEditsChanged: (numOfEdits) => store.dispatch(UpdateProfileNumberOfEditsAction(store.state.pricingProfilePageState, numOfEdits)),
-      onErrorStateChanged: (errorCode) => store.dispatch(UpdateErrorStateAction(store.state.pricingProfilePageState, errorCode)),
+      onFilterChanged: null,
+      onFlatRateTextChanged: null,
+      onHourlyRateTextChanged: null,
+      onHourlyQuantityTextChanged: null,
+      onItemQuantityTextChanged: null,
+      onItemRateTextChanged: null,
     );
   }
 
@@ -185,23 +168,15 @@ class NewPricingProfilePageState {
       shouldClear.hashCode ^
       profileName.hashCode ^
       profileIcon.hashCode ^
-      priceFives.hashCode ^
-      priceHundreds.hashCode ^
-      lengthInMinutes.hashCode ^
-      lengthInHours.hashCode ^
-      numOfEdits.hashCode ^
-      errorState.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
       onBackPressed.hashCode ^
       onProfileNameChanged.hashCode ^
       onProfileIconSelected.hashCode ^
-      onPriceFivesChanged.hashCode ^
-      onPriceHundredsChanged.hashCode ^
-      onLengthInMinutesChanged.hashCode ^
-      onNumOfEditsChanged.hashCode ^
-      onErrorStateChanged.hashCode;
+      rateType.hashCode ^
+      rate.hashCode ^
+      quantity.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -213,21 +188,13 @@ class NewPricingProfilePageState {
           shouldClear == other.shouldClear &&
           profileName == other.profileName &&
           profileIcon == other.profileIcon &&
-          priceFives == other.priceFives &&
-          priceHundreds == other.priceHundreds &&
-          lengthInMinutes == other.lengthInMinutes &&
-          lengthInHours == other.lengthInHours &&
-          numOfEdits == other.numOfEdits &&
-          errorState == other.errorState &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&
           onProfileNameChanged == other.onProfileNameChanged &&
           onProfileIconSelected == other.onProfileIconSelected &&
-          onPriceFivesChanged == other.onPriceFivesChanged &&
-          onPriceHundredsChanged == other.onPriceHundredsChanged &&
-          onLengthInMinutesChanged == other.onLengthInMinutesChanged &&
-          onNumOfEditsChanged == other.onNumOfEditsChanged &&
-          onErrorStateChanged == other.onErrorStateChanged;
+          rateType == other.rateType &&
+          rate == other.rate &&
+          quantity == other.quantity;
 }

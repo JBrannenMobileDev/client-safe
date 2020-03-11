@@ -48,6 +48,7 @@ dependencies:
   sunrise_sunset: ^1.0.3
   flutter_circular_text: ^0.3.0
   flutter_cupertino_date_picker: ^1.0.12
+  keyboard_actions: ^3.2.0
 
 flutter_icons:
   android: true

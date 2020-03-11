@@ -1,9 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -119,29 +117,23 @@ class PriceProfileSelectionListWidget extends StatelessWidget {
   }
 
   String _buildSubtitlePriceText(NewJobPageState pageState, int index) {
-    PriceProfile profile = getProfile(index, pageState);
-    int price = profile.priceFives + profile.priceHundreds;
     String textToDisplay = "";
-    textToDisplay = "PRICE:  \$$price" + ".00";
+    textToDisplay = "PRICE:";
     return textToDisplay;
   }
 
   String _buildSubtitleLengthText(NewJobPageState pageState, int index) {
     PriceProfile profile = getProfile(index, pageState);
-    int lengthHours = profile.timeInHours;
-    int lengthInMin = profile.timeInMin;
-    String hrText = profile.timeInHours != 0 ? profile.timeInHours == 1 ? "$lengthHours hr" : "$lengthHours hrs" : "";
-    String minText = profile.timeInMin != null && profile.timeInMin != 0 ? "$lengthInMin min" : "";
     String textToDisplay = "";
-    textToDisplay = "LENGTH:  $hrText $minText";
+    textToDisplay = "LENGTH:  ";
     return textToDisplay;
   }
 
   String _buildSubtitleEditsText(NewJobPageState pageState, int index) {
     PriceProfile profile = getProfile(index, pageState);
-    int edits = profile.numOfEdits;
+
     String textToDisplay = "";
-    textToDisplay = "EDITS:  $edits";
+    textToDisplay = "EDITS:  ";
     return textToDisplay;
   }
 

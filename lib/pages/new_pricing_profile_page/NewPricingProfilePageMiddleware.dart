@@ -25,11 +25,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
     PriceProfile priceProfile = PriceProfile(
       id: store.state.pricingProfilePageState.id,
       profileName: store.state.pricingProfilePageState.profileName,
-      priceFives: store.state.pricingProfilePageState.priceFives,
-      priceHundreds: store.state.pricingProfilePageState.priceHundreds,
-      timeInMin: store.state.pricingProfilePageState.lengthInMinutes,
-      timeInHours: store.state.pricingProfilePageState.lengthInHours,
-      numOfEdits: store.state.pricingProfilePageState.numOfEdits,
+      rateType: store.state.pricingProfilePageState.rateType,
       icon: store.state.pricingProfilePageState.profileIcon != null
           ? store.state.pricingProfilePageState.profileIcon : ImageUtil.getDefaultPricingProfileIcon(),
     );
@@ -40,7 +36,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
-    await PriceProfileDao.delete(action.priceProfile);
+    await PriceProfileDao.delete(PriceProfile());
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

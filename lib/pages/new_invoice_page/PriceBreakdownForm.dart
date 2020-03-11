@@ -64,9 +64,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) => {
         if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
-          flatRateTextController = TextEditingController(text: '\$'
-              + (appState.state.newInvoicePageState.selectedJob?.priceProfile?.priceHundreds ?? 0
-                  + appState.state.newInvoicePageState.selectedJob?.priceProfile?.priceFives ?? 0).toString())
+          flatRateTextController = TextEditingController(text: '\$')
         }
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
@@ -111,7 +109,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                 child: NewInvoiceTextField(
                   controller: flatRateTextController,
                   hintText: "\$",
-                  inputType: TextInputType.number,
+                  inputType: TextInputType.text,
                   height: 60.0,
                   onTextInputChanged: pageState.onFlatRateTextChanged,
                   capitalization: TextCapitalization.none,

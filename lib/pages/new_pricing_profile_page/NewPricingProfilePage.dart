@@ -1,14 +1,11 @@
 import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileIconSelection.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewProfileLengthSelection.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewProfileName.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewProfileNumOfEditsSelection.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewProfilePriceSelection.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -27,7 +24,8 @@ class NewPricingProfilePage extends StatefulWidget {
 }
 
 class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
-  final int pageCount = 4;
+  final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
+  final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
@@ -74,6 +72,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
           WillPopScope(
           onWillPop: _onWillPop,
           child: Scaffold(
+            key: scaffoldKey,
             backgroundColor: Colors.transparent,
             body: Center(
               child: Container(
@@ -128,16 +127,14 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                       ),
                     ),
                     Container(
-                      height: 270.0,
+                      height: 216.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
                         pageSnapping: true,
                         children: <Widget>[
                           NewProfileName(),
-                          NewProfilePriceSelection(),
-                          NewProfileLengthSelection(),
-                          NewProfileNumberOfEditsSelection(),
+                          RateTypeSelection(scaffoldKey),
                           NewPricingProfileIconSelection(),
                         ],
                       ),
@@ -213,18 +210,10 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
           if (pageState.profileName.length > 0) {
             canProgress = true;
           } else {
-            pageState.onErrorStateChanged(
-                NewPricingProfilePageState.ERROR_PROFILE_NAME_MISSING);
             HapticFeedback.heavyImpact();
           }
           break;
         case 1:
-          canProgress = true;
-          break;
-        case 2:
-          canProgress = true;
-          break;
-        case 3:
           canProgress = true;
           break;
         default:
@@ -260,16 +249,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
             ),
             new FlatButton(
               onPressed: () {
-                pageState.onDeleteProfileSelected(PriceProfile(
-                    id: pageState.id,
-                    profileName: pageState.profileName,
-                    icon: pageState.profileIcon,
-                    priceFives: pageState.priceFives,
-                    priceHundreds: pageState.priceHundreds,
-                    timeInMin: pageState.lengthInMinutes,
-                    timeInHours: pageState.lengthInHours,
-                    numOfEdits: pageState.numOfEdits
-                ));
+                pageState.onDeleteProfileSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -285,16 +265,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
             ),
             new FlatButton(
               onPressed: () {
-                pageState.onDeleteProfileSelected(PriceProfile(
-                    id: pageState.id,
-                    profileName: pageState.profileName,
-                    icon: pageState.profileIcon,
-                    priceFives: pageState.priceFives,
-                    priceHundreds: pageState.priceHundreds,
-                    timeInMin: pageState.lengthInMinutes,
-                    timeInHours: pageState.lengthInHours,
-                    numOfEdits: pageState.numOfEdits
-                ));
+                pageState.onDeleteProfileSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
