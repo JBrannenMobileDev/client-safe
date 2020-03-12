@@ -174,7 +174,7 @@ class _DashboardPageState extends State<DashboardPage>
                                     fontSize: 16.0,
                                     fontFamily: 'Raleway',
                                     fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                               ),
@@ -227,7 +227,7 @@ class _DashboardPageState extends State<DashboardPage>
                                       fontFamily: 'Raleway',
                                       fontWeight: FontWeight.w800,
                                       color: Color(
-                                          ColorConstants.getPrimaryWhite()),
+                                          ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
                                 ],

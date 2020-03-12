@@ -9,7 +9,51 @@ final newPricingProfilePageReducer = combineReducers<NewPricingProfilePageState>
   TypedReducer<NewPricingProfilePageState, LoadExistingPricingProfileData>(_loadPriceProfile),
   TypedReducer<NewPricingProfilePageState, SetProfileIconAction>(_setProfileIcon),
   TypedReducer<NewPricingProfilePageState, UpdateProfileNameAction>(_updateName),
+  TypedReducer<NewPricingProfilePageState, SaveSelectedRateTypeAction>(_saveRateType),
+  TypedReducer<NewPricingProfilePageState, UpdateFlatRateTextAction>(_updateFlatRate),
+  TypedReducer<NewPricingProfilePageState, UpdateHourlyRateTextAction>(_updateHourlyRate),
+  TypedReducer<NewPricingProfilePageState, UpdateHourlyQuantityTextAction>(_updateHourlyQuantity),
+  TypedReducer<NewPricingProfilePageState, UpdateItemRateTextAction>(_updateItemRate),
+  TypedReducer<NewPricingProfilePageState, UpdateItemQuantityTextAction>(_updateItemQuantity),
 ]);
+
+NewPricingProfilePageState _saveRateType(NewPricingProfilePageState previousState, SaveSelectedRateTypeAction action){
+  return previousState.copyWith(
+    rateType: action.rateType,
+  );
+}
+
+NewPricingProfilePageState _updateItemQuantity(NewPricingProfilePageState previousState, UpdateItemQuantityTextAction action){
+  action.itemQuantityText.replaceFirst('\$', '');
+  return previousState.copyWith(
+    itemQuantity: int.parse(action.itemQuantityText),
+  );
+}
+
+NewPricingProfilePageState _updateItemRate(NewPricingProfilePageState previousState, UpdateItemRateTextAction action){
+  return previousState.copyWith(
+    itemRate: double.parse(action.itemRateText),
+  );
+}
+
+NewPricingProfilePageState _updateHourlyQuantity(NewPricingProfilePageState previousState, UpdateHourlyQuantityTextAction action){
+  return previousState.copyWith(
+    hourlyQuantity: int.parse(action.hourlyQuantityText),
+  );
+}
+
+NewPricingProfilePageState _updateHourlyRate(NewPricingProfilePageState previousState, UpdateHourlyRateTextAction action){
+  return previousState.copyWith(
+    hourlyRate: double.parse(action.hourlyRateText),
+  );
+}
+
+NewPricingProfilePageState _updateFlatRate(NewPricingProfilePageState previousState, UpdateFlatRateTextAction action){
+  String flatRate = action.flatRateText.replaceFirst(r'$', '');
+  return previousState.copyWith(
+    flatRate: double.parse(flatRate),
+  );
+}
 
 NewPricingProfilePageState _updateName(NewPricingProfilePageState previousState, UpdateProfileNameAction action){
   return previousState.copyWith(
@@ -23,6 +67,12 @@ NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previous
     shouldClear: false,
     profileName: action.profile.profileName,
     profileIcon: action.profile.icon,
+    rateType: action.profile.rateType,
+    flatRate: action.profile.flatRate,
+    hourlyRate: action.profile.hourlyRate,
+    hourlyQuantity: action.profile.hourlyQuantity,
+    itemQuantity: action.profile.itemQuantity,
+    itemRate: action.profile.itemRate,
   );
 }
 

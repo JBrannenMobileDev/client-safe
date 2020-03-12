@@ -2,16 +2,22 @@ class PriceProfile{
   int id;
   String profileName;
   String rateType;
-  double rate;
-  int quantity;
+  double flatRate;
+  double hourlyRate;
+  double itemRate;
+  int itemQuantity;
+  int hourlyQuantity;
   String icon;
 
   PriceProfile({
     this.id,
     this.profileName,
     this.rateType,
-    this.rate,
-    this.quantity,
+    this.flatRate,
+    this.hourlyRate,
+    this.itemRate,
+    this.itemQuantity,
+    this.hourlyQuantity,
     this.icon,
   });
 
@@ -20,7 +26,11 @@ class PriceProfile{
       'id' : id,
       'profileName': profileName,
       'rateType' : rateType,
-      'rate' : rate,
+      'flatRate' : flatRate,
+      'hourlyRate' : hourlyRate,
+      'itemRate' : itemRate,
+      'itemQuantity' : itemQuantity,
+      'hourlyQuantity' : hourlyQuantity,
       'icon' : icon,
     };
   }
@@ -30,8 +40,11 @@ class PriceProfile{
       id: map['id'],
       profileName: map['profileName'],
       rateType: map['rateType'],
-      rate: map['rate'],
-      quantity: map['quantity'],
+      flatRate: map['flatRate'],
+      hourlyRate: map['hourlyRate'],
+      itemRate: map['itemRate'],
+      itemQuantity: map['itemQuantity'],
+      hourlyQuantity: map['hourlyQuantity'],
       icon: map['icon'],
     );
   }

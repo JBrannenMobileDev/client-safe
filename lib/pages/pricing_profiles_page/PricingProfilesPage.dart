@@ -1,5 +1,5 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
@@ -24,7 +24,10 @@ class PricingProfilesPage extends StatelessWidget {
               body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
-                    brightness: Brightness.dark,
+                    iconTheme: IconThemeData(
+                      color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                    ),
+                    brightness: Brightness.light,
                     backgroundColor: Color(ColorConstants.getPeachDark()),
                     pinned: true,
                     centerTitle: true,
@@ -64,7 +67,7 @@ class PricingProfilesPage extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
                           child: Text(
-                            "You have not created any pricing profiles yet. To create a new pricing profile, select the plus icon.",
+                            "You have not created any pricing package yet. To create a new pricing package, select the plus icon.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 18.0,
@@ -88,8 +91,13 @@ class PricingProfilesPage extends StatelessWidget {
       builder: (BuildContext context, PricingProfilesPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: PriceProfileListWidget(index),
+            child: PriceProfileListWidget(pageState.pricingProfiles.elementAt(index), pageState, onProfileSelected),
           ),
     );
+  }
+
+  onProfileSelected(PriceProfile priceProfile, var pageState,  BuildContext context) {
+    pageState.onProfileSelected(priceProfile);
+    UserOptionsUtil.showNewPriceProfileDialog(context);
   }
 }

@@ -49,6 +49,7 @@ dependencies:
   flutter_circular_text: ^0.3.0
   flutter_cupertino_date_picker: ^1.0.12
   keyboard_actions: ^3.2.0
+  keyboard_visibility: ^0.5.6
 
 flutter_icons:
   android: true

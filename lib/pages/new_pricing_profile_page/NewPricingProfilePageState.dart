@@ -17,8 +17,11 @@ class NewPricingProfilePageState {
   final String profileName;
   final String profileIcon;
   final String rateType;
-  final double rate;
-  final int quantity;
+  final double flatRate;
+  final double hourlyRate;
+  final double itemRate;
+  final int hourlyQuantity;
+  final int itemQuantity;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -48,8 +51,11 @@ class NewPricingProfilePageState {
     @required this.onProfileNameChanged,
     @required this.onProfileIconSelected,
     @required this.rateType,
-    @required this.rate,
-    @required this.quantity,
+    @required this.flatRate,
+    @required this.hourlyRate,
+    @required this.itemRate,
+    @required this.hourlyQuantity,
+    @required this.itemQuantity,
     @required this.onFilterChanged,
     @required this.onFlatRateTextChanged,
     @required this.onHourlyRateTextChanged,
@@ -65,9 +71,12 @@ class NewPricingProfilePageState {
     bool shouldClear,
     String profileName,
     String profileIcon,
-    String unitType,
-    double rate,
-    int quantity,
+    String rateType,
+    double flatRate,
+    double hourlyRate,
+    double itemRate,
+    int hourlyQuantity,
+    int itemQuantity,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -89,9 +98,12 @@ class NewPricingProfilePageState {
       shouldClear: shouldClear?? this.shouldClear,
       profileName: profileName?? this.profileName,
       profileIcon: profileIcon?? this.profileIcon,
-      rateType: unitType ?? this.rateType,
-      rate: rate ?? this.rate,
-      quantity: quantity ?? this.quantity,
+      rateType: rateType ?? this.rateType,
+      flatRate: flatRate ?? this.flatRate,
+      hourlyRate: hourlyRate ?? this.hourlyRate,
+      itemRate: itemRate ?? this.itemRate,
+      itemQuantity: itemQuantity ?? this.itemQuantity,
+      hourlyQuantity: hourlyQuantity ?? this.hourlyQuantity,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -116,8 +128,11 @@ class NewPricingProfilePageState {
         profileName: "",
         profileIcon: null,
         rateType: Invoice.RATE_TYPE_FLAT_RATE,
-        rate: 0,
-        quantity: 0,
+        flatRate: 0,
+        hourlyRate: 0,
+        itemRate: 0,
+        itemQuantity: 0,
+        hourlyQuantity: 0,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -142,8 +157,10 @@ class NewPricingProfilePageState {
       profileName: store.state.pricingProfilePageState.profileName,
       profileIcon: store.state.pricingProfilePageState.profileIcon,
       rateType: store.state.pricingProfilePageState.rateType,
-      rate: store.state.pricingProfilePageState.rate,
-      quantity: store.state.pricingProfilePageState.quantity,
+      flatRate: store.state.pricingProfilePageState.flatRate,
+      hourlyRate: store.state.pricingProfilePageState.hourlyRate,
+      itemQuantity: store.state.pricingProfilePageState.itemQuantity,
+      hourlyQuantity: store.state.pricingProfilePageState.hourlyQuantity,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
@@ -151,12 +168,12 @@ class NewPricingProfilePageState {
       onDeleteProfileSelected: () => store.dispatch(DeletePriceProfileAction(store.state.pricingProfilePageState)),
       onProfileNameChanged: (profileName) => store.dispatch(UpdateProfileNameAction(store.state.pricingProfilePageState, profileName)),
       onProfileIconSelected: (fileLocation) => store.dispatch(SetProfileIconAction(store.state.pricingProfilePageState, fileLocation)),
-      onFilterChanged: null,
-      onFlatRateTextChanged: null,
-      onHourlyRateTextChanged: null,
-      onHourlyQuantityTextChanged: null,
-      onItemQuantityTextChanged: null,
-      onItemRateTextChanged: null,
+      onFilterChanged: (rateType) => store.dispatch(SaveSelectedRateTypeAction(store.state.pricingProfilePageState, rateType)),
+      onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.pricingProfilePageState, flatRateText)),
+      onHourlyRateTextChanged: (hourlyRateText) => store.dispatch(UpdateHourlyRateTextAction(store.state.pricingProfilePageState, hourlyRateText)),
+      onHourlyQuantityTextChanged: (hourlyQuantity) => store.dispatch(UpdateHourlyQuantityTextAction(store.state.pricingProfilePageState, hourlyQuantity)),
+      onItemQuantityTextChanged: (itemQuantityText) => store.dispatch(UpdateItemQuantityTextAction(store.state.pricingProfilePageState, itemQuantityText)),
+      onItemRateTextChanged: (itemRateText) => store.dispatch(UpdateItemRateTextAction(store.state.pricingProfilePageState, itemRateText)),
     );
   }
 
@@ -175,8 +192,11 @@ class NewPricingProfilePageState {
       onProfileNameChanged.hashCode ^
       onProfileIconSelected.hashCode ^
       rateType.hashCode ^
-      rate.hashCode ^
-      quantity.hashCode;
+      flatRate.hashCode ^
+      hourlyRate.hashCode ^
+      itemRate.hashCode ^
+      itemQuantity.hashCode ^
+      hourlyQuantity.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -195,6 +215,9 @@ class NewPricingProfilePageState {
           onProfileNameChanged == other.onProfileNameChanged &&
           onProfileIconSelected == other.onProfileIconSelected &&
           rateType == other.rateType &&
-          rate == other.rate &&
-          quantity == other.quantity;
+          hourlyRate == other.hourlyRate &&
+          itemRate == other.itemRate &&
+          itemQuantity == other.itemQuantity &&
+          flatRate == other.flatRate &&
+          hourlyQuantity == other.hourlyQuantity;
 }

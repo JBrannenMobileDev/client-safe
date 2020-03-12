@@ -50,6 +50,7 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
                 controller: profileNameTextController,
                 hintText: "Price Profile Name",
                 inputType: TextInputType.text,
+                focusNode: null,
                 height: 60.0,
                 onTextInputChanged: pageState.onProfileNameChanged,
                 keyboardAction: TextInputAction.done,

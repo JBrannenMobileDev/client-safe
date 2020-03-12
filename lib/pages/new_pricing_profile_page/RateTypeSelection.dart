@@ -2,11 +2,13 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPriceProfileTextField.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/InputDoneView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class RateTypeSelection extends StatefulWidget {
   static const String SELECTOR_TYPE_FLAT_RATE = "Flat rate";
@@ -24,6 +26,10 @@ class RateTypeSelection extends StatefulWidget {
 
 class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliveClientMixin {
   final GlobalKey<ScaffoldState> scaffoldKey;
+  OverlayEntry overlayEntry;
+  final FocusNode flatRateInputFocusNode = new FocusNode();
+  final FocusNode hourlyRateInputFocusNode = new FocusNode();
+  final FocusNode itemRateInputFocusNode = new FocusNode();
   var flatRateTextController = TextEditingController(text: '\$');
   var hourlyRateTextController = TextEditingController(text: '\$');
   var hourlyQuantityTextController = TextEditingController(text: '0');
@@ -61,7 +67,47 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
         ),),
     };
     if(flatRateTextController.text.length == 0) flatRateTextController = TextEditingController(text: '\$');
+    if(hourlyQuantityTextController.text.length == 0) hourlyQuantityTextController = TextEditingController(text: '\$');
+    if(quantityRateTextController.text.length == 0) quantityRateTextController = TextEditingController(text: '\$');
     return StoreConnector<AppState, NewPricingProfilePageState>(
+      onInit: (appState) {
+        flatRateTextController.text = '\$' + appState.state.pricingProfilePageState.flatRate.toInt().toString();
+        KeyboardVisibilityNotification().addNewListener(
+            onShow: () {
+              showOverlay(context);
+            },
+            onHide: () {
+              removeOverlay();
+            }
+        );
+
+        flatRateInputFocusNode.addListener(() {
+
+          bool hasFocus = flatRateInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        hourlyRateInputFocusNode.addListener(() {
+
+          bool hasFocus = hourlyRateInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        itemRateInputFocusNode.addListener(() {
+
+          bool hasFocus = itemRateInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+      },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           Stack(
@@ -79,9 +125,19 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),
+                  Text(
+                    'Select one',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.w400,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
                   Container(
                     width: 300.0,
-                    margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 32.0, bottom: 16.0),
+                    margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
                     child: CupertinoSlidingSegmentedControl<int>(
                       backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                       thumbColor: Color(ColorConstants.getPrimaryColor()),
@@ -104,7 +160,8 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     child: NewPriceProfileTextField(
                       controller: flatRateTextController,
                       hintText: "\$",
-                      inputType: TextInputType.text,
+                      inputType: TextInputType.number,
+                      focusNode: flatRateInputFocusNode,
                       height: 60.0,
                       onTextInputChanged: pageState.onFlatRateTextChanged,
                       capitalization: TextCapitalization.none,
@@ -112,104 +169,112 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                       labelText: 'Rate',
                     ),
                   ) : selectorIndex == 1 ?
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 112.0,
-                        margin: EdgeInsets.only(left: 15.0, bottom: 16.0),
-                        child: NewPriceProfileTextField(
-                          controller: hourlyRateTextController,
-                          hintText: "\$",
-                          inputType: TextInputType.number,
-                          height: 60.0,
-                          onTextInputChanged: pageState.onFlatRateTextChanged,
-                          capitalization: TextCapitalization.none,
-                          keyboardAction: TextInputAction.done,
-                          labelText: 'Hour',
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(bottom: 16.0),
-                        child: IconButton(
-                          icon: Icon(
-                              Icons.close,
-                              color: Color(ColorConstants.getPrimaryBlack())
-                          ),
-                          tooltip: 'delete',
-                          onPressed: null,
-                        ),
-                      ),
-                      Opacity(
-                        opacity: 0.35,
-                        child: Container(
+                  Padding(
+                    padding: EdgeInsets.only(top: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
                           width: 112.0,
-                          margin: EdgeInsets.only(right: 15.0, bottom: 16.0),
+                          margin: EdgeInsets.only(left: 15.0, bottom: 16.0),
                           child: NewPriceProfileTextField(
-                            controller: hourlyQuantityTextController,
-                            hintText: "0",
+                            controller: hourlyRateTextController,
+                            hintText: "\$",
                             inputType: TextInputType.number,
+                            focusNode: hourlyRateInputFocusNode,
                             height: 60.0,
-                            onTextInputChanged: pageState.onFlatRateTextChanged,
+                            onTextInputChanged: pageState.onHourlyRateTextChanged,
                             capitalization: TextCapitalization.none,
                             keyboardAction: TextInputAction.done,
-                            labelText: 'Quantity',
-                            enabled: false,
+                            labelText: 'Hour',
                           ),
                         ),
-                      ),
-                    ],
+                        Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(bottom: 16.0),
+                          child: IconButton(
+                            icon: Icon(
+                                Icons.close,
+                                color: Color(ColorConstants.getPrimaryBlack())
+                            ),
+                            tooltip: 'delete',
+                            onPressed: null,
+                          ),
+                        ),
+                        Opacity(
+                          opacity: 0.35,
+                          child: Container(
+                            width: 112.0,
+                            margin: EdgeInsets.only(right: 15.0, bottom: 16.0),
+                            child: NewPriceProfileTextField(
+                              controller: hourlyQuantityTextController,
+                              hintText: "0",
+                              inputType: TextInputType.number,
+                              height: 60.0,
+                              onTextInputChanged: pageState.onHourlyQuantityTextChanged,
+                              capitalization: TextCapitalization.none,
+                              keyboardAction: TextInputAction.done,
+                              labelText: 'Quantity',
+                              enabled: false,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ):
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: 112.0,
-                        margin: EdgeInsets.only(left: 15.0),
-                        child: NewPriceProfileTextField(
-                          controller: quantityRateTextController,
-                          hintText: "\$",
-                          inputType: TextInputType.number,
-                          height: 60.0,
-                          onTextInputChanged: pageState.onFlatRateTextChanged,
-                          capitalization: TextCapitalization.none,
-                          keyboardAction: TextInputAction.done,
-                          labelText: 'Item',
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.center,
-                        child: IconButton(
-                          icon: Icon(
-                              Icons.close,
-                              color: Color(ColorConstants.getPrimaryBlack())
+                  Padding(
+                    padding: EdgeInsets.only(top: 16.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          width: 112.0,
+                          margin: EdgeInsets.only(left: 15.0),
+                          child: NewPriceProfileTextField(
+                            controller: quantityRateTextController,
+                            hintText: "\$",
+                            inputType: TextInputType.number,
+                            focusNode: itemRateInputFocusNode,
+                            height: 60.0,
+                            onTextInputChanged: pageState.onItemRateTextChanged,
+                            capitalization: TextCapitalization.none,
+                            keyboardAction: TextInputAction.done,
+                            labelText: 'Item',
                           ),
-                          tooltip: 'delete',
-                          onPressed: null,
                         ),
-                      ),
-                     Opacity(
-                       opacity: 0.35,
-                       child: Container(
-                         width: 112.0,
-                         margin: EdgeInsets.only(right: 15.0),
-                         child: NewPriceProfileTextField(
-                           enabled: false,
-                           controller: quantityQuantityTextController,
-                           hintText: "0",
-                           inputType: TextInputType.number,
-                           height: 60.0,
-                           onTextInputChanged: pageState.onFlatRateTextChanged,
-                           capitalization: TextCapitalization.none,
-                           keyboardAction: TextInputAction.done,
-                           labelText: 'Quantity',
-                         ),
-                       ),
-                     ),
-                    ],
+                        Container(
+                          alignment: Alignment.center,
+                          child: IconButton(
+                            icon: Icon(
+                                Icons.close,
+                                color: Color(ColorConstants.getPrimaryBlack())
+                            ),
+                            tooltip: 'delete',
+                            onPressed: null,
+                          ),
+                        ),
+                        Opacity(
+                          opacity: 0.35,
+                          child: Container(
+                            width: 112.0,
+                            margin: EdgeInsets.only(right: 15.0),
+                            child: NewPriceProfileTextField(
+                              enabled: false,
+                              controller: quantityQuantityTextController,
+                              hintText: "0",
+                              inputType: TextInputType.number,
+                              height: 60.0,
+                              onTextInputChanged: pageState.onItemQuantityTextChanged,
+                              capitalization: TextCapitalization.none,
+                              keyboardAction: TextInputAction.done,
+                              labelText: 'Quantity',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -224,6 +289,27 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
 
   void vibrate() async {
     HapticFeedback.mediumImpact();
+  }
+
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneView());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
   }
 
   @override

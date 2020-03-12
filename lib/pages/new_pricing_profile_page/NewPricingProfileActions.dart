@@ -1,5 +1,6 @@
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 
 class LoadExistingPricingProfileData{
   final NewPricingProfilePageState pageState;
@@ -43,6 +44,44 @@ class UpdateProfileNameAction{
   final String profileName;
   UpdateProfileNameAction(this.pageState, this.profileName);
 }
+
+class SaveSelectedRateTypeAction{
+  final NewPricingProfilePageState pageState;
+  final String rateType;
+  SaveSelectedRateTypeAction(this.pageState, this.rateType);
+}
+
+class UpdateFlatRateTextAction{
+  final NewPricingProfilePageState pageState;
+  final String flatRateText;
+  UpdateFlatRateTextAction(this.pageState, this.flatRateText);
+}
+
+class UpdateHourlyRateTextAction{
+  final NewPricingProfilePageState pageState;
+  final String hourlyRateText;
+  UpdateHourlyRateTextAction(this.pageState, this.hourlyRateText);
+}
+
+class UpdateHourlyQuantityTextAction{
+  final NewPricingProfilePageState pageState;
+  final String hourlyQuantityText;
+  UpdateHourlyQuantityTextAction(this.pageState, this.hourlyQuantityText);
+}
+
+class UpdateItemRateTextAction{
+  final NewPricingProfilePageState pageState;
+  final String itemRateText;
+  UpdateItemRateTextAction(this.pageState, this.itemRateText);
+}
+
+class UpdateItemQuantityTextAction{
+  final NewPricingProfilePageState pageState;
+  final String itemQuantityText;
+  UpdateItemQuantityTextAction(this.pageState, this.itemQuantityText);
+}
+
+
 
 
 

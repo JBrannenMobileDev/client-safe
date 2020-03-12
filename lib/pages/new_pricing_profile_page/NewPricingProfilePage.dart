@@ -7,6 +7,7 @@ import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage
 import 'package:client_safe/pages/new_pricing_profile_page/NewProfileName.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/InputDoneView.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class NewPricingProfilePage extends StatefulWidget {
   @override
@@ -66,7 +68,9 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
       currentPageIndex = controller.page.toInt();
     });
     return StoreConnector<AppState, NewPricingProfilePageState>(
-      onInit: (store) => store.state.pricingProfilePageState.shouldClear ? store.dispatch(ClearStateAction(store.state.pricingProfilePageState)) : null,
+      onInit: (store) {
+        if(store.state.pricingProfilePageState.shouldClear) store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
+      },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           WillPopScope(
