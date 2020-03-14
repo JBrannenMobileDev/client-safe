@@ -1,7 +1,8 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPriceProfileSelectionListWidget.dart';
+import 'package:client_safe/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/VibrateUtil.dart';
@@ -51,21 +52,6 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                         fontFamily: 'Raleway',
                         fontWeight: FontWeight.w800,
                         color: Color(ColorConstants.primary_black),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      pageState.selectedPriceProfile != null
-                          ? pageState.selectedPriceProfile.profileName
-                          : "",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryColor()),
                       ),
                     ),
                   ),
@@ -185,9 +171,22 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) => Container(
         margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-        child: JobDetailsPriceProfileSelectionListWidget(index),
+        child: PriceProfileListWidget(
+            pageState.priceProfiles.elementAt(index),
+            pageState,
+            onProfileSelected,
+            pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index)
+                ? Color(ColorConstants.getBlueDark())
+                : Colors.white,pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index)
+            ? Color(ColorConstants.getPrimaryWhite())
+            : Color(ColorConstants.getPrimaryBlack())),
       ),
     );
+  }
+
+  onProfileSelected(
+      PriceProfile priceProfile, var pageState, BuildContext context) {
+    pageState.onPriceProfileSelected(priceProfile);
   }
 
   @override

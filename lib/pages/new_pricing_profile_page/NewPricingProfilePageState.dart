@@ -20,8 +20,6 @@ class NewPricingProfilePageState {
   final double flatRate;
   final double hourlyRate;
   final double itemRate;
-  final int hourlyQuantity;
-  final int itemQuantity;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -32,9 +30,7 @@ class NewPricingProfilePageState {
   final Function(String) onFilterChanged;
   final Function(String) onFlatRateTextChanged;
   final Function(String) onHourlyRateTextChanged;
-  final Function(String) onHourlyQuantityTextChanged;
   final Function(String) onItemRateTextChanged;
-  final Function(String) onItemQuantityTextChanged;
 
   NewPricingProfilePageState({
     @required this.id,
@@ -54,14 +50,10 @@ class NewPricingProfilePageState {
     @required this.flatRate,
     @required this.hourlyRate,
     @required this.itemRate,
-    @required this.hourlyQuantity,
-    @required this.itemQuantity,
     @required this.onFilterChanged,
     @required this.onFlatRateTextChanged,
     @required this.onHourlyRateTextChanged,
-    @required this.onHourlyQuantityTextChanged,
     @required this.onItemRateTextChanged,
-    @required this.onItemQuantityTextChanged,
   });
 
   NewPricingProfilePageState copyWith({
@@ -75,8 +67,6 @@ class NewPricingProfilePageState {
     double flatRate,
     double hourlyRate,
     double itemRate,
-    int hourlyQuantity,
-    int itemQuantity,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -87,9 +77,7 @@ class NewPricingProfilePageState {
     Function(String) onFilterChanged,
     Function(String) onFlatRateTextChanged,
     Function(String) onHourlyRateTextChanged,
-    Function(String) onHourlyQuantityTextChanged,
     Function(String) onItemRateTextChanged,
-    Function(String) onItemQuantityTextChanged,
   }){
     return NewPricingProfilePageState(
       id: id?? this.id,
@@ -102,8 +90,6 @@ class NewPricingProfilePageState {
       flatRate: flatRate ?? this.flatRate,
       hourlyRate: hourlyRate ?? this.hourlyRate,
       itemRate: itemRate ?? this.itemRate,
-      itemQuantity: itemQuantity ?? this.itemQuantity,
-      hourlyQuantity: hourlyQuantity ?? this.hourlyQuantity,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -114,9 +100,7 @@ class NewPricingProfilePageState {
       onFilterChanged: onFilterChanged ?? this.onFilterChanged,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
       onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
-      onHourlyQuantityTextChanged: onHourlyQuantityTextChanged ?? this.onHourlyQuantityTextChanged,
       onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
-      onItemQuantityTextChanged: onItemQuantityTextChanged ?? this.onItemQuantityTextChanged,
     );
   }
 
@@ -131,8 +115,6 @@ class NewPricingProfilePageState {
         flatRate: 0,
         hourlyRate: 0,
         itemRate: 0,
-        itemQuantity: 0,
-        hourlyQuantity: 0,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -143,8 +125,6 @@ class NewPricingProfilePageState {
         onFilterChanged: null,
         onFlatRateTextChanged: null,
         onHourlyRateTextChanged: null,
-        onHourlyQuantityTextChanged: null,
-        onItemQuantityTextChanged: null,
         onItemRateTextChanged: null,
       );
 
@@ -159,8 +139,6 @@ class NewPricingProfilePageState {
       rateType: store.state.pricingProfilePageState.rateType,
       flatRate: store.state.pricingProfilePageState.flatRate,
       hourlyRate: store.state.pricingProfilePageState.hourlyRate,
-      itemQuantity: store.state.pricingProfilePageState.itemQuantity,
-      hourlyQuantity: store.state.pricingProfilePageState.hourlyQuantity,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
@@ -171,8 +149,6 @@ class NewPricingProfilePageState {
       onFilterChanged: (rateType) => store.dispatch(SaveSelectedRateTypeAction(store.state.pricingProfilePageState, rateType)),
       onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.pricingProfilePageState, flatRateText)),
       onHourlyRateTextChanged: (hourlyRateText) => store.dispatch(UpdateHourlyRateTextAction(store.state.pricingProfilePageState, hourlyRateText)),
-      onHourlyQuantityTextChanged: (hourlyQuantity) => store.dispatch(UpdateHourlyQuantityTextAction(store.state.pricingProfilePageState, hourlyQuantity)),
-      onItemQuantityTextChanged: (itemQuantityText) => store.dispatch(UpdateItemQuantityTextAction(store.state.pricingProfilePageState, itemQuantityText)),
       onItemRateTextChanged: (itemRateText) => store.dispatch(UpdateItemRateTextAction(store.state.pricingProfilePageState, itemRateText)),
     );
   }
@@ -194,9 +170,7 @@ class NewPricingProfilePageState {
       rateType.hashCode ^
       flatRate.hashCode ^
       hourlyRate.hashCode ^
-      itemRate.hashCode ^
-      itemQuantity.hashCode ^
-      hourlyQuantity.hashCode;
+      itemRate.hashCode ;
 
   @override
   bool operator ==(Object other) =>
@@ -217,7 +191,5 @@ class NewPricingProfilePageState {
           rateType == other.rateType &&
           hourlyRate == other.hourlyRate &&
           itemRate == other.itemRate &&
-          itemQuantity == other.itemQuantity &&
-          flatRate == other.flatRate &&
-          hourlyQuantity == other.hourlyQuantity;
+          flatRate == other.flatRate ;
 }

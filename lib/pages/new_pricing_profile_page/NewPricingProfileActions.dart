@@ -63,22 +63,10 @@ class UpdateHourlyRateTextAction{
   UpdateHourlyRateTextAction(this.pageState, this.hourlyRateText);
 }
 
-class UpdateHourlyQuantityTextAction{
-  final NewPricingProfilePageState pageState;
-  final String hourlyQuantityText;
-  UpdateHourlyQuantityTextAction(this.pageState, this.hourlyQuantityText);
-}
-
 class UpdateItemRateTextAction{
   final NewPricingProfilePageState pageState;
   final String itemRateText;
   UpdateItemRateTextAction(this.pageState, this.itemRateText);
-}
-
-class UpdateItemQuantityTextAction{
-  final NewPricingProfilePageState pageState;
-  final String itemQuantityText;
-  UpdateItemQuantityTextAction(this.pageState, this.itemQuantityText);
 }
 
 

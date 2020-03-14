@@ -28,9 +28,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       rateType: store.state.pricingProfilePageState.rateType,
       flatRate: store.state.pricingProfilePageState.flatRate,
       hourlyRate: store.state.pricingProfilePageState.hourlyRate,
-      hourlyQuantity: store.state.pricingProfilePageState.hourlyQuantity,
       itemRate: store.state.pricingProfilePageState.itemRate,
-      itemQuantity: store.state.pricingProfilePageState.itemQuantity,
       icon: store.state.pricingProfilePageState.profileIcon != null
           ? store.state.pricingProfilePageState.profileIcon : ImageUtil.getDefaultPricingProfileIcon(),
     );

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_job_page/ClientSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/DateForm.dart';
+import 'package:client_safe/pages/new_job_page/DepositSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/JobNameForm.dart';
 import 'package:client_safe/pages/new_job_page/JobStageSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/JobTypeSelection.dart';
@@ -26,7 +27,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage> {
-  final int pageCount = 7;
+  final int pageCount = 8;
   final controller = PageController(
     initialPage: 0,
   );
@@ -129,6 +130,7 @@ class _NewJobPageState extends State<NewJobPage> {
                           ClientSelectionForm(),
                           JobNameForm(),
                           PricingProfileSelectionForm(),
+                          DepositSelectionForm(),
                           LocationSelectionForm(),
                           DateForm(),
                           TimeSelectionForm(),
@@ -226,6 +228,10 @@ class _NewJobPageState extends State<NewJobPage> {
           break;
         case 6:
           canProgress = true;
+          break;
+        case 7:
+          canProgress = true;
+          break;
       }
 
       if (canProgress) {
@@ -284,18 +290,21 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 414.0;
         break;
       case 3:
-        height = 500.0;
+        height = 324.0;
         break;
       case 4:
-        height = 600.0;
+        height = 500.0;
         break;
       case 5:
-        height = 325.0;
+        height = 600.0;
         break;
       case 6:
-        height = 450.0;
+        height = 325.0;
         break;
       case 7:
+        height = 450.0;
+        break;
+      case 8:
         height = 500.0;
         break;
     }

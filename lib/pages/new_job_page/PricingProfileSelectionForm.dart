@@ -1,7 +1,8 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/new_job_page/widgets/PriceProfileSelectionListWidget.dart';
+import 'package:client_safe/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,7 +17,9 @@ class PricingProfileSelectionForm extends StatefulWidget {
   }
 }
 
-class _PricingProfileSelectionFormState extends State<PricingProfileSelectionForm> with AutomaticKeepAliveClientMixin {
+class _PricingProfileSelectionFormState
+    extends State<PricingProfileSelectionForm>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
@@ -29,11 +32,11 @@ class _PricingProfileSelectionFormState extends State<PricingProfileSelectionFor
         margin: EdgeInsets.only(left: 16.0, right: 16.0),
         child: pageState.pricingProfiles.length > 0
             ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: 16.0),
+                    padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
                     child: Text(
                       "Select a price package for this job.",
                       textAlign: TextAlign.center,
@@ -42,21 +45,6 @@ class _PricingProfileSelectionFormState extends State<PricingProfileSelectionFor
                         fontFamily: 'Raleway',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: Text(
-                      pageState.selectedPriceProfile != null
-                          ? pageState.selectedPriceProfile.profileName
-                          : "",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryColor()),
                       ),
                     ),
                   ),
@@ -135,9 +123,22 @@ class _PricingProfileSelectionFormState extends State<PricingProfileSelectionFor
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
         margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-        child: PriceProfileSelectionListWidget(index),
+        child: PriceProfileListWidget(
+            pageState.pricingProfiles.elementAt(index),
+            pageState,
+            onProfileSelected,
+            pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index)
+                ? Color(ColorConstants.getBlueDark())
+                : Colors.white,pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index)
+            ? Color(ColorConstants.getPrimaryWhite())
+            : Color(ColorConstants.getPrimaryBlack())),
       ),
     );
+  }
+
+  onProfileSelected(
+      PriceProfile priceProfile, var pageState, BuildContext context) {
+    pageState.onPriceProfileSelected(priceProfile);
   }
 
   @override

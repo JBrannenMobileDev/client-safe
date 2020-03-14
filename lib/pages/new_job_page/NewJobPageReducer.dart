@@ -27,7 +27,18 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetSelectedTimeAction>(_setSelectedTime),
   TypedReducer<NewJobPageState, InitializeNewContactPageAction>(_loadWithSelectedClient),
   TypedReducer<NewJobPageState, InitNewJobPageWithDateAction>(_loadWithSelectedDate),
+  TypedReducer<NewJobPageState, AddToDepositAmountAction>(_updateDepositAmount),
+  TypedReducer<NewJobPageState, ClearDepositAction>(_clearDeposit),
 ]);
+
+NewJobPageState _clearDeposit(NewJobPageState previousState, ClearDepositAction action) {
+  return previousState.copyWith(depositAmount: 0);
+}
+
+NewJobPageState _updateDepositAmount(NewJobPageState previousState, AddToDepositAmountAction action) {
+  int newAmount = previousState.depositAmount + action.amountToAdd;
+  return previousState.copyWith(depositAmount: newAmount);
+}
 
 NewJobPageState _setSelectedTime(NewJobPageState previousState, SetSelectedTimeAction action) {
   return previousState.copyWith(selectedTime: action.time);

@@ -5,8 +5,6 @@ class PriceProfile{
   double flatRate;
   double hourlyRate;
   double itemRate;
-  int itemQuantity;
-  int hourlyQuantity;
   String icon;
 
   PriceProfile({
@@ -16,8 +14,6 @@ class PriceProfile{
     this.flatRate,
     this.hourlyRate,
     this.itemRate,
-    this.itemQuantity,
-    this.hourlyQuantity,
     this.icon,
   });
 
@@ -29,8 +25,6 @@ class PriceProfile{
       'flatRate' : flatRate,
       'hourlyRate' : hourlyRate,
       'itemRate' : itemRate,
-      'itemQuantity' : itemQuantity,
-      'hourlyQuantity' : hourlyQuantity,
       'icon' : icon,
     };
   }
@@ -43,8 +37,6 @@ class PriceProfile{
       flatRate: map['flatRate'],
       hourlyRate: map['hourlyRate'],
       itemRate: map['itemRate'],
-      itemQuantity: map['itemQuantity'],
-      hourlyQuantity: map['hourlyQuantity'],
       icon: map['icon'],
     );
   }

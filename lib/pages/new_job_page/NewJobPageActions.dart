@@ -127,3 +127,14 @@ class InitNewJobPageWithDateAction{
   final DateTime selectedDate;
   InitNewJobPageWithDateAction(this.pageState, this.selectedDate);
 }
+
+class AddToDepositAmountAction{
+  final NewJobPageState pageState;
+  final int amountToAdd;
+  AddToDepositAmountAction(this.pageState, this.amountToAdd);
+}
+
+class ClearDepositAction{
+  final NewJobPageState pageState;
+  ClearDepositAction(this.pageState);
+}

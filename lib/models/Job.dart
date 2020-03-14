@@ -38,6 +38,7 @@ class Job {
   String type;
   JobStage stage;
   Invoice invoice;
+  int depositAmount;
   List<JobStage> completedStages;
 
   Job({
@@ -55,6 +56,7 @@ class Job {
     this.location,
     this.priceProfile,
     this.invoice,
+    this.depositAmount
   });
 
   Map<String, dynamic> toMap() {
@@ -73,6 +75,7 @@ class Job {
       'priceProfile' : priceProfile?.toMap() ?? null,
       'invoice' : invoice?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
+      'depositAmount' : depositAmount,
     };
   }
 
@@ -92,6 +95,7 @@ class Job {
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
+      depositAmount: map['depositAmount'],
     );
   }
 
@@ -109,6 +113,10 @@ class Job {
       listOfJobStages.add(JobStage.fromMap(map));
     }
     return listOfJobStages;
+  }
+
+  bool isDepositPaid () {
+    return completedStages.contains((stage) => stage.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED);
   }
 
   String getJobType(){

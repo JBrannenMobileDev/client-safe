@@ -28,10 +28,11 @@ class _LocationSelectionFormState
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
+        alignment: Alignment.topCenter,
         margin: EdgeInsets.only(left: 16.0, right: 16.0),
         child: pageState.locations.length > 0
             ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
@@ -87,7 +88,7 @@ class _LocationSelectionFormState
                   Padding(
                     padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
                     child: Text(
-                      "Select a locaiton for this job",
+                      "Select a location for this job",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.0,
@@ -98,11 +99,9 @@ class _LocationSelectionFormState
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 32.0),
+                    padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
                     child: Text(
-                      "A location will store the name and map coordinates for a location that you regularly use. "
-                      "Driving directions can be started and shared from a location."
-                      "Select the button below to create a new location.",
+                      "You do ot have any locations saved to your collection. Select the + Location button to create a new location.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16.0,
@@ -112,19 +111,40 @@ class _LocationSelectionFormState
                       ),
                     ),
                   ),
-                  ClientSafeButton(
-                    height: 64.0,
-                    width: double.infinity,
-                    text: "Location",
-                    marginLeft: 32.0,
-                    marginTop: 0.0,
-                    marginRight: 32.0,
-                    marginBottom: 0.0,
+                  FlatButton(
                     onPressed: () {
                       UserOptionsUtil.showNewLocationDialog(context);
                     },
-                    icon: Icon(Icons.add, color: Colors.white),
-                    urlText: "",
+                    color: Color(ColorConstants.getPrimaryColor()),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: new BorderRadius.circular(24.0),
+                    ),
+                    child: Container(
+                      width: 150.0,
+                      child: Row(
+
+                        children: <Widget>[
+                          IconButton(
+                            icon: const Icon(Icons.add),
+                            color: Color(ColorConstants.white),
+                            tooltip: 'Add',
+                            onPressed: () {
+                              UserOptionsUtil.showNewPriceProfileDialog(context);
+                            },
+                          ),
+                          Text(
+                            "Location",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'Raleway',
+                              fontWeight: FontWeight.w400,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),

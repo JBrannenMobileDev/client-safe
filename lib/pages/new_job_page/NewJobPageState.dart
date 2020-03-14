@@ -33,6 +33,7 @@ class NewJobPageState {
   final JobStage currentJobStage;
   final String jobType;
   final String jobTypeIcon;
+  final int depositAmount;
   final List<Job> upcomingJobs;
   final List<Client> allClients;
   final List<Client> filteredClients;
@@ -55,6 +56,8 @@ class NewJobPageState {
   final Function(String) onJobTypeSelected;
   final Function(DateTime) onTimeSelected;
   final Function(Job) onJobClicked;
+  final Function(int) onAddToDeposit;
+  final Function() clearDepositAmount;
 
   NewJobPageState({
     @required this.id,
@@ -97,6 +100,9 @@ class NewJobPageState {
     @required this.currentJobStage,
     @required this.onTimeSelected,
     @required this.onJobClicked,
+    @required this.depositAmount,
+    @required this.onAddToDeposit,
+    @required this.clearDepositAmount,
   });
 
   NewJobPageState copyWith({
@@ -121,6 +127,7 @@ class NewJobPageState {
     List<JobStage> selectedJobStages,
     String jobType,
     String jobTypeIcon,
+    int depositAmount,
     JobStage currentJobStage,
     List<Job> upcomingJobs,
     Map<DateTime, List<Event>> eventMap,
@@ -140,6 +147,8 @@ class NewJobPageState {
     Function(String) onJobTypeSelected,
     Function(DateTime) onTimeSelected,
     Function(Job) onJobClicked,
+    Function(int) onAddToDeposit,
+    Function() clearDepositAmount,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -182,6 +191,9 @@ class NewJobPageState {
       onTimeSelected: onTimeSelected?? this.onTimeSelected,
       jobs: jobs ?? this.jobs,
       onJobClicked: onJobClicked ?? this.onJobClicked,
+      depositAmount: depositAmount ?? this.depositAmount,
+      onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
+      clearDepositAmount: clearDepositAmount ?? this.clearDepositAmount,
     );
   }
 
@@ -214,6 +226,7 @@ class NewJobPageState {
         upcomingJobs: List(),
         eventMap: Map(),
         jobs: List(),
+        depositAmount: 0,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -229,6 +242,8 @@ class NewJobPageState {
         onJobTypeSelected: null,
         onTimeSelected: null,
         onJobClicked: null,
+        onAddToDeposit: null,
+        clearDepositAmount: null,
       );
   }
 
@@ -259,6 +274,7 @@ class NewJobPageState {
       upcomingJobs: store.state.newJobPageState.upcomingJobs,
       eventMap: store.state.newJobPageState.eventMap,
       jobs: store.state.newJobPageState.jobs,
+      depositAmount: store.state.newJobPageState.depositAmount,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -274,6 +290,8 @@ class NewJobPageState {
       onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
       onTimeSelected: (time) => store.dispatch(SetSelectedTimeAction(store.state.newJobPageState, time)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+      onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAmountAction(store.state.newJobPageState, amountToAdd)),
+      clearDepositAmount: () => store.dispatch(ClearDepositAction(store.state.newJobPageState)),
     );
   }
 
@@ -314,7 +332,10 @@ class NewJobPageState {
       eventMap.hashCode ^
       jobs.hashCode ^
       onTimeSelected.hashCode ^
-      onJobClicked.hashCode;
+      onJobClicked.hashCode ^
+      depositAmount.hashCode ^
+      onAddToDeposit.hashCode ^
+      clearDepositAmount.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -354,5 +375,8 @@ class NewJobPageState {
           eventMap == other.eventMap &&
           jobs == other.jobs &&
           onTimeSelected == other.onTimeSelected &&
-          onJobClicked == other.onJobClicked;
+          onJobClicked == other.onJobClicked &&
+          depositAmount == other.depositAmount &&
+          onAddToDeposit == other.onAddToDeposit &&
+          clearDepositAmount == other.clearDepositAmount;
 }

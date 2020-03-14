@@ -71,7 +71,9 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
     if(quantityRateTextController.text.length == 0) quantityRateTextController = TextEditingController(text: '\$');
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (appState) {
-        flatRateTextController.text = '\$' + appState.state.pricingProfilePageState.flatRate.toInt().toString();
+        flatRateTextController.text = '\$' + (appState.state.pricingProfilePageState.flatRate.toInt() > 0 ? appState.state.pricingProfilePageState.flatRate.toInt().toString() : '');
+        hourlyRateTextController.text = '\$' + (appState.state.pricingProfilePageState.hourlyRate.toInt() > 0 ? appState.state.pricingProfilePageState.hourlyRate.toInt().toString() : '');
+        quantityRateTextController.text = '\$' + (appState.state.pricingProfilePageState.itemRate.toInt() > 0 ? appState.state.pricingProfilePageState.itemRate.toInt().toString() : '');
         KeyboardVisibilityNotification().addNewListener(
             onShow: () {
               showOverlay(context);
@@ -107,6 +109,11 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
           else
             removeOverlay();
         });
+      },
+      onDidChange: (pageState) {
+        if(pageState.flatRate == 0) flatRateTextController.text = '\$';
+        if(pageState.hourlyRate == 0) hourlyRateTextController.text = '\$';
+        if(pageState.itemRate == 0) quantityRateTextController.text = '\$';
       },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
@@ -212,7 +219,6 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                               hintText: "0",
                               inputType: TextInputType.number,
                               height: 60.0,
-                              onTextInputChanged: pageState.onHourlyQuantityTextChanged,
                               capitalization: TextCapitalization.none,
                               keyboardAction: TextInputAction.done,
                               labelText: 'Quantity',
@@ -266,7 +272,6 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                               hintText: "0",
                               inputType: TextInputType.number,
                               height: 60.0,
-                              onTextInputChanged: pageState.onItemQuantityTextChanged,
                               capitalization: TextCapitalization.none,
                               keyboardAction: TextInputAction.done,
                               labelText: 'Quantity',

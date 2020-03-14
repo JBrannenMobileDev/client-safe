@@ -66,6 +66,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: store.state.newJobPageState.selectedJobStages,
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile,
+      depositAmount: store.state.newJobPageState.depositAmount,
       );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(ClearStateAction(store.state.newJobPageState));
