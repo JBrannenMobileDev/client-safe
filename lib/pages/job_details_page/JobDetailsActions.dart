@@ -184,3 +184,8 @@ class SaveDepositChangeAction{
   SaveDepositChangeAction(this.pageState);
 }
 
+class ClearUnsavedDepositAction{
+  final JobDetailsPageState pageState;
+  ClearUnsavedDepositAction(this.pageState);
+}
+

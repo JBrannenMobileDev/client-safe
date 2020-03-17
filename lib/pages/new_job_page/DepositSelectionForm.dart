@@ -245,7 +245,7 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
               ],
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50.0, right: 16.0),
+              padding: EdgeInsets.only(top: 80.0, right: 16.0),
               child: GestureDetector(
                 onTap: () {
                   pageState.clearDepositAmount();

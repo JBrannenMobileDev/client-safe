@@ -48,6 +48,7 @@ class JobDetailsPageState {
   final Function() onJobTypeSaveSelected;
   final Function(int) onAddToDeposit;
   final Function() onSaveDepositChange;
+  final Function() onClearUnsavedDeposit;
 
   JobDetailsPageState({
     @required this.job,
@@ -87,6 +88,7 @@ class JobDetailsPageState {
     @required this.unsavedDepositAmount,
     @required this.onAddToDeposit,
     @required this.onSaveDepositChange,
+    @required this.onClearUnsavedDeposit,
   });
 
   JobDetailsPageState copyWith({
@@ -127,6 +129,7 @@ class JobDetailsPageState {
     int unsavedDepositAmount,
     Function(int) onAddToDeposit,
     Function() onSaveDepositChange,
+    Function() onClearUnsavedDeposit,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -166,6 +169,7 @@ class JobDetailsPageState {
       unsavedDepositAmount: unsavedDepositAmount ?? this.unsavedDepositAmount,
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
       onSaveDepositChange:  onSaveDepositChange ?? this.onSaveDepositChange,
+      onClearUnsavedDeposit: onClearUnsavedDeposit ?? this.onClearUnsavedDeposit,
     );
   }
 
@@ -208,6 +212,7 @@ class JobDetailsPageState {
       onSaveUpdatedPriceProfileSelected: () => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState)),
       onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAction(store.state.jobDetailsPageState, amountToAdd)),
       onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
+      onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
     );
   }
 
@@ -247,6 +252,7 @@ class JobDetailsPageState {
     unsavedDepositAmount: 0,
     onAddToDeposit: null,
     onSaveDepositChange: null,
+    onClearUnsavedDeposit: null,
   );
 
   @override
@@ -285,7 +291,8 @@ class JobDetailsPageState {
       priceProfiles.hashCode ^
       selectedPriceProfile.hashCode ^
       onPriceProfileSelected.hashCode ^
-      onSaveUpdatedPriceProfileSelected.hashCode ;
+      onSaveUpdatedPriceProfileSelected.hashCode ^
+      onClearUnsavedDeposit.hashCode ;
 
   @override
   bool operator ==(Object other) =>
@@ -325,5 +332,6 @@ class JobDetailsPageState {
               selectedPriceProfile == other.selectedPriceProfile &&
               priceProfiles == other.priceProfiles &&
               onPriceProfileSelected == other.onPriceProfileSelected &&
-              onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected;
+              onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
+              onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }
