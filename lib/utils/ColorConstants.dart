@@ -21,7 +21,7 @@ class ColorConstants{
 
   //Set 2
   static const int gold = 0xffD0AC58;
-  static const int gold_dark = 0xffB49347;
+  static const int gold_dark = 0xff94793b;
   static const int blue_dark = 0xff4B6C6A;
   static const int blue_light = 0xffBDD5D0;
   static const int peach_dark = 0xffB9754B;

@@ -64,26 +64,44 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    FlatButton(
-                      onPressed: () {
-                        pageState.onAddToDeposit(1);
-                      },
-                      color: Color(ColorConstants.getPrimaryColor()),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(48.0),
-                      ),
-                      child: Container(
-                        alignment: Alignment.center,
-                        width: 66.0,
-                        height: 94.0,
-                        child: Text(
-                          "+\$1",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                    Padding(
+                      padding: EdgeInsets.only(left: 0.0),
+                      child: FlatButton(
+                        onPressed: () {
+                          pageState.onAddToDeposit(1);
+                        },
+                        color: Color(ColorConstants.getPrimaryColor()),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: new BorderRadius.circular(48.0),
+                        ),
+                        child: Container(
+                          alignment: Alignment.center,
+                          width: 78.0,
+                          height: 64.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                "+",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 48.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w200,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                              Text(
+                                "\$1",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -100,17 +118,32 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                         ),
                         child: Container(
                           alignment: Alignment.center,
-                          width: 66.0,
-                          height: 94.0,
-                          child: Text(
-                            "+\$5",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                          width: 78.0,
+                          height: 64.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Text(
+                                "+",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 48.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w200,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                              Text(
+                                "\$5",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -122,35 +155,11 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      FlatButton(
-                        onPressed: () {
-                          pageState.onAddToDeposit(25);
-                        },
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(48.0),
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          width: 66.0,
-                          height: 94.0,
-                          child: Text(
-                            "+\$25",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
-                          ),
-                        ),
-                      ),
                       Padding(
-                        padding: EdgeInsets.only(left: 8.0),
+                        padding: EdgeInsets.only(left: 0.0),
                         child: FlatButton(
                           onPressed: () {
-                            pageState.onAddToDeposit(100);
+                            pageState.onAddToDeposit(25);
                           },
                           color: Color(ColorConstants.getPrimaryColor()),
                           shape: RoundedRectangleBorder(
@@ -158,20 +167,77 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                           ),
                           child: Container(
                             alignment: Alignment.center,
-                            width: 66.0,
-                            height: 94.0,
-                            child: Text(
-                              "+\$100",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
+                            width: 78.0,
+                            height: 64.0,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Text(
+                                  "+",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 48.0,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w200,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                ),
+                                Text(
+                                  "\$25",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontFamily: 'Raleway',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 8.0),
+                        child: FlatButton(
+                              onPressed: () {
+                                pageState.onAddToDeposit(100);
+                              },
+                              color: Color(ColorConstants.getPrimaryColor()),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: new BorderRadius.circular(48.0),
+                              ),
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 78.0,
+                                height: 64.0,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Text(
+                                        "+",
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 48.0,
+                                          fontFamily: 'Raleway',
+                                          fontWeight: FontWeight.w200,
+                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                        ),
+                                      ),
+                                    Text(
+                                        "\$100",
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 24.0,
+                                          fontFamily: 'Raleway',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                        ),
+                                      ),
+                                  ],
+                                ),
+                              ),
+                            ),
                       ),
                     ],
                   ),

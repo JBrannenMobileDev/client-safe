@@ -32,7 +32,7 @@ class JobInfoCard extends StatelessWidget {
             color: Color(ColorConstants.getPrimaryBackgroundGrey())
           ),
           Container(
-            height: 354.0,
+            height: 396.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
             decoration: new BoxDecoration(
@@ -498,6 +498,58 @@ class JobInfoCard extends StatelessWidget {
 
                             },
                           ),
+                      ],
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    UserOptionsUtil.showDepositChangeDialog(context);
+                  },
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            IconButton(
+                              icon: Icon(
+                                Icons.attach_money,
+                                color: Color(ColorConstants.getPeachDark()),
+                              ),
+                              tooltip: 'Deposit',
+                              onPressed: () {
+
+                              },
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                pageState.job.depositAmount == null ? 'Not selected' :
+                                '\$' + (pageState.job.depositAmount != null ? pageState.job.depositAmount.toInt().toString() : '0') + ' (deposit)',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 16.0,
+                                  fontFamily: 'Raleway',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        IconButton(
+                          icon: Icon(
+                            Icons.edit,
+                            color: Color(ColorConstants.getPeachDark()),
+                          ),
+                          tooltip: 'Edit',
+                          onPressed: null,
+                        ),
                       ],
                     ),
                   ),

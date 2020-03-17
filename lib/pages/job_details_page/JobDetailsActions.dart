@@ -3,6 +3,7 @@ import 'package:client_safe/models/Event.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsPage.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 
 class SetJobInfo{
@@ -171,3 +172,15 @@ class SetPricingProfiles{
   final List<PriceProfile> priceProfiles;
   SetPricingProfiles(this.pageState, this.priceProfiles);
 }
+
+class AddToDepositAction{
+  final JobDetailsPageState pageState;
+  final int amountToAdd;
+  AddToDepositAction(this.pageState, this.amountToAdd);
+}
+
+class SaveDepositChangeAction{
+  final JobDetailsPageState pageState;
+  SaveDepositChangeAction(this.pageState);
+}
+

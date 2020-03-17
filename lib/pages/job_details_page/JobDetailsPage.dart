@@ -178,7 +178,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                         fontSize: 16.0,
                                         fontFamily: 'Raleway',
                                         fontWeight: FontWeight.w600,
-                                        color: Colors.black26,
+                                        color: Color(ColorConstants.gold_dark),
                                       ),
                                     ),
                                   ),

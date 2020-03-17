@@ -22,7 +22,13 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, UpdateSelectedJobTypeAction>(_updateJobType),
   TypedReducer<JobDetailsPageState, SetPricingProfiles>(_setPriceProfiles),
   TypedReducer<JobDetailsPageState, UpdateSelectedPricePackageAction>(_setSelectedPriceProfiles),
+  TypedReducer<JobDetailsPageState, AddToDepositAction>(_addToUnsavedDeposit),
 ]);
+
+JobDetailsPageState _addToUnsavedDeposit(JobDetailsPageState previousState, AddToDepositAction action) {
+  int newAmount = previousState.unsavedDepositAmount + action.amountToAdd;
+  return previousState.copyWith(unsavedDepositAmount: newAmount);
+}
 
 JobDetailsPageState _setSelectedPriceProfiles(JobDetailsPageState previousState, UpdateSelectedPricePackageAction action) {
   return previousState.copyWith(selectedPriceProfile: action.selectedPriceProfile);
@@ -70,6 +76,7 @@ JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapA
 JobDetailsPageState _updateJob(JobDetailsPageState previousState, SaveUpdatedJobAction action){
   return previousState.copyWith(
     job: action.job,
+    unsavedDepositAmount: 0,
   );
 }
 

@@ -65,6 +65,29 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveUpdatedPricePackageAction){
       _updateJobPriceProfile(store, action, next);
     }
+    if(action is SaveDepositChangeAction){
+      _updateJobDeposit(store, action, next);
+    }
+  }
+
+  void _updateJobDeposit(Store<AppState> store, SaveDepositChangeAction action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+      type: store.state.jobDetailsPageState.job.type,
+      stage: store.state.jobDetailsPageState.job.stage,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: store.state.jobDetailsPageState.selectedLocation,
+      priceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
+      depositAmount: action.pageState.unsavedDepositAmount,
+    );
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
@@ -80,6 +103,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: action.pageState.selectedPriceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
@@ -99,6 +123,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -118,6 +143,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -137,6 +163,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: action.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -171,6 +198,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -190,6 +218,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -239,6 +268,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: completedJobStages,
       location: action.job.location,
       priceProfile: action.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
     await JobDao.insertOrUpdate(jobToSave);
@@ -272,6 +302,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: completedJobStages,
       location: action.job.location,
       priceProfile: action.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
      await JobDao.insertOrUpdate(jobToSave);

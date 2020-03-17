@@ -19,6 +19,7 @@ class JobDetailsPageState {
   final Map<DateTime, List<Event>> eventMap;
   final List<Job> jobs;
   final String jobTitleText;
+  final int unsavedDepositAmount;
   final List<Location> locations;
   final Location selectedLocation;
   final Function(Location) onLocationSelected;
@@ -45,6 +46,8 @@ class JobDetailsPageState {
   final Function(String) onJobTitleTextChanged;
   final Function() onNameChangeSaved;
   final Function() onJobTypeSaveSelected;
+  final Function(int) onAddToDeposit;
+  final Function() onSaveDepositChange;
 
   JobDetailsPageState({
     @required this.job,
@@ -81,6 +84,9 @@ class JobDetailsPageState {
     @required this.priceProfiles,
     @required this.onPriceProfileSelected,
     @required this.onSaveUpdatedPriceProfileSelected,
+    @required this.unsavedDepositAmount,
+    @required this.onAddToDeposit,
+    @required this.onSaveDepositChange,
   });
 
   JobDetailsPageState copyWith({
@@ -117,7 +123,10 @@ class JobDetailsPageState {
     Function(Location) onLocationSaveSelected,
     Function(String) onJobTitleTextChanged,
     Function() onNameChangeSaved,
-    Function() onJobTypeSaveSelected
+    Function() onJobTypeSaveSelected,
+    int unsavedDepositAmount,
+    Function(int) onAddToDeposit,
+    Function() onSaveDepositChange,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -154,6 +163,9 @@ class JobDetailsPageState {
       priceProfiles: priceProfiles ?? this.priceProfiles,
       onPriceProfileSelected: onPriceProfileSelected ?? this.onPriceProfileSelected,
       onSaveUpdatedPriceProfileSelected: onSaveUpdatedPriceProfileSelected ?? this.onSaveUpdatedPriceProfileSelected,
+      unsavedDepositAmount: unsavedDepositAmount ?? this.unsavedDepositAmount,
+      onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
+      onSaveDepositChange:  onSaveDepositChange ?? this.onSaveDepositChange,
     );
   }
 
@@ -173,6 +185,7 @@ class JobDetailsPageState {
       jobTypeIcon: store.state.jobDetailsPageState.jobTypeIcon,
       selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
       priceProfiles: store.state.jobDetailsPageState.priceProfiles,
+      unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
       onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
       onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
       setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
@@ -193,7 +206,8 @@ class JobDetailsPageState {
       onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
       onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
       onSaveUpdatedPriceProfileSelected: () => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState)),
-
+      onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAction(store.state.jobDetailsPageState, amountToAdd)),
+      onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
     );
   }
 
@@ -230,10 +244,16 @@ class JobDetailsPageState {
     priceProfiles: List(),
     onPriceProfileSelected: null,
     onSaveUpdatedPriceProfileSelected: null,
+    unsavedDepositAmount: 0,
+    onAddToDeposit: null,
+    onSaveDepositChange: null,
   );
 
   @override
   int get hashCode =>
+      unsavedDepositAmount.hashCode ^
+      onAddToDeposit.hashCode ^
+      onSaveDepositChange.hashCode ^
       job.hashCode ^
       client.hashCode ^
       sunsetTime.hashCode ^
@@ -271,6 +291,9 @@ class JobDetailsPageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is JobDetailsPageState &&
+              unsavedDepositAmount == other.unsavedDepositAmount &&
+              onAddToDeposit == other.onAddToDeposit &&
+              onSaveDepositChange == other.onSaveDepositChange &&
               job == other.job &&
               client == other.client &&
               sunsetTime == other.sunsetTime &&

@@ -1,3 +1,4 @@
+import 'package:client_safe/pages/job_details_page/DepositChangeDialog.dart';
 import 'package:client_safe/pages/job_details_page/JobTypeChangeDialog.dart.dart';
 import 'package:client_safe/pages/job_details_page/LocationSelectionDialog.dart';
 import 'package:client_safe/pages/job_details_page/NameChangeDialog.dart';
@@ -82,6 +83,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NameChangeDialog();
+      },
+    );
+  }
+
+  static void showDepositChangeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return DepositChangeDialog();
       },
     );
   }
