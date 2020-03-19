@@ -1,18 +1,14 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoiceJobListItem.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:client_safe/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceTextField.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/new_job_page/widgets/NewJobClientListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class PriceBreakdownForm extends StatefulWidget {
   static const String SELECTOR_TYPE_FLAT_RATE = "Flat rate";
@@ -26,6 +22,12 @@ class PriceBreakdownForm extends StatefulWidget {
 }
 
 class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticKeepAliveClientMixin {
+  OverlayEntry overlayEntry;
+  final FocusNode flatRateInputFocusNode = FocusNode();
+  final FocusNode hourlyRateInputFocusNode = FocusNode();
+  final FocusNode itemRateInputFocusNode = FocusNode();
+  final FocusNode itemQuantityFocusNode = FocusNode();
+  final FocusNode hourlyQuantityFocusNode = FocusNode();
   var flatRateTextController = TextEditingController(text: '\$');
   var hourlyRateTextController = TextEditingController(text: '\$');
   var hourlyQuantityTextController = TextEditingController(text: '1');
@@ -60,12 +62,77 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
               : ColorConstants.getPrimaryBlack()),
         ),),
     };
+
+
+
     if(flatRateTextController.text.length == 0) flatRateTextController = TextEditingController(text: '\$');
+    if(hourlyRateTextController.text.length == 0) hourlyRateTextController = TextEditingController(text: '\$');
+    if(quantityRateTextController.text.length == 0) quantityRateTextController = TextEditingController(text: '\$');
     return StoreConnector<AppState, NewInvoicePageState>(
-      onInit: (appState) => {
+      onInit: (appState) {
         if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
-          flatRateTextController = TextEditingController(text: '\$')
+          flatRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.flatRate.toInt().toString());
         }
+        if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
+          hourlyRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt().toString());
+        }
+        if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
+          quantityRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.itemRate.toInt().toString());
+        }
+
+        KeyboardVisibilityNotification().addNewListener(
+            onShow: () {
+              showOverlay(context);
+            },
+            onHide: () {
+              removeOverlay();
+            }
+        );
+
+        flatRateInputFocusNode.addListener(() {
+
+          bool hasFocus = flatRateInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        hourlyRateInputFocusNode.addListener(() {
+
+          bool hasFocus = hourlyRateInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        itemRateInputFocusNode.addListener(() {
+
+          bool hasFocus = itemRateInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        itemQuantityFocusNode.addListener(() {
+
+          bool hasFocus = itemQuantityFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        hourlyQuantityFocusNode.addListener(() {
+
+          bool hasFocus = hourlyQuantityFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -107,9 +174,10 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
               selectorIndex == 0 ? Container(
                 margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
                 child: NewInvoiceTextField(
+                  focusNode: flatRateInputFocusNode,
                   controller: flatRateTextController,
                   hintText: "\$",
-                  inputType: TextInputType.text,
+                  inputType: TextInputType.number,
                   height: 60.0,
                   onTextInputChanged: pageState.onFlatRateTextChanged,
                   capitalization: TextCapitalization.none,
@@ -125,6 +193,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                         width: 112.0,
                         margin: EdgeInsets.only(left: 15.0, bottom: 16.0),
                         child: NewInvoiceTextField(
+                          focusNode: hourlyRateInputFocusNode,
                           controller: hourlyRateTextController,
                           hintText: "\$",
                           inputType: TextInputType.number,
@@ -151,6 +220,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                         width: 112.0,
                         margin: EdgeInsets.only(right: 15.0, bottom: 16.0),
                         child: NewInvoiceTextField(
+                          focusNode: hourlyQuantityFocusNode,
                           controller: hourlyQuantityTextController,
                           hintText: "1",
                           inputType: TextInputType.number,
@@ -171,6 +241,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                     width: 112.0,
                     margin: EdgeInsets.only(left: 15.0),
                     child: NewInvoiceTextField(
+                      focusNode: itemRateInputFocusNode,
                       controller: quantityRateTextController,
                       hintText: "\$",
                       inputType: TextInputType.number,
@@ -196,6 +267,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                     width: 112.0,
                     margin: EdgeInsets.only(right: 15.0),
                     child: NewInvoiceTextField(
+                      focusNode: itemQuantityFocusNode,
                       controller: quantityQuantityTextController,
                       hintText: "1",
                       inputType: TextInputType.number,
@@ -213,6 +285,27 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
         ],
       ),
     );
+  }
+
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneViewNewInvoice());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
   }
 
   void onAddNewContactPressed() {

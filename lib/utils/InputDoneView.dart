@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class InputDoneView extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,13 +12,17 @@ class InputDoneView extends StatelessWidget {
       color: Colors.transparent,
       child: Align(
         alignment: Alignment.topRight,
-        child: Padding(
-          padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
-          child: CupertinoButton(
-            padding: EdgeInsets.only(right: 24.0, top: 8.0, bottom: 8.0),
-            onPressed: () {
-              FocusScope.of(context).requestFocus(new FocusNode());
-            },
+        child: FlatButton(
+          padding: EdgeInsets.only(right: 0.0, top: 8.0, bottom: 0.0),
+          onPressed: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Container(
+            padding: EdgeInsets.only(top: 8.0, bottom: 8.0, left: 16.0, right: 16.0),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(16.0),
+            ),
             child: Text(
                 "Done",
                 style: TextStyle(color: Color(ColorConstants.getPrimaryWhite()),fontWeight: FontWeight.bold)

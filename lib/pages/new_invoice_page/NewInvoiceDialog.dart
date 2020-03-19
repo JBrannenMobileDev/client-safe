@@ -1,6 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:client_safe/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
 import 'package:client_safe/pages/new_invoice_page/JobSelectionForm.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
@@ -9,6 +10,7 @@ import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/InputDoneView.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:client_safe/utils/VibrateUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -16,6 +18,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class NewInvoiceDialog extends StatefulWidget {
   @override
@@ -25,6 +28,9 @@ class NewInvoiceDialog extends StatefulWidget {
 }
 
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
+  final FocusNode fixedDiscountFocusNode = new FocusNode();
+  final FocusNode percentageDiscountFocusNode = new FocusNode();
+  OverlayEntry overlayEntry;
   var fixedTextController = TextEditingController(text: '\$');
   var percentageTextController = TextEditingController(text: '%');
   final int pageCount = 2;
@@ -40,13 +46,31 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       onInit: (appState) {
         appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
+
+        fixedDiscountFocusNode.addListener(() {
+
+          bool hasFocus = fixedDiscountFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        percentageDiscountFocusNode.addListener(() {
+
+          bool hasFocus = percentageDiscountFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
           Dialog(
             backgroundColor: Colors.transparent,
             child: Container(
-              height: 550.0,
+              height: 500.0,
               padding: EdgeInsets.only(left: 16.0, right: 16.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -85,7 +109,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                   Padding(
                     padding: EdgeInsets.only(top: 48.0),
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: <Widget>[
                         ConstrainedBox(
                           constraints: BoxConstraints(
@@ -102,12 +126,12 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                           ),
                         ),
                         pageState.pageViewIndex > 0 ? Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 0.0),
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Deposit',
+                                'Total',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 20.0,
@@ -117,7 +141,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 ),
                               ),
                               Text(
-                                '\$150',
+                                '\$' + pageState.total.toInt().toString(),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 20.0,
@@ -130,28 +154,42 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                           ),
                         ) : SizedBox(),
                         pageState.pageViewIndex > 0 ? Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 0.0),
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
-                              Text(
-                                'Remaining balance',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
+                              Row(
+                                children: <Widget>[
+                                  Text(
+                                    'Deposit  ',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontFamily: 'Raleway',
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  Text(
+                                    (pageState.selectedJob.isDepositPaid() ? '(paid)' : '(unpaid)'),
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontFamily: 'Raleway',
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(ColorConstants.getPeachDark()),
+                                    ),
+                                  )
+                                ],
                               ),
                               Text(
-                                '\$' + pageState.unpaidAmount.toString(),
+                                (pageState.selectedJob.isDepositPaid() ? '-' : '') + '\$' + pageState.depositValue.toInt().toString(),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   fontFamily: 'Raleway',
                                   fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                  color: Color(pageState.selectedJob.isDepositPaid() ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey()),
                                 ),
                               ),
                             ],
@@ -164,12 +202,12 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                           color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                         ) : SizedBox(),
                         pageState.pageViewIndex > 0 ? Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 48.0),
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 48.0, top: 16.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               Text(
-                                'Total',
+                                'Remaining balance',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 20.0,
@@ -179,13 +217,13 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 ),
                               ),
                               Text(
-                                '\$350',
+                                '\$' + pageState.unpaidAmount.toInt().toString(),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 20.0,
                                   fontFamily: 'Raleway',
                                   fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                  color: Color(ColorConstants.getPeachDark()),
                                 ),
                               ),
                             ],
@@ -195,42 +233,45 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 8.0),
                     alignment: Alignment.bottomCenter,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        FlatButton(
-                          onPressed: () {
-                            onBackPressed(pageState);
-                          },
-                          child: Text(
-                            pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
+                    child: Container(
+                      height: 64.0,
+                      color: Colors.white,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          FlatButton(
+                            onPressed: () {
+                              onBackPressed(pageState);
+                            },
+                            child: Text(
+                              pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontFamily: 'Raleway',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
                             ),
                           ),
-                        ),
-                        FlatButton(
-                          onPressed: () {
-                            onNextPressed(pageState);
-                          },
-                          child: Text(
-                            pageState.pageViewIndex == pageCount-1 ? 'Save' : 'Next',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
+                          FlatButton(
+                            onPressed: () {
+                              onNextPressed(pageState);
+                            },
+                            child: Text(
+                              pageState.pageViewIndex == pageCount-1 ? 'Save' : 'Next',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 16.0,
+                                fontFamily: 'Raleway',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -274,6 +315,28 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
     }
   }
 
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneViewNewInvoice());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
+  }
+
+
   void showSuccessAnimation(){
     showDialog(
       context: context,
@@ -313,10 +376,11 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
 
   _buildDiscountWidget(NewInvoicePageState pageState) {
     return Padding(
-      padding: EdgeInsets.only(left: pageState.discountValue > 0 ? 4.0 : 16.0, right: 16.0, bottom: 0.0),
+      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 16.0),
       child: pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_TYPE_SELECTION
           ? Row(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(right: 8.0),
@@ -381,9 +445,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       pageState.discountType == Invoice.DISCOUNT_TYPE_FIXED_AMOUNT ? NewInvoiceTextField(
         controller: fixedTextController,
         hintText: "\$",
-        inputType: TextInputType.text,
+        inputType: TextInputType.number,
         height: 60.0,
-        onEditingCompleted: pageState.onFixedDiscountSelectionCompleted,
         onTextInputChanged: pageState.onFixedDiscountTextChanged,
         capitalization: TextCapitalization.none,
         keyboardAction: TextInputAction.done,
@@ -392,42 +455,31 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       NewInvoiceTextField(
         controller: percentageTextController,
         hintText: "%",
-        inputType: TextInputType.text,
+        inputType: TextInputType.number,
         height: 60.0,
-        onEditingCompleted: pageState.onPercentageDiscountSelectionCompleted,
         onTextInputChanged: pageState.onPercentageDiscountTextChanged,
         capitalization: TextCapitalization.none,
         keyboardAction: TextInputAction.done,
         labelText: 'Percentage discount',
       ) : Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_STAGE_ADDED ? Container(
-                width: 28.0,
-                margin: EdgeInsets.only(right: 16.0),
-                child: IconButton(
-                  icon: Icon(
-                      Icons.close,
-                      size: 28.0,
-                      color: Color(ColorConstants.getPeachDark())
+              Padding(
+                padding: EdgeInsets.only(left: 0.0, top: 0.0),
+                child: Text(
+                  'Discount',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.w400,
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
-                  tooltip: 'delete',
-                  onPressed: () {
-                    pageState.onDeleteDiscountPressed();
-                  },
-                ),
-              ) : SizedBox(),
-              Text(
-                'Discount',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w400,
-                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_NO_STAGE ?
@@ -438,7 +490,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                     borderRadius: BorderRadius.circular(24.0)
                 ),
                 width: 64.0,
-                height: 26.0,
+                height: 28.0,
                 child: FlatButton(
                   onPressed: () {
                     pageState.onAddDiscountPressed();
@@ -455,16 +507,43 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                   ),
                 ),
               ) : SizedBox(),
+              pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_STAGE_ADDED ?
+              Container(
+                margin: EdgeInsets.only(left: 8.0),
+                decoration: BoxDecoration(
+                    color: Color(ColorConstants.getPeachDark()),
+                    borderRadius: BorderRadius.circular(24.0)
+                ),
+                width: 84.0,
+                height: 28.0,
+                child: FlatButton(
+                  onPressed: () {
+                    pageState.onDeleteDiscountPressed();
+                    fixedTextController.text = '\$';
+                    percentageTextController.text = '\%';
+                  },
+                  child: Text(
+                    'Delete',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                ),
+              ) : SizedBox(),
             ],
           ),
           Text(
-            '\$' + (pageState.discountValue.toInt().toString()),
+              (pageState.discountValue.toInt() > 0 ? '-' : '') + '\$' + (pageState.discountValue.toInt().toString()),
             textAlign: TextAlign.start,
             style: TextStyle(
               fontSize: 20.0,
               fontFamily: 'Raleway',
               fontWeight: FontWeight.w600,
-              color: Color(ColorConstants.getPrimaryBlack()),
+              color: Color(pageState.discountValue.toInt() > 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey()),
             ),
           ),
         ],

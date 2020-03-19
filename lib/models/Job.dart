@@ -116,7 +116,11 @@ class Job {
   }
 
   bool isDepositPaid () {
-    return completedStages.contains((stage) => stage.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED);
+    bool isDepositPaid = false;
+    for(JobStage jobStage in completedStages){
+      if(jobStage.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED) isDepositPaid = true;
+    }
+    return isDepositPaid;
   }
 
   String getJobType(){
