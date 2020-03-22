@@ -110,5 +110,29 @@ class UpdatePercentageDiscountPriceAction{
   UpdatePercentageDiscountPriceAction(this.pageState, this.percentageDiscountRate);
 }
 
+class UpdateNewInvoiceHourlyRateTextAction{
+  final NewInvoicePageState pageState;
+  final String hourlyRate;
+  UpdateNewInvoiceHourlyRateTextAction(this.pageState, this.hourlyRate);
+}
+
+class UpdateNewInvoiceHourlyQuantityTextAction{
+  final NewInvoicePageState pageState;
+  final String hourlyQuantity;
+  UpdateNewInvoiceHourlyQuantityTextAction(this.pageState, this.hourlyQuantity);
+}
+
+class UpdateNewInvoiceItemTextAction{
+  final NewInvoicePageState pageState;
+  final String itemRate;
+  UpdateNewInvoiceItemTextAction(this.pageState, this.itemRate);
+}
+
+class UpdateNewInvoiceItemQuantityAction{
+  final NewInvoicePageState pageState;
+  final String itemQuantity;
+  UpdateNewInvoiceItemQuantityAction(this.pageState, this.itemQuantity);
+}
+
 
 

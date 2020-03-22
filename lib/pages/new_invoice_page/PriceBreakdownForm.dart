@@ -74,7 +74,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
           flatRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.flatRate.toInt().toString());
         }
         if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
-          hourlyRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt().toString());
+          hourlyRateTextController = TextEditingController(text: '\$' + (appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt() > 0 ? appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt().toString() : ''));
         }
         if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
           quantityRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.itemRate.toInt().toString());
@@ -165,7 +165,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                     pageState.onFilterChanged(
                         filterTypeIndex == 0 ? PriceBreakdownForm
                             .SELECTOR_TYPE_FLAT_RATE : filterTypeIndex == 1
-                            ? PriceBreakdownForm.SELECTOR_TYPE_QUANTITY
+                            ? PriceBreakdownForm.SELECTOR_TYPE_HOURLY
                             : PriceBreakdownForm.SELECTOR_TYPE_QUANTITY);
                   },
                   groupValue: selectorIndex,
@@ -198,7 +198,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                           hintText: "\$",
                           inputType: TextInputType.number,
                           height: 60.0,
-                          onTextInputChanged: pageState.onFlatRateTextChanged,
+                          onTextInputChanged: pageState.onHourlyRateTextChanged,
                           capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.done,
                           labelText: 'Rate',
@@ -225,7 +225,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                           hintText: "1",
                           inputType: TextInputType.number,
                           height: 60.0,
-                          onTextInputChanged: pageState.onFlatRateTextChanged,
+                          onTextInputChanged: pageState.onHourlyQuantityTextChanged,
                           capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.done,
                           labelText: 'Hours',
@@ -246,7 +246,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                       hintText: "\$",
                       inputType: TextInputType.number,
                       height: 60.0,
-                      onTextInputChanged: pageState.onFlatRateTextChanged,
+                      onTextInputChanged: pageState.onItemRateTextChanged,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
                       labelText: 'Rate',
@@ -272,7 +272,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                       hintText: "1",
                       inputType: TextInputType.number,
                       height: 60.0,
-                      onTextInputChanged: pageState.onFlatRateTextChanged,
+                      onTextInputChanged: pageState.onItemQuantityTextChanged,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
                       labelText: 'Quantity',

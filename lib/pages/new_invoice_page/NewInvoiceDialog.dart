@@ -1,24 +1,18 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
 import 'package:client_safe/pages/new_invoice_page/JobSelectionForm.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceTextField.dart';
 import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/InputDoneView.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
-import 'package:client_safe/utils/VibrateUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class NewInvoiceDialog extends StatefulWidget {
   @override
@@ -70,7 +64,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
           Dialog(
             backgroundColor: Colors.transparent,
             child: Container(
-              height: 500.0,
+              height: 550.0,
               padding: EdgeInsets.only(left: 16.0, right: 16.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -125,8 +119,9 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                             ],
                           ),
                         ),
+                        pageState.pageViewIndex > 0 ?  _buildSingleItemWidget(pageState) : SizedBox(),
                         pageState.pageViewIndex > 0 ? Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 16.0),
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 0.0),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
@@ -177,7 +172,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                       fontSize: 20.0,
                                       fontFamily: 'Raleway',
                                       fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPeachDark()),
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                   )
                                 ],
@@ -545,6 +540,146 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
               fontWeight: FontWeight.w600,
               color: Color(pageState.discountValue.toInt() > 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey()),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  _buildSingleItemWidget(NewInvoicePageState pageState) {
+    return Padding(
+      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 16.0),
+      child: pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_TYPE_SELECTION
+          ? Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Container(
+            margin: EdgeInsets.only(right: 8.0),
+            decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryColor()),
+                borderRadius: BorderRadius.circular(24.0)
+            ),
+            width: 116.0,
+            height: 28.0,
+            child: FlatButton(
+              onPressed: () {
+                pageState.onDiscountTypeSelected(Invoice.DISCOUNT_TYPE_FIXED_AMOUNT);
+              },
+              child: Text(
+                'Fixed',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+              ),
+            ),
+          ),
+          Text(
+            'Or',
+            textAlign: TextAlign.start,
+            style: TextStyle(
+              fontSize: 16.0,
+              fontFamily: 'Raleway',
+              fontWeight: FontWeight.w600,
+              color: Color(ColorConstants.getPrimaryBlack()),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 8.0),
+            decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryColor()),
+                borderRadius: BorderRadius.circular(24.0)
+            ),
+            width: 116.0,
+            height: 28.0,
+            child: FlatButton(
+              onPressed: () {
+                pageState.onDiscountTypeSelected(Invoice.DISCOUNT_TYPE_PERCENTAGE);
+              },
+              child: Text(
+                'Percent',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 16.0,
+                  fontFamily: 'Raleway',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ) : pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_AMOUNT_SELECTION ?
+      pageState.discountType == Invoice.DISCOUNT_TYPE_FIXED_AMOUNT ? NewInvoiceTextField(
+        controller: fixedTextController,
+        hintText: "\$",
+        inputType: TextInputType.number,
+        height: 60.0,
+        onTextInputChanged: pageState.onFixedDiscountTextChanged,
+        capitalization: TextCapitalization.none,
+        keyboardAction: TextInputAction.done,
+        labelText: 'Fixed discount',
+      ) :
+      NewInvoiceTextField(
+        controller: percentageTextController,
+        hintText: "%",
+        inputType: TextInputType.number,
+        height: 60.0,
+        onTextInputChanged: pageState.onPercentageDiscountTextChanged,
+        capitalization: TextCapitalization.none,
+        keyboardAction: TextInputAction.done,
+        labelText: 'Percentage discount',
+      ) : Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(left: 0.0, top: 0.0),
+                child: Text(
+                  'Line Item',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.w400,
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                ),
+              ),
+              pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_NO_STAGE ?
+              Container(
+                margin: EdgeInsets.only(left: 8.0),
+                decoration: BoxDecoration(
+                    color: Color(ColorConstants.getPrimaryColor()),
+                    borderRadius: BorderRadius.circular(24.0)
+                ),
+                width: 64.0,
+                height: 28.0,
+                child: FlatButton(
+                  onPressed: () {
+                    pageState.onAddDiscountPressed();
+                  },
+                  child: Text(
+                    'Add',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontFamily: 'Raleway',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                ),
+              ) : SizedBox(),
+            ],
           ),
         ],
       ),

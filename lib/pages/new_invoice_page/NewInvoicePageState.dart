@@ -30,6 +30,10 @@ class NewInvoicePageState {
   final String jobSearchText;
   final String filterType;
   final String flatRateText;
+  final String hourlyRate;
+  final String hourlyQuantity;
+  final String itemRate;
+  final String itemQuantity;
   final String discountStage;
   final String discountType;
   final List<Job> jobs;
@@ -51,6 +55,10 @@ class NewInvoicePageState {
   final Function(String) onFixedDiscountTextChanged;
   final Function() onPercentageDiscountSelectionCompleted;
   final Function(String) onPercentageDiscountTextChanged;
+  final Function(String) onHourlyRateTextChanged;
+  final Function(String) onHourlyQuantityTextChanged;
+  final Function(String) onItemRateTextChanged;
+  final Function(String) onItemQuantityTextChanged;
 
   NewInvoicePageState({
     @required this.id,
@@ -80,6 +88,10 @@ class NewInvoicePageState {
     @required this.onClearInputSelected,
     @required this.onFilterChanged,
     @required this.flatRateText,
+    @required this.hourlyRate,
+    @required this.hourlyQuantity,
+    @required this.itemRate,
+    @required this.itemQuantity,
     @required this.onFlatRateTextChanged,
     @required this.onAddDiscountPressed,
     @required this.onDeleteDiscountPressed,
@@ -88,6 +100,10 @@ class NewInvoicePageState {
     @required this.onFixedDiscountTextChanged,
     @required this.onPercentageDiscountSelectionCompleted,
     @required this.onPercentageDiscountTextChanged,
+    @required this.onHourlyRateTextChanged,
+    @required this.onHourlyQuantityTextChanged,
+    @required this.onItemRateTextChanged,
+    @required this.onItemQuantityTextChanged,
   });
 
   NewInvoicePageState copyWith({
@@ -105,6 +121,10 @@ class NewInvoicePageState {
     String jobSearchText,
     String filterType,
     String flatRateText,
+    String hourlyRate,
+    String hourlyQuantity,
+    String itemRate,
+    String itemQuantity,
     String discountStage,
     String discountType,
     List<Job> jobs,
@@ -126,6 +146,10 @@ class NewInvoicePageState {
     Function(String) onFixedDiscountTextChanged,
     Function() onPercentageDiscountSelectionCompleted,
     Function(String) onPercentageDiscountTextChanged,
+    Function(String) onHourlyRateTextChanged,
+    Function(String) onHourlyQuantityTextChanged,
+    Function(String) onItemRateTextChanged,
+    Function(String) onItemQuantityTextChanged,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -155,6 +179,10 @@ class NewInvoicePageState {
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
       flatRateText: flatRateText ?? this.flatRateText,
+      hourlyRate: hourlyRate ?? this.hourlyRate,
+      hourlyQuantity: hourlyQuantity ?? this.hourlyQuantity,
+      itemRate: itemRate ?? this.itemRate,
+      itemQuantity: itemQuantity ?? this.itemQuantity,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
       onAddDiscountPressed: onAddDiscountPressed ?? this.onAddDiscountPressed,
       onDeleteDiscountPressed: onDeleteDiscountPressed ?? this.onDeleteDiscountPressed,
@@ -163,6 +191,10 @@ class NewInvoicePageState {
       onFixedDiscountTextChanged: onFixedDiscountTextChanged ?? this.onFixedDiscountTextChanged,
       onPercentageDiscountSelectionCompleted: onPercentageDiscountSelectionCompleted ?? this.onPercentageDiscountSelectionCompleted,
       onPercentageDiscountTextChanged: onPercentageDiscountTextChanged ?? this.onPercentageDiscountTextChanged,
+      onHourlyQuantityTextChanged: onHourlyQuantityTextChanged ?? this.onHourlyQuantityTextChanged,
+      onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
+      onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
+      onItemQuantityTextChanged: onItemQuantityTextChanged ?? this.onItemQuantityTextChanged,
     );
   }
 
@@ -197,6 +229,10 @@ class NewInvoicePageState {
         onClearInputSelected: null,
         onFilterChanged: null,
         flatRateText: '',
+        hourlyRate: '',
+        hourlyQuantity: '1',
+        itemRate: '',
+        itemQuantity: '1',
         onFlatRateTextChanged: null,
         onAddDiscountPressed: null,
         onDeleteDiscountPressed: null,
@@ -205,6 +241,10 @@ class NewInvoicePageState {
         onFixedDiscountSelectionCompleted: null,
         onPercentageDiscountTextChanged: null,
         onPercentageDiscountSelectionCompleted: null,
+        onHourlyRateTextChanged: null,
+        onHourlyQuantityTextChanged: null,
+        onItemQuantityTextChanged: null,
+        onItemRateTextChanged: null,
       );
   }
 
@@ -222,6 +262,10 @@ class NewInvoicePageState {
       filteredJobs: store.state.newInvoicePageState.filteredJobs,
       allClients: store.state.newInvoicePageState.allClients,
       flatRateText: store.state.newInvoicePageState.flatRateText,
+      hourlyRate: store.state.newInvoicePageState.hourlyRate,
+      hourlyQuantity: store.state.newInvoicePageState.hourlyQuantity,
+      itemRate: store.state.newInvoicePageState.itemRate,
+      itemQuantity: store.state.newInvoicePageState.itemQuantity,
       isDiscountFixedRate: store.state.newInvoicePageState.isDiscountFixedRate,
       discountValue: store.state.newInvoicePageState.discountValue,
       total: store.state.newInvoicePageState.total,
@@ -245,6 +289,10 @@ class NewInvoicePageState {
       onFixedDiscountTextChanged: (fixedDiscountRate) => store.dispatch(UpdateFixedDiscountPriceAction(store.state.newInvoicePageState, fixedDiscountRate)),
       onPercentageDiscountSelectionCompleted: () => store.dispatch(SavePercentageDiscountRateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_STAGE_ADDED)),
       onPercentageDiscountTextChanged: (percentageDiscountRate) => store.dispatch(UpdatePercentageDiscountPriceAction(store.state.newInvoicePageState, percentageDiscountRate)),
+      onHourlyRateTextChanged: (hourlyRate) => store.dispatch(UpdateNewInvoiceHourlyRateTextAction(store.state.newInvoicePageState, hourlyRate)),
+      onHourlyQuantityTextChanged: (hourlyQuantity) => store.dispatch(UpdateNewInvoiceHourlyQuantityTextAction(store.state.newInvoicePageState, hourlyQuantity)),
+      onItemRateTextChanged: (itemRate) => store.dispatch(UpdateNewInvoiceItemTextAction(store.state.newInvoicePageState, itemRate)),
+      onItemQuantityTextChanged: (itemQuantity) => store.dispatch(UpdateNewInvoiceItemQuantityAction(store.state.newInvoicePageState, itemQuantity)),
     );
   }
 
@@ -272,12 +320,21 @@ class NewInvoicePageState {
       isDiscountFixedRate.hashCode ^
       discountValue.hashCode ^
       total.hashCode ^
+      flatRateText.hashCode ^
+      hourlyRate.hashCode ^
+      hourlyQuantity.hashCode ^
+      itemRate.hashCode ^
+      itemQuantity.hashCode ^
       depositValue.hashCode ^
       unpaidAmount.hashCode ^
       filterType.hashCode ^
       onAddDiscountPressed.hashCode ^
       onDeleteDiscountPressed.hashCode ^
-      discountType.hashCode;
+      discountType.hashCode ^
+      onHourlyRateTextChanged.hashCode ^
+      onHourlyQuantityTextChanged.hashCode ^
+      onItemQuantityTextChanged.hashCode ^
+      onItemRateTextChanged.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -305,10 +362,19 @@ class NewInvoicePageState {
           isDiscountFixedRate == other.isDiscountFixedRate &&
           discountValue == other.discountValue &&
           total == other.total &&
+          flatRateText == other.flatRateText &&
+          hourlyRate == other.hourlyRate &&
+          hourlyQuantity == other.hourlyQuantity &&
+          itemRate == other.itemRate &&
+          itemQuantity == other.itemQuantity &&
           depositValue == other.depositValue &&
           unpaidAmount == other.depositValue &&
           filterType == other.filterType &&
           onAddDiscountPressed == other.onAddDiscountPressed &&
           onDeleteDiscountPressed == other.onDeleteDiscountPressed &&
-          discountType == other.discountType;
+          discountType == other.discountType &&
+          onHourlyQuantityTextChanged == other.onHourlyQuantityTextChanged &&
+          onHourlyRateTextChanged == other.onHourlyRateTextChanged &&
+          onItemRateTextChanged == other.onItemRateTextChanged &&
+          onItemQuantityTextChanged == other.onItemQuantityTextChanged;
 }
