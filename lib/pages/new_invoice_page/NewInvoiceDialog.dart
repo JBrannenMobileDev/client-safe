@@ -308,9 +308,10 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
                     alignment: Alignment.bottomCenter,
                     child: Container(
+                      color: Color(ColorConstants.getPrimaryWhite()),
                       height: 64.0,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

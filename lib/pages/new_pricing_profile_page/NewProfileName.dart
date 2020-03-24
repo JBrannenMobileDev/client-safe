@@ -51,7 +51,7 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
                 hintText: "Price Profile Name",
                 inputType: TextInputType.text,
                 focusNode: null,
-                height: 60.0,
+                height: 64.0,
                 onTextInputChanged: pageState.onProfileNameChanged,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,

@@ -26,7 +26,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
   final FocusNode itemRateInputFocusNode = FocusNode();
   final FocusNode itemQuantityFocusNode = FocusNode();
   var rateTextController = TextEditingController(text: '\$');
-  var percentageTextController = TextEditingController(text: '1');
+  var percentageTextController = TextEditingController(text: '');
   int selectorIndex = 0;
   Map<int, Widget> breakdownTypes;
 
@@ -56,7 +56,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
           Dialog(
             backgroundColor: Colors.transparent,
             child: Container(
-              height: 305.0,
+              height: 312.0,
               width: 350.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
@@ -122,7 +122,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                           controller: rateTextController,
                           hintText: '',
                           inputType: TextInputType.number,
-                          height: 60.0,
+                          height: 64.0,
                           autoFocus: true,
                           onTextInputChanged: pageState.onNewDiscountRateTextChanged,
                           capitalization: TextCapitalization.none,
@@ -136,7 +136,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                           controller: percentageTextController,
                           hintText: '',
                           inputType: TextInputType.number,
-                          height: 60.0,
+                          height: 64.0,
                           autoFocus: true,
                           onTextInputChanged: pageState.onNewDiscountPercentageTextChanged,
                           capitalization: TextCapitalization.none,

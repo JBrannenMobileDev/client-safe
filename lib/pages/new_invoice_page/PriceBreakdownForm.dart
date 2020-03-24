@@ -30,9 +30,9 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
   final FocusNode hourlyQuantityFocusNode = FocusNode();
   var flatRateTextController = TextEditingController(text: '\$');
   var hourlyRateTextController = TextEditingController(text: '\$');
-  var hourlyQuantityTextController = TextEditingController(text: '1');
+  var hourlyQuantityTextController = TextEditingController(text: '');
   var quantityRateTextController = TextEditingController(text: '\$');
-  var quantityQuantityTextController = TextEditingController(text: '1');
+  var quantityQuantityTextController = TextEditingController(text: '');
   int selectorIndex = 0;
   Map<int, Widget> breakdownTypes;
 
@@ -91,7 +91,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
 
         flatRateInputFocusNode.addListener(() {
 
-          bool hasFocus = flatRateInputFocusNode.hasFocus;
+          bool hasFocus = overlayEntry != null;
           if (hasFocus)
             showOverlay(context);
           else
@@ -100,7 +100,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
 
         hourlyRateInputFocusNode.addListener(() {
 
-          bool hasFocus = hourlyRateInputFocusNode.hasFocus;
+          bool hasFocus = overlayEntry != null;
           if (hasFocus)
             showOverlay(context);
           else
@@ -109,7 +109,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
 
         itemRateInputFocusNode.addListener(() {
 
-          bool hasFocus = itemRateInputFocusNode.hasFocus;
+          bool hasFocus = overlayEntry != null;
           if (hasFocus)
             showOverlay(context);
           else
@@ -118,7 +118,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
 
         itemQuantityFocusNode.addListener(() {
 
-          bool hasFocus = itemQuantityFocusNode.hasFocus;
+          bool hasFocus = overlayEntry != null;
           if (hasFocus)
             showOverlay(context);
           else
@@ -127,12 +127,15 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
 
         hourlyQuantityFocusNode.addListener(() {
 
-          bool hasFocus = hourlyQuantityFocusNode.hasFocus;
+          bool hasFocus = overlayEntry != null;
           if (hasFocus)
             showOverlay(context);
           else
             removeOverlay();
         });
+      },
+      onDidChange: (pageState) {
+        flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : pageState.flatRateText;
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -153,7 +156,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
               ),
               Container(
                 width: 300.0,
-                margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 32.0, bottom: 16.0),
+                margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 32.0, bottom: 12.0),
                 child: CupertinoSlidingSegmentedControl<int>(
                   backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   thumbColor: Color(ColorConstants.getPrimaryColor()),
@@ -178,7 +181,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   controller: flatRateTextController,
                   hintText: "\$",
                   inputType: TextInputType.number,
-                  height: 60.0,
+                  height: 64.0,
                   onTextInputChanged: pageState.onFlatRateTextChanged,
                   capitalization: TextCapitalization.none,
                   keyboardAction: TextInputAction.done,
@@ -190,14 +193,14 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        width: 112.0,
+                        width: 126.0,
                         margin: EdgeInsets.only(left: 15.0, bottom: 16.0),
                         child: NewInvoiceTextField(
                           focusNode: hourlyRateInputFocusNode,
                           controller: hourlyRateTextController,
                           hintText: "\$",
                           inputType: TextInputType.number,
-                          height: 60.0,
+                          height: 64.0,
                           onTextInputChanged: pageState.onHourlyRateTextChanged,
                           capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.done,
@@ -217,14 +220,14 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                         ),
                       ),
                       Container(
-                        width: 112.0,
+                        width: 126.0,
                         margin: EdgeInsets.only(right: 15.0, bottom: 16.0),
                         child: NewInvoiceTextField(
                           focusNode: hourlyQuantityFocusNode,
                           controller: hourlyQuantityTextController,
-                          hintText: "1",
+                          hintText: '',
                           inputType: TextInputType.number,
-                          height: 60.0,
+                          height: 64.0,
                           onTextInputChanged: pageState.onHourlyQuantityTextChanged,
                           capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.done,
@@ -238,14 +241,14 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    width: 112.0,
+                    width: 126.0,
                     margin: EdgeInsets.only(left: 15.0),
                     child: NewInvoiceTextField(
                       focusNode: itemRateInputFocusNode,
                       controller: quantityRateTextController,
                       hintText: "\$",
                       inputType: TextInputType.number,
-                      height: 60.0,
+                      height: 64.0,
                       onTextInputChanged: pageState.onItemRateTextChanged,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
@@ -264,14 +267,14 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                     ),
                   ),
                   Container(
-                    width: 112.0,
+                    width: 126.0,
                     margin: EdgeInsets.only(right: 15.0),
                     child: NewInvoiceTextField(
                       focusNode: itemQuantityFocusNode,
                       controller: quantityQuantityTextController,
-                      hintText: "1",
+                      hintText: '',
                       inputType: TextInputType.number,
-                      height: 60.0,
+                      height: 64.0,
                       onTextInputChanged: pageState.onItemQuantityTextChanged,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,

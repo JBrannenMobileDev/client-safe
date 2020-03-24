@@ -131,7 +131,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                       ),
                     ),
                     Container(
-                      height: 216.0,
+                      height: 218.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
