@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
+import 'package:client_safe/models/LineItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:flutter/widgets.dart';
@@ -39,6 +40,16 @@ class NewInvoicePageState {
   final List<Job> jobs;
   final List<Job> filteredJobs;
   final List<Client> allClients;
+  final List<LineItem> lineItems;
+  final String newLineItemName;
+  final String newLineItemRate;
+  final String newLineItemQuantity;
+  final Function(String) onNewLineItemNameTextChanged;
+  final Function(String) onNewLineItemRateTextChanged;
+  final Function(String) onNewLineItemQuantityTextChanged;
+  final Function() onNewLineItemSaveSelected;
+  final Function() onNewLineItemCanceled;
+  final Function(int) onLineItemDeleted;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -79,6 +90,7 @@ class NewInvoicePageState {
     @required this.discountType,
     @required this.filteredJobs,
     @required this.allClients,
+    @required this.lineItems,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -104,6 +116,15 @@ class NewInvoicePageState {
     @required this.onHourlyQuantityTextChanged,
     @required this.onItemRateTextChanged,
     @required this.onItemQuantityTextChanged,
+    @required this.newLineItemRate,
+    @required this.newLineItemName,
+    @required this.newLineItemQuantity,
+    @required this.onNewLineItemCanceled,
+    @required this.onNewLineItemNameTextChanged,
+    @required this.onNewLineItemQuantityTextChanged,
+    @required this.onNewLineItemRateTextChanged,
+    @required this.onNewLineItemSaveSelected,
+    @required this.onLineItemDeleted,
   });
 
   NewInvoicePageState copyWith({
@@ -130,6 +151,15 @@ class NewInvoicePageState {
     List<Job> jobs,
     List<Job> filteredJobs,
     List<Client> allClients,
+    List<LineItem> lineItems,
+    String newLineItemName,
+    String newLineItemRate,
+    String newLineItemQuantity,
+    Function(String) onNewLineItemNameTextChanged,
+    Function(String) onNewLineItemRateTextChanged,
+    Function(String) onNewLineItemQuantityTextChanged,
+    Function() onNewLineItemSaveSelected,
+    Function() onNewLineItemCanceled,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -150,6 +180,7 @@ class NewInvoicePageState {
     Function(String) onHourlyQuantityTextChanged,
     Function(String) onItemRateTextChanged,
     Function(String) onItemQuantityTextChanged,
+    Function(int) onLineItemDeleted,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -169,7 +200,8 @@ class NewInvoicePageState {
       discountStage: discountStage ?? this.discountStage,
       discountType: discountType ?? this.discountType,
       filteredJobs:  filteredJobs ?? this.filteredJobs,
-      allClients: allClients?? this.allClients,
+      allClients: allClients ?? this.allClients,
+      lineItems: lineItems ?? this.lineItems,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -183,6 +215,14 @@ class NewInvoicePageState {
       hourlyQuantity: hourlyQuantity ?? this.hourlyQuantity,
       itemRate: itemRate ?? this.itemRate,
       itemQuantity: itemQuantity ?? this.itemQuantity,
+      newLineItemName: newLineItemName ?? this.newLineItemName,
+      newLineItemRate: newLineItemRate ?? this.newLineItemRate,
+      newLineItemQuantity: newLineItemQuantity ?? this.newLineItemQuantity,
+      onNewLineItemCanceled: onNewLineItemCanceled ?? this.onNewLineItemCanceled,
+      onNewLineItemNameTextChanged: onNewLineItemNameTextChanged ?? this.onNewLineItemNameTextChanged,
+      onNewLineItemQuantityTextChanged: onNewLineItemQuantityTextChanged ?? this.onNewLineItemQuantityTextChanged,
+      onNewLineItemRateTextChanged: onNewLineItemRateTextChanged ?? this.onNewLineItemRateTextChanged,
+      onNewLineItemSaveSelected: onNewLineItemSaveSelected ?? this.onNewLineItemSaveSelected,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
       onAddDiscountPressed: onAddDiscountPressed ?? this.onAddDiscountPressed,
       onDeleteDiscountPressed: onDeleteDiscountPressed ?? this.onDeleteDiscountPressed,
@@ -195,6 +235,7 @@ class NewInvoicePageState {
       onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
       onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
       onItemQuantityTextChanged: onItemQuantityTextChanged ?? this.onItemQuantityTextChanged,
+      onLineItemDeleted: onLineItemDeleted ?? this.onLineItemDeleted,
     );
   }
 
@@ -220,6 +261,7 @@ class NewInvoicePageState {
         discountType: null,
         filteredJobs: List(),
         allClients: List(),
+        lineItems: List(),
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -245,6 +287,15 @@ class NewInvoicePageState {
         onHourlyQuantityTextChanged: null,
         onItemQuantityTextChanged: null,
         onItemRateTextChanged: null,
+        newLineItemName: '',
+        newLineItemRate: '',
+        newLineItemQuantity: '',
+        onNewLineItemCanceled: null,
+        onNewLineItemNameTextChanged: null,
+        onNewLineItemQuantityTextChanged: null,
+        onNewLineItemRateTextChanged: null,
+        onNewLineItemSaveSelected: null,
+        onLineItemDeleted: null,
       );
   }
 
@@ -273,6 +324,15 @@ class NewInvoicePageState {
       depositValue: store.state.newInvoicePageState.depositValue,
       unpaidAmount: store.state.newInvoicePageState.unpaidAmount,
       discountType: store.state.newInvoicePageState.discountType,
+      lineItems: store.state.newInvoicePageState.lineItems,
+      newLineItemName: store.state.newInvoicePageState.newLineItemName,
+      newLineItemRate: store.state.newInvoicePageState.newLineItemRate,
+      newLineItemQuantity: store.state.newInvoicePageState.newLineItemQuantity,
+      onNewLineItemSaveSelected: () => store.dispatch(SaveNewLineItemAction(store.state.newInvoicePageState)),
+      onNewLineItemCanceled: () => store.dispatch(ClearNewLineItemAction(store.state.newInvoicePageState)),
+      onNewLineItemNameTextChanged: (name) => store.dispatch(UpdateLineItemNameAction(store.state.newInvoicePageState, name)),
+      onNewLineItemRateTextChanged: (rate) => store.dispatch(UpdateLineItemRateAction(store.state.newInvoicePageState, rate)),
+      onNewLineItemQuantityTextChanged: (quantity) => store.dispatch(UpdateLineItemQuantityAction(store.state.newInvoicePageState, quantity)),
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newInvoicePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newInvoicePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newInvoicePageState)),
@@ -293,6 +353,7 @@ class NewInvoicePageState {
       onHourlyQuantityTextChanged: (hourlyQuantity) => store.dispatch(UpdateNewInvoiceHourlyQuantityTextAction(store.state.newInvoicePageState, hourlyQuantity)),
       onItemRateTextChanged: (itemRate) => store.dispatch(UpdateNewInvoiceItemTextAction(store.state.newInvoicePageState, itemRate)),
       onItemQuantityTextChanged: (itemQuantity) => store.dispatch(UpdateNewInvoiceItemQuantityAction(store.state.newInvoicePageState, itemQuantity)),
+      onLineItemDeleted: (index) => store.dispatch(DeleteLineItemAction(store.state.newInvoicePageState, index)),
     );
   }
 
@@ -307,6 +368,7 @@ class NewInvoicePageState {
       jobSearchText.hashCode ^
       filteredJobs.hashCode ^
       allClients.hashCode ^
+      lineItems.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -349,6 +411,7 @@ class NewInvoicePageState {
           jobSearchText == other.jobSearchText &&
           filteredJobs == other.filteredJobs &&
           allClients == other.allClients &&
+          lineItems == other.lineItems &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&

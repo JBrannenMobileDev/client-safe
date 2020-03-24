@@ -77,7 +77,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
           hourlyRateTextController = TextEditingController(text: '\$' + (appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt() > 0 ? appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt().toString() : ''));
         }
         if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
-          quantityRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.itemRate.toInt().toString());
+          quantityRateTextController = TextEditingController(text: '\$' + (appState.state.newInvoicePageState.selectedJob.priceProfile.itemRate.toInt() > 0 ? appState.state.newInvoicePageState.selectedJob.priceProfile.itemRate.toInt().toString() : ''));
         }
 
         KeyboardVisibilityNotification().addNewListener(

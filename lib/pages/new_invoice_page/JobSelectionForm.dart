@@ -3,9 +3,7 @@ import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceJobListItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/new_job_page/widgets/NewJobClientListWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -36,23 +34,33 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
           Container(
+            margin: EdgeInsets.only(left: 16.0, right: 8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
+                Text(
+                  "Select a Job",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'Raleway',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.primary_black),
+                  ),
+                ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    searchHasFocus
-                        ? Container(
-                        margin: EdgeInsets.only(top: 16.0),
+                    Container(
+                        margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
                         alignment: Alignment.center,
                         width: 225.0,
                         height: 45.0,
                         child: TextField(
                           textInputAction: TextInputAction.go,
                           maxLines: 1,
-                          autofocus: true,
+                          autofocus: false,
                           controller: searchTextController,
                           onChanged: (text) {
                             pageState.onJobSearchTextChanged(text);
@@ -76,46 +84,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                               fontFamily: 'Raleway',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black)),
-                        ))
-                        : Text(
-                      "Select a job",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
-                    ),
-                    searchHasFocus
-                        ? Padding(
-                      padding: EdgeInsets.only(left: 16.0, top: 16.0),
-                      child: IconButton(
-                        icon: const Icon(Icons.close),
-                        tooltip: 'Close',
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        onPressed: () {
-                          setState(() {
-                            searchHasFocus = false;
-                            searchTextController.text = "";
-                          });
-                          pageState.onJobSearchTextChanged("");
-                        },
-                      ),
-                    )
-                        : Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: IconButton(
-                        icon: const Icon(Icons.search),
-                        tooltip: 'Search',
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        onPressed: () {
-                          setState(() {
-                            searchHasFocus = true;
-                          });
-                        },
-                      ),
-                    ),
+                        )),
                   ],
                 ),
                 pageState.filteredJobs.length > 0 && pageState.isFinishedFetchingClients

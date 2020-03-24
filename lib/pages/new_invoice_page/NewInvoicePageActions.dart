@@ -134,5 +134,38 @@ class UpdateNewInvoiceItemQuantityAction{
   UpdateNewInvoiceItemQuantityAction(this.pageState, this.itemQuantity);
 }
 
+class SaveNewLineItemAction{
+  final NewInvoicePageState pageState;
+  SaveNewLineItemAction(this.pageState);
+}
+
+class ClearNewLineItemAction{
+  final NewInvoicePageState pageState;
+  ClearNewLineItemAction(this.pageState);
+}
+
+class UpdateLineItemNameAction{
+  final NewInvoicePageState pageState;
+  final String name;
+  UpdateLineItemNameAction(this.pageState, this.name);
+}
+
+class UpdateLineItemRateAction{
+  final NewInvoicePageState pageState;
+  final String rate;
+  UpdateLineItemRateAction(this.pageState, this.rate);
+}
+
+class UpdateLineItemQuantityAction{
+  final NewInvoicePageState pageState;
+  final String quantity;
+  UpdateLineItemQuantityAction(this.pageState, this.quantity);
+}
+
+class DeleteLineItemAction{
+  final NewInvoicePageState pageState;
+  final int index;
+  DeleteLineItemAction(this.pageState, this.index);
+}
 
 

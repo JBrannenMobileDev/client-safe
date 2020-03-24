@@ -13,6 +13,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchAllInvoiceJobsAction) {
       _loadAll(store, action, next);
     }
+    if(action is SaveNewLineItemAction){
+      _saveNewLineItem(store, action, next);
+    }
+    if(action is DeleteLineItemAction){
+      _deleteLineItem(store, action, next);
+    }
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
@@ -20,5 +26,13 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     List<Job> allJobs = await JobDao.getAllJobs();
     allJobs = allJobs.where((job) => job.invoice == null).toList();
     store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients));
+  }
+
+  void _saveNewLineItem(Store<AppState> store, action, NextDispatcher next) async {
+    next(action);
+  }
+
+  void _deleteLineItem(Store<AppState> store, action, NextDispatcher next) async {
+    next(action);
   }
 }

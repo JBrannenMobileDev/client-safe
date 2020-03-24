@@ -20,6 +20,7 @@ class NewInvoiceTextField extends StatelessWidget {
   final Function onFocusAction;
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
+  final bool autoFocus;
 
   NewInvoiceTextField({
       this.controller,
@@ -35,6 +36,7 @@ class NewInvoiceTextField extends StatelessWidget {
       this.inputFormatter,
       this.labelText,
       this.onEditingCompleted,
+      this.autoFocus,
   });
 
   @override
@@ -46,6 +48,7 @@ class NewInvoiceTextField extends StatelessWidget {
           height: height,
           child: TextFormField(
             focusNode: focusNode,
+            autofocus: autoFocus != null ? autoFocus : false,
             textInputAction: keyboardAction,
             maxLines: 24,
             controller: controller,
