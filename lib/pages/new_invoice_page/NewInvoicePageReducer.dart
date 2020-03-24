@@ -1,6 +1,8 @@
+import 'package:client_safe/models/Discount.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/LineItem.dart';
+import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/RateTypeSelection.dart';
@@ -19,19 +21,73 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, UpdateNewInvoiceHourlyQuantityTextAction>(_updateHourlyQuantity),
   TypedReducer<NewInvoicePageState, UpdateNewInvoiceItemTextAction>(_updateItemRate),
   TypedReducer<NewInvoicePageState, UpdateNewInvoiceItemQuantityAction>(_updateItemQuantity),
-  TypedReducer<NewInvoicePageState, SetDiscountStateAction>(_updateDiscountStage),
-  TypedReducer<NewInvoicePageState, SaveSelectedDiscountTypeAction>(_updateSelectedDiscountType),
-  TypedReducer<NewInvoicePageState, SaveFixedDiscountRateAction>(_saveFixedDiscountRate),
-  TypedReducer<NewInvoicePageState, UpdateFixedDiscountPriceAction>(_updateFixedDiscountRate),
-  TypedReducer<NewInvoicePageState, SavePercentageDiscountRateAction>(_savePercentageDiscountRate),
-  TypedReducer<NewInvoicePageState, UpdatePercentageDiscountPriceAction>(_updatePercentageDiscountRate),
   TypedReducer<NewInvoicePageState, UpdateLineItemNameAction>(_updateLineItemName),
   TypedReducer<NewInvoicePageState, UpdateLineItemRateAction>(_updateLineItemRate),
   TypedReducer<NewInvoicePageState, UpdateLineItemQuantityAction>(_updateLineItemQuantity),
   TypedReducer<NewInvoicePageState, SaveNewLineItemAction>(_saveNewLineItem),
   TypedReducer<NewInvoicePageState, ClearNewLineItemAction>(_clearNewLineItem),
   TypedReducer<NewInvoicePageState, DeleteLineItemAction>(_deleteLineItem),
+  TypedReducer<NewInvoicePageState, ClearNewDiscountAction>(_clearDiscountState),
+  TypedReducer<NewInvoicePageState, DeleteDiscountAction>(_deleteDiscount),
+  TypedReducer<NewInvoicePageState, UpdateNewDiscountPercentageTextAction>(_updateDiscountPercentage),
+  TypedReducer<NewInvoicePageState, UpdateNewDiscountRateTextAction>(_updateDiscountRate),
+  TypedReducer<NewInvoicePageState, SaveNewDiscountAction>(_saveNewDiscount),
 ]);
+
+NewInvoicePageState _saveNewDiscount(NewInvoicePageState previousState, SaveNewDiscountAction action) {
+  double discountRate = previousState.newDiscountRate.length > 0 ? double.parse(previousState.newDiscountRate.replaceFirst(r'$', '')) : 0;
+  double discountPercentage = previousState.newDiscountPercentage.length > 0 ? double.parse(previousState.newDiscountPercentage.replaceFirst(r'%', '')) : 0;
+  Discount discount = Discount(
+    selectedFilter: previousState.newDiscountFilter,
+    rate: discountRate,
+    percentage: discountPercentage,
+  );
+  double discountValue = 0.0;
+  switch(discount.selectedFilter){
+    case NewDiscountDialog.SELECTOR_TYPE_FIXED:
+      discountValue = discount.rate;
+      break;
+    case NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE:
+      discountValue = (previousState.total * (discountPercentage/100)).toDouble();
+      break;
+  }
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
+  return previousState.copyWith(
+    newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
+    newDiscountRate: '',
+    newDiscountPercentage: '',
+    discountValue: discountValue,
+    discount: discount,
+    unpaidAmount: remainingBalance,
+  );
+}
+
+NewInvoicePageState _updateDiscountRate(NewInvoicePageState previousState, UpdateNewDiscountRateTextAction action) {
+  return previousState.copyWith(
+    newDiscountRate: action.rate,
+  );
+}
+
+NewInvoicePageState _updateDiscountPercentage(NewInvoicePageState previousState, UpdateNewDiscountPercentageTextAction action) {
+  return previousState.copyWith(
+    newDiscountPercentage: action.percentage,
+  );
+}
+
+NewInvoicePageState _deleteDiscount(NewInvoicePageState previousState, DeleteDiscountAction action) {
+  return previousState.copyWith(
+    discount: null,
+    discountValue: 0.0,
+  );
+}
+
+NewInvoicePageState _clearDiscountState(NewInvoicePageState previousState, ClearNewDiscountAction action) {
+  return previousState.copyWith(
+    newDiscountPercentage: '',
+    newDiscountRate: '',
+    newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
+  );
+}
 
 NewInvoicePageState _deleteLineItem(NewInvoicePageState previousState, DeleteLineItemAction action) {
   previousState.lineItems.removeAt(action.index);
@@ -46,7 +102,7 @@ NewInvoicePageState _deleteLineItem(NewInvoicePageState previousState, DeleteLin
 double _calculateSubtotal(NewInvoicePageState previousState) {
   double subtotal = 0.0;
   for(LineItem lineItem in previousState.lineItems){
-    subtotal = subtotal + lineItem.itemPrice;
+    subtotal = subtotal + (lineItem.itemPrice * lineItem.itemQuantity);
   }
   return subtotal;
 }
@@ -93,103 +149,6 @@ NewInvoicePageState _updateLineItemRate(NewInvoicePageState previousState, Updat
 NewInvoicePageState _updateLineItemQuantity(NewInvoicePageState previousState, UpdateLineItemQuantityAction action) {
   return previousState.copyWith(
     newLineItemQuantity: action.quantity,
-  );
-}
-
-NewInvoicePageState _saveFixedDiscountRate(NewInvoicePageState previousState, SaveFixedDiscountRateAction action) {
-  double total = 0.0;
-  switch(previousState.filterType){
-    case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
-      total = double.parse(previousState.flatRateText.replaceFirst(r'$', ''));
-      break;
-    case RateTypeSelection.SELECTOR_TYPE_HOURLY:
-      total = double.parse(previousState.hourlyRate.replaceFirst(r'$', '')) * double.parse(previousState.hourlyQuantity);
-      break;
-    case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
-      total = double.parse(previousState.itemRate.replaceFirst(r'$', '')) * double.parse(previousState.itemQuantity);
-      break;
-  }
-  double remainingBalance = total - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
-  return previousState.copyWith(
-    discountStage: action.discountStage,
-    unpaidAmount: remainingBalance,
-  );
-}
-
-NewInvoicePageState _updateFixedDiscountRate(NewInvoicePageState previousState, UpdateFixedDiscountPriceAction action) {
-  String fixedDiscountRate = action.fixedDiscountRate.replaceFirst(r'$', '');
-  return previousState.copyWith(
-    discountValue: double.parse(fixedDiscountRate),
-  );
-}
-
-NewInvoicePageState _savePercentageDiscountRate(NewInvoicePageState previousState, SavePercentageDiscountRateAction action) {
-  double total = 0.0;
-  switch(previousState.filterType){
-    case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
-      total = double.parse(previousState.flatRateText.replaceFirst(r'$', ''));
-      break;
-    case RateTypeSelection.SELECTOR_TYPE_HOURLY:
-      total = double.parse(previousState.hourlyRate.replaceFirst(r'$', '')) * double.parse(previousState.hourlyQuantity);
-      break;
-    case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
-      total = double.parse(previousState.itemRate.replaceFirst(r'$', '')) * double.parse(previousState.itemQuantity);
-      break;
-  }
-  double remainingBalance = total - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
-  return previousState.copyWith(
-    discountStage: action.discountStage,
-    unpaidAmount: remainingBalance,
-  );
-}
-
-NewInvoicePageState _updatePercentageDiscountRate(NewInvoicePageState previousState, UpdatePercentageDiscountPriceAction action) {
-  String percentageDiscountRate = action.percentageDiscountRate.replaceFirst(r'%', '');
-  double total = previousState.total;
-  double discountValue = total * ((double.parse(percentageDiscountRate))/100);
-  return previousState.copyWith(
-    discountValue: discountValue,
-    unpaidAmount: total - discountValue,
-  );
-}
-
-NewInvoicePageState _updateDiscountStage(NewInvoicePageState previousState, SetDiscountStateAction action) {
-  Job selectedJob = previousState.selectedJob;
-  String rateType = previousState.filterType;
-  int depositAmount = selectedJob.depositAmount;
-  double remainingBalance = 0.0;
-  switch(rateType){
-    case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
-      remainingBalance = (previousState.flatRateText.length > 0 ? double.parse(previousState.flatRateText.replaceFirst(r'$', '')) : 0.0) - (selectedJob.isDepositPaid() ? depositAmount : 0);
-      break;
-    case RateTypeSelection.SELECTOR_TYPE_HOURLY:
-      remainingBalance = ((previousState.hourlyRate.length > 0 ? double.parse(previousState.hourlyRate.replaceFirst(r'$', '')) : 0.0) * double.parse(previousState.hourlyQuantity)) - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
-      break;
-    case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
-      remainingBalance = ((previousState.itemRate.length > 0 ? double.parse(previousState.itemRate.replaceFirst(r'$', '')) : 0.0) * double.parse(previousState.itemQuantity)) - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
-      break;
-  }
-  return previousState.copyWith(
-    discountValue: action.newStage == NewInvoicePageState.DISCOUNT_STAGE_NO_STAGE ? 0 : previousState.discountValue,
-    discountStage: action.newStage,
-    unpaidAmount: action.newStage == NewInvoicePageState.DISCOUNT_STAGE_NO_STAGE ? remainingBalance : previousState.total,
-  );
-}
-
-NewInvoicePageState _updateSelectedDiscountType(NewInvoicePageState previousState, SaveSelectedDiscountTypeAction action) {
-  bool isDiscountFixedRate = true;
-  switch(action.discountType){
-    case Invoice.DISCOUNT_TYPE_FIXED_AMOUNT:
-      isDiscountFixedRate = true;
-      break;
-    case Invoice.DISCOUNT_TYPE_PERCENTAGE:
-      isDiscountFixedRate = false;
-      break;
-  }
-  return previousState.copyWith(
-    discountStage: NewInvoicePageState.DISCOUNT_STAGE_AMOUNT_SELECTION,
-    discountType: action.discountType,
-    isDiscountFixedRate: isDiscountFixedRate,
   );
 }
 

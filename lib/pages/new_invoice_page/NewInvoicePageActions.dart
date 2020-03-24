@@ -74,42 +74,6 @@ class UpdateFlatRateText{
   UpdateFlatRateText(this.pageState, this.flatRateText);
 }
 
-class SetDiscountStateAction{
-  final NewInvoicePageState pageState;
-  final String newStage;
-  SetDiscountStateAction(this.pageState, this.newStage);
-}
-
-class SaveSelectedDiscountTypeAction{
-  final NewInvoicePageState pageState;
-  final String discountType;
-  SaveSelectedDiscountTypeAction(this.pageState, this.discountType);
-}
-
-class SaveFixedDiscountRateAction{
-  final NewInvoicePageState pageState;
-  final String discountStage;
-  SaveFixedDiscountRateAction(this.pageState, this.discountStage);
-}
-
-class UpdateFixedDiscountPriceAction{
-  final NewInvoicePageState pageState;
-  final String fixedDiscountRate;
-  UpdateFixedDiscountPriceAction(this.pageState, this.fixedDiscountRate);
-}
-
-class SavePercentageDiscountRateAction{
-  final NewInvoicePageState pageState;
-  final String discountStage;
-  SavePercentageDiscountRateAction(this.pageState, this.discountStage);
-}
-
-class UpdatePercentageDiscountPriceAction{
-  final NewInvoicePageState pageState;
-  final String percentageDiscountRate;
-  UpdatePercentageDiscountPriceAction(this.pageState, this.percentageDiscountRate);
-}
-
 class UpdateNewInvoiceHourlyRateTextAction{
   final NewInvoicePageState pageState;
   final String hourlyRate;
@@ -167,5 +131,40 @@ class DeleteLineItemAction{
   final int index;
   DeleteLineItemAction(this.pageState, this.index);
 }
+
+class UpdateNewDiscountSelectorAction{
+  final NewInvoicePageState pageState;
+  final String selectorName;
+  UpdateNewDiscountSelectorAction(this.pageState, this.selectorName);
+}
+
+class ClearNewDiscountAction{
+  final NewInvoicePageState pageState;
+  ClearNewDiscountAction(this.pageState);
+}
+
+class SaveNewDiscountAction{
+  final NewInvoicePageState pageState;
+  SaveNewDiscountAction(this.pageState);
+}
+
+class UpdateNewDiscountPercentageTextAction{
+  final NewInvoicePageState pageState;
+  final String percentage;
+  UpdateNewDiscountPercentageTextAction(this.pageState, this.percentage);
+}
+
+class UpdateNewDiscountRateTextAction{
+  final NewInvoicePageState pageState;
+  final String rate;
+  UpdateNewDiscountRateTextAction(this.pageState, this.rate);
+}
+
+class DeleteDiscountAction{
+  final NewInvoicePageState pageState;
+  DeleteDiscountAction(this.pageState);
+}
+
+
 
 

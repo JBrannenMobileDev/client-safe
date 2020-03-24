@@ -23,11 +23,10 @@ class NewDiscountDialog extends StatefulWidget {
 
 class _NewDiscountDialogState extends State<NewDiscountDialog>
     with AutomaticKeepAliveClientMixin {
-  final textController = TextEditingController();
   final FocusNode itemRateInputFocusNode = FocusNode();
   final FocusNode itemQuantityFocusNode = FocusNode();
   var rateTextController = TextEditingController(text: '\$');
-  var quantityTextController = TextEditingController(text: '1');
+  var percentageTextController = TextEditingController(text: '1');
   int selectorIndex = 0;
   Map<int, Widget> breakdownTypes;
 
@@ -74,6 +73,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                         tooltip: 'Close',
                         color: Color(ColorConstants.getPrimaryColor()),
                         onPressed: () {
+                          pageState.onDeleteDiscountSelected();
                           Navigator.of(context).pop();
                         },
                       ),
@@ -111,7 +111,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                             setState(() {
                               selectorIndex = filterTypeIndex;
                             });
-                            pageState.onFilterChanged(filterTypeIndex == 0 ? NewDiscountDialog.SELECTOR_TYPE_FIXED : NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE);
+                            pageState.onNewDiscountFilterChanged(filterTypeIndex == 0 ? NewDiscountDialog.SELECTOR_TYPE_FIXED : NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE);
                           },
                           groupValue: selectorIndex,
                         ),
@@ -119,13 +119,13 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                       selectorIndex == 0 ? Container(
                         margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 16.0, bottom: 16.0),
                         child: NewInvoiceTextField(
-                          controller: textController,
+                          controller: rateTextController,
                           hintText: '',
-                          inputType: TextInputType.text,
+                          inputType: TextInputType.number,
                           height: 60.0,
                           autoFocus: true,
-                          onTextInputChanged: pageState.onNewLineItemNameTextChanged,
-                          capitalization: TextCapitalization.words,
+                          onTextInputChanged: pageState.onNewDiscountRateTextChanged,
+                          capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.next,
                           labelText: 'Rate',
                         ),
@@ -133,13 +133,13 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                       Container(
                         margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 16.0, bottom: 16.0),
                         child: NewInvoiceTextField(
-                          controller: textController,
+                          controller: percentageTextController,
                           hintText: '',
-                          inputType: TextInputType.text,
+                          inputType: TextInputType.number,
                           height: 60.0,
                           autoFocus: true,
-                          onTextInputChanged: pageState.onNewLineItemNameTextChanged,
-                          capitalization: TextCapitalization.words,
+                          onTextInputChanged: pageState.onNewDiscountPercentageTextChanged,
+                          capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.next,
                           labelText: 'Percentage',
                         ),
@@ -152,7 +152,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                           children: <Widget>[
                             FlatButton(
                               onPressed: () {
-                                pageState.onNewLineItemCanceled();
+                                pageState.onNewDiscountCancelSelected();
                                 Navigator.of(context).pop();
                               },
                               child: Text(
@@ -168,7 +168,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                             ),
                             FlatButton(
                               onPressed: () {
-                                pageState.onNewLineItemSaveSelected();
+                                pageState.onNewDiscountSavedSelected();
                                 Navigator.of(context).pop();
                               },
                               child: Text(

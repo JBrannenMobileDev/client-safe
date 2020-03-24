@@ -20,15 +20,6 @@ class InputDoneViewNewInvoice extends StatelessWidget {
           child: FlatButton(
             padding: EdgeInsets.only(right: 0.0, top: 8.0, bottom: 0.0),
             onPressed: () {
-              if(pageState.discountValue > 0) {
-                if (pageState.isDiscountFixedRate) {
-                  pageState.onFixedDiscountSelectionCompleted();
-                } else {
-                  pageState.onPercentageDiscountSelectionCompleted();
-                }
-              }else{
-                pageState.onDeleteDiscountPressed();
-              }
               FocusScope.of(context).requestFocus(new FocusNode());
             },
             child: Container(

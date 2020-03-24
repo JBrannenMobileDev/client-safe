@@ -1,8 +1,10 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
+import 'package:client_safe/models/Discount.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/LineItem.dart';
+import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:flutter/widgets.dart';
@@ -22,11 +24,10 @@ class NewInvoicePageState {
   final bool saveButtonEnabled;
   final bool shouldClear;
   final bool isFinishedFetchingClients;
-  final bool isDiscountFixedRate;
-  final double discountValue;
   final double total;
   final double depositValue;
   final double unpaidAmount;
+  final double discountValue;
   final Job selectedJob;
   final String jobSearchText;
   final String filterType;
@@ -35,8 +36,6 @@ class NewInvoicePageState {
   final String hourlyQuantity;
   final String itemRate;
   final String itemQuantity;
-  final String discountStage;
-  final String discountType;
   final List<Job> jobs;
   final List<Job> filteredJobs;
   final List<Client> allClients;
@@ -44,6 +43,16 @@ class NewInvoicePageState {
   final String newLineItemName;
   final String newLineItemRate;
   final String newLineItemQuantity;
+  final String newDiscountRate;
+  final String newDiscountPercentage;
+  final String newDiscountFilter;
+  final Discount discount;
+  final Function() onDeleteDiscountSelected;
+  final Function(String) onNewDiscountFilterChanged;
+  final Function(String) onNewDiscountRateTextChanged;
+  final Function(String) onNewDiscountPercentageTextChanged;
+  final Function() onNewDiscountSavedSelected;
+  final Function() onNewDiscountCancelSelected;
   final Function(String) onNewLineItemNameTextChanged;
   final Function(String) onNewLineItemRateTextChanged;
   final Function(String) onNewLineItemQuantityTextChanged;
@@ -59,13 +68,6 @@ class NewInvoicePageState {
   final Function() onClearInputSelected;
   final Function(String) onFilterChanged;
   final Function(String) onFlatRateTextChanged;
-  final Function() onAddDiscountPressed;
-  final Function(String) onDiscountTypeSelected;
-  final Function() onDeleteDiscountPressed;
-  final Function() onFixedDiscountSelectionCompleted;
-  final Function(String) onFixedDiscountTextChanged;
-  final Function() onPercentageDiscountSelectionCompleted;
-  final Function(String) onPercentageDiscountTextChanged;
   final Function(String) onHourlyRateTextChanged;
   final Function(String) onHourlyQuantityTextChanged;
   final Function(String) onItemRateTextChanged;
@@ -77,17 +79,14 @@ class NewInvoicePageState {
     @required this.saveButtonEnabled,
     @required this.shouldClear,
     @required this.isFinishedFetchingClients,
-    @required this.isDiscountFixedRate,
-    @required this.discountValue,
     @required this.unpaidAmount,
     @required this.total,
+    @required this.discountValue,
     @required this.depositValue,
     @required this.selectedJob,
     @required this.jobSearchText,
     @required this.filterType,
     @required this.jobs,
-    @required this.discountStage,
-    @required this.discountType,
     @required this.filteredJobs,
     @required this.allClients,
     @required this.lineItems,
@@ -105,13 +104,6 @@ class NewInvoicePageState {
     @required this.itemRate,
     @required this.itemQuantity,
     @required this.onFlatRateTextChanged,
-    @required this.onAddDiscountPressed,
-    @required this.onDeleteDiscountPressed,
-    @required this.onDiscountTypeSelected,
-    @required this.onFixedDiscountSelectionCompleted,
-    @required this.onFixedDiscountTextChanged,
-    @required this.onPercentageDiscountSelectionCompleted,
-    @required this.onPercentageDiscountTextChanged,
     @required this.onHourlyRateTextChanged,
     @required this.onHourlyQuantityTextChanged,
     @required this.onItemRateTextChanged,
@@ -125,6 +117,16 @@ class NewInvoicePageState {
     @required this.onNewLineItemRateTextChanged,
     @required this.onNewLineItemSaveSelected,
     @required this.onLineItemDeleted,
+    @required this.newDiscountRate,
+    @required this.newDiscountPercentage,
+    @required this.onNewDiscountCancelSelected,
+    @required this.onNewDiscountSavedSelected,
+    @required this.onNewDiscountPercentageTextChanged,
+    @required this.onNewDiscountRateTextChanged,
+    @required this.onNewDiscountFilterChanged,
+    @required this.onDeleteDiscountSelected,
+    @required this.discount,
+    @required this.newDiscountFilter,
   });
 
   NewInvoicePageState copyWith({
@@ -133,11 +135,10 @@ class NewInvoicePageState {
     bool saveButtonEnabled,
     bool shouldClear,
     bool isFinishedFetchingClients,
-    bool isDiscountFixedRate,
-    double discountValue,
     double total,
     double depositValue,
     double unpaidAmount,
+    double discountValue,
     Job selectedJob,
     String jobSearchText,
     String filterType,
@@ -146,8 +147,6 @@ class NewInvoicePageState {
     String hourlyQuantity,
     String itemRate,
     String itemQuantity,
-    String discountStage,
-    String discountType,
     List<Job> jobs,
     List<Job> filteredJobs,
     List<Client> allClients,
@@ -155,6 +154,15 @@ class NewInvoicePageState {
     String newLineItemName,
     String newLineItemRate,
     String newLineItemQuantity,
+    String newDiscountRate,
+    String newDiscountPercentage,
+    Discount discount,
+    String newDiscountFilter,
+    Function(String) onNewDiscountFilterChanged,
+    Function(String) onNewDiscountRateTextChanged,
+    Function(String) onNewDiscountPercentageTextChanged,
+    Function() onNewDiscountSavedSelected,
+    Function() onNewDiscountCancelSelected,
     Function(String) onNewLineItemNameTextChanged,
     Function(String) onNewLineItemRateTextChanged,
     Function(String) onNewLineItemQuantityTextChanged,
@@ -169,18 +177,12 @@ class NewInvoicePageState {
     Function() onClearInputSelected,
     Function(String) onFilterChanged,
     Function(String) onFlatRateTextChanged,
-    Function() onAddDiscountPressed,
-    Function() onDeleteDiscountPressed,
-    Function(String) onDiscountTypeSelected,
-    Function() onFixedDiscountSelectionCompleted,
-    Function(String) onFixedDiscountTextChanged,
-    Function() onPercentageDiscountSelectionCompleted,
-    Function(String) onPercentageDiscountTextChanged,
     Function(String) onHourlyRateTextChanged,
     Function(String) onHourlyQuantityTextChanged,
     Function(String) onItemRateTextChanged,
     Function(String) onItemQuantityTextChanged,
     Function(int) onLineItemDeleted,
+    Function() onDeleteDiscountSelected,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -188,8 +190,6 @@ class NewInvoicePageState {
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
-      isDiscountFixedRate: isDiscountFixedRate ?? this.isDiscountFixedRate,
-      discountValue: discountValue ?? this.discountValue,
       total: total ?? this.total,
       depositValue: depositValue ?? this.depositValue,
       unpaidAmount: unpaidAmount ?? this.unpaidAmount,
@@ -197,8 +197,7 @@ class NewInvoicePageState {
       jobSearchText: jobSearchText ?? this.jobSearchText,
       filterType: filterType ?? this.filterType,
       jobs: jobs ?? this.jobs,
-      discountStage: discountStage ?? this.discountStage,
-      discountType: discountType ?? this.discountType,
+      discountValue: discountValue ?? this.discountValue,
       filteredJobs:  filteredJobs ?? this.filteredJobs,
       allClients: allClients ?? this.allClients,
       lineItems: lineItems ?? this.lineItems,
@@ -224,18 +223,21 @@ class NewInvoicePageState {
       onNewLineItemRateTextChanged: onNewLineItemRateTextChanged ?? this.onNewLineItemRateTextChanged,
       onNewLineItemSaveSelected: onNewLineItemSaveSelected ?? this.onNewLineItemSaveSelected,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
-      onAddDiscountPressed: onAddDiscountPressed ?? this.onAddDiscountPressed,
-      onDeleteDiscountPressed: onDeleteDiscountPressed ?? this.onDeleteDiscountPressed,
-      onDiscountTypeSelected: onDiscountTypeSelected ?? this.onDiscountTypeSelected,
-      onFixedDiscountSelectionCompleted: onFixedDiscountSelectionCompleted ?? this.onFixedDiscountSelectionCompleted,
-      onFixedDiscountTextChanged: onFixedDiscountTextChanged ?? this.onFixedDiscountTextChanged,
-      onPercentageDiscountSelectionCompleted: onPercentageDiscountSelectionCompleted ?? this.onPercentageDiscountSelectionCompleted,
-      onPercentageDiscountTextChanged: onPercentageDiscountTextChanged ?? this.onPercentageDiscountTextChanged,
       onHourlyQuantityTextChanged: onHourlyQuantityTextChanged ?? this.onHourlyQuantityTextChanged,
       onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
       onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
       onItemQuantityTextChanged: onItemQuantityTextChanged ?? this.onItemQuantityTextChanged,
       onLineItemDeleted: onLineItemDeleted ?? this.onLineItemDeleted,
+      newDiscountPercentage: newDiscountPercentage ?? this.newDiscountPercentage,
+      newDiscountRate: newDiscountRate ?? this.newDiscountRate,
+      onNewDiscountCancelSelected: onNewDiscountCancelSelected ?? this.onNewDiscountCancelSelected,
+      onNewDiscountSavedSelected: onNewDiscountSavedSelected ?? this.onNewDiscountSavedSelected,
+      onNewDiscountPercentageTextChanged: onNewDiscountPercentageTextChanged ?? this.onNewDiscountPercentageTextChanged,
+      onNewDiscountRateTextChanged: onNewDiscountRateTextChanged ?? this.onNewDiscountRateTextChanged,
+      onNewDiscountFilterChanged: onNewDiscountFilterChanged ?? this.onNewDiscountFilterChanged,
+      onDeleteDiscountSelected: onDeleteDiscountSelected ?? this.onDeleteDiscountSelected,
+      discount: discount ?? this.discount,
+      newDiscountFilter: newDiscountFilter ?? this.newDiscountFilter,
     );
   }
 
@@ -248,8 +250,6 @@ class NewInvoicePageState {
         saveButtonEnabled: false,
         shouldClear: true,
         isFinishedFetchingClients: false,
-        isDiscountFixedRate: true,
-        discountValue: 0.0,
         total: 0.0,
         depositValue: 0.0,
         unpaidAmount: 0.0,
@@ -257,8 +257,6 @@ class NewInvoicePageState {
         jobSearchText: '',
         filterType: PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE,
         jobs: List(),
-        discountStage: DISCOUNT_STAGE_NO_STAGE,
-        discountType: null,
         filteredJobs: List(),
         allClients: List(),
         lineItems: List(),
@@ -276,13 +274,6 @@ class NewInvoicePageState {
         itemRate: '',
         itemQuantity: '1',
         onFlatRateTextChanged: null,
-        onAddDiscountPressed: null,
-        onDeleteDiscountPressed: null,
-        onDiscountTypeSelected: null,
-        onFixedDiscountTextChanged: null,
-        onFixedDiscountSelectionCompleted: null,
-        onPercentageDiscountTextChanged: null,
-        onPercentageDiscountSelectionCompleted: null,
         onHourlyRateTextChanged: null,
         onHourlyQuantityTextChanged: null,
         onItemQuantityTextChanged: null,
@@ -296,6 +287,17 @@ class NewInvoicePageState {
         onNewLineItemRateTextChanged: null,
         onNewLineItemSaveSelected: null,
         onLineItemDeleted: null,
+        newDiscountRate: '',
+        newDiscountPercentage: '',
+        onNewDiscountRateTextChanged: null,
+        onNewDiscountPercentageTextChanged: null,
+        onNewDiscountSavedSelected: null,
+        onNewDiscountCancelSelected: null,
+        onNewDiscountFilterChanged: null,
+        onDeleteDiscountSelected: null,
+        discount: null,
+        newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
+        discountValue: 0.0,
       );
   }
 
@@ -317,17 +319,23 @@ class NewInvoicePageState {
       hourlyQuantity: store.state.newInvoicePageState.hourlyQuantity,
       itemRate: store.state.newInvoicePageState.itemRate,
       itemQuantity: store.state.newInvoicePageState.itemQuantity,
-      isDiscountFixedRate: store.state.newInvoicePageState.isDiscountFixedRate,
-      discountValue: store.state.newInvoicePageState.discountValue,
       total: store.state.newInvoicePageState.total,
-      discountStage: store.state.newInvoicePageState.discountStage,
       depositValue: store.state.newInvoicePageState.depositValue,
       unpaidAmount: store.state.newInvoicePageState.unpaidAmount,
-      discountType: store.state.newInvoicePageState.discountType,
       lineItems: store.state.newInvoicePageState.lineItems,
       newLineItemName: store.state.newInvoicePageState.newLineItemName,
       newLineItemRate: store.state.newInvoicePageState.newLineItemRate,
       newLineItemQuantity: store.state.newInvoicePageState.newLineItemQuantity,
+      newDiscountPercentage: store.state.newInvoicePageState.newDiscountPercentage,
+      newDiscountRate: store.state.newInvoicePageState.newDiscountRate,
+      discount: store.state.newInvoicePageState.discount,
+      newDiscountFilter: store.state.newInvoicePageState.newDiscountFilter,
+      discountValue: store.state.newInvoicePageState.discountValue,
+      onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
+      onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
+      onNewDiscountSavedSelected: () => store.dispatch(SaveNewDiscountAction(store.state.newInvoicePageState)),
+      onNewDiscountPercentageTextChanged: (percentage) => store.dispatch(UpdateNewDiscountPercentageTextAction(store.state.newInvoicePageState, percentage)),
+      onNewDiscountRateTextChanged: (rate) => store.dispatch(UpdateNewDiscountRateTextAction(store.state.newInvoicePageState, rate)),
       onNewLineItemSaveSelected: () => store.dispatch(SaveNewLineItemAction(store.state.newInvoicePageState)),
       onNewLineItemCanceled: () => store.dispatch(ClearNewLineItemAction(store.state.newInvoicePageState)),
       onNewLineItemNameTextChanged: (name) => store.dispatch(UpdateLineItemNameAction(store.state.newInvoicePageState, name)),
@@ -342,18 +350,12 @@ class NewInvoicePageState {
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newInvoicePageState)),
       onFilterChanged: (selectedFilter) => store.dispatch(SaveSelectedFilter(store.state.newInvoicePageState, selectedFilter)),
       onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateText(store.state.newInvoicePageState, flatRateText)),
-      onAddDiscountPressed: () => store.dispatch(SetDiscountStateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_TYPE_SELECTION)),
-      onDiscountTypeSelected: (discountType) => store.dispatch(SaveSelectedDiscountTypeAction(store.state.newInvoicePageState, discountType)),
-      onDeleteDiscountPressed: () => store.dispatch(SetDiscountStateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_NO_STAGE)),
-      onFixedDiscountSelectionCompleted: () => store.dispatch(SaveFixedDiscountRateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_STAGE_ADDED)),
-      onFixedDiscountTextChanged: (fixedDiscountRate) => store.dispatch(UpdateFixedDiscountPriceAction(store.state.newInvoicePageState, fixedDiscountRate)),
-      onPercentageDiscountSelectionCompleted: () => store.dispatch(SavePercentageDiscountRateAction(store.state.newInvoicePageState, DISCOUNT_STAGE_STAGE_ADDED)),
-      onPercentageDiscountTextChanged: (percentageDiscountRate) => store.dispatch(UpdatePercentageDiscountPriceAction(store.state.newInvoicePageState, percentageDiscountRate)),
       onHourlyRateTextChanged: (hourlyRate) => store.dispatch(UpdateNewInvoiceHourlyRateTextAction(store.state.newInvoicePageState, hourlyRate)),
       onHourlyQuantityTextChanged: (hourlyQuantity) => store.dispatch(UpdateNewInvoiceHourlyQuantityTextAction(store.state.newInvoicePageState, hourlyQuantity)),
       onItemRateTextChanged: (itemRate) => store.dispatch(UpdateNewInvoiceItemTextAction(store.state.newInvoicePageState, itemRate)),
       onItemQuantityTextChanged: (itemQuantity) => store.dispatch(UpdateNewInvoiceItemQuantityAction(store.state.newInvoicePageState, itemQuantity)),
       onLineItemDeleted: (index) => store.dispatch(DeleteLineItemAction(store.state.newInvoicePageState, index)),
+      onDeleteDiscountSelected: () => store.dispatch(DeleteDiscountAction(store.state.newInvoicePageState)),
     );
   }
 
@@ -377,11 +379,9 @@ class NewInvoicePageState {
       onJobSearchTextChanged.hashCode ^
       onClearInputSelected.hashCode ^
       jobs.hashCode ^
-      discountStage.hashCode ^
       onFilterChanged.hashCode ^
-      isDiscountFixedRate.hashCode ^
-      discountValue.hashCode ^
       total.hashCode ^
+      discountValue.hashCode ^
       flatRateText.hashCode ^
       hourlyRate.hashCode ^
       hourlyQuantity.hashCode ^
@@ -390,13 +390,19 @@ class NewInvoicePageState {
       depositValue.hashCode ^
       unpaidAmount.hashCode ^
       filterType.hashCode ^
-      onAddDiscountPressed.hashCode ^
-      onDeleteDiscountPressed.hashCode ^
-      discountType.hashCode ^
       onHourlyRateTextChanged.hashCode ^
       onHourlyQuantityTextChanged.hashCode ^
       onItemQuantityTextChanged.hashCode ^
-      onItemRateTextChanged.hashCode;
+      onItemRateTextChanged.hashCode ^
+      newDiscountRate.hashCode ^
+      newDiscountPercentage.hashCode ^
+      onNewDiscountRateTextChanged.hashCode ^
+      onNewDiscountPercentageTextChanged.hashCode ^
+      onNewDiscountSavedSelected.hashCode ^
+      onNewDiscountCancelSelected.hashCode ^
+      onNewDiscountFilterChanged.hashCode ^
+      discount.hashCode ^
+      newDiscountFilter.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -417,13 +423,11 @@ class NewInvoicePageState {
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&
           onJobSelected == other.onJobSelected &&
+          discountValue == other.discountValue &&
           onJobSearchTextChanged == other.onJobSearchTextChanged &&
           onClearInputSelected == other.onClearInputSelected &&
           jobs == other.jobs &&
-          discountStage == other.discountStage &&
           onFilterChanged == other.onFilterChanged &&
-          isDiscountFixedRate == other.isDiscountFixedRate &&
-          discountValue == other.discountValue &&
           total == other.total &&
           flatRateText == other.flatRateText &&
           hourlyRate == other.hourlyRate &&
@@ -433,11 +437,17 @@ class NewInvoicePageState {
           depositValue == other.depositValue &&
           unpaidAmount == other.depositValue &&
           filterType == other.filterType &&
-          onAddDiscountPressed == other.onAddDiscountPressed &&
-          onDeleteDiscountPressed == other.onDeleteDiscountPressed &&
-          discountType == other.discountType &&
           onHourlyQuantityTextChanged == other.onHourlyQuantityTextChanged &&
           onHourlyRateTextChanged == other.onHourlyRateTextChanged &&
           onItemRateTextChanged == other.onItemRateTextChanged &&
-          onItemQuantityTextChanged == other.onItemQuantityTextChanged;
+          onItemQuantityTextChanged == other.onItemQuantityTextChanged &&
+          newDiscountPercentage == other.newDiscountPercentage &&
+          newDiscountRate == other.newDiscountRate &&
+          onNewDiscountCancelSelected == other.onNewDiscountCancelSelected &&
+          onNewDiscountSavedSelected == other.onNewDiscountSavedSelected &&
+          onNewDiscountRateTextChanged == other.onNewDiscountRateTextChanged &&
+          onNewDiscountPercentageTextChanged == other.onNewDiscountPercentageTextChanged &&
+          onNewDiscountFilterChanged == other.onNewDiscountFilterChanged &&
+          discount == other.discount &&
+          newDiscountFilter == other.newDiscountFilter;
 }

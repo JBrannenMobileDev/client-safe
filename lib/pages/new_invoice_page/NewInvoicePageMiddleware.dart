@@ -19,6 +19,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteLineItemAction){
       _deleteLineItem(store, action, next);
     }
+    if(action is SaveNewDiscountAction){
+      _saveNewDiscount(store, action, next);
+    }
+    if(action is DeleteDiscountAction){
+      _deleteDiscount(store, action, next);
+    }
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
@@ -33,6 +39,14 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteLineItem(Store<AppState> store, action, NextDispatcher next) async {
+    next(action);
+  }
+
+  void _saveNewDiscount(Store<AppState> store, action, NextDispatcher next) async {
+    next(action);
+  }
+
+  void _deleteDiscount(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
   }
 }

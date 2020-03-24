@@ -25,11 +25,7 @@ class NewInvoiceDialog extends StatefulWidget {
 }
 
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
-  final FocusNode fixedDiscountFocusNode = new FocusNode();
-  final FocusNode percentageDiscountFocusNode = new FocusNode();
   OverlayEntry overlayEntry;
-  var fixedTextController = TextEditingController(text: '\$');
-  var percentageTextController = TextEditingController(text: '%');
   final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
@@ -38,31 +34,11 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    if (fixedTextController.text.length == 0)
-      fixedTextController = TextEditingController(text: '\$');
-    if (percentageTextController.text.length == 0)
-      percentageTextController = TextEditingController(text: '%');
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
         appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(
             FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
-
-        fixedDiscountFocusNode.addListener(() {
-          bool hasFocus = fixedDiscountFocusNode.hasFocus;
-          if (hasFocus)
-            showOverlay(context);
-          else
-            removeOverlay();
-        });
-
-        percentageDiscountFocusNode.addListener(() {
-          bool hasFocus = percentageDiscountFocusNode.hasFocus;
-          if (hasFocus)
-            showOverlay(context);
-          else
-            removeOverlay();
-        });
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -484,111 +460,19 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   _buildDiscountWidget(NewInvoicePageState pageState) {
     return Padding(
       padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 4.0),
-      child: pageState.discountStage ==
-          NewInvoicePageState.DISCOUNT_STAGE_TYPE_SELECTION
-          ? Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(right: 8.0),
-            decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryColor()),
-                borderRadius: BorderRadius.circular(24.0)
-            ),
-            width: 116.0,
-            height: 28.0,
-            child: FlatButton(
-              onPressed: () {
-                pageState.onDiscountTypeSelected(
-                    Invoice.DISCOUNT_TYPE_FIXED_AMOUNT);
-              },
-              child: Text(
-                'Fixed',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                ),
-              ),
-            ),
-          ),
-          Text(
-            'Or',
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 16.0,
-              fontFamily: 'Raleway',
-              fontWeight: FontWeight.w600,
-              color: Color(ColorConstants.getPrimaryBlack()),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 8.0),
-            decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryColor()),
-                borderRadius: BorderRadius.circular(24.0)
-            ),
-            width: 116.0,
-            height: 28.0,
-            child: FlatButton(
-              onPressed: () {
-                pageState.onDiscountTypeSelected(
-                    Invoice.DISCOUNT_TYPE_PERCENTAGE);
-              },
-              child: Text(
-                'Percent',
-                textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ) : pageState.discountStage ==
-          NewInvoicePageState.DISCOUNT_STAGE_AMOUNT_SELECTION ?
-      pageState.discountType == Invoice.DISCOUNT_TYPE_FIXED_AMOUNT
-          ? NewInvoiceTextField(
-        controller: fixedTextController,
-        hintText: "\$",
-        inputType: TextInputType.number,
-        height: 60.0,
-        onTextInputChanged: pageState.onFixedDiscountTextChanged,
-        capitalization: TextCapitalization.none,
-        keyboardAction: TextInputAction.done,
-        labelText: 'Fixed discount',
-      )
-          :
-      NewInvoiceTextField(
-        controller: percentageTextController,
-        hintText: "%",
-        inputType: TextInputType.number,
-        height: 60.0,
-        onTextInputChanged: pageState.onPercentageDiscountTextChanged,
-        capitalization: TextCapitalization.none,
-        keyboardAction: TextInputAction.done,
-        labelText: 'Percentage discount',
-      ) : Stack(
+      child: Stack(
         alignment: Alignment.centerRight,
         children: <Widget>[
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              pageState.discountStage ==
-                  NewInvoicePageState.DISCOUNT_STAGE_STAGE_ADDED ?
+              pageState.discountValue > 0.0 ?
               Container(
                 margin: EdgeInsets.only(right: 4.0),
                 child: GestureDetector(
                   onTap: () {
-                    fixedTextController.text = '';
-                    pageState.onDeleteDiscountPressed();
+                    pageState.onDeleteDiscountSelected();
                   },
                   child: Text(
                     'X  ',
@@ -617,8 +501,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
               ),
             ],
           ),
-          pageState.discountStage == NewInvoicePageState.DISCOUNT_STAGE_NO_STAGE
-              ?
+          pageState.discountValue == 0.0 ?
           Container(
             decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryColor()),
@@ -641,10 +524,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                 ),
               ),
             ),
-          )
-              : SizedBox(),
-          pageState.discountStage ==
-              NewInvoicePageState.DISCOUNT_STAGE_STAGE_ADDED ? Text(
+          ) : SizedBox(),
+          pageState.discountValue > 0.0 ? Text(
             (pageState.discountValue.toInt() > 0 ? '-' : '') + '\$' +
                 (pageState.discountValue.toInt().toString()),
             textAlign: TextAlign.start,

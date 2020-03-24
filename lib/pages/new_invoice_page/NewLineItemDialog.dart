@@ -52,6 +52,7 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                         tooltip: 'Close',
                         color: Color(ColorConstants.getPrimaryColor()),
                         onPressed: () {
+                          pageState.onNewLineItemCanceled();
                           Navigator.of(context).pop();
                         },
                       ),
