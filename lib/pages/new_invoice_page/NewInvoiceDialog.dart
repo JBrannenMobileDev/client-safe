@@ -1,10 +1,9 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/pages/new_invoice_page/DueDateSelectionPage.dart';
 import 'package:client_safe/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
 import 'package:client_safe/pages/new_invoice_page/JobSelectionForm.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoiceTextField.dart';
 import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
@@ -26,7 +25,7 @@ class NewInvoiceDialog extends StatefulWidget {
 
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   OverlayEntry overlayEntry;
-  final int pageCount = 2;
+  final int pageCount = 3;
   final controller = PageController(
     initialPage: 0,
   );
@@ -42,12 +41,13 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
-          Scaffold(
+          Dialog(
             backgroundColor: Colors.transparent,
-            body: Container(
-              height: 650.0,
+            child: Container(
+              width: 450.0,
+              height: pageState.pageViewIndex == 2 ? 400.0 : 650.0,
               margin: EdgeInsets.only(
-                  left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
+                  left: 0.0, right: 0.0, top: 16.0, bottom: 16.0),
               padding: EdgeInsets.only(left: 8.0, right: 8.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -90,7 +90,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                       children: <Widget>[
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: pageState.pageViewIndex > 0
+                            maxHeight: pageState.pageViewIndex == 1
                                 ? 196
                                 : 440.0,
                           ),
@@ -101,10 +101,11 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                             children: <Widget>[
                               JobSelectionForm(),
                               PriceBreakdownForm(),
+                              DueDateSelectionPage(),
                             ],
                           ),
                         ),
-                        pageState.pageViewIndex > 0 ? Stack(
+                        pageState.pageViewIndex == 1 ? Stack(
                           alignment: Alignment.bottomCenter,
                           children: <Widget>[
                             Container(
@@ -162,14 +163,14 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                             ),
                           ],
                         ) : SizedBox(),
-                        pageState.pageViewIndex > 0 ? Container(
+                        pageState.pageViewIndex == 1 ? Container(
                           margin: EdgeInsets.only(
                               left: 16.0, right: 16.0, bottom: 16.0),
                           height: 1.0,
                           color: Color(
                               ColorConstants.getPrimaryBackgroundGrey()),
                         ) : SizedBox(),
-                        pageState.pageViewIndex > 0 ? Padding(
+                        pageState.pageViewIndex == 1 ? Padding(
                           padding: EdgeInsets.only(
                               left: 16.0, right: 16.0, bottom: 0.0, top: 0.0),
                           child: Stack(
@@ -203,7 +204,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                             ],
                           ),
                         ) : SizedBox(),
-                        pageState.pageViewIndex > 0 ? Padding(
+                        pageState.pageViewIndex == 1 ? Padding(
                           padding: EdgeInsets.only(
                               left: 16.0, right: 16.0, top: 4.0),
                           child: Stack(
@@ -261,16 +262,16 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                             ],
                           ),
                         ) : SizedBox(),
-                        pageState.pageViewIndex > 0 ? _buildDiscountWidget(
+                        pageState.pageViewIndex == 1 ? _buildDiscountWidget(
                             pageState) : SizedBox(),
-                        pageState.pageViewIndex > 0 ? Container(
+                        pageState.pageViewIndex == 1 ? Container(
                           margin: EdgeInsets.only(
                               left: 16.0, right: 16.0, bottom: 0.0),
                           height: 1.0,
                           color: Color(
                               ColorConstants.getPrimaryBackgroundGrey()),
                         ) : SizedBox(),
-                        pageState.pageViewIndex > 0 ? Padding(
+                        pageState.pageViewIndex == 1 ? Padding(
                           padding: EdgeInsets.only(
                               left: 16.0, right: 16.0, bottom: 48.0, top: 16.0),
                           child: Stack(

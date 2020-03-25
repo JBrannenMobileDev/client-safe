@@ -105,7 +105,7 @@ class _DashboardPageState extends State<DashboardPage>
                       ),
                       brightness: Brightness.light,
                       title: Padding(
-                        padding: EdgeInsets.only(left: 32.0),
+                        padding: EdgeInsets.only(left: 0.0),
                         child: Text(
                           'DandyLight',
                           style: TextStyle(

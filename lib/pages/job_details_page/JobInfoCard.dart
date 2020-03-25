@@ -28,7 +28,7 @@ class JobInfoCard extends StatelessWidget {
         children: <Widget>[
           Container(
             margin: EdgeInsets.only(top: 40.0),
-            height: 314.0,
+            height: 356.0,
             color: Color(ColorConstants.getPrimaryBackgroundGrey())
           ),
           Container(

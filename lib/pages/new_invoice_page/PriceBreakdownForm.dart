@@ -135,7 +135,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
         });
       },
       onDidChange: (pageState) {
-        flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : pageState.flatRateText;
+        flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText).toInt().toString();
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>

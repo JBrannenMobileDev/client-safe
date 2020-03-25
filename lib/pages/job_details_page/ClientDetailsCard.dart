@@ -79,7 +79,7 @@ class ClientDetailsCard extends StatelessWidget {
                       height: 48.0,
                       width: 65.0,
                       text: "",
-                      marginLeft: 32.0,
+                      marginLeft: 16.0,
                       marginTop: 0.0,
                       marginRight: 4.0,
                       marginBottom: 0.0,
@@ -113,7 +113,7 @@ class ClientDetailsCard extends StatelessWidget {
                     ),
                     Container(
                       alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(left: 4.0, right: 32.0),
+                      margin: EdgeInsets.only(left: 4.0, right: 16.0),
                       child: SizedBox(
                         width: 65.0,
                         height: 48.0,
