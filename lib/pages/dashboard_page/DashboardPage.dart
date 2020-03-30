@@ -81,27 +81,25 @@ class _DashboardPageState extends State<DashboardPage>
         builder: (BuildContext context, DashboardPageState pageState) =>
             Scaffold(
           body: Container(
-            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
             child: Stack(
               alignment: Alignment.topCenter,
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPrimaryColor()),
+                    color: Color(ColorConstants.getPeachLight()),
                     image: DecorationImage(
                       image: AssetImage(ImageUtil.DANDY_BG),
                       repeat: ImageRepeat.repeat,
                       fit: BoxFit.contain,
                     ),
                   ),
-                  height: 435.0,
                 ),
                 CustomScrollView(
                   controller: _scrollController,
                   slivers: <Widget>[
                     new SliverAppBar(
                       iconTheme: IconThemeData(
-                        color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                       brightness: Brightness.light,
                       title: Padding(
@@ -109,10 +107,10 @@ class _DashboardPageState extends State<DashboardPage>
                         child: Text(
                           'DandyLight',
                           style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'Blackjack',
+                            fontSize: 26.0,
+                            fontFamily: 'simple',
                             fontWeight: FontWeight.w800,
-                            color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack()),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),
@@ -128,7 +126,7 @@ class _DashboardPageState extends State<DashboardPage>
                           icon: Icon(
                               Icons.event,
                               size: 28.0,
-                              color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack())
+                              color: Color(ColorConstants.getPrimaryWhite())
                           ),
                           tooltip: 'Add',
                           onPressed: () {
@@ -139,7 +137,7 @@ class _DashboardPageState extends State<DashboardPage>
                           icon: Icon(
                             Icons.add_circle_outline,
                             size: 28.0,
-                              color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack())
+                              color: Color(ColorConstants.getPrimaryWhite())
                           ),
                           tooltip: 'Add',
                           onPressed: () {
@@ -150,7 +148,7 @@ class _DashboardPageState extends State<DashboardPage>
                           icon: Icon(
                               Icons.settings,
                               size: 28.0,
-                              color: _scrollController.hasClients ? _getAppBarTextColor() : Color(ColorConstants.getPrimaryBlack())
+                              color: Color(ColorConstants.getPrimaryWhite())
                           ),
                           tooltip: 'More',
                           onPressed: () {
@@ -170,10 +168,10 @@ class _DashboardPageState extends State<DashboardPage>
                                   'Missions',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 24.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                    color: Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
                               ),
@@ -222,11 +220,11 @@ class _DashboardPageState extends State<DashboardPage>
                                     'Welcome!',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'Raleway',
+                                      fontSize: 24.0,
+                                      fontFamily: 'simple',
                                       fontWeight: FontWeight.w800,
                                       color: Color(
-                                          ColorConstants.getPrimaryBlack()),
+                                          ColorConstants.getPrimaryWhite()),
                                     ),
                                   ),
                                 ],

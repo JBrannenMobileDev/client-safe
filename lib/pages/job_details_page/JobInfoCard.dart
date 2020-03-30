@@ -27,11 +27,6 @@ class JobInfoCard extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 40.0),
-            height: 356.0,
-            color: Color(ColorConstants.getPrimaryBackgroundGrey())
-          ),
-          Container(
             height: 396.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
@@ -49,7 +44,7 @@ class JobInfoCard extends StatelessWidget {
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 24.0,
-                            fontFamily: 'Blackjack',
+                            fontFamily: 'simple',
                             fontWeight: FontWeight.w800,
                             color: Color(ColorConstants.primary_black),
                         ),
@@ -76,8 +71,8 @@ class JobInfoCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w400,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -91,8 +86,8 @@ class JobInfoCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -100,13 +95,11 @@ class JobInfoCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
-                          tooltip: 'Edit',
-                          onPressed: null,
+                        Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                         ),
                       ],
                     ),
@@ -133,8 +126,8 @@ class JobInfoCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w400,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -148,8 +141,8 @@ class JobInfoCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -157,13 +150,11 @@ class JobInfoCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
-                          tooltip: 'Edit',
-                          onPressed: null,
+                        Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                         ),
                       ],
                     ),
@@ -181,13 +172,19 @@ class JobInfoCard extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  Icons.calendar_today,
-                                  color: Color(ColorConstants.getPeachDark()),
+                              Padding(
+                                padding: EdgeInsets.only(left: 12.0),
+                                child: GestureDetector(
+                                  onTap: () {
+
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 12.0),
+                                    height: 24.0,
+                                    width: 24.0,
+                                    child: Image.asset('assets/images/icons/calendar_icon_peach.png'),
+                                  ),
                                 ),
-                                tooltip: 'Date',
-                                onPressed: null,
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
@@ -200,8 +197,8 @@ class JobInfoCard extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants.primary_black),
                                   ),
@@ -209,13 +206,11 @@ class JobInfoCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                        IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Color(ColorConstants.getPeachDark()),
-                            ),
-                            tooltip: 'Edit',
-                            onPressed: null,
+                        Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                           ),
                       ],
                     ),
@@ -233,13 +228,19 @@ class JobInfoCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.location_on,
-                                color: Color(ColorConstants.getPeachDark()),
+                            Padding(
+                              padding: EdgeInsets.only(left: 12.0),
+                              child: GestureDetector(
+                                onTap: () {
+
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 12.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset('assets/images/icons/location_icon_peach.png'),
+                                ),
                               ),
-                              tooltip: 'Location',
-                              onPressed: null,
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
@@ -250,8 +251,8 @@ class JobInfoCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -259,14 +260,12 @@ class JobInfoCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
+                        Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                           ),
-                          tooltip: 'Edit',
-                          onPressed: null,
-                        ),
                       ],
                     ),
                   ),
@@ -309,8 +308,8 @@ class JobInfoCard extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontFamily: 'Raleway',
+                                            fontSize: 22.0,
+                                            fontFamily: 'simple',
                                             fontWeight: FontWeight.w600,
                                             color: Color(ColorConstants
                                                 .getPrimaryBlack()),
@@ -337,8 +336,8 @@ class JobInfoCard extends StatelessWidget {
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
                                               style: TextStyle(
-                                                fontSize: 18.0,
-                                                fontFamily: 'Raleway',
+                                                fontSize: 22.0,
+                                                fontFamily: 'simple',
                                                 fontWeight: FontWeight.w600,
                                                 color: Color(ColorConstants.getPrimaryColor()),
                                               ),
@@ -358,8 +357,8 @@ class JobInfoCard extends StatelessWidget {
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontFamily: 'Raleway',
+                                            fontSize: 22.0,
+                                            fontFamily: 'simple',
                                             fontWeight: FontWeight.w600,
                                             color: Color(ColorConstants.getPrimaryBlack()),
                                           ),
@@ -380,15 +379,19 @@ class JobInfoCard extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  Icons.access_time,
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
-                                tooltip: 'Time',
-                                onPressed: () {
+                              Padding(
+                                padding: EdgeInsets.only(left: 12.0),
+                                child: GestureDetector(
+                                  onTap: () {
 
-                                },
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 12.0),
+                                    height: 24.0,
+                                    width: 24.0,
+                                    child: Image.asset('assets/images/icons/clock_icon_peach.png'),
+                                  ),
+                                ),
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
@@ -401,22 +404,22 @@ class JobInfoCard extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                               ),
-                              pageState.job.selectedTime != null ? Container(
+                              pageState.sunsetTime != null ? Container(
                                 padding: EdgeInsets.only(left: 32.0),
                                 child: new Image.asset(
-                                  'assets/images/sunset.png',
+                                  'assets/images/icons/sunset_icon_peach.png',
                                   height: 24.0,
                                   fit: BoxFit.cover,
                                 ),
                               ) : SizedBox(),
-                              pageState.job.selectedTime != null ? Container(
+                              pageState.job.selectedTime != null && pageState.job.selectedDate != null ? Container(
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   (pageState.sunsetTime != null
@@ -426,8 +429,8 @@ class JobInfoCard extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants.getPrimaryColor()),
                                   ),
@@ -435,13 +438,11 @@ class JobInfoCard extends StatelessWidget {
                               ) : SizedBox(),
                             ],
                           ),
-                        IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Color(ColorConstants.getPeachDark()),
-                            ),
-                            tooltip: 'Edit',
-                            onPressed: null,
+                        Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                           ),
                       ],
                     ),
@@ -460,15 +461,19 @@ class JobInfoCard extends StatelessWidget {
                        Row(
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: <Widget>[
-                              IconButton(
-                                icon: Icon(
-                                  Icons.attach_money,
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
-                                tooltip: 'Pricing package',
-                                onPressed: () {
+                              Padding(
+                                padding: EdgeInsets.only(left: 12.0),
+                                child: GestureDetector(
+                                  onTap: () {
 
-                                },
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(right: 12.0),
+                                    height: 24.0,
+                                    width: 24.0,
+                                    child: Image.asset('assets/images/icons/price_package_icon.png'),
+                                  ),
+                                ),
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
@@ -479,8 +484,8 @@ class JobInfoCard extends StatelessWidget {
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants.primary_black),
                                   ),
@@ -488,16 +493,17 @@ class JobInfoCard extends StatelessWidget {
                               ),
                             ],
                           ),
-                        IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: Color(ColorConstants.getPeachDark()),
-                            ),
-                            tooltip: 'Edit',
-                            onPressed: () {
+                        GestureDetector(
+                          onTap: () {
 
-                            },
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                           ),
+                        ),
                       ],
                     ),
                   ),
@@ -514,15 +520,19 @@ class JobInfoCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.attach_money,
-                                color: Color(ColorConstants.getPeachDark()),
-                              ),
-                              tooltip: 'Deposit',
-                              onPressed: () {
+                            Padding(
+                              padding: EdgeInsets.only(left: 12.0),
+                              child: GestureDetector(
+                                onTap: () {
 
-                              },
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 12.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset('assets/images/icons/deposit_icon_peach.png'),
+                                ),
+                              ),
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
@@ -533,8 +543,8 @@ class JobInfoCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -542,13 +552,16 @@ class JobInfoCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.edit,
-                            color: Color(ColorConstants.getPeachDark()),
+                        GestureDetector(
+                          onTap: () {
+
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                           ),
-                          tooltip: 'Edit',
-                          onPressed: null,
                         ),
                       ],
                     ),

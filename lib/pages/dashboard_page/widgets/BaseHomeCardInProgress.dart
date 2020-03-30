@@ -34,7 +34,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 24.0,
-                      fontFamily: 'Blackjack',
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w800,
                       color: Color(ColorConstants.primary_black),
                     ),
@@ -43,8 +43,8 @@ class BaseHomeCardInProgress extends StatelessWidget{
                     "View all",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w400,
                       color: Color(ColorConstants.primary_black),
                     ),
@@ -70,7 +70,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 18.0,
-                  fontFamily: 'Raleway',
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w400,
                   color: Color(ColorConstants.primary_black),
                 ),

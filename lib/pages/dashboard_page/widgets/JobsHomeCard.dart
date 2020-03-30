@@ -21,7 +21,6 @@ class JobsHomeCard extends StatelessWidget {
           Container(
             margin: EdgeInsets.only(top: 40.0),
             height: pageState.currentJobs.length > 0 ? pageState.currentJobs.length == 1 ? 124.0 : 189.0 : 64.0,
-            color: Color(ColorConstants.getPrimaryBackgroundGrey())
           ),
           BaseHomeCardInProgress(
             cardTitle: "Upcoming Jobs",

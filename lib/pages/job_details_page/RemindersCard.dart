@@ -12,7 +12,6 @@ class RemindersCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(ColorConstants.getPrimaryBackgroundGrey()),
       padding: EdgeInsets.only(top: 26.0, bottom: 200.0),
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -41,23 +40,26 @@ class RemindersCard extends StatelessWidget {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
-                          fontFamily: 'Blackjack',
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(right: 16.0, top: 8.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.add_circle_outline,
-                          color: Color(ColorConstants.getPeachDark()),
+                    Padding(
+                      padding: EdgeInsets.only(right: 16.0, top: 8.0),
+                      child: GestureDetector(
+                        onTap: () {
+
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 12.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset('assets/images/icons/plus_icon_peach.png'),
                         ),
-                        tooltip: 'New reminder',
-                        onPressed: null,
                       ),
-                    )
+                    ),
                   ],
                 ),
                 FlatButton(
@@ -72,7 +74,7 @@ class RemindersCard extends StatelessWidget {
                           children: <Widget>[
                             IconButton(
                               icon: Icon(
-                                Icons.notifications_active,
+                                Icons.notifications_none,
                                 color: Color(ColorConstants.getPeachDark()),
                               ),
                               tooltip: '3 Month Checkin',
@@ -86,8 +88,8 @@ class RemindersCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -95,13 +97,16 @@ class RemindersCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                        GestureDetector(
+                          onTap: () {
+
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/trash_icon_peach.png'),
                           ),
-                          tooltip: 'Edit',
-                          onPressed: null,
                         ),
                       ],
                     ),
@@ -119,7 +124,7 @@ class RemindersCard extends StatelessWidget {
                           children: <Widget>[
                             IconButton(
                               icon: Icon(
-                                Icons.notifications_active,
+                                Icons.notifications_none,
                                 color: Color(ColorConstants.getPeachDark()),
                               ),
                               tooltip: 'Start Preparing',
@@ -135,8 +140,8 @@ class RemindersCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -144,15 +149,16 @@ class RemindersCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                          tooltip: 'Edit',
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
 
                           },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/trash_icon_peach.png'),
+                          ),
                         ),
                       ],
                     ),
@@ -170,7 +176,7 @@ class RemindersCard extends StatelessWidget {
                           children: <Widget>[
                             IconButton(
                               icon: Icon(
-                                Icons.notifications_active,
+                                Icons.notifications_none,
                                 color: Color(ColorConstants.getPeachDark()),
                               ),
                               tooltip: '1 Week until wedding',
@@ -186,8 +192,8 @@ class RemindersCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -195,15 +201,16 @@ class RemindersCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                          tooltip: 'Edit',
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
 
                           },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/trash_icon_peach.png'),
+                          ),
                         ),
                       ],
                     ),

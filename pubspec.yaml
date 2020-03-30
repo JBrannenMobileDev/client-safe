@@ -76,11 +76,8 @@ flutter:
   assets:
     - assets/images/dandy_light_app_icon.png
 
-    - assets/images/backgrounds/cameras_background.png
-    - assets/images/backgrounds/dandy_light_background.png
-    - assets/images/backgrounds/home_background_lighter.png
-    - assets/images/backgrounds/income_background.png
-    - assets/images/backgrounds/expenses_background.png
+    - assets/images/backgrounds/home_background_2.png
+    - assets/images/backgrounds/image_background.png
     - assets/images/backgrounds/income_background_lighter.png
     - assets/images/backgrounds/expenses_background_lighter.png
 
@@ -88,6 +85,24 @@ flutter:
 
     - assets/images/income_and_expenses/income_safe.png
     - assets/images/income_and_expenses/piggybank.png
+
+    - assets/images/icons/trash_icon_peach.png
+    - assets/images/icons/trash_icon_white.png
+    - assets/images/icons/plus_icon_white.png
+    - assets/images/icons/plus_icon_peach.png
+    - assets/images/icons/contract_icon_peach.png
+    - assets/images/icons/document_icon_peach.png
+    - assets/images/icons/phone_icon_peach.png
+    - assets/images/icons/sms_icon_peach.png
+    - assets/images/icons/email_icon_peach.png
+    - assets/images/icons/instagram_icon_peach.png
+    - assets/images/icons/sunset_icon_peach.png
+    - assets/images/icons/edit_icon_peach.png
+    - assets/images/icons/location_icon_peach.png
+    - assets/images/icons/calendar_icon_peach.png
+    - assets/images/icons/clock_icon_peach.png
+    - assets/images/icons/price_package_icon.png
+    - assets/images/icons/deposit_icon_peach.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
@@ -199,6 +214,9 @@ flutter:
     - family: numbersFont
       fonts:
         - asset: assets/fonts/Nocturne.ttf
+    - family: simple
+      fonts:
+        - asset: assets/fonts/simplicity.ttf
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway-Bold.ttf

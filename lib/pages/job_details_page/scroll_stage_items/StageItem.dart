@@ -117,7 +117,7 @@ class _StageItemState extends State<StageItem>
 
     _checkCircleBgColor = ColorTween(begin: Colors.white, end: Color(ColorConstants.getBlueDark())).animate(_stageCompleteAnimation);
     _checkCircleBgColorCompleted = ColorTween(begin: Color(ColorConstants.getBlueDark()), end: Color(ColorConstants.getPeachDark())).animate(_newStageCompleteAnimation);
-    _textColor = ColorTween(begin: Color(ColorConstants.getPrimaryBlack()), end: Color(ColorConstants.getPrimaryDarkColor())).animate(_stageCompleteAnimation);
+    _textColor = ColorTween(begin: Color(ColorConstants.getBlueDark()), end: Color(ColorConstants.getPeachDark())).animate(_stageCompleteAnimation);
     _checkCircleCheckSize = Tween<double>(begin: 20.0, end: 10.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
@@ -146,16 +146,16 @@ class _StageItemState extends State<StageItem>
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _mainTextSize = Tween<double>(begin: 16.0, end: 14.0).animate(CurvedAnimation(
+    _mainTextSize = Tween<double>(begin: 22.0, end: 20.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _subtextSize = Tween<double>(begin: 14.0, end: 10.0).animate(CurvedAnimation(
+    _subtextSize = Tween<double>(begin: 18.0, end: 14.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
 
-    _textColorReversed = ColorTween(begin: Color(ColorConstants.getPrimaryDarkColor()), end: Color(ColorConstants.getPrimaryBlack())).animate(_newStageCompleteAnimation);
+    _textColorReversed = ColorTween(begin: Color(ColorConstants.getPeachDark()), end: Color(ColorConstants.getBlueDark())).animate(_newStageCompleteAnimation);
     _checkCircleCheckSizeReversed = Tween<double>(begin: 10.0, end: 20.0).animate(CurvedAnimation(
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
@@ -186,7 +186,7 @@ class _StageItemState extends State<StageItem>
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _mainTextSizeReversed = Tween<double>(begin: 14.0, end: 16.0).animate(CurvedAnimation(
+    _mainTextSizeReversed = Tween<double>(begin: 20.0, end: 22.0).animate(CurvedAnimation(
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
@@ -375,8 +375,8 @@ class _StageItemState extends State<StageItem>
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: isCurrentStage ? _mainTextSize.value : _mainTextSizeReversed.value,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w800,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w900,
                             color: isCurrentStage ? _textColor.value : _textColorReversed.value,
                           ),
                         ),
@@ -385,14 +385,12 @@ class _StageItemState extends State<StageItem>
                         opacity: isCurrentStage ? 1.0 : _subtextOpacityReversed.value,
                         child: Container(
                           width: 165.0,
-                          padding: EdgeInsets.only(
-                              top: 8.0),
                           child: Text(
                             _isExpanded(index, pageState) || isCurrentStage ? stageSubtitle : '',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 14.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 18.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: isCurrentStage ? _textColor.value : _textColorReversed.value,
                             ),
@@ -407,10 +405,9 @@ class _StageItemState extends State<StageItem>
                         alignment: Alignment.center,
                         height: 36.0,
                         width: 125.0,
-                        margin: EdgeInsets.only(top: 8.0),
                         padding: EdgeInsets.only(top: 4.0, left: 8.0, bottom: 4.0, right: 8.0),
                         decoration: BoxDecoration(
-                            borderRadius: new BorderRadius.circular(8.0),
+                            borderRadius: new BorderRadius.circular(18.0),
                             color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                         child: GestureDetector(
@@ -418,19 +415,14 @@ class _StageItemState extends State<StageItem>
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                              Icon(
-                                actionIcon,
-                                color: Colors.white,
-                                size: 18.0,
-                              ),
                               Padding(
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   actionButtonText,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   ),

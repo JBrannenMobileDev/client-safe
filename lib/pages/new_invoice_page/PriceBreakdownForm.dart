@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceTextField.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -70,13 +71,45 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
     if(quantityRateTextController.text.length == 0) quantityRateTextController = TextEditingController(text: '\$');
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
+        switch(appState.state.newInvoicePageState.selectedJob.priceProfile.rateType){
+          case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
+            selectorIndex = 0;
+            break;
+          case RateTypeSelection.SELECTOR_TYPE_HOURLY:
+            selectorIndex = 1;
+            break;
+          case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
+            selectorIndex = 2;
+            break;
+        }
+
+        breakdownTypes = <int, Widget>{
+          0: Text(PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE,
+            style: TextStyle(
+              fontFamily: 'Raleway',
+              color: Color(selectorIndex == 0
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
+            ),),
+          1: Text(PriceBreakdownForm.SELECTOR_TYPE_HOURLY,
+            style: TextStyle(
+              fontFamily: 'Raleway',
+              color: Color(selectorIndex == 1
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
+            ),),
+          2: Text(PriceBreakdownForm.SELECTOR_TYPE_QUANTITY,
+            style: TextStyle(
+              fontFamily: 'Raleway',
+              color: Color(selectorIndex == 2
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
+            ),),
+        };
+
         if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
           flatRateTextController = TextEditingController(text: '\$' + appState.state.newInvoicePageState.selectedJob.priceProfile.flatRate.toInt().toString());
-        }
-        if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
           hourlyRateTextController = TextEditingController(text: '\$' + (appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt() > 0 ? appState.state.newInvoicePageState.selectedJob.priceProfile.hourlyRate.toInt().toString() : ''));
-        }
-        if(appState.state.newInvoicePageState.selectedJob?.priceProfile != null){
           quantityRateTextController = TextEditingController(text: '\$' + (appState.state.newInvoicePageState.selectedJob.priceProfile.itemRate.toInt() > 0 ? appState.state.newInvoicePageState.selectedJob.priceProfile.itemRate.toInt().toString() : ''));
         }
 
@@ -135,6 +168,17 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
         });
       },
       onDidChange: (pageState) {
+        switch(pageState.selectedJob.priceProfile.rateType){
+          case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
+            selectorIndex = 0;
+            break;
+          case RateTypeSelection.SELECTOR_TYPE_HOURLY:
+            selectorIndex = 1;
+            break;
+          case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
+            selectorIndex = 2;
+            break;
+        }
         flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText).toInt().toString();
       },
       converter: (store) => NewInvoicePageState.fromStore(store),

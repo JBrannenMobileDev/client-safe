@@ -67,18 +67,23 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                           Navigator.of(context).pop();
                         },
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(right: 16.0),
-                        child: Text(
-                          "Invoice 1000",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w400,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                      Text(
+                        "Invoice 1000",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'Raleway',
+                          fontWeight: FontWeight.w400,
+                          color: Color(ColorConstants.primary_black),
                         ),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        tooltip: 'Edit',
+                        color: Color(ColorConstants.getPeachDark()),
+                        onPressed: () {
+
+                        },
                       ),
                     ],
                   ),

@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 class ImageUtil{
   static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";
-  static const String DANDY_BG = "assets/images/backgrounds/home_background_lighter.png";
+  static const String DANDY_BG = "assets/images/backgrounds/home_background_2.png";
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
   static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_lighter.png";
 
@@ -103,7 +103,7 @@ class ImageUtil{
   }
 
   static AssetImage getJobStageCompleteIconWhite() {
-    return AssetImage('assets/images/job_progress/white_check.png');
+    return AssetImage('assets/images/job_progress/complete_check.png');
   }
 
   static AssetImage getUndoImageAsset() {
@@ -272,6 +272,14 @@ class ImageUtil{
 
   static AssetImage getSunsetAssetImage() {
     return AssetImage('assets/images/sunset.png');
+  }
+
+  static AssetImage getTrashIconWhite() {
+    return AssetImage('assets/images/icons/trash_icon_white.png');
+  }
+
+  static AssetImage getTrashIconPeach() {
+    return AssetImage('assets/images/icons/trash_icon_peach.png');
   }
 
   static AssetImage getJobStageImage(int index) {

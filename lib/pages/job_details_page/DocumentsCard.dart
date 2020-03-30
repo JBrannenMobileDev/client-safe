@@ -1,6 +1,7 @@
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,7 +15,6 @@ class DocumentsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
       padding: EdgeInsets.only(top: 26.0),
       child: Stack(
         alignment: Alignment.bottomCenter,
@@ -40,7 +40,7 @@ class DocumentsCard extends StatelessWidget {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
-                          fontFamily: 'Blackjack',
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.primary_black),
                         ),
@@ -48,13 +48,16 @@ class DocumentsCard extends StatelessWidget {
                     ),
                     Padding(
                       padding: EdgeInsets.only(right: 16.0, top: 8.0),
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.add_circle_outline,
-                          color: Color(ColorConstants.getPeachDark()),
+                      child: GestureDetector(
+                        onTap: () {
+
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 12.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset('assets/images/icons/plus_icon_peach.png'),
                         ),
-                        tooltip: 'New document',
-                        onPressed: null,
                       ),
                     ),
                   ],
@@ -69,13 +72,19 @@ class DocumentsCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.description,
-                                color: Color(ColorConstants.getPeachDark()),
+                            Padding(
+                              padding: EdgeInsets.only(left: 12.0),
+                              child: GestureDetector(
+                                onTap: () {
+
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 12.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset('assets/images/icons/contract_icon_peach.png'),
+                                ),
                               ),
-                              tooltip: 'Contract',
-                              onPressed: null,
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
@@ -85,8 +94,8 @@ class DocumentsCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -94,13 +103,16 @@ class DocumentsCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                        GestureDetector(
+                          onTap: () {
+
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/trash_icon_peach.png'),
                           ),
-                          tooltip: 'Edit',
-                          onPressed: null,
                         ),
                       ],
                     ),
@@ -116,15 +128,19 @@ class DocumentsCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.assignment,
-                                color: Color(ColorConstants.getPeachDark()),
-                              ),
-                              tooltip: 'Questionaire',
-                              onPressed: () {
+                            Padding(
+                              padding: EdgeInsets.only(left: 12.0),
+                              child: GestureDetector(
+                                onTap: () {
 
-                              },
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 12.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset('assets/images/icons/document_icon_peach.png'),
+                                ),
+                              ),
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
@@ -134,8 +150,8 @@ class DocumentsCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -143,15 +159,16 @@ class DocumentsCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                          tooltip: 'Edit',
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
 
                           },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/trash_icon_peach.png'),
+                          ),
                         ),
                       ],
                     ),
@@ -167,15 +184,19 @@ class DocumentsCard extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            IconButton(
-                              icon: Icon(
-                                Icons.assignment,
-                                color: Color(ColorConstants.getPeachDark()),
-                              ),
-                              tooltip: 'Feedback',
-                              onPressed: () {
+                            Padding(
+                              padding: EdgeInsets.only(left: 12.0),
+                              child: GestureDetector(
+                                onTap: () {
 
-                              },
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 12.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset('assets/images/icons/document_icon_peach.png'),
+                                ),
+                              ),
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
@@ -185,8 +206,8 @@ class DocumentsCard extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -194,15 +215,16 @@ class DocumentsCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.delete,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                          tooltip: 'Edit',
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
 
                           },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/trash_icon_peach.png'),
+                          ),
                         ),
                       ],
                     ),

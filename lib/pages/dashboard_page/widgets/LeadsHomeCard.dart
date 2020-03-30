@@ -17,9 +17,6 @@ class LeadsHomeCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-    ),
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -41,7 +38,7 @@ class LeadsHomeCard extends StatelessWidget{
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
-                          fontFamily: 'Blackjack',
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.primary_black),
                         ),
@@ -50,8 +47,8 @@ class LeadsHomeCard extends StatelessWidget{
                         "View all",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w400,
                           color: Color(ColorConstants.primary_black),
                         ),
@@ -74,8 +71,8 @@ class LeadsHomeCard extends StatelessWidget{
                     "You do not have any leads. New clients without any jobs started will show up here.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w400,
                       color: Color(ColorConstants.primary_black),
                     ),

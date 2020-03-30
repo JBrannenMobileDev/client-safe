@@ -95,10 +95,10 @@ class PriceProfileListWidget extends StatelessWidget {
         rateString = '\$' + priceProfile.flatRate.toInt().toString();
         break;
       case Invoice.RATE_TYPE_HOURLY:
-        rateString = '\$' + priceProfile.hourlyRate.toInt().toString() + ' (per hour)';
+        rateString = '\$' + priceProfile.hourlyRate.toInt().toString() + '/hr';
         break;
       case Invoice.RATE_TYPE_QUANTITY:
-        rateString = '\$' + priceProfile.itemRate.toInt().toString() + ' (per item)';
+        rateString = '\$' + priceProfile.itemRate.toInt().toString() + '/item';
         break;
     }
     return rateString;

@@ -24,7 +24,7 @@ class IncomeAndExpensesPage extends StatefulWidget {
 }
 
 class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
-  int selectedIndex = 1;
+  int selectedIndex = 0;
   Map<int, Widget> tabs;
 
   @override
@@ -50,7 +50,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-                color: Color(ColorConstants.getPrimaryColor()),
+//                color: Color(ColorConstants.getPrimaryColor()),
                 image: DecorationImage(
                   image: AssetImage(pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? ImageUtil.INCOME_BG : ImageUtil.EXPENSES_BG),
                   repeat: ImageRepeat.repeat,

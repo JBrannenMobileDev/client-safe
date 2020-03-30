@@ -118,9 +118,11 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           Stack(
+            alignment: Alignment.topCenter,
             children: <Widget>[
               Column(
-                mainAxisAlignment: MainAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     'Price Breakdown',
@@ -156,14 +158,14 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                         pageState.onFilterChanged(
                             filterTypeIndex == 0 ? RateTypeSelection
                                 .SELECTOR_TYPE_FLAT_RATE : filterTypeIndex == 1
-                                ? RateTypeSelection.SELECTOR_TYPE_QUANTITY
+                                ? RateTypeSelection.SELECTOR_TYPE_HOURLY
                                 : RateTypeSelection.SELECTOR_TYPE_QUANTITY);
                       },
                       groupValue: selectorIndex,
                     ),
                   ),
                   selectorIndex == 0 ? Container(
-                    margin: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0, bottom: 16.0),
+                    width: 300.0,
                     child: NewPriceProfileTextField(
                       controller: flatRateTextController,
                       hintText: "\$",
@@ -176,15 +178,12 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                       labelText: 'Rate',
                     ),
                   ) : selectorIndex == 1 ?
-                  Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Row(
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          width: 112.0,
-                          margin: EdgeInsets.only(left: 15.0, bottom: 16.0),
+                          width: 300.0,
                           child: NewPriceProfileTextField(
                             controller: hourlyRateTextController,
                             hintText: "\$",
@@ -194,50 +193,17 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                             onTextInputChanged: pageState.onHourlyRateTextChanged,
                             capitalization: TextCapitalization.none,
                             keyboardAction: TextInputAction.done,
-                            labelText: 'Hour',
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          margin: EdgeInsets.only(bottom: 16.0),
-                          child: IconButton(
-                            icon: Icon(
-                                Icons.close,
-                                color: Color(ColorConstants.getPrimaryBlack())
-                            ),
-                            tooltip: 'delete',
-                            onPressed: null,
-                          ),
-                        ),
-                        Opacity(
-                          opacity: 0.35,
-                          child: Container(
-                            width: 112.0,
-                            margin: EdgeInsets.only(right: 15.0, bottom: 16.0),
-                            child: NewPriceProfileTextField(
-                              controller: hourlyQuantityTextController,
-                              hintText: "0",
-                              inputType: TextInputType.number,
-                              height: 64.0,
-                              capitalization: TextCapitalization.none,
-                              keyboardAction: TextInputAction.done,
-                              labelText: 'Quantity',
-                              enabled: false,
-                            ),
+                            labelText: 'Rate Per Hour',
                           ),
                         ),
                       ],
-                    ),
-                  ):
-                  Padding(
-                    padding: EdgeInsets.only(top: 16.0),
-                    child: Row(
+                    ) :
+                  Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
-                          width: 112.0,
-                          margin: EdgeInsets.only(left: 15.0),
+                          width: 300.0,
                           child: NewPriceProfileTextField(
                             controller: quantityRateTextController,
                             hintText: "\$",
@@ -247,40 +213,11 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                             onTextInputChanged: pageState.onItemRateTextChanged,
                             capitalization: TextCapitalization.none,
                             keyboardAction: TextInputAction.done,
-                            labelText: 'Item',
-                          ),
-                        ),
-                        Container(
-                          alignment: Alignment.center,
-                          child: IconButton(
-                            icon: Icon(
-                                Icons.close,
-                                color: Color(ColorConstants.getPrimaryBlack())
-                            ),
-                            tooltip: 'delete',
-                            onPressed: null,
-                          ),
-                        ),
-                        Opacity(
-                          opacity: 0.35,
-                          child: Container(
-                            width: 112.0,
-                            margin: EdgeInsets.only(right: 15.0),
-                            child: NewPriceProfileTextField(
-                              enabled: false,
-                              controller: quantityQuantityTextController,
-                              hintText: "0",
-                              inputType: TextInputType.number,
-                              height: 64.0,
-                              capitalization: TextCapitalization.none,
-                              keyboardAction: TextInputAction.done,
-                              labelText: 'Quantity',
-                            ),
+                            labelText: 'Rate Per Item',
                           ),
                         ),
                       ],
                     ),
-                  ),
                 ],
               ),
             ],

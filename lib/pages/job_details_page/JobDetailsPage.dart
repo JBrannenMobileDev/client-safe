@@ -113,7 +113,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           }
               return Scaffold(
               body: Container(
-                color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[
@@ -126,7 +125,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           fit: BoxFit.contain,
                         ),
                       ),
-                      height: 435.0,
                     ),
                     CustomScrollView(
                       key: _listKeyVertical,
@@ -134,16 +132,16 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       slivers: <Widget>[
                         new SliverAppBar(
                           iconTheme: IconThemeData(
-                            color: Color(ColorConstants.getPrimaryBlack()), //change your color here
+                            color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                           ),
                           brightness: Brightness.light,
                           title: Text(
                             pageState.job.jobTitle,
                             style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Blackjack',
+                              fontSize: 26.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.getPrimaryBlack()),
+                              color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                           centerTitle: true,
@@ -157,7 +155,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           expandedHeight: 325.0,
                           actions: <Widget>[
                             new IconButton(
-                              icon: Icon(Icons.delete, color: Color(ColorConstants.getPrimaryBlack())),
+                              icon: ImageIcon(ImageUtil.getTrashIconWhite()),
                               tooltip: 'Delete Job',
                               onPressed: () {
                                 _ackAlert(context, pageState);
@@ -175,10 +173,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                       'Job Stages',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'Raleway',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.gold_dark),
+                                        fontSize: 20.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w800,
+                                        color: Color(ColorConstants.getPeachDark()),
                                       ),
                                     ),
                                   ),

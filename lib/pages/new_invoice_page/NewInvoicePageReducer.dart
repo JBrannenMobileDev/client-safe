@@ -222,8 +222,8 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
   double total;
   switch(rateType){
     case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
-      remainingBalance = selectedJob.priceProfile.flatRate.toDouble() - (selectedJob.isDepositPaid() ? depositAmount : 0);
-      total = selectedJob.priceProfile.flatRate.toDouble();
+      remainingBalance = selectedJob.priceProfile.flatRate - (selectedJob.isDepositPaid() ? depositAmount : 0);
+      total = selectedJob.priceProfile.flatRate;
       LineItem rateLineItem = LineItem(
         itemName: 'Flat rate',
         itemPrice: selectedJob.priceProfile.flatRate,
@@ -232,22 +232,22 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
       lineItems.add(rateLineItem);
       break;
     case RateTypeSelection.SELECTOR_TYPE_HOURLY:
-      remainingBalance = (double.parse(previousState.hourlyRate.replaceFirst(r'$', '')) * double.parse(previousState.hourlyQuantity)) - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
-      total = selectedJob.priceProfile.hourlyRate.toDouble();
+      remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
+      total = 0;
       LineItem rateLineItem = LineItem(
           itemName: 'Hourly rate',
           itemPrice: selectedJob.priceProfile.hourlyRate,
-          itemQuantity: 1
+          itemQuantity: 0
       );
       lineItems.add(rateLineItem);
       break;
     case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
-      remainingBalance = selectedJob.priceProfile.itemRate.toDouble() - (selectedJob.isDepositPaid() ? depositAmount : 0);
-      total = selectedJob.priceProfile.itemRate.toDouble();
+      remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0);
+      total = 0;
       LineItem rateLineItem = LineItem(
           itemName: 'Quantity rate',
           itemPrice: selectedJob.priceProfile.itemRate,
-          itemQuantity: 1
+          itemQuantity: 0
       );
       lineItems.add(rateLineItem);
       break;

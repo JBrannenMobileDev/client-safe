@@ -16,16 +16,15 @@ class ClientDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color(ColorConstants.getPrimaryBackgroundGrey()),
       padding: EdgeInsets.only(top: 26.0),
       child: Stack(
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
-            height: 236.0,
+            height: 224.0,
           ),
           Container(
-            height: 236.0,
+            height: 224.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
             decoration: new BoxDecoration(
@@ -41,7 +40,7 @@ class ClientDetailsCard extends StatelessWidget {
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 24.0,
-                      fontFamily: 'Blackjack',
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w800,
                       color: Color(ColorConstants.primary_black),
                     ),
@@ -73,73 +72,47 @@ class ClientDetailsCard extends StatelessWidget {
                   ],
                 ),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[
-                    ClientSafeButton(
-                      height: 48.0,
-                      width: 65.0,
-                      text: "",
-                      marginLeft: 16.0,
-                      marginTop: 0.0,
-                      marginRight: 4.0,
-                      marginBottom: 0.0,
-                      onPressed: onCallPressed,
-                      icon: Icon(Icons.phone, color: Colors.white),
-                      urlText: pageState.client?.phone,
-                    ),
-                    ClientSafeButton(
-                      height: 48.0,
-                      width: 65.0,
-                      text: "",
-                      marginLeft: 4.0,
-                      marginTop: 0.0,
-                      marginRight: 4.0,
-                      marginBottom: 0.0,
-                      onPressed: onSMSPressed,
-                      icon: Icon(Icons.message, color: Colors.white),
-                      urlText: pageState.client?.phone,
-                    ),
-                    ClientSafeButton(
-                      height: 48.0,
-                      width: 65.0,
-                      text: "",
-                      marginLeft: 4.0,
-                      marginTop: 0.0,
-                      marginRight: 4.0,
-                      marginBottom: 0.0,
-                      onPressed: onEmailPressed,
-                      icon: Icon(Icons.email, color: Colors.white),
-                      urlText: pageState.client?.email,
-                    ),
-                    Container(
-                      alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(left: 4.0, right: 16.0),
-                      child: SizedBox(
-                        width: 65.0,
-                        height: 48.0,
-                        child: FlatButton(
-                          padding: EdgeInsets.all(0.0),
-                          shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(8.0),
-                              side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
-                          onPressed: () {
-                            pageState.onInstagramSelected();
-                          },
-                          color: Color(ColorConstants.getPrimaryColor()),
-                          child: Container(
-                            height: 32.0,
-                            width: 65.0,
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: AssetImage("assets/images/instagram_logo_icon.png"),
-                                fit: BoxFit.contain,
-                              ),
-                              borderRadius:
-                              BorderRadius.all(Radius.circular(8.0)),
-                            ),
-                          ),
+                    GestureDetector(
+                        onTap: () {
+                          onCallPressed(pageState.client.phone);
+                        },
+                        child: Container(
+                          height: 42.0,
+                          width: 42.0,
+                          child: Image.asset('assets/images/icons/phone_icon_peach.png'),
                         ),
-                      ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          onSMSPressed(pageState.client.phone);
+                        },
+                        child: Container(
+                          height: 42.0,
+                          width: 42.0,
+                          child: Image.asset('assets/images/icons/sms_icon_peach.png'),
+                        ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          onEmailPressed(pageState.client.email);
+                        },
+                        child: Container(
+                          height: 42.0,
+                          width: 42.0,
+                          child: Image.asset('assets/images/icons/email_icon_peach.png'),
+                        ),
+                    ),
+                    GestureDetector(
+                        onTap: () {
+                          pageState.onInstagramSelected();
+                        },
+                        child: Container(
+                          height: 42.0,
+                          width: 42.0,
+                          child: Image.asset('assets/images/icons/instagram_icon_peach.png'),
+                        ),
                     ),
                   ],
                 ),

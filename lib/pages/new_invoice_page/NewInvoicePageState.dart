@@ -24,6 +24,7 @@ class NewInvoicePageState {
   final bool saveButtonEnabled;
   final bool shouldClear;
   final bool isFinishedFetchingClients;
+  final bool isInEditMode;
   final double total;
   final double depositValue;
   final double unpaidAmount;
@@ -47,6 +48,12 @@ class NewInvoicePageState {
   final String newDiscountPercentage;
   final String newDiscountFilter;
   final Discount discount;
+//  final List<LineItem> overviewLineItems;
+//  final double overviewSubtotal;
+//  final double overviewDeposit;
+//  final double overviewDiscount;
+//  final double overviewBalanceDue;
+  final Function() onEditSelected;
   final Function() onDeleteDiscountSelected;
   final Function(String) onNewDiscountFilterChanged;
   final Function(String) onNewDiscountRateTextChanged;
@@ -127,6 +134,8 @@ class NewInvoicePageState {
     @required this.onDeleteDiscountSelected,
     @required this.discount,
     @required this.newDiscountFilter,
+    @required this.isInEditMode,
+    @required this.onEditSelected,
   });
 
   NewInvoicePageState copyWith({
@@ -135,6 +144,7 @@ class NewInvoicePageState {
     bool saveButtonEnabled,
     bool shouldClear,
     bool isFinishedFetchingClients,
+    bool isInEditMode,
     double total,
     double depositValue,
     double unpaidAmount,
@@ -158,6 +168,7 @@ class NewInvoicePageState {
     String newDiscountPercentage,
     Discount discount,
     String newDiscountFilter,
+    Function() onEditSelected,
     Function(String) onNewDiscountFilterChanged,
     Function(String) onNewDiscountRateTextChanged,
     Function(String) onNewDiscountPercentageTextChanged,
@@ -190,6 +201,7 @@ class NewInvoicePageState {
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
+      isInEditMode: isInEditMode ?? this.isInEditMode,
       total: total ?? this.total,
       depositValue: depositValue ?? this.depositValue,
       unpaidAmount: unpaidAmount ?? this.unpaidAmount,
@@ -238,6 +250,7 @@ class NewInvoicePageState {
       onDeleteDiscountSelected: onDeleteDiscountSelected ?? this.onDeleteDiscountSelected,
       discount: discount ?? this.discount,
       newDiscountFilter: newDiscountFilter ?? this.newDiscountFilter,
+      onEditSelected: onEditSelected ?? this.onEditSelected,
     );
   }
 
@@ -298,6 +311,8 @@ class NewInvoicePageState {
         discount: null,
         newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
         discountValue: 0.0,
+        isInEditMode: false,
+        onEditSelected: null,
       );
   }
 
@@ -331,6 +346,7 @@ class NewInvoicePageState {
       discount: store.state.newInvoicePageState.discount,
       newDiscountFilter: store.state.newInvoicePageState.newDiscountFilter,
       discountValue: store.state.newInvoicePageState.discountValue,
+      isInEditMode: store.state.newInvoicePageState.isInEditMode,
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
       onNewDiscountSavedSelected: () => store.dispatch(SaveNewDiscountAction(store.state.newInvoicePageState)),
@@ -356,6 +372,7 @@ class NewInvoicePageState {
       onItemQuantityTextChanged: (itemQuantity) => store.dispatch(UpdateNewInvoiceItemQuantityAction(store.state.newInvoicePageState, itemQuantity)),
       onLineItemDeleted: (index) => store.dispatch(DeleteLineItemAction(store.state.newInvoicePageState, index)),
       onDeleteDiscountSelected: () => store.dispatch(DeleteDiscountAction(store.state.newInvoicePageState)),
+//      onEditSelected: () => store.dispatch(UpdateEditModeAction(store.state.newInvoicePageState, true)),
     );
   }
 
@@ -402,6 +419,8 @@ class NewInvoicePageState {
       onNewDiscountCancelSelected.hashCode ^
       onNewDiscountFilterChanged.hashCode ^
       discount.hashCode ^
+      isInEditMode.hashCode ^
+      onEditSelected.hashCode ^
       newDiscountFilter.hashCode;
 
   @override
@@ -449,5 +468,7 @@ class NewInvoicePageState {
           onNewDiscountPercentageTextChanged == other.onNewDiscountPercentageTextChanged &&
           onNewDiscountFilterChanged == other.onNewDiscountFilterChanged &&
           discount == other.discount &&
+          isInEditMode == other.isInEditMode &&
+          onEditSelected == other.onEditSelected &&
           newDiscountFilter == other.newDiscountFilter;
 }

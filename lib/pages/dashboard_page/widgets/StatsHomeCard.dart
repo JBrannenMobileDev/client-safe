@@ -19,9 +19,6 @@ class StatsHomeCard extends StatelessWidget{
           Container(
             padding: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
             height: 400.0,
-            decoration: BoxDecoration(
-              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-            ),
           ),
           Container(
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
@@ -41,7 +38,7 @@ class StatsHomeCard extends StatelessWidget{
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
-                          fontFamily: 'Blackjack',
+                          fontFamily: 'Simple',
                           fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.primary_black),
                         ),
@@ -56,8 +53,8 @@ class StatsHomeCard extends StatelessWidget{
                     "This feature will be available in future updates of DandyLight.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w400,
                       color: Color(ColorConstants.primary_black),
                     ),
