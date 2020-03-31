@@ -49,34 +49,36 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     title: Text(
                       pageState.client?.getClientFullName() ?? "",
                       style: TextStyle(
-                        fontFamily: 'Raleway',
+                        fontSize: 26.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w800,
                         color: const Color(ColorConstants.primary_black),
                       ),
                     ),
                     actions: <Widget>[
-                      IconButton(
-                        icon: const Icon(Icons.delete),
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        tooltip: 'Delete',
-                        onPressed: () {
-                          _ackAlert(context, pageState);
+                      GestureDetector(
+                        onTap: () {
+
                         },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 16.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset(
+                              'assets/images/icons/trash_icon_peach.png'),
+                        ),
                       ),
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        tooltip: 'Edit',
-                        onPressed: () {
-                          pageState.onEditClientClicked(pageState.client);
-                          UserOptionsUtil.showNewContactDialog(context);
+                      GestureDetector(
+                        onTap: () {
+
                         },
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.info),
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        tooltip: 'Info',
-                        onPressed: () {
-                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 16.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset(
+                              'assets/images/icons/edit_icon_peach.png'),
+                        ),
                       ),
                     ],
                     leading: IconButton(
@@ -115,72 +117,66 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                             ],
                           ),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              ClientSafeButton(
-                                  height: 48.0,
-                                  width: 65.0,
-                                  text: "",
-                                  marginLeft: 32.0,
-                                  marginTop: 0.0,
-                                  marginRight: 4.0,
-                                  marginBottom: 0.0,
-                                  onPressed: onCallPressed,
-                                  icon: Icon(Icons.phone, color: Colors.white),
-                                  urlText: pageState.client?.phone,
-                              ),
-                              ClientSafeButton(
-                                height: 48.0,
-                                width: 65.0,
-                                text: "",
-                                marginLeft: 4.0,
-                                marginTop: 0.0,
-                                marginRight: 4.0,
-                                marginBottom: 0.0,
-                                onPressed: onSMSPressed,
-                                icon: Icon(Icons.message, color: Colors.white),
-                                urlText: pageState.client?.phone,
-                              ),
-                              ClientSafeButton(
-                                height: 48.0,
-                                width: 65.0,
-                                text: "",
-                                marginLeft: 4.0,
-                                marginTop: 0.0,
-                                marginRight: 4.0,
-                                marginBottom: 0.0,
-                                onPressed: onEmailPressed,
-                                icon: Icon(Icons.email, color: Colors.white),
-                                urlText: pageState.client?.email,
-                              ),
-                              Container(
-                                alignment: Alignment.bottomCenter,
-                                margin: EdgeInsets.only(left: 4.0, right: 32.0),
-                                child: SizedBox(
-                                  width: 65.0,
-                                  height: 48.0,
-                                  child: FlatButton(
-                                    padding: EdgeInsets.all(0.0),
-                                    shape: new RoundedRectangleBorder(
-                                        borderRadius: new BorderRadius.circular(8.0),
-                                        side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
-                                    onPressed: () {
-                                      pageState.onInstagramSelected();
-                                    },
+                              GestureDetector(
+                                onTap: () {
+                                  onCallPressed(pageState.client.phone);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
                                     color: Color(ColorConstants.getPrimaryColor()),
-                                    child: Container(
-                                      height: 32.0,
-                                      width: 65.0,
-                                      decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                          image: AssetImage("assets/images/instagram_logo_icon.png"),
-                                          fit: BoxFit.contain,
-                                        ),
-                                        borderRadius:
-                                        BorderRadius.all(Radius.circular(8.0)),
-                                      ),
-                                    ),
+                                    borderRadius: BorderRadius.circular(32.0),
                                   ),
+                                  height: 64.0,
+                                  width: 64.0,
+                                  child: Image.asset('assets/images/icons/phonecall_icon_white.png'),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  onSMSPressed(pageState.client.phone);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                    color: Color(ColorConstants.getPrimaryColor()),
+                                    borderRadius: BorderRadius.circular(32.0),
+                                  ),
+                                  height: 64.0,
+                                  width: 64.0,
+                                  child: Image.asset('assets/images/icons/sms_icon_white.png'),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  onEmailPressed(pageState.client.email);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                    color: Color(ColorConstants.getPrimaryColor()),
+                                    borderRadius: BorderRadius.circular(32.0),
+                                  ),
+                                  height: 64.0,
+                                  width: 64.0,
+                                  child: Image.asset('assets/images/icons/email_icon_white.png'),
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  pageState.onInstagramSelected();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(12.0),
+                                  decoration: BoxDecoration(
+                                    color: Color(ColorConstants.getPrimaryColor()),
+                                    borderRadius: BorderRadius.circular(32.0),
+                                  ),
+                                  height: 64.0,
+                                  width: 64.0,
+                                  child: Image.asset('assets/images/icons/instagram_icon_white.png'),
                                 ),
                               ),
                             ],
@@ -198,8 +194,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                             'Jobs',
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 26.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -220,8 +216,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                             'Start a job to turn this lead into a client.',
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 22.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w400,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -234,7 +230,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
               ),
               ClientSafeButton(
                 height: 48.0,
-                width: double.infinity,
+                width: 200.0,
                 text: "Start New Job",
                 marginLeft: 32.0,
                 marginTop: 0.0,

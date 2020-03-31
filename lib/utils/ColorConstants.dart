@@ -32,8 +32,8 @@ class ColorConstants{
 //  static const int black = 0xff444444;
 
   //Set 3
-  static const int gold = 0xffD0AC58;
-  static const int gold_dark = 0xff94793b;
+  static const int gold = 0xffE6CE97;
+  static const int gold_dark = 0xffE6CE97;
   static const int blue_dark = 0xff557571;
   static const int blue_light = 0xffd6ddd8;
   static const int peach_dark = 0xffd49a89;

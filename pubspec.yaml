@@ -77,6 +77,8 @@ flutter:
     - assets/images/dandy_light_app_icon.png
 
     - assets/images/backgrounds/home_background_2.png
+    - assets/images/backgrounds/home_background_3.png
+    - assets/images/backgrounds/home_background_4.png
     - assets/images/backgrounds/image_background.png
     - assets/images/backgrounds/income_background_lighter.png
     - assets/images/backgrounds/expenses_background_lighter.png
@@ -94,8 +96,11 @@ flutter:
     - assets/images/icons/document_icon_peach.png
     - assets/images/icons/phone_icon_peach.png
     - assets/images/icons/sms_icon_peach.png
+    - assets/images/icons/sms_icon_white.png
     - assets/images/icons/email_icon_peach.png
+    - assets/images/icons/email_icon_white.png
     - assets/images/icons/instagram_icon_peach.png
+    - assets/images/icons/instagram_icon_white.png
     - assets/images/icons/sunset_icon_peach.png
     - assets/images/icons/edit_icon_peach.png
     - assets/images/icons/location_icon_peach.png
@@ -103,6 +108,10 @@ flutter:
     - assets/images/icons/clock_icon_peach.png
     - assets/images/icons/price_package_icon.png
     - assets/images/icons/deposit_icon_peach.png
+    - assets/images/icons/alert_icon_circle.png
+    - assets/images/icons/contacts_icon.png
+    - assets/images/icons/phonecall_icon_peach.png
+    - assets/images/icons/phonecall_icon_white.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

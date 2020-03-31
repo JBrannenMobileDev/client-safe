@@ -100,7 +100,7 @@ class _ClientsPageState extends State<ClientsPage> {
                             width: 300.0,
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
-                              backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getPrimaryColor()),
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {

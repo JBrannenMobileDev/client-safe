@@ -66,7 +66,7 @@ class JobInProgressItem extends StatelessWidget{
                             height: 20.0,
                             width: 20.0,
                             child: Image(
-                              image: AssetImage('assets/images/alert.png'),
+                              image: AssetImage('assets/images/icons/alert_icon_circle.png'),
                             ),
                           ),
                         ],
