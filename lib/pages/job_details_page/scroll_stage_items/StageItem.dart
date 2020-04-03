@@ -115,8 +115,8 @@ class _StageItemState extends State<StageItem>
         duration: Duration(milliseconds: 300)
     );
 
-    _checkCircleBgColor = ColorTween(begin: Colors.white, end: Color(ColorConstants.getBlueDark())).animate(_stageCompleteAnimation);
-    _checkCircleBgColorCompleted = ColorTween(begin: Color(ColorConstants.getBlueDark()), end: Color(ColorConstants.getPeachDark())).animate(_newStageCompleteAnimation);
+    _checkCircleBgColor = ColorTween(begin: Colors.white, end: Color(ColorConstants.getPrimaryWhite())).animate(_stageCompleteAnimation);
+    _checkCircleBgColorCompleted = ColorTween(begin: Color(ColorConstants.getPeachDark()), end: Color(ColorConstants.getPeachDark())).animate(_newStageCompleteAnimation);
     _textColor = ColorTween(begin: Color(ColorConstants.getBlueDark()), end: Color(ColorConstants.getPeachDark())).animate(_stageCompleteAnimation);
     _checkCircleCheckSize = Tween<double>(begin: 20.0, end: 10.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
@@ -155,7 +155,7 @@ class _StageItemState extends State<StageItem>
       curve: Curves.fastOutSlowIn,
     ));
 
-    _textColorReversed = ColorTween(begin: Color(ColorConstants.getPeachDark()), end: Color(ColorConstants.getBlueDark())).animate(_newStageCompleteAnimation);
+    _textColorReversed = ColorTween(begin: Color(ColorConstants.getPeachDark()), end: Color(ColorConstants.getPeachDark())).animate(_newStageCompleteAnimation);
     _checkCircleCheckSizeReversed = Tween<double>(begin: 10.0, end: 20.0).animate(CurvedAnimation(
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
@@ -348,7 +348,7 @@ class _StageItemState extends State<StageItem>
                       height: 24.0,
                       width: 24.0,
                       decoration: BoxDecoration(
-                        color: Color(ColorConstants.getBlueDark()),
+                        color: Color(ColorConstants.getPeachDark()),
                         borderRadius: new BorderRadius.circular(12.0),
                       ),
                       padding: EdgeInsets.all(2.0),
@@ -391,7 +391,7 @@ class _StageItemState extends State<StageItem>
                             style: TextStyle(
                               fontSize: 18.0,
                               fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w800,
                               color: isCurrentStage ? _textColor.value : _textColorReversed.value,
                             ),
                           ),
@@ -403,32 +403,26 @@ class _StageItemState extends State<StageItem>
                           opacity: isCurrentStage ? 1.0 : _subtextOpacityReversed.value,
                           child: Container(
                         alignment: Alignment.center,
-                        height: 36.0,
+                        height: 32.0,
                         width: 125.0,
+                        margin: EdgeInsets.only(top: 5.0),
                         padding: EdgeInsets.only(top: 4.0, left: 8.0, bottom: 4.0, right: 8.0),
                         decoration: BoxDecoration(
                             borderRadius: new BorderRadius.circular(18.0),
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                            color: Color(ColorConstants.getBlueDark()),
                         ),
                         child: GestureDetector(
                           onTap: null,
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Text(
+                          child: Text(
                                   actionButtonText,
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 22.0,
+                                    fontSize: 20.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Colors.white,
                                   ),
-                                ),
-                              ),
-                            ],
+
                           ),
                         ),
                       ), ) : SizedBox(),

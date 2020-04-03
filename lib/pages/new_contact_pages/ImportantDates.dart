@@ -68,8 +68,8 @@ class _ImportantDates extends State<ImportantDates> {
                   "?",
               textAlign: TextAlign.start,
               style: TextStyle(
-                fontSize: 16.0,
-                fontFamily: 'Raleway',
+                fontSize: 20.0,
+                fontFamily: 'simple',
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.primary_black),
               ),
@@ -78,14 +78,13 @@ class _ImportantDates extends State<ImportantDates> {
               "These will be used to help remind you of job opportunities.",
               textAlign: TextAlign.start,
               style: TextStyle(
-                fontSize: 16.0,
-                fontFamily: 'Raleway',
+                fontSize: 20.0,
+                fontFamily: 'simple',
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.primary_black),
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
               child: Wrap(
                 spacing: 8.0,
                 children: List<Widget>.generate(
@@ -103,8 +102,8 @@ class _ImportantDates extends State<ImportantDates> {
                                   _chipLabels.elementAt(index),
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 18.0,
+                                    fontFamily: 'simple',
                                     fontWeight: isSelected(index, pageState)
                                         ? FontWeight.w600
                                         : FontWeight.w400,
@@ -158,20 +157,20 @@ class _ImportantDates extends State<ImportantDates> {
                         ),
                         isSelected(index, pageState)
                             ? Container(
-                                margin: EdgeInsets.only(top: 44.0),
+                                margin: EdgeInsets.only(top: 52.0),
                                 child: Text(
                                   ImportantDates.getDateForChipIndex(
                                       index, pageState),
                                   style: TextStyle(
-                                    fontSize: 12.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 16.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w400,
                                     color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                               )
                             : Container(
-                                margin: EdgeInsets.only(top: 44.0),
+                                margin: EdgeInsets.only(top: 52.0),
                                 child: Text(
                                   "",
                                   style: TextStyle(

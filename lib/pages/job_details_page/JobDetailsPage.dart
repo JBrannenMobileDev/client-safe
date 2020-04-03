@@ -120,7 +120,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryColor()),
                         image: DecorationImage(
-                          image: AssetImage(ImageUtil.DANDY_BG),
+                          image: AssetImage(ImageUtil.JOB_DETAILS_BG),
                           repeat: ImageRepeat.repeat,
                           fit: BoxFit.contain,
                         ),
@@ -176,7 +176,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                         fontSize: 20.0,
                                         fontFamily: 'simple',
                                         fontWeight: FontWeight.w800,
-                                        color: Color(ColorConstants.getPeachDark()),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ),
                                   ),

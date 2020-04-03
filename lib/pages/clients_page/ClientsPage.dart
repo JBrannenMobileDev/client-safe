@@ -40,7 +40,9 @@ class _ClientsPageState extends State<ClientsPage> {
       0: Text(
         ClientsPage.FILTER_TYPE_ALL,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontFamily: 'simple',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -48,14 +50,18 @@ class _ClientsPageState extends State<ClientsPage> {
       ),
       1: Text(ClientsPage.FILTER_TYPE_CLIENTS,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontFamily: 'simple',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 1
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       2: Text(ClientsPage.FILTER_TYPE_LEADS,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontFamily: 'simple',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 2 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 2
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -80,19 +86,24 @@ class _ClientsPageState extends State<ClientsPage> {
                           child: Text(
                             "Contacts",
                             style: TextStyle(
-                              fontFamily: 'Raleway',
+                              fontFamily: 'simple',
+                              fontSize: 26.0,
+                              fontWeight: FontWeight.w800,
                               color: const Color(ColorConstants.primary_black),
                             ),
                           ),
                         ),
                         actions: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.add_circle_outline),
-                            color: Color(ColorConstants.getPrimaryColor()),
-                            tooltip: 'Add',
-                            onPressed: () {
+                          GestureDetector(
+                            onTap: () {
                               UserOptionsUtil.showNewContactDialog(context);
                             },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 12.0),
+                              height: 24.0,
+                              width: 24.0,
+                              child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                            ),
                           ),
                         ],
                         bottom: PreferredSize(

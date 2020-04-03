@@ -9,6 +9,7 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -122,38 +123,36 @@ class _DashboardPageState extends State<DashboardPage>
                       forceElevated: false,
                       expandedHeight: 315.0,
                       actions: <Widget>[
-                        IconButton(
-                          icon: Icon(
-                              Icons.event,
-                              size: 28.0,
-                              color: Color(ColorConstants.getPrimaryWhite())
-                          ),
-                          tooltip: 'Add',
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
                             NavigationUtil.onCalendarSelected(context);
                           },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                            Icons.add_circle_outline,
-                            size: 28.0,
-                              color: Color(ColorConstants.getPrimaryWhite())
+                          child: Container(
+                            margin: EdgeInsets.only(right: 16.0),
+                            height: 28.0,
+                            width: 28.0,
+                            child: Image.asset('assets/images/icons/calendar_icon_white.png'),
                           ),
-                          tooltip: 'Add',
-                          onPressed: () {
+                        ),
+                        GestureDetector(
+                          onTap: () {
                             _onAddButtonPressed(context);
                           },
-                        ),
-                        IconButton(
-                          icon: Icon(
-                              Icons.settings,
-                              size: 28.0,
-                              color: Color(ColorConstants.getPrimaryWhite())
+                          child: Container(
+                            margin: EdgeInsets.only(right: 16.0),
+                            height: 28.0,
+                            width: 28.0,
+                            child: Image.asset('assets/images/icons/plus_icon_white.png'),
                           ),
-                          tooltip: 'More',
-                          onPressed: () {
-                            _onAddButtonPressed(context);
-                          },
+                        ),
+                        GestureDetector(
+                          onTap: null,
+                          child: Container(
+                            margin: EdgeInsets.only(right: 16.0),
+                            height: 28.0,
+                            width: 28.0,
+                            child: Image.asset('assets/images/icons/settings_icon_white.png'),
+                          ),
                         ),
                       ],
                       flexibleSpace: new FlexibleSpaceBar(

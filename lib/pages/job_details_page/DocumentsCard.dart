@@ -80,8 +80,8 @@ class DocumentsCard extends StatelessWidget {
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(right: 12.0),
-                                  height: 24.0,
-                                  width: 24.0,
+                                  height: 32.0,
+                                  width: 32.0,
                                   child: Image.asset('assets/images/icons/contract_icon_peach.png'),
                                 ),
                               ),
@@ -136,8 +136,8 @@ class DocumentsCard extends StatelessWidget {
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(right: 12.0),
-                                  height: 24.0,
-                                  width: 24.0,
+                                  height: 32.0,
+                                  width: 32.0,
                                   child: Image.asset('assets/images/icons/document_icon_peach.png'),
                                 ),
                               ),
@@ -192,8 +192,8 @@ class DocumentsCard extends StatelessWidget {
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(right: 12.0),
-                                  height: 24.0,
-                                  width: 24.0,
+                                  height: 32.0,
+                                  width: 32.0,
                                   child: Image.asset('assets/images/icons/document_icon_peach.png'),
                                 ),
                               ),

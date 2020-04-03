@@ -38,21 +38,27 @@ class _MarriedSpouseState extends State<MarriedSpouse>
     statuses = <int, Widget>{
       0: Text(Client.RELATIONSHIP_MARRIED,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       1: Text(Client.RELATIONSHIP_ENGAGED,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 1
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       2: Text(Client.RELATIONSHIP_SINGLE,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 2 ? FontWeight.w800 : FontWeight.w600,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 2
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -87,17 +93,17 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                           " have a significant other?",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 16.0),
+                      margin: EdgeInsets.only(top: 12.0),
                       width: 250.0,
                       child: CupertinoSlidingSegmentedControl<int>(
-                        backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                         thumbColor: Color(ColorConstants.getPrimaryColor()),
                         children: statuses,
                         onValueChanged: (int statusIndex) {

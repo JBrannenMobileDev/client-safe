@@ -15,7 +15,7 @@ class Client{
   static const String LEAD_SOURCE_FACEBOOK = "Facebook";
   static const String LEAD_SOURCE_BUSINESS_CARD = "Business Card";
   static const String LEAD_SOURCE_WEBSITE = "Website";
-  static const String LEAD_SOURCE_SOCIAL_MEDIA_INFLUENCER = "Social Media Influencer";
+  static const String LEAD_SOURCE_SOURCE_WORDPRESS = "Wordpress";
   static const String LEAD_SOURCE_GIVEAWAY = "Free Giveaway";
   static const String LEAD_SOURCE_OTHER = "Other";
 

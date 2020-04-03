@@ -85,17 +85,11 @@ class NewContactTextField extends StatelessWidget {
                 keyboardType: inputType,
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
-                style: new TextStyle(
-                    fontFamily: 'Raleway',
+                style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
                     fontWeight: FontWeight.w600,
-                    color:
-                        pageState.errorState != NewContactPageState.NO_ERROR
-                            && (inputTypeError == pageState.errorState
-                            || inputTypeError == NewContactPageState.ERROR_PHONE_INVALID && pageState.errorState == NewContactPageState.ERROR_MISSING_CONTACT_INFO
-                            || inputTypeError == NewContactPageState.ERROR_EMAIL_NAME_INVALID && pageState.errorState == NewContactPageState.ERROR_MISSING_CONTACT_INFO
-                            || inputTypeError == NewContactPageState.ERROR_INSTAGRAM_URL_INVALID && pageState.errorState == NewContactPageState.ERROR_MISSING_CONTACT_INFO)
-                            ? Colors.red
-                            : Color(ColorConstants.primary_black)),
+                    color: Color(ColorConstants.primary_black)),
               )),
     );
   }

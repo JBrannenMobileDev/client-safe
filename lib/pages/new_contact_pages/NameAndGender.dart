@@ -35,14 +35,18 @@ class _NameAndGenderState extends State<NameAndGender>
     genders = <int, Widget>{
       0: Text(Client.GENDER_MALE,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       1: Text(Client.GENDER_FEMALE,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 1
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -92,6 +96,11 @@ class _NameAndGenderState extends State<NameAndGender>
                         width: 259.0,
                         height: 45.0,
                         child: TextField(
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.primary_black)),
                           textInputAction: TextInputAction.go,
                           maxLines: 1,
                           autofocus: true,
@@ -114,10 +123,6 @@ class _NameAndGenderState extends State<NameAndGender>
                           ),
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
-                          style: new TextStyle(
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black)),
                         )),
                   ],
                 ),
@@ -140,7 +145,7 @@ class _NameAndGenderState extends State<NameAndGender>
                 Container(
                   width: 250.0,
                   child: CupertinoSlidingSegmentedControl<int>(
-                    backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     thumbColor: Color(ColorConstants.getPrimaryColor()),
                     children: genders,
                     onValueChanged: (int genderIndex) {
@@ -165,11 +170,11 @@ class _NameAndGenderState extends State<NameAndGender>
                         tooltip: 'Search',
                       ),
                       Text(
-                        "Device Contacts",
+                        "Import Device Contact",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.getPrimaryColor()),
                         ),

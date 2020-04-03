@@ -51,8 +51,8 @@ class ClientListWidget extends StatelessWidget {
                         getClient(clientIndex, pageState).getClientFullName(),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: const Color(ColorConstants.primary_black),
                         ),
@@ -61,9 +61,9 @@ class ClientListWidget extends StatelessWidget {
                         _buildSubtitleText(pageState, clientIndex),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
+                          fontSize: 18.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
                           color:
                               const Color(ColorConstants.primary_bg_grey_dark),
                         ),

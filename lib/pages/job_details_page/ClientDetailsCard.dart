@@ -81,7 +81,7 @@ class ClientDetailsCard extends StatelessWidget {
                         child: Container(
                           height: 42.0,
                           width: 42.0,
-                          child: Image.asset('assets/images/icons/phone_icon_peach.png'),
+                          child: Image.asset('assets/images/icons/phonecall_icon_peach.png'),
                         ),
                     ),
                     GestureDetector(

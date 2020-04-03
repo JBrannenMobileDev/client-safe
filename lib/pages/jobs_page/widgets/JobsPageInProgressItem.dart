@@ -54,9 +54,9 @@ class JobsPageInProgressItem extends StatelessWidget{
                               job.jobTitle,
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w600,
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w800,
                                 color: Color(ColorConstants.primary_black),
                               ),
                             ),
@@ -67,7 +67,7 @@ class JobsPageInProgressItem extends StatelessWidget{
                             height: 20.0,
                             width: 20.0,
                             child: Image(
-                              image: AssetImage('assets/images/alert.png'),
+                              image: AssetImage('assets/images/icons/alert_icon_circle.png'),
                             ),
                           ),
                         ],
@@ -76,9 +76,9 @@ class JobsPageInProgressItem extends StatelessWidget{
                         'Stage: ' + JobStage.getStageTextFromValue(JobStage.getStageValue(job.stage.stage)),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
+                          fontSize: 18.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
@@ -86,8 +86,8 @@ class JobsPageInProgressItem extends StatelessWidget{
                         _getSubtext(job),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 18.0,
+                          fontFamily: 'simple',
                           fontWeight: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
                               ? FontWeight.w400 : FontWeight.w800,
                           color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null

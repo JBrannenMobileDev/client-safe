@@ -180,8 +180,8 @@ class JobInfoCard extends StatelessWidget {
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(right: 12.0),
-                                    height: 24.0,
-                                    width: 24.0,
+                                    height: 32.0,
+                                    width: 32.0,
                                     child: Image.asset('assets/images/icons/calendar_icon_peach.png'),
                                   ),
                                 ),
@@ -236,8 +236,8 @@ class JobInfoCard extends StatelessWidget {
                                 },
                                 child: Container(
                                   margin: EdgeInsets.only(right: 12.0),
-                                  height: 24.0,
-                                  width: 24.0,
+                                  height: 32.0,
+                                  width: 32.0,
                                   child: Image.asset('assets/images/icons/location_icon_peach.png'),
                                 ),
                               ),
@@ -387,8 +387,8 @@ class JobInfoCard extends StatelessWidget {
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(right: 12.0),
-                                    height: 24.0,
-                                    width: 24.0,
+                                    height: 32.0,
+                                    width: 32.0,
                                     child: Image.asset('assets/images/icons/clock_icon_peach.png'),
                                   ),
                                 ),
@@ -415,7 +415,7 @@ class JobInfoCard extends StatelessWidget {
                                 padding: EdgeInsets.only(left: 32.0),
                                 child: new Image.asset(
                                   'assets/images/icons/sunset_icon_peach.png',
-                                  height: 24.0,
+                                  height: 32.0,
                                   fit: BoxFit.cover,
                                 ),
                               ) : SizedBox(),
@@ -469,8 +469,8 @@ class JobInfoCard extends StatelessWidget {
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(right: 12.0),
-                                    height: 24.0,
-                                    width: 24.0,
+                                    height: 32.0,
+                                    width: 32.0,
                                     child: Image.asset('assets/images/icons/price_package_icon.png'),
                                   ),
                                 ),
@@ -492,17 +492,13 @@ class JobInfoCard extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          ),
-                        GestureDetector(
-                          onTap: () {
-
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 12.0),
-                            height: 24.0,
-                            width: 24.0,
-                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
-                          ),
+                       ),
+                        Container(
+                          margin: EdgeInsets.only(right: 12.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset(
+                              'assets/images/icons/edit_icon_peach.png'),
                         ),
                       ],
                     ),
@@ -522,16 +518,11 @@ class JobInfoCard extends StatelessWidget {
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 12.0),
-                              child: GestureDetector(
-                                onTap: () {
-
-                                },
-                                child: Container(
+                              child: Container(
                                   margin: EdgeInsets.only(right: 12.0),
-                                  height: 24.0,
-                                  width: 24.0,
+                                  height: 32.0,
+                                  width: 32.0,
                                   child: Image.asset('assets/images/icons/deposit_icon_peach.png'),
-                                ),
                               ),
                             ),
                             Container(
@@ -553,9 +544,7 @@ class JobInfoCard extends StatelessWidget {
                           ],
                         ),
                         GestureDetector(
-                          onTap: () {
-
-                          },
+                          onTap: null,
                           child: Container(
                             margin: EdgeInsets.only(right: 12.0),
                             height: 24.0,

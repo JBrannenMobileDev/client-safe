@@ -29,8 +29,8 @@ class _ChildrenState extends State<Children> {
               pageState.numberOfChildren.toString(),
               textAlign: TextAlign.start,
               style: TextStyle(
-                fontSize: 64.0,
-                fontFamily: 'Raleway',
+                fontSize: 68.0,
+                fontFamily: 'simple',
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.primary_black),
               ),
@@ -41,8 +41,8 @@ class _ChildrenState extends State<Children> {
                   " have?",
               textAlign: TextAlign.start,
               style: TextStyle(
-                fontSize: 16.0,
-                fontFamily: 'Raleway',
+                fontSize: 20.0,
+                fontFamily: 'simple',
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.primary_black),
               ),

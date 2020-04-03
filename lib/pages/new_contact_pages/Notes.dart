@@ -41,8 +41,8 @@ class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin {
                     "? Interests? Passions? Important details?",
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.primary_black),
                 ),

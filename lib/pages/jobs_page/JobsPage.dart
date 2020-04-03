@@ -40,14 +40,18 @@ class _JobsPageState extends State<JobsPage> {
     genders = <int, Widget>{
       0: Text(JobsPage.FILTER_TYPE_IN_PROGRESS,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       1: Text(JobsPage.FILTER_TYPE_COMPETED,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 1
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -71,19 +75,24 @@ class _JobsPageState extends State<JobsPage> {
                           child: Text(
                             "Jobs",
                             style: TextStyle(
-                              fontFamily: 'Raleway',
+                              fontSize: 26.0,
+                              fontWeight: FontWeight.w800,
+                              fontFamily: 'simple',
                               color: const Color(ColorConstants.primary_black),
                             ),
                           ),
                         ),
                         actions: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.add_circle_outline),
-                            color: Color(ColorConstants.getPrimaryColor()),
-                            tooltip: 'Add',
-                            onPressed: () {
+                          GestureDetector(
+                            onTap: () {
                               UserOptionsUtil.showNewJobDialog(context);
                             },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 12.0),
+                              height: 24.0,
+                              width: 24.0,
+                              child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                            ),
                           ),
                         ],
                         bottom: PreferredSize(
@@ -91,7 +100,7 @@ class _JobsPageState extends State<JobsPage> {
                             width: 300.0,
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
-                              backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getPrimaryColor()),
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {

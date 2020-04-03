@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 class ImageUtil{
   static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";
   static const String DANDY_BG = "assets/images/backgrounds/home_background_4.png";
+  static const String JOB_DETAILS_BG = "assets/images/backgrounds/job_details_background.png";
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
   static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_lighter.png";
 
@@ -66,16 +67,66 @@ class ImageUtil{
     'assets/images/job_progress/job_complete.png',
   ];
 
-  static List<String> leadSourceIcons = [
-    'assets/images/lead_source_type/lead_source_word_of_mouth.png',
-    'assets/images/lead_source_type/lead_source_instagram.png',
-    'assets/images/lead_source_type/lead_source_giveaway.png',
-    'assets/images/lead_source_type/lead_source_website.png',
-    'assets/images/lead_source_type/lead_source_business_card.png',
-    'assets/images/lead_source_type/lead_source_facebook.png',
-    'assets/images/lead_source_type/lead_source_instagram_influencer.png',
-    'assets/images/lead_source_type/lead_source_other.png',
+  static List<String> leadSourceIconsWhite = [
+    'assets/images/icons/word_of_mouth_icon_white.png',
+    'assets/images/icons/instagram_icon_white.png',
+    'assets/images/icons/free_giveaway_icon_white.png',
+    'assets/images/icons/website_icon_white.png',
+    'assets/images/icons/business_card_icon_white.png',
+    'assets/images/icons/facebook_icon_white.png',
+    'assets/images/icons/wordpress_icon_white.png',
+    'assets/images/icons/email_icon_white.png',
   ];
+
+  static List<String> leadSourceIconsPeach = [
+    'assets/images/icons/word_of_mouth_icon_peach.png',
+    'assets/images/icons/instagram_icon_peach_light.png',
+    'assets/images/icons/free_giveaway_icon_peach.png',
+    'assets/images/icons/website_icon_peach.png',
+    'assets/images/icons/business_card_icon_peach.png',
+    'assets/images/icons/facebook_icon_peach.png',
+    'assets/images/icons/wordpress_icon_peach.png',
+    'assets/images/icons/email_icon_peach_light.png',
+  ];
+
+  static String getLeadSourceText(String fileLocation){
+    String leadSourceTitle = "";
+    switch(fileLocation){
+      case 'assets/images/icons/word_of_mouth_icon_white.png':
+      case 'assets/images/icons/word_of_mouth_icon_peach.png':
+        leadSourceTitle = Client.LEAD_SOURCE_WORD_OF_MOUTH;
+        break;
+      case 'assets/images/icons/instagram_icon_white.png':
+      case 'assets/images/icons/instagram_icon_peach_light.png':
+        leadSourceTitle = Client.LEAD_SOURCE_INSTAGRAM;
+        break;
+      case 'assets/images/icons/free_giveaway_icon_white.png':
+      case 'assets/images/icons/free_giveaway_icon_peach.png':
+        leadSourceTitle = Client.LEAD_SOURCE_GIVEAWAY;
+        break;
+      case 'assets/images/icons/website_icon_white.png':
+      case 'assets/images/icons/website_icon_peach.png':
+        leadSourceTitle = Client.LEAD_SOURCE_WEBSITE;
+        break;
+      case 'assets/images/icons/business_card_icon_white.png':
+      case 'assets/images/icons/business_card_icon_peach.png':
+        leadSourceTitle = Client.LEAD_SOURCE_BUSINESS_CARD;
+        break;
+      case 'assets/images/icons/facebook_icon_white.png':
+      case 'assets/images/icons/facebook_icon_peach.png':
+        leadSourceTitle = Client.LEAD_SOURCE_FACEBOOK;
+        break;
+      case 'assets/images/icons/wordpress_icon_white.png':
+      case 'assets/images/icons/wordpress_icon_peach.png':
+        leadSourceTitle = Client.LEAD_SOURCE_SOURCE_WORDPRESS;
+        break;
+      case 'assets/images/icons/email_icon_white.png':
+      case 'assets/images/icons/email_icon_peach_light.png':
+        leadSourceTitle = Client.LEAD_SOURCE_OTHER;
+        break;
+    }
+    return leadSourceTitle;
+  }
 
   static List<String> collectionIcons = [
     'assets/images/collection_icons/collection_pricing_profiles.png',
@@ -103,7 +154,7 @@ class ImageUtil{
   }
 
   static AssetImage getJobStageCompleteIconWhite() {
-    return AssetImage('assets/images/job_progress/complete_check.png');
+    return AssetImage('assets/images/job_progress/white_check.png');
   }
 
   static AssetImage getUndoImageAsset() {
@@ -217,37 +268,6 @@ class ImageUtil{
         iconName = 'Workflows';
     }
     return iconName;
-  }
-
-  static String getLeadSourceText(String fileLocation){
-    String leadSourceTitle = "";
-    switch(fileLocation){
-      case 'assets/images/lead_source_type/lead_source_word_of_mouth.png':
-        leadSourceTitle = Client.LEAD_SOURCE_WORD_OF_MOUTH;
-        break;
-      case 'assets/images/lead_source_type/lead_source_instagram.png':
-        leadSourceTitle = Client.LEAD_SOURCE_INSTAGRAM;
-        break;
-      case 'assets/images/lead_source_type/lead_source_giveaway.png':
-        leadSourceTitle = Client.LEAD_SOURCE_GIVEAWAY;
-        break;
-      case 'assets/images/lead_source_type/lead_source_website.png':
-        leadSourceTitle = Client.LEAD_SOURCE_WEBSITE;
-        break;
-      case 'assets/images/lead_source_type/lead_source_business_card.png':
-        leadSourceTitle = Client.LEAD_SOURCE_BUSINESS_CARD;
-        break;
-      case 'assets/images/lead_source_type/lead_source_facebook.png':
-        leadSourceTitle = Client.LEAD_SOURCE_FACEBOOK;
-        break;
-      case 'assets/images/lead_source_type/lead_source_instagram_influencer.png':
-        leadSourceTitle = Client.LEAD_SOURCE_SOCIAL_MEDIA_INFLUENCER;
-        break;
-      case 'assets/images/lead_source_type/lead_source_other.png':
-        leadSourceTitle = Client.LEAD_SOURCE_OTHER;
-        break;
-    }
-    return leadSourceTitle;
   }
 
   static AssetImage getRandomJobIcon(){

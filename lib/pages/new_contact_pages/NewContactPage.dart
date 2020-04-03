@@ -107,8 +107,8 @@ class _NewContactPageState extends State<NewContactPage> {
                             pageState.shouldClear ? "New Client" : "Edit Client",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 28.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -141,7 +141,7 @@ class _NewContactPageState extends State<NewContactPage> {
                       ),
                     ),
                     Container(
-                      height: currentPageIndex == 0 && pageState.deviceContacts.length > 0 ? 350.0 : 236.0,
+                      height: currentPageIndex == 0 && pageState.deviceContacts.length > 0 ? 350.0 : 256.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
@@ -178,8 +178,8 @@ class _NewContactPageState extends State<NewContactPage> {
                               pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
@@ -202,8 +202,8 @@ class _NewContactPageState extends State<NewContactPage> {
                                   : "Next",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
