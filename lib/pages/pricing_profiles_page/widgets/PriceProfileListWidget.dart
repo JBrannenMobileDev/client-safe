@@ -22,7 +22,7 @@ class PriceProfileListWidget extends StatelessWidget {
         },
         color: backgroundColor,
         shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(16.0),
+          borderRadius: new BorderRadius.circular(32.0),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,8 +58,8 @@ class PriceProfileListWidget extends StatelessWidget {
                             priceProfile.profileName,
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 22.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: textColor,
                             ),
@@ -69,8 +69,8 @@ class PriceProfileListWidget extends StatelessWidget {
                               priceProfile.rateType + ' - ' + _getRate(priceProfile),
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w400,
                                 color: textColor,
                               ),

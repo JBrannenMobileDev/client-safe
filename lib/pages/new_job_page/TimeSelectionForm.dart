@@ -36,8 +36,8 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                 "Select a time for this job.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.primary_black),
                 ),
@@ -63,8 +63,8 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                               : ""),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.getPrimaryColor()),
                       ),
@@ -79,8 +79,8 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                 pageState.selectedTime != null ? DateFormat('h:mm a').format(pageState.selectedTime) : '',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 28.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w800,
                   color: Color(ColorConstants.getPrimaryColor()),
                 ),

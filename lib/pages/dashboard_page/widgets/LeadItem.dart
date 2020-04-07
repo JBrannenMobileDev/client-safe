@@ -42,7 +42,7 @@ class LeadItem extends StatelessWidget{
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(bottom: 4.0),
+                      padding: EdgeInsets.only(bottom: 2.0),
                       child: Text(
                         client.getClientFullName(),
                         textAlign: TextAlign.start,
@@ -55,9 +55,9 @@ class LeadItem extends StatelessWidget{
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 4.0),
+                      padding: EdgeInsets.only(top: 2.0),
                       child: Text(
-                        client.getLeadSourceName(),
+                        client.getLeadSourceName() ?? 'Lead source unknown',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 18.0,

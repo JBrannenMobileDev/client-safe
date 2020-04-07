@@ -82,10 +82,12 @@ class NewJobTextField extends StatelessWidget {
             keyboardType: inputType,
             textCapitalization: capitalization,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
-            style: new TextStyle(
-                fontFamily: 'Raleway',
-                fontWeight: FontWeight.w600,
-                color: Color(ColorConstants.primary_black)),
+            style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: 'simple',
+              fontWeight: FontWeight.w600,
+              color: Color(ColorConstants.primary_black),
+            ),
           )),
     );
   }

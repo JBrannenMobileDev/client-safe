@@ -65,23 +65,13 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
                 "Select a date for this job.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.primary_black),
                 ),
               ),
             ),
-            pageState.selectedDate != null ? Text(
-                DateFormat('MMM d, yyyy').format(pageState.selectedDate),
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontFamily: 'Raleway',
-                  fontWeight: FontWeight.w800,
-                  color: Color(ColorConstants.getPrimaryColor()),
-                ),
-              ) : SizedBox(height: 21.0,),
             _buildTableCalendarWithBuilders(pageState),
             const SizedBox(height: .0),
             Expanded(child: _buildEventList(_getEventListForSelectedDate(pageState), pageState)),
@@ -106,16 +96,57 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         CalendarFormat.week: '',
       },
       initialSelectedDay: pageState.selectedDate,
-      calendarStyle: CalendarStyle(
+          calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
-        outsideWeekendStyle: TextStyle().copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        outsideHolidayStyle: TextStyle().copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        outsideStyle: TextStyle().copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        weekendStyle: TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
-        holidayStyle: TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
+        outsideWeekendStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark),
+          fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,
+        ),
+        selectedStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        unavailableStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        todayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        outsideHolidayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        outsideStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        weekendStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        weekdayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        holidayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle: TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
+        weekdayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        weekendStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
       ),
       headerStyle: HeaderStyle(
         centerHeaderTitle: true,

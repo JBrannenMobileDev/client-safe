@@ -70,8 +70,9 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                           ),
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
-                          style: new TextStyle(
-                              fontFamily: 'Raleway',
+                          style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black)),
                         ))
@@ -79,8 +80,8 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                       "What client is this job for?",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
                       ),
@@ -116,36 +117,21 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     ),
                   ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 6.0),
-                  child: Text(
-                    pageState.selectedClient != null
-                        ? pageState.selectedClient.getClientFullName()
-                        : "",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryColor()),
-                    ),
-                  ),
-                ),
                 pageState.filteredClients.length > 0 && pageState.isFinishedFetchingClients
                     ? ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: 65.0,
-                    maxHeight: 300.0,
-                  ),
-                  child: ListView.builder(
-                    reverse: false,
-                    padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
-                    shrinkWrap: true,
-                    controller: _controller,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: pageState.filteredClients.length,
-                    itemBuilder: _buildItem,
-                  ),
+                        constraints: BoxConstraints(
+                          minHeight: 65.0,
+                          maxHeight: 300.0,
+                        ),
+                        child: ListView.builder(
+                          reverse: false,
+                          padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                          shrinkWrap: true,
+                          controller: _controller,
+                          physics: ClampingScrollPhysics(),
+                          itemCount: pageState.filteredClients.length,
+                          itemBuilder: _buildItem,
+                        ),
                 ) : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -158,8 +144,8 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                             : "You have not added any clients yet.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 22.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),

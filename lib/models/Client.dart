@@ -128,29 +128,37 @@ class Client{
 
   String getLeadSourceName() {
     switch(leadSource){
-      case 'assets/images/lead_source_type/lead_source_word_of_mouth.png':
+      case 'assets/images/icons/word_of_mouth_icon_white.png':
+      case 'assets/images/icons/word_of_mouth_icon_peach.png':
         return 'Word of mouth';
         break;
-      case 'assets/images/lead_source_type/lead_source_instagram.png':
+      case 'assets/images/icons/instagram_icon_white.png':
+      case 'assets/images/icons/instagram_icon_peach_light.png':
         return 'Instagram';
         break;
-      case 'assets/images/lead_source_type/lead_source_giveaway.png':
+      case 'assets/images/icons/free_giveaway_icon_white.png':
+      case 'assets/images/icons/free_giveaway_icon_peach.png':
         return 'Giveaway';
         break;
-      case 'assets/images/lead_source_type/lead_source_website.png':
+      case 'assets/images/icons/website_icon_white.png':
+      case 'assets/images/icons/website_icon_peach.png':
         return 'Website';
         break;
-      case 'assets/images/lead_source_type/lead_source_business_card.png':
+      case 'assets/images/icons/business_card_icon_white.png':
+      case 'assets/images/icons/business_card_icon_peach.png':
         return 'Business card';
         break;
-      case 'assets/images/lead_source_type/lead_source_facebook.png':
+      case 'assets/images/icons/facebook_icon_white.png':
+      case 'assets/images/icons/facebook_icon_peach.png':
         return 'Facebook';
         break;
-      case 'assets/images/lead_source_type/lead_source_instagram_influencer.png':
-        return 'Influencer';
+      case 'assets/images/icons/wordpress_icon_white.png':
+      case 'assets/images/icons/wordpress_icon_peach.png':
+        return 'Wordpress';
         break;
-      case 'assets/images/lead_source_type/lead_source_other.png':
-        return 'Other';
+      case 'assets/images/icons/email_icon_white.png':
+      case 'assets/images/icons/email_icon_peach_light.png':
+        return 'Email';
         break;
     }
     return '';

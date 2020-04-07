@@ -16,9 +16,9 @@ class NewJobClientListWidget extends StatelessWidget {
       builder: (BuildContext context, NewJobPageState pageState) =>
           new FlatButton(
             shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(18.0),
+                borderRadius: new BorderRadius.circular(32.0),
             ),
-            color: pageState.filteredClients.elementAt(clientIndex).id == pageState.selectedClient?.id ? Color(ColorConstants.getPrimaryColor()) : Colors.transparent,
+            color: pageState.filteredClients.elementAt(clientIndex).id == pageState.selectedClient?.id ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
         onPressed: () {
           pageState.onClientSelected(pageState.filteredClients.elementAt(clientIndex));
         },
@@ -50,8 +50,8 @@ class NewJobClientListWidget extends StatelessWidget {
                         pageState.filteredClients.elementAt(clientIndex).getClientFullName(),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: pageState.filteredClients.elementAt(clientIndex).id == pageState.selectedClient?.id ? Colors.white : Color(ColorConstants.primary_black),
                         ),

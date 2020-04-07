@@ -58,7 +58,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     actions: <Widget>[
                       GestureDetector(
                         onTap: () {
-
+                          _ackAlert(context, pageState);
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 16.0),
@@ -70,7 +70,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-
+                          pageState.onEditClientClicked(pageState.client);
+                          UserOptionsUtil.showNewContactDialog(context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 16.0),

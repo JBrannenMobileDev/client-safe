@@ -97,8 +97,8 @@ class _NewJobPageState extends State<NewJobPage> {
                             pageState.shouldClear ? "New Job" : "Edit Job",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 28.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -160,8 +160,8 @@ class _NewJobPageState extends State<NewJobPage> {
                               pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
@@ -185,8 +185,8 @@ class _NewJobPageState extends State<NewJobPage> {
                                   : "Next",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
