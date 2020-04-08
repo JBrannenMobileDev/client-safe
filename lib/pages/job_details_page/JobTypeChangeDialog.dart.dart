@@ -25,14 +25,13 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<String> jobTypeIcons = ImageUtil.jobIcons;
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Dialog(
             backgroundColor: Colors.transparent,
             child: Container(
-              padding: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: EdgeInsets.only(left: 16.0, right: 16.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
@@ -42,58 +41,30 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(bottom: 32.0, top: 16.0),
+                    margin: EdgeInsets.only(bottom: 16.0, top: 16.0),
                     child: Text(
                       'Select a job type',
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
-                        fontWeight: FontWeight.w800,
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ),
-                  GridView.builder(
+                  ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: 65.0,
+                      maxHeight: 400.0,
+                    ),
+                    child: ListView.builder(
                       shrinkWrap: true,
+                      physics: AlwaysScrollableScrollPhysics(),
                       itemCount: 16,
-                      gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4),
-                      itemBuilder: (BuildContext context, int index) {
-                        return GestureDetector(
-                          onTap: () {
-                            pageState.onJobTypeSelected(jobTypeIcons.elementAt(index));
-                          },
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                height: 36.0,
-                                width: 36.0,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(jobTypeIcons.elementAt(index)),
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                                ),
-                                child: pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) != index ? new Container(
-                                  decoration: new BoxDecoration(
-                                      color: Colors.white.withOpacity(0.5)),
-                                ) : SizedBox(),
-                              ),
-                              Text(
-                                ImageUtil.getJobTypeText(jobTypeIcons.elementAt(index)),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 12.0,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      }),
+                      itemBuilder: _buildItem,
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 16.0),
                     child: Row(
@@ -107,8 +78,8 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                             'Cancel',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -124,8 +95,8 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                             'Save',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -136,6 +107,63 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                   ),
                 ],
               ),
+            ),
+          ),
+    );
+  }
+
+  Widget _buildItem(BuildContext context, int index) {
+    List<String> jobTypeIcons = ImageUtil.jobIcons;
+    return StoreConnector<AppState, JobDetailsPageState>(
+      converter: (store) => JobDetailsPageState.fromStore(store),
+      builder: (BuildContext context, JobDetailsPageState pageState) =>
+          FlatButton(
+            shape: RoundedRectangleBorder(
+              borderRadius: new BorderRadius.circular(32.0),
+            ),
+            color: pageState.jobTypeIcon != null &&
+                getIconPosition(pageState, jobTypeIcons) == index ? Color(
+                ColorConstants.getBlueDark()) : Colors.transparent,
+            onPressed: () {
+              pageState.onJobTypeSelected(
+                  jobTypeIcons.elementAt(index));
+            },
+            child: Row(
+              children: <Widget>[
+                pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Container(
+                  margin: EdgeInsets.only(right: 16.0),
+                  height: 28.0,
+                  width: 28.0,
+                  child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
+                ) : SizedBox(),
+                Expanded(
+                  child: Container(
+                    height: 64.0,
+                    margin: EdgeInsets.only(right: 32.0),
+                    child: Container(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            ImageUtil.getJobTypeText(jobTypeIcons.elementAt(
+                                index)),
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w600,
+                              color: pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Color(
+                                  ColorConstants.getPrimaryWhite()) : Color(
+                                  ColorConstants.getPeachDark()),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
     );

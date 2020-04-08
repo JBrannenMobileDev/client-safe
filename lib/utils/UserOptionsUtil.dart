@@ -15,6 +15,8 @@ import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'ColorConstants.dart';
+
 class UserOptionsUtil {
 
   static void showNewContactDialog(BuildContext context){
@@ -151,13 +153,24 @@ class UserOptionsUtil {
         context: context,
         builder: (BuildContext context) {
           return Container(
-            height: 200.0,
+            height: 154.0,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 ListTile(
-                  leading: Icon(Icons.person),
-                  title: Text("Add New Contact"),
+                  leading: Icon(
+                      Icons.person,
+                      color: Color(ColorConstants.getPrimaryBlack())
+                  ),
+                  title: Text(
+                      "Add New Contact",
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                  ),
                   onTap: () {
                     showDialog(
                       context: context,
@@ -168,8 +181,19 @@ class UserOptionsUtil {
                   },
                 ),
                 ListTile(
-                  leading: Icon(Icons.business_center),
-                  title: Text("Start New Job"),
+                  leading: Icon(
+                    Icons.business_center,
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                  title: Text(
+                      "Start New Job",
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                  ),
                   onTap: () {
                     showDialog(
                       context: context,
@@ -178,11 +202,6 @@ class UserOptionsUtil {
                       },
                     );
                   },
-                ),
-                ListTile(
-                  leading: Icon(Icons.folder),
-                  title: Text("Add to Collection"),
-                  onTap: () {},
                 ),
               ],
             ),

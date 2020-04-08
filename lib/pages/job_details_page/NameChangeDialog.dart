@@ -48,8 +48,8 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                       "Enter a simple and descriptive name for this job.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
                       ),
@@ -75,8 +75,8 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                             'Cancel',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -92,8 +92,8 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                             'Save',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black),
                             ),

@@ -38,7 +38,7 @@ class ClientSafeButton extends StatelessWidget{
         child: FlatButton(
           padding: EdgeInsets.all(0.0),
           shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(24.0),
+              borderRadius: new BorderRadius.circular(32.0),
               side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
           onPressed: () => urlText.length > 0 ? onPressed(urlText) : onPressed(),
           color: Color(ColorConstants.getPrimaryColor()),

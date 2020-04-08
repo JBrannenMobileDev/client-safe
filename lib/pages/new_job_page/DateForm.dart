@@ -151,6 +151,10 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       headerStyle: HeaderStyle(
         centerHeaderTitle: true,
         formatButtonVisible: false,
+        titleTextStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
       ),
       builders: CalendarBuilders(
         selectedDayBuilder: (context, date, _) {

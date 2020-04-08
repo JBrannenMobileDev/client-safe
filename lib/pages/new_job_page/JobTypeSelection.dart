@@ -81,6 +81,12 @@ class _JobTypeSelection extends State<JobTypeSelection>
             },
             child: Row(
               children: <Widget>[
+                pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Container(
+                  margin: EdgeInsets.only(right: 16.0),
+                  height: 28.0,
+                  width: 28.0,
+                  child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
+                ) : SizedBox(),
                 Expanded(
                   child: Container(
                     height: 64.0,
@@ -98,11 +104,9 @@ class _JobTypeSelection extends State<JobTypeSelection>
                               fontSize: 20.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: pageState.jobTypeIcon != null &&
-                                  getIconPosition(pageState, jobTypeIcons) ==
-                                      index ? Color(
+                              color: pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Color(
                                   ColorConstants.getPrimaryWhite()) : Color(
-                                  ColorConstants.getPrimaryBlack()),
+                                  ColorConstants.getPeachDark()),
                             ),
                           ),
                         ],

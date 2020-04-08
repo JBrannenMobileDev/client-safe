@@ -57,8 +57,8 @@ class JobDetailsCalendarItem extends StatelessWidget{
                               job.jobTitle,
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
@@ -79,8 +79,8 @@ class JobDetailsCalendarItem extends StatelessWidget{
                         'Stage: ' + JobStage.getStageTextFromValue(JobStage.getStageValue(job.stage.stage)),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 18.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w400,
                           color: Color(ColorConstants.primary_black),
                         ),
@@ -89,8 +89,8 @@ class JobDetailsCalendarItem extends StatelessWidget{
                         _getSubtext(job),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 14.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 18.0,
+                          fontFamily: 'simple',
                           fontWeight: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
                               ? FontWeight.w400 : FontWeight.w800,
                           color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null

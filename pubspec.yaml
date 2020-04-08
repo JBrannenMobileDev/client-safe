@@ -130,6 +130,7 @@ flutter:
     - assets/images/icons/email_icon_peach_light.png
     - assets/images/icons/business_card_icon_peach.png
     - assets/images/icons/business_card_icon_white.png
+    - assets/images/icons/briefcase_icon_white.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

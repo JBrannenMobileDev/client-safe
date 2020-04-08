@@ -40,7 +40,7 @@ class _LocationSelectionDialogState
               ),
               child: pageState.locations.length > 0
                   ? Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
@@ -49,8 +49,8 @@ class _LocationSelectionDialogState
                       "Select a location for this job.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 22.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w800,
                         color: Color(ColorConstants.primary_black),
                       ),
@@ -64,18 +64,15 @@ class _LocationSelectionDialogState
                           : "",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 22.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.getPrimaryColor()),
                       ),
                     ),
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                      minHeight: 65.0,
-                      maxHeight: 400.0,
-                    ),
+                  Container(
+                    height: 400.0,
                     child: ListView.builder(
                       reverse: false,
                       padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
@@ -100,8 +97,8 @@ class _LocationSelectionDialogState
                             'Cancel',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -117,8 +114,8 @@ class _LocationSelectionDialogState
                             'Save',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -136,11 +133,11 @@ class _LocationSelectionDialogState
                   Padding(
                     padding: EdgeInsets.only(bottom: 16.0, top: 64.0),
                     child: Text(
-                      "Select a locaiton for this job",
+                      "Select a location for this job",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 22.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w800,
                         color: Color(ColorConstants.primary_black),
                       ),
@@ -153,8 +150,8 @@ class _LocationSelectionDialogState
                           "Select the button below to create a new location.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
                       ),
@@ -162,7 +159,7 @@ class _LocationSelectionDialogState
                   ),
                   ClientSafeButton(
                     height: 64.0,
-                    width: double.infinity,
+                    width: 150.0,
                     text: "Location",
                     marginLeft: 32.0,
                     marginTop: 0.0,

@@ -40,8 +40,8 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                     'Please select completed job stages.',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 22.0,
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w600,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
