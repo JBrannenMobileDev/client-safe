@@ -83,6 +83,7 @@ flutter:
     - assets/images/backgrounds/income_background_lighter.png
     - assets/images/backgrounds/expenses_background_lighter.png
     - assets/images/backgrounds/job_details_background.png
+    - assets/images/backgrounds/dashboard_flowers_image.png
 
     - assets/images/instagram_logo_icon.png
 
@@ -131,7 +132,7 @@ flutter:
     - assets/images/icons/business_card_icon_peach.png
     - assets/images/icons/business_card_icon_white.png
     - assets/images/icons/briefcase_icon_white.png
-
+    - assets/images/icons/dandy_light_icon_white.png
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
     - assets/images/people/boy3.png

@@ -86,10 +86,10 @@ class _CalendarPageState extends State<CalendarPage>
                 child: Text(
                   "Calendar",
                   style: TextStyle(
-                    fontFamily: 'Raleway',
+                    fontFamily: 'simple',
                     color: const Color(ColorConstants.primary_black),
-                    fontSize: 22.0,
-                    fontWeight: FontWeight.w500,
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
@@ -140,24 +140,62 @@ class _CalendarPageState extends State<CalendarPage>
       initialSelectedDay: pageState.selectedDate,
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
-        outsideWeekendStyle: TextStyle()
-            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        outsideHolidayStyle: TextStyle()
-            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        outsideStyle: TextStyle()
-            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        weekendStyle:
-            TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
-        holidayStyle:
-            TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
+        outsideWeekendStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark),
+          fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,
+        ),
+        selectedStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        unavailableStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        todayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        outsideHolidayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        outsideStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        weekendStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        weekdayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        holidayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekendStyle:
-            TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
+        weekdayStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
+        weekendStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
       ),
       headerStyle: HeaderStyle(
         centerHeaderTitle: true,
         formatButtonVisible: false,
+        titleTextStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
       ),
       builders: CalendarBuilders(
         selectedDayBuilder: (context, date, _) {

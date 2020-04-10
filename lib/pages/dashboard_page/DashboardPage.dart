@@ -10,6 +10,7 @@ import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -87,15 +88,11 @@ class _DashboardPageState extends State<DashboardPage>
               children: <Widget>[
                 Container(
                   decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPeachLight()),
-                    image: DecorationImage(
-                      image: AssetImage(ImageUtil.DANDY_BG),
-                      repeat: ImageRepeat.repeat,
-                      fit: BoxFit.contain,
-                    ),
+                    color: Color(ColorConstants.getBlueLight()),
                   ),
                 ),
                 CustomScrollView(
+                  physics: new ClampingScrollPhysics(),
                   controller: _scrollController,
                   slivers: <Widget>[
                     new SliverAppBar(
@@ -106,11 +103,11 @@ class _DashboardPageState extends State<DashboardPage>
                       title: Padding(
                         padding: EdgeInsets.only(left: 0.0),
                         child: Text(
-                          'DandyLight',
+                          'Dashboard',
                           style: TextStyle(
                             fontSize: 26.0,
                             fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
@@ -157,76 +154,39 @@ class _DashboardPageState extends State<DashboardPage>
                       ],
                       flexibleSpace: new FlexibleSpaceBar(
                         background: Stack(
-                          alignment: Alignment.topLeft,
+                          alignment: Alignment.bottomRight,
                           children: <Widget>[
                             Container(
-                              padding: EdgeInsets.only(top: 56.0),
-                              alignment: Alignment.topCenter,
-                              child: SafeArea(
-                                child: Text(
-                                  'Missions',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 24.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                  ),
+                              height: 700.0,
+                              alignment: Alignment.bottomLeft,
+                              child: Image.asset(
+                                "assets/images/backgrounds/dashboard_flowers_image.png",
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 135.0, right: 32.0),
+                              child: Text(
+                                'DandyLight',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontSize: 42.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w900,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
                                 ),
                               ),
                             ),
                             Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(top: 112.0, left: 48.0),
-                              height: 150.0,
-                              width: 150.0,
-                              child: Stack(
-                                alignment: Alignment.center,
-                                children: <Widget>[
-                                  FadeTransition(
-                                    opacity: _circleOpacity,
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      height: _circleSize.value,
-                                      width: _circleSize.value,
-                                      decoration: new BoxDecoration(
-                                        color: Colors.white30,
-                                        shape: BoxShape.circle,
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 96.0,
-                                    width: 96.0,
-                                    padding: EdgeInsets.only(bottom: 18.0, right: 18.0, top: 8.0, left: 8.0),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(48.0),
-                                      color: Colors.white,
-                                    ),
-                                    child: Image.asset(
-                                      "assets/images/reminders/welcome_hand.png",
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(left: 80.0, top: 242.0),
-                              child: Stack(
-                                alignment: Alignment.topLeft,
-                                children: <Widget>[
-                                  Text(
-                                    'Welcome!',
-                                    textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w800,
-                                      color: Color(
-                                          ColorConstants.getPrimaryWhite()),
-                                    ),
-                                  ),
-                                ],
+                              margin: EdgeInsets.only(bottom: 80.0, right: 32.0),
+                              child: Text(
+                                'Business managment made simple \nFocus on what you love',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
                               ),
                             ),
                           ],

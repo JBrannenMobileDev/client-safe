@@ -118,7 +118,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPrimaryColor()),
+                        color: Color(ColorConstants.getBlueLight()),
                         image: DecorationImage(
                           image: AssetImage(ImageUtil.JOB_DETAILS_BG),
                           repeat: ImageRepeat.repeat,

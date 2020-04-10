@@ -14,11 +14,13 @@ class JobsHomeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.transparent,
       child: Stack(
 
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
+            color: Colors.transparent,
             margin: EdgeInsets.only(top: 40.0),
             height: pageState.currentJobs.length > 0 ? pageState.currentJobs.length == 1 ? 124.0 : 189.0 : 64.0,
           ),
