@@ -21,7 +21,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   void _loadAllJobs(Store<AppState> store, action, NextDispatcher next) async {
     List<Job> allJobs = await JobDao.getAllJobs();
     store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
-    store.dispatch(SetJobToStateAction(store.state.dashboardPageState, JobUtil.getJobsInProgress(allJobs)));
+    store.dispatch(SetJobToStateAction(store.state.dashboardPageState, JobUtil.getUpComingJobs(allJobs)));
   }
 
   void _loadClients(Store<AppState> store, action, NextDispatcher next) async {

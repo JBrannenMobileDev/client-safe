@@ -8,6 +8,14 @@ class JobUtil {
     return _jobsInProgress;
   }
 
+  static List<Job> getUpComingJobs(List<Job> jobs) {
+    DateTime now = DateTime.now();
+    DateTime currentDate = DateTime.utc(now.year, now.month, now.day, 23,59,59,0,0);
+    List<Job> _jobsInProgress = jobs.where((job) => (job.selectedDate.isAfter(currentDate))).toList();
+    _jobsInProgress.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
+    return _jobsInProgress;
+  }
+
   static List<Job> getJobsCompleted(List<Job> jobs) {
     List<Job> _jobsCompleted = jobs.where((job) => (_containsJobStage(JobStage.STAGE_14_JOB_COMPLETE, job.completedStages))).toList();
     _jobsCompleted.sort((job1, job2) => job2.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);

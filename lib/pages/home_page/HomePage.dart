@@ -1,7 +1,3 @@
-import 'package:client_safe/models/ClientListItem.dart';
-import 'package:client_safe/models/LeadListItem.dart';
-import 'package:client_safe/models/ListItem.dart';
-import 'package:client_safe/models/TitleListItem.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:client_safe/pages/collections_page/CollectionsPage.dart';
 import 'package:client_safe/pages/clients_page/ClientsPage.dart';

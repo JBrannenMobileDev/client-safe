@@ -10,6 +10,7 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
@@ -270,8 +271,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
-    store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
     await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
@@ -281,7 +282,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     completedJobStages = _removeStage(stageToRemove, completedJobStages);
     action.job.completedStages = completedJobStages;
     JobStage highestCompletedState;
-    for(JobStage completedStage in action.job.completedStages){
+    for(JobStage completedStage in completedJobStages){
       if(highestCompletedState == null) highestCompletedState = completedStage;
       if(completedStage.value > highestCompletedState.value) highestCompletedState = completedStage;
     }
@@ -304,8 +305,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
-    store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, jobToSave, action.stageIndex));
-     await JobDao.insertOrUpdate(jobToSave);
+    await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 

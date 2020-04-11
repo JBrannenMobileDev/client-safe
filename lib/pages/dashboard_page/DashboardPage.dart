@@ -26,8 +26,7 @@ class DashboardPage extends StatefulWidget {
   }
 }
 
-class _DashboardPageState extends State<DashboardPage>
-    with TickerProviderStateMixin {
+class _DashboardPageState extends State<DashboardPage> with TickerProviderStateMixin{
   ScrollController _scrollController;
   AnimationController _controller;
   AnimationController _repeatController;
@@ -57,8 +56,6 @@ class _DashboardPageState extends State<DashboardPage>
       curve: Curves.fastOutSlowIn,
     ));
     _circleSize.addListener(() => this.setState(() {}));
-//    _controller.repeat();
-//    _repeatController.repeat();
   }
 
   @override
@@ -72,8 +69,7 @@ class _DashboardPageState extends State<DashboardPage>
   Widget build(BuildContext context) =>
       StoreConnector<AppState, DashboardPageState>(
         onInit: (store) => {
-          store.dispatch(
-              new InitDashboardPageAction(store.state.dashboardPageState)),
+          store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState)),
           store.dispatch(new LoadJobsAction(store.state.dashboardPageState)),
         },
         onDispose: (store) => store.dispatch(
@@ -177,14 +173,15 @@ class _DashboardPageState extends State<DashboardPage>
                               ),
                             ),
                             Container(
-                              margin: EdgeInsets.only(bottom: 80.0, right: 32.0),
+                              width: 175.0,
+                              margin: EdgeInsets.only(bottom: 75.0, right: 32.0),
                               child: Text(
-                                'Business managment made simple \nFocus on what you love',
+                                'Capture the moment We\'ll do the rest',
                                 textAlign: TextAlign.end,
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 22.0,
                                   fontFamily: 'simple',
-                                  fontWeight: FontWeight.w800,
+                                  fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.getPrimaryWhite()),
                                 ),
                               ),

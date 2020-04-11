@@ -44,9 +44,9 @@ class JobCompletedItem extends StatelessWidget{
                         job.jobTitle,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w600,
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
@@ -55,8 +55,8 @@ class JobCompletedItem extends StatelessWidget{
                       job.clientName + ' · ' + job.getJobType(),
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 14.0,
-                        fontFamily: 'Raleway',
+                        fontSize: 18.0,
+                        fontFamily: 'simple',
                         fontWeight: FontWeight.w400,
                         color: Color(ColorConstants.primary_black),
                       ),

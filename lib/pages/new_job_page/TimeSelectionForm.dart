@@ -73,19 +73,6 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                 ],
               ),
             ) : SizedBox(),
-            Padding(
-              padding: EdgeInsets.only(bottom: 8.0),
-              child: Text(
-                pageState.selectedTime != null ? DateFormat('h:mm a').format(pageState.selectedTime) : '',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 28.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w800,
-                  color: Color(ColorConstants.getPrimaryColor()),
-                ),
-              ),
-            ),
             Container(
               height: 200.0,
               child: CupertinoDatePicker(
