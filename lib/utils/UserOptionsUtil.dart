@@ -191,6 +191,7 @@ class UserOptionsUtil {
                       ),
                   ),
                   onTap: () {
+                    Navigator.of(context).pop();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
@@ -214,6 +215,7 @@ class UserOptionsUtil {
                       ),
                   ),
                   onTap: () {
+                    Navigator.of(context).pop();
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {

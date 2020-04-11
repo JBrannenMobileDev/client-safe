@@ -30,3 +30,8 @@ class SetClientsDashboardAction{
   final List<Client> clients;
   SetClientsDashboardAction(this.pageState, this.clients);
 }
+
+class UpdateShowHideState{
+  final DashboardPageState pageState;
+  UpdateShowHideState(this.pageState);
+}

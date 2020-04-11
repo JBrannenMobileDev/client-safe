@@ -6,13 +6,20 @@ import 'DashboardPageActions.dart';
 import 'DashboardPageState.dart';
 
 final dashboardPageReducer = combineReducers<DashboardPageState>([
-  new TypedReducer<DashboardPageState, InitDashboardPageAction>(_setupDataListeners),
-  new TypedReducer<DashboardPageState, SetJobToStateAction>(_setJobs),
-  new TypedReducer<DashboardPageState, SetClientsDashboardAction>(_setClients),
+  TypedReducer<DashboardPageState, InitDashboardPageAction>(_setupDataListeners),
+  TypedReducer<DashboardPageState, SetJobToStateAction>(_setJobs),
+  TypedReducer<DashboardPageState, SetClientsDashboardAction>(_setClients),
+  TypedReducer<DashboardPageState, UpdateShowHideState>(_updateShowHideState),
 ]);
 
 DashboardPageState _setupDataListeners(DashboardPageState previousState, InitDashboardPageAction action) {
   return previousState.copyWith(jobsProfitTotal: "\$50");
+}
+
+DashboardPageState _updateShowHideState(DashboardPageState previousState, UpdateShowHideState action) {
+  return previousState.copyWith(
+      isMinimized: !previousState.isMinimized,
+  );
 }
 
 DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateAction action) {
@@ -26,7 +33,7 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
 
   for(Client client in action.clients){
     bool clientHasJob = false;
-    for(Job job in previousState.currentJobs) {
+    for(Job job in previousState.upcomingJobs) {
       if(client.id == job.clientId) clientHasJob = true;
     }
     if(!clientHasJob){

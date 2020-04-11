@@ -22,12 +22,13 @@ class JobsHomeCard extends StatelessWidget {
           Container(
             color: Colors.transparent,
             margin: EdgeInsets.only(top: 40.0),
-            height: pageState.currentJobs.length > 0 ? pageState.currentJobs.length == 1 ? 124.0 : 189.0 : 64.0,
+            height: pageState.upcomingJobs.length > 0 ? pageState.upcomingJobs.length == 1 ? 124.0 : 189.0 : 64.0,
           ),
           BaseHomeCardInProgress(
             cardTitle: "Upcoming Jobs",
             pageState: pageState,
-            jobs: pageState.currentJobs,
+            jobs: pageState.isMinimized ? (pageState.upcomingJobs.length > 3? pageState.upcomingJobs.sublist(0, 3) : pageState.upcomingJobs)
+            : pageState.upcomingJobs,
           ),
         ],
       ),

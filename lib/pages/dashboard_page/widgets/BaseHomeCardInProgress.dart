@@ -1,7 +1,9 @@
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
+import 'package:client_safe/pages/home_page/HomePage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 class BaseHomeCardInProgress extends StatelessWidget{
@@ -39,16 +41,21 @@ class BaseHomeCardInProgress extends StatelessWidget{
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),
-                  Text(
-                    "View all",
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w400,
-                      color: Color(ColorConstants.primary_black),
+                  FlatButton(
+                    onPressed: () {
+                      pageState.onViewAllHideSelected();
+                    },
+                    child: Text(
+                      pageState.isMinimized ? 'View all' : 'Hide',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w400,
+                        color: Color(ColorConstants.primary_black),
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
