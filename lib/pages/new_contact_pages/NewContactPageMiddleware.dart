@@ -48,7 +48,14 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     );
     await ClientDao.insertOrUpdate(client);
     DeviceContactsDao.addOrUpdateContact(client);
-    store.dispatch(ClearStateAction(store.state.newContactPageState));
+    List<Client> clients = await ClientDao.getAllSortedByFirstName();
+    for(Client client in clients){
+      if((client.phone.isNotEmpty && (client.phone == store.state.newContactPageState.newContactPhone)) ||
+          (client.email.isNotEmpty && (client.email == store.state.newContactPageState.newContactEmail)) ||
+          (client.instagramProfileUrl.isNotEmpty && (client.instagramProfileUrl == store.state.newContactPageState.newContactInstagramUrl))){
+        store.dispatch(SetSavedClientToState(store.state.newContactPageState, client));
+      }
+    }
     store.dispatch(FetchClientData(store.state.clientsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));

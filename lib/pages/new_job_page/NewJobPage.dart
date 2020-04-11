@@ -13,6 +13,7 @@ import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/PricingProfileSelectionForm.dart';
 import 'package:client_safe/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -88,9 +89,21 @@ class _NewJobPageState extends State<NewJobPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Stack(
-                      alignment: Alignment.center,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(left: 16.0),
+                          child: IconButton(
+                            icon: const Icon(Icons.close),
+                            tooltip: 'Delete',
+                            color: Color(ColorConstants.getPrimaryColor()),
+                            onPressed: () {
+                              pageState.onCancelPressed();
+                              Navigator.of(context).pop(true);
+                            },
+                          ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 4.0),
                           child: Text(
@@ -104,17 +117,20 @@ class _NewJobPageState extends State<NewJobPage> {
                             ),
                           ),
                         ),
-                        Container(
-                          margin: EdgeInsets.only(right: 300.0),
-                          child: IconButton(
-                            icon: const Icon(Icons.close),
-                            tooltip: 'Delete',
-                            color: Color(ColorConstants.getPrimaryColor()),
-                            onPressed: () {
-                              pageState.onCancelPressed();
-                              Navigator.of(context).pop(true);
-                            },
+                        pageState.pageViewIndex == 2 || pageState.pageViewIndex == 4 ? GestureDetector(
+                          onTap: () {
+                            if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
+                            if(pageState.pageViewIndex == 4) UserOptionsUtil.showNewLocationDialog(context);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 24.0),
+                            height: 28.0,
+                            width: 28.0,
+                            child: Image.asset('assets/images/icons/plus_icon_peach.png'),
                           ),
+                        ) : SizedBox(
+                          height: 28.0,
+                          width: 52.0,
                         ),
                       ],
                     ),
@@ -264,6 +280,7 @@ class _NewJobPageState extends State<NewJobPage> {
   void onFlareCompleted(String unused, ) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
+    Navigator.of(context).pop();
   }
 
   void onBackPressed(NewJobPageState pageState) {

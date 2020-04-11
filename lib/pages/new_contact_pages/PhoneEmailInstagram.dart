@@ -79,7 +79,8 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   <TextInputFormatter>[
                     WhitelistingTextInputFormatter.digitsOnly,
                     _mobileFormatter,
-                  ]),
+                  ],
+                  true),
               NewContactTextField(
                   emailTextController,
                   "Email",
@@ -91,7 +92,8 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   _emailFocus,
                   onEmailAction,
                   TextCapitalization.none,
-                  null),
+                  null,
+                  true),
               NewContactTextField(
                   instagramUrlTextController,
                   "Instagram URL",
@@ -103,7 +105,8 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   _instagramFocus,
                   onInstagramAction,
                   TextCapitalization.none,
-                  null),
+                  null,
+                  true),
             ],
           ),
         ),

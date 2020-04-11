@@ -13,6 +13,7 @@ import 'package:client_safe/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:client_safe/pages/new_contact_pages/ProfileIcons.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/InputValidatorUtil.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/UserPermissionsUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -325,6 +326,7 @@ class _NewContactPageState extends State<NewContactPage> {
         pageState.onNextPressed();
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
+        FocusScope.of(context).unfocus();
       }
     }
     if (pageState.pageViewIndex == pageCount) {
@@ -354,6 +356,7 @@ class _NewContactPageState extends State<NewContactPage> {
   void onFlareCompleted(String unused) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
+    UserOptionsUtil.showJobPromptDialog(context);
   }
 
   void onBackPressed(NewContactPageState pageState) {

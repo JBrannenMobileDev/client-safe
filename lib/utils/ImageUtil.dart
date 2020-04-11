@@ -129,11 +129,16 @@ class ImageUtil{
   }
 
   static List<String> collectionIcons = [
-    'assets/images/collection_icons/collection_pricing_profiles.png',
-    'assets/images/collection_icons/collection_photoshoot_locations.png',
-    'assets/images/collection_icons/collection_example_poses.png',
-    'assets/images/collection_icons/collection_contracts.png',
-    'assets/images/collection_icons/collection_work_flows.png',
+    'assets/images/collection_icons/poses_icon_white.png',
+    'assets/images/collection_icons/location_icon_white.png',
+    'assets/images/collection_icons/reminder_icon_white.png',
+    'assets/images/collection_icons/packages_icon_white.png',
+    'assets/images/collection_icons/contract_icon_white.png',
+    'assets/images/collection_icons/checklist_icon_white.png',
+    'assets/images/collection_icons/questionaire_icon_white.png',
+    'assets/images/collection_icons/workflow_icon_white.png',
+    'assets/images/collection_icons/auto_responses_icon_white.png',
+    'assets/images/collection_icons/automation_icon_white.png',
   ];
 
   static String locationPin = 'assets/images/collection_icons/location_pin.png';
@@ -250,22 +255,38 @@ class ImageUtil{
   }
 
   static String getCollectionIconName(String fileLocation){
-    String iconName = "";
+    String iconName = '';
     switch(fileLocation){
-      case 'assets/images/collection_icons/collection_pricing_profiles.png':
-        iconName = "Packages";
+      case 'assets/images/collection_icons/poses_icon_white.png':
+        iconName = 'Poses';
         break;
-      case 'assets/images/collection_icons/collection_photoshoot_locations.png':
-        iconName = "Locations";
+      case 'assets/images/collection_icons/location_icon_white.png':
+        iconName = 'Locations';
         break;
-      case 'assets/images/collection_icons/collection_contracts.png':
-        iconName = "Contracts";
+      case 'assets/images/collection_icons/reminder_icon_white.png':
+        iconName = 'Reminders';
         break;
-      case 'assets/images/collection_icons/collection_example_poses.png':
-        iconName = "Poses";
+      case 'assets/images/collection_icons/packages_icon_white.png':
+        iconName = 'Price Packages';
         break;
-      case 'assets/images/collection_icons/collection_work_flows.png':
-        iconName = 'Workflows';
+      case 'assets/images/collection_icons/contract_icon_white.png':
+        iconName = 'Contracts';
+        break;
+      case 'assets/images/collection_icons/checklist_icon_white.png':
+        iconName = 'Checklists';
+        break;
+      case 'assets/images/collection_icons/questionaire_icon_white.png':
+        iconName = 'Questionaires';
+        break;
+      case 'assets/images/collection_icons/workflow_icon_white.png':
+        iconName = 'Job Stages';
+        break;
+      case 'assets/images/collection_icons/auto_responses_icon_white.png':
+        iconName = 'Auto Responses';
+        break;
+      case 'assets/images/collection_icons/automation_icon_white.png':
+        iconName = 'Automation';
+        break;
     }
     return iconName;
   }

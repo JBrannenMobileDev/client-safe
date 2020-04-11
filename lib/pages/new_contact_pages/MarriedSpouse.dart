@@ -17,7 +17,6 @@ class MarriedSpouse extends StatefulWidget {
 
 class _MarriedSpouseState extends State<MarriedSpouse>
     with TickerProviderStateMixin, AutomaticKeepAliveClientMixin {
-  AnimationController _controller;
   final firstNameTextController = TextEditingController();
   final lastNameTextController = TextEditingController();
   final FocusNode _firstNameFocus = FocusNode();
@@ -28,8 +27,6 @@ class _MarriedSpouseState extends State<MarriedSpouse>
   @override
   void initState() {
     super.initState();
-    _controller = new AnimationController(
-        vsync: this, duration: new Duration(milliseconds: 250));
   }
 
   @override
@@ -74,14 +71,11 @@ class _MarriedSpouseState extends State<MarriedSpouse>
             Container(
           alignment: Alignment.center,
           margin: EdgeInsets.only(left: 26.0, right: 26.0),
-          child: Stack(
+          child: Column(
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(
-                    bottom:
-                        getRelationshipIndex(pageState.relationshipStatus) != 2
-                            ? 169.0
-                            : 0.0),
+                    bottom: 0.0),
                 alignment: Alignment.center,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -100,7 +94,7 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 12.0),
+                      margin: EdgeInsets.only(top: 16.0),
                       width: 250.0,
                       child: CupertinoSlidingSegmentedControl<int>(
                         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
@@ -111,13 +105,6 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                             selectorIndex = statusIndex;
                           });
                           pageState.onRelationshipStatusChanged(statusIndex);
-                          setState(() {
-                            if (statusIndex == 0 || statusIndex == 1) {
-                              _controller.forward();
-                            } else {
-                              _controller.reverse();
-                            }
-                          });
                           pageState.onRelationshipStatusChanged(statusIndex);
                         },
                         groupValue: selectorIndex,
@@ -126,20 +113,11 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                   ],
                 ),
               ),
-              AnimatedOpacity(
-                opacity: getRelationshipIndex(pageState.relationshipStatus) == 2
-                    ? 0.0
-                    : 1.0,
-                duration: Duration(milliseconds: 250),
-                child: Container(
-                  margin: EdgeInsets.only(top: 72.0),
+              Container(
+                  margin: EdgeInsets.only(top: 16.0),
                   child: Column(
                     children: <Widget>[
-                      getRelationshipIndex(pageState.relationshipStatus) == 1 ||
-                              getRelationshipIndex(
-                                      pageState.relationshipStatus) ==
-                                  0
-                          ? NewContactTextField(
+                      NewContactTextField(
                               firstNameTextController,
                               "First Name",
                               TextInputType.text,
@@ -150,13 +128,10 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                               _firstNameFocus,
                               onFirstNameAction,
                               TextCapitalization.words,
-                              null)
-                          : SizedBox(),
-                      getRelationshipIndex(pageState.relationshipStatus) == 1 ||
-                              getRelationshipIndex(
-                                      pageState.relationshipStatus) ==
-                                  0
-                          ? NewContactTextField(
+                              null,
+                              getRelationshipIndex(pageState.relationshipStatus) == 1 || getRelationshipIndex(pageState.relationshipStatus) == 0
+                                ? true : false),
+                      NewContactTextField(
                               lastNameTextController,
                               "Last Name",
                               TextInputType.text,
@@ -167,12 +142,12 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                               _lastNameFocus,
                               onLastNameAction,
                               TextCapitalization.words,
-                              null)
-                          : SizedBox(),
+                              null,
+                              getRelationshipIndex(pageState.relationshipStatus) == 1 || getRelationshipIndex(pageState.relationshipStatus) == 0
+                                  ? true : false),
                     ],
                   ),
                 ),
-              ),
             ],
           ),
         ),

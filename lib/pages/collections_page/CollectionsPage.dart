@@ -36,7 +36,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 child: Text(
                   "My Collections",
                   style: TextStyle(
-                    fontFamily: 'Raleway',
+                    fontSize: 26.0,
+                    fontWeight: FontWeight.w800,
+                    fontFamily: 'simple',
                     color: const Color(ColorConstants.primary_black),
                   ),
                 ),
@@ -59,7 +61,8 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     padding: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0),
                     child: GridView.builder(
                         shrinkWrap: true,
-                        itemCount: 5,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: 10,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
@@ -70,14 +73,14 @@ class _CollectionsPageState extends State<CollectionsPage> {
                             child: Column(
                               children: <Widget>[
                                 Container(
+                                  padding: EdgeInsets.all(24.0),
                                   height: 116.0,
                                   width: 116.0,
                                   decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                      image: AssetImage(collectionIcons.elementAt(index)),
-                                      fit: BoxFit.contain,
-                                    ),
+                                    color: getCircleColor(index),
+                                    shape: BoxShape.circle,
                                   ),
+                                  child: Image.asset(collectionIcons.elementAt(index)),
                                 ),
                                 Center(
                                   child: Container(
@@ -86,8 +89,8 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                       ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'Raleway',
+                                        fontSize: 20.0,
+                                        fontFamily: 'simple',
                                         color: const Color(ColorConstants.primary_black),
                                       ),
                                     ),
@@ -126,5 +129,42 @@ class _CollectionsPageState extends State<CollectionsPage> {
 
         break;
     }
+  }
+
+  Color getCircleColor(int index) {
+    Color color = Color(ColorConstants.getPeachDark());
+    switch(index) {
+      case 0:
+        color = Color(ColorConstants.getPeachDark());
+        break;
+      case 1:
+        color = Color(ColorConstants.getBlueDark());
+        break;
+      case 2:
+        color = Color(ColorConstants.getBlueLight());
+        break;
+      case 3:
+        color = Color(ColorConstants.getPrimaryColor());
+        break;
+      case 4:
+        color = Color(ColorConstants.getPeachLight());
+        break;
+      case 5:
+        color = Color(ColorConstants.getPeachDark());
+        break;
+      case 6:
+        color = Color(ColorConstants.getBlueDark());
+        break;
+      case 7:
+        color = Color(ColorConstants.getBlueLight());
+        break;
+      case 8:
+        color = Color(ColorConstants.getPrimaryColor());
+        break;
+      case 9:
+        color = Color(ColorConstants.getPeachLight());
+        break;
+    }
+    return color;
   }
 }

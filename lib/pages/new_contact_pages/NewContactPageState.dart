@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/ImportantDate.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as jobActions;
 import 'package:contacts_service/contacts_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -38,6 +39,7 @@ class NewContactPageState {
   final String leadSource;
   final String clientIcon;
   final String errorState;
+  final Client client;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -62,6 +64,7 @@ class NewContactPageState {
   final Function(Contact) onDeviceContactSelected;
   final Function() onCloseSelected;
   final Function(String) onContactSearchTextChanged;
+  final Function() onStartNewJobSelected;
 
   NewContactPageState({
     @required this.id,
@@ -87,6 +90,7 @@ class NewContactPageState {
     @required this.leadSource,
     @required this.clientIcon,
     @required this.errorState,
+    @required this.client,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -111,6 +115,7 @@ class NewContactPageState {
     @required this.onDeviceContactSelected,
     @required this.onCloseSelected,
     @required this.onContactSearchTextChanged,
+    @required this.onStartNewJobSelected,
   });
 
   NewContactPageState copyWith({
@@ -137,6 +142,7 @@ class NewContactPageState {
     String leadSource,
     String clientIcon,
     String errorState,
+    Client client,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -161,6 +167,7 @@ class NewContactPageState {
     Function(Contact) onDeviceContactSelected,
     Function() onCLoseSelected,
     Function(String) onContactSearchTextChanged,
+    Function() onStartNewJobSelected,
   }){
     return NewContactPageState(
       id: id?? this.id,
@@ -186,6 +193,7 @@ class NewContactPageState {
       leadSource: leadSource?? this.leadSource,
       clientIcon: clientIcon?? this.clientIcon,
       errorState: errorState?? this.errorState,
+      client: client ?? this.client,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -210,6 +218,7 @@ class NewContactPageState {
       onDeviceContactSelected: onDeviceContactSelected?? this.onDeviceContactSelected,
       onCloseSelected: onCLoseSelected?? this.onCloseSelected,
       onContactSearchTextChanged: onContactSearchTextChanged?? this.onContactSearchTextChanged,
+      onStartNewJobSelected: onStartNewJobSelected ?? this.onStartNewJobSelected,
     );
   }
 
@@ -237,6 +246,7 @@ class NewContactPageState {
         leadSource: null,
         clientIcon: null,
         errorState: NO_ERROR,
+        client: null,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -261,6 +271,7 @@ class NewContactPageState {
         onDeviceContactSelected: null,
         onCloseSelected: null,
         onContactSearchTextChanged: null,
+        onStartNewJobSelected: null,
       );
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
@@ -288,6 +299,7 @@ class NewContactPageState {
       leadSource: store.state.newContactPageState.leadSource,
       clientIcon: store.state.newContactPageState.clientIcon,
       errorState: store.state.newContactPageState.errorState,
+      client: store.state.newContactPageState.client,
       onSavePressed: () => store.dispatch(SaveNewContactAction(store.state.newContactPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
@@ -312,12 +324,15 @@ class NewContactPageState {
       onDeviceContactSelected: (contact) => store.dispatch(SetSelectedDeviceContactAction(store.state.newContactPageState, contact)),
       onCloseSelected: () => store.dispatch(ClearDeviceContactsAction(store.state.newContactPageState)),
       onContactSearchTextChanged: (text) => store.dispatch(FilterDeviceContactsAction(store.state.newContactPageState, text)),
+      onStartNewJobSelected: () => store.dispatch(jobActions.InitializeNewContactPageAction(store.state.newJobPageState, store.state.newContactPageState.client)),
     );
   }
 
   @override
   int get hashCode =>
       id.hashCode ^
+      client.hashCode ^
+      onStartNewJobSelected.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       isFemale.hashCode ^
@@ -388,6 +403,8 @@ class NewContactPageState {
           selectedDeviceContact == other.selectedDeviceContact &&
           searchText == other.searchText &&
           notes == other.notes &&
+          onStartNewJobSelected == other.onStartNewJobSelected &&
+          client == other.client &&
           leadSource == other.leadSource &&
           clientIcon == other.clientIcon &&
           errorState == other.errorState &&

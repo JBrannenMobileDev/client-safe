@@ -49,7 +49,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                 children: <Widget>[
                   Container(
                     child: new Image.asset(
-                      'assets/images/sunset.png',
+                      'assets/images/icons/sunset_icon_peach.png',
                       height: 48.0,
                       fit: BoxFit.cover,
                     ),
@@ -65,8 +65,8 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                       style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryColor()),
+                        fontWeight: FontWeight.w800,
+                        color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
                   )

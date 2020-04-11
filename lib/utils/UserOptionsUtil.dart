@@ -6,6 +6,7 @@ import 'package:client_safe/pages/job_details_page/NewDateSelectionDialog.dart';
 import 'package:client_safe/pages/job_details_page/PricePackageChangeDialog.dart.dart';
 import 'package:client_safe/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
+import 'package:client_safe/pages/new_contact_pages/StartJobPromptDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewLineItemDialog.dart';
@@ -91,6 +92,15 @@ class UserOptionsUtil {
     );
   }
 
+  static void showJobPromptDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StartJobPromptDialog();
+      },
+    );
+  }
+
   static void showDepositChangeDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -119,6 +129,15 @@ class UserOptionsUtil {
   }
 
   static void showNewInvoiceDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewInvoiceDialog();
+      },
+    );
+  }
+
+  static void showStartJobPromptDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

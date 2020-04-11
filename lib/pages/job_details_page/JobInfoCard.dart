@@ -321,7 +321,7 @@ class JobInfoCard extends StatelessWidget {
                                         children: <Widget>[
                                           Container(
                                             child: new Image.asset(
-                                              'assets/images/sunset.png',
+                                              'assets/images/icons/sunset_icon_peach.png',
                                               height: 32.0,
                                               fit: BoxFit.cover,
                                             ),
@@ -339,7 +339,7 @@ class JobInfoCard extends StatelessWidget {
                                                 fontSize: 22.0,
                                                 fontFamily: 'simple',
                                                 fontWeight: FontWeight.w600,
-                                                color: Color(ColorConstants.getPrimaryColor()),
+                                                color: Color(ColorConstants.getPeachDark()),
                                               ),
                                             ),
                                           ),
@@ -432,7 +432,7 @@ class JobInfoCard extends StatelessWidget {
                                     fontSize: 20.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryColor()),
+                                    color: Color(ColorConstants.getPeachDark()),
                                   ),
                                 ),
                               ) : SizedBox(),

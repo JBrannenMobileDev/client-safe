@@ -9,6 +9,12 @@ class LoadExistingClientData{
   LoadExistingClientData(this.pageState, this.client);
 }
 
+class SetSavedClientToState{
+  final NewContactPageState pageState;
+  final Client client;
+  SetSavedClientToState(this.pageState, this.client);
+}
+
 class FilterDeviceContactsAction{
   final NewContactPageState pageState;
   final String textInput;

@@ -165,8 +165,8 @@ class _NameAndGenderState extends State<NameAndGender>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid, color: Color(ColorConstants.getPrimaryColor()),) : Icon(Icons.people, color: Color(ColorConstants.getPrimaryColor())),
+                        color: Color(ColorConstants.getPeachDark()),
+                        icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid, color: Color(ColorConstants.getPeachDark()),) : Icon(Icons.people, color: Color(ColorConstants.getPeachDark())),
                         tooltip: 'Search',
                       ),
                       Text(
@@ -176,7 +176,7 @@ class _NameAndGenderState extends State<NameAndGender>
                           fontSize: 20.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.getPrimaryColor()),
+                          color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),
                     ],
@@ -193,7 +193,8 @@ class _NameAndGenderState extends State<NameAndGender>
                     _firstNameFocus,
                     onFirstNameAction,
                     TextCapitalization.words,
-                    null),
+                    null,
+                    true),
                 NewContactTextField(
                     lastNameTextController,
                     "Last Name",
@@ -205,7 +206,8 @@ class _NameAndGenderState extends State<NameAndGender>
                     _lastNameFocus,
                     onLastNameAction,
                     TextCapitalization.words,
-                    null)
+                    null,
+                    true)
               ],
             ),
           ],

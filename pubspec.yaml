@@ -196,13 +196,16 @@ flutter:
     - assets/images/lead_source_type/lead_source_website.png
     - assets/images/lead_source_type/lead_source_word_of_mouth.png
 
-    - assets/images/collection_icons/collection_contracts.png
-    - assets/images/collection_icons/collection_photoshoot_locations.png
-    - assets/images/collection_icons/collection_pricing_profiles.png
-    - assets/images/collection_icons/collection_example_poses.png
-    - assets/images/collection_icons/collection_work_flows.png
-    - assets/images/collection_icons/location_pin.png
-    - assets/images/collection_icons/location_pin_green.png
+    - assets/images/collection_icons/auto_responses_icon_white.png
+    - assets/images/collection_icons/automation_icon_white.png
+    - assets/images/collection_icons/contract_icon_white.png
+    - assets/images/collection_icons/location_icon_white.png
+    - assets/images/collection_icons/packages_icon_white.png
+    - assets/images/collection_icons/poses_icon_white.png
+    - assets/images/collection_icons/reminder_icon_white.png
+    - assets/images/collection_icons/workflow_icon_white.png
+    - assets/images/collection_icons/checklist_icon_white.png
+    - assets/images/collection_icons/questionaire_icon_white.png
 
     - assets/images/collection_icons/pricing_profile_icons/pricing_profile_bills.png
     - assets/images/collection_icons/pricing_profile_icons/pricing_profile_coins.png

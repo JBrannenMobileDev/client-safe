@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
@@ -30,6 +31,10 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
       onInit: (store) {
         store.dispatch(FetchAllClientsAction(store.state.newJobPageState));
         searchTextController.text = store.state.newJobPageState.clientSearchText;
+      },
+      onDidChange: (pageState) {
+        int scrollToIndex = getClientIndex(pageState.selectedClient, pageState.filteredClients);
+        _controller.jumpTo(scrollToIndex * 64.0);
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
@@ -177,6 +182,13 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
 
   @override
   bool get wantKeepAlive => true;
+
+  int getClientIndex(Client selectedClient, List<Client> filteredClients) {
+    for(Client client in filteredClients){
+      if(client.id == selectedClient.id) return filteredClients.indexOf(client);
+    }
+    return 0;
+  }
 }
 
 Widget _buildItem(BuildContext context, int index) {

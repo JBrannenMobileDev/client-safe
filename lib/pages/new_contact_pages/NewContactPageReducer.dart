@@ -31,7 +31,14 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, SetSelectedDeviceContactAction>(_setSelectedDeviceContact),
   TypedReducer<NewContactPageState, ClearDeviceContactsAction>(_clearDeviceContacts),
   TypedReducer<NewContactPageState, FilterDeviceContactsAction>(_filterContacts),
+  TypedReducer<NewContactPageState, SetSavedClientToState>(_setClient),
 ]);
+
+NewContactPageState _setClient(NewContactPageState previousState, SetSavedClientToState action){
+  return previousState.copyWith(
+      client: action.client,
+  );
+}
 
 NewContactPageState _filterContacts(NewContactPageState previousState, FilterDeviceContactsAction action) {
   List<Contact> filteredClients = action.textInput.length > 0
