@@ -23,6 +23,7 @@ class _NewPricingProfileIconSelection extends State<NewPricingProfileIconSelecti
   Widget build(BuildContext context) {
     super.build(context);
     List<String> pricingProfileIcons = ImageUtil.pricingProfileIcons;
+    List<String> pricingProfileIconsWhite = ImageUtil.pricingProfileIconsWhite;
     return StoreConnector<AppState, NewPricingProfilePageState>(
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
@@ -36,10 +37,10 @@ class _NewPricingProfileIconSelection extends State<NewPricingProfileIconSelecti
               margin: EdgeInsets.only(bottom: 16.0),
               child: Text(
                 "Select an icon that best represents this profile.",
-                textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.primary_black),
                 ),
@@ -54,20 +55,38 @@ class _NewPricingProfileIconSelection extends State<NewPricingProfileIconSelecti
                     onTap: () {
                       pageState.onProfileIconSelected(pricingProfileIcons.elementAt(index));
                     },
-                    child: Container(
-                      margin: EdgeInsets.only(left: 12.0, right: 12.0, top: 4.0, bottom: 4.0),
-                      height: 24.0,
-                      width: 24.0,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(pricingProfileIcons.elementAt(index)),
-                          fit: BoxFit.contain,
+                    child:
+                    Column(
+                      children: <Widget>[
+                        Stack(
+                          alignment: Alignment.center,
+                          children: <Widget>[
+                              pageState.profileIcon != null && getIconPosition(pageState, pricingProfileIcons) == index ? new Container(
+                              margin: EdgeInsets.only(bottom: 8.0),
+                              height: 64.0,
+                              width: 64.0,
+                              decoration: new BoxDecoration(
+                                color: Color(ColorConstants.getBlueLight()),
+                                borderRadius: BorderRadius.circular(36.0),
+                              ),
+                            ) : SizedBox(
+                              height: 72.0,
+                              width: 72.0,
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 8.0),
+                              height: 42.0,
+                              width: 42.0,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(pageState.profileIcon != null && getIconPosition(pageState, pricingProfileIcons) == index ? pricingProfileIconsWhite.elementAt(index) : pricingProfileIcons.elementAt(index)),
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      child: pageState.profileIcon != null && getIconPosition(pageState, pricingProfileIcons) != index ? new Container(
-                        decoration: new BoxDecoration(
-                            color: Colors.white.withOpacity(0.5)),
-                      ) : SizedBox(),
+                      ],
                     ),
                   );
                 }),

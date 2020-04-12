@@ -88,7 +88,7 @@ class _ClientsPageState extends State<ClientsPage> {
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 26.0,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w600,
                               color: const Color(ColorConstants.primary_black),
                             ),
                           ),

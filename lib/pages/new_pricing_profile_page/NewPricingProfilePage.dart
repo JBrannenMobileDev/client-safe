@@ -98,9 +98,9 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                             pageState.shouldClear ? "New Price Package" : "Edit Price Package",
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w800,
+                              fontSize: 26.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black),
                             ),
                           ),
@@ -131,7 +131,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                       ),
                     ),
                     Container(
-                      height: 218.0,
+                      height: 225.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
@@ -163,8 +163,8 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                               pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
@@ -187,8 +187,8 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                                   : "Next",
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),

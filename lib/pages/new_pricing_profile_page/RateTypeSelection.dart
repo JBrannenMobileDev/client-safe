@@ -46,21 +46,27 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
     rateTypes = <int, Widget>{
       0: Text(RateTypeSelection.SELECTOR_TYPE_FLAT_RATE,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       1: Text(RateTypeSelection.SELECTOR_TYPE_HOURLY,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 1
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       2: Text(RateTypeSelection.SELECTOR_TYPE_QUANTITY,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
+          fontWeight: selectorIndex == 2 ? FontWeight.w800 : FontWeight.w600,
           color: Color(selectorIndex == 2
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -121,26 +127,16 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
             alignment: Alignment.topCenter,
             children: <Widget>[
               Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
                     'Price Breakdown',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 24.0,
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
-                  ),
-                  Text(
-                    'Select one',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w400,
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),
@@ -148,7 +144,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     width: 300.0,
                     margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
                     child: CupertinoSlidingSegmentedControl<int>(
-                      backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                       thumbColor: Color(ColorConstants.getPrimaryColor()),
                       children: rateTypes,
                       onValueChanged: (int filterTypeIndex) {

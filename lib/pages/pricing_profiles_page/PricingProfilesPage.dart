@@ -39,11 +39,6 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
               body: Container(
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getPrimaryColor()),
-                  image: DecorationImage(
-                    image: AssetImage(ImageUtil.EXPENSES_BG),
-                    repeat: ImageRepeat.repeat,
-                    fit: BoxFit.contain,
-                  ),
                 ),
                 child: CustomScrollView(
                   slivers: <Widget>[
@@ -60,7 +55,9 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                         child: Text(
                           "Pricing Packages",
                           style: TextStyle(
-                            fontFamily: 'Raleway',
+                            fontSize: 26.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
                             color: const Color(ColorConstants.white),
                           ),
                         ),

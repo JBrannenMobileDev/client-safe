@@ -39,8 +39,8 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
                 "Enter a simple and descriptive name for this price profile. \n\ne.g. (One Hour Price) or (Fall Special Price)",
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.primary_black),
                 ),

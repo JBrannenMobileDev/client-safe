@@ -37,7 +37,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                   "My Collections",
                   style: TextStyle(
                     fontSize: 26.0,
-                    fontWeight: FontWeight.w800,
+                    fontWeight: FontWeight.w600,
                     fontFamily: 'simple',
                     color: const Color(ColorConstants.primary_black),
                   ),
@@ -113,9 +113,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
   void onCollectionSelected(int index){
     switch(index){
       case 0:
-        Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
-        );
+
         break;
       case 1:
         Navigator.of(context).push(
@@ -123,6 +121,29 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 2:
+
+        break;
+      case 3:
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
+        );
+        break;
+      case 3:
+
+        break;
+      case 3:
+
+        break;
+      case 3:
+
+        break;
+      case 3:
+
+        break;
+      case 3:
+
+        break;
+      case 3:
 
         break;
       case 3:

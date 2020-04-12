@@ -90,8 +90,8 @@ class NewPriceProfileTextField extends StatelessWidget {
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
-                fontFamily: 'Raleway',
-                fontSize: 18.0,
+                fontFamily: 'simple',
+                fontSize: 22.0,
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.getPrimaryBlack())),
           )),

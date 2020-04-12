@@ -51,7 +51,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       style: TextStyle(
                         fontSize: 26.0,
                         fontFamily: 'simple',
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                         color: const Color(ColorConstants.primary_black),
                       ),
                     ),

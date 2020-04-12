@@ -144,14 +144,25 @@ class ImageUtil{
   static String locationPin = 'assets/images/collection_icons/location_pin.png';
 
   static List<String> pricingProfileIcons = [
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_bills.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_coins.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_dollar.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_free.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_money_bag.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_price_tag.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale.png',
-    'assets/images/collection_icons/pricing_profile_icons/pricing_profile_sale_tag.png',
+    'assets/images/collection_icons/pricing_profile_icons/money_stacks_icon_gold.png',
+    'assets/images/collection_icons/pricing_profile_icons/coins_icon_gold.png',
+    'assets/images/collection_icons/pricing_profile_icons/dollar_sign_icon_gold.png',
+    'assets/images/collection_icons/pricing_profile_icons/coin_icon_gold.png',
+    'assets/images/collection_icons/pricing_profile_icons/coin_stacks_icon_gold.png',
+    'assets/images/collection_icons/pricing_profile_icons/piggy_bank_icon_gold.png',
+    'assets/images/collection_icons/pricing_profile_icons/wallet_icon_gold.png',
+    'assets/images/collection_icons/pricing_profile_icons/money_bag_icon_gold.png',
+  ];
+
+  static List<String> pricingProfileIconsWhite = [
+    'assets/images/collection_icons/pricing_profile_icons/money_stacks_icon_white.png',
+    'assets/images/collection_icons/pricing_profile_icons/coins_icon_white.png',
+    'assets/images/collection_icons/pricing_profile_icons/dollar_sign_icon_white.png',
+    'assets/images/collection_icons/pricing_profile_icons/coin_icon_white.png',
+    'assets/images/collection_icons/pricing_profile_icons/coin_stacks_icon_white.png',
+    'assets/images/collection_icons/pricing_profile_icons/piggy_bank_icon_white.png',
+    'assets/images/collection_icons/pricing_profile_icons/wallet_icon_white.png',
+    'assets/images/collection_icons/pricing_profile_icons/money_bag_icon_white.png',
   ];
 
   static AssetImage getJobStageCompleteIconBlack() {

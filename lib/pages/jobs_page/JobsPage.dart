@@ -76,7 +76,7 @@ class _JobsPageState extends State<JobsPage> {
                             "Jobs",
                             style: TextStyle(
                               fontSize: 26.0,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w600,
                               fontFamily: 'simple',
                               color: const Color(ColorConstants.primary_black),
                             ),
