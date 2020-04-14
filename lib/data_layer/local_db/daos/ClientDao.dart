@@ -78,4 +78,8 @@ class ClientDao extends Equatable{
       return client;
     }).toList().elementAt(0);
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
 }

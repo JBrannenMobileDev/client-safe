@@ -11,7 +11,7 @@ import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewLineItemDialog.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationNamePage.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationPage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -51,7 +51,7 @@ class UserOptionsUtil {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewLocationNamePage();
+        return NewLocationPage();
       },
     );
   }

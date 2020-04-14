@@ -141,7 +141,7 @@ class ImageUtil{
     'assets/images/collection_icons/automation_icon_white.png',
   ];
 
-  static String locationPin = 'assets/images/collection_icons/location_pin.png';
+  static String locationPin = 'assets/images/collection_icons/location_pin_blue.png';
 
   static List<String> pricingProfileIcons = [
     'assets/images/collection_icons/pricing_profile_icons/money_stacks_icon_gold.png',

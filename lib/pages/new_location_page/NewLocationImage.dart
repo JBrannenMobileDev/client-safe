@@ -9,14 +9,14 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 
-class NewLocationName extends StatefulWidget {
+class NewLocationImage extends StatefulWidget {
   @override
-  _NewLocationName createState() {
-    return _NewLocationName();
+  _NewLocationImage createState() {
+    return _NewLocationImage();
   }
 }
 
-class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveClientMixin {
+class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveClientMixin {
   final locationNameTextController = TextEditingController();
 
 
@@ -37,7 +37,7 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
               child: Text(
-                "Enter a simple and descriptive name for this location. ",
+                "Take a picture of this location to help you remeber what it looks like.",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 20.0,

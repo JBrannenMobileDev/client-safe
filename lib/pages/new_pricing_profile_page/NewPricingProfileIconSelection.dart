@@ -89,7 +89,8 @@ class _NewPricingProfileIconSelection extends State<NewPricingProfileIconSelecti
                       ],
                     ),
                   );
-                }),
+                }
+              ),
           ],
         ),
       ),

@@ -8,8 +8,32 @@ final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, ClearStateAction>(_clearState),
   TypedReducer<NewLocationPageState, UpdateLocation>(_updateLocation),
   TypedReducer<NewLocationPageState, UpdateLocationName>(_updateLocationName),
-  TypedReducer<NewLocationPageState, LoadExistingLocationData>(_loadLocationData)
+  TypedReducer<NewLocationPageState, LoadExistingLocationData>(_loadLocationData),
+  TypedReducer<NewLocationPageState, IncrementPageViewIndex>(_incrementPageViewIndex),
+  TypedReducer<NewLocationPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
 ]);
+
+NewLocationPageState _incrementPageViewIndex(NewLocationPageState previousState, IncrementPageViewIndex action) {
+  int incrementedIndex = previousState.pageViewIndex;
+  incrementedIndex++;
+  return previousState.copyWith(
+      pageViewIndex: incrementedIndex
+  );
+}
+
+NewLocationPageState _decrementPageViewIndex(NewLocationPageState previousState, DecrementPageViewIndex action) {
+  int decrementedIndex = previousState.pageViewIndex;
+  decrementedIndex--;
+  return previousState.copyWith(
+      pageViewIndex: decrementedIndex
+  );
+}
+
+NewLocationPageState _updatePageView(NewLocationPageState previousState, IncrementPageViewIndex action){
+  return previousState.copyWith(
+    pageViewIndex: (previousState.pageViewIndex + 1),
+  );
+}
 
 NewLocationPageState _setLocations(NewLocationPageState previousState, SetLocationsAction action){
   return previousState.copyWith(
@@ -27,8 +51,9 @@ NewLocationPageState _setLatLong(NewLocationPageState previousState, SetLatLongA
 NewLocationPageState _clearState(NewLocationPageState previousState, ClearStateAction action) {
   NewLocationPageState newState = NewLocationPageState.initial();
   return newState.copyWith(
-    newLocationLatitude: previousState.newLocationLatitude,
-    newLocationLongitude: previousState.newLocationLongitude,
+    newLocationLatitude: 0,
+    newLocationLongitude: 0,
+    pageViewIndex: 0,
   );
 }
 
@@ -53,5 +78,6 @@ NewLocationPageState _loadLocationData(NewLocationPageState previousState, LoadE
     newLocationLatitude: action.location.latitude,
     newLocationLongitude: action.location.longitude,
     imagePath: action.location.imagePath,
+    pageViewIndex: 0,
   );
 }

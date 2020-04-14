@@ -61,4 +61,8 @@ class JobDao extends Equatable{
       return job;
     }).toList();
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
 }

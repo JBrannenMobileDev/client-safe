@@ -67,4 +67,8 @@ class LocationDao extends Equatable{
       return location;
     }).toList();
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
 }

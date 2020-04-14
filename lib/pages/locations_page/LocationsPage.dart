@@ -46,19 +46,24 @@ class LocationsPage extends StatelessWidget {
                       child: Text(
                         "Locations",
                         style: TextStyle(
-                          fontFamily: 'Raleway',
+                          fontSize: 26.0,
+                          fontWeight: FontWeight.w600,
+                          fontFamily: 'simple',
                           color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                       ),
                     ),
                     actions: <Widget>[
-                      IconButton(
-                        icon: const Icon(Icons.add_circle_outline),
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        tooltip: 'Add',
-                        onPressed: () {
+                      GestureDetector(
+                        onTap: () {
                           UserOptionsUtil.showNewLocationDialog(context);
                         },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 12.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset('assets/images/icons/plus_icon_white.png'),
+                        ),
                       ),
                     ],
                   ),

@@ -61,3 +61,13 @@ class InitializeLocationAction{
   InitializeLocationAction(this.pageState);
 }
 
+class IncrementPageViewIndex{
+  final NewLocationPageState pageState;
+  IncrementPageViewIndex(this.pageState);
+}
+
+class DecrementPageViewIndex{
+  final NewLocationPageState pageState;
+  DecrementPageViewIndex(this.pageState);
+}
+

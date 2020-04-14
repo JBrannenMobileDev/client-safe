@@ -66,4 +66,8 @@ class IncomeDao extends Equatable{
       return income;
     }).toList();
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
 }

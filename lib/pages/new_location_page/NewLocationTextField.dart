@@ -75,7 +75,8 @@ class NewLocationTextField extends StatelessWidget {
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
-                    fontFamily: 'Raleway',
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
                     fontWeight: FontWeight.w600,
                     color: Color(ColorConstants.primary_black)),
               )),

@@ -67,4 +67,8 @@ class PriceProfileDao extends Equatable{
       return profile;
     }).toList();
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
 }

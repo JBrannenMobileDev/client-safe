@@ -5,6 +5,7 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:redux/redux.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 
@@ -68,9 +70,9 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
   @override
   Widget build(BuildContext context) =>
       StoreConnector<AppState, DashboardPageState>(
-        onInit: (store) => {
-          store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState)),
-          store.dispatch(new LoadJobsAction(store.state.dashboardPageState)),
+        onInit: (store) async {
+          store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState));
+          store.dispatch(new LoadJobsAction(store.state.dashboardPageState));
         },
         onDispose: (store) => store.dispatch(
             new DisposeDataListenersActions(store.state.homePageState)),

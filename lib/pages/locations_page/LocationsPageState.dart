@@ -10,6 +10,7 @@ class LocationsPageState{
 
   final List<Location> locations;
   final bool shouldClear;
+  final String documentFilePath;
   final Function(Location) onLocationSelected;
   final Function(Location) onDeleteLocationSelected;
   final Function(String, Location) saveImagePath;
@@ -19,6 +20,7 @@ class LocationsPageState{
   LocationsPageState({
     @required this.locations,
     @required this.shouldClear,
+    @required this.documentFilePath,
     @required this.onLocationSelected,
     @required this.onDeleteLocationSelected,
     @required this.saveImagePath,
@@ -29,6 +31,7 @@ class LocationsPageState{
   LocationsPageState copyWith({
     List<Location> locations,
     bool shouldClear,
+    String documentFilePath,
     Function(int) onLocationSelected,
     Function(PriceProfile) onDeleteLocationSelected,
     Function(String) saveImagePath,
@@ -37,6 +40,7 @@ class LocationsPageState{
   }){
     return LocationsPageState(
       locations: locations?? this.locations,
+      documentFilePath: documentFilePath ?? this.documentFilePath,
       shouldClear: shouldClear?? this.shouldClear,
       onLocationSelected: onLocationSelected?? this.onLocationSelected,
       onDeleteLocationSelected: onDeleteLocationSelected?? this.onDeleteLocationSelected,
@@ -49,6 +53,7 @@ class LocationsPageState{
   factory LocationsPageState.initial() => LocationsPageState(
     locations: List(),
     shouldClear: true,
+    documentFilePath: '',
     onLocationSelected: null,
     onDeleteLocationSelected: null,
     saveImagePath: null,
@@ -60,6 +65,7 @@ class LocationsPageState{
     return LocationsPageState(
       locations: store.state.locationsPageState.locations,
       shouldClear: store.state.locationsPageState.shouldClear,
+      documentFilePath: store.state.locationsPageState.documentFilePath,
       onLocationSelected: (location) => store.dispatch(LoadExistingLocationData(store.state.newLocationPageState, location)),
       onDeleteLocationSelected: (location) => store.dispatch(DeleteLocationAction(store.state.locationsPageState, location)),
       saveImagePath: (imagePath, location) => store.dispatch(SaveImagePathAction(store.state.locationsPageState, imagePath, location)),
@@ -72,6 +78,7 @@ class LocationsPageState{
   int get hashCode =>
       locations.hashCode ^
       shouldClear.hashCode ^
+      documentFilePath.hashCode ^
       onLocationSelected.hashCode ^
       onDeleteLocationSelected.hashCode ^
       saveImagePath.hashCode ^
@@ -83,6 +90,7 @@ class LocationsPageState{
       identical(this, other) ||
           other is LocationsPageState &&
               locations == other.locations &&
+              documentFilePath == other.documentFilePath &&
               shouldClear == other.shouldClear &&
               onLocationSelected == other.onLocationSelected &&
               onDeleteLocationSelected == other.onDeleteLocationSelected &&

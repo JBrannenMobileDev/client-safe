@@ -9,7 +9,8 @@ class FetchLocationsAction{
 class SetLocationsAction{
   final LocationsPageState pageState;
   final List<Location> locations;
-  SetLocationsAction(this.pageState, this.locations);
+  final String path;
+  SetLocationsAction(this.pageState, this.locations, this.path);
 }
 
 class DeleteLocationAction{

@@ -2,138 +2,252 @@ import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationImage.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationMapPage.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationMapViewPage.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationName.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:redux/redux.dart';
+import 'package:geolocator/geolocator.dart';
 
 class NewLocationPage extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _NewLocationPage();
+  _NewLocationPageState createState() {
+    return _NewLocationPageState();
   }
 }
 
+class _NewLocationPageState extends State<NewLocationPage> {
+  final int pageCount = 2;
+  final controller = PageController(
+    initialPage: 0,
+  );
+  int currentPageIndex = 0;
 
-class _NewLocationPage extends State<NewLocationPage> {
-  final Completer<GoogleMapController> _controller = Completer();
+  @override
+  void initState() {
+    super.initState();
+    currentPageIndex = 0;
+  }
 
   @override
   Widget build(BuildContext context) {
+    controller.addListener(() {
+      currentPageIndex = controller.page.toInt();
+    });
     return StoreConnector<AppState, NewLocationPageState>(
-      onInit: (store) async{
-        store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
-        final GoogleMapController controller = await _controller.future;
-        controller.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(store.state.newLocationPageState.newLocationLatitude, store.state.newLocationPageState.newLocationLongitude),
-              zoom: 15,
+      onInit: (store) async {
+        if(store.state.newLocationPageState.shouldClear){
+          Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+          store.dispatch(SetLatLongAction(store.state.newLocationPageState, positionLastKnown.latitude, positionLastKnown.longitude));
+        }
+      },
+      converter: (store) => NewLocationPageState.fromStore(store),
+      builder: (BuildContext context, NewLocationPageState pageState) =>
+          Dialog(
+            backgroundColor: Colors.transparent,
+            child: Container(
+                    width: 375.0,
+                    padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
+                    decoration: new BoxDecoration(
+                        color: Color(ColorConstants.white),
+                        borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              !pageState.shouldClear ? GestureDetector(
+                                onTap: () {
+                                  _ackAlert(context, pageState);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 32.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset(
+                                      'assets/images/icons/trash_icon_peach.png'),
+                                ),
+                              ) : SizedBox(),
+                              Text(
+                                pageState.shouldClear ? "New Location" : "Edit Location",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 26.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                              !pageState.shouldClear ? Container(
+                                margin: EdgeInsets.only(right: 18.0),
+                                child: IconButton(
+                                  icon: const Icon(Icons.save),
+                                  tooltip: 'Save',
+                                  color: Color(ColorConstants.getPeachDark()),
+                                  onPressed: () {
+                                    showSuccessAnimation();
+                                    pageState.onSaveLocationSelected();
+                                  },
+                                ),
+                              ) : SizedBox(),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 200.0,
+                          child: PageView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: controller,
+                            pageSnapping: true,
+                            children: <Widget>[
+                              NewLocationName(),
+                              NewLocationMapViewPage(),
+                              NewLocationImage(),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(left: 26.0, right: 26.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              FlatButton(
+                                color: Colors.white,
+                                textColor: Color(ColorConstants.primary_black),
+                                disabledColor: Colors.white,
+                                disabledTextColor:
+                                Color(ColorConstants.primary_bg_grey),
+                                padding: EdgeInsets.all(8.0),
+                                splashColor: Color(ColorConstants.getPrimaryColor()),
+                                onPressed: () {
+                                  onBackPressed(pageState);
+                                },
+                                child: Text(
+                                  pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
+                                ),
+                              ),
+                              FlatButton(
+                                color: Colors.white,
+                                textColor: Color(ColorConstants.primary_black),
+                                disabledColor: Colors.white,
+                                disabledTextColor:
+                                Color(ColorConstants.primary_bg_grey),
+                                padding: EdgeInsets.all(8.0),
+                                splashColor: Color(ColorConstants.getPrimaryColor()),
+                                onPressed: () {
+                                  onNextPressed(pageState);
+                                },
+                                child: Text(
+                                  "Next",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+              ),
             ),
           ),
+    );
+  }
+
+  void onNextPressed(NewLocationPageState pageState) {
+    if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
+//    Navigator.of(context).push(
+//      new MaterialPageRoute(builder: (context) => NewLocationMapPage()),
+//    );
+
+    bool canProgress = false;
+
+    switch(pageState.pageViewIndex){
+      case 0:
+        canProgress = pageState.locationName.isNotEmpty;
+        break;
+      case 1:
+        canProgress = pageState.newLocationLongitude != 0;
+        break;
+      case 2:
+        canProgress = true;
+        break;
+    }
+    if (canProgress) {
+      pageState.onNextPressed();
+      controller.animateToPage(currentPageIndex + 1,
+          duration: Duration(milliseconds: 150), curve: Curves.ease);
+      FocusScope.of(context).unfocus();
+    }
+
+    if (pageState.pageViewIndex == pageCount) {
+      showSuccessAnimation();
+      pageState.onSaveLocationSelected();
+    }
+  }
+
+  Future<void> _ackAlert(BuildContext context, NewLocationPageState pageState) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This location will be gone for good!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteSelected();
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This location will be gone for good!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteSelected();
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
         );
       },
-      onDidChange: (pageState) async {
-
-      },
-      converter: (Store<AppState> store) =>
-          NewLocationPageState.fromStore(store),
-      builder: (BuildContext context, NewLocationPageState pageState) =>
-          Scaffold(
-            backgroundColor: Color(ColorConstants.getBlueDark()),
-            body: Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(pageState.newLocationLatitude, pageState.newLocationLongitude),
-                    zoom: 15,
-                  ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                  },
-                  mapToolbarEnabled: false,
-                  myLocationEnabled: true,
-                  compassEnabled: false,
-                  onCameraIdle: () async{
-                    final GoogleMapController controller = await _controller.future;
-                    LatLng latLng = await controller.getLatLng(
-                        ScreenCoordinate(
-                          x: (MediaQuery.of(context).size.width/2).round(),
-                          y: (MediaQuery.of(context).size.height/2).round(),
-                        )
-                    );
-                    pageState.onLocationChanged(latLng);
-                  },
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 36.0),
-                  alignment: Alignment.center,
-                  height: 48.0,
-                  width: 48.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(ImageUtil.locationPin),
-                      fit: BoxFit.contain,
-                    ),
-                    color: Colors.transparent,
-                  ),
-                ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(bottom: 48.0),
-                  child: SizedBox(
-                    width: 200.0,
-                    height: 50.0,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(0.0),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
-                      onPressed: (){
-                        pageState.onSaveLocationSelected();
-                        showSuccessAnimation();
-                      },
-                      color: Color(ColorConstants.getPrimaryColor()),
-                      textColor: Color(ColorConstants.getPrimaryWhite()),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Text(
-                            "Save",
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'Raleway',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 48.0, left: 8.0),
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    icon: Icon(Device.get().isIos ? Icons.arrow_back_ios : Icons.arrow_back),
-                    tooltip: 'Back',
-                    color: Color(ColorConstants.primary_black),
-                    onPressed: () => Navigator.of(context).pop(true),
-                  ),
-                ),
-              ],
-            ),
-          ),
     );
   }
 
@@ -158,6 +272,17 @@ class _NewLocationPage extends State<NewLocationPage> {
   void onFlareCompleted(String unused) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
+  }
+
+  void onBackPressed(NewLocationPageState pageState) {
+    if (pageState.pageViewIndex == 0) {
+      pageState.onCanceledSelected();
+      Navigator.of(context).pop();
+    } else {
+      if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
+      pageState.onBackPressed();
+      controller.animateToPage(currentPageIndex - 1,
+          duration: Duration(milliseconds: 150), curve: Curves.ease);
+    }
   }
 }

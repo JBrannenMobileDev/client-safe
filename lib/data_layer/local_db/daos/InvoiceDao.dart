@@ -64,4 +64,8 @@ class InvoiceDao extends Equatable{
       return invoice;
     }).toList();
   }
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [];
 }

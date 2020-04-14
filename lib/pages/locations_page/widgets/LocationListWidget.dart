@@ -14,6 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class LocationListWidget extends StatelessWidget {
   final int locationIndex;
@@ -31,40 +32,31 @@ class LocationListWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: <Widget>[
               Container(
-                height: _getItemWidthHeight(context),
-                margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                       image: pageState.locations.elementAt(locationIndex).imagePath != null ? Image.file(File(pageState.locations.elementAt(locationIndex).imagePath ?? "")).image
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
-                      ),
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                      borderRadius: new BorderRadius.circular(16.0),
-                    ),
-                    child: Container(
-                      width: double.maxFinite,
-                      margin: EdgeInsets.only(top: 32.0, left: 4.0, right: 4.0),
-                      child: Text(
-                        pageState.locations.elementAt(locationIndex).imagePath == null ? "Long press to set an image." : "",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.w800,
-                          fontFamily: 'Raleway',
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
-                      ),
-                    ),
+                decoration: BoxDecoration(
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                  borderRadius: new BorderRadius.circular(8.0),
                 ),
+                height: _getItemWidthHeight(context),
+                width: 200.0,
+                margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
+                  child: pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ?
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: new BorderRadius.circular(8.0),
+                          image: DecorationImage(
+                            fit: BoxFit.cover,
+                            image: getSavedImage(pageState),
+                          ),
+                        )
+                      )
+                      : SizedBox()
               ),
-              Container(
+              pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? Container(
                 height: _getItemWidthHeight(context),
                 margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.circular(16.0),
+                    borderRadius: new BorderRadius.circular(8.0),
                     gradient: LinearGradient(
                         begin: FractionalOffset.center,
                         end: FractionalOffset.bottomCenter,
@@ -76,25 +68,49 @@ class LocationListWidget extends StatelessWidget {
                           0.0,
                           1.0
                         ])),
-              ),
+              ) : SizedBox(),
+              pageState.locations.elementAt(locationIndex).imagePath == null || pageState.locations.elementAt(locationIndex).imagePath.isEmpty ? Container(
+                height: _getItemWidthHeight(context),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      alignment: Alignment.topCenter,
+                      margin: EdgeInsets.only(top: 4.0, bottom: 0.0),
+                      height: 64.0,
+                      width: 64.0,
+                      child: Image(
+                        image: AssetImage('assets/images/icons/image_icon_blue.png'),
+                      ),
+                    ),
+                    Container(
+                      alignment: Alignment.topCenter,
+                      width: 124.0,
+                      child: Text(
+                        'Select an image for this location',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.w800,
+                          fontFamily: 'simple',
+                          color: Color(ColorConstants.getBlueDark()),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ) : SizedBox(),
               Container(
                 height: _getItemWidthHeight(context),
                 width: double.maxFinite,
                 child: GestureDetector(
-                  onLongPress: () {
-                    VibrateUtil.vibrateHeavy();
-                    getImage(pageState);
-                  },
                   onTap: () async{
-                    if(pageState.locations.elementAt(locationIndex).imagePath != null) {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
-                          FullScreenImageView(pageState, locationIndex)));
-                    }
+                    getDeviceImage(pageState);
                   },
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 8.0),
+                margin: EdgeInsets.only(bottom: 4.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -102,7 +118,7 @@ class LocationListWidget extends StatelessWidget {
                     IconButton(
                       iconSize: 24.0,
                       icon: const Icon(Icons.directions),
-                      color: Color(ColorConstants.white),
+                      color: Color(pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Driving Directions',
                       onPressed: () {
                         pageState.onDrivingDirectionsSelected(pageState.locations.elementAt(locationIndex));
@@ -110,8 +126,8 @@ class LocationListWidget extends StatelessWidget {
                     ),
                     IconButton(
                       iconSize: 24.0,
-                      icon: Icon(Device.get().isIos ? CupertinoIcons.share : Icons.share),
-                      color: Color(ColorConstants.white),
+                      icon: Icon(Device.get().isIos ? CupertinoIcons.share_solid : Icons.share),
+                      color: Color(pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Share',
                       onPressed: () {
                         pageState.onShareLocationSelected(pageState.locations.elementAt(locationIndex));
@@ -120,7 +136,7 @@ class LocationListWidget extends StatelessWidget {
                     IconButton(
                       iconSize: 24.0,
                       icon: Icon(Device.get().isIos ? CupertinoIcons.pen : Icons.edit),
-                      color: Color(ColorConstants.white),
+                      color: Color(pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Edit',
                       onPressed: () {
                         pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
@@ -139,9 +155,9 @@ class LocationListWidget extends StatelessWidget {
                 pageState.locations.elementAt(locationIndex).locationName,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 16.0,
+                  fontSize: 20.0,
                   fontWeight: FontWeight.w600,
-                  fontFamily: 'Raleway',
+                  fontFamily: 'simple',
                   color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
@@ -156,9 +172,17 @@ class LocationListWidget extends StatelessWidget {
     return (MediaQuery.of(context).size.width - 110) / 2.0;
    }
 
-  Future getImage(LocationsPageState pageState) async {
+  Future getDeviceImage(LocationsPageState pageState) async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    pageState.saveImagePath(image.path, pageState.locations.elementAt(locationIndex));
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = appDocDir.path;
+    await image.copy('$path/' + 'location_image_' + locationIndex.toString());
+    pageState.saveImagePath('location_image_' + locationIndex.toString(), pageState.locations.elementAt(locationIndex));
+  }
+
+  FileImage getSavedImage(LocationsPageState pageState) {
+    FileImage localImage = FileImage(File(pageState.documentFilePath + '/' + pageState.locations.elementAt(locationIndex).imagePath));
+    return localImage;
   }
 }
 

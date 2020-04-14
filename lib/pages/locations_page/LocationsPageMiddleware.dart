@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:share/share.dart';
 
@@ -29,12 +33,12 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsSelected action)async{
-//    Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
-//    IntentLauncherUtil.launchDrivingDirections(
-//        position.latitude.toString(),
-//        position.longitude.toString(),
-//        action.location.latitude.toString(),
-//        action.location.longitude.toString());
+    Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    IntentLauncherUtil.launchDrivingDirections(
+        position.latitude.toString(),
+        position.longitude.toString(),
+        action.location.latitude.toString(),
+        action.location.longitude.toString());
   }
 
   void _shareDirections(Store<AppState> store, ShareLocationSelected action){
@@ -43,7 +47,9 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchProfiles(Store<AppState> store, NextDispatcher next) async{
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
-    next(SetLocationsAction(store.state.locationsPageState, locations));
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = appDocDir.path;
+    next(SetLocationsAction(store.state.locationsPageState, locations, path));
   }
 
   void _deleteLocation(Store<AppState> store, action, NextDispatcher next) async{
