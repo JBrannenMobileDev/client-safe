@@ -4,6 +4,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
+import 'package:client_safe/pages/new_location_page/NewLocationActions.dart' as newLocation;
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -50,6 +51,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     next(SetLocationsAction(store.state.locationsPageState, locations, path));
+    store.dispatch(newLocation.SetDocumentPathAction(store.state.newLocationPageState, path));
   }
 
   void _deleteLocation(Store<AppState> store, action, NextDispatcher next) async{

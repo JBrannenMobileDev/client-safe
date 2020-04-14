@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationTextField.dart';
@@ -7,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 
 class NewLocationImage extends StatefulWidget {
@@ -32,10 +36,10 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
           Container(
         margin: EdgeInsets.only(left: 26.0, right: 26.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 32.0),
+              padding: EdgeInsets.only(bottom: 16.0),
               child: Text(
                 "Take a picture of this location to help you remeber what it looks like.",
                 textAlign: TextAlign.start,
@@ -47,22 +51,56 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
                 ),
               ),
             ),
-            NewLocationTextField(
-                locationNameTextController,
-                "Location Name",
-                TextInputType.text,
-                60.0,
-                pageState.onLocationNameChanged,
-                NewPricingProfilePageState.ERROR_PROFILE_NAME_MISSING,
-                TextInputAction.done,
-                null,
-                null,
-                TextCapitalization.words,
-                null),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                GestureDetector(
+                  onTap: () {
+
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(24.0),
+                    height: 116.0,
+                    width: 116.0,
+                    decoration: BoxDecoration(
+                      color: Color(ColorConstants.getBlueDark()),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset('assets/images/icons/camera_icon_white.png'),
+                  ),
+
+                ),
+                GestureDetector(
+                  onTap: () {
+                    getDeviceImage(pageState);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(24.0),
+                    height: 116.0,
+                    width: 116.0,
+                    decoration: BoxDecoration(
+                      color: Color(ColorConstants.getBlueDark()),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Image.asset('assets/images/icons/image_icon_white.png'),
+                  ),
+
+                )
+              ],
+            )
           ],
         ),
-      ),
+          ),
     );
+  }
+
+  Future getDeviceImage(NewLocationPageState pageState) async {
+    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = appDocDir.path;
+    String key = UniqueKey().toString();
+    await image.copy('$path/' + key);
+    pageState.saveImagePath(key);
   }
 
   @override

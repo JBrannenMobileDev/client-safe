@@ -41,7 +41,7 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
             Padding(
               padding: EdgeInsets.only(bottom: 16.0),
               child: Text(
-                "Select a map location to use for driving directions",
+                "Select a map location to use for driving directions.",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 20.0,

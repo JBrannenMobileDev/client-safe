@@ -71,3 +71,15 @@ class DecrementPageViewIndex{
   DecrementPageViewIndex(this.pageState);
 }
 
+class SetDocumentPathAction{
+  final NewLocationPageState pageState;
+  final String documentPath;
+  SetDocumentPathAction(this.pageState, this.documentPath);
+}
+
+class SaveImagePathNewAction{
+  final LocationsPageState pageState;
+  final String imagePath;
+  SaveImagePathNewAction(this.pageState, this.imagePath);
+}
+

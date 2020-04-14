@@ -11,7 +11,21 @@ final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, LoadExistingLocationData>(_loadLocationData),
   TypedReducer<NewLocationPageState, IncrementPageViewIndex>(_incrementPageViewIndex),
   TypedReducer<NewLocationPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
+  TypedReducer<NewLocationPageState, SetDocumentPathAction>(_setDocumentPath),
+  TypedReducer<NewLocationPageState, SaveImagePathNewAction>(_setImagePath),
 ]);
+
+NewLocationPageState _setImagePath(NewLocationPageState previousState, SaveImagePathNewAction action) {
+  return previousState.copyWith(
+    imagePath: action.imagePath,
+  );
+}
+
+NewLocationPageState _setDocumentPath(NewLocationPageState previousState, SetDocumentPathAction action) {
+  return previousState.copyWith(
+      documentFilePath: action.documentPath,
+  );
+}
 
 NewLocationPageState _incrementPageViewIndex(NewLocationPageState previousState, IncrementPageViewIndex action) {
   int incrementedIndex = previousState.pageViewIndex;

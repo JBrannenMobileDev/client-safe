@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
@@ -52,136 +53,156 @@ class _NewLocationPageState extends State<NewLocationPage> {
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
           Dialog(
-            backgroundColor: Colors.transparent,
-            child: Container(
-                    width: 375.0,
-                    padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                    decoration: new BoxDecoration(
-                        color: Color(ColorConstants.white),
-                        borderRadius: new BorderRadius.all(Radius.circular(16.0))),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              !pageState.shouldClear ? GestureDetector(
-                                onTap: () {
-                                  _ackAlert(context, pageState);
+                backgroundColor: Colors.transparent,
+                child: Container(
+                  width: 375.0,
+                  padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
+                  decoration: new BoxDecoration(
+                      color: Color(ColorConstants.white),
+                      borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 16.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            !pageState.shouldClear ? GestureDetector(
+                              onTap: () {
+                                _ackAlert(context, pageState);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(left: 32.0),
+                                height: 24.0,
+                                width: 24.0,
+                                child: Image.asset(
+                                    'assets/images/icons/trash_icon_peach.png'),
+                              ),
+                            ) : SizedBox(),
+                            Text(
+                              pageState.shouldClear ? "New Location" : "Edit Location",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 26.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
+                            ),
+                            !pageState.shouldClear ? Container(
+                              margin: EdgeInsets.only(right: 18.0),
+                              child: IconButton(
+                                icon: const Icon(Icons.save),
+                                tooltip: 'Save',
+                                color: Color(ColorConstants.getPeachDark()),
+                                onPressed: () {
+                                  showSuccessAnimation();
+                                  pageState.onSaveLocationSelected();
                                 },
-                                child: Container(
-                                  margin: EdgeInsets.only(left: 32.0),
-                                  height: 24.0,
-                                  width: 24.0,
-                                  child: Image.asset(
-                                      'assets/images/icons/trash_icon_peach.png'),
-                                ),
-                              ) : SizedBox(),
-                              Text(
-                                pageState.shouldClear ? "New Location" : "Edit Location",
+                              ),
+                            ) : SizedBox(),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 200.0,
+                        child: PageView(
+                          physics: NeverScrollableScrollPhysics(),
+                          controller: controller,
+                          pageSnapping: true,
+                          children: <Widget>[
+                            NewLocationName(),
+                            NewLocationMapViewPage(),
+                            NewLocationImage(),
+                          ],
+                        ),
+                      ),
+                      pageState.pageViewIndex == 2 && pageState.imagePath.isNotEmpty ? Container(
+                        decoration: BoxDecoration(
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          borderRadius: new BorderRadius.circular(16.0),
+                        ),
+                        height: 150.0,
+                        width: 200.0,
+
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: new BorderRadius.circular(16.0),
+                              image: DecorationImage(
+                                fit: BoxFit.cover,
+                                image: getSavedImage(pageState),
+                              ),
+                            )
+                        ),
+                      ) : SizedBox(),
+                      Padding(
+                        padding: EdgeInsets.only(left: 26.0, right: 26.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            FlatButton(
+                              color: Colors.white,
+                              textColor: Color(ColorConstants.primary_black),
+                              disabledColor: Colors.white,
+                              disabledTextColor:
+                              Color(ColorConstants.primary_bg_grey),
+                              padding: EdgeInsets.all(8.0),
+                              splashColor: Color(ColorConstants.getPrimaryColor()),
+                              onPressed: () {
+                                onBackPressed(pageState);
+                              },
+                              child: Text(
+                                pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontSize: 26.0,
+                                  fontSize: 22.0,
                                   fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
                               ),
-                              !pageState.shouldClear ? Container(
-                                margin: EdgeInsets.only(right: 18.0),
-                                child: IconButton(
-                                  icon: const Icon(Icons.save),
-                                  tooltip: 'Save',
-                                  color: Color(ColorConstants.getPeachDark()),
-                                  onPressed: () {
-                                    showSuccessAnimation();
-                                    pageState.onSaveLocationSelected();
-                                  },
-                                ),
-                              ) : SizedBox(),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          height: 200.0,
-                          child: PageView(
-                            physics: NeverScrollableScrollPhysics(),
-                            controller: controller,
-                            pageSnapping: true,
-                            children: <Widget>[
-                              NewLocationName(),
-                              NewLocationMapViewPage(),
-                              NewLocationImage(),
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 26.0, right: 26.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              FlatButton(
-                                color: Colors.white,
-                                textColor: Color(ColorConstants.primary_black),
-                                disabledColor: Colors.white,
-                                disabledTextColor:
-                                Color(ColorConstants.primary_bg_grey),
-                                padding: EdgeInsets.all(8.0),
-                                splashColor: Color(ColorConstants.getPrimaryColor()),
-                                onPressed: () {
-                                  onBackPressed(pageState);
-                                },
-                                child: Text(
-                                  pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                            ),
+                            FlatButton(
+                              color: Colors.white,
+                              textColor: Color(ColorConstants.primary_black),
+                              disabledColor: Colors.white,
+                              disabledTextColor:
+                              Color(ColorConstants.primary_bg_grey),
+                              padding: EdgeInsets.all(8.0),
+                              splashColor: Color(ColorConstants.getPrimaryColor()),
+                              onPressed: () {
+                                onNextPressed(pageState);
+                              },
+                              child: Text(
+                                pageState.pageViewIndex == pageCount ? 'Save' : 'Next',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
-                              FlatButton(
-                                color: Colors.white,
-                                textColor: Color(ColorConstants.primary_black),
-                                disabledColor: Colors.white,
-                                disabledTextColor:
-                                Color(ColorConstants.primary_bg_grey),
-                                padding: EdgeInsets.all(8.0),
-                                splashColor: Color(ColorConstants.getPrimaryColor()),
-                                onPressed: () {
-                                  onNextPressed(pageState);
-                                },
-                                child: Text(
-                                  "Next",
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-          ),
     );
+  }
+
+  FileImage getSavedImage(NewLocationPageState pageState) {
+    FileImage localImage = FileImage(File(pageState.documentFilePath + '/' + pageState.imagePath));
+    return localImage;
   }
 
   void onNextPressed(NewLocationPageState pageState) {
     if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
-//    Navigator.of(context).push(
-//      new MaterialPageRoute(builder: (context) => NewLocationMapPage()),
-//    );
 
     bool canProgress = false;
 
@@ -193,7 +214,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
         canProgress = pageState.newLocationLongitude != 0;
         break;
       case 2:
-        canProgress = true;
+        canProgress = false;
         break;
     }
     if (canProgress) {

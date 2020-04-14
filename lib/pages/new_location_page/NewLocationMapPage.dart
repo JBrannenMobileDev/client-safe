@@ -25,7 +25,6 @@ class NewLocationMapPage extends StatefulWidget {
 
 class _NewLocationMapPage extends State<NewLocationMapPage> {
   final Completer<GoogleMapController> _controller = Completer();
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewLocationPageState>(
@@ -95,7 +94,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                       color: Color(ColorConstants.getPrimaryColor()),
                       textColor: Color(ColorConstants.getPrimaryWhite()),
                       child: Text(
-                        "Save",
+                        'Save',
                         style: TextStyle(
                           fontSize: 26.0,
                           fontFamily: 'simple',

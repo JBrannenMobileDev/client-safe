@@ -105,7 +105,7 @@ class LocationListWidget extends StatelessWidget {
                 width: double.maxFinite,
                 child: GestureDetector(
                   onTap: () async{
-                    getDeviceImage(pageState);
+                    await getDeviceImage(pageState);
                   },
                 ),
               ),
@@ -176,8 +176,9 @@ class LocationListWidget extends StatelessWidget {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
-    await image.copy('$path/' + 'location_image_' + locationIndex.toString());
-    pageState.saveImagePath('location_image_' + locationIndex.toString(), pageState.locations.elementAt(locationIndex));
+    String key = UniqueKey().toString();
+    await image.copy('$path/' + key);
+    pageState.saveImagePath(key, pageState.locations.elementAt(locationIndex));
   }
 
   FileImage getSavedImage(LocationsPageState pageState) {

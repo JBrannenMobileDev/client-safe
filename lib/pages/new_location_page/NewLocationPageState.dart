@@ -8,6 +8,7 @@ import '../../AppState.dart';
 class NewLocationPageState{
   final int id;
   final bool shouldClear;
+  final String documentFilePath;
   final String locationName;
   final String newLocationAddress;
   final int pageViewIndex;
@@ -22,6 +23,7 @@ class NewLocationPageState{
   final Function(String) onLocationNameChanged;
   final Function() onNextPressed;
   final Function() onBackPressed;
+  final Function(String) saveImagePath;
 
   NewLocationPageState({
     @required this.id,
@@ -40,6 +42,8 @@ class NewLocationPageState{
     @required this.onLocationNameChanged,
     @required this.onNextPressed,
     @required this.onBackPressed,
+    @required this.documentFilePath,
+    @required this.saveImagePath,
   });
 
   NewLocationPageState copyWith({
@@ -51,6 +55,7 @@ class NewLocationPageState{
     double newLocationLatitude,
     double newLocationLongitude,
     String imagePath,
+    String documentFilePath,
     List<Location> locations,
     Function(int) onLocationChanged,
     Function() onDeleteLocationSelected,
@@ -60,6 +65,8 @@ class NewLocationPageState{
     Function(String) onLocationNameChanged,
     Function() onNextPressed,
     Function() onBackPressed,
+    Function(String) saveImagePath,
+
   }){
     return NewLocationPageState(
       id: id?? this.id,
@@ -71,6 +78,7 @@ class NewLocationPageState{
       newLocationLongitude: newLocationLongitude?? this.newLocationLongitude,
       imagePath: imagePath?? this.imagePath,
       locations: locations?? this.locations,
+      documentFilePath: documentFilePath ?? this.documentFilePath,
       onLocationChanged: onLocationChanged?? this.onLocationChanged,
       onSaveLocationSelected: onSaveLocationSelected?? this.onSaveLocationSelected,
       onCanceledSelected: onCanceledSelected?? this.onCanceledSelected,
@@ -78,6 +86,7 @@ class NewLocationPageState{
       onLocationNameChanged: onLocationNameChanged?? this.onLocationNameChanged,
       onNextPressed: onNextPressed ?? this.onNextPressed,
       onBackPressed: onBackPressed ?? this.onBackPressed,
+      saveImagePath: saveImagePath ?? this.saveImagePath,
     );
   }
 
@@ -90,6 +99,7 @@ class NewLocationPageState{
     newLocationLatitude: 0.0,
     newLocationLongitude: 0.0,
     imagePath: '',
+    documentFilePath: '',
     locations: List(),
     onLocationChanged: null,
     onSaveLocationSelected: null,
@@ -98,6 +108,7 @@ class NewLocationPageState{
     onLocationNameChanged: null,
     onNextPressed: null,
     onBackPressed: null,
+    saveImagePath: null,
   );
 
   factory NewLocationPageState.fromStore(Store<AppState> store) {
@@ -111,6 +122,7 @@ class NewLocationPageState{
       imagePath: store.state.newLocationPageState.imagePath,
       locations: store.state.newLocationPageState.locations,
       pageViewIndex: store.state.newLocationPageState.pageViewIndex,
+      documentFilePath: store.state.newLocationPageState.documentFilePath,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
       onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
@@ -118,6 +130,7 @@ class NewLocationPageState{
       onLocationNameChanged: (name) => store.dispatch(UpdateLocationName(store.state.newLocationPageState, name)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newLocationPageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newLocationPageState)),
+      saveImagePath: (imagePath) => store.dispatch(SaveImagePathNewAction(store.state.locationsPageState, imagePath)),
     );
   }
 
@@ -130,12 +143,14 @@ class NewLocationPageState{
       newLocationAddress.hashCode ^
       newLocationLatitude.hashCode ^
       newLocationLongitude.hashCode ^
+      saveImagePath.hashCode ^
       imagePath.hashCode ^
       locations.hashCode ^
       onLocationChanged.hashCode ^
       onSaveLocationSelected.hashCode ^
       onCanceledSelected.hashCode ^
       onDeleteSelected.hashCode ^
+      documentFilePath.hashCode ^
       onLocationNameChanged.hashCode ;
 
   @override
@@ -143,6 +158,7 @@ class NewLocationPageState{
       identical(this, other) ||
           other is NewLocationPageState &&
               id == other.id &&
+              saveImagePath == other.saveImagePath &&
               shouldClear == other.shouldClear &&
               locationName == other.locationName &&
               pageViewIndex == other.pageViewIndex &&
@@ -151,6 +167,7 @@ class NewLocationPageState{
               newLocationLongitude == other.newLocationLongitude &&
               imagePath == other.imagePath &&
               locations == other.locations &&
+              documentFilePath == other.documentFilePath &&
               onLocationChanged == other.onLocationChanged &&
               onSaveLocationSelected == other.onSaveLocationSelected &&
               onCanceledSelected == other.onCanceledSelected &&
