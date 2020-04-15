@@ -51,7 +51,8 @@ NewLocationPageState _updatePageView(NewLocationPageState previousState, Increme
 
 NewLocationPageState _setLocations(NewLocationPageState previousState, SetLocationsAction action){
   return previousState.copyWith(
-    locations: action.locations
+    locations: action.locations,
+    pageViewIndex: 0,
   );
 }
 

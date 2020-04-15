@@ -24,6 +24,7 @@ class NewJobPageState {
   final Client selectedClient;
   final String clientSearchText;
   final String jobTitle;
+  final String documentPath;
   final PriceProfile selectedPriceProfile;
   final Location selectedLocation;
   final DateTime selectedDate;
@@ -61,6 +62,7 @@ class NewJobPageState {
 
   NewJobPageState({
     @required this.id,
+    @required this.documentPath,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -107,6 +109,7 @@ class NewJobPageState {
 
   NewJobPageState copyWith({
     int id,
+    String documentPath,
     int pageViewIndex,
     bool saveButtonEnabled,
     bool shouldClear,
@@ -152,6 +155,7 @@ class NewJobPageState {
   }){
     return NewJobPageState(
       id: id?? this.id,
+      documentPath: documentPath ?? this.documentPath,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
@@ -202,6 +206,7 @@ class NewJobPageState {
     selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
     return NewJobPageState(
         id: null,
+        documentPath: '',
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
@@ -250,6 +255,7 @@ class NewJobPageState {
   factory NewJobPageState.fromStore(Store<AppState> store) {
     return NewJobPageState(
       id: store.state.newJobPageState.id,
+      documentPath: store.state.newJobPageState.documentPath,
       pageViewIndex: store.state.newJobPageState.pageViewIndex,
       saveButtonEnabled: store.state.newJobPageState.saveButtonEnabled,
       shouldClear: store.state.newJobPageState.shouldClear,
@@ -299,6 +305,7 @@ class NewJobPageState {
   int get hashCode =>
       id.hashCode ^
       pageViewIndex.hashCode ^
+      documentPath.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
       isFinishedFetchingClients.hashCode ^
@@ -342,6 +349,7 @@ class NewJobPageState {
       identical(this, other) ||
       other is NewJobPageState &&
           id == other.id &&
+          documentPath == other.documentPath &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&

@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:io';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
@@ -12,6 +13,7 @@ import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
 
@@ -51,6 +53,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     List<Location> allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();
     store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs));
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = appDocDir.path;
+    store.dispatch(SetDocumentPathAction(store.state.newJobPageState, path));
   }
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {

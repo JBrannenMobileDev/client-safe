@@ -14,15 +14,22 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 
 class NewLocationMapViewPage extends StatefulWidget {
+  final bool showMapIcon;
+
+  NewLocationMapViewPage(this.showMapIcon);
+
   @override
   _NewLocationMapViewPage createState() {
-    return _NewLocationMapViewPage();
+    return _NewLocationMapViewPage(showMapIcon);
   }
 }
 
 class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with AutomaticKeepAliveClientMixin {
   final locationNameTextController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
+  bool showMapIcon;
+
+  _NewLocationMapViewPage(this.showMapIcon);
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +65,14 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
                 );
               },
               child: Container(
-                padding: EdgeInsets.all(pageState.newLocationLongitude == 0 ? 24.0 : 0.0),
+                padding: EdgeInsets.all((pageState.newLocationLongitude == 0 || showMapIcon) ? 24.0 : 0.0),
                 height: 116.0,
                 width: 116.0,
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getBlueDark()),
                   shape: BoxShape.circle,
                 ),
-                child: pageState.newLocationLongitude == 0 ? Image.asset('assets/images/collection_icons/location_icon_white.png')
+                child: (pageState.newLocationLongitude == 0 || showMapIcon) ? Image.asset('assets/images/collection_icons/location_icon_white.png')
                 : ClipRRect(
                   borderRadius: BorderRadius.circular(58.0),
                   child: GoogleMap(

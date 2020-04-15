@@ -189,3 +189,9 @@ class ClearUnsavedDepositAction{
   ClearUnsavedDepositAction(this.pageState);
 }
 
+class SetDocumentPathAction{
+  final JobDetailsPageState pageState;
+  final String documentPath;
+  SetDocumentPathAction(this.pageState, this.documentPath);
+}
+

@@ -41,11 +41,7 @@ class JobLocationListWidget extends StatelessWidget {
                                   .elementAt(locationIndex)
                                   .imagePath !=
                               null
-                          ? Image.file(File(pageState.locations
-                                      .elementAt(locationIndex)
-                                      .imagePath ??
-                                  ""))
-                              .image
+                          ? getSavedImage(pageState)
                           : AssetImage(
                               "assets/images/backgrounds/image_background.png"),
                     ),
@@ -135,9 +131,8 @@ class JobLocationListWidget extends StatelessWidget {
     return (MediaQuery.of(context).size.width - 110) / 2.0;
   }
 
-  Future getImage(LocationsPageState pageState) async {
-    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
-    pageState.saveImagePath(
-        image.path, pageState.locations.elementAt(locationIndex));
+  FileImage getSavedImage(NewJobPageState pageState) {
+    FileImage localImage = FileImage(File(pageState.documentPath + '/' + pageState.locations.elementAt(locationIndex).imagePath));
+    return localImage;
   }
 }

@@ -16,6 +16,7 @@ class LocationsPageState{
   final Function(String, Location) saveImagePath;
   final Function(Location) onDrivingDirectionsSelected;
   final Function(Location) onShareLocationSelected;
+  final Function() clearNewLocationState;
 
   LocationsPageState({
     @required this.locations,
@@ -26,6 +27,7 @@ class LocationsPageState{
     @required this.saveImagePath,
     @required this.onDrivingDirectionsSelected,
     @required this.onShareLocationSelected,
+    @required this.clearNewLocationState,
   });
 
   LocationsPageState copyWith({
@@ -37,6 +39,7 @@ class LocationsPageState{
     Function(String) saveImagePath,
     Function(Location) onDrivingDirectionsSelected,
     Function(Location) onShareLocationSelected,
+    Function() clearNewLocationState,
   }){
     return LocationsPageState(
       locations: locations?? this.locations,
@@ -47,6 +50,7 @@ class LocationsPageState{
       saveImagePath: saveImagePath?? this.saveImagePath,
       onDrivingDirectionsSelected: onDrivingDirectionsSelected?? this.onDrivingDirectionsSelected,
       onShareLocationSelected: onShareLocationSelected?? this.onShareLocationSelected,
+      clearNewLocationState: clearNewLocationState ?? this.clearNewLocationState,
     );
   }
 
@@ -59,6 +63,7 @@ class LocationsPageState{
     saveImagePath: null,
     onDrivingDirectionsSelected: null,
     onShareLocationSelected: null,
+    clearNewLocationState: null,
   );
 
   factory LocationsPageState.fromStore(Store<AppState> store) {
@@ -71,6 +76,7 @@ class LocationsPageState{
       saveImagePath: (imagePath, location) => store.dispatch(SaveImagePathAction(store.state.locationsPageState, imagePath, location)),
       onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsSelected(store.state.locationsPageState, location)),
       onShareLocationSelected: (location) => store.dispatch(ShareLocationSelected(store.state.locationsPageState, location)),
+      clearNewLocationState: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
     );
   }
 
@@ -83,6 +89,7 @@ class LocationsPageState{
       onDeleteLocationSelected.hashCode ^
       saveImagePath.hashCode ^
       onDrivingDirectionsSelected.hashCode ^
+      clearNewLocationState.hashCode ^
       onShareLocationSelected.hashCode;
 
   @override
@@ -90,6 +97,7 @@ class LocationsPageState{
       identical(this, other) ||
           other is LocationsPageState &&
               locations == other.locations &&
+              clearNewLocationState == other.clearNewLocationState &&
               documentFilePath == other.documentFilePath &&
               shouldClear == other.shouldClear &&
               onLocationSelected == other.onLocationSelected &&

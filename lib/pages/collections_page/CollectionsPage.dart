@@ -4,7 +4,6 @@ import 'package:client_safe/pages/locations_page/LocationsPage.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -44,27 +43,21 @@ class _CollectionsPageState extends State<CollectionsPage> {
                 ),
               ),
               actions: <Widget>[
-                IconButton(
-                  icon: const Icon(Icons.add_circle_outline),
-                  color: Color(ColorConstants.getPrimaryColor()),
-                  tooltip: 'Add',
-                  onPressed: () {
-                    UserOptionsUtil.showCollectionOptionsSheet(context);
-                  },
-                ),
+                SizedBox(
+                  width: 56.0,
+                )
               ],
             ),
             SliverList(
               delegate: new SliverChildListDelegate(
                 <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0),
+                    padding: EdgeInsets.only(left: 32.0, right: 32.0),
                     child: GridView.builder(
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),
                         itemCount: 10,
-                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2),
+                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {

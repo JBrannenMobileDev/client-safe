@@ -24,7 +24,12 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, UpdateSelectedPricePackageAction>(_setSelectedPriceProfiles),
   TypedReducer<JobDetailsPageState, AddToDepositAction>(_addToUnsavedDeposit),
   TypedReducer<JobDetailsPageState, ClearUnsavedDepositAction>(_clearUnsavedDeposit),
+  TypedReducer<JobDetailsPageState, SetDocumentPathAction>(_setDocumentPath),
 ]);
+
+JobDetailsPageState _setDocumentPath(JobDetailsPageState previousState, SetDocumentPathAction action) {
+  return previousState.copyWith(documentPath: action.documentPath);
+}
 
 JobDetailsPageState _clearUnsavedDeposit(JobDetailsPageState previousState, ClearUnsavedDepositAction action) {
   return previousState.copyWith(unsavedDepositAmount: 0);

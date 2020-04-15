@@ -138,3 +138,9 @@ class ClearDepositAction{
   final NewJobPageState pageState;
   ClearDepositAction(this.pageState);
 }
+
+class SetDocumentPathAction{
+  final NewJobPageState pageState;
+  final String documentPath;
+  SetDocumentPathAction(this.pageState, this.documentPath);
+}

@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:math';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:flutter/widgets.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ImageUtil{
   static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";

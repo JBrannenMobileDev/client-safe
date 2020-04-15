@@ -153,6 +153,7 @@ class LocationListWidget extends StatelessWidget {
               margin: EdgeInsets.only(top: 4.0),
               child: Text(
                 pageState.locations.elementAt(locationIndex).locationName,
+                overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.0,

@@ -57,9 +57,10 @@ class LocationsPage extends StatelessWidget {
                       GestureDetector(
                         onTap: () {
                           UserOptionsUtil.showNewLocationDialog(context);
+                          pageState.clearNewLocationState();
                         },
                         child: Container(
-                          margin: EdgeInsets.only(right: 12.0),
+                          margin: EdgeInsets.only(right: 26.0),
                           height: 24.0,
                           width: 24.0,
                           child: Image.asset('assets/images/icons/plus_icon_white.png'),

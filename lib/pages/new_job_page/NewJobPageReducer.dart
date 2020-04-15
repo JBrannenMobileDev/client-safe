@@ -29,7 +29,12 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, InitNewJobPageWithDateAction>(_loadWithSelectedDate),
   TypedReducer<NewJobPageState, AddToDepositAmountAction>(_updateDepositAmount),
   TypedReducer<NewJobPageState, ClearDepositAction>(_clearDeposit),
+  TypedReducer<NewJobPageState, SetDocumentPathAction>(_setDocumentPath),
 ]);
+
+NewJobPageState _setDocumentPath(NewJobPageState previousState, SetDocumentPathAction action) {
+  return previousState.copyWith(documentPath: action.documentPath);
+}
 
 NewJobPageState _clearDeposit(NewJobPageState previousState, ClearDepositAction action) {
   return previousState.copyWith(depositAmount: 0);

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
@@ -14,6 +16,7 @@ import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
 
@@ -174,6 +177,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations));
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = appDocDir.path;
+    store.dispatch(SetDocumentPathAction(store.state.jobDetailsPageState, path));
   }
 
   void _fetchPricePackages(Store<AppState> store, action, NextDispatcher next) async{

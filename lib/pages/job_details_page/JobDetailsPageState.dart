@@ -25,6 +25,7 @@ class JobDetailsPageState {
   final Function(Location) onLocationSelected;
   final List<int> expandedIndexes;
   final String jobTypeIcon;
+  final String documentPath;
   final PriceProfile selectedPriceProfile;
   final List<PriceProfile> priceProfiles;
   final Function(PriceProfile) onPriceProfileSelected;
@@ -56,6 +57,7 @@ class JobDetailsPageState {
     @required this.sunsetTime,
     @required this.eventMap,
     @required this.jobs,
+    @required this.documentPath,
     @required this.jobTitleText,
     @required this.locations,
     @required this.selectedLocation,
@@ -104,6 +106,7 @@ class JobDetailsPageState {
     Function(Location) onLocationSelected,
     List<int> expandedIndexes,
     String jobTypeIcon,
+    String documentPath,
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
     Function(PriceProfile) onPriceProfileSelected,
@@ -138,6 +141,7 @@ class JobDetailsPageState {
       stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
       eventMap: eventMap ?? this.eventMap,
       jobs: jobs ?? this.jobs,
+      documentPath: documentPath ?? this.documentPath,
       jobTitleText: jobTitleText ?? this.jobTitleText,
       locations: locations ?? this.locations,
       selectedLocation: selectedLocation ?? this.selectedLocation,
@@ -190,6 +194,7 @@ class JobDetailsPageState {
       selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
       priceProfiles: store.state.jobDetailsPageState.priceProfiles,
       unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
+      documentPath: store.state.jobDetailsPageState.documentPath,
       onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
       onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
       setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
@@ -242,6 +247,7 @@ class JobDetailsPageState {
     onLocationSelected: null,
     onJobTitleTextChanged: null,
     onNameChangeSaved: null,
+    documentPath: '',
     jobTypeIcon: 'assets/images/job_types/other.png',
     onJobTypeSelected: null,
     onJobTypeSaveSelected: null,
@@ -261,6 +267,7 @@ class JobDetailsPageState {
       onAddToDeposit.hashCode ^
       onSaveDepositChange.hashCode ^
       job.hashCode ^
+      documentPath.hashCode ^
       client.hashCode ^
       sunsetTime.hashCode ^
       stageScrollOffset.hashCode ^
@@ -302,6 +309,7 @@ class JobDetailsPageState {
               onAddToDeposit == other.onAddToDeposit &&
               onSaveDepositChange == other.onSaveDepositChange &&
               job == other.job &&
+              documentPath == other.documentPath &&
               client == other.client &&
               sunsetTime == other.sunsetTime &&
               stageScrollOffset == other.stageScrollOffset &&
