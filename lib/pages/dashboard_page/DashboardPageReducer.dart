@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/utils/JobUtil.dart';
 import 'package:redux/redux.dart';
 
 import 'DashboardPageActions.dart';
@@ -24,23 +25,22 @@ DashboardPageState _updateShowHideState(DashboardPageState previousState, Update
 
 DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateAction action) {
   return previousState.copyWith(
-      currentJobs: action.upcomingJobs
+      currentJobs: JobUtil.getUpComingJobs(action.allJobs),
+      allJobs: action.allJobs,
   );
 }
 
 DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashboardAction action) {
-  List<Client> leads = List();
-
-  for(Client client in action.clients){
-    bool clientHasJob = false;
-    for(Job job in previousState.upcomingJobs) {
-      if(client.id == job.clientId) clientHasJob = true;
-    }
-    if(!clientHasJob){
-      leads.add(client);
-    }
-  }
-
+  List<Client> leads = action.clients.where((client) => (!_hasAJobWithJobDateSaved(client.id, previousState.allJobs))).toList();
+  leads.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
   return previousState.copyWith(
       recentLeads: leads);
+}
+
+bool _hasAJobWithJobDateSaved(int clientId, List<Job> jobs) {
+  List<Job> clientJobs = jobs.where((job) => job.clientId == clientId).toList();
+  for(Job job in clientJobs){
+    if(job.selectedDate != null) return true;
+  }
+  return false;
 }

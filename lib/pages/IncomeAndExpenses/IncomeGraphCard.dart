@@ -19,11 +19,6 @@ class IncomeGraphCard extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.only(top: 40.0),
-            height: 100.0,
-            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-          ),
-          Container(
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -40,7 +35,7 @@ class IncomeGraphCard extends StatelessWidget {
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
-                          fontFamily: 'Blackjack',
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
                           color: Color(ColorConstants.primary_black),
                         ),
@@ -49,8 +44,8 @@ class IncomeGraphCard extends StatelessWidget {
                         "2020",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w400,
                           color: Color(ColorConstants.primary_black),
                         ),

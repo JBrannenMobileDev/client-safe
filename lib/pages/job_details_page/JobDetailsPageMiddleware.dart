@@ -13,7 +13,6 @@ import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:path_provider/path_provider.dart';
@@ -227,7 +226,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
-    JobDao.insertOrUpdate(jobToSave);
+    await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }

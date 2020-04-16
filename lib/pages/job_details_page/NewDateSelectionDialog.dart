@@ -334,9 +334,9 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       for(List<Event> events in pageState.eventMap.values){
         for(Event event in events){
           if(event.selectedDate != null) {
-            if (event.selectedDate.year == pageState.job.selectedDate.year &&
-                event.selectedDate.month == pageState.job.selectedDate.month &&
-                event.selectedDate.day == pageState.job.selectedDate.day) {
+            if (event.selectedDate.year == selectedDateTime.year &&
+                event.selectedDate.month == selectedDateTime.month &&
+                event.selectedDate.day == selectedDateTime.day) {
               return _getListOfJobsFromEvents(events, pageState.jobs);
             }
           }

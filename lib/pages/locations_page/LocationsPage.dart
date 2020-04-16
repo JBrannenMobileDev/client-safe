@@ -86,8 +86,8 @@ class LocationsPage extends StatelessWidget {
                             "You have not saved any locations yet. To create a new location, select the plus icon.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'Raleway',
+                              fontSize: 22.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w400,
                               color: Color(ColorConstants.getPrimaryWhite()),
                             ),

@@ -1,6 +1,7 @@
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 
@@ -15,9 +16,6 @@ class UnpaidInvoicesCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       height: 500.0,
-        decoration: BoxDecoration(
-        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-    ),
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -40,8 +38,18 @@ class UnpaidInvoicesCard extends StatelessWidget{
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
-                          fontFamily: 'Blackjack',
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                      Text(
+                        "2020",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w400,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),

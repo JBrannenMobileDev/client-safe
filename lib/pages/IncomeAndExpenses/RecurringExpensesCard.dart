@@ -15,9 +15,6 @@ class RecurringExpensesCard extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       height: 200.0,
-        decoration: BoxDecoration(
-        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-    ),
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -40,8 +37,18 @@ class RecurringExpensesCard extends StatelessWidget{
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
-                          fontFamily: 'Blackjack',
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                      Text(
+                        "2020",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w400,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
@@ -63,8 +70,8 @@ class RecurringExpensesCard extends StatelessWidget{
                     'You have zero unpaid invoices.',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 22.0,
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w400,
                       color: Color(ColorConstants.primary_black),
                     ),

@@ -31,16 +31,16 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
   Widget build(BuildContext context) {
     tabs = <int, Widget>{
       0: Text(IncomeAndExpensesPage.FILTER_TYPE_INCOME, style: TextStyle(
-        fontFamily: 'Raleway',
-        color: Color(selectedIndex == 0
-            ? ColorConstants.getPrimaryWhite()
-            : ColorConstants.getPrimaryBlack()),
+        fontSize: 20.0,
+        fontFamily: 'simple',
+        fontWeight: selectedIndex == 0 ? FontWeight.w800 : FontWeight.w600,
+        color: Color(ColorConstants.getPrimaryWhite()),
       ),),
       1: Text(IncomeAndExpensesPage.FILTER_TYPE_EXPENSES, style: TextStyle(
-        fontFamily: 'Raleway',
-        color: Color(selectedIndex == 1
-            ? ColorConstants.getPrimaryWhite()
-            : ColorConstants.getPrimaryBlack()),
+        fontSize: 20.0,
+        fontFamily: 'simple',
+        fontWeight: selectedIndex == 1 ? FontWeight.w800 : FontWeight.w600,
+        color: Color(ColorConstants.getPrimaryWhite()),
       ),),
     };
     return StoreConnector<AppState, JobsPageState>(
@@ -50,14 +50,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
           children: <Widget>[
             Container(
               decoration: BoxDecoration(
-//                color: Color(ColorConstants.getPrimaryColor()),
-                image: DecorationImage(
-                  image: AssetImage(pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? ImageUtil.INCOME_BG : ImageUtil.EXPENSES_BG),
-                  repeat: ImageRepeat.repeat,
-                  fit: BoxFit.contain,
-                ),
+                color: Color(selectedIndex == 0 ? ColorConstants.getBlueLight() : ColorConstants.getPeachLight()),
               ),
-              height: 435.0,
             ),
             Scaffold(
               backgroundColor: Colors.transparent,
@@ -67,6 +61,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
+                        iconTheme: IconThemeData(
+                          color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                        ),
                         brightness: Brightness.light,
                         backgroundColor: Colors.transparent,
                         elevation: 0.0,
@@ -77,23 +74,26 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         centerTitle: true,
                         title: Center(
                           child: Text(
-                            'Income & Expenses',
+                            selectedIndex == 0 ? 'Income' : 'Expenses',
                             style: TextStyle(
-                              fontFamily: 'Raleway',
-                              fontSize: 22.0,
+                              fontFamily: 'simple',
+                              fontSize: 26.0,
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                         ),
                         actions: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.add_circle_outline),
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                            tooltip: 'Add',
-                            onPressed: () {
+                          GestureDetector(
+                            onTap: () {
                               UserOptionsUtil.showNewInvoiceDialog(context);
                             },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 18.0),
+                              height: 24.0,
+                              width: 24.0,
+                              child: Image.asset('assets/images/icons/plus_icon_white.png'),
+                            ),
                           ),
                         ],
                         flexibleSpace: new FlexibleSpaceBar(
@@ -106,8 +106,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                     width: 300.0,
                                     margin: EdgeInsets.only(top: 56.0),
                                     child: CupertinoSlidingSegmentedControl<int>(
-                                      thumbColor: Color(ColorConstants.getPrimaryColor()),
-                                      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                                      thumbColor: Color(selectedIndex == 0 ? ColorConstants.getPeachLight() : ColorConstants.getBlueLight()),
+                                      backgroundColor: Colors.transparent,
                                       children: tabs,
                                       onValueChanged: (int filterTypeIndex) {
                                         setState(() {
@@ -137,7 +137,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                       child: Image(
                                         height: 64.0,
                                         width: 64.0,
-                                        image: AssetImage("assets/images/income_and_expenses/piggybank.png"),
+                                        image: AssetImage("assets/images/job_progress/payment_requested.png"),
                                       ),
                                     ),
                                     Column(
@@ -151,8 +151,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                               child: Text(
                                                 'Income',
                                                 style: TextStyle(
-                                                  fontFamily: 'Raleway',
-                                                  fontSize: 22.0,
+                                                  fontFamily: 'simple',
+                                                  fontSize: 26.0,
                                                   fontWeight: FontWeight.w600,
                                                   color: Color(ColorConstants.getPrimaryWhite()),
                                                 ),
@@ -183,8 +183,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                 child: Text(
                                                   '2020',
                                                   style: TextStyle(
-                                                    fontFamily: 'Raleway',
-                                                    fontSize: 22.0,
+                                                    fontFamily: 'simple',
+                                                    fontSize: 26.0,
                                                     fontWeight: FontWeight.w600,
                                                     color: Color(ColorConstants.getPrimaryWhite()),
                                                   ),
@@ -198,8 +198,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           child: Text(
                                             '\$5,250',
                                             style: TextStyle(
-                                              fontFamily: 'Raleway',
-                                              fontSize: 48.0,
+                                              fontFamily: 'simple',
+                                              fontSize: 52.0,
                                               fontWeight: FontWeight.w600,
                                               color: Color(ColorConstants.getPrimaryWhite()),
                                             ),

@@ -21,8 +21,8 @@ class LoadJobsAction{
 
 class SetJobToStateAction{
   final DashboardPageState pageState;
-  final List<Job> upcomingJobs;
-  SetJobToStateAction(this.pageState, this.upcomingJobs);
+  final List<Job> allJobs;
+  SetJobToStateAction(this.pageState, this.allJobs);
 }
 
 class SetClientsDashboardAction{

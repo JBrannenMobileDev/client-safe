@@ -14,6 +14,7 @@ class DashboardPageState {
   final List<Action> actionItems;
   final List<Client> recentLeads;
   final List<Job> upcomingJobs;
+  final List<Job> allJobs;
   final List<Notifications> unseenNotifications;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
@@ -27,6 +28,7 @@ class DashboardPageState {
     this.actionItems,
     this.recentLeads,
     this.upcomingJobs,
+    this.allJobs,
     this.unseenNotifications,
     this.onAddClicked,
     this.onSearchClientsClicked,
@@ -43,6 +45,7 @@ class DashboardPageState {
     List<Action> actionItems,
     List<Client> recentLeads,
     List<Job> currentJobs,
+    List<Job> allJobs,
     List<Notifications> unseenNotifications,
     Function() onAddClicked,
     Function() onSearchClientsClicked,
@@ -64,6 +67,7 @@ class DashboardPageState {
       onLeadClicked: onLeadClicked ?? this.onLeadClicked,
       onJobClicked: onJobClicked ?? this.onJobClicked,
       onViewAllHideSelected: onViewAllHideSelected ?? this.onViewAllHideSelected,
+      allJobs: allJobs ?? this.allJobs,
     );
   }
 
@@ -78,6 +82,7 @@ class DashboardPageState {
       onSearchClientsClicked: store.state.dashboardPageState.onSearchClientsClicked,
       onActionItemClicked: store.state.dashboardPageState.onActionItemClicked,
       isMinimized: store.state.dashboardPageState.isMinimized,
+      allJobs: store.state.dashboardPageState.allJobs,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -96,6 +101,7 @@ class DashboardPageState {
     onLeadClicked: null,
     onJobClicked: null,
     isMinimized: true,
+    allJobs: List(),
     onViewAllHideSelected: null,
   );
 
@@ -111,6 +117,7 @@ class DashboardPageState {
       onLeadClicked.hashCode ^
       onJobClicked.hashCode ^
       onAddClicked.hashCode ^
+      allJobs.hashCode ^
       onViewAllHideSelected.hashCode ^
       isMinimized.hashCode;
 
@@ -122,6 +129,7 @@ class DashboardPageState {
               actionItems == other.actionItems &&
               recentLeads == other.recentLeads &&
               upcomingJobs == other.upcomingJobs &&
+              allJobs == other.allJobs &&
               unseenNotifications == other.unseenNotifications &&
               onSearchClientsClicked == other.onSearchClientsClicked &&
               onActionItemClicked == other.onActionItemClicked &&
