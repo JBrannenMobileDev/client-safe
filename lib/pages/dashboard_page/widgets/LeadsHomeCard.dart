@@ -1,5 +1,6 @@
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 
@@ -43,16 +44,22 @@ class LeadsHomeCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      Text(
-                        "View all",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.primary_black),
+                      FlatButton(
+                        onPressed: () {
+                          pageState.onViewAllHideLeadsSelected();
+                        },
+                        child: Text(
+                          pageState.recentLeads.length > 3 ? (pageState
+                              .isLeadsMinimized ? 'View all' : 'Hide') : '',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w400,
+                            color: Color(ColorConstants.primary_black),
+                          ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
@@ -62,7 +69,8 @@ class LeadsHomeCard extends StatelessWidget{
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     key: _listKey,
-                    itemCount: pageState.recentLeads.length,
+                    itemCount: pageState.isLeadsMinimized ? (pageState.recentLeads.length > 3? pageState.recentLeads.sublist(0, 3).length : pageState.recentLeads.length)
+        : pageState.recentLeads.length,
                     itemBuilder: _buildItem,
                   ) : Container(
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),

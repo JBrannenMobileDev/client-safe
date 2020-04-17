@@ -11,6 +11,7 @@ import '../../AppState.dart';
 class DashboardPageState {
   final String jobsProfitTotal;
   final bool isMinimized;
+  final bool isLeadsMinimized;
   final List<Action> actionItems;
   final List<Client> recentLeads;
   final List<Job> upcomingJobs;
@@ -22,6 +23,7 @@ class DashboardPageState {
   final Function(Client) onLeadClicked;
   final Function(Job) onJobClicked;
   final Function() onViewAllHideSelected;
+  final Function() onViewAllHideLeadsSelected;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -37,11 +39,14 @@ class DashboardPageState {
     this.onJobClicked,
     this.isMinimized,
     this.onViewAllHideSelected,
+    this.isLeadsMinimized,
+    this.onViewAllHideLeadsSelected,
   });
 
   DashboardPageState copyWith({
     String jobsProfitTotal,
     bool isMinimized,
+    bool isLeadsMinimized,
     List<Action> actionItems,
     List<Client> recentLeads,
     List<Job> currentJobs,
@@ -53,6 +58,7 @@ class DashboardPageState {
     Function(Client) onLeadClicked,
     Function(Job) onJobClicked,
     Function() onViewAllHideSelected,
+    Function() onViewAllHideLeadsSelected,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -68,6 +74,8 @@ class DashboardPageState {
       onJobClicked: onJobClicked ?? this.onJobClicked,
       onViewAllHideSelected: onViewAllHideSelected ?? this.onViewAllHideSelected,
       allJobs: allJobs ?? this.allJobs,
+      isLeadsMinimized: isLeadsMinimized ?? this.isLeadsMinimized,
+      onViewAllHideLeadsSelected: onViewAllHideLeadsSelected ?? this.onViewAllHideLeadsSelected,
     );
   }
 
@@ -83,9 +91,11 @@ class DashboardPageState {
       onActionItemClicked: store.state.dashboardPageState.onActionItemClicked,
       isMinimized: store.state.dashboardPageState.isMinimized,
       allJobs: store.state.dashboardPageState.allJobs,
+      isLeadsMinimized: store.state.dashboardPageState.isLeadsMinimized,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
+      onViewAllHideLeadsSelected: () => store.dispatch(UpdateShowHideLeadsState(store.state.dashboardPageState)),
     );
   }
 
@@ -103,6 +113,8 @@ class DashboardPageState {
     isMinimized: true,
     allJobs: List(),
     onViewAllHideSelected: null,
+    isLeadsMinimized: true,
+    onViewAllHideLeadsSelected: null,
   );
 
   @override
@@ -119,6 +131,8 @@ class DashboardPageState {
       onAddClicked.hashCode ^
       allJobs.hashCode ^
       onViewAllHideSelected.hashCode ^
+      isLeadsMinimized.hashCode ^
+      onViewAllHideLeadsSelected.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -130,6 +144,8 @@ class DashboardPageState {
               recentLeads == other.recentLeads &&
               upcomingJobs == other.upcomingJobs &&
               allJobs == other.allJobs &&
+              isLeadsMinimized == other.isLeadsMinimized &&
+              onViewAllHideLeadsSelected == other.onViewAllHideLeadsSelected &&
               unseenNotifications == other.unseenNotifications &&
               onSearchClientsClicked == other.onSearchClientsClicked &&
               onActionItemClicked == other.onActionItemClicked &&

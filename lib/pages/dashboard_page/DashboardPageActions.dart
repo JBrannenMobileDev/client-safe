@@ -35,3 +35,8 @@ class UpdateShowHideState{
   final DashboardPageState pageState;
   UpdateShowHideState(this.pageState);
 }
+
+class UpdateShowHideLeadsState{
+  final DashboardPageState pageState;
+  UpdateShowHideLeadsState(this.pageState);
+}

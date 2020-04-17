@@ -13,6 +13,7 @@ class JobsPageState {
   final List<Job> leads;
   final List<Job> jobsInProgress;
   final List<Job> jobsCompleted;
+  final List<Job> jobsUpcoming;
   final Function(String) onFilterChanged;
   final Function(Job) onJobClicked;
 
@@ -24,6 +25,7 @@ class JobsPageState {
     @required this.jobsCompleted,
     @required this.onFilterChanged,
     @required this.onJobClicked,
+    @required this.jobsUpcoming,
   });
 
   JobsPageState copyWith({
@@ -32,6 +34,7 @@ class JobsPageState {
     List<Job> leads,
     List<Job> jobsInProgress,
     List<Job> jobsCompleted,
+    List<Job> jobsUpcoming,
     Function(String) onFilterChanged,
     Function(String) onJobClicked,
   }){
@@ -43,17 +46,19 @@ class JobsPageState {
       jobsCompleted: jobsCompleted?? this.jobsCompleted,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
       onJobClicked: onJobClicked?? this.onJobClicked,
+      jobsUpcoming: jobsUpcoming ?? this.jobsUpcoming,
     );
   }
 
   factory JobsPageState.initial() => JobsPageState(
-    filterType: JobsPage.FILTER_TYPE_IN_PROGRESS,
+    filterType: JobsPage.FILTER_TYPE_UPCOMING,
     selectedJob: null,
     leads: List(),
     jobsInProgress: List(),
     jobsCompleted: List(),
     onFilterChanged: null,
     onJobClicked: null,
+    jobsUpcoming: List(),
   );
 
   factory JobsPageState.fromStore(Store<AppState> store) {
@@ -63,6 +68,7 @@ class JobsPageState {
       leads: store.state.jobsPageState.leads,
       jobsInProgress: store.state.jobsPageState.jobsInProgress,
       jobsCompleted: store.state.jobsPageState.jobsCompleted,
+      jobsUpcoming: store.state.jobsPageState.jobsUpcoming,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
     );
@@ -76,6 +82,7 @@ class JobsPageState {
       jobsInProgress.hashCode ^
       jobsCompleted.hashCode ^
       onFilterChanged.hashCode ^
+      jobsUpcoming.hashCode ^
       onJobClicked.hashCode;
 
   @override
@@ -88,5 +95,6 @@ class JobsPageState {
               jobsInProgress == other.jobsInProgress &&
               jobsCompleted == other.jobsCompleted &&
               onFilterChanged == other.onFilterChanged &&
+              jobsUpcoming == other.jobsUpcoming &&
               onJobClicked == other.onJobClicked;
 }

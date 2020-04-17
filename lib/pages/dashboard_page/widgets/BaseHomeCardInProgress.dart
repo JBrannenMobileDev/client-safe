@@ -46,7 +46,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
                       pageState.onViewAllHideSelected();
                     },
                     child: Text(
-                      pageState.isMinimized ? 'View all' : 'Hide',
+                      pageState.upcomingJobs.length > 3 ? (pageState.isMinimized ? 'View all' : 'Hide') : '',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 20.0,

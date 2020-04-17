@@ -1,3 +1,4 @@
+import 'package:client_safe/pages/jobs_page/JobsPage.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/utils/JobUtil.dart';
@@ -13,7 +14,8 @@ JobsPageState _setJobData(JobsPageState previousState, SetJobsDataAction action)
   return previousState.copyWith(
       jobsInProgress: JobUtil.getJobsInProgress(action.jobs),
       jobsCompleted: JobUtil.getJobsCompleted(action.jobs),
-      filterType: 'In Progress',
+      jobsUpcoming: JobUtil.getUpComingJobs(action.jobs),
+      filterType: JobsPage.FILTER_TYPE_UPCOMING,
   );
 }
 

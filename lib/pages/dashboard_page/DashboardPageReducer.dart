@@ -11,6 +11,7 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetJobToStateAction>(_setJobs),
   TypedReducer<DashboardPageState, SetClientsDashboardAction>(_setClients),
   TypedReducer<DashboardPageState, UpdateShowHideState>(_updateShowHideState),
+  TypedReducer<DashboardPageState, UpdateShowHideLeadsState>(_updateShowHideLeadsState),
 ]);
 
 DashboardPageState _setupDataListeners(DashboardPageState previousState, InitDashboardPageAction action) {
@@ -23,6 +24,12 @@ DashboardPageState _updateShowHideState(DashboardPageState previousState, Update
   );
 }
 
+DashboardPageState _updateShowHideLeadsState(DashboardPageState previousState, UpdateShowHideLeadsState action) {
+  return previousState.copyWith(
+    isLeadsMinimized: !previousState.isLeadsMinimized,
+  );
+}
+
 DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateAction action) {
   return previousState.copyWith(
       currentJobs: JobUtil.getUpComingJobs(action.allJobs),
@@ -32,9 +39,8 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
 
 DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashboardAction action) {
   List<Client> leads = action.clients.where((client) => (!_hasAJobWithJobDateSaved(client.id, previousState.allJobs))).toList();
-  leads.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
   return previousState.copyWith(
-      recentLeads: leads);
+      recentLeads: leads.reversed.toList());
 }
 
 bool _hasAJobWithJobDateSaved(int clientId, List<Job> jobs) {

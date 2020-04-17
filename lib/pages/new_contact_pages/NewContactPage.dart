@@ -355,7 +355,6 @@ class _NewContactPageState extends State<NewContactPage> {
 
   void onFlareCompleted(String unused) {
     Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
     UserOptionsUtil.showJobPromptDialog(context);
   }
 

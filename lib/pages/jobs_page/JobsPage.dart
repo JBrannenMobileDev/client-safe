@@ -13,6 +13,7 @@ import 'package:sider_bar/sider_bar.dart';
 class JobsPage extends StatefulWidget {
   static const String FILTER_TYPE_IN_PROGRESS = "In Progress";
   static const String FILTER_TYPE_COMPETED = "Completed";
+  static const String FILTER_TYPE_UPCOMING = "Upcoming";
 
   @override
   State<StatefulWidget> createState() {
@@ -22,37 +23,38 @@ class JobsPage extends StatefulWidget {
 
 class _JobsPageState extends State<JobsPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final String alphabet = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
   ScrollController _controller = ScrollController();
 
   int selectorIndex = 0;
-  Map<int, Widget> genders;
-  List<String> alphabetList;
-
-  @override
-  void initState() {
-    super.initState();
-    alphabetList = List<String>.generate(alphabet.length, (index) => alphabet[index]);
-  }
+  Map<int, Widget> jobTypes;
 
   @override
   Widget build(BuildContext context) {
-    genders = <int, Widget>{
-      0: Text(JobsPage.FILTER_TYPE_IN_PROGRESS,
+    jobTypes = <int, Widget>{
+      0: Text(JobsPage.FILTER_TYPE_UPCOMING,
         style: TextStyle(
           fontSize: 20.0,
-          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
+          fontWeight: FontWeight.w600,
           fontFamily: 'simple',
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
-      1: Text(JobsPage.FILTER_TYPE_COMPETED,
+      1: Text(JobsPage.FILTER_TYPE_IN_PROGRESS,
         style: TextStyle(
           fontSize: 20.0,
-          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
+          fontWeight: FontWeight.w600,
           fontFamily: 'simple',
           color: Color(selectorIndex == 1
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+      2: Text(JobsPage.FILTER_TYPE_COMPETED,
+        style: TextStyle(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
+          fontFamily: 'simple',
+          color: Color(selectorIndex == 2
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
@@ -97,17 +99,17 @@ class _JobsPageState extends State<JobsPage> {
                         ],
                         bottom: PreferredSize(
                           child: Container(
-                            width: 300.0,
+
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                               thumbColor: Color(ColorConstants.getPrimaryColor()),
-                              children: genders,
+                              children: jobTypes,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {
                                   selectorIndex = filterTypeIndex;
                                 });
-                                pageState.onFilterChanged(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_IN_PROGRESS : JobsPage.FILTER_TYPE_COMPETED);
+                                pageState.onFilterChanged(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_UPCOMING : filterTypeIndex == 1 ? JobsPage.FILTER_TYPE_IN_PROGRESS : JobsPage.FILTER_TYPE_COMPETED);
                               },
                               groupValue: selectorIndex,
                             ),
@@ -125,8 +127,7 @@ class _JobsPageState extends State<JobsPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS
-                                  ? pageState.jobsInProgress.length : pageState.jobsCompleted.length,
+                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_UPCOMING ? pageState.jobsUpcoming.length : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? pageState.jobsInProgress.length : pageState.jobsCompleted.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -134,13 +135,6 @@ class _JobsPageState extends State<JobsPage> {
                       ),
                     ],
                   ),
-                  SideBar(
-                      list: alphabetList,
-                      textColor: Color(ColorConstants.getPrimaryColor()),
-                      color: Color(ColorConstants.getPrimaryColor()).withOpacity(0.2),
-                      valueChanged: (value) {
-                        _controller.jumpTo(alphabetList.indexOf(value) * 44.0);
-                      })
                 ],
           ),
         ),
@@ -152,7 +146,7 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, JobsPageState>(
     converter: (store) => JobsPageState.fromStore(store),
     builder: (BuildContext context, JobsPageState pageState) =>
-    pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS
-        ? JobsPageInProgressItem(job: pageState.jobsInProgress.elementAt(index), pageState: pageState,) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index)),
+    pageState.filterType == JobsPage.FILTER_TYPE_UPCOMING ? JobsPageInProgressItem(job: pageState.jobsUpcoming.elementAt(index), pageState: pageState,)
+        : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? JobsPageInProgressItem(job: pageState.jobsInProgress.elementAt(index)) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index)),
   );
 }

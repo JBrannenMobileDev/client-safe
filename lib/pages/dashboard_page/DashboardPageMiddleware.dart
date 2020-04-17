@@ -25,7 +25,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadClients(Store<AppState> store, action, NextDispatcher next) async {
-    List<Client> clients = await ClientDao.getAllSortedByFirstName();
+    List<Client> clients = await ClientDao.getAll();
     store.dispatch(SetClientsDashboardAction(store.state.dashboardPageState, clients));
   }
 }
