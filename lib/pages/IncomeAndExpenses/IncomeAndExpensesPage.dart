@@ -33,14 +33,14 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
       0: Text(IncomeAndExpensesPage.FILTER_TYPE_INCOME, style: TextStyle(
         fontSize: 20.0,
         fontFamily: 'simple',
-        fontWeight: selectedIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-        color: Color(ColorConstants.getPrimaryWhite()),
+        fontWeight: FontWeight.w600,
+        color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
       ),),
       1: Text(IncomeAndExpensesPage.FILTER_TYPE_EXPENSES, style: TextStyle(
         fontSize: 20.0,
         fontFamily: 'simple',
-        fontWeight: selectedIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-        color: Color(ColorConstants.getPrimaryWhite()),
+        fontWeight: FontWeight.w600,
+        color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
       ),),
     };
     return StoreConnector<AppState, JobsPageState>(
@@ -106,7 +106,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                     width: 300.0,
                                     margin: EdgeInsets.only(top: 56.0),
                                     child: CupertinoSlidingSegmentedControl<int>(
-                                      thumbColor: Color(selectedIndex == 0 ? ColorConstants.getPeachLight() : ColorConstants.getBlueLight()),
+                                      thumbColor: Color(ColorConstants.getPrimaryWhite()),
                                       backgroundColor: Colors.transparent,
                                       children: tabs,
                                       onValueChanged: (int filterTypeIndex) {

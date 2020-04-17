@@ -56,7 +56,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-
+                    getCameraImage(pageState);
                   },
                   child: Container(
                     padding: EdgeInsets.all(24.0),
@@ -96,6 +96,15 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
 
   Future getDeviceImage(NewLocationPageState pageState) async {
     File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = appDocDir.path;
+    String key = UniqueKey().toString();
+    await image.copy('$path/' + key);
+    pageState.saveImagePath(key);
+  }
+
+  Future getCameraImage(NewLocationPageState pageState) async {
+    File image = await ImagePicker.pickImage(source: ImageSource.camera);
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     String key = UniqueKey().toString();

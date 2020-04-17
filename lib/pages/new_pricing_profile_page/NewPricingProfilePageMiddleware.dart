@@ -39,7 +39,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
-    await PriceProfileDao.delete(PriceProfile());
+    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id));
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

@@ -104,15 +104,17 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                               color: Color(ColorConstants.primary_black),
                             ),
                           ),
-                          !pageState.shouldClear ? Container(
-                            margin: EdgeInsets.only(right: 300.0),
-                            child: IconButton(
-                              icon: const Icon(Icons.delete),
-                              tooltip: 'Delete',
-                              color: Color(ColorConstants.getPrimaryColor()),
-                              onPressed: () {
-                                _ackAlert(context, pageState);
-                              },
+                          !pageState.shouldClear ? GestureDetector(
+                            onTap: () {
+                              _ackAlert(context, pageState);
+                            },
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              margin: EdgeInsets.only(left: 32.0),
+                              height: 24.0,
+                              width: 375.0,
+                              child: Image.asset(
+                                  'assets/images/icons/trash_icon_gold.png'),
                             ),
                           ) : SizedBox(),
                           !pageState.shouldClear ? Container(

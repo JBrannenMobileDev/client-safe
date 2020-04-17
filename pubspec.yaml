@@ -139,7 +139,8 @@ flutter:
     - assets/images/icons/image_icon_white.png
     - assets/images/icons/camera_icon_white.png
     - assets/images/icons/driving_directions_icon_white.png
-
+    - assets/images/icons/trash_icon_gold.png
+    - assets/images/icons/trash_icon_blue.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

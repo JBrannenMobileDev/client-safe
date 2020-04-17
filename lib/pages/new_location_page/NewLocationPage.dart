@@ -80,7 +80,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                 height: 24.0,
                                 width: 24.0,
                                 child: Image.asset(
-                                    'assets/images/icons/trash_icon_peach.png'),
+                                    'assets/images/icons/trash_icon_blue.png'),
                               ),
                             ) : SizedBox(),
                             Text(
@@ -98,7 +98,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                               child: IconButton(
                                 icon: const Icon(Icons.save),
                                 tooltip: 'Save',
-                                color: Color(ColorConstants.getPeachDark()),
+                                color: Color(ColorConstants.getBlueDark()),
                                 onPressed: () {
                                   showSuccessAnimation();
                                   pageState.onSaveLocationSelected();

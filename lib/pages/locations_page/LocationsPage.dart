@@ -73,11 +73,14 @@ class LocationsPage extends StatelessWidget {
                       <Widget>[
                         pageState.locations.length > 0 ? Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            itemCount: pageState.locations.length,
-                            gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
-                            itemBuilder: _buildItem,
+                          child: Container(
+                            height: (MediaQuery.of(context).size.height),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              itemCount: pageState.locations.length,
+                              itemBuilder: _buildItem,
+                            ),
                           ),
                         ) :
                         Padding(
@@ -105,8 +108,8 @@ class LocationsPage extends StatelessWidget {
     return StoreConnector<AppState, LocationsPageState>(
       converter: (store) => LocationsPageState.fromStore(store),
       builder: (BuildContext context, LocationsPageState pageState) =>
-          Container(
-            height: _getItemWidthHeight(context) + 100,
+      Container(
+            margin: EdgeInsets.only(bottom: pageState.locations.length == (index + 1) ? 256.0 : 32.0),
             child: LocationListWidget(index),
           ),
     );

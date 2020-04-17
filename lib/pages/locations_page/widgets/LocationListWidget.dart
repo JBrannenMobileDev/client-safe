@@ -33,11 +33,11 @@ class LocationListWidget extends StatelessWidget {
             children: <Widget>[
               Container(
                 decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
+                  color: Color(ColorConstants.getBlueDark()),
                   borderRadius: new BorderRadius.circular(8.0),
                 ),
-                height: _getItemWidthHeight(context),
-                width: 200.0,
+                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
+                width: _getItemWidthHeight(context),
                 margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                   child: pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ?
                       Container(
@@ -52,7 +52,7 @@ class LocationListWidget extends StatelessWidget {
                       : SizedBox()
               ),
               pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? Container(
-                height: _getItemWidthHeight(context),
+                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
                 margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -62,7 +62,7 @@ class LocationListWidget extends StatelessWidget {
                         end: FractionalOffset.bottomCenter,
                         colors: [
                           Colors.transparent,
-                          Colors.black.withOpacity(0.5),
+                          Colors.black.withOpacity(0.75),
                         ],
                         stops: [
                           0.0,
@@ -70,7 +70,7 @@ class LocationListWidget extends StatelessWidget {
                         ])),
               ) : SizedBox(),
               pageState.locations.elementAt(locationIndex).imagePath == null || pageState.locations.elementAt(locationIndex).imagePath.isEmpty ? Container(
-                height: _getItemWidthHeight(context),
+                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
@@ -101,22 +101,24 @@ class LocationListWidget extends StatelessWidget {
                 ),
               ) : SizedBox(),
               Container(
-                height: _getItemWidthHeight(context),
+                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
                 width: double.maxFinite,
                 child: GestureDetector(
-                  onTap: () async{
-                    await getDeviceImage(pageState);
+                  onTap: () {
+                    pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
+                    UserOptionsUtil.showNewLocationDialog(context);
                   },
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(bottom: 4.0),
+                margin: EdgeInsets.only(bottom: 8.0),
+                padding: EdgeInsets.only(left: 48.0, right: 48.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     IconButton(
-                      iconSize: 24.0,
+                      iconSize: 26.0,
                       icon: const Icon(Icons.directions),
                       color: Color(pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Driving Directions',
@@ -125,7 +127,7 @@ class LocationListWidget extends StatelessWidget {
                       },
                     ),
                     IconButton(
-                      iconSize: 24.0,
+                      iconSize: 26.0,
                       icon: Icon(Device.get().isIos ? CupertinoIcons.share_solid : Icons.share),
                       color: Color(pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Share',
@@ -134,7 +136,7 @@ class LocationListWidget extends StatelessWidget {
                       },
                     ),
                     IconButton(
-                      iconSize: 24.0,
+                      iconSize: 26.0,
                       icon: Icon(Device.get().isIos ? CupertinoIcons.pen : Icons.edit),
                       color: Color(pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Edit',
@@ -156,7 +158,7 @@ class LocationListWidget extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 26.0,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'simple',
                   color: Color(ColorConstants.getPrimaryWhite()),
@@ -170,7 +172,7 @@ class LocationListWidget extends StatelessWidget {
   }
    double _getItemWidthHeight(BuildContext context){
 
-    return (MediaQuery.of(context).size.width - 110) / 2.0;
+    return (MediaQuery.of(context).size.width - 32);
    }
 
   Future getDeviceImage(LocationsPageState pageState) async {

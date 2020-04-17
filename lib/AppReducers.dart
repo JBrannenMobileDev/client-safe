@@ -35,5 +35,5 @@ AppState appReducers(AppState state, dynamic action) =>
         searchPageState: searchPageReducer(state.searchPageState, action),
         calendarPageState: calendarPageReducer(state.calendarPageState, action),
         jobDetailsPageState: jobDetailsReducer(state.jobDetailsPageState, action),
-        newInvoicePageState: newInvoicePageReducer(state.newInvoicePageState, action),
+        newInvoicePageState: newInvoicePageReducer(state.newInvoicePageState, action)
     );
