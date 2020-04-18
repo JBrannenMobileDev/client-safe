@@ -6,12 +6,15 @@ import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/UnpaidInvoicesCard.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:client_safe/utils/Shadows.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class IncomeAndExpensesPage extends StatefulWidget {
   static const String FILTER_TYPE_INCOME = "Income";
@@ -24,8 +27,27 @@ class IncomeAndExpensesPage extends StatefulWidget {
 }
 
 class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
+  ScrollController scrollController;
+  bool dialVisible = true;
   int selectedIndex = 0;
   Map<int, Widget> tabs;
+
+  @override
+  void initState() {
+    super.initState();
+
+    scrollController = ScrollController()
+      ..addListener(() {
+        setDialVisible(scrollController.position.userScrollDirection ==
+            ScrollDirection.forward);
+      });
+  }
+
+  void setDialVisible(bool value) {
+    setState(() {
+      dialVisible = value;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +81,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
                   CustomScrollView(
+                    controller: scrollController,
                     slivers: <Widget>[
                       SliverAppBar(
                         iconTheme: IconThemeData(
@@ -84,28 +107,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           ),
                         ),
                         actions: <Widget>[
-                          GestureDetector(
-                            onTap: () {
-                              UserOptionsUtil.showNewInvoiceDialog(context);
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: 18.0),
-                              height: 24.0,
-                              width: 24.0,
-                              child: Image.asset('assets/images/icons/plus_icon_white.png'),
-                            ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              UserOptionsUtil.showNewInvoiceDialog(context);
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: 18.0),
-                              height: 24.0,
-                              width: 24.0,
-                              child: Image.asset('assets/images/icons/invoices_icon_white.png'),
-                            ),
-                          ),
+
                         ],
                         flexibleSpace: new FlexibleSpaceBar(
                           background: Column(
@@ -238,6 +240,87 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   ),
                 ],
               ),
+                floatingActionButton: SpeedDial(
+                  // both default to 16
+                  marginRight: 18,
+                  marginBottom: 20,
+                  animatedIcon: AnimatedIcons.menu_close,
+                  animatedIconTheme: IconThemeData(size: 22.0, color: Color(ColorConstants.getPrimaryColor())),
+                  // this is ignored if animatedIcon is non null
+                  // child: Icon(Icons.add),
+                  visible: dialVisible,
+                  // If true user is forced to close dial manually
+                  // by tapping main button and overlay is not rendered.
+                  closeManually: false,
+                  curve: Curves.bounceIn,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.5,
+                  onOpen: () => print('OPENING DIAL'),
+                  onClose: () => print('DIAL CLOSED'),
+                  tooltip: 'Speed Dial',
+                  heroTag: 'speed-dial-hero-tag',
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  elevation: 8.0,
+                  shape: CircleBorder(),
+                  children: [
+                    SpeedDialChild(
+                      child: Container(
+                        padding: EdgeInsets.all(8.0),
+                        height: 116.0,
+                        width: 116.0,
+                        child: Image.asset('assets/images/icons/invoices_icon_white.png'),
+                      ),
+                        backgroundColor: Color(ColorConstants.getPrimaryColor()),
+                        labelWidget: Container(
+                          alignment: Alignment.center,
+                          height: 42.0,
+                          width: 124.0,
+                          decoration: BoxDecoration(
+                            boxShadow: ElevationToShadow[4],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(21.0),
+                          ),
+                          child: Text(
+                            'All invoices',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                        onTap: () => print('FIRST CHILD')
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        width: 124.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Text(
+                          'New invoice',
+                          style: TextStyle(
+                            fontFamily: 'simple',
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        UserOptionsUtil.showNewInvoiceDialog(context);
+                      },
+                    ),
+                  ],
+                ),
             ),
           ],
         ),
