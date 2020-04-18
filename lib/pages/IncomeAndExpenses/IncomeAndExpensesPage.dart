@@ -95,6 +95,17 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                               child: Image.asset('assets/images/icons/plus_icon_white.png'),
                             ),
                           ),
+                          GestureDetector(
+                            onTap: () {
+                              UserOptionsUtil.showNewInvoiceDialog(context);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 18.0),
+                              height: 24.0,
+                              width: 24.0,
+                              child: Image.asset('assets/images/icons/invoices_icon_white.png'),
+                            ),
+                          ),
                         ],
                         flexibleSpace: new FlexibleSpaceBar(
                           background: Column(
@@ -122,7 +133,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 48.0),
+                                margin: EdgeInsets.only(top: 56.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
