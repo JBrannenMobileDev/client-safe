@@ -236,9 +236,6 @@ flutter:
     - assets/images/collection_icons/location_pin_blue.png
 
     - assets/animations/success_check.flr
-    - assets/animations/gold_check.flr
-    - assets/animations/black_check.flr
-    - assets/animations/new_alert_flare_light_blue.flr
 
     - assets/images/backgrounds/image_background.png
     - assets/images/calendar.png
