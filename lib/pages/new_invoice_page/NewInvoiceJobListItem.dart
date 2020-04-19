@@ -16,7 +16,7 @@ class NewInvoiceJobListItem extends StatelessWidget {
       builder: (BuildContext context, NewInvoicePageState pageState) =>
           new FlatButton(
             shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(18.0),
+                borderRadius: new BorderRadius.circular(32.0),
             ),
             color: pageState.filteredJobs.elementAt(index).id == pageState.selectedJob?.id ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
         onPressed: () {
@@ -48,8 +48,8 @@ class NewInvoiceJobListItem extends StatelessWidget {
                         pageState.filteredJobs.elementAt(index).jobTitle,
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: pageState.filteredJobs.elementAt(index).id == pageState.selectedJob?.id ? Colors.white : Color(ColorConstants.primary_black),
                         ),

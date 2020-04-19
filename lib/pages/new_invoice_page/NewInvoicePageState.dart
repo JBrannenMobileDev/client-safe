@@ -48,11 +48,8 @@ class NewInvoicePageState {
   final String newDiscountPercentage;
   final String newDiscountFilter;
   final Discount discount;
-//  final List<LineItem> overviewLineItems;
-//  final double overviewSubtotal;
-//  final double overviewDeposit;
-//  final double overviewDiscount;
-//  final double overviewBalanceDue;
+  final DateTime dueDate;
+  final Function(DateTime) onDueDateSelected;
   final Function() onEditSelected;
   final Function() onDeleteDiscountSelected;
   final Function(String) onNewDiscountFilterChanged;
@@ -136,6 +133,8 @@ class NewInvoicePageState {
     @required this.newDiscountFilter,
     @required this.isInEditMode,
     @required this.onEditSelected,
+    @required this.dueDate,
+    @required this.onDueDateSelected,
   });
 
   NewInvoicePageState copyWith({
@@ -168,6 +167,8 @@ class NewInvoicePageState {
     String newDiscountPercentage,
     Discount discount,
     String newDiscountFilter,
+    DateTime dueDate,
+    Function(DateTime) dueDateSelected,
     Function() onEditSelected,
     Function(String) onNewDiscountFilterChanged,
     Function(String) onNewDiscountRateTextChanged,
@@ -251,6 +252,8 @@ class NewInvoicePageState {
       discount: discount ?? this.discount,
       newDiscountFilter: newDiscountFilter ?? this.newDiscountFilter,
       onEditSelected: onEditSelected ?? this.onEditSelected,
+      dueDate: dueDate ?? this.dueDate,
+      onDueDateSelected:  onDueDateSelected ?? this.onDueDateSelected,
     );
   }
 
@@ -313,6 +316,8 @@ class NewInvoicePageState {
         discountValue: 0.0,
         isInEditMode: false,
         onEditSelected: null,
+        dueDate: null,
+        onDueDateSelected: null,
       );
   }
 
@@ -347,6 +352,8 @@ class NewInvoicePageState {
       newDiscountFilter: store.state.newInvoicePageState.newDiscountFilter,
       discountValue: store.state.newInvoicePageState.discountValue,
       isInEditMode: store.state.newInvoicePageState.isInEditMode,
+      dueDate: store.state.newInvoicePageState.dueDate,
+      onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
       onNewDiscountSavedSelected: () => store.dispatch(SaveNewDiscountAction(store.state.newInvoicePageState)),
@@ -421,6 +428,8 @@ class NewInvoicePageState {
       discount.hashCode ^
       isInEditMode.hashCode ^
       onEditSelected.hashCode ^
+      dueDate.hashCode ^
+      onDueDateSelected.hashCode ^
       newDiscountFilter.hashCode;
 
   @override
@@ -470,5 +479,7 @@ class NewInvoicePageState {
           discount == other.discount &&
           isInEditMode == other.isInEditMode &&
           onEditSelected == other.onEditSelected &&
+          dueDate == other.dueDate &&
+          onDueDateSelected == other.onDueDateSelected &&
           newDiscountFilter == other.newDiscountFilter;
 }

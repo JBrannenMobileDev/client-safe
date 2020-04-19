@@ -37,14 +37,16 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
     breakdownTypes = <int, Widget>{
       0: Text(NewDiscountDialog.SELECTOR_TYPE_FIXED,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       1: Text(NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 1
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -56,7 +58,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
           Dialog(
             backgroundColor: Colors.transparent,
             child: Container(
-              height: 312.0,
+              height: 314.0,
               width: 350.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16.0),
@@ -92,8 +94,8 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                           'New Discount',
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'Raleway',
+                            fontSize: 22.0,
+                            fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
                             color: Color(
                                 ColorConstants.getPrimaryBlack()),
@@ -104,7 +106,7 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                         width: 300.0,
                         margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 32.0, bottom: 16.0),
                         child: CupertinoSlidingSegmentedControl<int>(
-                          backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                          backgroundColor: Colors.transparent,
                           thumbColor: Color(ColorConstants.getPrimaryColor()),
                           children: breakdownTypes,
                           onValueChanged: (int filterTypeIndex) {
@@ -159,8 +161,8 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                                 'Cancel',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),
@@ -175,8 +177,8 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                                 'Save',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
                                 ),

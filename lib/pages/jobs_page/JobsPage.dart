@@ -147,6 +147,6 @@ Widget _buildItem(BuildContext context, int index) {
     converter: (store) => JobsPageState.fromStore(store),
     builder: (BuildContext context, JobsPageState pageState) =>
     pageState.filterType == JobsPage.FILTER_TYPE_UPCOMING ? JobsPageInProgressItem(job: pageState.jobsUpcoming.elementAt(index), pageState: pageState,)
-        : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? JobsPageInProgressItem(job: pageState.jobsInProgress.elementAt(index)) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index)),
+        : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? JobsPageInProgressItem(job: pageState.jobsInProgress.elementAt(index), pageState: pageState,) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index), pageState: pageState),
   );
 }

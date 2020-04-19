@@ -45,7 +45,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
             backgroundColor: Colors.transparent,
             child: Container(
               width: 450.0,
-              height: pageState.pageViewIndex == 2 ? 400.0 : 650.0,
+              height: pageState.pageViewIndex == 2 ? 290.0 : 650.0,
               margin: EdgeInsets.only(
                   left: 0.0, right: 0.0, top: 16.0, bottom: 16.0),
               padding: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -62,28 +62,23 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                       IconButton(
                         icon: const Icon(Icons.close),
                         tooltip: 'Close',
-                        color: Color(ColorConstants.getPrimaryColor()),
+                        color: Color(ColorConstants.getPeachDark()),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                       ),
-                      Text(
-                        "Invoice 1000",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.primary_black),
+                      Padding(
+                        padding: EdgeInsets.only(right: 16.0),
+                        child: Text(
+                          "Invoice 1000",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w400,
+                            color: Color(ColorConstants.primary_black),
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.edit),
-                        tooltip: 'Edit',
-                        color: Color(ColorConstants.getPeachDark()),
-                        onPressed: () {
-
-                        },
                       ),
                     ],
                   ),
@@ -157,8 +152,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                   'Add line item',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(
                                         ColorConstants.getPrimaryWhite()),
@@ -187,8 +182,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                   'Subtotal',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 24.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w400,
                                     color: Color(
                                         ColorConstants.getPrimaryBlack()),
@@ -199,8 +194,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 '\$' + pageState.total.toInt().toString(),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(
                                       ColorConstants.getPrimaryBlack()),
@@ -224,8 +219,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                       'Deposit  ',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontFamily: 'Raleway',
+                                        fontSize: 24.0,
+                                        fontFamily: 'simple',
                                         fontWeight: FontWeight.w400,
                                         color: Color(
                                             ColorConstants.getPrimaryBlack()),
@@ -237,8 +232,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                           : '(unpaid)'),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontFamily: 'Raleway',
+                                        fontSize: 24.0,
+                                        fontFamily: 'simple',
                                         fontWeight: FontWeight.w600,
                                         color: Color(
                                             ColorConstants.getPrimaryBlack()),
@@ -254,8 +249,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                     pageState.depositValue.toInt().toString(),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(
                                       pageState.selectedJob.isDepositPaid()
@@ -288,8 +283,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                   'Balance Due',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'Raleway',
+                                    fontSize: 24.0,
+                                    fontFamily: 'simple',
                                     fontWeight: FontWeight.w400,
                                     color: Color(
                                         ColorConstants.getPrimaryBlack()),
@@ -301,8 +296,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                     pageState.unpaidAmount.toInt().toString(),
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'Raleway',
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
@@ -330,8 +325,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                               pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
@@ -347,8 +342,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                   : 'Next',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Raleway',
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
                               ),
@@ -485,8 +480,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                     'X  ',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'Raleway',
+                      fontSize: 24.0,
+                      fontFamily: 'simple',
                       fontWeight: FontWeight.w800,
                       color: Color(ColorConstants.getPeachDark()),
                     ),
@@ -499,8 +494,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                   'Discount',
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'Raleway',
+                    fontSize: 24.0,
+                    fontFamily: 'simple',
                     fontWeight: FontWeight.w400,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
@@ -524,8 +519,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                 'Add',
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.getPrimaryWhite()),
                 ),
@@ -537,8 +532,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                 (pageState.discountValue.toInt().toString()),
             textAlign: TextAlign.start,
             style: TextStyle(
-              fontSize: 20.0,
-              fontFamily: 'Raleway',
+              fontSize: 24.0,
+              fontFamily: 'simple',
               fontWeight: FontWeight.w600,
               color: Color(pageState.discountValue.toInt() > 0 ? ColorConstants
                   .getPrimaryBlack() : ColorConstants

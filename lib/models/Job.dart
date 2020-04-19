@@ -194,4 +194,11 @@ class Job {
     }
     return 1;
   }
+
+  bool hasCompletedStage(String jobStage) {
+    for(JobStage completedStage in completedStages){
+      if(completedStage.stage == jobStage) return true;
+    }
+    return false;
+  }
 }

@@ -43,21 +43,24 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
     breakdownTypes = <int, Widget>{
       0: Text(PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 0
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       1: Text(PriceBreakdownForm.SELECTOR_TYPE_HOURLY,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 1
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
       2: Text(PriceBreakdownForm.SELECTOR_TYPE_QUANTITY,
         style: TextStyle(
-          fontFamily: 'Raleway',
+          fontSize: 20.0,
+          fontFamily: 'simple',
           color: Color(selectorIndex == 2
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
@@ -72,13 +75,13 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
         switch(appState.state.newInvoicePageState.selectedJob.priceProfile.rateType){
-          case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
+          case PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE:
             selectorIndex = 0;
             break;
-          case RateTypeSelection.SELECTOR_TYPE_HOURLY:
+          case PriceBreakdownForm.SELECTOR_TYPE_HOURLY:
             selectorIndex = 1;
             break;
-          case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
+          case PriceBreakdownForm.SELECTOR_TYPE_QUANTITY:
             selectorIndex = 2;
             break;
         }
@@ -86,21 +89,24 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
         breakdownTypes = <int, Widget>{
           0: Text(PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE,
             style: TextStyle(
-              fontFamily: 'Raleway',
+              fontSize: 20.0,
+              fontFamily: 'simple',
               color: Color(selectorIndex == 0
                   ? ColorConstants.getPrimaryWhite()
                   : ColorConstants.getPrimaryBlack()),
             ),),
           1: Text(PriceBreakdownForm.SELECTOR_TYPE_HOURLY,
             style: TextStyle(
-              fontFamily: 'Raleway',
+              fontSize: 20.0,
+              fontFamily: 'simple',
               color: Color(selectorIndex == 1
                   ? ColorConstants.getPrimaryWhite()
                   : ColorConstants.getPrimaryBlack()),
             ),),
           2: Text(PriceBreakdownForm.SELECTOR_TYPE_QUANTITY,
             style: TextStyle(
-              fontFamily: 'Raleway',
+              fontSize: 20.0,
+              fontFamily: 'simple',
               color: Color(selectorIndex == 2
                   ? ColorConstants.getPrimaryWhite()
                   : ColorConstants.getPrimaryBlack()),
@@ -168,7 +174,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
         });
       },
       onDidChange: (pageState) {
-        switch(pageState.selectedJob.priceProfile.rateType){
+        switch(pageState.filterType){
           case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
             selectorIndex = 0;
             break;
@@ -180,6 +186,8 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
             break;
         }
         flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText).toInt().toString();
+        hourlyRateTextController.text = pageState.hourlyRate.length == 0 ? '\$' : '\$' + double.parse(pageState.hourlyRate).toInt().toString();
+        quantityRateTextController.text = pageState.itemRate.length == 0 ? '\$' : '\$' + double.parse(pageState.itemRate).toInt().toString();
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -192,28 +200,28 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                 'Price Breakdown',
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 24.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
                 width: 300.0,
-                margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 32.0, bottom: 12.0),
+                margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 28.0, bottom: 12.0),
                 child: CupertinoSlidingSegmentedControl<int>(
-                  backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                  backgroundColor: Colors.transparent,
                   thumbColor: Color(ColorConstants.getPrimaryColor()),
                   children: breakdownTypes,
                   onValueChanged: (int filterTypeIndex) {
-                    setState(() {
-                      selectorIndex = filterTypeIndex;
-                    });
                     pageState.onFilterChanged(
                         filterTypeIndex == 0 ? PriceBreakdownForm
                             .SELECTOR_TYPE_FLAT_RATE : filterTypeIndex == 1
                             ? PriceBreakdownForm.SELECTOR_TYPE_HOURLY
                             : PriceBreakdownForm.SELECTOR_TYPE_QUANTITY);
+                    setState(() {
+                      selectorIndex = filterTypeIndex;
+                    });
                   },
                   groupValue: selectorIndex,
                 ),

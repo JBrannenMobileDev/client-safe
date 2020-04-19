@@ -165,6 +165,12 @@ class DeleteDiscountAction{
   DeleteDiscountAction(this.pageState);
 }
 
+class SetSelectedDueDate{
+  final NewInvoicePageState pageState;
+  final DateTime selectedDueDate;
+  SetSelectedDueDate(this.pageState, this.selectedDueDate);
+}
+
 
 
 

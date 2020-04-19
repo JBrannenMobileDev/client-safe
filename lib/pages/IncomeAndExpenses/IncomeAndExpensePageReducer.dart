@@ -1,26 +1,32 @@
-import 'package:client_safe/pages/jobs_page/JobsPage.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
-import 'package:client_safe/utils/JobUtil.dart';
+import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:redux/redux.dart';
 
-final incomeAndExpensesPageReducer = combineReducers<JobsPageState>([
-  TypedReducer<JobsPageState, SetJobsDataAction>(_setJobData),
-  TypedReducer<JobsPageState, FilterChangedAction>(_updateFilterSelection),
+final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>([
+  TypedReducer<IncomeAndExpensesPageState, LoadAllInvoicesAction>(_setInvoices),
+  TypedReducer<IncomeAndExpensesPageState, FilterChangedAction>(_updateFilterSelection),
+  TypedReducer<IncomeAndExpensesPageState, UpdateSelectedYearAction>(_setSelectedYear),
 ]);
 
-JobsPageState _setJobData(JobsPageState previousState, SetJobsDataAction action){
-  action.jobs.sort((job1, job2) => job1.selectedDate?.millisecondsSinceEpoch?.compareTo(job2.selectedDate?.millisecondsSinceEpoch ?? 0) ?? 0);
+IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState, LoadAllInvoicesAction action){
+  List<Invoice> unpaidInvoices = action.allInvoices.where((invoice) => (!invoice.totalPaid && invoice.sentDate.year == previousState.selectedYear)).toList();
+  List<Invoice> invoicesForSelectedYear = action.allInvoices.where((invoice) => invoice.sentDate.year == previousState.selectedYear).toList();
   return previousState.copyWith(
-      jobsInProgress: JobUtil.getJobsInProgress(action.jobs),
-      jobsCompleted: JobUtil.getJobsCompleted(action.jobs),
-      jobsUpcoming: JobUtil.getUpComingJobs(action.jobs),
-      filterType: JobsPage.FILTER_TYPE_UPCOMING,
+    allInvoices: action.allInvoices,
+    unpaidInvoicesForSelectedYear: unpaidInvoices,
+    invoicesForSelectedYear: invoicesForSelectedYear,
   );
 }
 
-JobsPageState _updateFilterSelection(JobsPageState previousState, FilterChangedAction action){
+IncomeAndExpensesPageState _updateFilterSelection(IncomeAndExpensesPageState previousState, FilterChangedAction action){
   return previousState.copyWith(
     filterType: action.filterType,
+  );
+}
+
+IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousState, UpdateSelectedYearAction action){
+  return previousState.copyWith(
+    selectedYear: action.year,
   );
 }

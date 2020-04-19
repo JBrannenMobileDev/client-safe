@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensePageReducer.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageReducer.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageReducer.dart';
@@ -35,5 +36,6 @@ AppState appReducers(AppState state, dynamic action) =>
         searchPageState: searchPageReducer(state.searchPageState, action),
         calendarPageState: calendarPageReducer(state.calendarPageState, action),
         jobDetailsPageState: jobDetailsReducer(state.jobDetailsPageState, action),
-        newInvoicePageState: newInvoicePageReducer(state.newInvoicePageState, action)
+        newInvoicePageState: newInvoicePageReducer(state.newInvoicePageState, action),
+        incomeAndExpensesPageState: incomeAndExpensesPageReducer(state.incomeAndExpensesPageState, action)
     );

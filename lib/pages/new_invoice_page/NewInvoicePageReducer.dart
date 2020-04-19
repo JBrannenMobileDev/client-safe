@@ -1,5 +1,4 @@
 import 'package:client_safe/models/Discount.dart';
-import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/LineItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
@@ -33,7 +32,14 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, UpdateNewDiscountRateTextAction>(_updateDiscountRate),
   TypedReducer<NewInvoicePageState, SaveNewDiscountAction>(_saveNewDiscount),
   TypedReducer<NewInvoicePageState, UpdateNewDiscountSelectorAction>(_updateDiscountSelector),
+  TypedReducer<NewInvoicePageState, SetSelectedDueDate>(_setDueDate),
 ]);
+
+NewInvoicePageState _setDueDate(NewInvoicePageState previousState, SetSelectedDueDate action) {
+  return previousState.copyWith(
+    dueDate: action.selectedDueDate,
+  );
+}
 
 NewInvoicePageState _saveNewDiscount(NewInvoicePageState previousState, SaveNewDiscountAction action) {
   double discountRate = previousState.newDiscountRate.length > 0 ? double.parse(previousState.newDiscountRate.replaceFirst(r'$', '')) : 0;
@@ -242,7 +248,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
       lineItems.add(rateLineItem);
       break;
     case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
-      remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0);
+      remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
       total = 0;
       LineItem rateLineItem = LineItem(
           itemName: 'Quantity rate',

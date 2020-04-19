@@ -52,6 +52,8 @@ dependencies:
   keyboard_visibility: ^0.5.6
   geolocator: ^5.3.1
   flutter_speed_dial: ^1.2.5
+  pdf: ^1.6.1
+  flutter_full_pdf_viewer: ^1.0.6
 
 flutter_icons:
   android: true
@@ -143,7 +145,6 @@ flutter:
     - assets/images/icons/trash_icon_gold.png
     - assets/images/icons/trash_icon_blue.png
     - assets/images/icons/invoices_icon_white.png
-    - assets/images/icons/menu_icon_peach.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

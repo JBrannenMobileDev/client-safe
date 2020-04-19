@@ -1,11 +1,10 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeGraphCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/MileageExpensesCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpensesCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/UnpaidInvoicesCard.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/Shadows.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -65,9 +64,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
       ),),
     };
-    return StoreConnector<AppState, JobsPageState>(
-        converter: (store) => JobsPageState.fromStore(store),
-        builder: (BuildContext context, JobsPageState pageState) => Stack(
+    return StoreConnector<AppState, IncomeAndExpensesPageState>(
+        converter: (store) => IncomeAndExpensesPageState.fromStore(store),
+        builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
             Container(
@@ -189,12 +188,12 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                     context,
                                                     dateFormat:'yyyy',
                                                     onConfirm: (dateTime, intList) {
-
+                                                      pageState.onYearChanged(dateTime.year);
                                                     }
                                                   );
                                                 },
                                                 child: Text(
-                                                  '2020',
+                                                  pageState.selectedYear.toString(),
                                                   style: TextStyle(
                                                     fontFamily: 'simple',
                                                     fontSize: 26.0,

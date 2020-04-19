@@ -66,6 +66,7 @@ class IncomeAndExpensesPageState {
     incomeForSelectedYear: 0,
     onFilterChanged: null,
     onYearChanged: null,
+    onInvoiceSelected: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -79,6 +80,7 @@ class IncomeAndExpensesPageState {
       incomeForSelectedYear: store.state.incomeAndExpensesPageState.incomeForSelectedYear,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
+      onInvoiceSelected: null,
     );
   }
 

@@ -42,16 +42,24 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                   "Select a Job",
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'Raleway',
+                    fontSize: 24.0,
+                    fontFamily: 'simple',
                     fontWeight: FontWeight.w600,
                     color: Color(ColorConstants.primary_black),
                   ),
                 ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Stack(
+                  alignment: Alignment.center,
                   children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(right: 264.0),
+                      child: IconButton(
+                        icon: const Icon(Icons.search),
+                        tooltip: 'Edit',
+                        color: Color(ColorConstants.getPrimaryColor()),
+                        onPressed: (){},
+                      ),
+                    ),
                     Container(
                         margin: EdgeInsets.only(top: 16.0, bottom: 16.0),
                         alignment: Alignment.center,
@@ -81,7 +89,8 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           style: new TextStyle(
-                              fontFamily: 'Raleway',
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.primary_black)),
                         )),
@@ -114,8 +123,8 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'Raleway',
+                          fontSize: 22.0,
+                          fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),
