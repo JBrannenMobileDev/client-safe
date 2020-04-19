@@ -41,6 +41,26 @@ NewInvoicePageState _setDueDate(NewInvoicePageState previousState, SetSelectedDu
   );
 }
 
+double calculateDiscount(NewInvoicePageState previousState, double total){
+    double discountRate = previousState.newDiscountRate.length > 0 ? double.parse(previousState.newDiscountRate.replaceFirst(r'$', '')) : 0;
+    double discountPercentage = previousState.newDiscountPercentage.length > 0 ? double.parse(previousState.newDiscountPercentage.replaceFirst(r'%', '')) : 0;
+    Discount discount = Discount(
+      selectedFilter: previousState.newDiscountFilter,
+      rate: discountRate,
+      percentage: discountPercentage,
+    );
+    double discountValue = 0.0;
+    switch(discount.selectedFilter){
+      case NewDiscountDialog.SELECTOR_TYPE_FIXED:
+        discountValue = discount.rate;
+        break;
+      case NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE:
+        discountValue = (total.truncate() * (discountPercentage/100)).truncate().toDouble();
+        break;
+    }
+  return discountValue;
+}
+
 NewInvoicePageState _saveNewDiscount(NewInvoicePageState previousState, SaveNewDiscountAction action) {
   double discountRate = previousState.newDiscountRate.length > 0 ? double.parse(previousState.newDiscountRate.replaceFirst(r'$', '')) : 0;
   double discountPercentage = previousState.newDiscountPercentage.length > 0 ? double.parse(previousState.newDiscountPercentage.replaceFirst(r'%', '')) : 0;
@@ -55,14 +75,12 @@ NewInvoicePageState _saveNewDiscount(NewInvoicePageState previousState, SaveNewD
       discountValue = discount.rate;
       break;
     case NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE:
-      discountValue = (previousState.total * (discountPercentage/100)).toDouble();
+      discountValue = (previousState.total.truncate() * (discountPercentage/100)).truncate().toDouble();
       break;
   }
   double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
-    newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
-    newDiscountRate: '',
-    newDiscountPercentage: '',
+    newDiscountFilter: discount.selectedFilter,
     discountValue: discountValue,
     discount: discount,
     unpaidAmount: remainingBalance,
@@ -104,11 +122,13 @@ NewInvoicePageState _clearDiscountState(NewInvoicePageState previousState, Clear
 
 NewInvoicePageState _deleteLineItem(NewInvoicePageState previousState, DeleteLineItemAction action) {
   previousState.lineItems.removeAt(action.index);
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
+  double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
     lineItems: previousState.lineItems,
     total: _calculateSubtotal(previousState),
     unpaidAmount: remainingBalance,
+    discountValue: discountValue,
   );
 }
 
@@ -136,7 +156,8 @@ NewInvoicePageState _saveNewLineItem(NewInvoicePageState previousState, SaveNewL
     itemQuantity: previousState.newLineItemQuantity.length > 0 ? int.parse(previousState.newLineItemQuantity) : 1,
   );
   previousState.lineItems.add(newLineItem);
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
+  double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
     newLineItemName: '',
     newLineItemRate: '',
@@ -144,6 +165,7 @@ NewInvoicePageState _saveNewLineItem(NewInvoicePageState previousState, SaveNewL
     lineItems: previousState.lineItems,
     total: _calculateSubtotal(previousState),
     unpaidAmount: remainingBalance,
+    discountValue: discountValue,
   );
 }
 
@@ -168,11 +190,13 @@ NewInvoicePageState _updateLineItemQuantity(NewInvoicePageState previousState, U
 NewInvoicePageState _updateFlatRate(NewInvoicePageState previousState, UpdateFlatRateText action) {
   String flatRate = action.flatRateText.replaceFirst(r'$', '');
   previousState.lineItems.elementAt(0).itemPrice = double.parse(flatRate);
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
+  double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
     lineItems: previousState.lineItems,
       flatRateText: action.flatRateText,
       total: _calculateSubtotal(previousState),
+      discountValue: discountValue,
       unpaidAmount: remainingBalance,
   );
 }
@@ -180,20 +204,24 @@ NewInvoicePageState _updateFlatRate(NewInvoicePageState previousState, UpdateFla
 NewInvoicePageState _updateHourlyRate(NewInvoicePageState previousState, UpdateNewInvoiceHourlyRateTextAction action) {
   String hourlyRateString = action.hourlyRate.replaceFirst(r'$', '');
   previousState.lineItems.elementAt(0).itemPrice = hourlyRateString.length > 0 ? double.parse(hourlyRateString) : 0.0;
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
+  double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
     hourlyRate: action.hourlyRate,
     total: _calculateSubtotal(previousState),
+    discountValue: discountValue,
     unpaidAmount: remainingBalance,
   );
 }
 
 NewInvoicePageState _updateHourlyQuantity(NewInvoicePageState previousState, UpdateNewInvoiceHourlyQuantityTextAction action) {
   previousState.lineItems.elementAt(0).itemQuantity = action.hourlyQuantity.length > 0 ? int.parse(action.hourlyQuantity) : 0;
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
+  double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
     hourlyQuantity: action.hourlyQuantity,
     total: _calculateSubtotal(previousState),
+    discountValue: discountValue,
     unpaidAmount: remainingBalance,
   );
 }
@@ -201,20 +229,24 @@ NewInvoicePageState _updateHourlyQuantity(NewInvoicePageState previousState, Upd
 NewInvoicePageState _updateItemRate(NewInvoicePageState previousState, UpdateNewInvoiceItemTextAction action) {
   String itemRateString = action.itemRate.replaceFirst(r'$', '');
   previousState.lineItems.elementAt(0).itemPrice = itemRateString.length > 0 ? double.parse(itemRateString) : 0.0;
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
+  double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
     itemRate: action.itemRate,
     total: _calculateSubtotal(previousState),
+    discountValue: discountValue,
     unpaidAmount: remainingBalance,
   );
 }
 
 NewInvoicePageState _updateItemQuantity(NewInvoicePageState previousState, UpdateNewInvoiceItemQuantityAction action) {
   previousState.lineItems.elementAt(0).itemQuantity = action.itemQuantity.length > 0 ? int.parse(action.itemQuantity) : 0;
-  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - previousState.discountValue;
+  double discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+  double remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.depositValue : 0) - discountValue;
   return previousState.copyWith(
     itemQuantity: action.itemQuantity,
     total: _calculateSubtotal(previousState),
+    discountValue: discountValue,
     unpaidAmount: remainingBalance,
   );
 }
@@ -228,7 +260,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
   double total;
   switch(rateType){
     case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
-      remainingBalance = selectedJob.priceProfile.flatRate - (selectedJob.isDepositPaid() ? depositAmount : 0);
+      remainingBalance = selectedJob.priceProfile.flatRate - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
       total = selectedJob.priceProfile.flatRate;
       LineItem rateLineItem = LineItem(
         itemName: 'Flat rate',
@@ -238,7 +270,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
       lineItems.add(rateLineItem);
       break;
     case RateTypeSelection.SELECTOR_TYPE_HOURLY:
-      remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
+      remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
       total = 0;
       LineItem rateLineItem = LineItem(
           itemName: 'Hourly rate',
@@ -265,6 +297,10 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     total: total,
     filterType: rateType,
     lineItems: lineItems,
+    hourlyRate: selectedJob.priceProfile.hourlyRate.toString(),
+    hourlyQuantity: '0',
+    itemRate: selectedJob.priceProfile.itemRate.toString(),
+    itemQuantity: '0',
     unpaidAmount: remainingBalance,
   );
 }
@@ -273,24 +309,28 @@ NewInvoicePageState _saveSelectedFilter(NewInvoicePageState previousState, SaveS
   Job selectedJob = previousState.selectedJob;
   int depositAmount = selectedJob.depositAmount;
   double remainingBalance = 0.0;
+  double discountValue = 0.0;
   switch(action.selectedFilter){
     case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
       previousState.lineItems.elementAt(0).itemName = 'Flat rate';
       previousState.lineItems.elementAt(0).itemQuantity = 1;
       previousState.lineItems.elementAt(0).itemPrice = previousState.flatRateText.length > 0 ? double.parse(previousState.flatRateText.replaceFirst(r'$', '')) : 0.0;
-      remainingBalance = _calculateSubtotal(previousState) - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
+      discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+      remainingBalance = _calculateSubtotal(previousState) - (selectedJob.isDepositPaid() ? depositAmount : 0) - discountValue;
       break;
     case RateTypeSelection.SELECTOR_TYPE_HOURLY:
       previousState.lineItems.elementAt(0).itemName = 'Hourly rate';
       previousState.lineItems.elementAt(0).itemPrice = previousState.hourlyRate.length > 0 ? double.parse(previousState.hourlyRate.replaceFirst(r'$', '')) : 0.0;
       previousState.lineItems.elementAt(0).itemQuantity = previousState.hourlyQuantity.length > 0 ? int.parse(previousState.hourlyQuantity) : 0;
-      remainingBalance = _calculateSubtotal(previousState) - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
+      discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+      remainingBalance = _calculateSubtotal(previousState) - (selectedJob.isDepositPaid() ? depositAmount : 0) - discountValue;
       break;
     case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
       previousState.lineItems.elementAt(0).itemName = 'Quantity rate';
       previousState.lineItems.elementAt(0).itemPrice = previousState.itemRate.length > 0 ? double.parse(previousState.itemRate.replaceFirst(r'$', '')) : 0.0;
       previousState.lineItems.elementAt(0).itemQuantity = previousState.itemQuantity.length > 0 ? int.parse(previousState.itemQuantity) : 0;
-      remainingBalance = _calculateSubtotal(previousState) - (selectedJob.isDepositPaid() ? depositAmount : 0) - previousState.discountValue;
+      discountValue = calculateDiscount(previousState, _calculateSubtotal(previousState));
+      remainingBalance = _calculateSubtotal(previousState) - (selectedJob.isDepositPaid() ? depositAmount : 0) - discountValue;
       break;
   }
   return previousState.copyWith(
@@ -298,6 +338,7 @@ NewInvoicePageState _saveSelectedFilter(NewInvoicePageState previousState, SaveS
     total: _calculateSubtotal(previousState),
     lineItems: previousState.lineItems,
     unpaidAmount: remainingBalance,
+    discountValue: discountValue,
   );
 }
 

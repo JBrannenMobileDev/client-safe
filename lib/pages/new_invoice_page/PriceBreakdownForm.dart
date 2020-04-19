@@ -185,9 +185,9 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
             selectorIndex = 2;
             break;
         }
-        flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText).toInt().toString();
-        hourlyRateTextController.text = pageState.hourlyRate.length == 0 ? '\$' : '\$' + double.parse(pageState.hourlyRate).toInt().toString();
-        quantityRateTextController.text = pageState.itemRate.length == 0 ? '\$' : '\$' + double.parse(pageState.itemRate).toInt().toString();
+        flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText.replaceFirst(r'$', '')).toInt().toString();
+        hourlyRateTextController.text = pageState.hourlyRate.length == 0 ? '\$' : '\$' + double.parse(pageState.hourlyRate.replaceFirst(r'$', '')).toInt().toString();
+        quantityRateTextController.text = pageState.itemRate.length == 0 ? '\$' : '\$' + double.parse(pageState.itemRate.replaceFirst(r'$', '')).toInt().toString();
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>

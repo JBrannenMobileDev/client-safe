@@ -30,8 +30,8 @@ class LineItemWidget extends StatelessWidget {
                   'X  ',
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'Raleway',
+                    fontSize: 24.0,
+                    fontFamily: 'simple',
                     fontWeight: FontWeight.w800,
                     color: Color(ColorConstants.getPeachDark()),
                   ),
@@ -41,8 +41,8 @@ class LineItemWidget extends StatelessWidget {
                 lineItem.itemName,
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 24.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w400,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
@@ -56,8 +56,8 @@ class LineItemWidget extends StatelessWidget {
                 lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x \$' + lineItem.itemPrice.toInt().toString() + ')   ') : '',
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 24.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w400,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
@@ -66,8 +66,8 @@ class LineItemWidget extends StatelessWidget {
                 '\$' + (lineItem.itemPrice.toInt() * lineItem.itemQuantity).toString(),
                 textAlign: TextAlign.start,
                 style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Raleway',
+                  fontSize: 24.0,
+                  fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
