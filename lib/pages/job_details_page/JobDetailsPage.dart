@@ -150,7 +150,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   children: [
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getPeachLight()),
+                      backgroundColor: Color(ColorConstants.getPeachDark()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -178,7 +178,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      backgroundColor: Color(ColorConstants.getPeachLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -191,6 +191,34 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Text(
                             'Add Questionaire',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Text(
+                            'Add reminder',
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 22.0,

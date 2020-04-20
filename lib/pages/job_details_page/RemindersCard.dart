@@ -46,20 +46,6 @@ class RemindersCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(right: 16.0, top: 8.0),
-                      child: GestureDetector(
-                        onTap: () {
-
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 12.0),
-                          height: 24.0,
-                          width: 24.0,
-                          child: Image.asset('assets/images/icons/plus_icon_peach.png'),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
                 FlatButton(
