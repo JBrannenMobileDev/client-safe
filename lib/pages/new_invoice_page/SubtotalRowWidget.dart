@@ -35,7 +35,7 @@ class SubtotalRowWidget extends StatelessWidget{
             style: TextStyle(
               fontSize: 24.0,
               fontFamily: 'simple',
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
               color: Color(
                   ColorConstants.getPrimaryBlack()),
             ),

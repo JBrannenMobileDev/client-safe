@@ -100,16 +100,52 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                     ? ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
-                    maxHeight: 300.0,
+                    maxHeight: 450.0,
                   ),
-                  child: ListView.builder(
-                    reverse: false,
-                    padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
-                    shrinkWrap: true,
-                    controller: _controller,
-                    physics: ClampingScrollPhysics(),
-                    itemCount: pageState.filteredJobs.length,
-                    itemBuilder: _buildItem,
+                  child: Stack(
+                    alignment: Alignment.topCenter,
+                    children: <Widget>[
+                      ListView.builder(
+                        reverse: false,
+                        padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                        shrinkWrap: true,
+                        controller: _controller,
+                        physics: ClampingScrollPhysics(),
+                        itemCount: pageState.filteredJobs.length,
+                        itemBuilder: _buildItem,
+                      ),
+                      Container(
+                        height: 32.0,
+                        decoration: new BoxDecoration(
+                          gradient: new LinearGradient(
+                              colors: [
+                                Colors.white,
+                                Colors.white.withOpacity(0.0),
+                              ],
+                              begin: const FractionalOffset(0.0, 0.0),
+                              end: const FractionalOffset(0.0, 1.0),
+                              stops: [0.0, 1.0],
+                              tileMode: TileMode.clamp),
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        child: Container(
+                          height: 32.0,
+                          decoration: new BoxDecoration(
+                            gradient: new LinearGradient(
+                                colors: [
+                                  Colors.white,
+                                  Colors.white.withOpacity(0.0),
+                                ],
+                                begin: const FractionalOffset(0.0, 1.0),
+                                end: const FractionalOffset(0.0, 0.0),
+                                stops: [0.0, 1.0],
+                                tileMode: TileMode.clamp),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ) : Column(
                   mainAxisAlignment: MainAxisAlignment.center,

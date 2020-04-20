@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:client_safe/data_layer/local_db/SembastDb.dart';
+import 'package:client_safe/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/NextInvoiceNumber.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 
@@ -31,6 +33,10 @@ class InvoiceDao extends Equatable{
       await update(invoice);
     }else{
       await insert(invoice);
+      List<NextInvoiceNumber> nextInvoiceNumbers = await NextInvoiceNumberDao.getAllSorted();
+      NextInvoiceNumber nextInvoiceNumber = nextInvoiceNumbers.elementAt(0);
+      nextInvoiceNumber.highestInvoiceNumber = nextInvoiceNumber.highestInvoiceNumber++;
+      await NextInvoiceNumberDao.update(nextInvoiceNumber);
     }
   }
 

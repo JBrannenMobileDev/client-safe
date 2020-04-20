@@ -9,6 +9,7 @@ import 'package:redux/redux.dart';
 
 final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, SetAllJobsAction>(_setJobs),
+  TypedReducer<NewInvoicePageState, SetShouldClearAction>(_setShouldClear),
   TypedReducer<NewInvoicePageState, SaveSelectedJobAction>(_saveSelectedJob),
   TypedReducer<NewInvoicePageState, ClearStateAction>(_clearState),
   TypedReducer<NewInvoicePageState, IncrementPageViewIndex>(_incrementPageViewIndex),
@@ -38,6 +39,12 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
 NewInvoicePageState _setDueDate(NewInvoicePageState previousState, SetSelectedDueDate action) {
   return previousState.copyWith(
     dueDate: action.selectedDueDate,
+  );
+}
+
+NewInvoicePageState _setShouldClear(NewInvoicePageState previousState, SetShouldClearAction action) {
+  return previousState.copyWith(
+    shouldClear: action.shouldClear,
   );
 }
 
@@ -351,6 +358,7 @@ NewInvoicePageState _setJobs(NewInvoicePageState previousState, SetAllJobsAction
     jobs: action.allJobs,
     filteredJobs: action.allJobs,
     allClients: action.allClients,
+    invoiceNumber: action.newInvoiceNumber,
     isFinishedFetchingClients: true,
   );
 }

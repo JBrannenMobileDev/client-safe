@@ -5,6 +5,7 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
@@ -50,6 +51,7 @@ class JobDetailsPageState {
   final Function(int) onAddToDeposit;
   final Function() onSaveDepositChange;
   final Function() onClearUnsavedDeposit;
+  final Function() onAddInvoiceSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -91,6 +93,7 @@ class JobDetailsPageState {
     @required this.onAddToDeposit,
     @required this.onSaveDepositChange,
     @required this.onClearUnsavedDeposit,
+    @required this.onAddInvoiceSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -133,6 +136,7 @@ class JobDetailsPageState {
     Function(int) onAddToDeposit,
     Function() onSaveDepositChange,
     Function() onClearUnsavedDeposit,
+    Function() onAddInvoiceSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -174,6 +178,7 @@ class JobDetailsPageState {
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
       onSaveDepositChange:  onSaveDepositChange ?? this.onSaveDepositChange,
       onClearUnsavedDeposit: onClearUnsavedDeposit ?? this.onClearUnsavedDeposit,
+      onAddInvoiceSelected: onAddInvoiceSelected ?? this.onAddInvoiceSelected,
     );
   }
 
@@ -218,6 +223,10 @@ class JobDetailsPageState {
       onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAction(store.state.jobDetailsPageState, amountToAdd)),
       onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
       onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
+      onAddInvoiceSelected: () {
+        store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
+        store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
+      },
     );
   }
 
@@ -259,6 +268,7 @@ class JobDetailsPageState {
     onAddToDeposit: null,
     onSaveDepositChange: null,
     onClearUnsavedDeposit: null,
+    onAddInvoiceSelected: null,
   );
 
   @override
@@ -273,6 +283,7 @@ class JobDetailsPageState {
       stageScrollOffset.hashCode ^
       eventMap.hashCode ^
       jobs.hashCode ^
+      onAddInvoiceSelected.hashCode ^
       jobTitleText.hashCode ^
       onNameChangeSaved.hashCode ^
       selectedLocation.hashCode ^
@@ -307,6 +318,7 @@ class JobDetailsPageState {
           other is JobDetailsPageState &&
               unsavedDepositAmount == other.unsavedDepositAmount &&
               onAddToDeposit == other.onAddToDeposit &&
+              onAddInvoiceSelected == other.onAddInvoiceSelected &&
               onSaveDepositChange == other.onSaveDepositChange &&
               job == other.job &&
               documentPath == other.documentPath &&

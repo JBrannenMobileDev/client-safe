@@ -73,34 +73,50 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               GrayDividerWidget(),
               SubtotalRowWidget(pageState),
               DepositRowWidget(pageState),
-              pageState.discountValue > 0 ? DiscountRowWidget(pageState) : SizedBox(),
+              pageState.discountValue > 0 ? DiscountRowWidget(pageState) : SizedBox(height: 16.0,),
               GrayDividerWidget(),
               BalanceDueWidget(pageState),
-              Center(
-                child: Container(
-                  padding: EdgeInsets.all(12.0),
-                  height: 72.0,
-                  width: 200.0,
-                  decoration: BoxDecoration(
-                    color: Color(ColorConstants.getBlueLight()),
-                    borderRadius: BorderRadius.circular(36.0)
+              pageState.dueDate != null ? Container(
+                margin: EdgeInsets.only(right: 16.0, bottom: 0.0),
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'Due date:   ' + DateFormat('MMM dd, yyyy').format(pageState.dueDate),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.primary_black),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Image.asset(
-                          'assets/images/icons/pdf_icon_white.png'),
-                      Text(
-                        'View PDF',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
-                      )
-                    ],
+                ),
+              ) : SizedBox(),
+              Expanded(
+                child: Center(
+                  child: Container(
+                    padding: EdgeInsets.all(12.0),
+                    height: 72.0,
+                    width: 200.0,
+                    decoration: BoxDecoration(
+                        color: Color(ColorConstants.getBlueLight()),
+                        borderRadius: BorderRadius.circular(36.0)
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Image.asset(
+                            'assets/images/icons/pdf_icon_white.png'),
+                        Text(
+                          'View PDF',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w800,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
                 ),
               ),

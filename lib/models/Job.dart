@@ -59,6 +59,42 @@ class Job {
     this.depositAmount
   });
 
+  Job copyWith({
+    int id,
+    int clientId,
+    String clientName,
+    String jobTitle,
+    PriceProfile priceProfile,
+    Location location,
+    String notes,
+    String professionalUserId,
+    DateTime selectedDate,
+    DateTime selectedTime,
+    String type,
+    JobStage stage,
+    Invoice invoice,
+    int depositAmount,
+    List<JobStage> completedStages,
+  }){
+    return Job(
+      id: id?? this.id,
+      clientId: clientId ?? this.clientId,
+      clientName: clientName ?? this.clientId,
+      jobTitle: jobTitle ?? this.jobTitle,
+      priceProfile: priceProfile ?? this.priceProfile,
+      location: location ?? this.location,
+      notes: notes ?? this.notes,
+      professionalUserId: professionalUserId ?? this.professionalUserId,
+      selectedDate: selectedDate ?? this.selectedDate,
+      selectedTime: selectedTime ?? this.selectedTime,
+      type: type ?? this.type,
+      stage: stage ?? this.stage,
+      invoice: invoice ?? this.invoice,
+      depositAmount: depositAmount ?? this.depositAmount,
+      completedStages: completedStages ?? this.completedStages,
+    );
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'id' : id,

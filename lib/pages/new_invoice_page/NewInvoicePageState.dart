@@ -20,6 +20,7 @@ class NewInvoicePageState {
   static const String DISCOUNT_STAGE_STAGE_ADDED = 'stageAdded';
 
   final int id;
+  final int invoiceNumber;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -76,9 +77,11 @@ class NewInvoicePageState {
   final Function(String) onHourlyQuantityTextChanged;
   final Function(String) onItemRateTextChanged;
   final Function(String) onItemQuantityTextChanged;
+  final Function() onDepositActionPressed;
 
   NewInvoicePageState({
     @required this.id,
+    @required this.invoiceNumber,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -135,10 +138,12 @@ class NewInvoicePageState {
     @required this.onEditSelected,
     @required this.dueDate,
     @required this.onDueDateSelected,
+    @required this.onDepositActionPressed,
   });
 
   NewInvoicePageState copyWith({
     int id,
+    int invoiceNumber,
     int pageViewIndex,
     bool saveButtonEnabled,
     bool shouldClear,
@@ -195,9 +200,11 @@ class NewInvoicePageState {
     Function(String) onItemQuantityTextChanged,
     Function(int) onLineItemDeleted,
     Function() onDeleteDiscountSelected,
+    Function() onDepositActionPressed,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
+      invoiceNumber: invoiceNumber ?? this.invoiceNumber,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
@@ -254,6 +261,7 @@ class NewInvoicePageState {
       onEditSelected: onEditSelected ?? this.onEditSelected,
       dueDate: dueDate ?? this.dueDate,
       onDueDateSelected:  onDueDateSelected ?? this.onDueDateSelected,
+      onDepositActionPressed: onDepositActionPressed ?? this.onDepositActionPressed,
     );
   }
 
@@ -262,6 +270,7 @@ class NewInvoicePageState {
     selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
     return NewInvoicePageState(
         id: null,
+        invoiceNumber: 0,
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
@@ -318,12 +327,14 @@ class NewInvoicePageState {
         onEditSelected: null,
         dueDate: null,
         onDueDateSelected: null,
+        onDepositActionPressed: null,
       );
   }
 
   factory NewInvoicePageState.fromStore(Store<AppState> store) {
     return NewInvoicePageState(
       id: store.state.newInvoicePageState.id,
+      invoiceNumber: store.state.newInvoicePageState.invoiceNumber,
       pageViewIndex: store.state.newInvoicePageState.pageViewIndex,
       saveButtonEnabled: store.state.newInvoicePageState.saveButtonEnabled,
       shouldClear: store.state.newInvoicePageState.shouldClear,
@@ -379,13 +390,15 @@ class NewInvoicePageState {
       onItemQuantityTextChanged: (itemQuantity) => store.dispatch(UpdateNewInvoiceItemQuantityAction(store.state.newInvoicePageState, itemQuantity)),
       onLineItemDeleted: (index) => store.dispatch(DeleteLineItemAction(store.state.newInvoicePageState, index)),
       onDeleteDiscountSelected: () => store.dispatch(DeleteDiscountAction(store.state.newInvoicePageState)),
-//      onEditSelected: () => store.dispatch(UpdateEditModeAction(store.state.newInvoicePageState, true)),
+      onDepositActionPressed: () => store.dispatch(UpdateDepositStatusAction(store.state.newInvoicePageState)),
     );
   }
 
   @override
   int get hashCode =>
       id.hashCode ^
+      invoiceNumber.hashCode ^
+      onDepositActionPressed.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
@@ -437,6 +450,8 @@ class NewInvoicePageState {
       identical(this, other) ||
       other is NewInvoicePageState &&
           id == other.id &&
+          invoiceNumber == other.invoiceNumber &&
+          onDepositActionPressed == other.onDepositActionPressed &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&

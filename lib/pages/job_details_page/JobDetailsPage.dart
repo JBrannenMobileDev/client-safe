@@ -13,12 +13,15 @@ import 'package:client_safe/pages/job_details_page/RemindersCard.dart';
 import 'package:client_safe/pages/job_details_page/scroll_stage_items/StageItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:client_safe/utils/Shadows.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
 
 class JobDetailsPage extends StatefulWidget {
@@ -38,6 +41,14 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   double scrollPosition = 0;
   _JobDetailsPageState(this.scrollPosition);
   bool sliverCollapsed = false;
+
+  bool dialVisible = true;
+
+  void setDialVisible(bool value) {
+    setState(() {
+      dialVisible = value;
+    });
+  }
 
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
     return showDialog<void>(
@@ -85,7 +96,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   @override
   void initState() {
     super.initState();
-    _scrollController = ScrollController()..addListener(() => setState(() {}));
+    _scrollController = ScrollController()..addListener(() {
+      setDialVisible(_scrollController.position.userScrollDirection == ScrollDirection.forward);
+      setState(() {});
+    });
   }
 
   @override
@@ -112,7 +126,144 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             if(scrollPosition == -2) scrollPosition = 0;
           }
               return Scaffold(
-              body: Container(
+                floatingActionButton: SpeedDial(
+                  // both default to 16
+                  marginRight: 18,
+                  marginBottom: 20,
+                  animatedIcon: AnimatedIcons.menu_close,
+                  animatedIconTheme: IconThemeData(size: 22.0, color: Color(ColorConstants.getPrimaryColor())),
+                  // this is ignored if animatedIcon is non null
+                  // child: Icon(Icons.add),
+                  visible: dialVisible,
+                  // If true user is forced to close dial manually
+                  // by tapping main button and overlay is not rendered.
+                  closeManually: false,
+                  curve: Curves.bounceIn,
+                  overlayColor: Colors.black,
+                  overlayOpacity: 0.5,
+                  tooltip: 'Speed Dial',
+                  heroTag: 'speed-dial-hero-tag',
+                  backgroundColor: Colors.white,
+                  foregroundColor: Colors.black,
+                  elevation: 8.0,
+                  shape: CircleBorder(),
+                  children: [
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getPeachLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Text(
+                            'Add feedback',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Text(
+                            'Add Questionaire',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getPrimaryColor()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Text(
+                            'Add invoice',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        pageState.onAddInvoiceSelected();
+                        UserOptionsUtil.showNewInvoiceDialog(context);
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getPeachDark()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Text(
+                            'Add contract',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
+                      },
+                    ),
+                  ],
+                ),
+                body: Container(
                 child: Stack(
                   alignment: Alignment.topCenter,
                   children: <Widget>[

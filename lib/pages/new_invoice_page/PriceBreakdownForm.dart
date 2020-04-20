@@ -186,8 +186,11 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
             break;
         }
         flatRateTextController.text = pageState.flatRateText.length == 0 ? '\$' : '\$' + double.parse(pageState.flatRateText.replaceFirst(r'$', '')).toInt().toString();
+        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         hourlyRateTextController.text = pageState.hourlyRate.length == 0 ? '\$' : '\$' + double.parse(pageState.hourlyRate.replaceFirst(r'$', '')).toInt().toString();
+        hourlyRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: hourlyRateTextController.text.length));
         quantityRateTextController.text = pageState.itemRate.length == 0 ? '\$' : '\$' + double.parse(pageState.itemRate.replaceFirst(r'$', '')).toInt().toString();
+        quantityRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: quantityRateTextController.text.length));
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -206,9 +209,19 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   color: Color(ColorConstants.primary_black),
                 ),
               ),
+              Text(
+                '(' + pageState.selectedJob.priceProfile.profileName + ') price package',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.getPrimaryColor()),
+                ),
+              ),
               Container(
                 width: 300.0,
-                margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 28.0, bottom: 12.0),
+                margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 6.0, bottom: 6.0),
                 child: CupertinoSlidingSegmentedControl<int>(
                   backgroundColor: Colors.transparent,
                   thumbColor: Color(ColorConstants.getPrimaryColor()),

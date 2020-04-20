@@ -12,11 +12,18 @@ class FetchAllInvoiceJobsAction{
   FetchAllInvoiceJobsAction(this.pageState);
 }
 
+class SetShouldClearAction{
+  final NewInvoicePageState pageState;
+  final bool shouldClear;
+  SetShouldClearAction(this.pageState, this.shouldClear);
+}
+
 class SetAllJobsAction {
   final NewInvoicePageState pageState;
   final List<Job> allJobs;
   final List<Client> allClients;
-  SetAllJobsAction(this.pageState, this.allJobs, this.allClients);
+  final int newInvoiceNumber;
+  SetAllJobsAction(this.pageState, this.allJobs, this.allClients, this.newInvoiceNumber);
 }
 
 class IncrementPageViewIndex{
@@ -169,6 +176,11 @@ class SetSelectedDueDate{
   final NewInvoicePageState pageState;
   final DateTime selectedDueDate;
   SetSelectedDueDate(this.pageState, this.selectedDueDate);
+}
+
+class UpdateDepositStatusAction{
+  final NewInvoicePageState pageState;
+  UpdateDepositStatusAction(this.pageState);
 }
 
 

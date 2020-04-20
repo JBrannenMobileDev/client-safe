@@ -39,9 +39,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
-        appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
-        appState.dispatch(
-            FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
+        if(appState.state.newInvoicePageState.shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
+        appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -49,7 +48,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
             backgroundColor: Colors.transparent,
             child: Container(
               width: 450.0,
-              height: 650.0,
+              height: 665.0,
               margin: EdgeInsets.only(
                   left: 0.0, right: 0.0, top: 16.0, bottom: 16.0),
               padding: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -74,7 +73,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                       Padding(
                         padding: EdgeInsets.only(right: 16.0),
                         child: Text(
-                          "Invoice 1000",
+                          "Invoice " + pageState.invoiceNumber.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22.0,
@@ -94,7 +93,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                       children: <Widget>[
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: pageState.pageViewIndex == 1 ? 196 : 600.0,
+                            maxHeight: pageState.pageViewIndex == 1 ? 196 : 563.0,
                           ),
                           child: PageView(
                             physics: NeverScrollableScrollPhysics(),
@@ -115,52 +114,44 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                         pageState.pageViewIndex == 1 ? DiscountRowWidget(pageState) : SizedBox(),
                         pageState.pageViewIndex == 1 ? GrayDividerWidget() : SizedBox(),
                         pageState.pageViewIndex == 1 ? BalanceDueWidget(pageState) : SizedBox(),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                onBackPressed(pageState);
+                              },
+                              child: Text(
+                                pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                            FlatButton(
+                              onPressed: () {
+                                onNextPressed(pageState);
+                              },
+                              child: Text(
+                                pageState.pageViewIndex == pageCount - 1
+                                    ? 'Save'
+                                    : 'Next',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ],
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                    alignment: Alignment.bottomCenter,
-                    child: Container(
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                      height: 64.0,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          FlatButton(
-                            onPressed: () {
-                              onBackPressed(pageState);
-                            },
-                            child: Text(
-                              pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
-                            ),
-                          ),
-                          FlatButton(
-                            onPressed: () {
-                              onNextPressed(pageState);
-                            },
-                            child: Text(
-                              pageState.pageViewIndex == pageCount - 1
-                                  ? 'Save'
-                                  : 'Next',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
                     ),
                   ),
                 ],

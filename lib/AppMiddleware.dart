@@ -77,6 +77,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewLineItemAction>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewDiscountAction>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteDiscountAction>(NewInvoicePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateDepositStatusAction>(NewInvoicePageMiddleware()));
   return middlewareList;
 }
 

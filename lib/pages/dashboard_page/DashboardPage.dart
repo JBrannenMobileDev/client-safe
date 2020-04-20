@@ -134,7 +134,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                   ),
                   SpeedDialChild(
                     child: Icon(Icons.person_add),
-                    backgroundColor: Color(ColorConstants.getBlueLight()),
+                    backgroundColor: Color(ColorConstants.getPeachDark()),
                     labelWidget: Container(
                       alignment: Alignment.center,
                       height: 42.0,

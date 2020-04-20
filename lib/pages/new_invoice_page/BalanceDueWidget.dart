@@ -18,7 +18,7 @@ class BalanceDueWidget extends StatelessWidget{
           Padding(
             padding: EdgeInsets.only(right: 112.0),
             child: Text(
-              'Balance Due',
+              'Balance Due' ,
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 24.0,
@@ -36,7 +36,7 @@ class BalanceDueWidget extends StatelessWidget{
             style: TextStyle(
               fontSize: 24.0,
               fontFamily: 'simple',
-              fontWeight: FontWeight.w800,
+              fontWeight: FontWeight.w600,
               color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ),
