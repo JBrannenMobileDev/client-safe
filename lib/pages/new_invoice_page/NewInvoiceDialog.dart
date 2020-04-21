@@ -30,6 +30,7 @@ class NewInvoiceDialog extends StatefulWidget {
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   OverlayEntry overlayEntry;
   final int pageCount = 4;
+  bool hasJumpToBeenCalled = false;
   final controller = PageController(
     initialPage: 0,
   );
@@ -41,6 +42,12 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       onInit: (appState) {
         if(appState.state.newInvoicePageState.shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
+      },
+      onDidChange: (pageState) {
+        if(!pageState.shouldClear && !hasJumpToBeenCalled) {
+          controller.jumpToPage(1);
+          hasJumpToBeenCalled = true;
+        }
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
@@ -122,7 +129,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 onBackPressed(pageState);
                               },
                               child: Text(
-                                pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                                pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 20.0,
@@ -250,7 +257,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   }
 
   void onBackPressed(NewInvoicePageState pageState) {
-    if (pageState.pageViewIndex == 0) {
+    if (pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled))) {
       pageState.onCancelPressed();
       Navigator.of(context).pop();
     } else {

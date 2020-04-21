@@ -33,6 +33,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
   AnimationController _repeatController;
   Animation<double> _circleSize;
   bool dialVisible = true;
+  bool isFabExpanded = false;
 
   void setDialVisible(bool value) {
     setState(() {
@@ -88,10 +89,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                 // both default to 16
                 marginRight: 18,
                 marginBottom: 20,
-                animatedIcon: AnimatedIcons.menu_close,
-                animatedIconTheme: IconThemeData(size: 22.0, color: Color(ColorConstants.getPrimaryColor())),
-                // this is ignored if animatedIcon is non null
-                // child: Icon(Icons.add),
+                 child: getFabIcon(),
                 visible: dialVisible,
                 // If true user is forced to close dial manually
                 // by tapping main button and overlay is not rendered.
@@ -101,14 +99,24 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                 overlayOpacity: 0.5,
                 tooltip: 'Speed Dial',
                 heroTag: 'speed-dial-hero-tag',
-                backgroundColor: Colors.white,
+                backgroundColor: Color(ColorConstants.getPrimaryColor()),
                 foregroundColor: Colors.black,
                 elevation: 8.0,
                 shape: CircleBorder(),
+                onOpen: () {
+                  setState(() {
+                    isFabExpanded = true;
+                  });
+                },
+                onClose: () {
+                  setState(() {
+                    isFabExpanded = false;
+                  });
+                },
                 children: [
                   SpeedDialChild(
                       child: Icon(Icons.business_center),
-                      backgroundColor: Color(ColorConstants.getPrimaryColor()),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -277,4 +285,12 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
           ),
         ),
       );
+
+  getFabIcon() {
+    if(isFabExpanded){
+      return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
+    }else{
+      return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
+    }
+  }
 }

@@ -41,7 +41,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   double scrollPosition = 0;
   _JobDetailsPageState(this.scrollPosition);
   bool sliverCollapsed = false;
-
+  bool isFabExpanded = false;
   bool dialVisible = true;
 
   void setDialVisible(bool value) {
@@ -130,10 +130,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   // both default to 16
                   marginRight: 18,
                   marginBottom: 20,
-                  animatedIcon: AnimatedIcons.menu_close,
-                  animatedIconTheme: IconThemeData(size: 22.0, color: Color(ColorConstants.getPrimaryColor())),
                   // this is ignored if animatedIcon is non null
-                  // child: Icon(Icons.add),
+                   child: getFabIcon(),
                   visible: dialVisible,
                   // If true user is forced to close dial manually
                   // by tapping main button and overlay is not rendered.
@@ -143,14 +141,24 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   overlayOpacity: 0.5,
                   tooltip: 'Speed Dial',
                   heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(ColorConstants.getPrimaryColor()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),
+                  onOpen: () {
+                    setState(() {
+                      isFabExpanded = true;
+                    });
+                  },
+                  onClose: () {
+                    setState(() {
+                      isFabExpanded = false;
+                    });
+                  },
                   children: [
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getPeachDark()),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -162,35 +170,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Text(
-                            'Add feedback',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getPeachLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Text(
-                            'Add Questionaire',
+                            'Feedback',
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 22.0,
@@ -218,7 +198,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Text(
-                            'Add reminder',
+                            'Questionaire',
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 22.0,
@@ -234,7 +214,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getPrimaryColor()),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -246,7 +226,35 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Text(
-                            'Add invoice',
+                            'Reminder',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Text(
+                            'Invoice',
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 22.0,
@@ -263,7 +271,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getPeachDark()),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -275,7 +283,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Text(
-                            'Add contract',
+                            'Contract',
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 22.0,
@@ -458,5 +466,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
   _getWidgetForIndex(int index, Job job) {
     return StageItem(index, job);
+  }
+
+  getFabIcon() {
+    if(isFabExpanded){
+      return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
+    }else{
+      return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
+    }
   }
 }

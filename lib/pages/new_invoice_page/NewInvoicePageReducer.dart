@@ -45,6 +45,7 @@ NewInvoicePageState _setDueDate(NewInvoicePageState previousState, SetSelectedDu
 NewInvoicePageState _setShouldClear(NewInvoicePageState previousState, SetShouldClearAction action) {
   return previousState.copyWith(
     shouldClear: action.shouldClear,
+    pageViewIndex: 1,
   );
 }
 

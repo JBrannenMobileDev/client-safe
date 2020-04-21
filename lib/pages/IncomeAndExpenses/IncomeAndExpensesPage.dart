@@ -30,6 +30,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
   bool dialVisible = true;
   int selectedIndex = 0;
   Map<int, Widget> tabs;
+  bool isFabExpanded = false;
 
   @override
   void initState() {
@@ -243,10 +244,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   // both default to 16
                   marginRight: 18,
                   marginBottom: 20,
-                  animatedIcon: AnimatedIcons.menu_close,
-                  animatedIconTheme: IconThemeData(size: 22.0, color: Color(ColorConstants.getPrimaryColor())),
-                  // this is ignored if animatedIcon is non null
-                  // child: Icon(Icons.add),
+                  child: getFabIcon(),
                   visible: dialVisible,
                   // If true user is forced to close dial manually
                   // by tapping main button and overlay is not rendered.
@@ -254,23 +252,31 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   curve: Curves.bounceIn,
                   overlayColor: Colors.black,
                   overlayOpacity: 0.5,
-                  onOpen: () => print('OPENING DIAL'),
-                  onClose: () => print('DIAL CLOSED'),
+                  onOpen: () {
+                    setState(() {
+                      isFabExpanded = true;
+                    });
+                  },
+                  onClose: () {
+                    setState(() {
+                      isFabExpanded = false;
+                    });
+                  },
                   tooltip: 'Speed Dial',
                   heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: Colors.white,
+                  backgroundColor: Color(ColorConstants.getPrimaryColor()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),
                   children: [
                     SpeedDialChild(
                       child: Container(
-                        padding: EdgeInsets.all(8.0),
+                        padding: EdgeInsets.all(10.0),
                         height: 116.0,
                         width: 116.0,
                         child: Image.asset('assets/images/icons/invoices_icon_white.png'),
                       ),
-                        backgroundColor: Color(ColorConstants.getPrimaryColor()),
+                        backgroundColor: Color(ColorConstants.getBlueLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
                           height: 42.0,
@@ -294,7 +300,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      backgroundColor: Color(ColorConstants.getPeachDark()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -324,5 +330,13 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
           ],
         ),
       );
+  }
+
+  getFabIcon() {
+    if(isFabExpanded){
+      return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
+    }else{
+      return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
+    }
   }
 }
