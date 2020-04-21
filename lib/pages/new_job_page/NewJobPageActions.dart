@@ -144,3 +144,10 @@ class SetDocumentPathAction{
   final String documentPath;
   SetDocumentPathAction(this.pageState, this.documentPath);
 }
+
+class UpdateComingFromClientDetails{
+  final NewJobPageState pageState;
+  final bool isComingFromClientDetails;
+  UpdateComingFromClientDetails(this.pageState, this.isComingFromClientDetails);
+}
+

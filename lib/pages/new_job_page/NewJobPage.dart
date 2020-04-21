@@ -33,6 +33,7 @@ class _NewJobPageState extends State<NewJobPage> {
     initialPage: 0,
   );
   int currentPageIndex = 0;
+  bool hasJumpToBeenCalled = false;
 
   @override
   void initState() {
@@ -72,6 +73,12 @@ class _NewJobPageState extends State<NewJobPage> {
     });
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) => store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null,
+      onDidChange: (pageState) {
+        if(pageState.comingFromClientDetails && !hasJumpToBeenCalled) {
+          controller.jumpToPage(1);
+          hasJumpToBeenCalled = true;
+        }
+      },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           WillPopScope(
@@ -107,7 +114,7 @@ class _NewJobPageState extends State<NewJobPage> {
                         Padding(
                           padding: EdgeInsets.only(bottom: 4.0),
                           child: Text(
-                            pageState.shouldClear ? "New Job" : "Edit Job",
+                            pageState.shouldClear ? "New Job" : pageState.comingFromClientDetails ? "New Job" : "Edit Job",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 28.0,

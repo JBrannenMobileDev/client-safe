@@ -30,7 +30,12 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, AddToDepositAmountAction>(_updateDepositAmount),
   TypedReducer<NewJobPageState, ClearDepositAction>(_clearDeposit),
   TypedReducer<NewJobPageState, SetDocumentPathAction>(_setDocumentPath),
+  TypedReducer<NewJobPageState, UpdateComingFromClientDetails>(_updateComingFromClientDetails),
 ]);
+
+NewJobPageState _updateComingFromClientDetails(NewJobPageState previousState, UpdateComingFromClientDetails action) {
+  return previousState.copyWith(comingFromClientDetails: action.isComingFromClientDetails);
+}
 
 NewJobPageState _setDocumentPath(NewJobPageState previousState, SetDocumentPathAction action) {
   return previousState.copyWith(documentPath: action.documentPath);
@@ -53,6 +58,7 @@ NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, Initializ
   return previousState.copyWith(
       selectedClient: action.client,
       shouldClear: false,
+      comingFromClientDetails: true,
   );
 }
 

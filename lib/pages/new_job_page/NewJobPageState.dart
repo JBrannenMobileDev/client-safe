@@ -19,6 +19,7 @@ class NewJobPageState {
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
+  final bool comingFromClientDetails;
   final bool isFinishedFetchingClients;
   final String errorState;
   final Client selectedClient;
@@ -62,6 +63,7 @@ class NewJobPageState {
 
   NewJobPageState({
     @required this.id,
+    @required this.comingFromClientDetails,
     @required this.documentPath,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
@@ -111,6 +113,7 @@ class NewJobPageState {
     int id,
     String documentPath,
     int pageViewIndex,
+    bool comingFromClientDetails,
     bool saveButtonEnabled,
     bool shouldClear,
     bool isFinishedFetchingClients,
@@ -198,6 +201,7 @@ class NewJobPageState {
       depositAmount: depositAmount ?? this.depositAmount,
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
       clearDepositAmount: clearDepositAmount ?? this.clearDepositAmount,
+      comingFromClientDetails: comingFromClientDetails ?? this.comingFromClientDetails,
     );
   }
 
@@ -249,6 +253,7 @@ class NewJobPageState {
         onJobClicked: null,
         onAddToDeposit: null,
         clearDepositAmount: null,
+        comingFromClientDetails: false,
       );
   }
 
@@ -281,6 +286,7 @@ class NewJobPageState {
       eventMap: store.state.newJobPageState.eventMap,
       jobs: store.state.newJobPageState.jobs,
       depositAmount: store.state.newJobPageState.depositAmount,
+      comingFromClientDetails: store.state.newJobPageState.comingFromClientDetails,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
