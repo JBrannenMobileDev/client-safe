@@ -30,15 +30,17 @@ class InvoiceReviewPage extends StatefulWidget {
 }
 
 class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKeepAliveClientMixin {
+  bool hasPdfBeenShown = false;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
       onDidChange: (pageState) async {
-        if(pageState.invoicePdfSaved){
+        if(pageState.invoicePdfSaved && !hasPdfBeenShown){
           String path = await PdfUtil.getInvoiceFilePath(pageState.invoiceNumber);
           Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
+          hasPdfBeenShown = true;
         }
       },
       converter: (store) => NewInvoicePageState.fromStore(store),
@@ -102,6 +104,7 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
                 child: Center(
                   child: GestureDetector(
                     onTap: () {
+                      hasPdfBeenShown = false;
                       pageState.onViewPdfSelected();
                     },
                     child: Container(
