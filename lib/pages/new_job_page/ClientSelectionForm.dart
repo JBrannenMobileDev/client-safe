@@ -32,10 +32,6 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
         store.dispatch(FetchAllClientsAction(store.state.newJobPageState));
         searchTextController.text = store.state.newJobPageState.clientSearchText;
       },
-      onDidChange: (pageState) {
-        int scrollToIndex = getClientIndex(pageState.selectedClient, pageState.filteredClients);
-        _controller.jumpTo(scrollToIndex * 64.0);
-      },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           Container(

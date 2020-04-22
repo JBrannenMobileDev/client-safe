@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/PdfViewerPage.dart';
 import 'package:client_safe/pages/new_invoice_page/BalanceDueWidget.dart';
 import 'package:client_safe/pages/new_invoice_page/DepositRowWidget.dart';
 import 'package:client_safe/pages/new_invoice_page/DiscountRowWidget.dart';
@@ -11,6 +12,7 @@ import 'package:client_safe/pages/new_invoice_page/NewInvoiceTextField.dart';
 import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:client_safe/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/PdfUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,12 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
+      onDidChange: (pageState) async {
+        if(pageState.invoicePdfSaved){
+          String path = await PdfUtil.getInvoiceFilePath(pageState.invoiceNumber);
+          Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
+        }
+      },
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
       Stack(
@@ -92,30 +100,35 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               ) : SizedBox(),
               Expanded(
                 child: Center(
-                  child: Container(
-                    padding: EdgeInsets.all(12.0),
-                    height: 72.0,
-                    width: 200.0,
-                    decoration: BoxDecoration(
-                        color: Color(ColorConstants.getBlueLight()),
-                        borderRadius: BorderRadius.circular(36.0)
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Image.asset(
-                            'assets/images/icons/pdf_icon_white.png'),
-                        Text(
-                          'View PDF',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                          ),
-                        )
-                      ],
+                  child: GestureDetector(
+                    onTap: () {
+                      pageState.onViewPdfSelected();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(12.0),
+                      height: 72.0,
+                      width: 200.0,
+                      decoration: BoxDecoration(
+                          color: Color(ColorConstants.getBlueLight()),
+                          borderRadius: BorderRadius.circular(36.0)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Image.asset(
+                              'assets/images/icons/pdf_icon_white.png'),
+                          Text(
+                            'View PDF',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ),

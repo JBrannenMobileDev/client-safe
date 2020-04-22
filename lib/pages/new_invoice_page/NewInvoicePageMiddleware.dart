@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
@@ -6,7 +8,13 @@ import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:client_safe/utils/PdfUtil.dart';
+import 'package:flutter/services.dart';
 import 'package:redux/redux.dart';
+import 'package:pdf/pdf.dart';
+import 'dart:io';
+import 'package:pdf/widgets.dart';
+import 'package:path_provider/path_provider.dart';
 
 class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -29,6 +37,9 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is UpdateDepositStatusAction){
       _updateDepositStatus(store, action, next);
+    }
+    if(action is GenerateInvoicePdfAction){
+      _generateNewInvoicePdf(store, action, next);
     }
   }
 
@@ -139,5 +150,22 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteDiscount(Store<AppState> store, action, NextDispatcher next) async {
     next(action);
+  }
+
+  void _generateNewInvoicePdf(Store<AppState> store, action, NextDispatcher next) async {
+    final Document pdf = Document();
+    final font = await rootBundle.load("assets/fonts/Nocturne.ttf");
+    final ttf = Font.ttf(font);
+
+    pdf.addPage(Page(
+        pageFormat: PdfPageFormat.a4,
+        build: (Context context) {
+          return Center(
+            child: Text("Invoice Demo", style: TextStyle(font: ttf, fontSize: 40, color: PdfColor.fromHex('0x000000'))),
+          ); // Center
+        }));
+
+    await PdfUtil.savePdfFile(store.state.newInvoicePageState.invoiceNumber, pdf);
+    store.dispatch(UpdatePdfSavedFlag(store.state.newInvoicePageState));
   }
 }

@@ -50,6 +50,7 @@ class NewInvoicePageState {
   final String newDiscountFilter;
   final Discount discount;
   final DateTime dueDate;
+  final bool invoicePdfSaved;
   final Function(DateTime) onDueDateSelected;
   final Function() onEditSelected;
   final Function() onDeleteDiscountSelected;
@@ -78,6 +79,7 @@ class NewInvoicePageState {
   final Function(String) onItemRateTextChanged;
   final Function(String) onItemQuantityTextChanged;
   final Function() onDepositActionPressed;
+  final Function() onViewPdfSelected;
 
   NewInvoicePageState({
     @required this.id,
@@ -110,6 +112,7 @@ class NewInvoicePageState {
     @required this.hourlyQuantity,
     @required this.itemRate,
     @required this.itemQuantity,
+    @required this.invoicePdfSaved,
     @required this.onFlatRateTextChanged,
     @required this.onHourlyRateTextChanged,
     @required this.onHourlyQuantityTextChanged,
@@ -139,6 +142,7 @@ class NewInvoicePageState {
     @required this.dueDate,
     @required this.onDueDateSelected,
     @required this.onDepositActionPressed,
+    @required this.onViewPdfSelected,
   });
 
   NewInvoicePageState copyWith({
@@ -172,6 +176,7 @@ class NewInvoicePageState {
     String newDiscountPercentage,
     Discount discount,
     String newDiscountFilter,
+    bool invoicePdfSaved,
     DateTime dueDate,
     Function(DateTime) dueDateSelected,
     Function() onEditSelected,
@@ -201,6 +206,7 @@ class NewInvoicePageState {
     Function(int) onLineItemDeleted,
     Function() onDeleteDiscountSelected,
     Function() onDepositActionPressed,
+    Function() onViewPdfSelected,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -236,6 +242,7 @@ class NewInvoicePageState {
       itemQuantity: itemQuantity ?? this.itemQuantity,
       newLineItemName: newLineItemName ?? this.newLineItemName,
       newLineItemRate: newLineItemRate ?? this.newLineItemRate,
+      invoicePdfSaved: invoicePdfSaved ?? this.invoicePdfSaved,
       newLineItemQuantity: newLineItemQuantity ?? this.newLineItemQuantity,
       onNewLineItemCanceled: onNewLineItemCanceled ?? this.onNewLineItemCanceled,
       onNewLineItemNameTextChanged: onNewLineItemNameTextChanged ?? this.onNewLineItemNameTextChanged,
@@ -262,6 +269,7 @@ class NewInvoicePageState {
       dueDate: dueDate ?? this.dueDate,
       onDueDateSelected:  onDueDateSelected ?? this.onDueDateSelected,
       onDepositActionPressed: onDepositActionPressed ?? this.onDepositActionPressed,
+      onViewPdfSelected: onViewPdfSelected ?? this.onViewPdfSelected,
     );
   }
 
@@ -328,6 +336,8 @@ class NewInvoicePageState {
         dueDate: null,
         onDueDateSelected: null,
         onDepositActionPressed: null,
+        onViewPdfSelected: null,
+        invoicePdfSaved: null,
       );
   }
 
@@ -364,6 +374,7 @@ class NewInvoicePageState {
       discountValue: store.state.newInvoicePageState.discountValue,
       isInEditMode: store.state.newInvoicePageState.isInEditMode,
       dueDate: store.state.newInvoicePageState.dueDate,
+      invoicePdfSaved: store.state.newInvoicePageState.invoicePdfSaved,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
@@ -391,12 +402,14 @@ class NewInvoicePageState {
       onLineItemDeleted: (index) => store.dispatch(DeleteLineItemAction(store.state.newInvoicePageState, index)),
       onDeleteDiscountSelected: () => store.dispatch(DeleteDiscountAction(store.state.newInvoicePageState)),
       onDepositActionPressed: () => store.dispatch(UpdateDepositStatusAction(store.state.newInvoicePageState)),
+      onViewPdfSelected: () => store.dispatch(GenerateInvoicePdfAction(store.state.newInvoicePageState)),
     );
   }
 
   @override
   int get hashCode =>
       id.hashCode ^
+      invoicePdfSaved.hashCode ^
       invoiceNumber.hashCode ^
       onDepositActionPressed.hashCode ^
       pageViewIndex.hashCode ^
@@ -409,6 +422,7 @@ class NewInvoicePageState {
       allClients.hashCode ^
       lineItems.hashCode ^
       onSavePressed.hashCode ^
+      onViewPdfSelected.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
       onBackPressed.hashCode ^
@@ -450,7 +464,9 @@ class NewInvoicePageState {
       identical(this, other) ||
       other is NewInvoicePageState &&
           id == other.id &&
+          invoicePdfSaved == other.invoicePdfSaved &&
           invoiceNumber == other.invoiceNumber &&
+          onViewPdfSelected == other.onViewPdfSelected &&
           onDepositActionPressed == other.onDepositActionPressed &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&

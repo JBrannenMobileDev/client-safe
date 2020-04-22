@@ -183,4 +183,14 @@ class UpdateDepositStatusAction{
   UpdateDepositStatusAction(this.pageState);
 }
 
+class GenerateInvoicePdfAction{
+  final NewInvoicePageState pageState;
+  GenerateInvoicePdfAction(this.pageState);
+}
+
+class UpdatePdfSavedFlag{
+  final NewInvoicePageState pageState;
+  UpdatePdfSavedFlag(this.pageState);
+}
+
 

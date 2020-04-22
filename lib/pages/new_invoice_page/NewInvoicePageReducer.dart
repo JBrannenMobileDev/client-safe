@@ -34,7 +34,14 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, SaveNewDiscountAction>(_saveNewDiscount),
   TypedReducer<NewInvoicePageState, UpdateNewDiscountSelectorAction>(_updateDiscountSelector),
   TypedReducer<NewInvoicePageState, SetSelectedDueDate>(_setDueDate),
+  TypedReducer<NewInvoicePageState, UpdatePdfSavedFlag>(_setPdfSavedFlag),
 ]);
+
+NewInvoicePageState _setPdfSavedFlag(NewInvoicePageState previousState, UpdatePdfSavedFlag action) {
+  return previousState.copyWith(
+    invoicePdfSaved: true,
+  );
+}
 
 NewInvoicePageState _setDueDate(NewInvoicePageState previousState, SetSelectedDueDate action) {
   return previousState.copyWith(

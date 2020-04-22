@@ -336,7 +336,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
     if(isFabExpanded){
       return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
     }else{
-      return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
+      return Icon(Icons.menu, color: Color(ColorConstants.getPrimaryWhite()));
     }
   }
 }
