@@ -20,7 +20,7 @@ class DiscountRowWidget extends StatelessWidget{
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              pageState.discountValue > 0.0 ?
+              pageState.discountValue > 0.0  && pageState.pageViewIndex != 3 ?
               Container(
                 margin: EdgeInsets.only(right: 4.0),
                 child: GestureDetector(

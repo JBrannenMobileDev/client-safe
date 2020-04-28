@@ -34,9 +34,12 @@ class InvoiceDao extends Equatable{
     }else{
       await insert(invoice);
       List<NextInvoiceNumber> nextInvoiceNumbers = await NextInvoiceNumberDao.getAllSorted();
+      if(nextInvoiceNumbers.length == 0){
+        nextInvoiceNumbers.add(NextInvoiceNumber(highestInvoiceNumber: 1000));
+      }
       NextInvoiceNumber nextInvoiceNumber = nextInvoiceNumbers.elementAt(0);
-      nextInvoiceNumber.highestInvoiceNumber = nextInvoiceNumber.highestInvoiceNumber++;
-      await NextInvoiceNumberDao.update(nextInvoiceNumber);
+      nextInvoiceNumber.highestInvoiceNumber = (nextInvoiceNumber.highestInvoiceNumber + 1);
+      await NextInvoiceNumberDao.insertOrUpdate(nextInvoiceNumber);
     }
   }
 
@@ -74,4 +77,15 @@ class InvoiceDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static Future<Invoice> getInvoiceById(int invoiceId) async{
+    final finder = Finder(filter: Filter.byKey(invoiceId));
+    final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
+    // Making a List<Client> out of List<RecordSnapshot>
+    return recordSnapshots.map((snapshot) {
+      final invoice = Invoice.fromMap(snapshot.value);
+      invoice.id = snapshot.key;
+      return invoice;
+    }).toList().elementAt(0);
+  }
 }

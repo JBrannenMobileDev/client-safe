@@ -58,7 +58,6 @@ class NextInvoiceNumberDao extends Equatable{
 
     final recordSnapshots = await _nextInvoiceNumberStore.find(await _db);
 
-    // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
       final next = NextInvoiceNumber.fromMap(snapshot.value);
       next.id = snapshot.key;

@@ -15,6 +15,16 @@ class UpdateSelectedYearAction{
 
 class LoadAllInvoicesAction{
   final IncomeAndExpensesPageState pageState;
+  LoadAllInvoicesAction(this.pageState);
+}
+
+class SetAllInvoicesAction{
+  final IncomeAndExpensesPageState pageState;
   final List<Invoice> allInvoices;
-  LoadAllInvoicesAction(this.pageState, this.allInvoices);
+  SetAllInvoicesAction(this.pageState, this.allInvoices);
+}
+
+class UpdateShowHideState{
+  final IncomeAndExpensesPageState pageState;
+  UpdateShowHideState(this.pageState);
 }

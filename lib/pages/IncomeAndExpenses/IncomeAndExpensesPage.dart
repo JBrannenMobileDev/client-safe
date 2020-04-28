@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeGraphCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/MileageExpensesCard.dart';
@@ -66,6 +67,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
       ),),
     };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
+      onInit: (appState) {
+        appState.dispatch(LoadAllInvoicesAction(appState.state.incomeAndExpensesPageState));
+      },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
           alignment: Alignment.topCenter,
@@ -231,7 +235,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         delegate: new SliverChildListDelegate(
                           <Widget>[
                             pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? IncomeGraphCard() : MileageExpensesCard(),
-                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? UnpaidInvoicesCard() : RecurringExpensesCard(),
+                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? UnpaidInvoicesCard(pageState: pageState) : RecurringExpensesCard(),
                             pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? SizedBox() : SingleExpenseCard(),
                           ],
                         ),

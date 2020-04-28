@@ -1,3 +1,5 @@
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -11,16 +13,15 @@ class UnpaidInvoicesCard extends StatelessWidget{
   UnpaidInvoicesCard({
     this.pageState});
 
-  final DashboardPageState pageState;
+  final IncomeAndExpensesPageState pageState;
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500.0,
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            height: 200.0,
+            height: pageState.unpaidInvoicesForSelectedYear.length > 0 ? pageState.unpaidInvoicesForSelectedYear.length == 1 ? 124.0 : (74*pageState.unpaidInvoicesForSelectedYear.length).toDouble() + 88 : 64.0,
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -43,26 +44,31 @@ class UnpaidInvoicesCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      Text(
-                        "2020",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.primary_black),
+                      FlatButton(
+                        onPressed: () {
+                          pageState.onViewAllHideSelected();
+                        },
+                        child: Text(
+                          pageState.isMinimized ? 'View all' : 'Hide',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w400,
+                            color: Color(ColorConstants.primary_black),
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                0 > 0 ? ListView.builder(
+                pageState.unpaidInvoicesForSelectedYear.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     key: _listKey,
-                    itemCount: 0,
+                    itemCount: pageState.unpaidInvoicesForSelectedYear.length,
                     itemBuilder: _buildItem,
                   ) : Container(
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
@@ -87,6 +93,6 @@ class UnpaidInvoicesCard extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return LeadItem(client: pageState.recentLeads.elementAt(index), pageState: pageState);
+    return InvoiceItem(invoice: pageState.unpaidInvoicesForSelectedYear.elementAt(index), pageState: pageState);
   }
 }

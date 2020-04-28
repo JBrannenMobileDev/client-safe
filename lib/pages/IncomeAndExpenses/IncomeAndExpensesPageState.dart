@@ -13,9 +13,11 @@ class IncomeAndExpensesPageState {
   final List<Invoice> unpaidInvoicesForSelectedYear;
   final double totalIncome;
   final double incomeForSelectedYear;
+  final bool isMinimized;
   final Function(String) onFilterChanged;
   final Function(Invoice) onInvoiceSelected;
   final Function(int) onYearChanged;
+  final Function() onViewAllHideSelected;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -28,19 +30,23 @@ class IncomeAndExpensesPageState {
     @required this.onFilterChanged,
     @required this.onInvoiceSelected,
     @required this.onYearChanged,
+    @required this.isMinimized,
+    @required this.onViewAllHideSelected,
   });
 
   IncomeAndExpensesPageState copyWith({
-  String filterType,
-  int selectedYear,
-  List<Invoice> allInvoices,
-  List<Invoice> invoicesForSelectedYear,
-  List<Invoice> unpaidInvoicesForSelectedYear,
-  double totalIncome,
-  double incomeForSelectedYear,
-  Function(String) onFilterChanged,
-  Function(Invoice) onInvoiceSelected,
-  Function(int) onYearChanged
+    String filterType,
+    int selectedYear,
+    List<Invoice> allInvoices,
+    List<Invoice> invoicesForSelectedYear,
+    List<Invoice> unpaidInvoicesForSelectedYear,
+    double totalIncome,
+    double incomeForSelectedYear,
+    Function(String) onFilterChanged,
+    Function(Invoice) onInvoiceSelected,
+    Function(int) onYearChanged,
+    bool isMinimized,
+    Function() onViewAllHideSelected,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -53,6 +59,8 @@ class IncomeAndExpensesPageState {
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
       onInvoiceSelected: onInvoiceSelected ?? this.onInvoiceSelected,
       onYearChanged: onYearChanged ?? this.onYearChanged,
+      isMinimized: isMinimized ?? this.isMinimized,
+      onViewAllHideSelected: onViewAllHideSelected ?? this.onViewAllHideSelected,
     );
   }
 
@@ -67,6 +75,8 @@ class IncomeAndExpensesPageState {
     onFilterChanged: null,
     onYearChanged: null,
     onInvoiceSelected: null,
+    isMinimized: true,
+    onViewAllHideSelected: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -77,10 +87,12 @@ class IncomeAndExpensesPageState {
       invoicesForSelectedYear: store.state.incomeAndExpensesPageState.invoicesForSelectedYear,
       unpaidInvoicesForSelectedYear: store.state.incomeAndExpensesPageState.unpaidInvoicesForSelectedYear,
       totalIncome: store.state.incomeAndExpensesPageState.totalIncome,
+      isMinimized: store.state.incomeAndExpensesPageState.isMinimized,
       incomeForSelectedYear: store.state.incomeAndExpensesPageState.incomeForSelectedYear,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
       onInvoiceSelected: null,
+      onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.incomeAndExpensesPageState)),
     );
   }
 
@@ -94,6 +106,8 @@ class IncomeAndExpensesPageState {
       totalIncome.hashCode ^
       incomeForSelectedYear.hashCode ^
       onFilterChanged.hashCode ^
+      isMinimized.hashCode ^
+      onViewAllHideSelected.hashCode ^
       onYearChanged.hashCode;
 
   @override
@@ -108,5 +122,7 @@ class IncomeAndExpensesPageState {
               totalIncome == other.totalIncome &&
               incomeForSelectedYear == other.incomeForSelectedYear &&
               onFilterChanged == other.onFilterChanged &&
+              isMinimized == other.isMinimized &&
+              onViewAllHideSelected == other.onViewAllHideSelected &&
               onYearChanged == other.onYearChanged;
 }

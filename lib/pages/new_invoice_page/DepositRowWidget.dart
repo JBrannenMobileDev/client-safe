@@ -21,7 +21,7 @@ class DepositRowWidget extends StatelessWidget{
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Container(
+                pageState.pageViewIndex != 3 ? Container(
                   margin: EdgeInsets.only(right: 8.0),
                   decoration: BoxDecoration(
                       color: Color(pageState.selectedJob.isDepositPaid() ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
@@ -46,7 +46,7 @@ class DepositRowWidget extends StatelessWidget{
                       ),
                     ),
                   ),
-                ),
+                ) : SizedBox(),
                 Text(
                   'Deposit  ',
                   textAlign: TextAlign.start,

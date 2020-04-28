@@ -1,4 +1,5 @@
 import 'package:client_safe/models/LineItem.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +9,9 @@ class LineItemWidget extends StatelessWidget {
   final int index;
   final int length;
   final Function onDelete;
+  final NewInvoicePageState pageState;
 
-  LineItemWidget(this.lineItem, this.index, this.length, this.onDelete);
+  LineItemWidget(this.lineItem, this.index, this.length, this.onDelete, this.pageState);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +24,7 @@ class LineItemWidget extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              index > 0 ? GestureDetector(
+              index > 0 && pageState.pageViewIndex != 3 ? GestureDetector(
                 onTap: () {
                   onDelete(index);
                 },

@@ -13,6 +13,6 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{
-      next(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+      store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
   }
 }

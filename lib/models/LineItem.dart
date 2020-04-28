@@ -30,4 +30,8 @@ class LineItem {
       itemQuantity: map['itemQuantity'],
     );
   }
+
+  double getTotal() {
+    return itemPrice * itemQuantity;
+  }
 }

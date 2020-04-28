@@ -386,7 +386,7 @@ class NewInvoicePageState {
       onNewLineItemNameTextChanged: (name) => store.dispatch(UpdateLineItemNameAction(store.state.newInvoicePageState, name)),
       onNewLineItemRateTextChanged: (rate) => store.dispatch(UpdateLineItemRateAction(store.state.newInvoicePageState, rate)),
       onNewLineItemQuantityTextChanged: (quantity) => store.dispatch(UpdateLineItemQuantityAction(store.state.newInvoicePageState, quantity)),
-      onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newInvoicePageState)),
+      onSavePressed: () => store.dispatch(SaveNewInvoiceAction(store.state.newInvoicePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newInvoicePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newInvoicePageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newInvoicePageState)),

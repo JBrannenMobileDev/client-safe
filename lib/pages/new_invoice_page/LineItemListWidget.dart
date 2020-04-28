@@ -25,7 +25,7 @@ class LineItemListWidget extends StatelessWidget{
             itemCount: pageState.lineItems.length,
             itemBuilder: (context, index) {
               return LineItemWidget(
-                  pageState.lineItems.elementAt(index), index, pageState.lineItems.length, pageState.onLineItemDeleted);
+                  pageState.lineItems.elementAt(index), index, pageState.lineItems.length, pageState.onLineItemDeleted, pageState);
             },
           ),
         ),

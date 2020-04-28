@@ -1,5 +1,7 @@
 
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensePageMiddleware.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageMiddleware.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
@@ -79,6 +81,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteDiscountAction>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateDepositStatusAction>(NewInvoicePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateInvoicePdfAction>(NewInvoicePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNewInvoiceAction>(NewInvoicePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadAllInvoicesAction>(IncomeAndExpensePageMiddleware()));
   return middlewareList;
 }
-

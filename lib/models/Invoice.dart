@@ -1,3 +1,4 @@
+import 'package:client_safe/models/LineItem.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 
 class Invoice {
@@ -11,40 +12,34 @@ class Invoice {
   int clientId;
   int invoiceId;
   String clientName;
+  String jobName;
   DateTime createdDate;
   DateTime sentDate;
+  DateTime dueDate;
   bool depositPaid;
-  bool totalPaid;
+  bool invoicePaid;
   PriceProfile priceProfile;
   double discount;
   double total;
-  String unitType;
-  double rate;
-  int quantity;
-  double amountDueBeforeSession;
-  double amountDueAfterSession;
-  DateTime dueBeforeDate;
-  DateTime dueAfterDate;
+  double unpaidAmount;
+  List<LineItem> lineItems;
 
   Invoice({
     this.id,
     this.clientId,
     this.invoiceId,
     this.clientName,
+    this.jobName,
     this.createdDate,
     this.sentDate,
     this.depositPaid,
-    this.totalPaid,
+    this.invoicePaid,
     this.priceProfile,
     this.discount,
     this.total,
-    this.unitType,
-    this.rate,
-    this.quantity,
-    this.amountDueBeforeSession,
-    this.amountDueAfterSession,
-    this.dueBeforeDate,
-    this.dueAfterDate,
+    this.unpaidAmount,
+    this.lineItems,
+    this.dueDate,
   });
 
   Map<String, dynamic> toMap() {
@@ -53,20 +48,17 @@ class Invoice {
       'clientId': clientId,
       'invoiceId': invoiceId,
       'clientName': clientName,
-      'createdDate': createdDate,
-      'sentDate': sentDate,
+      'jobName' :jobName,
+      'createdDate': createdDate?.millisecondsSinceEpoch ?? null,
+      'sentDate': sentDate?.millisecondsSinceEpoch ?? null,
+      'dueDate' : dueDate?.millisecondsSinceEpoch ?? null,
       'depositPaid': depositPaid,
-      'totalPaid': totalPaid,
-      'priceProfile': priceProfile,
+      'invoicePaid': invoicePaid,
+      'priceProfile': priceProfile.toMap(),
       'discount': discount,
       'total': total,
-      'unitType': unitType,
-      'rate' : rate,
-      'quantity': quantity,
-      'amountDueBeforeSession': amountDueBeforeSession,
-      'amountDueAfterSession': amountDueAfterSession,
-      'dueBeforeDate': dueBeforeDate,
-      'dueAfterDate': dueAfterDate,
+      'unpaidAmount' : unpaidAmount,
+      'lineItems' : convertLineItemsToMaps(lineItems),
     };
   }
 
@@ -76,20 +68,33 @@ class Invoice {
       clientId: map['clientId'],
       invoiceId: map['invoiceId'],
       clientName: map['clientName'],
-      createdDate: map['createdDate'],
-      sentDate: map['sentDate'],
+      jobName: map['jobName'],
+      createdDate: map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
+      sentDate: map['sentDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['sentDate']) : null,
+      dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : null,
       depositPaid: map['depositPaid'],
-      totalPaid: map['totalPaid'],
-      priceProfile: map['priceProfile'],
+      invoicePaid: map['invoicePaid'],
+      priceProfile: PriceProfile.fromMap(map['priceProfile']),
       discount: map['discount'],
       total: map['total'],
-      unitType: map['unitType'],
-      rate: map['rate'],
-      quantity: map['quantity'],
-      amountDueBeforeSession: map['amountDueBeforeSession'],
-      amountDueAfterSession: map['amountDueAfterSession'],
-      dueBeforeDate: map['dueBeforeDate'],
-      dueAfterDate: map['dueAfterDate'],
+      unpaidAmount: map['unpaidAmount'],
+      lineItems: convertMapsToLineItems(map['lineItems']),
     );
+  }
+
+  List<Map<String, dynamic>> convertLineItemsToMaps(List<LineItem> lineItems){
+    List<Map<String, dynamic>> listOfMaps = List();
+    for(LineItem lineItem in lineItems){
+      listOfMaps.add(lineItem.toMap());
+    }
+    return listOfMaps;
+  }
+
+  static List<LineItem> convertMapsToLineItems(List listOfMaps){
+    List<LineItem> listOfLineItems = List();
+    for(Map map in listOfMaps){
+      listOfLineItems.add(LineItem.fromMap(map));
+    }
+    return listOfLineItems;
   }
 }

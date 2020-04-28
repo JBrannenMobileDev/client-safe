@@ -36,9 +36,9 @@ class DecrementPageViewIndex{
   DecrementPageViewIndex(this.pageState);
 }
 
-class SaveNewJobAction{
+class SaveNewInvoiceAction{
   final NewInvoicePageState pageState;
-  SaveNewJobAction(this.pageState);
+  SaveNewInvoiceAction(this.pageState);
 }
 
 class FilterClientList{
