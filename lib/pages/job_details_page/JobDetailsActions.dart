@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
@@ -10,6 +11,12 @@ class SetJobInfo{
   final JobDetailsPageState pageState;
   final Job job;
   SetJobInfo(this.pageState, this.job);
+}
+
+class SetNewInvoice{
+  final JobDetailsPageState pageState;
+  final Invoice invoice;
+  SetNewInvoice(this.pageState, this.invoice);
 }
 
 class SetSunsetTimeForJobAction{

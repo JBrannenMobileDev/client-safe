@@ -79,7 +79,7 @@ class InvoiceDao extends Equatable{
   List<Object> get props => [];
 
   static Future<Invoice> getInvoiceById(int invoiceId) async{
-    final finder = Finder(filter: Filter.byKey(invoiceId));
+    final finder = Finder(filter: Filter.equals('invoiceId', invoiceId));
     final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {

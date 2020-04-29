@@ -5,8 +5,8 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -29,6 +29,7 @@ class JobDetailsPageState {
   final String documentPath;
   final PriceProfile selectedPriceProfile;
   final List<PriceProfile> priceProfiles;
+  final List<DocumentItem> documents;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function() onSaveUpdatedPriceProfileSelected;
   final Function(String) onJobTypeSelected;
@@ -94,6 +95,7 @@ class JobDetailsPageState {
     @required this.onSaveDepositChange,
     @required this.onClearUnsavedDeposit,
     @required this.onAddInvoiceSelected,
+    @required this.documents,
   });
 
   JobDetailsPageState copyWith({
@@ -137,6 +139,7 @@ class JobDetailsPageState {
     Function() onSaveDepositChange,
     Function() onClearUnsavedDeposit,
     Function() onAddInvoiceSelected,
+    List<DocumentItem> documents,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -179,6 +182,7 @@ class JobDetailsPageState {
       onSaveDepositChange:  onSaveDepositChange ?? this.onSaveDepositChange,
       onClearUnsavedDeposit: onClearUnsavedDeposit ?? this.onClearUnsavedDeposit,
       onAddInvoiceSelected: onAddInvoiceSelected ?? this.onAddInvoiceSelected,
+      documents: documents ?? this.documents,
     );
   }
 
@@ -200,6 +204,7 @@ class JobDetailsPageState {
       priceProfiles: store.state.jobDetailsPageState.priceProfiles,
       unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
       documentPath: store.state.jobDetailsPageState.documentPath,
+      documents: store.state.jobDetailsPageState.documents,
       onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
       onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
       setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),

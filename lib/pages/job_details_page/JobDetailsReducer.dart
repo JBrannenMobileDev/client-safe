@@ -3,6 +3,8 @@ import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
+import 'package:client_safe/pages/job_details_page/document_items/InvoiceDocument.dart';
 import 'package:redux/redux.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([
@@ -25,7 +27,16 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, AddToDepositAction>(_addToUnsavedDeposit),
   TypedReducer<JobDetailsPageState, ClearUnsavedDepositAction>(_clearUnsavedDeposit),
   TypedReducer<JobDetailsPageState, SetDocumentPathAction>(_setDocumentPath),
+  TypedReducer<JobDetailsPageState, SetNewInvoice>(_setInvoiceDocument),
 ]);
+
+JobDetailsPageState _setInvoiceDocument(JobDetailsPageState previousState, SetNewInvoice action) {
+  List<DocumentItem> documents = previousState.documents;
+  if(action.invoice != null) {
+    documents.add(InvoiceDocument());
+  }
+  return previousState.copyWith(documents: documents);
+}
 
 JobDetailsPageState _setDocumentPath(JobDetailsPageState previousState, SetDocumentPathAction action) {
   return previousState.copyWith(documentPath: action.documentPath);
@@ -110,11 +121,16 @@ JobDetailsPageState _updateScrollOffset(JobDetailsPageState previousState, Updat
 }
 
 JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobInfo action){
+  List<DocumentItem> documents = List();
+  if(action.job.invoice != null) {
+    documents.add(InvoiceDocument());
+  }
   action.job.completedStages.sort((a, b) => a.value.compareTo(b.value));
   Location newLocation = action.job.location != null ? action.job.location : Location(locationName: '');
   return previousState.copyWith(
     job: action.job,
     selectedLocation: newLocation,
+    documents: documents,
   );
 }
 

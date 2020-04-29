@@ -11,6 +11,7 @@ import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/utils/PdfUtil.dart';
@@ -75,6 +76,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     selectedJob.invoice = await InvoiceDao.getInvoiceById(pageState.invoiceNumber);
     await JobDao.update(selectedJob);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, selectedJob.invoice));
   }
 
   void _updateDepositStatus(Store<AppState> store, action, NextDispatcher next) async {
@@ -611,7 +613,6 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
         ]));
 
     await PdfUtil.savePdfFile(store.state.newInvoicePageState.invoiceNumber, pdf);
-    store.dispatch(UpdatePdfSavedFlag(store.state.newInvoicePageState));
   }
 }
 

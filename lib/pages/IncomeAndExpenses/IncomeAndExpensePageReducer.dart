@@ -25,7 +25,7 @@ IncomeAndExpensesPageState _updateShowHideState(IncomeAndExpensesPageState previ
 }
 
 IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState, SetAllInvoicesAction action){
-  List<Invoice> unpaidInvoices = action.allInvoices.where((invoice) => (!invoice.invoicePaid && invoice.createdDate.year == previousState.selectedYear)).toList();
+  List<Invoice> unpaidInvoices = (action.allInvoices.length > 3? action.allInvoices.sublist(0, 3) : action.allInvoices);
   List<Invoice> invoicesForSelectedYear = action.allInvoices.where((invoice) => invoice.createdDate.year == previousState.selectedYear).toList();
   return previousState.copyWith(
     allInvoices: action.allInvoices,
