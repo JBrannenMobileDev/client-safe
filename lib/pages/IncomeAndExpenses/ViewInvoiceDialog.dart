@@ -1,7 +1,14 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/PdfViewerPage.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/VewInvoiceLineItemListWidget.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceBalanceDueWidget.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceDepositRowWidget.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceDiscountRowWidget.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceSubtotalRowWidget.dart';
 import 'package:client_safe/pages/new_invoice_page/BalanceDueWidget.dart';
 import 'package:client_safe/pages/new_invoice_page/DepositRowWidget.dart';
 import 'package:client_safe/pages/new_invoice_page/DiscountRowWidget.dart';
@@ -27,19 +34,21 @@ import 'package:intl/intl.dart';
 
 class ViewInvoiceDialog extends StatefulWidget {
   final Invoice invoice;
+  final Job job;
 
-  ViewInvoiceDialog(this.invoice);
+  ViewInvoiceDialog(this.invoice, this.job);
 
   @override
   _ViewInvoiceDialogState createState() {
-    return _ViewInvoiceDialogState(invoice);
+    return _ViewInvoiceDialogState(invoice, job);
   }
 }
 
 class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   final Invoice invoice;
+  final Job job;
 
-  _ViewInvoiceDialogState(this.invoice);
+  _ViewInvoiceDialogState(this.invoice, this.job);
 
   @override
   Widget build(BuildContext context) {
@@ -132,13 +141,13 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                       ),
                                     ),
                                   ),
-//                                  LineItemListWidget(pageState, true),
-//                                  GrayDividerWidget(),
-//                                  SubtotalRowWidget(pageState),
-//                                  pageState.selectedJob.isDepositPaid() ? DepositRowWidget(pageState) : SizedBox(),
-//                                  pageState.discountValue > 0 ? DiscountRowWidget(pageState) : SizedBox(height: 16.0,),
-//                                  GrayDividerWidget(),
-//                                  BalanceDueWidget(pageState),
+                                  VewInvoiceLineItemListWidget(invoice, true),
+                                  GrayDividerWidget(),
+                                  ViewInvoiceSubtotalRowWidget(invoice),
+                                  invoice.depositPaid ? ViewInvoiceDepositRowWidget(invoice, job) : SizedBox(),
+                                  invoice.discount > 0 ? ViewInvoiceDiscountRowWidget(invoice) : SizedBox(height: 16.0,),
+                                  GrayDividerWidget(),
+                                  ViewInvoiceBalanceDueWidget(invoice),
                                   invoice.dueDate != null ? Container(
                                     margin: EdgeInsets.only(right: 16.0, bottom: 0.0),
                                     alignment: Alignment.centerRight,
@@ -154,110 +163,112 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                     ),
                                   ) : SizedBox(),
                                   Expanded(
-                                    child: Center(
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
-                                          Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(12.0),
-                                          height: 72.0,
-                                          width: 200.0,
-                                          decoration: BoxDecoration(
-                                              color: Color(ColorConstants.getBlueLight()),
-                                              borderRadius: BorderRadius.circular(36.0)
+                                    child: Container(
+                                      alignment: Alignment.center,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          GestureDetector(
+                                            onTap: () async {
+                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
+                                              Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                                              padding: EdgeInsets.all(12.0),
+                                              height: 54.0,
+                                              width: 200.0,
+                                              decoration: BoxDecoration(
+                                                  color: Color(ColorConstants.getBlueLight()),
+                                                  borderRadius: BorderRadius.circular(36.0)
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                      'assets/images/icons/pdf_icon_white.png'),
+                                                  Text(
+                                                    'View PDF',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 22.0,
+                                                      fontFamily: 'simple',
+                                                      fontWeight: FontWeight.w800,
+                                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Image.asset(
-                                                  'assets/images/icons/pdf_icon_white.png'),
-                                              Text(
-                                                'View PDF',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 22.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                                ),
-                                              )
-                                            ],
+                                          GestureDetector(
+                                            onTap: () async {
+                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
+                                              Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                                              padding: EdgeInsets.all(12.0),
+                                              height: 54.0,
+                                              width: 200.0,
+                                              decoration: BoxDecoration(
+                                                  color: Color(ColorConstants.getPrimaryColor()),
+                                                  borderRadius: BorderRadius.circular(36.0)
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                      'assets/images/icons/edit_icon_white.png'),
+                                                  Text(
+                                                    'Edit invoice',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 22.0,
+                                                      fontFamily: 'simple',
+                                                      fontWeight: FontWeight.w800,
+                                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
-                                          Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(12.0),
-                                          height: 72.0,
-                                          width: 200.0,
-                                          decoration: BoxDecoration(
-                                              color: Color(ColorConstants.getPeachLight()),
-                                              borderRadius: BorderRadius.circular(36.0)
+                                          GestureDetector(
+                                            onTap: () async {
+                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
+                                              Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                                              padding: EdgeInsets.all(12.0),
+                                              height: 54.0,
+                                              width: 200.0,
+                                              decoration: BoxDecoration(
+                                                  color: Color(ColorConstants.getPeachDark()),
+                                                  borderRadius: BorderRadius.circular(36.0)
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: <Widget>[
+                                                  Image.asset(
+                                                      'assets/images/icons/sms_icon_white.png'),
+                                                  Text(
+                                                    invoice.sentDate != null ? 'Resend' : 'Send'+ ' invoice',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 22.0,
+                                                      fontFamily: 'simple',
+                                                      fontWeight: FontWeight.w800,
+                                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
                                           ),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Image.asset(
-                                                  'assets/images/icons/edit_icon_white.png'),
-                                              Text(
-                                                'Edit PDF',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 22.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: GestureDetector(
-                                        onTap: () async {
-                                          String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
-                                          Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.all(12.0),
-                                          height: 72.0,
-                                          width: 200.0,
-                                          decoration: BoxDecoration(
-                                              color: Color(ColorConstants.getPrimaryColor()),
-                                              borderRadius: BorderRadius.circular(36.0)
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              Image.asset(
-                                                  'assets/images/icons/sms_icon_white.png'),
-                                              Text(
-                                                'Send PDF',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 22.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
+                                        ],
                                       ),
                                     ),
                                   ),

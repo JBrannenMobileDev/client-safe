@@ -1,4 +1,5 @@
 
+import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
@@ -19,9 +20,9 @@ class InvoiceItem extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return FlatButton(
-      onPressed: () {
+      onPressed: () async {
         pageState.onInvoiceSelected(invoice);
-        UserOptionsUtil.showViewInvoiceDialog(context, invoice);
+        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobId));
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 18.0),

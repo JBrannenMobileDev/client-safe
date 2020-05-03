@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceDialog.dart';
 import 'package:client_safe/pages/job_details_page/DepositChangeDialog.dart';
 import 'package:client_safe/pages/job_details_page/JobTypeChangeDialog.dart.dart';
@@ -140,11 +141,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showViewInvoiceDialog(BuildContext context, Invoice invoice) {
+  static void showViewInvoiceDialog(BuildContext context, Invoice invoice, Job job) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ViewInvoiceDialog(invoice);
+        return ViewInvoiceDialog(invoice, job);
       },
     );
   }
