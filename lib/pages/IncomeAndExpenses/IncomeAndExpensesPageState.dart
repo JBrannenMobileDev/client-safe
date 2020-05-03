@@ -19,6 +19,7 @@ class IncomeAndExpensesPageState {
   final Function(Invoice) onInvoiceSelected;
   final Function(int) onYearChanged;
   final Function() onViewAllHideSelected;
+  final Function(Invoice) onEditInvoiceSelected;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -33,6 +34,7 @@ class IncomeAndExpensesPageState {
     @required this.onYearChanged,
     @required this.isMinimized,
     @required this.onViewAllHideSelected,
+    @required this.onEditInvoiceSelected,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -48,6 +50,7 @@ class IncomeAndExpensesPageState {
     Function(int) onYearChanged,
     bool isMinimized,
     Function() onViewAllHideSelected,
+    Function(Invoice) onEditInvoiceSelected,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -62,6 +65,7 @@ class IncomeAndExpensesPageState {
       onYearChanged: onYearChanged ?? this.onYearChanged,
       isMinimized: isMinimized ?? this.isMinimized,
       onViewAllHideSelected: onViewAllHideSelected ?? this.onViewAllHideSelected,
+      onEditInvoiceSelected: onEditInvoiceSelected ?? this.onEditInvoiceSelected,
     );
   }
 
@@ -78,6 +82,7 @@ class IncomeAndExpensesPageState {
     onInvoiceSelected: null,
     isMinimized: true,
     onViewAllHideSelected: null,
+    onEditInvoiceSelected: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -94,6 +99,7 @@ class IncomeAndExpensesPageState {
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
       onInvoiceSelected: (invoice) => store.dispatch(OnInvoiceSelected(store.state.incomeAndExpensesPageState, invoice.jobId)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.incomeAndExpensesPageState)),
+      onEditInvoiceSelected: (invoice) => store.dispatch(InvoiceEditSelected(store.state.incomeAndExpensesPageState, invoice)),
     );
   }
 
@@ -109,6 +115,7 @@ class IncomeAndExpensesPageState {
       onFilterChanged.hashCode ^
       isMinimized.hashCode ^
       onViewAllHideSelected.hashCode ^
+      onEditInvoiceSelected.hashCode ^
       onYearChanged.hashCode;
 
   @override
@@ -124,6 +131,7 @@ class IncomeAndExpensesPageState {
               incomeForSelectedYear == other.incomeForSelectedYear &&
               onFilterChanged == other.onFilterChanged &&
               isMinimized == other.isMinimized &&
+              onEditInvoiceSelected == other.onEditInvoiceSelected &&
               onViewAllHideSelected == other.onViewAllHideSelected &&
               onYearChanged == other.onYearChanged;
 }

@@ -25,6 +25,7 @@ import 'package:client_safe/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:client_safe/utils/PdfUtil.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -203,9 +204,10 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                             ),
                                           ),
                                           GestureDetector(
-                                            onTap: () async {
-                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
-                                              Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
+                                            onTap: () {
+                                              pageState.onEditInvoiceSelected(invoice);
+                                              UserOptionsUtil.showNewInvoiceDialog(context);
+                                              Navigator.of(context).pop();
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),

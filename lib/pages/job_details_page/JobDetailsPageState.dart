@@ -229,7 +229,6 @@ class JobDetailsPageState {
       onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
       onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
       onAddInvoiceSelected: () {
-
         store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
         store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
       },

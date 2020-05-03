@@ -34,3 +34,9 @@ class OnInvoiceSelected{
   final int jobId;
   OnInvoiceSelected(this.pageState, this.jobId);
 }
+
+class InvoiceEditSelected{
+  final IncomeAndExpensesPageState pageState;
+  final Invoice invoice;
+  InvoiceEditSelected(this.pageState, this.invoice);
+}

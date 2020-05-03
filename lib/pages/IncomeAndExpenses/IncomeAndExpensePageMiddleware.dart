@@ -16,6 +16,9 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is OnInvoiceSelected){
       launchInvoiceView(store, action, next);
     }
+    if(action is InvoiceEditSelected){
+      onEditInvoice(store, action, next);
+    }
   }
 
   void launchInvoiceView(Store<AppState> store, OnInvoiceSelected action, NextDispatcher next) async {
@@ -26,5 +29,11 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{
       store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+  }
+
+  void onEditInvoice(Store<AppState> store, InvoiceEditSelected action, NextDispatcher next) async {
+    Job job = await JobDao.getJobById(action.invoice.jobId);
+    store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
+    store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, job));
   }
 }
