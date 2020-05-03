@@ -47,6 +47,19 @@ class IntentLauncherUtil{
     }
   }
 
+  static Future<bool> sendInvoiceSMS(String phoneNum, String body) async {
+    String trimmedPhoneNum = trimPhoneNumber(phoneNum);
+    String formattedPhoneNum = 'sms:$trimmedPhoneNum';
+    if (await canLaunch(formattedPhoneNum)) {
+      await launch(formattedPhoneNum);
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+
+
   static Future<bool> sendEmail(String email, String subject, String body) async {
     String formattedPhoneNum = 'mailto:$email?subject=$subject&body=$body';
     if (await canLaunch(formattedPhoneNum)) {

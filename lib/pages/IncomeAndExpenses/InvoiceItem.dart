@@ -6,6 +6,7 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -19,8 +20,8 @@ class InvoiceItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () {
-//        pageState.onLeadClicked(client);
-//        NavigationUtil.onClientTapped(context);
+        pageState.onInvoiceSelected(invoice);
+        UserOptionsUtil.showViewInvoiceDialog(context, invoice);
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 18.0),

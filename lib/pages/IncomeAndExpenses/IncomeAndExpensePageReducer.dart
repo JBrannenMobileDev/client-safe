@@ -29,6 +29,7 @@ IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState
   List<Invoice> invoicesForSelectedYear = action.allInvoices.where((invoice) => invoice.createdDate.year == previousState.selectedYear).toList();
   return previousState.copyWith(
     allInvoices: action.allInvoices,
+    isMinimized: true,
     unpaidInvoicesForSelectedYear: unpaidInvoices,
     invoicesForSelectedYear: invoicesForSelectedYear,
   );

@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:client_safe/data_layer/local_db/SembastDb.dart';
+import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/NextInvoiceNumber.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
@@ -32,6 +34,16 @@ class InvoiceDao extends Equatable{
     if(alreadyExists){
       await update(invoice);
     }else{
+      List<Invoice> allInvoices = await getAllSortedByDueDate();
+      List<Invoice> invoicesToDelete = List();
+      for(Invoice invoiceItem in allInvoices){
+        if(invoiceItem.jobId == invoice.jobId) invoicesToDelete.add(invoiceItem);
+      }
+
+      for(Invoice invoiceToDelete in invoicesToDelete){
+        await deleteByInvoice(invoiceToDelete);
+      }
+
       await insert(invoice);
       List<NextInvoiceNumber> nextInvoiceNumbers = await NextInvoiceNumberDao.getAllSorted();
       if(nextInvoiceNumbers.length == 0){
@@ -52,12 +64,23 @@ class InvoiceDao extends Equatable{
     );
   }
 
-  static Future delete(int id) async {
+  static Future deleteById(int id) async {
     final finder = Finder(filter: Filter.byKey(id));
     await _invoiceStore.delete(
       await _db,
       finder: finder,
     );
+    List<Job> jobs = await JobDao.getAllJobs();
+    for(Job job in jobs){
+      if(job.invoice?.id == id){
+        job.invoice = null;
+        await JobDao.update(job);
+      }
+    }
+  }
+
+  static Future deleteByInvoice(Invoice invoice) async {
+    await deleteById(invoice.id);
   }
 
   static Future<List<Invoice>> getAllSortedByDueDate() async {
@@ -66,6 +89,18 @@ class InvoiceDao extends Equatable{
     ]);
 
     final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
+
+//    List<Invoice> allInvoices = recordSnapshots.map((snapshot) {
+//      final invoice = Invoice.fromMap(snapshot.value);
+//      invoice.id = snapshot.key;
+//      return invoice;
+//    }).toList();
+//
+//    for(Invoice invoice in allInvoices){
+//      await delete(invoice.id);
+//    }
+//
+//    return List();
 
     return recordSnapshots.map((snapshot) {
       final invoice = Invoice.fromMap(snapshot.value);

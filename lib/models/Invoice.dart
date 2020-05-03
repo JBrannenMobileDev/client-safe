@@ -11,6 +11,7 @@ class Invoice {
   int id;
   int clientId;
   int invoiceId;
+  int jobId;
   String clientName;
   String jobName;
   DateTime createdDate;
@@ -28,6 +29,7 @@ class Invoice {
     this.id,
     this.clientId,
     this.invoiceId,
+    this.jobId,
     this.clientName,
     this.jobName,
     this.createdDate,
@@ -49,6 +51,7 @@ class Invoice {
       'invoiceId': invoiceId,
       'clientName': clientName,
       'jobName' :jobName,
+      'jobId' : jobId,
       'createdDate': createdDate?.millisecondsSinceEpoch ?? null,
       'sentDate': sentDate?.millisecondsSinceEpoch ?? null,
       'dueDate' : dueDate?.millisecondsSinceEpoch ?? null,
@@ -69,6 +72,7 @@ class Invoice {
       invoiceId: map['invoiceId'],
       clientName: map['clientName'],
       jobName: map['jobName'],
+      jobId: map['jobId'],
       createdDate: map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       sentDate: map['sentDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['sentDate']) : null,
       dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : null,

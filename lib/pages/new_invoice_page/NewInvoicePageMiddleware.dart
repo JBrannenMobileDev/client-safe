@@ -61,6 +61,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           invoiceId: pageState.invoiceNumber,
           clientName: pageState.selectedJob.clientName,
           jobName: pageState.selectedJob.jobTitle,
+          jobId: pageState.selectedJob.id,
           unpaidAmount: pageState.unpaidAmount,
           createdDate: DateTime.now(),
           dueDate: pageState.dueDate,

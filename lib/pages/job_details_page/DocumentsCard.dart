@@ -31,7 +31,7 @@ class DocumentsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 0.0),
+                    margin: EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 8.0),
                     child: Text(
                       'Documents',
                       textAlign: TextAlign.start,

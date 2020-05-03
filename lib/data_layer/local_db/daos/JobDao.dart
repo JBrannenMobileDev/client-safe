@@ -65,4 +65,15 @@ class JobDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static Future<Job> getJobById(int jobId) async{
+    final finder = Finder(filter: Filter.equals('id', jobId));
+    final recordSnapshots = await _jobStore.find(await _db, finder: finder);
+    // Making a List<Client> out of List<RecordSnapshot>
+    return recordSnapshots.map((snapshot) {
+      final job = Job.fromMap(snapshot.value);
+      job.id = snapshot.key;
+      return job;
+    }).toList().elementAt(0);
+  }
 }

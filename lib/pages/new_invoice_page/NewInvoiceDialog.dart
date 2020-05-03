@@ -180,6 +180,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
           break;
         case 2:
           canProgress = true;
+          pageState.generateInvoicePdf();
           break;
         case 3:
           canProgress = true;

@@ -28,3 +28,9 @@ class UpdateShowHideState{
   final IncomeAndExpensesPageState pageState;
   UpdateShowHideState(this.pageState);
 }
+
+class OnInvoiceSelected{
+  final IncomeAndExpensesPageState pageState;
+  final int jobId;
+  OnInvoiceSelected(this.pageState, this.jobId);
+}

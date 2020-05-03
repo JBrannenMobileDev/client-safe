@@ -32,10 +32,22 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
 
 JobDetailsPageState _setInvoiceDocument(JobDetailsPageState previousState, SetNewInvoice action) {
   List<DocumentItem> documents = previousState.documents;
+
+  DocumentItem documentToReplace;
+  for(DocumentItem documentItem in documents){
+    if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
+      documentToReplace = documentItem;
+    }
+  }
+
+  if(documentToReplace != null){
+    documents.remove(documentToReplace);
+  }
+
   if(action.invoice != null) {
     documents.add(InvoiceDocument());
   }
-  return previousState.copyWith(documents: documents);
+  return previousState.copyWith(documents: documents,);
 }
 
 JobDetailsPageState _setDocumentPath(JobDetailsPageState previousState, SetDocumentPathAction action) {

@@ -1,9 +1,12 @@
+import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceDialog.dart';
 import 'package:client_safe/pages/job_details_page/DepositChangeDialog.dart';
 import 'package:client_safe/pages/job_details_page/JobTypeChangeDialog.dart.dart';
 import 'package:client_safe/pages/job_details_page/LocationSelectionDialog.dart';
 import 'package:client_safe/pages/job_details_page/NameChangeDialog.dart';
 import 'package:client_safe/pages/job_details_page/NewDateSelectionDialog.dart';
 import 'package:client_safe/pages/job_details_page/PricePackageChangeDialog.dart.dart';
+import 'package:client_safe/pages/job_details_page/document_items/InvoiceOptionsDialog.dart';
 import 'package:client_safe/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_contact_pages/StartJobPromptDialog.dart';
@@ -137,11 +140,20 @@ class UserOptionsUtil {
     );
   }
 
-  static void showStartJobPromptDialog(BuildContext context) {
+  static void showViewInvoiceDialog(BuildContext context, Invoice invoice) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewInvoiceDialog();
+        return ViewInvoiceDialog(invoice);
+      },
+    );
+  }
+
+  static void showInvoiceOptionsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return InvoiceOptionsDialog();
       },
     );
   }

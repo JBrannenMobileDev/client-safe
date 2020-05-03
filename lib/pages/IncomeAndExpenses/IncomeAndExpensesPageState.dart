@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -91,7 +92,7 @@ class IncomeAndExpensesPageState {
       incomeForSelectedYear: store.state.incomeAndExpensesPageState.incomeForSelectedYear,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
-      onInvoiceSelected: null,
+      onInvoiceSelected: (invoice) => store.dispatch(OnInvoiceSelected(store.state.incomeAndExpensesPageState, invoice.jobId)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.incomeAndExpensesPageState)),
     );
   }
