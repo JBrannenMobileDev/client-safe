@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/PriceProfileDao.dart';
@@ -10,6 +11,7 @@ import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
@@ -71,6 +73,16 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveDepositChangeAction){
       _updateJobDeposit(store, action, next);
     }
+    if(action is OnDeleteInvoiceSelectedAction){
+      deleteInvoice(store, action, next);
+    }
+  }
+
+  void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
+    await InvoiceDao.deleteByInvoice(action.invoice);
+    store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, null));
   }
 
   void _updateJobDeposit(Store<AppState> store, SaveDepositChangeAction action, NextDispatcher next) async{
@@ -83,6 +95,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       selectedTime: store.state.jobDetailsPageState.job.selectedTime,
       type: store.state.jobDetailsPageState.job.type,
       stage: store.state.jobDetailsPageState.job.stage,
+      invoice: store.state.jobDetailsPageState.job.invoice,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
@@ -103,6 +116,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       selectedTime: store.state.jobDetailsPageState.job.selectedTime,
       type: store.state.jobDetailsPageState.job.type,
       stage: store.state.jobDetailsPageState.job.stage,
+      invoice: store.state.jobDetailsPageState.job.invoice,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: action.pageState.selectedPriceProfile,
@@ -122,6 +136,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
       selectedTime: store.state.jobDetailsPageState.job.selectedTime,
       type: action.pageState.jobTypeIcon,
+      invoice: store.state.jobDetailsPageState.job.invoice,
       stage: store.state.jobDetailsPageState.job.stage,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.selectedLocation,
@@ -143,6 +158,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       selectedTime: store.state.jobDetailsPageState.job.selectedTime,
       type: store.state.jobDetailsPageState.job.type,
       stage: store.state.jobDetailsPageState.job.stage,
+      invoice: store.state.jobDetailsPageState.job.invoice,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
@@ -165,6 +181,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       stage: store.state.jobDetailsPageState.job.stage,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: action.location,
+      invoice: action.job.invoice,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
@@ -199,6 +216,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
       selectedTime: action.newTime,
+      invoice: store.state.jobDetailsPageState.job.invoice,
       type: store.state.jobDetailsPageState.job.type,
       stage: store.state.jobDetailsPageState.job.stage,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
@@ -221,6 +239,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       selectedTime: store.state.jobDetailsPageState.job.selectedTime,
       type: store.state.jobDetailsPageState.job.type,
       stage: store.state.jobDetailsPageState.job.stage,
+      invoice: store.state.jobDetailsPageState.job.invoice,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
@@ -273,9 +292,16 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       stage: action.job.stage,
       completedStages: completedJobStages,
       location: action.job.location,
+      invoice: action.job.invoice,
       priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
     );
+    if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
+      if(action.job.invoice != null){
+        action.job.invoice.invoicePaid = true;
+        await InvoiceDao.update(action.job.invoice);
+      }
+    }
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
@@ -305,6 +331,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       selectedTime: action.job.selectedTime,
       type: action.job.type,
       stage: action.job.stage,
+      invoice: action.job.invoice,
       completedStages: completedJobStages,
       location: action.job.location,
       priceProfile: action.job.priceProfile,

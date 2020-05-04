@@ -1,9 +1,14 @@
+import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 
 class DocumentsCard extends StatelessWidget {
   DocumentsCard({this.pageState});
@@ -18,7 +23,7 @@ class DocumentsCard extends StatelessWidget {
       padding: EdgeInsets.only(top: 26.0),
       child: Container(
         width: double.maxFinite,
-        height: pageState.documents.length == 0 ? 144.0 : 208.0,
+        height: pageState.documents.length == 0 ? 116.0 : 116.0,
         margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
@@ -56,7 +61,7 @@ class DocumentsCard extends StatelessWidget {
                       itemBuilder: _buildItem,
                     )
                   : Container(
-                      margin: EdgeInsets.only(top: 24.0, bottom: 16.0, left: 26.0, right: 26.0),
+                      margin: EdgeInsets.only(top: 4.0, bottom: 0.0, left: 26.0, right: 26.0),
                       height: 64.0,
                       child: Text(
                         'No documents have been added to this job yet.',
@@ -78,7 +83,9 @@ class DocumentsCard extends StatelessWidget {
     final item = pageState.documents.elementAt(index);
 
     return FlatButton(
-      onPressed: null,
+      onPressed: () async {
+        UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobId));
+      },
       child: Container(
         height: 48.0,
         child: Row(
@@ -101,7 +108,11 @@ class DocumentsCard extends StatelessWidget {
               ],
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                if(pageState.documents.elementAt(index).getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
+                  _ackAlert(context, pageState);
+                }
+              },
               child: Container(
                 margin: EdgeInsets.only(right: 12.0),
                 height: 24.0,
@@ -114,4 +125,47 @@ class DocumentsCard extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This invoice will be gone forever!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteInvoiceSelected(pageState.invoice);
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This invoice will be gone forever!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteInvoiceSelected(pageState.invoice);
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 }

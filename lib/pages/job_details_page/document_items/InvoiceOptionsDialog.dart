@@ -45,7 +45,7 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                   Padding(
                     padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                     child: Text(
-                      'This job already has an invoice created. Would you like to replace it with a new invoice?',
+                      'This job already has an invoice. Would you like to replace it with a new invoice?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,

@@ -213,7 +213,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                         Container(
                                           margin: EdgeInsets.only(left: 16.0),
                                           child: Text(
-                                            '\$5,250',
+                                            '\$' + pageState.incomeForSelectedYear.truncate().toString(),
                                             style: TextStyle(
                                               fontFamily: 'simple',
                                               fontSize: 52.0,

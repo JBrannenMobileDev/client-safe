@@ -23,6 +23,7 @@ import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:client_safe/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:client_safe/utils/PdfUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -30,6 +31,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
@@ -50,6 +52,50 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
   final Job job;
 
   _ViewInvoiceDialogState(this.invoice, this.job);
+
+  Future<void> _ackAlert(BuildContext context, IncomeAndExpensesPageState pageState) {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return Device.get().isIos ?
+        CupertinoAlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This invoice will be gone forever!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteSelected(invoice);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        ) : AlertDialog(
+          title: new Text('Are you sure?'),
+          content: new Text('This invoice will be gone forever!'),
+          actions: <Widget>[
+            new FlatButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: new Text('No'),
+            ),
+            new FlatButton(
+              onPressed: () {
+                pageState.onDeleteSelected(invoice);
+                Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
+              },
+              child: new Text('Yes'),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,11 +122,10 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       IconButton(
-                        icon: const Icon(Icons.close),
-                        tooltip: 'Close',
-                        color: Color(ColorConstants.getPeachDark()),
+                        icon: ImageIcon(ImageUtil.getTrashIconPeach(), color: Color(ColorConstants.getPeachDark()),),
+                        tooltip: 'Delete Job',
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          _ackAlert(context, pageState);
                         },
                       ),
                       Padding(
@@ -206,8 +251,8 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                           GestureDetector(
                                             onTap: () {
                                               pageState.onEditInvoiceSelected(invoice);
-                                              UserOptionsUtil.showNewInvoiceDialog(context);
                                               Navigator.of(context).pop();
+                                              UserOptionsUtil.showNewInvoiceDialog(context);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -280,7 +325,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                           ),
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
                             FlatButton(
                               onPressed: () {

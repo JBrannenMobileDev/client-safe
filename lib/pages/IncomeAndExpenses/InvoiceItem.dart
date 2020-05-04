@@ -1,12 +1,8 @@
 
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
-import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
-import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -21,7 +17,6 @@ class InvoiceItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () async {
-        pageState.onInvoiceSelected(invoice);
         UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobId));
       },
       child: Padding(

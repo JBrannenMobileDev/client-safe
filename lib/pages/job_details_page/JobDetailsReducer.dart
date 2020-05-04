@@ -47,7 +47,10 @@ JobDetailsPageState _setInvoiceDocument(JobDetailsPageState previousState, SetNe
   if(action.invoice != null) {
     documents.add(InvoiceDocument());
   }
-  return previousState.copyWith(documents: documents,);
+  return previousState.copyWith(
+    documents: documents,
+    invoice: action.invoice,
+  );
 }
 
 JobDetailsPageState _setDocumentPath(JobDetailsPageState previousState, SetDocumentPathAction action) {

@@ -29,14 +29,14 @@ class UpdateShowHideState{
   UpdateShowHideState(this.pageState);
 }
 
-class OnInvoiceSelected{
-  final IncomeAndExpensesPageState pageState;
-  final int jobId;
-  OnInvoiceSelected(this.pageState, this.jobId);
-}
-
 class InvoiceEditSelected{
   final IncomeAndExpensesPageState pageState;
   final Invoice invoice;
   InvoiceEditSelected(this.pageState, this.invoice);
+}
+
+class DeleteInvoiceAction{
+  final IncomeAndExpensesPageState pageState;
+  final Invoice invoice;
+  DeleteInvoiceAction(this.pageState, this.invoice);
 }

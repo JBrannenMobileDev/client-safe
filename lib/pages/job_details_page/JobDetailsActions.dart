@@ -202,3 +202,9 @@ class SetDocumentPathAction{
   SetDocumentPathAction(this.pageState, this.documentPath);
 }
 
+class OnDeleteInvoiceSelectedAction{
+  final JobDetailsPageState pageState;
+  final Invoice invoice;
+  OnDeleteInvoiceSelectedAction(this.pageState, this.invoice);
+}
+

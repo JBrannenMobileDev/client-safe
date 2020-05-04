@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Event.dart';
+import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PriceProfile.dart';
@@ -7,6 +8,7 @@ import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.d
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:client_safe/pages/new_invoice_page/NewInvoicePageReducer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -30,6 +32,7 @@ class JobDetailsPageState {
   final PriceProfile selectedPriceProfile;
   final List<PriceProfile> priceProfiles;
   final List<DocumentItem> documents;
+  final Invoice invoice;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function() onSaveUpdatedPriceProfileSelected;
   final Function(String) onJobTypeSelected;
@@ -53,6 +56,7 @@ class JobDetailsPageState {
   final Function() onSaveDepositChange;
   final Function() onClearUnsavedDeposit;
   final Function() onAddInvoiceSelected;
+  final Function(Invoice) onDeleteInvoiceSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -68,6 +72,7 @@ class JobDetailsPageState {
     @required this.expandedIndexes,
     @required this.stageScrollOffset,
     @required this.onStageCompleted,
+    @required this.invoice,
     @required this.newStagAnimationIndex,
     @required this.onStageUndo,
     @required this.setNewIndexForStageAnimation,
@@ -96,6 +101,7 @@ class JobDetailsPageState {
     @required this.onClearUnsavedDeposit,
     @required this.onAddInvoiceSelected,
     @required this.documents,
+    @required this.onDeleteInvoiceSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -112,6 +118,7 @@ class JobDetailsPageState {
     List<int> expandedIndexes,
     String jobTypeIcon,
     String documentPath,
+    Invoice invoice,
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
     Function(PriceProfile) onPriceProfileSelected,
@@ -140,6 +147,7 @@ class JobDetailsPageState {
     Function() onClearUnsavedDeposit,
     Function() onAddInvoiceSelected,
     List<DocumentItem> documents,
+    Function(Invoice) onDeleteInvoiceSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -183,6 +191,8 @@ class JobDetailsPageState {
       onClearUnsavedDeposit: onClearUnsavedDeposit ?? this.onClearUnsavedDeposit,
       onAddInvoiceSelected: onAddInvoiceSelected ?? this.onAddInvoiceSelected,
       documents: documents ?? this.documents,
+      onDeleteInvoiceSelected: onDeleteInvoiceSelected ?? this.onDeleteInvoiceSelected,
+      invoice: invoice ?? this.invoice,
     );
   }
 
@@ -205,6 +215,7 @@ class JobDetailsPageState {
       unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
       documentPath: store.state.jobDetailsPageState.documentPath,
       documents: store.state.jobDetailsPageState.documents,
+      invoice: store.state.jobDetailsPageState.invoice,
       onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
       onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
       setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
@@ -232,6 +243,7 @@ class JobDetailsPageState {
         store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
         store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
       },
+      onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
     );
   }
 
@@ -274,6 +286,7 @@ class JobDetailsPageState {
     onSaveDepositChange: null,
     onClearUnsavedDeposit: null,
     onAddInvoiceSelected: null,
+    invoice: null,
   );
 
   @override
@@ -288,6 +301,7 @@ class JobDetailsPageState {
       stageScrollOffset.hashCode ^
       eventMap.hashCode ^
       jobs.hashCode ^
+      invoice.hashCode ^
       onAddInvoiceSelected.hashCode ^
       jobTitleText.hashCode ^
       onNameChangeSaved.hashCode ^
@@ -332,6 +346,7 @@ class JobDetailsPageState {
               stageScrollOffset == other.stageScrollOffset &&
               eventMap == other.eventMap &&
               jobs == other.jobs &&
+              invoice == other.invoice &&
               jobTitleText == other.jobTitleText &&
               onNameChangeSaved == other.onNameChangeSaved &&
               selectedLocation == other.selectedLocation &&

@@ -2,7 +2,6 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -16,10 +15,10 @@ class IncomeAndExpensesPageState {
   final double incomeForSelectedYear;
   final bool isMinimized;
   final Function(String) onFilterChanged;
-  final Function(Invoice) onInvoiceSelected;
   final Function(int) onYearChanged;
   final Function() onViewAllHideSelected;
   final Function(Invoice) onEditInvoiceSelected;
+  final Function(Invoice) onDeleteSelected;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -30,11 +29,11 @@ class IncomeAndExpensesPageState {
     @required this.totalIncome,
     @required this.incomeForSelectedYear,
     @required this.onFilterChanged,
-    @required this.onInvoiceSelected,
     @required this.onYearChanged,
     @required this.isMinimized,
     @required this.onViewAllHideSelected,
     @required this.onEditInvoiceSelected,
+    @required this.onDeleteSelected,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -46,11 +45,11 @@ class IncomeAndExpensesPageState {
     double totalIncome,
     double incomeForSelectedYear,
     Function(String) onFilterChanged,
-    Function(Invoice) onInvoiceSelected,
     Function(int) onYearChanged,
     bool isMinimized,
     Function() onViewAllHideSelected,
     Function(Invoice) onEditInvoiceSelected,
+    Function(Invoice) onDeleteSelected,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -61,11 +60,11 @@ class IncomeAndExpensesPageState {
       totalIncome: totalIncome ?? this.totalIncome,
       incomeForSelectedYear: incomeForSelectedYear ?? this.incomeForSelectedYear,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
-      onInvoiceSelected: onInvoiceSelected ?? this.onInvoiceSelected,
       onYearChanged: onYearChanged ?? this.onYearChanged,
       isMinimized: isMinimized ?? this.isMinimized,
       onViewAllHideSelected: onViewAllHideSelected ?? this.onViewAllHideSelected,
       onEditInvoiceSelected: onEditInvoiceSelected ?? this.onEditInvoiceSelected,
+      onDeleteSelected: onDeleteSelected ?? this.onDeleteSelected,
     );
   }
 
@@ -79,10 +78,10 @@ class IncomeAndExpensesPageState {
     incomeForSelectedYear: 0,
     onFilterChanged: null,
     onYearChanged: null,
-    onInvoiceSelected: null,
     isMinimized: true,
     onViewAllHideSelected: null,
     onEditInvoiceSelected: null,
+    onDeleteSelected: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -97,9 +96,9 @@ class IncomeAndExpensesPageState {
       incomeForSelectedYear: store.state.incomeAndExpensesPageState.incomeForSelectedYear,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
-      onInvoiceSelected: (invoice) => store.dispatch(OnInvoiceSelected(store.state.incomeAndExpensesPageState, invoice.jobId)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.incomeAndExpensesPageState)),
       onEditInvoiceSelected: (invoice) => store.dispatch(InvoiceEditSelected(store.state.incomeAndExpensesPageState, invoice)),
+      onDeleteSelected: (invoice) => store.dispatch(DeleteInvoiceAction(store.state.incomeAndExpensesPageState, invoice)),
     );
   }
 

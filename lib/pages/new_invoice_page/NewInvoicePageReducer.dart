@@ -273,36 +273,62 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
   double depositAmount = selectedJob.depositAmount?.toDouble();
   double remainingBalance;
   double total;
+  Discount discount;
+  DateTime dueDate;
   switch(rateType){
     case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
       remainingBalance = selectedJob.priceProfile.flatRate - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
-      total = selectedJob.priceProfile.flatRate;
-      LineItem rateLineItem = LineItem(
-        itemName: 'Flat rate',
-        itemPrice: selectedJob.priceProfile.flatRate,
-        itemQuantity: 1
-      );
-      lineItems.add(rateLineItem);
+      if(selectedJob.invoice != null && selectedJob.invoice.lineItems.length > 0){
+        total = selectedJob.invoice.total;
+        lineItems = selectedJob.invoice.lineItems;
+        remainingBalance = selectedJob.invoice.unpaidAmount;
+        dueDate = selectedJob.invoice.dueDate;
+        discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
+      }else{
+        total = selectedJob.priceProfile.flatRate;
+        LineItem rateLineItem = LineItem(
+            itemName: 'Flat rate',
+            itemPrice: selectedJob.priceProfile.flatRate,
+            itemQuantity: 1
+        );
+        lineItems.add(rateLineItem);
+      }
       break;
     case RateTypeSelection.SELECTOR_TYPE_HOURLY:
       remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
-      total = 0;
-      LineItem rateLineItem = LineItem(
-          itemName: 'Hourly rate',
-          itemPrice: selectedJob.priceProfile.hourlyRate,
-          itemQuantity: 0
-      );
-      lineItems.add(rateLineItem);
+      if(selectedJob.invoice != null && selectedJob.invoice.lineItems.length > 0){
+        total = selectedJob.invoice.total;
+        lineItems = selectedJob.invoice.lineItems;
+        remainingBalance = selectedJob.invoice.unpaidAmount;
+        dueDate = selectedJob.invoice.dueDate;
+        discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
+      }else{
+        total = 0;
+        LineItem rateLineItem = LineItem(
+            itemName: 'Hourly rate',
+            itemPrice: selectedJob.priceProfile.hourlyRate,
+            itemQuantity: 0
+        );
+        lineItems.add(rateLineItem);
+      }
       break;
     case RateTypeSelection.SELECTOR_TYPE_QUANTITY:
       remainingBalance = 0 - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
-      total = 0;
-      LineItem rateLineItem = LineItem(
-          itemName: 'Quantity rate',
-          itemPrice: selectedJob.priceProfile.itemRate,
-          itemQuantity: 0
-      );
-      lineItems.add(rateLineItem);
+      if(selectedJob.invoice != null && selectedJob.invoice.lineItems.length > 0){
+        total = selectedJob.invoice.total;
+        lineItems = selectedJob.invoice.lineItems;
+        remainingBalance = selectedJob.invoice.unpaidAmount;
+        dueDate = selectedJob.invoice.dueDate;
+        discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
+      }else{
+        total = 0;
+        LineItem rateLineItem = LineItem(
+            itemName: 'Quantity rate',
+            itemPrice: selectedJob.priceProfile.itemRate,
+            itemQuantity: 0
+        );
+        lineItems.add(rateLineItem);
+      }
       break;
   }
   return previousState.copyWith(
@@ -310,9 +336,9 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     flatRateText: selectedJob.priceProfile.flatRate.toString(),
     depositValue: depositAmount,
     discountValue: 0.0,
-    discount: null,
+    discount: discount,
     newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
-    dueDate: null,
+    dueDate: dueDate,
     dueDateSelected: null,
     total: total,
     filterType: rateType,
