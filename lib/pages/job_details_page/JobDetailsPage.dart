@@ -16,6 +16,7 @@ import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/Shadows.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:client_safe/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -44,6 +45,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   bool sliverCollapsed = false;
   bool isFabExpanded = false;
   bool dialVisible = true;
+  JobDetailsPageState pageStateLocal;
 
   void setDialVisible(bool value) {
     setState(() {
@@ -111,6 +113,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
+        },
+        onDidChange: (pageState) {
+          pageStateLocal = pageState;
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {
           if(pageState.newStagAnimationIndex != -1 || scrollPosition == -2) {
@@ -272,9 +277,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         }
                         if(!containsInvoice) {
                           pageState.onAddInvoiceSelected();
-                          UserOptionsUtil.showNewInvoiceDialog(context);
+                          UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
                         }else{
-                          UserOptionsUtil.showInvoiceOptionsDialog(context);
+                          UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
                         }
                       },
                     ),
@@ -418,6 +423,14 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             );
         },
       );
+  }
+
+  void onSendInvoiceSelected() {
+    pageStateLocal.onInvoiceSent(pageStateLocal.invoice);
+    pageStateLocal.onStageCompleted(pageStateLocal.job, 7);
+    pageStateLocal.removeExpandedIndex(7);
+    pageStateLocal.setNewIndexForStageAnimation((JobStage.getStageValue(pageStateLocal.job.stage.stage)));
+    VibrateUtil.vibrateHeavy();
   }
 
   void _onAddButtonPressed(BuildContext context) {

@@ -1,10 +1,12 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPage.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,31 +14,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class InvoiceOptionsDialog extends StatefulWidget {
+class SendInvoicePromptDialog extends StatefulWidget {
+  final int invoiceId;
   final Function onSendInvoiceSelected;
 
-  InvoiceOptionsDialog(this.onSendInvoiceSelected);
+  SendInvoicePromptDialog(this.invoiceId, this.onSendInvoiceSelected);
 
   @override
-  _InvoiceOptionsDialogState createState() {
-    return _InvoiceOptionsDialogState(onSendInvoiceSelected);
+  _SendInvoicePromptDialogState createState() {
+    return _SendInvoicePromptDialogState(invoiceId, onSendInvoiceSelected);
   }
 }
 
-class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
+class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
     with AutomaticKeepAliveClientMixin {
   final jobTitleTextController = TextEditingController();
+  final int invoiceId;
   final Function onSendInvoiceSelected;
 
-  _InvoiceOptionsDialogState(this.onSendInvoiceSelected);
+  _SendInvoicePromptDialogState(this.invoiceId, this.onSendInvoiceSelected);
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return StoreConnector<AppState, JobDetailsPageState>(
-      converter: (store) => JobDetailsPageState.fromStore(store),
-      builder: (BuildContext context, JobDetailsPageState pageState) =>
-          Dialog(
+    return Dialog(
             backgroundColor: Colors.transparent,
             child: Container(
               height: 250.0,
@@ -45,13 +46,14 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
               ),
+
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                     child: Text(
-                      'This job already has an invoice. Would you like to replace it with a new invoice?',
+                      'Would you like to send this invoice now ?',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,
@@ -66,9 +68,9 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
+                        onSendInvoiceSelected();
+                        IntentLauncherUtil.shareInvoiceById(invoiceId);
                         Navigator.of(context).pop();
-                        pageState.onAddInvoiceSelected();
-                        UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
                         },
                         child: Container(
                           height: 112.0,
@@ -119,7 +121,6 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                 ],
               ),
             ),
-          ),
     );
   }
 

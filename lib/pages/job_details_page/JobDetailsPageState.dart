@@ -8,7 +8,6 @@ import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.d
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
 import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageReducer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -57,6 +56,7 @@ class JobDetailsPageState {
   final Function() onClearUnsavedDeposit;
   final Function() onAddInvoiceSelected;
   final Function(Invoice) onDeleteInvoiceSelected;
+  final Function(Invoice) onInvoiceSent;
 
   JobDetailsPageState({
     @required this.job,
@@ -102,6 +102,7 @@ class JobDetailsPageState {
     @required this.onAddInvoiceSelected,
     @required this.documents,
     @required this.onDeleteInvoiceSelected,
+    @required this.onInvoiceSent,
   });
 
   JobDetailsPageState copyWith({
@@ -148,6 +149,7 @@ class JobDetailsPageState {
     Function() onAddInvoiceSelected,
     List<DocumentItem> documents,
     Function(Invoice) onDeleteInvoiceSelected,
+    Function(Invoice) onInvoiceSent,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -193,6 +195,7 @@ class JobDetailsPageState {
       documents: documents ?? this.documents,
       onDeleteInvoiceSelected: onDeleteInvoiceSelected ?? this.onDeleteInvoiceSelected,
       invoice: invoice ?? this.invoice,
+      onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
     );
   }
 
@@ -244,6 +247,7 @@ class JobDetailsPageState {
         store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
       },
       onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
+      onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
     );
   }
 

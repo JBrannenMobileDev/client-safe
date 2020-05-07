@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeGraphCard.dart';
@@ -6,6 +7,7 @@ import 'package:client_safe/pages/IncomeAndExpenses/MileageExpensesCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpensesCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/UnpaidInvoicesCard.dart';
+import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/Shadows.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -15,6 +17,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 
 class IncomeAndExpensesPage extends StatefulWidget {
   static const String FILTER_TYPE_INCOME = "Income";
@@ -56,13 +59,13 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
       0: Text(IncomeAndExpensesPage.FILTER_TYPE_INCOME, style: TextStyle(
         fontSize: 20.0,
         fontFamily: 'simple',
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w800,
         color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
       ),),
       1: Text(IncomeAndExpensesPage.FILTER_TYPE_EXPENSES, style: TextStyle(
         fontSize: 20.0,
         fontFamily: 'simple',
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w800,
         color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
       ),),
     };
@@ -84,6 +87,16 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
               body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
+                  selectedIndex == 0 ? Container(
+                    decoration: BoxDecoration(
+                      color: Color(ColorConstants.getBlueLight()),
+                      image: DecorationImage(
+                        image: AssetImage(ImageUtil.JOB_DETAILS_BG),
+                        repeat: ImageRepeat.repeat,
+                        fit: BoxFit.contain,
+                      ),
+                    ),
+                  ) : SizedBox(),
                   CustomScrollView(
                     controller: scrollController,
                     slivers: <Widget>[
@@ -101,7 +114,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         centerTitle: true,
                         title: Center(
                           child: Text(
-                            selectedIndex == 0 ? 'Income' : 'Expenses',
+                            'Income & Expenses',
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 26.0,
@@ -170,7 +183,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                 style: TextStyle(
                                                   fontFamily: 'simple',
                                                   fontSize: 26.0,
-                                                  fontWeight: FontWeight.w600,
+                                                  fontWeight: FontWeight.w800,
                                                   color: Color(ColorConstants.getPrimaryWhite()),
                                                 ),
                                               ),
@@ -183,7 +196,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(16.0),
                                                 border: Border.all(
-                                                    width: 1,
+                                                    width: 2,
                                                   color: Color(ColorConstants.getPrimaryWhite())
                                                 ),
                                               ),
@@ -202,7 +215,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                   style: TextStyle(
                                                     fontFamily: 'simple',
                                                     fontSize: 26.0,
-                                                    fontWeight: FontWeight.w600,
+                                                    fontWeight: FontWeight.w800,
                                                     color: Color(ColorConstants.getPrimaryWhite()),
                                                   ),
                                                 ),
@@ -213,7 +226,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                         Container(
                                           margin: EdgeInsets.only(left: 16.0),
                                           child: Text(
-                                            '\$' + pageState.incomeForSelectedYear.truncate().toString(),
+                                            NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.incomeForSelectedYear.truncate()),
                                             style: TextStyle(
                                               fontFamily: 'simple',
                                               fontSize: 52.0,
@@ -234,7 +247,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                       SliverList(
                         delegate: new SliverChildListDelegate(
                           <Widget>[
-                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? IncomeGraphCard() : MileageExpensesCard(),
+                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? IncomeGraphCard(pageState: pageState) : MileageExpensesCard(),
                             pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? UnpaidInvoicesCard(pageState: pageState) : RecurringExpensesCard(),
                             pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? SizedBox() : SingleExpenseCard(),
                           ],
@@ -300,7 +313,11 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                             ),
                           ),
                         ),
-                        onTap: () => print('FIRST CHILD')
+                        onTap: () {
+                          Navigator.of(context).push(
+                            new MaterialPageRoute(builder: (context) => AllInvoicesPage()),
+                          );
+                        }
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
@@ -325,7 +342,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewInvoiceDialog(context);
+                        UserOptionsUtil.showNewInvoiceDialog(context, null);
                       },
                     ),
                   ],

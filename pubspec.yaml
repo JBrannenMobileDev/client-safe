@@ -54,6 +54,7 @@ dependencies:
   flutter_speed_dial: ^1.2.5
   pdf: ^1.6.1
   flutter_full_pdf_viewer: ^1.0.6
+  share_extend: ^1.1.5
 
 flutter_icons:
   android: true

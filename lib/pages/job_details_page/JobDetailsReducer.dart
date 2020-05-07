@@ -146,6 +146,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobInfo ac
     job: action.job,
     selectedLocation: newLocation,
     documents: documents,
+    invoice: action.job.invoice,
   );
 }
 

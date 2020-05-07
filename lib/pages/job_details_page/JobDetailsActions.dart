@@ -208,3 +208,9 @@ class OnDeleteInvoiceSelectedAction{
   OnDeleteInvoiceSelectedAction(this.pageState, this.invoice);
 }
 
+class InvoiceSentAction{
+  final JobDetailsPageState pageState;
+  final Invoice invoice;
+  InvoiceSentAction(this.pageState, this.invoice);
+}
+

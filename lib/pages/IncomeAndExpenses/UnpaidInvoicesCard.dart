@@ -1,3 +1,4 @@
+import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -19,7 +20,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            height: pageState.unpaidInvoicesForSelectedYear.length > 0 ? pageState.unpaidInvoicesForSelectedYear.length == 1 ? 124.0 : (74*pageState.unpaidInvoicesForSelectedYear.length).toDouble() + 88 : 162.0,
+            height: getContainerHeight(pageState.unpaidInvoices.length, pageState),
             margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -42,7 +43,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      FlatButton(
+                      pageState.unpaidInvoices != null && pageState.unpaidInvoices.length > 3 ? FlatButton(
                         onPressed: () {
                           pageState.onViewAllHideSelected();
                         },
@@ -58,17 +59,17 @@ class UnpaidInvoicesCard extends StatelessWidget{
                             ),
                           ),
                         ),
-                      ),
+                      ) : SizedBox(),
                     ],
                   ),
                 ),
-                pageState.unpaidInvoicesForSelectedYear.length > 0 ? ListView.builder(
+                pageState.unpaidInvoices.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     key: _listKey,
-                    itemCount: pageState.unpaidInvoicesForSelectedYear.length,
+                    itemCount: _getItemCount(pageState),
                     itemBuilder: _buildItem,
                   ) : Container(
                   alignment: Alignment.center,
@@ -93,7 +94,30 @@ class UnpaidInvoicesCard extends StatelessWidget{
     );
   }
 
+  double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
+    if(length == 0) {
+      return 162.0;
+    }else if(length == 1) {
+      return 142.0;
+    }else if(length == 2) {
+      return 216.0;
+    }else if(length == 3) {
+      return 284.0;
+    }else {
+      return pageState.isMinimized ? 304.0 : ((72*length) + 88).toDouble();
+    }
+  }
+
   Widget _buildItem(BuildContext context, int index) {
-    return InvoiceItem(invoice: pageState.unpaidInvoicesForSelectedYear.elementAt(index), pageState: pageState);
+    List<Invoice> invoices = pageState.unpaidInvoices;
+    return InvoiceItem(invoice: invoices.elementAt(index), pageState: pageState);
+  }
+
+  int _getItemCount(IncomeAndExpensesPageState pageState) {
+    if(pageState.isMinimized && pageState.unpaidInvoices.length > 3) {
+      return 3;
+    } else {
+      return pageState.unpaidInvoices.length;
+    }
   }
 }

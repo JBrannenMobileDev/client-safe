@@ -14,6 +14,7 @@ import 'package:client_safe/pages/new_contact_pages/StartJobPromptDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/NewLineItemDialog.dart';
+import 'package:client_safe/pages/new_invoice_page/SendInvoicePromptDialog.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
@@ -105,6 +106,15 @@ class UserOptionsUtil {
     );
   }
 
+  static void showSendInvoicePromptDialog(BuildContext context, int invoiceId, Function onSendInvoiceSelected) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SendInvoicePromptDialog(invoiceId, onSendInvoiceSelected);
+      },
+    );
+  }
+
   static void showDepositChangeDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -132,11 +142,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewInvoiceDialog(BuildContext context) {
+  static void showNewInvoiceDialog(BuildContext context, Function onSendInvoiceSelected) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewInvoiceDialog();
+        return NewInvoiceDialog(onSendInvoiceSelected);
       },
     );
   }
@@ -150,11 +160,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showInvoiceOptionsDialog(BuildContext context) {
+  static void showInvoiceOptionsDialog(BuildContext context, Function onSendInvoiceSelected) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return InvoiceOptionsDialog();
+        return InvoiceOptionsDialog(onSendInvoiceSelected);
       },
     );
   }

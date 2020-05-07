@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Invoice.dart';
@@ -24,6 +26,7 @@ import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:client_safe/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:client_safe/utils/PdfUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -34,6 +37,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:share/share.dart';
+import 'package:share_extend/share_extend.dart';
 
 class ViewInvoiceDialog extends StatefulWidget {
   final Invoice invoice;
@@ -252,7 +257,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                             onTap: () {
                                               pageState.onEditInvoiceSelected(invoice);
                                               Navigator.of(context).pop();
-                                              UserOptionsUtil.showNewInvoiceDialog(context);
+                                              UserOptionsUtil.showNewInvoiceDialog(context, null);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -284,8 +289,8 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                           ),
                                           GestureDetector(
                                             onTap: () async {
-                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
-                                              Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
+                                              IntentLauncherUtil.shareInvoice(invoice);
+                                              pageState.onInvoiceSent(invoice);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),

@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 
 class FilterChangedAction{
@@ -39,4 +40,10 @@ class DeleteInvoiceAction{
   final IncomeAndExpensesPageState pageState;
   final Invoice invoice;
   DeleteInvoiceAction(this.pageState, this.invoice);
+}
+
+class OnInvoiceSentAction{
+  final IncomeAndExpensesPageState pageState;
+  final Invoice invoice;
+  OnInvoiceSentAction(this.pageState, this.invoice);
 }

@@ -54,6 +54,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _saveInvoice(Store<AppState> store, action, NextDispatcher next) async {
+    bool invoicePaid = store.state.newInvoicePageState.selectedJob.isPaymentReceived();
     NewInvoicePageState pageState = store.state.newInvoicePageState;
     await InvoiceDao.insertOrUpdate(
         Invoice(
@@ -66,9 +67,10 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           createdDate: DateTime.now(),
           dueDate: pageState.dueDate,
           depositPaid: pageState.selectedJob.hasCompletedStage(JobStage.STAGE_5_DEPOSIT_RECEIVED),
-          invoicePaid: false,
+          invoicePaid: invoicePaid,
           priceProfile: pageState.selectedJob.priceProfile,
           discount: pageState.discountValue,
+          depositAmount: pageState.depositValue,
           total: pageState.total,
           lineItems: pageState.lineItems,
     ));
@@ -133,6 +135,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
         location: selectedJob.location,
         priceProfile: selectedJob.priceProfile,
         depositAmount: selectedJob.depositAmount,
+        createdDate: selectedJob.createdDate,
       );
       await JobDao.insertOrUpdate(jobToSave);
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, jobToSave));
@@ -256,8 +259,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
-                    Text(pageState.invoiceNumber.toString(), textScaleFactor: 1.5),
-                    Text('Sent: ' + DateFormat('MMM dd, yyyy').format(DateTime.now()), textScaleFactor: 1.5),
+                    Text('Id: ' + pageState.invoiceNumber.toString(), textScaleFactor: 1.5),
                     pageState.dueDate != null ? Text('Due: ' + DateFormat('MMM dd, yyyy').format(pageState.dueDate), textScaleFactor: 1.5) : SizedBox(),
                   ],
                 ),

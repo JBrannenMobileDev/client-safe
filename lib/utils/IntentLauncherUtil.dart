@@ -1,8 +1,14 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
+import 'package:client_safe/data_layer/local_db/daos/InvoiceDao.dart';
+import 'package:client_safe/models/Invoice.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:share_extend/share_extend.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'PdfUtil.dart';
 
 class IntentLauncherUtil{
   static Future<bool> launchURL(String url) async {
@@ -47,6 +53,16 @@ class IntentLauncherUtil{
     }
   }
 
+  static Future shareInvoice(Invoice invoice) async{
+    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId));
+    ShareExtend.share(invoiceFile.path, "file");
+  }
+
+  static Future shareInvoiceById(int invoiceId) async{
+    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoiceId));
+    ShareExtend.share(invoiceFile.path, "file");
+  }
+
   static Future<bool> sendInvoiceSMS(String phoneNum, String body) async {
     String trimmedPhoneNum = trimPhoneNumber(phoneNum);
     String formattedPhoneNum = 'sms:$trimmedPhoneNum';
@@ -58,12 +74,16 @@ class IntentLauncherUtil{
     }
   }
 
-
-
   static Future<bool> sendEmail(String email, String subject, String body) async {
-    String formattedPhoneNum = 'mailto:$email?subject=$subject&body=$body';
-    if (await canLaunch(formattedPhoneNum)) {
-      await launch(formattedPhoneNum);
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: 'subject=' + subject + ' &body=' + body, //add subject and body here
+    );
+
+    var url = params.toString();
+    if (await canLaunch(url)) {
+      await launch(url);
       return true;
     } else {
       return false;

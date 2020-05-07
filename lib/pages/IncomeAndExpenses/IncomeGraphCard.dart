@@ -1,4 +1,5 @@
 
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/UnpaidInvoiceItem.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/widgets.dart';
 class IncomeGraphCard extends StatelessWidget {
   IncomeGraphCard({this.pageState});
 
-  final DashboardPageState pageState;
+  final IncomeAndExpensesPageState pageState;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class IncomeGraphCard extends StatelessWidget {
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 18.0),
+                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -41,7 +42,7 @@ class IncomeGraphCard extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        "2020",
+                        pageState.selectedYear.toString(),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 20.0,
@@ -53,19 +54,19 @@ class IncomeGraphCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                0 > 0 ? Container(
-                  child: ListView.builder(
-                    padding: EdgeInsets.only(bottom: 16.0),
-                    reverse: false,
-                    shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
-//                    key: _listKey,
-//                    itemCount: jobs.length,
-                    itemBuilder: _buildItem,
-                  ),
-                ) : Container(
+                Container(
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
-                  height: 56.0,
+                  height: 64.0,
+                  child: Text(
+                    'This feature is in progress. Income insights will be a visual view of you income for a selected year.',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -73,10 +74,5 @@ class IncomeGraphCard extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  Widget _buildItem(BuildContext context, int index) {
-//    return UnpaidInvoiceItem(job: jobs.elementAt(index), pageState: pageState);
-    return SizedBox();
   }
 }

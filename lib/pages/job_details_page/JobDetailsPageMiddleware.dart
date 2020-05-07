@@ -76,6 +76,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is OnDeleteInvoiceSelectedAction){
       deleteInvoice(store, action, next);
     }
+    if(action is InvoiceSentAction){
+      updateInvoiceToSent(store, action, next);
+    }
+  }
+
+  void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
+    action.invoice.sentDate = DateTime.now();
+    await InvoiceDao.update(action.invoice);
+    store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
   }
 
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
@@ -100,6 +109,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
       depositAmount: action.pageState.unsavedDepositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
@@ -121,6 +131,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: action.pageState.selectedPriceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
@@ -142,6 +153,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -163,6 +175,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -184,6 +197,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       invoice: action.job.invoice,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -223,6 +237,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -244,6 +259,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -295,10 +311,18 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       invoice: action.job.invoice,
       priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
       if(action.job.invoice != null){
         action.job.invoice.invoicePaid = true;
+        await InvoiceDao.update(action.job.invoice);
+      }
+    }
+    if(stageToComplete.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
+      if(action.job.invoice != null){
+        action.job.invoice.depositPaid = true;
+        action.job.invoice.unpaidAmount = action.job.invoice.unpaidAmount - action.job.invoice.depositAmount;
         await InvoiceDao.update(action.job.invoice);
       }
     }
@@ -336,8 +360,29 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: action.job.location,
       priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
+    if(stageToRemove.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
+      if(action.job.invoice != null){
+        action.job.invoice.invoicePaid = false;
+        await InvoiceDao.update(action.job.invoice);
+      }
+    }
+    if(stageToRemove.stage == JobStage.STAGE_8_PAYMENT_REQUESTED){
+      if(action.job.invoice != null){
+        action.job.invoice.sentDate = null;
+        await InvoiceDao.update(action.job.invoice);
+      }
+    }
+    if(stageToRemove.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
+      if(action.job.invoice != null){
+        action.job.invoice.depositPaid = false;
+        action.job.invoice.unpaidAmount = action.job.invoice.unpaidAmount + action.job.invoice.depositAmount;
+        await InvoiceDao.update(action.job.invoice);
+      }
+    }
     await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 

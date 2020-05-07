@@ -20,7 +20,7 @@ class InvoiceItem extends StatelessWidget{
         UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobId));
       },
       child: Padding(
-        padding: EdgeInsets.fromLTRB(8.0, 8.0, 0.0, 18.0),
+        padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
         child: Stack(
           alignment: Alignment.centerRight,
           children: <Widget>[
@@ -58,7 +58,7 @@ class InvoiceItem extends StatelessWidget{
                     Padding(
                       padding: EdgeInsets.only(top: 2.0),
                       child: Text(
-                        ((invoice.sentDate != null ? 'Due date: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate) : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null ? invoice.unpaidAmount.truncate().toString() : '0')),
+                        ((invoice.sentDate != null ? 'Due: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate) : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null ? invoice.unpaidAmount.truncate().toString() : '0')),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 18.0,

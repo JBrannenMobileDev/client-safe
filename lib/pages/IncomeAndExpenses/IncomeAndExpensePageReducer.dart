@@ -11,33 +11,34 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
 ]);
 
 IncomeAndExpensesPageState _updateShowHideState(IncomeAndExpensesPageState previousState, UpdateShowHideState action) {
-  List<Invoice> unpaidInvoices;
-  if(previousState.isMinimized){
-    unpaidInvoices = previousState.allInvoices.where((invoice) => (!invoice.invoicePaid && invoice.createdDate.year == previousState.selectedYear)).toList();
-  }else{
-    unpaidInvoices = (previousState.allInvoices.length > 3? previousState.allInvoices.sublist(0, 3) : previousState.allInvoices);
-  }
+  List<Invoice> unpaidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
 
   return previousState.copyWith(
     isMinimized: !previousState.isMinimized,
-    unpaidInvoicesForSelectedYear: unpaidInvoices,
+    unpaidInvoices: unpaidInvoices,
   );
 }
 
 IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState, SetAllInvoicesAction action){
-  List<Invoice> unpaidInvoices = (action.allInvoices.length > 3? action.allInvoices.sublist(0, 3) : action.allInvoices);
-  List<Invoice> invoicesForSelectedYear = action.allInvoices.where((invoice) => invoice.createdDate.year == previousState.selectedYear).toList();
-  List<Invoice> paidInvoicesForSelectedYear = invoicesForSelectedYear.where((invoice) => invoice.invoicePaid).toList();
+  List<Invoice> unpaidInvoices = action.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
+  List<Invoice> unpaidInvoicesForSelectedYear = unpaidInvoices.where((invoice) => invoice.createdDate.year == previousState.selectedYear).toList();
+  List<Invoice> paidInvoices = action.allInvoices.where((invoice) => invoice.invoicePaid == true).toList();
+  List<Invoice> paidInvoicesForSelectedYear = paidInvoices.where((invoice) => invoice.createdDate.year == previousState.selectedYear).toList();
   double totalForSelectedYear = 0.0;
+
   for(Invoice invoice in paidInvoicesForSelectedYear){
     totalForSelectedYear = totalForSelectedYear + (invoice.total - invoice.discount);
+  }
+  for(Invoice unpaidInvoice in unpaidInvoicesForSelectedYear){
+    if(unpaidInvoice.depositPaid){
+      totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount ?? 0.0;
+    }
   }
   return previousState.copyWith(
     allInvoices: action.allInvoices,
     isMinimized: true,
     incomeForSelectedYear: totalForSelectedYear,
-    unpaidInvoicesForSelectedYear: unpaidInvoices,
-    invoicesForSelectedYear: invoicesForSelectedYear,
+    unpaidInvoices: unpaidInvoices,
   );
 }
 
@@ -48,7 +49,24 @@ IncomeAndExpensesPageState _updateFilterSelection(IncomeAndExpensesPageState pre
 }
 
 IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousState, UpdateSelectedYearAction action){
+  List<Invoice> unpaidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
+  List<Invoice> unpaidInvoicesForSelectedYear = unpaidInvoices.where((invoice) => invoice.createdDate.year == action.year).toList();
+
+  double totalForSelectedYear = 0.0;
+
+  List<Invoice> paidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == true).toList();
+  List<Invoice> paidInvoicesForSelectedYear = paidInvoices.where((invoice) => invoice.createdDate.year == action.year).toList();
+  for(Invoice invoice in paidInvoicesForSelectedYear){
+    totalForSelectedYear = totalForSelectedYear + (invoice.total - invoice.discount);
+  }
+  for(Invoice unpaidInvoice in unpaidInvoicesForSelectedYear){
+    if(unpaidInvoice.depositPaid){
+      totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount;
+    }
+  }
   return previousState.copyWith(
     selectedYear: action.year,
+    incomeForSelectedYear: totalForSelectedYear,
+    unpaidInvoices: unpaidInvoices,
   );
 }

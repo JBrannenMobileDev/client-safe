@@ -35,6 +35,7 @@ class Job {
   String professionalUserId;
   DateTime selectedDate;
   DateTime selectedTime;
+  DateTime createdDate;
   String type;
   JobStage stage;
   Invoice invoice;
@@ -56,7 +57,8 @@ class Job {
     this.location,
     this.priceProfile,
     this.invoice,
-    this.depositAmount
+    this.depositAmount,
+    this.createdDate,
   });
 
   Job copyWith({
@@ -75,6 +77,7 @@ class Job {
     Invoice invoice,
     int depositAmount,
     List<JobStage> completedStages,
+    DateTime createdDate,
   }){
     return Job(
       id: id?? this.id,
@@ -92,6 +95,7 @@ class Job {
       invoice: invoice ?? this.invoice,
       depositAmount: depositAmount ?? this.depositAmount,
       completedStages: completedStages ?? this.completedStages,
+      createdDate: createdDate ?? this.createdDate,
     );
   }
 
@@ -105,6 +109,7 @@ class Job {
       'professionalUserId' : professionalUserId,
       'selectedDate' : selectedDate?.millisecondsSinceEpoch ?? null,
       'selectedTime' : selectedTime?.millisecondsSinceEpoch ?? null,
+      'createdDate' : createdDate?.millisecondsSinceEpoch ?? null,
       'type' : type,
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
@@ -125,6 +130,7 @@ class Job {
       professionalUserId: map['professionalUserId'],
       selectedDate: map['selectedDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['selectedDate']) : null,
       selectedTime: map['selectedTime'] != null ? DateTime.fromMillisecondsSinceEpoch(map['selectedTime']) : null,
+      createdDate: map['createdDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       type: map['type'],
       stage: JobStage.fromMap(map['stage']),
       location: map['location'] != null ? Location.fromMap(map['location']) : null,
@@ -236,5 +242,22 @@ class Job {
       if(completedStage.stage == jobStage) return true;
     }
     return false;
+  }
+
+  bool isPaymentReceived() {
+    for(JobStage completedStage in completedStages){
+      if(completedStage.stage == JobStage.STAGE_9_PAYMENT_RECEIVED) return true;
+    }
+    return false;
+  }
+
+  static bool containsStage(List<JobStage> completedStages, String stageConstant) {
+    bool contains = false;
+    for(JobStage stage in completedStages){
+      if(stage.stage == stageConstant){
+        contains = true;
+      }
+    }
+    return contains;
   }
 }

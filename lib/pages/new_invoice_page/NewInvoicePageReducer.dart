@@ -274,7 +274,6 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
   double remainingBalance;
   double total;
   Discount discount;
-  DateTime dueDate;
   switch(rateType){
     case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
       remainingBalance = selectedJob.priceProfile.flatRate - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
@@ -282,7 +281,6 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
         total = selectedJob.invoice.total;
         lineItems = selectedJob.invoice.lineItems;
         remainingBalance = selectedJob.invoice.unpaidAmount;
-        dueDate = selectedJob.invoice.dueDate;
         discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
       }else{
         total = selectedJob.priceProfile.flatRate;
@@ -300,7 +298,6 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
         total = selectedJob.invoice.total;
         lineItems = selectedJob.invoice.lineItems;
         remainingBalance = selectedJob.invoice.unpaidAmount;
-        dueDate = selectedJob.invoice.dueDate;
         discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
       }else{
         total = 0;
@@ -318,7 +315,6 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
         total = selectedJob.invoice.total;
         lineItems = selectedJob.invoice.lineItems;
         remainingBalance = selectedJob.invoice.unpaidAmount;
-        dueDate = selectedJob.invoice.dueDate;
         discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
       }else{
         total = 0;
@@ -338,7 +334,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     discountValue: 0.0,
     discount: discount,
     newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
-    dueDate: dueDate,
+    dueDate: null,
     dueDateSelected: null,
     total: total,
     filterType: rateType,

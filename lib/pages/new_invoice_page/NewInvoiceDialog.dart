@@ -14,6 +14,7 @@ import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:client_safe/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
+import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,21 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class NewInvoiceDialog extends StatefulWidget {
+  final Function onSendInvoiceSelected;
+
+  NewInvoiceDialog(this.onSendInvoiceSelected);
+
   @override
   _NewInvoiceDialogState createState() {
-    return _NewInvoiceDialogState();
+    return _NewInvoiceDialogState(onSendInvoiceSelected);
   }
 }
 
 class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepAliveClientMixin {
+  Function onSendInvoiceSelected;
+
+  _NewInvoiceDialogState(this.onSendInvoiceSelected);
+
   OverlayEntry overlayEntry;
   final int pageCount = 4;
   bool hasJumpToBeenCalled = false;
@@ -204,7 +213,10 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       }
     }
     if (pageState.pageViewIndex == pageCount - 1) {
-      showSuccessAnimation();
+      showSuccessAnimation(
+        context,
+        pageState.invoiceNumber,
+      );
       pageState.onSavePressed();
     }
   }
@@ -234,7 +246,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   }
 
 
-  void showSuccessAnimation() {
+  void showSuccessAnimation(BuildContext context, int invoiceId) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -245,16 +257,15 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
             alignment: Alignment.center,
             fit: BoxFit.contain,
             animation: "show_check",
-            callback: onFlareCompleted,
+            callback: (String unused) {
+              Navigator.of(context).pop(true);
+              Navigator.of(context).pop(true);
+              UserOptionsUtil.showSendInvoicePromptDialog(context, invoiceId, onSendInvoiceSelected);
+            },
           ),
         );
       },
     );
-  }
-
-  void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
   }
 
   void onBackPressed(NewInvoicePageState pageState) {

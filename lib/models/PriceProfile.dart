@@ -1,3 +1,5 @@
+import 'package:client_safe/models/Invoice.dart';
+
 class PriceProfile{
   int id;
   String profileName;
