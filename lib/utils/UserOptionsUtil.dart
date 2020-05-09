@@ -151,11 +151,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showViewInvoiceDialog(BuildContext context, Invoice invoice, Job job) {
+  static void showViewInvoiceDialog(BuildContext context, Invoice invoice, Job job, Function onSendInvoiceSelected) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return ViewInvoiceDialog(invoice, job);
+        return ViewInvoiceDialog(invoice, job, onSendInvoiceSelected);
       },
     );
   }

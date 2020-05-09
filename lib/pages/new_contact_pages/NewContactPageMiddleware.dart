@@ -28,23 +28,23 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoadDeviceContacts(store.state.newContactPageState, allContacts));
   }
 
-  void saveClient(Store<AppState> store, action, NextDispatcher next) async{
+  void saveClient(Store<AppState> store, SaveNewContactAction action, NextDispatcher next) async{
     Client client = Client(
-      id: action.invoice.id,
-      firstName: action.invoice.newContactFirstName,
-      lastName: action.invoice.newContactLastName,
-      gender: action.invoice.isFemale ? Client.GENDER_FEMALE : Client.GENDER_MALE,
-      email: action.invoice.newContactEmail,
-      phone: action.invoice.newContactPhone,
-      instagramProfileUrl: action.invoice.newContactInstagramUrl,
-      relationshipStatus: action.invoice.relationshipStatus,
-      spouseFirstName: action.invoice.spouseFirstName,
-      spouseLastName: action.invoice.spouseLastName,
-      numOfChildren: action.invoice.numberOfChildren,
-      importantDates: action.invoice.importantDates,
-      notes: action.invoice.notes,
-      leadSource: action.invoice.leadSource,
-      iconUrl: action.invoice.clientIcon != null ? action.invoice.clientIcon : ImageUtil.getRandomPersonIcon(action.invoice.isFemale),
+      id: action.pageState.id,
+      firstName: action.pageState.newContactFirstName,
+      lastName: action.pageState.newContactLastName,
+      gender: action.pageState.isFemale ? Client.GENDER_FEMALE : Client.GENDER_MALE,
+      email: action.pageState.newContactEmail,
+      phone: action.pageState.newContactPhone,
+      instagramProfileUrl: action.pageState.newContactInstagramUrl,
+      relationshipStatus: action.pageState.relationshipStatus,
+      spouseFirstName: action.pageState.spouseFirstName,
+      spouseLastName: action.pageState.spouseLastName,
+      numOfChildren: action.pageState.numberOfChildren,
+      importantDates: action.pageState.importantDates,
+      notes: action.pageState.notes,
+      leadSource: action.pageState.leadSource,
+      iconUrl: action.pageState.clientIcon != null ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale),
     );
     await ClientDao.insertOrUpdate(client);
     DeviceContactsDao.addOrUpdateContact(client);

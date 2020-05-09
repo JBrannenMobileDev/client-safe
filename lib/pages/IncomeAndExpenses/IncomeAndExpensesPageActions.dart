@@ -47,3 +47,9 @@ class OnInvoiceSentAction{
   final Invoice invoice;
   OnInvoiceSentAction(this.pageState, this.invoice);
 }
+
+class OnAllInvoicesFilterChangedAction{
+  final IncomeAndExpensesPageState pageState;
+  final String filter;
+  OnAllInvoicesFilterChangedAction(this.pageState, this.filter);
+}

@@ -10,14 +10,15 @@ import 'package:intl/intl.dart';
 
 class InvoiceItem extends StatelessWidget{
   final Invoice invoice;
+  final Function onSendInvoiceSelected;
   final IncomeAndExpensesPageState pageState;
-  InvoiceItem({this.invoice, this.pageState});
+  InvoiceItem({this.invoice, this.pageState, this.onSendInvoiceSelected});
 
   @override
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () async {
-        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobId));
+        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobId), onSendInvoiceSelected);
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
@@ -58,7 +59,7 @@ class InvoiceItem extends StatelessWidget{
                     Padding(
                       padding: EdgeInsets.only(top: 2.0),
                       child: Text(
-                        ((invoice.sentDate != null ? 'Due: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate) : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null ? invoice.unpaidAmount.truncate().toString() : '0')),
+                        (invoice.sentDate != null ? (invoice.dueDate != null ? ('Due: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate)) : 'no due date' ) : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null ? invoice.unpaidAmount.truncate().toString() : '0'),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 18.0,

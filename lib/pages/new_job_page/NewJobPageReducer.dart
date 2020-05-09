@@ -59,11 +59,11 @@ NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, Initializ
       selectedClient: action.client,
       shouldClear: false,
       comingFromClientDetails: true,
+      pageViewIndex: 1,
   );
 }
 
 NewJobPageState _loadWithSelectedDate(NewJobPageState previousState, InitNewJobPageWithDateAction action) {
-
   return NewJobPageState.initial().copyWith(
     selectedDate: action.selectedDate,
     shouldClear: true,

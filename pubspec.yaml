@@ -109,6 +109,7 @@ flutter:
     - assets/images/icons/instagram_icon_peach.png
     - assets/images/icons/instagram_icon_white.png
     - assets/images/icons/sunset_icon_peach.png
+    - assets/images/icons/sunset_icon_white.png
     - assets/images/icons/edit_icon_peach.png
     - assets/images/icons/edit_icon_white.png
     - assets/images/icons/location_icon_peach.png
@@ -149,6 +150,7 @@ flutter:
     - assets/images/icons/invoices_icon_white.png
     - assets/images/icons/pdf_icon_white.png
     - assets/images/icons/invoices_icon_peach.png
+    - assets/images/icons/sunny_icon.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

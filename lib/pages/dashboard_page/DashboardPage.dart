@@ -5,6 +5,7 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadsHomeCard.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/Shadows.dart';
@@ -207,6 +208,20 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                       floating: false,
                       forceElevated: false,
                       expandedHeight: 315.0,
+                      leading: GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).push(
+                            new MaterialPageRoute(builder: (context) => SunsetWeatherPage()),
+                          );
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 16.0),
+                          height: 32.0,
+                          width: 32.0,
+                          child: Image.asset(
+                              'assets/images/icons/sunset_icon_white.png'),
+                        ),
+                      ),
                       actions: <Widget>[
                         GestureDetector(
                           onTap: () {

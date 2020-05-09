@@ -11,7 +11,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 
 class DocumentsCard extends StatelessWidget {
-  DocumentsCard({this.pageState});
+  final Function onSendInvoiceSelected;
+
+  DocumentsCard({this.pageState, this.onSendInvoiceSelected});
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
@@ -84,7 +86,7 @@ class DocumentsCard extends StatelessWidget {
 
     return FlatButton(
       onPressed: () async {
-        UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobId));
+        UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobId), onSendInvoiceSelected);
       },
       child: Container(
         height: 48.0,

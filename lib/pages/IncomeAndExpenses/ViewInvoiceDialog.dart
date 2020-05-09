@@ -11,52 +11,38 @@ import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceBalanceDueWidget.
 import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceDepositRowWidget.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceDiscountRowWidget.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceSubtotalRowWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/BalanceDueWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/DepositRowWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/DiscountRowWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/DueDateSelectionPage.dart';
 import 'package:client_safe/pages/new_invoice_page/GrayDividerWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
-import 'package:client_safe/pages/new_invoice_page/InvoiceReviewPage.dart';
-import 'package:client_safe/pages/new_invoice_page/JobSelectionForm.dart';
-import 'package:client_safe/pages/new_invoice_page/LineItemListWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
-import 'package:client_safe/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
-import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:client_safe/utils/PdfUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
-import 'package:share/share.dart';
-import 'package:share_extend/share_extend.dart';
 
 class ViewInvoiceDialog extends StatefulWidget {
   final Invoice invoice;
   final Job job;
+  final Function onSendInvoiceSelected;
 
-  ViewInvoiceDialog(this.invoice, this.job);
+  ViewInvoiceDialog(this.invoice, this.job, this.onSendInvoiceSelected);
 
   @override
   _ViewInvoiceDialogState createState() {
-    return _ViewInvoiceDialogState(invoice, job);
+    return _ViewInvoiceDialogState(invoice, job, onSendInvoiceSelected);
   }
 }
 
 class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKeepAliveClientMixin {
   final Invoice invoice;
   final Job job;
+  final Function onSendInvoiceSelected;
 
-  _ViewInvoiceDialogState(this.invoice, this.job);
+  _ViewInvoiceDialogState(this.invoice, this.job, this.onSendInvoiceSelected);
 
   Future<void> _ackAlert(BuildContext context, IncomeAndExpensesPageState pageState) {
     return showDialog<void>(
@@ -291,6 +277,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                             onTap: () async {
                                               IntentLauncherUtil.shareInvoice(invoice);
                                               pageState.onInvoiceSent(invoice);
+                                              onSendInvoiceSelected();
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),

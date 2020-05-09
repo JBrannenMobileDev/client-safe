@@ -13,6 +13,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:sider_bar/sider_bar.dart';
 
 class AllInvoicesPage extends StatefulWidget {
+  static const String FILTER_TYPE_UNPAID = "Unpaid";
+  static const String FILTER_TYPE_PAID = "Paid";
 
   @override
   State<StatefulWidget> createState() {
@@ -23,11 +25,60 @@ class AllInvoicesPage extends StatefulWidget {
 class _AllInvoicesPageState extends State<AllInvoicesPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
+  Map<int, Widget> filterNames;
+  int selectorIndex = 0;
 
   @override
   Widget build(BuildContext context) {
+    filterNames = <int, Widget>{
+      0: Text(
+        AllInvoicesPage.FILTER_TYPE_UNPAID,
+        style: TextStyle(
+          fontFamily: 'simple',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
+          color: Color(selectorIndex == 0
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),
+      ),
+      1: Text(AllInvoicesPage.FILTER_TYPE_PAID,
+        style: TextStyle(
+          fontFamily: 'simple',
+          fontSize: 20.0,
+          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
+          color: Color(selectorIndex == 1
+              ? ColorConstants.getPrimaryWhite()
+              : ColorConstants.getPrimaryBlack()),
+        ),),
+    };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
-        onInit: (store) => store.dispatch(FetchClientData(store.state.clientsPageState)),
+        onInit: (store) {
+          selectorIndex = store.state.incomeAndExpensesPageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? 0 : 1;
+          filterNames = <int, Widget>{
+            0: Text(
+              AllInvoicesPage.FILTER_TYPE_UNPAID,
+              style: TextStyle(
+                fontFamily: 'simple',
+                fontSize: 20.0,
+                fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
+                color: Color(selectorIndex == 0
+                    ? ColorConstants.getPrimaryWhite()
+                    : ColorConstants.getPrimaryBlack()),
+              ),
+            ),
+            1: Text(AllInvoicesPage.FILTER_TYPE_PAID,
+              style: TextStyle(
+                fontFamily: 'simple',
+                fontSize: 20.0,
+                fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
+                color: Color(selectorIndex == 1
+                    ? ColorConstants.getPrimaryWhite()
+                    : ColorConstants.getPrimaryBlack()),
+              ),),
+          };
+          store.dispatch(FetchClientData(store.state.clientsPageState));
+        },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Scaffold(
           backgroundColor: Colors.white,
@@ -65,6 +116,25 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                             ),
                           ),
                         ],
+                        bottom: PreferredSize(
+                          child: Container(
+                            width: 300.0,
+                            margin: EdgeInsets.only(bottom: 16.0),
+                            child: CupertinoSlidingSegmentedControl<int>(
+                              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                              thumbColor: Color(ColorConstants.getPrimaryColor()),
+                              children: filterNames,
+                              onValueChanged: (int filterTypeIndex) {
+                                setState(() {
+                                  selectorIndex = filterTypeIndex;
+                                });
+                                pageState.onAllInvoicesFilterChanged(filterTypeIndex == 0 ? AllInvoicesPage.FILTER_TYPE_UNPAID : AllInvoicesPage.FILTER_TYPE_PAID);
+                              },
+                              groupValue: selectorIndex,
+                            ),
+                          ),
+                          preferredSize: Size.fromHeight(44.0),
+                        ),
                       ),
                       SliverList(
                         delegate: new SliverChildListDelegate(
@@ -76,7 +146,7 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: pageState.allInvoices.length,
+                              itemCount: selectorIndex == 0 ? pageState.unpaidInvoices.length : pageState.paidInvoices.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -95,6 +165,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, IncomeAndExpensesPageState>(
     converter: (store) => IncomeAndExpensesPageState.fromStore(store),
     builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
-        InvoiceItem(invoice: pageState.allInvoices.elementAt(index), pageState: pageState,),
+        InvoiceItem(invoice: pageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? pageState.unpaidInvoices.elementAt(index) : pageState.paidInvoices.elementAt(index), pageState: pageState),
   );
 }

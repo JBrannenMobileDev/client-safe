@@ -8,7 +8,14 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, FilterChangedAction>(_updateFilterSelection),
   TypedReducer<IncomeAndExpensesPageState, UpdateSelectedYearAction>(_setSelectedYear),
   TypedReducer<IncomeAndExpensesPageState, UpdateShowHideState>(_updateShowHideState),
+  TypedReducer<IncomeAndExpensesPageState, OnAllInvoicesFilterChangedAction>(_updateAllInvoicesFilter),
 ]);
+
+IncomeAndExpensesPageState _updateAllInvoicesFilter(IncomeAndExpensesPageState previousState, OnAllInvoicesFilterChangedAction action) {
+  return previousState.copyWith(
+    allInvoicesFilterType: action.filter,
+  );
+}
 
 IncomeAndExpensesPageState _updateShowHideState(IncomeAndExpensesPageState previousState, UpdateShowHideState action) {
   List<Invoice> unpaidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
@@ -34,8 +41,10 @@ IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState
       totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount ?? 0.0;
     }
   }
+  paidInvoices.sort((invoiceA, invoiceB) => invoiceA.jobName.compareTo(invoiceB.jobName));
   return previousState.copyWith(
     allInvoices: action.allInvoices,
+    paidInvoices: paidInvoices,
     isMinimized: true,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
