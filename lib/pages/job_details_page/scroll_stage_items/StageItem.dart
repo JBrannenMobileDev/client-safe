@@ -337,31 +337,37 @@ class _StageItemState extends State<StageItem>
                             decoration: BoxDecoration(
                               borderRadius: new BorderRadius.circular(10.0),
                               image: DecorationImage(
-                                image: isStageCompleted ? (_isExpanded(index, pageState) ? ImageUtil.getUndoImageAsset() : ImageUtil.getJobStageCompleteIconWhite()) : ImageUtil.getJobStageCompleteIconBlack(),
+                                image: isStageCompleted ? (_isExpanded(index, pageState) ? ImageUtil.getJobStageCompleteIconWhite() : ImageUtil.getJobStageCompleteIconWhite()) : ImageUtil.getJobStageCompleteIconBlack(),
                                 fit: BoxFit.contain,
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ) : isStageCompleted ? Container(
-                      alignment: Alignment.center,
-                      margin: EdgeInsets.only(left: 56.0, bottom: 78.0),
-                      height: 24.0,
-                      width: 24.0,
-                      decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPeachDark()),
-                        borderRadius: new BorderRadius.circular(12.0),
-                      ),
-                      padding: EdgeInsets.all(2.0),
+                    ) : isStageCompleted ? GestureDetector(
+                      onTap: () {
+                        pageState.addExpandedIndex(index);
+                        _newStageCompleteAnimation.forward();
+                      },
                       child: Container(
-                        height: 10.0,
-                        width: 20.0,
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(left: 56.0, bottom: 78.0),
+                        height: 24.0,
+                        width: 24.0,
                         decoration: BoxDecoration(
-                          borderRadius: new BorderRadius.circular(10.0),
-                          image: DecorationImage(
-                            image: ImageUtil.getJobStageCompleteIconWhite(),
-                            fit: BoxFit.contain,
+                          color: Color(ColorConstants.getPeachDark()),
+                          borderRadius: new BorderRadius.circular(12.0),
+                        ),
+                        padding: EdgeInsets.all(2.0),
+                        child: Container(
+                          height: 10.0,
+                          width: 20.0,
+                          decoration: BoxDecoration(
+                            borderRadius: new BorderRadius.circular(10.0),
+                            image: DecorationImage(
+                              image: ImageUtil.getJobStageCompleteIconWhite(),
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
