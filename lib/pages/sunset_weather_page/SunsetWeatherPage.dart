@@ -1,14 +1,15 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
-import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/widgets/bouncing_loading_animation/BouncingLoadingAnimatedIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sider_bar/sider_bar.dart';
+import 'package:intl/intl.dart';
 
 class SunsetWeatherPage extends StatefulWidget {
   static const String FILTER_TYPE_EVENING = "Evening";
@@ -23,37 +24,15 @@ class SunsetWeatherPage extends StatefulWidget {
 class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
-  int selectorIndex = 0;
-  Map<int, Widget> filterTitles;
-  int selectedHour = 3;
 
   @override
   Widget build(BuildContext context) {
-    filterTitles = <int, Widget>{
-      0: Text(SunsetWeatherPage.FILTER_TYPE_EVENING,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),
-      ),
-      1: Text(SunsetWeatherPage.FILTER_TYPE_MORNING,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-    };
-    return StoreConnector<AppState, ClientsPageState>(
-        onInit: (store) => store.dispatch(FetchClientData(store.state.clientsPageState)),
-        converter: (store) => ClientsPageState.fromStore(store),
-        builder: (BuildContext context, ClientsPageState pageState) => Scaffold(
+    return StoreConnector<AppState, SunsetWeatherPageState>(
+        onInit: (store) async {
+          store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState));
+        },
+        converter: (store) => SunsetWeatherPageState.fromStore(store),
+        builder: (BuildContext context, SunsetWeatherPageState pageState) => Scaffold(
           backgroundColor: Colors.white,
           body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
@@ -76,68 +55,88 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             ),
                           ),
                         ),
-                        bottom: PreferredSize(
-                          child: Container(
-                            width: 225.0,
-                            margin: EdgeInsets.only(bottom: 16.0),
-                            child: CupertinoSlidingSegmentedControl<int>(
-                              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getPrimaryColor()),
-                              children: filterTitles,
-                              onValueChanged: (int filterTypeIndex) {
-                                setState(() {
-                                  selectorIndex = filterTypeIndex;
-                                });
-//                                pageState.onFilterChanged(filterTypeIndex == 0 ? SunsetWeatherPage.FILTER_TYPE_EVENING : SunsetWeatherPage.FILTER_TYPE_MORNING);
-                              },
-                              groupValue: selectorIndex,
-                            ),
-                          ),
-                          preferredSize: Size.fromHeight(44.0),
-                        ),
                       ),
                       SliverList(
                         delegate: new SliverChildListDelegate(
                           <Widget>[
-                            Row(
+                            Container(
+                              margin: EdgeInsets.only(top: 8.0, left: 0.0),
+                              child: Text(
+                                pageState.weatherDescription,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ),
+                            pageState.isWeatherDataLoading ? pageState.showFartherThan7DaysError ? Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(left: 64.0, right: 64.0, bottom: 16.0),
+                              height: (MediaQuery.of(context).size.width/4) + 16,
+                              child: Text(
+                                'Weather data is not available yet for the date selected. Check back within 7 days of your desired date.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(ColorConstants.getPeachDark()),
+                                ),
+                              ),
+                            ) : Container(
+                              height: (MediaQuery.of(context).size.width/4) + 16,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Loading weather data',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w800,
+                                      color: Color(ColorConstants.getPeachDark()),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 32.0),
+                                    child: BouncingLoadingAnimatedIcon(),
+                                  ),
+                                ],
+                              ),
+                            ) : Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(top: 16, bottom: 16.0),
+                                  margin: EdgeInsets.only(top: 0.0, bottom: 16.0),
                                   height: MediaQuery.of(context).size.width/4,
                                   width: MediaQuery.of(context).size.width/4,
                                   decoration: BoxDecoration(
-//                                color: getCircleColor(index),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Image.asset('assets/images/icons/sunny_icon.png'),
+                                  child: pageState.weatherIcon != null ? Image(image: pageState.weatherIcon) : SizedBox(),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 16, left: 16.0, bottom: 16.0),
+                                  margin: EdgeInsets.only(top: 16, left: 0.0, bottom: 16.0),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.end,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
                                       Row(
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-                                            width: 142.0,
+                                            width: 88.0,
                                             child: Text(
-                                              'Sunny',
+                                              pageState.tempHigh + '° - ' +  pageState.tempLow + '°',
                                               textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontFamily: 'simple',
-                                                color: const Color(ColorConstants.primary_black),
-                                              ),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 58.0,
-                                            child: Text(
-                                              ' 87° F',
-                                              textAlign: TextAlign.start,
                                               style: TextStyle(
                                                 fontSize: 20.0,
                                                 fontWeight: FontWeight.w800,
@@ -152,7 +151,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-                                            width: 142.0,
+                                            width: 158.0,
                                             child: Text(
                                             'Chance of rain:',
                                             textAlign: TextAlign.end,
@@ -164,10 +163,10 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                           ),
                                           ),
                                           Container(
-                                            width: 58.0,
+                                            width: 42.0,
                                             child: Text(
-                                              ' 2%',
-                                              textAlign: TextAlign.start,
+                                              ' ' + pageState.chanceOfRain + '%',
+                                              textAlign: TextAlign.end,
                                               style: TextStyle(
                                                 fontSize: 20.0,
                                                 fontWeight: FontWeight.w800,
@@ -182,7 +181,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                         mainAxisAlignment: MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-                                            width: 142.0,
+                                            width: 158.0,
                                             child: Text(
                                             'Cloud coverage:',
                                             textAlign: TextAlign.end,
@@ -194,10 +193,10 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                           ),
                                           ),
                                           Container(
-                                            width: 58.0,
+                                            width: 42.0,
                                             child: Text(
-                                            ' 0%',
-                                            textAlign: TextAlign.start,
+                                            ' ' + pageState.cloudCoverage + '%',
+                                            textAlign: TextAlign.end,
                                             style: TextStyle(
                                               fontSize: 20.0,
                                               fontFamily: 'simple',
@@ -213,397 +212,422 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                 ),
                               ],
                             ),
-                            Stack(
-                              alignment: Alignment.topCenter,
+                                FlatButton(
+                                  onPressed: () {
+                                    UserOptionsUtil.showDateSelectionCalendarDialog(context);
+                                  },
+                                  padding: EdgeInsets.all(0.0),
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width/4 + 200,
+                                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(26.0),
+                                        color: Color(ColorConstants.getPeachDark())
+                                    ),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 26.0,
+                                              width: 26.0,
+                                              child: Image.asset('assets/images/icons/location_icon_white.png'),
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            pageState.locationName,
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.fade,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.getPrimaryWhite()),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 8.0),
+                                  child: FlatButton(
+                                    onPressed: () {
+                                      DatePicker.showDatePicker(
+                                          context,
+                                          dateFormat: 'MMMM dd yyyy',
+                                          pickerMode: DateTimePickerMode.date,
+                                          onConfirm: (dateTime, intList) {
+                                            pageState.onDateSelected(dateTime);
+                                          }
+                                      );
+                                    },
+                                    padding: EdgeInsets.all(0.0),
+                                    child: Container(
+                                      width: MediaQuery.of(context).size.width/4 + 200,
+                                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                      height: 48.0,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(26.0),
+                                          color: Color(ColorConstants.getPeachDark())
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(right: 16.0),
+                                            height: 26.0,
+                                            width: 26.0,
+                                            child: Image.asset('assets/images/icons/calendar_icon_white.png'),
+                                          ),
+                                          Container(
+                                            child: Text(
+                                              DateFormat('MMM dd, yyy').format(pageState.selectedDate),
+                                              textAlign: TextAlign.start,
+                                              overflow: TextOverflow.fade,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                fontSize: 20.0,
+                                                fontFamily: 'simple',
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(ColorConstants.getPrimaryWhite()),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            Container(
+                              margin: EdgeInsets.only(top: 32.0, left: 0.0),
+                              child: Text(
+                                DateFormat('EEEE').format(pageState.selectedDate),
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ),
+                            pageState.isWeatherDataLoading ? Container(
+                              height: 156.0,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Loading hourly weather data',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w800,
+                                      color: Color(ColorConstants.getPeachDark()),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 32.0),
+                                    child: BouncingLoadingAnimatedIcon(),
+                                  ),
+                                ],
+                              ),
+                            ) : Container(
+                              padding: EdgeInsets.all(0.0),
+                              margin: EdgeInsets.only(top: 0.0, bottom: 32.0),
+                              height: 124.0,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: 12,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: _buildItem,
+                              ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 0.0, bottom: 8.0, left: 0.0),
+                              child: Text(
+                                'Evening',
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ),
+                            pageState.isSunsetDataLoading ? Container(
+                              height: (MediaQuery.of(context).size.width/4) + 16,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Loading sunset data',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w800,
+                                      color: Color(ColorConstants.getPeachDark()),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 32.0),
+                                    child: BouncingLoadingAnimatedIcon(),
+                                  ),
+                                ],
+                              ),
+                            ) : Column(
+
                               children: <Widget>[
                                 Container(
-                                  width: 332.0,
-                                  margin: EdgeInsets.only(bottom: 12.0),
+                                  margin: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 16.0),
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment
-                                        .spaceBetween,
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 0;
-                                          });
-                                        },
-                                        child: Column(
-
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '1 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
+                                      Text(
+                                        'Golden Hour',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPrimaryColor()),
                                         ),
                                       ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 1;
-                                          });
-                                        },
-                                        child: Column(
-
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '2 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
+                                      Text(
+                                        pageState.eveningGoldenHour,
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPrimaryColor()),
                                         ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 2;
-                                          });
-                                        },
-                                        child: Column(
-
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '3 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 3;
-                                          });
-                                        },
-                                        child: Column(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '4 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 4;
-                                          });
-                                        },
-                                        child: Column(
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '5 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 5;
-                                          });
-                                        },
-                                        child: Column(
-
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '6 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 6;
-                                          });
-                                        },
-                                        child: Column(
-
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '7 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedHour = 7;
-                                          });
-                                        },
-                                        child: Column(
-
-                                          children: <Widget>[
-                                            Container(
-                                              margin: EdgeInsets.only(
-                                                  top: 13.0, bottom: 16.0),
-                                              height: 16.0,
-                                              width: 2.0,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBackgroundGrey()),
-                                            ),
-                                            Text(
-                                              '8 pm',
-                                              textAlign: TextAlign.start,
-                                              style: TextStyle(
-                                                fontSize: 16.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                                      )
                                     ],
                                   ),
                                 ),
                                 Container(
-                                  width: 352.0,
-                                  margin: EdgeInsets.only(bottom: 16.0),
-                                  child: CupertinoSlider(
-                                    value: selectedHour.toDouble(),
-                                    min: 0.0,
-                                    max: 7.0,
-                                    divisions: 7,
-                                    thumbColor: Color(ColorConstants.getPeachDark()),
-                                    activeColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                    onChanged: (double selectedNum) {
-                                      setState(() {
-                                        selectedHour = selectedNum.toInt();
-                                        vibrate();
-                                      });
-
-                                    },
+                                  margin: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        'Sunset',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPeachDark()),
+                                        ),
+                                      ),
+                                      Text(
+                                        pageState.sunset,
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPeachDark()),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        'Blue Hour',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getBlueLight()),
+                                        ),
+                                      ),
+                                      Text(
+                                        pageState.eveningBlueHour,
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getBlueLight()),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 ),
                               ],
                             ),
-                            FlatButton(
-                              onPressed: () {
-                                UserOptionsUtil.showDateSelectionCalendarDialog(context);
-                              },
-                              child: Container(
-                                height: 48.0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 12.0),
-                                          child: GestureDetector(
-                                            onTap: () {
-
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(right: 12.0),
-                                              height: 32.0,
-                                              width: 32.0,
-                                              child: Image.asset('assets/images/icons/location_icon_peach.png'),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            'Temecula, CA',
-                                            textAlign: TextAlign.start,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants.primary_black),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 12.0),
-                                      height: 24.0,
-                                      width: 24.0,
-                                      child: Image.asset('assets/images/icons/edit_icon_peach.png'),
-                                    ),
-                                  ],
+                            Container(
+                              margin: EdgeInsets.only(top: 16.0, bottom: 8.0, left: 0.0),
+                              child: Text(
+                                'Morning',
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.fade,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                             ),
-                            FlatButton(
-                              onPressed: () {
-                                UserOptionsUtil.showLocationSelectionDialog(context);
-                              },
-                              child: Container(
-                                height: 48.0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 12.0),
-                                          child: GestureDetector(
-                                            onTap: () {
-
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(right: 12.0),
-                                              height: 32.0,
-                                              width: 32.0,
-                                              child: Image.asset('assets/images/icons/calendar_icon_peach.png'),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          padding: EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            'June 3, 2020',
-                                            textAlign: TextAlign.start,
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 1,
-                                            style: TextStyle(
-                                              fontSize: 20.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants.primary_black),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                            pageState.isSunsetDataLoading ? Container(
+                              height: (MediaQuery.of(context).size.width/4) + 16,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(
+                                    'Loading sunset data',
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.fade,
+                                    maxLines: 1,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w800,
+                                      color: Color(ColorConstants.getPeachDark()),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(right: 12.0),
-                                      height: 24.0,
-                                      width: 24.0,
-                                      child: Image.asset('assets/images/icons/edit_icon_peach.png'),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 32.0),
+                                    child: BouncingLoadingAnimatedIcon(),
+                                  ),
+                                ],
                               ),
+                            ) : Column(
+
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        'Blue Hour',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getBlueLight()),
+                                        ),
+                                      ),
+                                      Text(
+                                        pageState.morningBlueHour,
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getBlueLight()),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        'Sunrise',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPeachDark()),
+                                        ),
+                                      ),
+                                      Text(
+                                        pageState.sunrise,
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPeachDark()),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        'Golden hour',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPrimaryColor()),
+                                        ),
+                                      ),
+                                      Text(
+                                        pageState.morningGoldenHour,
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.fade,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w800,
+                                          color: Color(ColorConstants.getPrimaryColor()),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -622,9 +646,136 @@ void vibrate() async {
 }
 
 Widget _buildItem(BuildContext context, int index) {
-  return StoreConnector<AppState, ClientsPageState>(
-    converter: (store) => ClientsPageState.fromStore(store),
-    builder: (BuildContext context, ClientsPageState pageState) =>
-        SizedBox(),
+  return StoreConnector<AppState, SunsetWeatherPageState>(
+    converter: (store) => SunsetWeatherPageState.fromStore(store),
+    builder: (BuildContext context, SunsetWeatherPageState pageState) =>
+        GestureDetector(
+          onTap: () {
+
+          },
+          child: Container(
+            margin: EdgeInsets.only(left: index == 0 ? 16.0 : 0.0),
+            width: 72.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  _getHourText(pageState.selectedFilterIndex, index),
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 16, bottom: 16.0),
+                  height: 36.0,
+                  width: 36.0,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                  ),
+                  child: Image.asset('assets/images/icons/sunny_icon_gold.png'),
+                ),
+                Text(
+                  '87°',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
   );
+}
+
+String _getHourText(int selectorIndex, int index) {
+  if(selectorIndex == 0) {
+    switch(index){
+      case 0:
+        return '12pm';
+        break;
+      case 1:
+        return '1pm';
+        break;
+      case 2:
+        return '2pm';
+        break;
+      case 3:
+        return '3pm';
+        break;
+      case 4:
+        return '4pm';
+        break;
+      case 5:
+        return '5pm';
+        break;
+      case 6:
+        return '6pm';
+        break;
+      case 7:
+        return '7pm';
+        break;
+      case 8:
+        return '8pm';
+        break;
+      case 9:
+        return '9pm';
+        break;
+      case 10:
+        return '10pm';
+        break;
+      case 11:
+        return '11pm';
+        break;
+    }
+    return '';
+  } else {
+    switch(index){
+      case 0:
+        return '12am';
+        break;
+      case 1:
+        return '1am';
+        break;
+      case 2:
+        return '2am';
+        break;
+      case 3:
+        return '3am';
+        break;
+      case 4:
+        return '4am';
+        break;
+      case 5:
+        return '5am';
+        break;
+      case 6:
+        return '6am';
+        break;
+      case 7:
+        return '7am';
+        break;
+      case 8:
+        return '8am';
+        break;
+      case 9:
+        return '9am';
+        break;
+      case 10:
+        return '10am';
+        break;
+      case 11:
+        return '11am';
+        break;
+    }
+    return '';
+  }
 }

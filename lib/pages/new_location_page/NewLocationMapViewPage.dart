@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationMapPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationTextField.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

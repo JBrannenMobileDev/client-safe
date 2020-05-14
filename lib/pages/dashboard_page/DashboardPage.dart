@@ -231,7 +231,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                             margin: EdgeInsets.only(right: 16.0),
                             height: 28.0,
                             width: 28.0,
-                            child: Image.asset('assets/images/icons/calendar_icon_white.png'),
+                            child: Image.asset('assets/images/icons/calendar_bold_white.png'),
                           ),
                         ),
                         GestureDetector(

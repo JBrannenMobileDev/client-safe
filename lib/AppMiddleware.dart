@@ -30,6 +30,8 @@ import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix1;
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
 import 'package:redux/redux.dart';
 
 List<Middleware<AppState>> createAppMiddleware() {
@@ -88,6 +90,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, OnInvoiceSentAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnDeleteInvoiceSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InvoiceSentAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchDataForSelectedDateAction>(SunsetWeatherPageMiddleware()));
   return middlewareList;
 }
 

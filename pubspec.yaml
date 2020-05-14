@@ -55,6 +55,7 @@ dependencies:
   pdf: ^1.6.1
   flutter_full_pdf_viewer: ^1.0.6
   share_extend: ^1.1.5
+  http: ^0.12.1
 
 flutter_icons:
   android: true
@@ -113,6 +114,7 @@ flutter:
     - assets/images/icons/edit_icon_peach.png
     - assets/images/icons/edit_icon_white.png
     - assets/images/icons/location_icon_peach.png
+    - assets/images/icons/location_icon_white.png
     - assets/images/icons/calendar_icon_peach.png
     - assets/images/icons/calendar_icon_white.png
     - assets/images/icons/clock_icon_peach.png
@@ -150,7 +152,23 @@ flutter:
     - assets/images/icons/invoices_icon_white.png
     - assets/images/icons/pdf_icon_white.png
     - assets/images/icons/invoices_icon_peach.png
-    - assets/images/icons/sunny_icon.png
+    - assets/images/icons/sunny_icon_gold.png
+    - assets/images/icons/sunny_icon_white.png
+    - assets/images/icons/very_cloudy_icon.png
+    - assets/images/icons/lightning_rain_icon.png
+    - assets/images/icons/cloudy_icon.png
+    - assets/images/icons/sunny_rainy_icon.png
+    - assets/images/icons/snowflake_icon.png
+    - assets/images/icons/night_icon.png
+    - assets/images/icons/rainy_icon.png
+    - assets/images/icons/snowing_icon.png
+    - assets/images/icons/hail_icon.png
+    - assets/images/icons/cloudy_night_icon.png
+    - assets/images/icons/partly_cloudy_icon.png
+    - assets/images/icons/umbrella_icon.png
+    - assets/images/icons/calendar_bold_black.png
+    - assets/images/icons/calendar_bold_white.png
+    - assets/images/icons/location_icon_black.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

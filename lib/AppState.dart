@@ -15,6 +15,7 @@ import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/pages/search_page/SearchPageState.dart';
 import 'package:client_safe/pages/settings_page/SettingsPageState.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:meta/meta.dart';
 
 import 'pages/clients_page/ClientsPageState.dart';
@@ -39,6 +40,7 @@ class AppState {
   final JobDetailsPageState jobDetailsPageState;
   final NewInvoicePageState newInvoicePageState;
   final IncomeAndExpensesPageState incomeAndExpensesPageState;
+  final SunsetWeatherPageState sunsetWeatherPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -59,6 +61,7 @@ class AppState {
     @required this.jobDetailsPageState,
     @required this.newInvoicePageState,
     @required this.incomeAndExpensesPageState,
+    @required this.sunsetWeatherPageState,
   });
 
   factory AppState.initial() {
@@ -81,6 +84,7 @@ class AppState {
       jobDetailsPageState: JobDetailsPageState.initial(),
       newInvoicePageState: NewInvoicePageState.initial(),
       incomeAndExpensesPageState: IncomeAndExpensesPageState.initial(),
+      sunsetWeatherPageState: SunsetWeatherPageState.initial(),
     );
   }
 
@@ -103,6 +107,7 @@ class AppState {
     JobDetailsPageState jobDetailsPageState,
     NewInvoicePageState newInvoicePageState,
     IncomeAndExpensesPageState incomeAndExpensesPageState,
+    SunsetWeatherPageState sunsetWeatherPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -123,6 +128,7 @@ class AppState {
       jobDetailsPageState: jobDetailsPageState ?? this.jobDetailsPageState,
       newInvoicePageState: newInvoicePageState ?? this.newInvoicePageState,
       incomeAndExpensesPageState: incomeAndExpensesPageState ?? this.incomeAndExpensesPageState,
+      sunsetWeatherPageState: sunsetWeatherPageState ?? this.sunsetWeatherPageState,
     );
   }
 
@@ -145,6 +151,7 @@ class AppState {
     jobDetailsPageState.hashCode ^
     calendarPageState.hashCode ^
     newInvoicePageState.hashCode ^
+    sunsetWeatherPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -168,5 +175,6 @@ class AppState {
               jobDetailsPageState == other.jobDetailsPageState &&
               calendarPageState == other.calendarPageState &&
               newInvoicePageState == other.newInvoicePageState &&
+              sunsetWeatherPageState == other.sunsetWeatherPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

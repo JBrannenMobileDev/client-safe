@@ -17,6 +17,7 @@ import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:client_safe/pages/search_page/SearchPageReducer.dart';
 import 'package:client_safe/pages/settings_page/SettingsPageReducer.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) =>
     AppState(
@@ -37,5 +38,6 @@ AppState appReducers(AppState state, dynamic action) =>
         calendarPageState: calendarPageReducer(state.calendarPageState, action),
         jobDetailsPageState: jobDetailsReducer(state.jobDetailsPageState, action),
         newInvoicePageState: newInvoicePageReducer(state.newInvoicePageState, action),
-        incomeAndExpensesPageState: incomeAndExpensesPageReducer(state.incomeAndExpensesPageState, action)
+        incomeAndExpensesPageState: incomeAndExpensesPageReducer(state.incomeAndExpensesPageState, action),
+        sunsetWeatherPageState: sunsetWeatherPageReducer(state.sunsetWeatherPageState, action),
     );
