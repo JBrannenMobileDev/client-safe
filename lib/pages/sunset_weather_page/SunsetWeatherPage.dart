@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/sunset_weather_page/SelectLocationDialog.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -29,7 +30,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SunsetWeatherPageState>(
         onInit: (store) async {
-          store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState));
+          store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState, true));
         },
         converter: (store) => SunsetWeatherPageState.fromStore(store),
         builder: (BuildContext context, SunsetWeatherPageState pageState) => Scaffold(
@@ -62,7 +63,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             Container(
                               margin: EdgeInsets.only(top: 8.0, left: 0.0),
                               child: Text(
-                                pageState.weatherDescription,
+                                DateFormat('EEEE').format(pageState.selectedDate) + ' ' + pageState.weatherDescription,
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.fade,
                                 maxLines: 1,
@@ -214,7 +215,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             ),
                                 FlatButton(
                                   onPressed: () {
-                                    UserOptionsUtil.showDateSelectionCalendarDialog(context);
+                                    UserOptionsUtil.showSelectLocationDialog(context);
                                   },
                                   padding: EdgeInsets.all(0.0),
                                   child: Container(
@@ -281,7 +282,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                             margin: EdgeInsets.only(right: 16.0),
                                             height: 26.0,
                                             width: 26.0,
-                                            child: Image.asset('assets/images/icons/calendar_icon_white.png'),
+                                            child: Image.asset('assets/images/icons/calendar_bold_white.png'),
                                           ),
                                           Container(
                                             child: Text(
@@ -302,22 +303,21 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     ),
                                   ),
                                 ),
-                            Container(
-                              margin: EdgeInsets.only(top: 32.0, left: 0.0),
+                            pageState.isWeatherDataLoading ? pageState.showFartherThan7DaysError ? Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(left: 64.0, right: 64.0, bottom: 16.0),
+                              height: (MediaQuery.of(context).size.width/4) + 16,
                               child: Text(
-                                DateFormat('EEEE').format(pageState.selectedDate),
+                                'Weather data is not available yet for the date selected. Check back within 7 days of your desired date.',
                                 textAlign: TextAlign.center,
-                                overflow: TextOverflow.fade,
-                                maxLines: 1,
                                 style: TextStyle(
-                                  fontSize: 24.0,
+                                  fontSize: 20.0,
                                   fontFamily: 'simple',
                                   fontWeight: FontWeight.w800,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                  color: Color(ColorConstants.getPeachDark()),
                                 ),
                               ),
-                            ),
-                            pageState.isWeatherDataLoading ? Container(
+                            ) : Container(
                               height: 156.0,
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -346,7 +346,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                               height: 124.0,
                               child: ListView.builder(
                                 shrinkWrap: true,
-                                itemCount: 12,
+                                itemCount: pageState.hoursForecast.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: _buildItem,
                               ),
@@ -661,7 +661,7 @@ Widget _buildItem(BuildContext context, int index) {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Text(
-                  _getHourText(pageState.selectedFilterIndex, index),
+                  _getHourText(pageState.hoursForecast.elementAt(index).time),
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -677,10 +677,10 @@ Widget _buildItem(BuildContext context, int index) {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset('assets/images/icons/sunny_icon_gold.png'),
+                  child: Image(image: getWeatherIcon(pageState.sunsetTimestamp, pageState.hoursForecast.elementAt(index).weather_code,)),
                 ),
                 Text(
-                  '87°',
+                  pageState.hoursForecast.elementAt(index).temperature.toString() + '°',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -696,86 +696,134 @@ Widget _buildItem(BuildContext context, int index) {
   );
 }
 
-String _getHourText(int selectorIndex, int index) {
-  if(selectorIndex == 0) {
-    switch(index){
-      case 0:
+String _getHourText(String time) {
+    switch(time){
+      case '0':
+        return '12am';
+        break;
+      case '100':
+        return '1am';
+        break;
+      case '200':
+        return '2am';
+        break;
+      case '300':
+        return '3am';
+        break;
+      case '400':
+        return '4am';
+        break;
+      case '500':
+        return '5am';
+        break;
+      case '600':
+        return '6am';
+        break;
+      case '700':
+        return '7am';
+        break;
+      case '800':
+        return '8am';
+        break;
+      case '900':
+        return '9am';
+        break;
+      case '1000':
+        return '10am';
+        break;
+      case '1100':
+        return '11am';
+        break;
+      case '1200':
         return '12pm';
         break;
-      case 1:
+      case '1300':
         return '1pm';
         break;
-      case 2:
+      case '1400':
         return '2pm';
         break;
-      case 3:
+      case '1500':
         return '3pm';
         break;
-      case 4:
+      case '1600':
         return '4pm';
         break;
-      case 5:
+      case '1700':
         return '5pm';
         break;
-      case 6:
+      case '1800':
         return '6pm';
         break;
-      case 7:
+      case '1900':
         return '7pm';
         break;
-      case 8:
+      case '2000':
         return '8pm';
         break;
-      case 9:
+      case '2100':
         return '9pm';
         break;
-      case 10:
+      case '2200':
         return '10pm';
         break;
-      case 11:
+      case '2300':
         return '11pm';
         break;
     }
     return '';
-  } else {
-    switch(index){
-      case 0:
-        return '12am';
-        break;
-      case 1:
-        return '1am';
-        break;
-      case 2:
-        return '2am';
-        break;
-      case 3:
-        return '3am';
-        break;
-      case 4:
-        return '4am';
-        break;
-      case 5:
-        return '5am';
-        break;
-      case 6:
-        return '6am';
-        break;
-      case 7:
-        return '7am';
-        break;
-      case 8:
-        return '8am';
-        break;
-      case 9:
-        return '9am';
-        break;
-      case 10:
-        return '10am';
-        break;
-      case 11:
-        return '11am';
-        break;
-    }
-    return '';
+}
+
+AssetImage getWeatherIcon(DateTime sunsetTime, int weatherCode){
+  AssetImage icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
+  switch(weatherCode){
+    case 113:
+      if(DateTime.now().millisecondsSinceEpoch > sunsetTime.millisecondsSinceEpoch){
+        icon = AssetImage('assets/images/icons/night_icon.png');
+      }else{
+        icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
+      }
+      break;
+    case 116:
+      icon = AssetImage('assets/images/icons/partly_cloudy_icon.png');
+      break;
+    case 119:
+    case 248:
+    case 260:
+      icon = AssetImage('assets/images/icons/cloudy_icon.png');
+      break;
+    case 122:
+    case 143:
+      icon = AssetImage('assets/images/icons/very_cloudy_icon.png');
+      break;
+    case 176:
+    case 263:
+    case 266:
+    case 293:
+    case 296:
+      icon = AssetImage('assets/images/icons/sunny_rainy_icon.png');
+      break;
+    case 179:
+    case 185:
+    case 227:
+    case 230:
+      icon = AssetImage('assets/images/icons/snowing_icon.png');
+      break;
+    case 182:
+    case 281:
+    case 284:
+    case 311:
+      icon = AssetImage('assets/images/icons/hail_icon.png');
+      break;
+    case 200:
+      icon = AssetImage('assets/images/icons/lightning_rain_icon.png');
+      break;
+    case 299:
+    case 302:
+    case 305:
+    case 308:
+      icon = AssetImage('assets/images/icons/rainy_icon.png');
+      break;
   }
+  return icon;
 }

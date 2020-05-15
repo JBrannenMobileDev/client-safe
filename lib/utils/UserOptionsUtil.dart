@@ -18,6 +18,8 @@ import 'package:client_safe/pages/new_invoice_page/SendInvoicePromptDialog.dart'
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
+import 'package:client_safe/pages/sunset_weather_page/ChooseFromMyLocations.dart';
+import 'package:client_safe/pages/sunset_weather_page/SelectLocationDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -48,6 +50,24 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewJobPage();
+      },
+    );
+  }
+
+  static void showSelectLocationDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SelectLocationDialog();
+      },
+    );
+  }
+
+  static void showChooseFromMyLocationsDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ChooseFromMyLocations();
       },
     );
   }

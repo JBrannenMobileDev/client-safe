@@ -1,3 +1,4 @@
+import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/rest_models/CurrentWeather.dart';
 import 'package:client_safe/models/rest_models/Forecast7Days.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
@@ -10,13 +11,15 @@ class FilterSelectorChangedAction{
 
 class SetLastKnowPosition{
   final SunsetWeatherPageState pageState;
-  SetLastKnowPosition(this.pageState);
+  final bool comingFromInit;
+  SetLastKnowPosition(this.pageState, this.comingFromInit);
 }
 
 class SetLocationNameAction{
   final SunsetWeatherPageState pageState;
   final String locationName;
-  SetLocationNameAction(this.pageState, this.locationName);
+  final bool comingFromInit;
+  SetLocationNameAction(this.pageState, this.locationName, this.comingFromInit);
 }
 
 class SetSunsetTimeAction{
@@ -52,5 +55,23 @@ class SetSelectedDateAction{
 class SetForecastAction{
   final SunsetWeatherPageState pageState;
   final Forecast7Days forecast7days;
-  SetForecastAction(this.pageState, this.forecast7days);
+  final List<Location> locations;
+  SetForecastAction(this.pageState, this.forecast7days, this.locations);
+}
+
+class SetSelectedLocationAction{
+  final SunsetWeatherPageState pageState;
+  final Location selectedLocation;
+  SetSelectedLocationAction(this.pageState, this.selectedLocation);
+}
+
+class SetSunsetWeatherDocumentPathAction{
+  final SunsetWeatherPageState pageState;
+  final String path;
+  SetSunsetWeatherDocumentPathAction(this.pageState, this.path);
+}
+
+class OnLocationSavedAction{
+  final SunsetWeatherPageState pageState;
+  OnLocationSavedAction(this.pageState);
 }

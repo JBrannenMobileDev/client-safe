@@ -12,7 +12,22 @@ final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, SetSunsetTimeAction>(_setSunsetTimes),
   TypedReducer<SunsetWeatherPageState, SetSelectedDateAction>(_setSelectedDate),
   TypedReducer<SunsetWeatherPageState, SetForecastAction>(_setForecast),
+  TypedReducer<SunsetWeatherPageState, SetSelectedLocationAction>(_setSelectedLocation),
+  TypedReducer<SunsetWeatherPageState, SetSunsetWeatherDocumentPathAction>(_setDocumentPath),
 ]);
+
+SunsetWeatherPageState _setSelectedLocation(SunsetWeatherPageState previousState, SetSelectedLocationAction action){
+  return previousState.copyWith(
+    selectedLocation: action.selectedLocation,
+  );
+}
+
+SunsetWeatherPageState _setDocumentPath(SunsetWeatherPageState previousState, SetSunsetWeatherDocumentPathAction action){
+  return previousState.copyWith(
+    documentPath: action.path,
+
+  );
+}
 
 SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetForecastAction action){
   Map<dynamic, dynamic> forecastDays = action.forecast7days.forecast;
@@ -34,24 +49,99 @@ SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetFor
     cloudCoverage: getAvgCloudCoverage(oneDayForecast.hourly),
     weatherIcon: _getMostAccurateWeatherCode(oneDayForecast.hourly),
     isWeatherDataLoading: false,
+    hoursForecast: oneDayForecast.hourly,
+    locations: action.locations,
   ) : previousState.copyWith(
     showFartherThan7DaysError: true,
   );
 }
 
 String getWeatherDescription(List<OneHourForecast> hourly) {
-
-  return 'Sunny';
+  int containsSunny = 0;
+  int containsRainy = 0;
+  int containsSnowy = 0;
+  int containsPartlyCloudy = 0;
+  int containsCloudy = 0;
+  int containsHail = 0;
+  int containsLightning = 0;
+  for(OneHourForecast oneHour in hourly){
+    switch(oneHour.weather_code){
+      case 113:
+        containsSunny = containsSunny + 1;
+        break;
+      case 116:
+        containsPartlyCloudy = containsPartlyCloudy + 1;
+        break;
+      case 119:
+      case 248:
+      case 260:
+      case 122:
+      case 143:
+        containsCloudy = containsCloudy + 1;
+        break;
+      case 176:
+      case 263:
+      case 266:
+      case 293:
+      case 296:
+      case 299:
+      case 302:
+      case 305:
+      case 308:
+        containsRainy = containsRainy + 1;
+        break;
+      case 179:
+      case 185:
+      case 227:
+      case 230:
+        containsSnowy = containsSnowy + 1;
+        break;
+      case 182:
+      case 281:
+      case 284:
+      case 311:
+        containsHail = containsHail + 1;
+        break;
+      case 200:
+        containsLightning = containsLightning + 1;
+        break;
+    }
+  }
+  if(containsLightning > 0){
+    return 'Chance of Thunderstroms';
+  } else if(containsSnowy > 0){
+    return 'Chance of Snow';
+  } else if(containsHail > 0){
+    return 'Change of Hail';
+  } else if(containsRainy > 0){
+    return 'Change of Rain';
+  } else {
+    if(containsSunny > containsPartlyCloudy && containsSunny > containsCloudy) {
+      return 'Sunny';
+    } else {
+      if(containsPartlyCloudy > containsCloudy) {
+        return 'Partly Cloudy';
+      } else {
+        return 'Cloudy';
+      }
+    }
+  }
 }
 
 String getAvgCloudCoverage(List<OneHourForecast> hourly) {
-
-  return '35';
+  int totalCloudCover = 0;
+  for(OneHourForecast oneHour in hourly){
+    totalCloudCover = totalCloudCover + oneHour.cloudcover;
+  }
+  return (totalCloudCover~/24).toInt().toString();
 }
 
 String getAvgChanceOfRain(List<OneHourForecast> hourly) {
-
-  return '15';
+  int totalChanceOfRain = 0;
+  for(OneHourForecast oneHour in hourly){
+    totalChanceOfRain = totalChanceOfRain + oneHour.chanceofrain;
+  }
+  return (totalChanceOfRain~/24).toInt().toString();
 }
 
 AssetImage _getMostAccurateWeatherCode(List<OneHourForecast> hourly) {
@@ -142,7 +232,10 @@ SunsetWeatherPageState _updateSelectorIndex(SunsetWeatherPageState previousState
 
 SunsetWeatherPageState _setLocationName(SunsetWeatherPageState previousState, SetLocationNameAction action){
   return previousState.copyWith(
+    isSunsetDataLoading: true,
+    isWeatherDataLoading: true,
     locationName: action.locationName,
+    selectedLocation: action.comingFromInit ? null : previousState.selectedLocation,
   );
 }
 
@@ -205,56 +298,3 @@ int _calculate6DegreesOfTime(DateTime sunset, DateTime civilTwilightEnd) {
   return civilTwilightEnd.millisecondsSinceEpoch - sunset.millisecondsSinceEpoch;
 }
 
-AssetImage getWeatherIcon(DateTime sunsetTime, int weatherCode){
-  AssetImage icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
-  switch(weatherCode){
-    case 113:
-      if(DateTime.now().millisecondsSinceEpoch > sunsetTime.millisecondsSinceEpoch){
-        icon = AssetImage('assets/images/icons/night_icon.png');
-      }else{
-        icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
-      }
-      break;
-    case 116:
-      icon = AssetImage('assets/images/icons/partly_cloudy_icon.png');
-      break;
-    case 119:
-    case 248:
-    case 260:
-      icon = AssetImage('assets/images/icons/cloudy_icon.png');
-      break;
-    case 122:
-    case 143:
-      icon = AssetImage('assets/images/icons/very_cloudy_icon.png');
-      break;
-    case 176:
-    case 263:
-    case 266:
-    case 293:
-    case 296:
-      icon = AssetImage('assets/images/icons/sunny_rainy_icon.png');
-      break;
-    case 179:
-    case 185:
-    case 227:
-    case 230:
-      icon = AssetImage('assets/images/icons/snowing_icon.png');
-      break;
-    case 182:
-    case 281:
-    case 284:
-    case 311:
-      icon = AssetImage('assets/images/icons/hail_icon.png');
-      break;
-    case 200:
-      icon = AssetImage('assets/images/icons/lightning_rain_icon.png');
-      break;
-    case 299:
-    case 302:
-    case 305:
-    case 308:
-      icon = AssetImage('assets/images/icons/rainy_icon.png');
-      break;
-  }
-  return icon;
-}

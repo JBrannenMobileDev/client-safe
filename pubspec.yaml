@@ -169,6 +169,7 @@ flutter:
     - assets/images/icons/calendar_bold_black.png
     - assets/images/icons/calendar_bold_white.png
     - assets/images/icons/location_icon_black.png
+    - assets/images/icons/collections_icon_white.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
