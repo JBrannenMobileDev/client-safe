@@ -3,6 +3,7 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/rest_models/OneHourForecast.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
 class SunsetWeatherPageState {
@@ -39,6 +40,9 @@ class SunsetWeatherPageState {
   final Function(Location) onLocationSelected;
   final Function() onLocationSaved;
   final String documentPath;
+  final LatLng currentMapLatLng;
+  final Function(LatLng) onMapLocationChanged;
+  final Function() onMapLocationSaved;
 
   SunsetWeatherPageState({
     @required this.selectedFilterIndex,
@@ -74,6 +78,9 @@ class SunsetWeatherPageState {
     @required this.onLocationSelected,
     @required this.documentPath,
     @required this.onLocationSaved,
+    @required this.onMapLocationChanged,
+    @required this.currentMapLatLng,
+    @required this.onMapLocationSaved,
   });
 
   SunsetWeatherPageState copyWith({
@@ -110,6 +117,9 @@ class SunsetWeatherPageState {
     Function(Location) onLocationSelected,
     String documentPath,
     Function() onLocationSaved,
+    LatLng currentMapLatLng,
+    Function(LatLng) onMapLocationChanged,
+    Function() onMapLocationSaved,
   }){
     return SunsetWeatherPageState(
       selectedFilterIndex: selectedFilterIndex ?? this.selectedFilterIndex,
@@ -145,6 +155,9 @@ class SunsetWeatherPageState {
       onLocationSelected: onLocationSelected ?? this.onLocationSelected,
       documentPath: documentPath ?? this.documentPath,
       onLocationSaved: onLocationSaved ?? this.onLocationSaved,
+      currentMapLatLng: currentMapLatLng ?? this.currentMapLatLng,
+      onMapLocationChanged: onMapLocationChanged ?? this.onMapLocationChanged,
+      onMapLocationSaved: onMapLocationSaved ?? this.onMapLocationSaved,
     );
   }
 
@@ -182,6 +195,9 @@ class SunsetWeatherPageState {
     onLocationSelected: null,
     documentPath: '',
     onLocationSaved: null,
+    currentMapLatLng: null,
+    onMapLocationChanged: null,
+    onMapLocationSaved: null,
   );
 
   factory SunsetWeatherPageState.fromStore(Store<AppState> store) {
@@ -214,11 +230,14 @@ class SunsetWeatherPageState {
       locations: store.state.sunsetWeatherPageState.locations,
       selectedLocation: store.state.sunsetWeatherPageState.selectedLocation,
       documentPath: store.state.sunsetWeatherPageState.documentPath,
+      currentMapLatLng: store.state.sunsetWeatherPageState.currentMapLatLng,
       onSelectorChanged: (index) => store.dispatch(FilterSelectorChangedAction(store.state.sunsetWeatherPageState, index)),
-      onFetchCurrentLocation: () => store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState, false)),
+      onFetchCurrentLocation: () => store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState)),
       onDateSelected: (newDate) => store.dispatch(FetchDataForSelectedDateAction(store.state.sunsetWeatherPageState, newDate)),
       onLocationSelected: (selectedLocation) => store.dispatch(SetSelectedLocationAction(store.state.sunsetWeatherPageState, selectedLocation)),
       onLocationSaved: () => store.dispatch(OnLocationSavedAction(store.state.sunsetWeatherPageState)),
+      onMapLocationChanged: (newLatLng) => store.dispatch(SetCurrentMapLatLngAction(store.state.sunsetWeatherPageState, newLatLng)),
+      onMapLocationSaved: () => store.dispatch(SaveCurrentMapLatLngAction(store.state.sunsetWeatherPageState)),
     );
   }
 
@@ -253,6 +272,9 @@ class SunsetWeatherPageState {
     locations.hashCode ^
     selectedLocation.hashCode ^
     documentPath.hashCode ^
+    currentMapLatLng.hashCode ^
+    onMapLocationChanged.hashCode ^
+    onMapLocationSaved.hashCode ^
     onSelectorChanged.hashCode
    ;
 
@@ -289,5 +311,8 @@ class SunsetWeatherPageState {
           locations == other.locations &&
           selectedLocation == other.selectedLocation &&
           documentPath == other.documentPath &&
+          currentMapLatLng == other.currentMapLatLng &&
+          onMapLocationSaved == other.onMapLocationSaved &&
+          onMapLocationChanged == other.onMapLocationChanged &&
           onSelectorChanged == other.onSelectorChanged;
 }

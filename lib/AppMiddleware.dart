@@ -93,6 +93,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchDataForSelectedDateAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnLocationSavedAction>(SunsetWeatherPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveCurrentMapLatLngAction>(SunsetWeatherPageMiddleware()));
   return middlewareList;
 }
-

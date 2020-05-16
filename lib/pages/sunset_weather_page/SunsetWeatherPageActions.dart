@@ -2,6 +2,7 @@ import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/rest_models/CurrentWeather.dart';
 import 'package:client_safe/models/rest_models/Forecast7Days.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FilterSelectorChangedAction{
   final SunsetWeatherPageState pageState;
@@ -11,15 +12,13 @@ class FilterSelectorChangedAction{
 
 class SetLastKnowPosition{
   final SunsetWeatherPageState pageState;
-  final bool comingFromInit;
-  SetLastKnowPosition(this.pageState, this.comingFromInit);
+  SetLastKnowPosition(this.pageState);
 }
 
 class SetLocationNameAction{
   final SunsetWeatherPageState pageState;
   final String locationName;
-  final bool comingFromInit;
-  SetLocationNameAction(this.pageState, this.locationName, this.comingFromInit);
+  SetLocationNameAction(this.pageState, this.locationName);
 }
 
 class SetSunsetTimeAction{
@@ -74,4 +73,15 @@ class SetSunsetWeatherDocumentPathAction{
 class OnLocationSavedAction{
   final SunsetWeatherPageState pageState;
   OnLocationSavedAction(this.pageState);
+}
+
+class SetCurrentMapLatLngAction{
+  final SunsetWeatherPageState pageState;
+  final LatLng currentLatLng;
+  SetCurrentMapLatLngAction(this.pageState, this.currentLatLng);
+}
+
+class SaveCurrentMapLatLngAction{
+  final SunsetWeatherPageState pageState;
+  SaveCurrentMapLatLngAction(this.pageState);
 }

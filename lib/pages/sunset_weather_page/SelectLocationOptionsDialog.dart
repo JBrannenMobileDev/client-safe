@@ -4,6 +4,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationTextField.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherMapPage.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -89,7 +90,9 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
                 ),
                 GestureDetector(
                   onTap: () {
-
+                    Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => SunsetWeatherMapPage()),
+                    );
                   },
                   child: Column(
 

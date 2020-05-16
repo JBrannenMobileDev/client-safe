@@ -14,7 +14,14 @@ final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, SetForecastAction>(_setForecast),
   TypedReducer<SunsetWeatherPageState, SetSelectedLocationAction>(_setSelectedLocation),
   TypedReducer<SunsetWeatherPageState, SetSunsetWeatherDocumentPathAction>(_setDocumentPath),
+  TypedReducer<SunsetWeatherPageState, SetCurrentMapLatLngAction>(_setCurrentMapLatLng),
 ]);
+
+SunsetWeatherPageState _setCurrentMapLatLng(SunsetWeatherPageState previousState, SetCurrentMapLatLngAction action){
+  return previousState.copyWith(
+    currentMapLatLng: action.currentLatLng,
+  );
+}
 
 SunsetWeatherPageState _setSelectedLocation(SunsetWeatherPageState previousState, SetSelectedLocationAction action){
   return previousState.copyWith(
@@ -235,7 +242,7 @@ SunsetWeatherPageState _setLocationName(SunsetWeatherPageState previousState, Se
     isSunsetDataLoading: true,
     isWeatherDataLoading: true,
     locationName: action.locationName,
-    selectedLocation: action.comingFromInit ? null : previousState.selectedLocation,
+    selectedLocation: previousState.selectedLocation,
   );
 }
 

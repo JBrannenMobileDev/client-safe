@@ -30,7 +30,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SunsetWeatherPageState>(
         onInit: (store) async {
-          store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState, true));
+          store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState));
         },
         converter: (store) => SunsetWeatherPageState.fromStore(store),
         builder: (BuildContext context, SunsetWeatherPageState pageState) => Scaffold(
@@ -63,7 +63,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             Container(
                               margin: EdgeInsets.only(top: 8.0, left: 0.0),
                               child: Text(
-                                DateFormat('EEEE').format(pageState.selectedDate) + ' ' + pageState.weatherDescription,
+                                DateFormat('EEEE').format(pageState.selectedDate) + ' - ' + pageState.weatherDescription,
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.fade,
                                 maxLines: 1,
@@ -253,7 +253,8 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     ),
                                   ),
                                 ),
-                                Padding(
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 32.0),
                                   padding: EdgeInsets.only(top: 8.0),
                                   child: FlatButton(
                                     onPressed: () {
