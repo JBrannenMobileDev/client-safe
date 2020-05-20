@@ -43,6 +43,8 @@ class SunsetWeatherPageState {
   final LatLng currentMapLatLng;
   final Function(LatLng) onMapLocationChanged;
   final Function() onMapLocationSaved;
+  final double lat;
+  final double lng;
 
   SunsetWeatherPageState({
     @required this.selectedFilterIndex,
@@ -81,6 +83,8 @@ class SunsetWeatherPageState {
     @required this.onMapLocationChanged,
     @required this.currentMapLatLng,
     @required this.onMapLocationSaved,
+    @required this.lat,
+    @required this.lng,
   });
 
   SunsetWeatherPageState copyWith({
@@ -120,6 +124,8 @@ class SunsetWeatherPageState {
     LatLng currentMapLatLng,
     Function(LatLng) onMapLocationChanged,
     Function() onMapLocationSaved,
+    double lat,
+    double lng,
   }){
     return SunsetWeatherPageState(
       selectedFilterIndex: selectedFilterIndex ?? this.selectedFilterIndex,
@@ -158,6 +164,8 @@ class SunsetWeatherPageState {
       currentMapLatLng: currentMapLatLng ?? this.currentMapLatLng,
       onMapLocationChanged: onMapLocationChanged ?? this.onMapLocationChanged,
       onMapLocationSaved: onMapLocationSaved ?? this.onMapLocationSaved,
+      lat: lat ?? this.lat,
+      lng: lng ?? this.lng,
     );
   }
 
@@ -198,6 +206,8 @@ class SunsetWeatherPageState {
     currentMapLatLng: null,
     onMapLocationChanged: null,
     onMapLocationSaved: null,
+    lat: 0.0,
+    lng: 0.0,
   );
 
   factory SunsetWeatherPageState.fromStore(Store<AppState> store) {
@@ -231,6 +241,8 @@ class SunsetWeatherPageState {
       selectedLocation: store.state.sunsetWeatherPageState.selectedLocation,
       documentPath: store.state.sunsetWeatherPageState.documentPath,
       currentMapLatLng: store.state.sunsetWeatherPageState.currentMapLatLng,
+      lat: store.state.sunsetWeatherPageState.lat,
+      lng: store.state.sunsetWeatherPageState.lng,
       onSelectorChanged: (index) => store.dispatch(FilterSelectorChangedAction(store.state.sunsetWeatherPageState, index)),
       onFetchCurrentLocation: () => store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState)),
       onDateSelected: (newDate) => store.dispatch(FetchDataForSelectedDateAction(store.state.sunsetWeatherPageState, newDate)),
@@ -275,6 +287,8 @@ class SunsetWeatherPageState {
     currentMapLatLng.hashCode ^
     onMapLocationChanged.hashCode ^
     onMapLocationSaved.hashCode ^
+    lat.hashCode ^
+    lng.hashCode ^
     onSelectorChanged.hashCode
    ;
 
@@ -309,6 +323,8 @@ class SunsetWeatherPageState {
           isSunsetDataLoading == other.isSunsetDataLoading &&
           hoursForecast == other.hoursForecast &&
           locations == other.locations &&
+          lat == other.lat &&
+          lng == other.lng &&
           selectedLocation == other.selectedLocation &&
           documentPath == other.documentPath &&
           currentMapLatLng == other.currentMapLatLng &&

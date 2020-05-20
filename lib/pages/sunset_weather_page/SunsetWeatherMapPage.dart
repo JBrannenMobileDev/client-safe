@@ -11,8 +11,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
+
+import '../../utils/ColorConstants.dart';
+import '../../utils/Shadows.dart';
+import '../../utils/Shadows.dart';
+import '../../utils/Shadows.dart';
 
 class SunsetWeatherMapPage extends StatefulWidget {
   @override
@@ -24,6 +30,7 @@ class SunsetWeatherMapPage extends StatefulWidget {
 
 class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
   final Completer<GoogleMapController> _controller = Completer();
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SunsetWeatherPageState>(
@@ -42,7 +49,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
               children: <Widget>[
                 GoogleMap(
                   initialCameraPosition: CameraPosition(
-                    target: LatLng(pageState.selectedLocation.latitude, pageState.selectedLocation.longitude),
+                    target: LatLng(pageState.lat, pageState.lng),
                     zoom: 15,
                   ),
                   onMapCreated: (GoogleMapController controller) {
@@ -75,42 +82,82 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                     color: Colors.transparent,
                   ),
                 ),
-                Container(
-                  alignment: Alignment.bottomCenter,
-                  margin: EdgeInsets.only(bottom: 48.0),
-                  child: SizedBox(
+            SafeArea(
+              child: Container(
+                alignment: Alignment.bottomCenter,
+                margin: EdgeInsets.only(bottom: 14.0),
+                child: GestureDetector(
+                  onTap: () {
+                    pageState.onMapLocationSaved();
+                    Navigator.of(context).pop(true);
+                    Navigator.of(context).pop(true);
+                  },
+                  child: Container(
                     width: 200.0,
                     height: 50.0,
-                    child: FlatButton(
-                      padding: EdgeInsets.all(0.0),
-                      shape: new RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
-                      onPressed: (){
-                        Navigator.of(context).pop(true);
-                      },
-                      color: Color(ColorConstants.getPrimaryColor()),
-                      textColor: Color(ColorConstants.getPrimaryWhite()),
-                      child: Text(
-                        'Save',
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        boxShadow: ElevationToShadow[2],
+                        borderRadius: BorderRadius.circular(26.0),
+                        color: Color(ColorConstants.getPrimaryColor())),
+                    child: Text(
+                      'Save',
+                      style: TextStyle(
+                        fontSize: 26.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.only(top: 48.0, left: 8.0),
-                  alignment: Alignment.topLeft,
-                  child: IconButton(
-                    icon: Icon(Device.get().isIos ? Icons.arrow_back_ios : Icons.arrow_back),
-                    tooltip: 'Back',
-                    color: Color(ColorConstants.primary_black),
-                    onPressed: () => Navigator.of(context).pop(true),
+              ),
+            ),
+            SafeArea(
+              child: Container(
+                alignment: Alignment.topCenter,
+                child: Container(
+                  width: 250.0,
+                  height: 50.0,
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.only(left: 16.0),
+                  decoration: BoxDecoration(
+                      boxShadow: ElevationToShadow[2],
+                      borderRadius: BorderRadius.circular(26.0),
+                      color: Color(ColorConstants.getPrimaryWhite())
+                  ),
+                  child: Text(
+                    'Location',
+                    style: TextStyle(
+                      fontSize: 26.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
+                ),
+                ),
+              ),
+                SafeArea(
+                  child: Container(
+                    alignment: Alignment.topLeft,
+                    child: Container(
+                      margin: EdgeInsets.only(left: 8.0),
+                      alignment: Alignment.topLeft,
+                      height: 50.0,
+                      width: 50.0,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: ElevationToShadow[2],
+                          color: Color(ColorConstants.getPrimaryWhite())
+                      ),
+                      child: IconButton(
+                        icon: Icon(Device.get().isIos ? Icons.arrow_back_ios : Icons.arrow_back),
+                        tooltip: 'Back',
+                        color: Color(ColorConstants.primary_black),
+                        onPressed: () => Navigator.of(context).pop(true),
+                      ),
+                    ),
                   ),
                 ),
               ],

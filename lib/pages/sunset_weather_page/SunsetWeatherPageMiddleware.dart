@@ -22,7 +22,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       setLocationData(store, next, action);
     }
     if(action is FetchDataForSelectedDateAction){
-      fetch(store, next, action);
+      fetchForSelectedDate(store, next, action);
     }
     if(action is OnLocationSavedAction){
       updateWeatherAndSunsetData(store, next, action);
@@ -81,6 +81,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowPosition action) async {
     Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
     if(positionLastKnown != null) {
+      store.dispatch(SetInitialMapLatLng(store.state.sunsetWeatherPageState, positionLastKnown.latitude, positionLastKnown.longitude));
       List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(positionLastKnown.latitude, positionLastKnown.longitude);
 
       if(store.state.sunsetWeatherPageState.selectedLocation != null){
@@ -110,15 +111,9 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void fetch(Store<AppState> store, NextDispatcher next, FetchDataForSelectedDateAction action) async{
+  void fetchForSelectedDate(Store<AppState> store, NextDispatcher next, FetchDataForSelectedDateAction action) async{
     Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
     if(positionLastKnown != null) {
-      List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(positionLastKnown.latitude, positionLastKnown.longitude);
-      if(store.state.sunsetWeatherPageState.selectedLocation != null){
-        store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, store.state.sunsetWeatherPageState.selectedLocation.locationName));
-      }else {
-        store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
-      }
 
       store.dispatch(SetSelectedDateAction(store.state.sunsetWeatherPageState, action.selectedDate));
 

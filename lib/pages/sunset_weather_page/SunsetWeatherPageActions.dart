@@ -4,6 +4,8 @@ import 'package:client_safe/models/rest_models/Forecast7Days.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'SunsetWeatherPageState.dart';
+
 class FilterSelectorChangedAction{
   final SunsetWeatherPageState pageState;
   final int filterIndex;
@@ -84,4 +86,11 @@ class SetCurrentMapLatLngAction{
 class SaveCurrentMapLatLngAction{
   final SunsetWeatherPageState pageState;
   SaveCurrentMapLatLngAction(this.pageState);
+}
+
+class SetInitialMapLatLng{
+  final SunsetWeatherPageState pageState;
+  final double lat;
+  final double lng;
+  SetInitialMapLatLng(this.pageState, this.lat, this.lng);
 }

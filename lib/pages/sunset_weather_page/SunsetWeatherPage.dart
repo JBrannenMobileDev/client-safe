@@ -678,7 +678,7 @@ Widget _buildItem(BuildContext context, int index) {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image(image: getWeatherIcon(pageState.sunsetTimestamp, pageState.hoursForecast.elementAt(index).weather_code,)),
+                  child: Image(image: getWeatherIcon(pageState.hoursForecast.elementAt(index).weather_code, pageState.hoursForecast.elementAt(index).weather_descriptions.elementAt(0))),
                 ),
                 Text(
                   pageState.hoursForecast.elementAt(index).temperature.toString() + '°',
@@ -775,11 +775,11 @@ String _getHourText(String time) {
     return '';
 }
 
-AssetImage getWeatherIcon(DateTime sunsetTime, int weatherCode){
+AssetImage getWeatherIcon(int weatherCode, String weatherDescription){
   AssetImage icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
   switch(weatherCode){
     case 113:
-      if(DateTime.now().millisecondsSinceEpoch > sunsetTime.millisecondsSinceEpoch){
+      if(weatherDescription.contains('Clear')){
         icon = AssetImage('assets/images/icons/night_icon.png');
       }else{
         icon = AssetImage('assets/images/icons/sunny_icon_gold.png');

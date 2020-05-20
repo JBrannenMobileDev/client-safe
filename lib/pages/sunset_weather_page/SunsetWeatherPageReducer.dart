@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
+import 'SunsetWeatherPageState.dart';
+
 final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, FilterSelectorChangedAction>(_updateSelectorIndex),
   TypedReducer<SunsetWeatherPageState, SetLocationNameAction>(_setLocationName),
@@ -15,7 +17,15 @@ final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, SetSelectedLocationAction>(_setSelectedLocation),
   TypedReducer<SunsetWeatherPageState, SetSunsetWeatherDocumentPathAction>(_setDocumentPath),
   TypedReducer<SunsetWeatherPageState, SetCurrentMapLatLngAction>(_setCurrentMapLatLng),
+  TypedReducer<SunsetWeatherPageState, SetInitialMapLatLng>(_setInitMapLatLng),
 ]);
+
+SunsetWeatherPageState _setInitMapLatLng(SunsetWeatherPageState previousState, SetInitialMapLatLng action){
+  return previousState.copyWith(
+    lat: action.lat,
+    lng: action.lng,
+  );
+}
 
 SunsetWeatherPageState _setCurrentMapLatLng(SunsetWeatherPageState previousState, SetCurrentMapLatLngAction action){
   return previousState.copyWith(
@@ -119,9 +129,9 @@ String getWeatherDescription(List<OneHourForecast> hourly) {
   } else if(containsSnowy > 0){
     return 'Chance of Snow';
   } else if(containsHail > 0){
-    return 'Change of Hail';
+    return 'Chance of Hail';
   } else if(containsRainy > 0){
-    return 'Change of Rain';
+    return 'Chance of Rain';
   } else {
     if(containsSunny > containsPartlyCloudy && containsSunny > containsCloudy) {
       return 'Sunny';
