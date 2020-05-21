@@ -1,9 +1,15 @@
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PlacesLocation.dart';
 import 'package:client_safe/models/rest_models/CurrentWeather.dart';
 import 'package:client_safe/models/rest_models/Forecast7Days.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import 'SunsetWeatherPageState.dart';
+import 'SunsetWeatherPageState.dart';
+import 'SunsetWeatherPageState.dart';
+import 'SunsetWeatherPageState.dart';
+import 'SunsetWeatherPageState.dart';
 import 'SunsetWeatherPageState.dart';
 
 class FilterSelectorChangedAction{
@@ -93,4 +99,34 @@ class SetInitialMapLatLng{
   final double lat;
   final double lng;
   SetInitialMapLatLng(this.pageState, this.lat, this.lng);
+}
+
+class FetchGoogleLocationsAction{
+  final SunsetWeatherPageState pageState;
+  final String input;
+  FetchGoogleLocationsAction(this.pageState, this.input);
+}
+
+class SetLocationResultsAction{
+  final SunsetWeatherPageState pageState;
+  final List<PlacesLocation> locations;
+  SetLocationResultsAction(this.pageState, this.locations);
+}
+
+class FetchSearchLocationDetails{
+  final SunsetWeatherPageState pageState;
+  final PlacesLocation selectedSearchLocation;
+  FetchSearchLocationDetails(this.pageState, this.selectedSearchLocation);
+}
+
+class SetSelectedSearchLocation{
+  final SunsetWeatherPageState pageState;
+  final Location selectedSearchLocation;
+  SetSelectedSearchLocation(this.pageState, this.selectedSearchLocation);
+}
+
+class SetSearchTextAction{
+  final SunsetWeatherPageState pageState;
+  final String input;
+  SetSearchTextAction(this.pageState, this.input);
 }

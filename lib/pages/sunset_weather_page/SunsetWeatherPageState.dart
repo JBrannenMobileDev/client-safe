@@ -1,10 +1,13 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PlacesLocation.dart';
 import 'package:client_safe/models/rest_models/OneHourForecast.dart';
 import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
+
+import 'SunsetWeatherPageActions.dart';
 
 class SunsetWeatherPageState {
   final int selectedFilterIndex;
@@ -45,6 +48,12 @@ class SunsetWeatherPageState {
   final Function() onMapLocationSaved;
   final double lat;
   final double lng;
+  final Function(String) onSearchInputChanged;
+  final Function(String) onThrottleGetLocations;
+  final String searchText;
+  final List<PlacesLocation> locationsResults;
+  final Function(PlacesLocation) onSearchLocationSelected;
+  final Location selectedSearchLocation;
 
   SunsetWeatherPageState({
     @required this.selectedFilterIndex,
@@ -85,6 +94,12 @@ class SunsetWeatherPageState {
     @required this.onMapLocationSaved,
     @required this.lat,
     @required this.lng,
+    @required this.onSearchInputChanged,
+    @required this.searchText,
+    @required this.locationsResults,
+    @required this.onSearchLocationSelected,
+    @required this.selectedSearchLocation,
+    @required this.onThrottleGetLocations,
   });
 
   SunsetWeatherPageState copyWith({
@@ -126,6 +141,12 @@ class SunsetWeatherPageState {
     Function() onMapLocationSaved,
     double lat,
     double lng,
+    Function(String) onSearchInputChanged,
+    String searchText,
+    List<PlacesLocation> locationResults,
+    Function(PlacesLocation) onSearchLocationSelected,
+    Location selectedSearchLocation,
+    Function(String) onThrottleGetLocations,
   }){
     return SunsetWeatherPageState(
       selectedFilterIndex: selectedFilterIndex ?? this.selectedFilterIndex,
@@ -166,6 +187,12 @@ class SunsetWeatherPageState {
       onMapLocationSaved: onMapLocationSaved ?? this.onMapLocationSaved,
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
+      onSearchInputChanged: onSearchInputChanged ?? this.onSearchInputChanged,
+      searchText: searchText ?? this.searchText,
+      locationsResults: locationResults ?? this.locationsResults,
+      onSearchLocationSelected: onSearchLocationSelected ?? this.onSearchLocationSelected,
+      selectedSearchLocation: selectedSearchLocation ?? this.selectedSearchLocation,
+      onThrottleGetLocations: onThrottleGetLocations ?? this.onThrottleGetLocations,
     );
   }
 
@@ -208,6 +235,12 @@ class SunsetWeatherPageState {
     onMapLocationSaved: null,
     lat: 0.0,
     lng: 0.0,
+    onSearchInputChanged: null,
+    searchText: '',
+    locationsResults: List(),
+    onSearchLocationSelected: null,
+    selectedSearchLocation: null,
+    onThrottleGetLocations: null,
   );
 
   factory SunsetWeatherPageState.fromStore(Store<AppState> store) {
@@ -243,6 +276,9 @@ class SunsetWeatherPageState {
       currentMapLatLng: store.state.sunsetWeatherPageState.currentMapLatLng,
       lat: store.state.sunsetWeatherPageState.lat,
       lng: store.state.sunsetWeatherPageState.lng,
+      searchText: store.state.sunsetWeatherPageState.searchText,
+      locationsResults: store.state.sunsetWeatherPageState.locationsResults,
+      selectedSearchLocation: store.state.sunsetWeatherPageState.selectedSearchLocation,
       onSelectorChanged: (index) => store.dispatch(FilterSelectorChangedAction(store.state.sunsetWeatherPageState, index)),
       onFetchCurrentLocation: () => store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState)),
       onDateSelected: (newDate) => store.dispatch(FetchDataForSelectedDateAction(store.state.sunsetWeatherPageState, newDate)),
@@ -250,16 +286,25 @@ class SunsetWeatherPageState {
       onLocationSaved: () => store.dispatch(OnLocationSavedAction(store.state.sunsetWeatherPageState)),
       onMapLocationChanged: (newLatLng) => store.dispatch(SetCurrentMapLatLngAction(store.state.sunsetWeatherPageState, newLatLng)),
       onMapLocationSaved: () => store.dispatch(SaveCurrentMapLatLngAction(store.state.sunsetWeatherPageState)),
+      onSearchInputChanged: (input) => store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, input)),
+      onSearchLocationSelected: (searchLocation) {
+        store.dispatch(FetchSearchLocationDetails(store.state.sunsetWeatherPageState, searchLocation));
+        store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, searchLocation.description));
+      },
+      onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.sunsetWeatherPageState, input)),
     );
   }
 
   @override
   int get hashCode =>
     selectedFilterIndex.hashCode ^
+    onSearchLocationSelected.hashCode ^
     locationName.hashCode ^
     onFetchCurrentLocation.hashCode ^
     morningBlueHour.hashCode ^
+    selectedSearchLocation.hashCode ^
     sunrise.hashCode ^
+    onThrottleGetLocations.hashCode ^
     morningGoldenHour.hashCode ^
     eveningGoldenHour.hashCode ^
     sunset.hashCode ^
@@ -276,7 +321,9 @@ class SunsetWeatherPageState {
     isWeatherDataLoading.hashCode ^
     isSunsetDataLoading.hashCode ^
     hoursForecast.hashCode ^
+    onSearchInputChanged.hashCode ^
     pageViewIndex.hashCode ^
+    locationsResults.hashCode ^
     onNextPressed.hashCode ^
     onSaveLocationSelected.hashCode ^
     onCanceledSelected.hashCode ^
@@ -289,6 +336,7 @@ class SunsetWeatherPageState {
     onMapLocationSaved.hashCode ^
     lat.hashCode ^
     lng.hashCode ^
+    searchText.hashCode ^
     onSelectorChanged.hashCode
    ;
 
@@ -298,19 +346,25 @@ class SunsetWeatherPageState {
       other is SunsetWeatherPageState &&
           pageViewIndex == other.pageViewIndex &&
           onNextPressed == other.onNextPressed &&
+          onSearchInputChanged == other.onSearchInputChanged &&
           onSaveLocationSelected == other.onSaveLocationSelected &&
           onCanceledSelected == other.onCanceledSelected &&
           onBackPressed == other.onBackPressed &&
+          selectedSearchLocation == other.selectedSearchLocation &&
+          onSearchLocationSelected == other.onSearchLocationSelected &&
           selectedFilterIndex == other.selectedFilterIndex &&
           locationName == other.locationName &&
           onFetchCurrentLocation == other.onFetchCurrentLocation &&
           morningBlueHour == other.morningBlueHour &&
           sunrise == other.sunrise &&
+          onThrottleGetLocations == other.onThrottleGetLocations &&
           morningGoldenHour == other.morningGoldenHour &&
           eveningGoldenHour == other.eveningGoldenHour &&
           sunset == other.sunset &&
           tempHigh == other.tempHigh &&
+          searchText == other.searchText &&
           tempLow == other.tempLow &&
+          locationsResults == other.locationsResults &&
           eveningBlueHour == other.eveningBlueHour &&
           weatherDescription == other.weatherDescription &&
           chanceOfRain == other.chanceOfRain &&

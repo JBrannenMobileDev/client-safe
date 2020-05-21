@@ -65,9 +65,10 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
 
                     children: <Widget>[
                       Container(
+                        margin: EdgeInsets.only(bottom: 8.0),
                         padding: EdgeInsets.all(24.0),
-                        height: 116.0,
-                        width: 116.0,
+                        height: MediaQuery.of(context).size.width/4,
+                        width: MediaQuery.of(context).size.width/4,
                         decoration: BoxDecoration(
                           color: Color(ColorConstants.getBlueDark()),
                           shape: BoxShape.circle,
@@ -90,6 +91,7 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
                 ),
                 GestureDetector(
                   onTap: () {
+                    pageState.onSearchInputChanged('');
                     Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => SunsetWeatherMapPage()),
                     );
@@ -98,9 +100,10 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
 
                     children: <Widget>[
                       Container(
+                        margin: EdgeInsets.only(bottom: 8.0),
                         padding: EdgeInsets.all(24.0),
-                        height: 116.0,
-                        width: 116.0,
+                        height: MediaQuery.of(context).size.width/4,
+                        width: MediaQuery.of(context).size.width/4,
                         decoration: BoxDecoration(
                           color: Color(ColorConstants.getBlueDark()),
                           shape: BoxShape.circle,

@@ -19,6 +19,7 @@ import '../../utils/ColorConstants.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/Shadows.dart';
+import '../../utils/Shadows.dart';
 
 class SunsetWeatherMapPage extends StatefulWidget {
   @override
@@ -30,6 +31,20 @@ class SunsetWeatherMapPage extends StatefulWidget {
 
 class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
   final Completer<GoogleMapController> _controller = Completer();
+  TextEditingController controller = TextEditingController();
+  Timer _throttle;
+  final FocusNode _searchFocus = FocusNode();
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> animateTo(double lat, double lng) async {
+    final c = await _controller.future;
+    final p = CameraPosition(target: LatLng(lat, lng), zoom: 15);
+    c.animateCamera(CameraUpdate.newCameraPosition(p));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,49 +52,61 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
       onInit: (store) async{
         store.dispatch(FetchLocationsAction(store.state.newLocationPageState));
       },
-      onDidChange: (pageState) async {
+      onWillChange: (pageStatePrevious, pageState) async {
+        controller.value = controller.value.copyWith(text: pageState.searchText);
+        if(pageState.selectedSearchLocation != null && pageStatePrevious.locationsResults.length > 0){
+          animateTo(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude);
+        }
+      },
+      onDidChange: (pageState) async{
 
       },
       converter: (Store<AppState> store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
           Scaffold(
+            resizeToAvoidBottomPadding: false,
             backgroundColor: Color(ColorConstants.getBlueDark()),
             body: Stack(
-              alignment: Alignment.center,
+              alignment: Alignment.topCenter,
               children: <Widget>[
-                GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(pageState.lat, pageState.lng),
-                    zoom: 15,
+                Container(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: LatLng(pageState.lat, pageState.lng),
+                      zoom: 15,
+                    ),
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    mapToolbarEnabled: false,
+                    myLocationEnabled: true,
+                    compassEnabled: false,
+                    onCameraIdle: () async{
+                      final GoogleMapController controller = await _controller.future;
+                      LatLng latLng = await controller.getLatLng(
+                          ScreenCoordinate(
+                            x: (MediaQuery.of(context).size.width/2).round(),
+                            y: (MediaQuery.of(context).size.height/2).round(),
+                          )
+                      );
+                      pageState.onMapLocationChanged(latLng);
+                    },
                   ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                  },
-                  mapToolbarEnabled: false,
-                  myLocationEnabled: true,
-                  compassEnabled: false,
-                  onCameraIdle: () async{
-                    final GoogleMapController controller = await _controller.future;
-                    LatLng latLng = await controller.getLatLng(
-                        ScreenCoordinate(
-                          x: (MediaQuery.of(context).size.width/2).round(),
-                          y: (MediaQuery.of(context).size.height/2).round(),
-                        )
-                    );
-                    pageState.onMapLocationChanged(latLng);
-                  },
                 ),
                 Container(
-                  margin: EdgeInsets.only(bottom: 36.0),
                   alignment: Alignment.center,
-                  height: 48.0,
-                  width: 48.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(ImageUtil.locationPin),
-                      fit: BoxFit.contain,
+                  child: Container(
+                    margin: EdgeInsets.only(bottom: 36.0),
+                    alignment: Alignment.center,
+                    height: 48.0,
+                    width: 48.0,
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage(ImageUtil.locationPin),
+                        fit: BoxFit.contain,
+                      ),
+                      color: Colors.transparent,
                     ),
-                    color: Colors.transparent,
                   ),
                 ),
             SafeArea(
@@ -126,18 +153,94 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                       borderRadius: BorderRadius.circular(26.0),
                       color: Color(ColorConstants.getPrimaryWhite())
                   ),
-                  child: Text(
-                    'Location',
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
+                  child: TextFormField(
+                      controller: controller,
+                      focusNode: _searchFocus,
+                      onChanged: (text) {
+                        if(_throttle?.isActive ?? false) {
+                          _throttle.cancel();
+                        } else {
+                          _throttle = Timer(const Duration(milliseconds: 350), () {
+                            pageState.onThrottleGetLocations(text);
+                          });
+                        }
+                        pageState.onSearchInputChanged(text);
+                      },
+                      onEditingComplete: () {
+                        _searchFocus.unfocus();
+                      },
+                      onFieldSubmitted: (text) {
+                        _searchFocus.unfocus();
+                      },
+                      onSaved: (text) {
+                        _searchFocus.unfocus();
+                      },
+                      cursorColor: Colors.black,
+                      keyboardType: TextInputType.text,
+                      textCapitalization: TextCapitalization.words,
+                      decoration: new InputDecoration(
+                      border: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      errorBorder: InputBorder.none,
+                      disabledBorder: InputBorder.none,
+                      contentPadding:
+                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                      hintText: 'Search'
+                      ),
                     ),
                   ),
                 ),
-                ),
               ),
+              pageState.locationsResults.length > 0 ? SafeArea(
+                child: Container(
+                  height: 350.0,
+                  margin: EdgeInsets.only(top: 64.0, left: 32.0, right: 32.0),
+                  decoration: BoxDecoration(
+                    boxShadow: ElevationToShadow[2],
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                    borderRadius: BorderRadius.circular(26.0),
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    physics: ClampingScrollPhysics(),
+                    itemCount: pageState.locationsResults.length,
+                    itemBuilder: (context, index) {
+                      return FlatButton(
+                        onPressed: () {
+                          pageState.onSearchLocationSelected(pageState.locationsResults.elementAt(index));
+                          _searchFocus.unfocus();
+                        },
+                        child: Container(
+                          alignment: Alignment.centerLeft,
+                          height: 48.0,
+                          margin: EdgeInsets.only(top: index == 0 ? 16.0 : 0.0),
+                          padding: EdgeInsets.only(left: 8.0),
+                          child: Row(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(right: 16.0),
+                                height: 28.0,
+                                width: 28.0,
+                                child: Image.asset('assets/images/collection_icons/location_pin_blue.png'),
+                              ),
+                              Text(
+                                pageState.locationsResults.elementAt(index).description,
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ) : SizedBox(),
                 SafeArea(
                   child: Container(
                     alignment: Alignment.topLeft,

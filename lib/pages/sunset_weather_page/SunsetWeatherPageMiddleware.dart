@@ -1,7 +1,9 @@
 import 'dart:io';
 
+import 'package:client_safe/data_layer/api_clients/GoogleApiClient.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PlacesLocation.dart';
 import 'package:client_safe/models/rest_models/Forecast7Days.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -30,6 +32,22 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveCurrentMapLatLngAction){
       updateWeatherWithCurrentLatLng(store, next, action);
     }
+    if(action is FetchGoogleLocationsAction){
+      fetchLocations(store, next, action);
+    }
+    if(action is FetchSearchLocationDetails){
+      fetchLocationDetails(store, next, action);
+    }
+  }
+
+  void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
+    Location selectedSearchLocation = await GoogleApiClient(httpClient: http.Client()).getLocationDetails(action.selectedSearchLocation.place_id, action.selectedSearchLocation.description);
+    store.dispatch(SetSelectedSearchLocation(store.state.sunsetWeatherPageState, selectedSearchLocation));
+  }
+
+  void fetchLocations(Store<AppState> store, NextDispatcher next, FetchGoogleLocationsAction action) async {
+    List<PlacesLocation> locations = await GoogleApiClient(httpClient: http.Client()).getLocationResults(action.input);
+    store.dispatch(SetLocationResultsAction(store.state.sunsetWeatherPageState, locations));
   }
 
   void updateWeatherWithCurrentLatLng(Store<AppState> store, NextDispatcher next, SaveCurrentMapLatLngAction action) async {

@@ -57,10 +57,10 @@ class _NameAndGenderState extends State<NameAndGender>
         firstNameTextController.value = firstNameTextController.value.copyWith(text:store.state.newContactPageState.newContactFirstName);
         lastNameTextController.value = lastNameTextController.value.copyWith(text:store.state.newContactPageState.newContactLastName,);
       },
-      onWillChange: (state) {
-        firstNameTextController.value = firstNameTextController.value.copyWith(text:state.newContactFirstName);
-        lastNameTextController.value = lastNameTextController.value.copyWith(text:state.newContactLastName,);
-        searchTextController.value = searchTextController.value.copyWith(text:state.searchText,);
+      onWillChange: (statePrevious, stateNew) {
+        firstNameTextController.value = firstNameTextController.value.copyWith(text:stateNew.newContactFirstName);
+        lastNameTextController.value = lastNameTextController.value.copyWith(text:stateNew.newContactLastName,);
+        searchTextController.value = searchTextController.value.copyWith(text:stateNew.searchText,);
       },
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>

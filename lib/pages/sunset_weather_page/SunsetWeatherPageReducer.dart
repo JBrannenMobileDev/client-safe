@@ -18,7 +18,29 @@ final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, SetSunsetWeatherDocumentPathAction>(_setDocumentPath),
   TypedReducer<SunsetWeatherPageState, SetCurrentMapLatLngAction>(_setCurrentMapLatLng),
   TypedReducer<SunsetWeatherPageState, SetInitialMapLatLng>(_setInitMapLatLng),
+  TypedReducer<SunsetWeatherPageState, SetLocationResultsAction>(_setLocationResults),
+  TypedReducer<SunsetWeatherPageState, SetSelectedSearchLocation>(_setSelectedSearchLocation),
+  TypedReducer<SunsetWeatherPageState, SetSearchTextAction>(_setSearchText),
 ]);
+
+SunsetWeatherPageState _setSearchText(SunsetWeatherPageState previousState, SetSearchTextAction action){
+  return previousState.copyWith(
+    searchText: action.input,
+  );
+}
+
+SunsetWeatherPageState _setSelectedSearchLocation(SunsetWeatherPageState previousState, SetSelectedSearchLocation action){
+  return previousState.copyWith(
+    selectedSearchLocation: action.selectedSearchLocation,
+    locationResults: List(),
+  );
+}
+
+SunsetWeatherPageState _setLocationResults(SunsetWeatherPageState previousState, SetLocationResultsAction action){
+  return previousState.copyWith(
+    locationResults: action.locations,
+  );
+}
 
 SunsetWeatherPageState _setInitMapLatLng(SunsetWeatherPageState previousState, SetInitialMapLatLng action){
   return previousState.copyWith(

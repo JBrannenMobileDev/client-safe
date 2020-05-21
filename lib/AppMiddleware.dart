@@ -94,5 +94,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchDataForSelectedDateAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnLocationSavedAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCurrentMapLatLngAction>(SunsetWeatherPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchGoogleLocationsAction>(SunsetWeatherPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchSearchLocationDetails>(SunsetWeatherPageMiddleware()));
   return middlewareList;
 }
