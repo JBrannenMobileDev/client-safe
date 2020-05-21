@@ -39,7 +39,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 16.0),
+              padding: EdgeInsets.only(bottom: 26.0),
               child: Text(
                 "Take a picture of this location to help you remeber what it looks like.",
                 textAlign: TextAlign.start,
@@ -60,8 +60,8 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
                   },
                   child: Container(
                     padding: EdgeInsets.all(24.0),
-                    height: 116.0,
-                    width: 116.0,
+                    height: MediaQuery.of(context).size.width/4,
+                    width: MediaQuery.of(context).size.width/4,
                     decoration: BoxDecoration(
                       color: Color(ColorConstants.getBlueDark()),
                       shape: BoxShape.circle,
@@ -76,8 +76,8 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
                   },
                   child: Container(
                     padding: EdgeInsets.all(24.0),
-                    height: 116.0,
-                    width: 116.0,
+                    height: MediaQuery.of(context).size.width/4,
+                    width: MediaQuery.of(context).size.width/4,
                     decoration: BoxDecoration(
                       color: Color(ColorConstants.getBlueDark()),
                       shape: BoxShape.circle,
