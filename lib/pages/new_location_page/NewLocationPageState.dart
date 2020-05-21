@@ -8,6 +8,7 @@ import '../../AppState.dart';
 class NewLocationPageState{
   final int id;
   final bool shouldClear;
+  final bool locationUpdated;
   final String documentFilePath;
   final String locationName;
   final String newLocationAddress;
@@ -44,11 +45,13 @@ class NewLocationPageState{
     @required this.onBackPressed,
     @required this.documentFilePath,
     @required this.saveImagePath,
+    @required this.locationUpdated,
   });
 
   NewLocationPageState copyWith({
     int id,
     bool shouldClear,
+    bool locationUpdate,
     String locationName,
     int pageViewIndex,
     String newLocationAddress,
@@ -87,6 +90,7 @@ class NewLocationPageState{
       onNextPressed: onNextPressed ?? this.onNextPressed,
       onBackPressed: onBackPressed ?? this.onBackPressed,
       saveImagePath: saveImagePath ?? this.saveImagePath,
+      locationUpdated: locationUpdate ?? this.locationUpdated,
     );
   }
 
@@ -109,6 +113,7 @@ class NewLocationPageState{
     onNextPressed: null,
     onBackPressed: null,
     saveImagePath: null,
+    locationUpdated: false,
   );
 
   factory NewLocationPageState.fromStore(Store<AppState> store) {
@@ -123,6 +128,7 @@ class NewLocationPageState{
       locations: store.state.newLocationPageState.locations,
       pageViewIndex: store.state.newLocationPageState.pageViewIndex,
       documentFilePath: store.state.newLocationPageState.documentFilePath,
+      locationUpdated: store.state.newLocationPageState.locationUpdated,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
       onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
@@ -151,6 +157,7 @@ class NewLocationPageState{
       onCanceledSelected.hashCode ^
       onDeleteSelected.hashCode ^
       documentFilePath.hashCode ^
+      locationUpdated.hashCode ^
       onLocationNameChanged.hashCode ;
 
   @override
@@ -172,5 +179,6 @@ class NewLocationPageState{
               onSaveLocationSelected == other.onSaveLocationSelected &&
               onCanceledSelected == other.onCanceledSelected &&
               onDeleteSelected == other.onDeleteSelected &&
+              locationUpdated == other.locationUpdated &&
               onLocationNameChanged == other.onLocationNameChanged;
 }

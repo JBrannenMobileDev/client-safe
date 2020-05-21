@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
@@ -7,7 +8,10 @@ import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as jobs;
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart' as locations;
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
+
+import 'NewLocationActions.dart';
 
 class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 

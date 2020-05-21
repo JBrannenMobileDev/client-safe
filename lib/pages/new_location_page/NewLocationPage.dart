@@ -17,6 +17,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'NewLocationActions.dart';
 
 class NewLocationPage extends StatefulWidget {
   @override
@@ -48,6 +51,9 @@ class _NewLocationPageState extends State<NewLocationPage> {
       onInit: (store) async {
         if(store.state.newLocationPageState.newLocationLongitude == 0){
           showMapIcon = true;
+          Directory appDocDir = await getApplicationDocumentsDirectory();
+          String path = appDocDir.path;
+          store.dispatch(SetDocumentPathAction(store.state.newLocationPageState, path));
           Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
           store.dispatch(SetLatLongAction(store.state.newLocationPageState, positionLastKnown.latitude, positionLastKnown.longitude));
         }
@@ -129,7 +135,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                         height: 150.0,
                         width: 200.0,
 
-                        child: Container(
+                        child: pageState.imagePath.length > 0 ? Container(
                             decoration: BoxDecoration(
                               borderRadius: new BorderRadius.circular(16.0),
                               image: DecorationImage(
@@ -137,7 +143,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                 image: getSavedImage(pageState),
                               ),
                             )
-                        ),
+                        ) : SizedBox(),
                       ) : SizedBox(),
                       Padding(
                         padding: EdgeInsets.only(left: 26.0, right: 26.0),

@@ -76,6 +76,7 @@ NewLocationPageState _updateLocation(NewLocationPageState previousState, UpdateL
   return previousState.copyWith(
     newLocationLatitude: action.latLng.latitude,
     newLocationLongitude: action.latLng.longitude,
+    locationUpdate: true,
   );
 }
 

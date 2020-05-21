@@ -29,12 +29,21 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
 
   _NewLocationMapViewPage(this.showMapIcon);
 
+  Future<void> animateTo(double lat, double lng) async {
+    final c = await _controller.future;
+    final p = CameraPosition(target: LatLng(lat, lng), zoom: 15);
+    c.animateCamera(CameraUpdate.newCameraPosition(p));
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewLocationPageState>(
       onInit: (store) {
         locationNameTextController.text = store.state.newLocationPageState.locationName;
+      },
+      onDidChange: (pageState) {
+        animateTo(pageState.newLocationLatitude, pageState.newLocationLongitude);
       },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
@@ -63,14 +72,14 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
                 );
               },
               child: Container(
-                padding: EdgeInsets.all((pageState.newLocationLongitude == 0 || showMapIcon) ? 24.0 : 0.0),
+                padding: EdgeInsets.all((!pageState.locationUpdated) ? 24.0 : 0.0),
                 height: 116.0,
                 width: 116.0,
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getBlueDark()),
                   shape: BoxShape.circle,
                 ),
-                child: (pageState.newLocationLongitude == 0 || showMapIcon) ? Image.asset('assets/images/collection_icons/location_icon_white.png')
+                child: (!pageState.locationUpdated) ? Image.asset('assets/images/collection_icons/location_icon_white.png')
                 : ClipRRect(
                   borderRadius: BorderRadius.circular(58.0),
                   child: GoogleMap(
