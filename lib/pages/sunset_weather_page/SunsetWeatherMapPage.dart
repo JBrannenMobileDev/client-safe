@@ -58,9 +58,6 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
           animateTo(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude);
         }
       },
-      onDidChange: (pageState) async{
-
-      },
       converter: (Store<AppState> store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
           Scaffold(

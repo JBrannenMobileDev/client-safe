@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/PlacesLocation.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -25,6 +26,15 @@ class NewLocationPageState{
   final Function() onNextPressed;
   final Function() onBackPressed;
   final Function(String) saveImagePath;
+  final String searchText;
+  final Location selectedSearchLocation;
+  final List<PlacesLocation> locationsResults;
+  final Function(LatLng) onMapLocationChanged;
+  final Function() onMapLocationSaved;
+  final Function(String) onThrottleGetLocations;
+  final Function(String) onSearchInputChanged;
+  final Function(PlacesLocation) onSearchLocationSelected;
+  final LatLng currentMapLatLng;
 
   NewLocationPageState({
     @required this.id,
@@ -46,6 +56,15 @@ class NewLocationPageState{
     @required this.documentFilePath,
     @required this.saveImagePath,
     @required this.locationUpdated,
+    @required this.searchText,
+    @required this.selectedSearchLocation,
+    @required this.locationsResults,
+    @required this.onMapLocationChanged,
+    @required this.onThrottleGetLocations,
+    @required this.onSearchInputChanged,
+    @required this.onSearchLocationSelected,
+    @required this.currentMapLatLng,
+    @required this.onMapLocationSaved,
   });
 
   NewLocationPageState copyWith({
@@ -69,7 +88,15 @@ class NewLocationPageState{
     Function() onNextPressed,
     Function() onBackPressed,
     Function(String) saveImagePath,
-
+    String searchText,
+    Location selectedSearchLocation,
+    List<PlacesLocation> locationsResults,
+    Function(LatLng) onMapLocationChanged,
+    Function() onMapLocationSaved,
+    Function(String) onThrottleGetLocations,
+    Function(String) onSearchInputChanged,
+    Function(PlacesLocation) onSearchLocationSelected,
+    LatLng currentMapLatLng,
   }){
     return NewLocationPageState(
       id: id?? this.id,
@@ -91,6 +118,15 @@ class NewLocationPageState{
       onBackPressed: onBackPressed ?? this.onBackPressed,
       saveImagePath: saveImagePath ?? this.saveImagePath,
       locationUpdated: locationUpdate ?? this.locationUpdated,
+      searchText: searchText ?? this.searchText,
+      selectedSearchLocation: selectedSearchLocation ?? this.selectedSearchLocation,
+      locationsResults: locationsResults ?? this.locationsResults,
+      onMapLocationSaved: onMapLocationSaved ?? this.onMapLocationSaved,
+      onThrottleGetLocations: onThrottleGetLocations ?? this.onThrottleGetLocations,
+      onSearchInputChanged: onSearchInputChanged ?? this.onSearchInputChanged,
+      onSearchLocationSelected: onSearchLocationSelected ?? this.onSearchLocationSelected,
+      currentMapLatLng: currentMapLatLng ?? this.currentMapLatLng,
+      onMapLocationChanged: onMapLocationChanged ?? this.onMapLocationChanged,
     );
   }
 
@@ -114,6 +150,15 @@ class NewLocationPageState{
     onBackPressed: null,
     saveImagePath: null,
     locationUpdated: false,
+    searchText: '',
+    selectedSearchLocation: null,
+    locationsResults: List(),
+    onMapLocationSaved: null,
+    onMapLocationChanged: null,
+    onThrottleGetLocations: null,
+    onSearchInputChanged: null,
+    onSearchLocationSelected: null,
+    currentMapLatLng: null,
   );
 
   factory NewLocationPageState.fromStore(Store<AppState> store) {
@@ -129,6 +174,10 @@ class NewLocationPageState{
       pageViewIndex: store.state.newLocationPageState.pageViewIndex,
       documentFilePath: store.state.newLocationPageState.documentFilePath,
       locationUpdated: store.state.newLocationPageState.locationUpdated,
+      searchText: store.state.newLocationPageState.searchText,
+      selectedSearchLocation: store.state.newLocationPageState.selectedSearchLocation,
+      locationsResults: store.state.newLocationPageState.locationsResults,
+      currentMapLatLng: store.state.newLocationPageState.currentMapLatLng,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
       onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
@@ -136,13 +185,29 @@ class NewLocationPageState{
       onLocationNameChanged: (name) => store.dispatch(UpdateLocationName(store.state.newLocationPageState, name)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newLocationPageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newLocationPageState)),
-      saveImagePath: (imagePath) => store.dispatch(SaveImagePathNewAction(store.state.locationsPageState, imagePath)),
+      saveImagePath: (imagePath) => store.dispatch(SaveImagePathNewAction(store.state.newLocationPageState, imagePath)),
+      onMapLocationChanged: (newLatLng) => store.dispatch(SetCurrentMapLatLngAction(store.state.newLocationPageState, newLatLng)),
+      onMapLocationSaved: () => store.dispatch(SetNewLocationLocation(store.state.newLocationPageState)),
+      onSearchInputChanged: (input) => store.dispatch(SetSearchTextAction(store.state.newLocationPageState, input)),
+      onSearchLocationSelected: (searchLocation) {
+        store.dispatch(FetchSearchLocationDetails(store.state.newLocationPageState, searchLocation));
+        store.dispatch(SetSearchTextAction(store.state.newLocationPageState, searchLocation.description));
+      },
+      onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.newLocationPageState, input)),
     );
   }
 
   @override
   int get hashCode =>
       id.hashCode ^
+      searchText.hashCode ^
+      selectedSearchLocation.hashCode ^
+      locationsResults.hashCode ^
+      currentMapLatLng.hashCode ^
+      onMapLocationSaved.hashCode ^
+      onSearchInputChanged.hashCode ^
+      onSearchLocationSelected.hashCode ^
+      onThrottleGetLocations.hashCode ^
       shouldClear.hashCode ^
       locationName.hashCode ^
       pageViewIndex.hashCode ^
@@ -165,7 +230,15 @@ class NewLocationPageState{
       identical(this, other) ||
           other is NewLocationPageState &&
               id == other.id &&
+              searchText == other.searchText &&
+              selectedSearchLocation == other.selectedSearchLocation &&
+              locationsResults == other.locationsResults &&
+              onMapLocationSaved == other.onMapLocationSaved &&
+              onSearchInputChanged == other.onSearchInputChanged &&
+              onSearchLocationSelected == other.onSearchLocationSelected &&
+              onThrottleGetLocations == other.onThrottleGetLocations &&
               saveImagePath == other.saveImagePath &&
+              currentMapLatLng == other.currentMapLatLng &&
               shouldClear == other.shouldClear &&
               locationName == other.locationName &&
               pageViewIndex == other.pageViewIndex &&

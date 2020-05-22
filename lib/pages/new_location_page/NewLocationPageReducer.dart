@@ -2,6 +2,9 @@ import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:redux/redux.dart';
 
+import 'NewLocationActions.dart';
+import 'NewLocationPageState.dart';
+
 final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, SetLocationsAction>(_setLocations),
   TypedReducer<NewLocationPageState, SetLatLongAction>(_setLatLong),
@@ -13,7 +16,38 @@ final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewLocationPageState, SetDocumentPathAction>(_setDocumentPath),
   TypedReducer<NewLocationPageState, SaveImagePathNewAction>(_setImagePath),
+  TypedReducer<NewLocationPageState, SetLocationResultsAction>(_setLocationResults),
+  TypedReducer<NewLocationPageState, SetSelectedSearchLocation>(_setSelectedSearchLocation),
+  TypedReducer<NewLocationPageState, SetSearchTextAction>(_setSearchText),
+  TypedReducer<NewLocationPageState, SetCurrentMapLatLngAction>(_setCurrentMapLatLng),
 ]);
+
+NewLocationPageState _setCurrentMapLatLng(NewLocationPageState previousState, SetCurrentMapLatLngAction action){
+  return previousState.copyWith(
+    currentMapLatLng: action.currentLatLng,
+  );
+}
+
+NewLocationPageState _setSearchText(NewLocationPageState previousState, SetSearchTextAction action){
+  return previousState.copyWith(
+    searchText: action.input,
+  );
+}
+
+NewLocationPageState _setSelectedSearchLocation(NewLocationPageState previousState, SetSelectedSearchLocation action){
+  return previousState.copyWith(
+    selectedSearchLocation: action.selectedSearchLocation,
+    newLocationLatitude: action.selectedSearchLocation.latitude,
+    newLocationLongitude: action.selectedSearchLocation.longitude,
+    locationsResults: List(),
+  );
+}
+
+NewLocationPageState _setLocationResults(NewLocationPageState previousState, SetLocationResultsAction action){
+  return previousState.copyWith(
+    locationsResults: action.locations,
+  );
+}
 
 NewLocationPageState _setImagePath(NewLocationPageState previousState, SaveImagePathNewAction action) {
   return previousState.copyWith(
