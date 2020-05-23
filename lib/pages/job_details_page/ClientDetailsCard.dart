@@ -26,7 +26,7 @@ class ClientDetailsCard extends StatelessWidget {
           Container(
             height: 224.0,
             width: double.maxFinite,
-            margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(8.0))),

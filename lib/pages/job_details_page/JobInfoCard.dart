@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:intl/intl.dart';
+import 'package:share/share.dart';
 
 class JobInfoCard extends StatelessWidget {
   JobInfoCard({this.pageState});
@@ -29,7 +31,7 @@ class JobInfoCard extends StatelessWidget {
           Container(
             height: 396.0,
             width: double.maxFinite,
-            margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(8.0))),
@@ -63,10 +65,10 @@ class JobInfoCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              width: 86.0,
+                              width: 58.0,
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                'Job name:',
+                                'Name:',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -118,10 +120,10 @@ class JobInfoCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
                             Container(
-                              width: 78.0,
+                              width: 58.0,
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                'Job type:',
+                                'Type:',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -260,12 +262,25 @@ class JobInfoCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Container(
-                            margin: EdgeInsets.only(right: 12.0),
-                            height: 24.0,
-                            width: 24.0,
-                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
-                          ),
+                        Row(
+                          children: [
+                            IconButton(
+                              iconSize: 26.0,
+                              icon: Icon(Device.get().isIos ? CupertinoIcons.share_solid : Icons.share),
+                              color: Color(ColorConstants.getPeachDark()),
+                              tooltip: 'Share',
+                              onPressed: () {
+                                Share.share('Here are the driving directions. \nLocation: ${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
+                              },
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 8.0, right: 12.0),
+                              height: 24.0,
+                              width: 24.0,
+                              child: Image.asset('assets/images/icons/edit_icon_peach.png'),
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),

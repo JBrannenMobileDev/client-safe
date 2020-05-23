@@ -21,7 +21,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
         children: <Widget>[
           Container(
             height: getContainerHeight(pageState.unpaidInvoices.length, pageState),
-            margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(8.0))),
@@ -29,7 +29,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 12.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -73,7 +73,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                     itemBuilder: _buildItem,
                   ) : Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 26.0, right: 26.0),
+                  margin: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 16.0, right: 16.0),
                   height: 64.0,
                   child: Text(
                     'You have zero unpaid invoices.',

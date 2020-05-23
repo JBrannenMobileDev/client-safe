@@ -19,14 +19,16 @@ import 'package:redux/redux.dart';
 class StageItem extends StatefulWidget {
   final int index;
   final Job job;
+  final Function() onSendInvoiceSelected;
   StageItem(
       this.index,
       this.job,
+      this.onSendInvoiceSelected,
   );
 
   @override
   State<StatefulWidget> createState() {
-    return _StageItemState(index, job);
+    return _StageItemState(index, job, onSendInvoiceSelected);
   }
 }
 
@@ -71,10 +73,12 @@ class _StageItemState extends State<StageItem>
   bool isStageCompleted;
   int index;
   Job job;
+  Function() onSendInvoiceSelected;
 
   _StageItemState(
       this.index,
       this.job,
+      this.onSendInvoiceSelected,
       );
 
   @override
@@ -144,7 +148,7 @@ class _StageItemState extends State<StageItem>
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _textMarginTop = Tween<double>(begin: 188.0, end: 172.0).animate(CurvedAnimation(
+    _textMarginTop = Tween<double>(begin: 163.0, end: 147.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
@@ -180,11 +184,11 @@ class _StageItemState extends State<StageItem>
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _checkCircleMarginBottomReversed = Tween<double>(begin: 78.0, end: 97.0).animate(CurvedAnimation(
+    _checkCircleMarginBottomReversed = Tween<double>(begin: 78.0, end: 112.0).animate(CurvedAnimation(
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _textMarginTopReversed = Tween<double>(begin: 172.0, end: 188.0).animate(CurvedAnimation(
+    _textMarginTopReversed = Tween<double>(begin: 147.0, end: 163.0).animate(CurvedAnimation(
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
@@ -389,23 +393,6 @@ class _StageItemState extends State<StageItem>
                           ),
                         ),
                       ),
-                      Opacity(
-                        opacity: isCurrentStage ? 1.0 : _subtextOpacityReversed.value,
-                        child: Container(
-                          width: 165.0,
-                          child: Text(
-                            _isExpanded(index, pageState) || isCurrentStage ? stageSubtitle : '',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 18.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: isCurrentStage ? _textColor.value : _textColorReversed.value,
-                            ),
-                          ),
-                        ),
-                      ),
-//                      isCurrentStage && _getActionForStage(job.stage, pageState) != null ?
                       (_isExpanded(index, pageState) &&
                           actionButtonText.length > 0) ||
                           (isCurrentStage && actionButtonText.length > 0) ?
@@ -432,21 +419,35 @@ class _StageItemState extends State<StageItem>
                               case 6:
                                 break;
                               case 7:
-                                IntentLauncherUtil.shareInvoice(pageState.invoice);
-                                pageState.onInvoiceSent(pageState.invoice);
-                                pageState.onStageCompleted(pageState.job, index);
-                                isStageCompleted = true;
-                                isCurrentStage = false;
-                                pageState.removeExpandedIndex(index);
-                                pageState.setNewIndexForStageAnimation((JobStage.getStageValue(pageState.job.stage.stage)));
-                                VibrateUtil.vibrateHeavy();
-                                _newStageCompleteAnimation.reset();
-                                _stageCompleteAnimation.forward();
+                                if(pageState.invoice != null) {
+                                  IntentLauncherUtil.shareInvoice(
+                                      pageState.invoice);
+                                  pageState.onInvoiceSent(pageState.invoice);
+                                  pageState.onStageCompleted(
+                                      pageState.job, index);
+                                  isStageCompleted = true;
+                                  isCurrentStage = false;
+                                  pageState.removeExpandedIndex(index);
+                                  pageState.setNewIndexForStageAnimation(
+                                      (JobStage.getStageValue(
+                                          pageState.job.stage.stage)));
+                                  VibrateUtil.vibrateHeavy();
+                                  _newStageCompleteAnimation.reset();
+                                  _stageCompleteAnimation.forward();
+                                }else {
+                                  pageState.onAddInvoiceSelected();
+                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                                }
                                 break;
                               case 8:
-                                IntentLauncherUtil.shareInvoice(
-                                    pageState.invoice);
-                                pageState.onInvoiceSent(pageState.invoice);
+                                if(pageState.invoice != null) {
+                                  IntentLauncherUtil.shareInvoice(
+                                      pageState.invoice);
+                                  pageState.onInvoiceSent(pageState.invoice);
+                                }else {
+                                  pageState.onAddInvoiceSelected();
+                                  UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                                }
                                 break;
                               case 9:
                                 break;
@@ -513,7 +514,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_2_FOLLOWUP_SENT;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_2_FOLLOWUP_SENT);
         stageTitle = isStageCompleted ? 'Followup sent!' : 'Followup sent?';
-        stageSubtitle = 'Send followup to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = 'Send';
         actionIcon = Icons.message;
         break;
@@ -522,7 +523,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_3_PROPOSAL_SENT;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_3_PROPOSAL_SENT);
         stageTitle = isStageCompleted ? 'Contract sent!' : 'Contract sent?';
-        stageSubtitle = 'Send a contract to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = 'Send';
         actionIcon = Icons.email;
         break;
@@ -531,7 +532,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_4_PROPOSAL_SIGNED;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_4_PROPOSAL_SIGNED);
         stageTitle = isStageCompleted ? 'Contract signed!' : 'Contract signed?';
-        stageSubtitle = 'Receive a signed contract.';
+        stageSubtitle = '';
         actionButtonText = 'Resend';
         actionIcon = Icons.email;
         break;
@@ -540,7 +541,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_5_DEPOSIT_RECEIVED);
         stageTitle = isStageCompleted ? 'Deposit received!' : 'Deposit received?';
-        stageSubtitle = 'Receive a deposit to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = '';
         break;
       case 5:
@@ -548,7 +549,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_6_PLANNING_COMPLETE;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_6_PLANNING_COMPLETE);
         stageTitle = isStageCompleted ? 'Planning complete' : 'Planning complete?';
-        stageSubtitle = 'Finalize all the details for this job.';
+        stageSubtitle = '';
         actionButtonText = 'Checklist';
         actionIcon = Icons.format_list_bulleted;
         break;
@@ -564,9 +565,9 @@ class _StageItemState extends State<StageItem>
         stageImage = ImageUtil.getJobStageImage(index);
         isCurrentStage = job.stage.stage == JobStage.STAGE_8_PAYMENT_REQUESTED;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED);
-        stageTitle = isStageCompleted ? 'Payment requested!' : 'Payment requested?';
-        stageSubtitle = isStageCompleted ? '' : 'Send an invoice to complete this stage.';
-        actionButtonText = isStageCompleted ? '' : 'Send';
+        stageTitle = isStageCompleted ? 'Invoice sent!' : 'Invoice sent?';
+        stageSubtitle = '';
+        actionButtonText = isStageCompleted ? '' : job.invoice != null ? 'Send' : 'New invoice';
         actionIcon = Icons.attach_money;
         break;
       case 8:
@@ -574,7 +575,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_9_PAYMENT_RECEIVED;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED);
         stageTitle = isStageCompleted ? 'Payment received!' : 'Payment received?';
-        stageSubtitle = 'Receive full payment to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = Job.containsStage(job.completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED) ? 'Resend' : '';
         actionIcon = Icons.attach_money;
         break;
@@ -583,7 +584,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_10_EDITING_COMPLETE;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_10_EDITING_COMPLETE);
         stageTitle = isStageCompleted ? 'Editing complete' : 'Editing complete?';
-        stageSubtitle = 'Finish editing photos to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = '';
         break;
       case 10:
@@ -591,7 +592,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_11_GALLERY_SENT;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_11_GALLERY_SENT);
         stageTitle = isStageCompleted ? 'Gallery sent!' : 'Gallery sent?';
-        stageSubtitle = 'Send photo gallery to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = '';
         break;
       case 11:
@@ -599,7 +600,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_12_FEEDBACK_REQUESTED;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_12_FEEDBACK_REQUESTED);
         stageTitle = isStageCompleted ? 'Feedback requested!' : 'Feedback requested?';
-        stageSubtitle = 'Request feedback to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = 'Send';
         actionIcon = Icons.feedback;
         break;
@@ -608,7 +609,7 @@ class _StageItemState extends State<StageItem>
         isCurrentStage = job.stage.stage == JobStage.STAGE_13_FEEDBACK_RECEIVED;
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_13_FEEDBACK_RECEIVED);
         stageTitle = isStageCompleted ? 'Feedback received!' : 'Feedback received?';
-        stageSubtitle = 'Receive feedback to complete this stage.';
+        stageSubtitle = '';
         actionButtonText = 'Resend';
         actionIcon = Icons.feedback;
         break;

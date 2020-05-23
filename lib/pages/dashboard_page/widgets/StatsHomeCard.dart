@@ -17,11 +17,11 @@ class StatsHomeCard extends StatelessWidget{
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            padding: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
+            padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             height: 400.0,
           ),
           Container(
-            margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(8.0))),
@@ -29,7 +29,7 @@ class StatsHomeCard extends StatelessWidget{
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 18.0),
+                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 18.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -47,7 +47,7 @@ class StatsHomeCard extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 0.0, bottom: 16.0, left: 26.0, right: 26.0),
+                  margin: EdgeInsets.only(top: 0.0, bottom: 16.0, left: 16.0, right: 16.0),
                   height: 64.0,
                   child: Text(
                     "This feature will be available in future updates of DandyLight.",

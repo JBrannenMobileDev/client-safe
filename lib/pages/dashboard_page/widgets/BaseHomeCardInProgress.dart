@@ -20,14 +20,14 @@ class BaseHomeCardInProgress extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
+        margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: new BorderRadius.all(Radius.circular(8.0))),
         child: Column(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 18.0),
+              margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 18.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -70,7 +70,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
                 itemBuilder: _buildItem,
               ),
             ) : Container(
-              margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
+              margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 16.0, right: 16.0),
               height: 64.0,
               child: Text(
                 "You don't have any upcoming jobs. After a date has been selected the job will show up here.",

@@ -26,7 +26,7 @@ class DocumentsCard extends StatelessWidget {
       child: Container(
         width: double.maxFinite,
         height: pageState.documents.length == 0 ? 116.0 : 116.0,
-        margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 0.0),
+        margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: new BorderRadius.all(Radius.circular(8.0))),

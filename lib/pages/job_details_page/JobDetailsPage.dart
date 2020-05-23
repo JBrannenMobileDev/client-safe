@@ -353,7 +353,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           pinned: false,
                           floating: false,
                           forceElevated: false,
-                          expandedHeight: 325.0,
+                          expandedHeight: 300.0,
                           actions: <Widget>[
                             new IconButton(
                               icon: ImageIcon(ImageUtil.getTrashIconWhite()),
@@ -380,33 +380,37 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                         color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ),
-                                  ),
-                                ),
-                                SafeArea(
-                                  child: SingleChildScrollView(
-                                    scrollDirection: Axis.horizontal,
-                                    controller: _stagesScrollController,
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        SizedBox(
-                                            height: 347.0,
-                                            child: ListView.builder(
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.horizontal,
-                                              physics: NeverScrollableScrollPhysics(),
-                                              padding: const EdgeInsets.all(16.0),
-                                              itemCount: 14,
-                                              itemBuilder: _buildItem,
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
-                          ),
+                            SafeArea(
+                              child: Container(
+                                margin: EdgeInsets.only(top: 25.0),
+                                child: SingleChildScrollView(
+                                  scrollDirection: Axis.horizontal,
+                                  controller: _stagesScrollController,
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: <Widget>[
+                                      SizedBox(
+                                        height: 322.0,
+                                        child: ListView.builder(
+                                          shrinkWrap: true,
+                                          scrollDirection: Axis.horizontal,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          padding: const EdgeInsets.all(16.0),
+                                          itemCount: 14,
+                                          itemBuilder: _buildItem,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                         ),
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
@@ -487,7 +491,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   }
 
   _getWidgetForIndex(int index, Job job) {
-    return StageItem(index, job);
+    return StageItem(index, job, onSendInvoiceSelected);
   }
 
   getFabIcon() {

@@ -26,7 +26,7 @@ class ClientListWidget extends StatelessWidget {
         child: Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0),
+              margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 4.0),
               height: 44.0,
               width: 44.0,
               decoration: BoxDecoration(

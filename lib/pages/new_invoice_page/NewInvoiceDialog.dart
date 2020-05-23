@@ -61,6 +61,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
           Dialog(
+            insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
             backgroundColor: Colors.transparent,
             child: Container(
               width: 450.0,

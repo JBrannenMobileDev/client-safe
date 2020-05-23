@@ -19,14 +19,14 @@ class MileageExpensesCard extends StatelessWidget {
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
-            margin: EdgeInsets.fromLTRB(26.0, 0.0, 26.0, 24.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(8.0))),
             child: Column(
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 18.0),
+                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 18.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -64,7 +64,7 @@ class MileageExpensesCard extends StatelessWidget {
                     itemBuilder: _buildItem,
                   ),
                 ) : Container(
-                  margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
+                  margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 16.0, right: 16.0),
                   height: 56.0,
                 ),
               ],

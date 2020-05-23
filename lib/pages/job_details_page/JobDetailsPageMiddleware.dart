@@ -194,7 +194,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       stage: store.state.jobDetailsPageState.job.stage,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
       location: action.location,
-      invoice: action.job.invoice,
+      invoice: store.state.jobDetailsPageState.job.invoice,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
