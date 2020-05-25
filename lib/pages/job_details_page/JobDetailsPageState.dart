@@ -22,6 +22,7 @@ class JobDetailsPageState {
   final List<Job> jobs;
   final String jobTitleText;
   final int unsavedDepositAmount;
+  final int unsavedTipAmount;
   final List<Location> locations;
   final Location selectedLocation;
   final Function(Location) onLocationSelected;
@@ -54,6 +55,9 @@ class JobDetailsPageState {
   final Function(int) onAddToDeposit;
   final Function() onSaveDepositChange;
   final Function() onClearUnsavedDeposit;
+  final Function(int) onAddToTip;
+  final Function() onSaveTipChange;
+  final Function() onClearUnsavedTip;
   final Function() onAddInvoiceSelected;
   final Function(Invoice) onDeleteInvoiceSelected;
   final Function(Invoice) onInvoiceSent;
@@ -103,6 +107,10 @@ class JobDetailsPageState {
     @required this.documents,
     @required this.onDeleteInvoiceSelected,
     @required this.onInvoiceSent,
+    @required this.unsavedTipAmount,
+    @required this.onAddToTip,
+    @required this.onSaveTipChange,
+    @required this.onClearUnsavedTip,
   });
 
   JobDetailsPageState copyWith({
@@ -150,10 +158,17 @@ class JobDetailsPageState {
     List<DocumentItem> documents,
     Function(Invoice) onDeleteInvoiceSelected,
     Function(Invoice) onInvoiceSent,
+    Function(int) onAddToTip,
+    Function() onSaveTipChange,
+    Function() onClearUnsavedTip,
+    int unsavedTipAmount,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
       client: client ?? this.client,
+      onAddToTip: onAddToTip ?? this.onAddToTip,
+      onSaveTipChange: onSaveTipChange ?? this.onSaveTipChange,
+      onClearUnsavedTip: onClearUnsavedTip ?? this.onClearUnsavedTip,
       sunsetTime: sunsetTime ?? this.sunsetTime,
       stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
       eventMap: eventMap ?? this.eventMap,
@@ -185,6 +200,7 @@ class JobDetailsPageState {
       onJobTypeSaveSelected: onJobTypeSaveSelected ?? this.onJobTypeSaveSelected,
       selectedPriceProfile: selectedPriceProfile ?? this.selectedPriceProfile,
       priceProfiles: priceProfiles ?? this.priceProfiles,
+      unsavedTipAmount: unsavedTipAmount ?? this.unsavedTipAmount,
       onPriceProfileSelected: onPriceProfileSelected ?? this.onPriceProfileSelected,
       onSaveUpdatedPriceProfileSelected: onSaveUpdatedPriceProfileSelected ?? this.onSaveUpdatedPriceProfileSelected,
       unsavedDepositAmount: unsavedDepositAmount ?? this.unsavedDepositAmount,
@@ -216,9 +232,13 @@ class JobDetailsPageState {
       selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
       priceProfiles: store.state.jobDetailsPageState.priceProfiles,
       unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
+      unsavedTipAmount: store.state.jobDetailsPageState.unsavedTipAmount,
       documentPath: store.state.jobDetailsPageState.documentPath,
       documents: store.state.jobDetailsPageState.documents,
       invoice: store.state.jobDetailsPageState.invoice,
+      onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
+      onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
+      onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
       onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
       onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
       setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
@@ -291,10 +311,18 @@ class JobDetailsPageState {
     onClearUnsavedDeposit: null,
     onAddInvoiceSelected: null,
     invoice: null,
+    unsavedTipAmount: 0,
+    onAddToTip: null,
+    onSaveTipChange: null,
+    onClearUnsavedTip: null,
   );
 
   @override
   int get hashCode =>
+      unsavedTipAmount.hashCode ^
+      onAddToTip.hashCode ^
+      onSaveTipChange.hashCode ^
+      onClearUnsavedTip.hashCode ^
       unsavedDepositAmount.hashCode ^
       onAddToDeposit.hashCode ^
       onSaveDepositChange.hashCode ^
@@ -344,6 +372,10 @@ class JobDetailsPageState {
               onAddInvoiceSelected == other.onAddInvoiceSelected &&
               onSaveDepositChange == other.onSaveDepositChange &&
               job == other.job &&
+              unsavedTipAmount == other.unsavedTipAmount &&
+              onAddToTip == other.onAddToTip &&
+              onSaveTipChange == other.onSaveTipChange &&
+              onClearUnsavedTip == other.onClearUnsavedTip &&
               documentPath == other.documentPath &&
               client == other.client &&
               sunsetTime == other.sunsetTime &&

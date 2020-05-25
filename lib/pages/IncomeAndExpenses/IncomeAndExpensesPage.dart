@@ -293,7 +293,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         width: 116.0,
                         child: Image.asset('assets/images/icons/invoices_icon_white.png'),
                       ),
-                        backgroundColor: Color(ColorConstants.getBlueLight()),
+                        backgroundColor: Color(ColorConstants.getPeachDark()),
                         labelWidget: Container(
                           alignment: Alignment.center,
                           height: 42.0,
@@ -321,7 +321,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getPeachDark()),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -343,6 +343,32 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                       ),
                       onTap: () {
                         UserOptionsUtil.showNewInvoiceDialog(context, null);
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getPeachLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        width: 64.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Text(
+                          'Tip',
+                          style: TextStyle(
+                            fontFamily: 'simple',
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
                       },
                     ),
                   ],

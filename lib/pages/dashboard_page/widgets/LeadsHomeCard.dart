@@ -25,7 +25,7 @@ class LeadsHomeCard extends StatelessWidget{
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(8.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
@@ -50,7 +50,7 @@ class LeadsHomeCard extends StatelessWidget{
                         },
                         child: Text(
                           pageState.recentLeads.length > 3 ? (pageState
-                              .isLeadsMinimized ? 'View all' : 'Hide') : '',
+                              .isLeadsMinimized ? 'View all (' + pageState.recentLeads.length.toString() + ')' : 'Hide') : '',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 20.0,

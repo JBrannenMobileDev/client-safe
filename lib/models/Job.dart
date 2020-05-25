@@ -40,6 +40,7 @@ class Job {
   JobStage stage;
   Invoice invoice;
   int depositAmount;
+  int tipAmount;
   List<JobStage> completedStages;
 
   Job({
@@ -59,6 +60,7 @@ class Job {
     this.invoice,
     this.depositAmount,
     this.createdDate,
+    this.tipAmount,
   });
 
   Job copyWith({
@@ -76,6 +78,7 @@ class Job {
     JobStage stage,
     Invoice invoice,
     int depositAmount,
+    int tipAmount,
     List<JobStage> completedStages,
     DateTime createdDate,
   }){
@@ -94,6 +97,7 @@ class Job {
       stage: stage ?? this.stage,
       invoice: invoice ?? this.invoice,
       depositAmount: depositAmount ?? this.depositAmount,
+      tipAmount: tipAmount ?? this.tipAmount,
       completedStages: completedStages ?? this.completedStages,
       createdDate: createdDate ?? this.createdDate,
     );
@@ -117,6 +121,7 @@ class Job {
       'invoice' : invoice?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
       'depositAmount' : depositAmount,
+      'tipAmount' : tipAmount,
     };
   }
 
@@ -138,6 +143,7 @@ class Job {
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
       depositAmount: map['depositAmount'],
+      tipAmount: map['tipAmount'],
     );
   }
 

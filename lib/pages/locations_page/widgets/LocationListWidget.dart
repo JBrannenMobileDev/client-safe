@@ -42,7 +42,7 @@ class LocationListWidget extends StatelessWidget {
                   child: pageState.locations.elementAt(locationIndex).imagePath != null && pageState.locations.elementAt(locationIndex).imagePath.isNotEmpty ?
                       Container(
                         decoration: BoxDecoration(
-                          borderRadius: new BorderRadius.circular(8.0),
+                          borderRadius: new BorderRadius.circular(24.0),
                           image: DecorationImage(
                             fit: BoxFit.cover,
                             image: getSavedImage(pageState),
@@ -56,7 +56,7 @@ class LocationListWidget extends StatelessWidget {
                 margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.circular(8.0),
+                    borderRadius: new BorderRadius.circular(24.0),
                     gradient: LinearGradient(
                         begin: FractionalOffset.center,
                         end: FractionalOffset.bottomCenter,

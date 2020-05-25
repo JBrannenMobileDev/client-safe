@@ -176,6 +176,34 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Text(
+                            'Tip',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+                        UserOptionsUtil.showTipChangeDialog(context);
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          child: Text(
                             'Feedback',
                             style: TextStyle(
                               fontFamily: 'simple',

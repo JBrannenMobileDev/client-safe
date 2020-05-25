@@ -196,6 +196,22 @@ class ClearUnsavedDepositAction{
   ClearUnsavedDepositAction(this.pageState);
 }
 
+class AddToTipAction{
+  final JobDetailsPageState pageState;
+  final int amountToAdd;
+  AddToTipAction(this.pageState, this.amountToAdd);
+}
+
+class SaveTipChangeAction{
+  final JobDetailsPageState pageState;
+  SaveTipChangeAction(this.pageState);
+}
+
+class ClearUnsavedTipAction{
+  final JobDetailsPageState pageState;
+  ClearUnsavedTipAction(this.pageState);
+}
+
 class SetDocumentPathAction{
   final JobDetailsPageState pageState;
   final String documentPath;

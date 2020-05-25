@@ -23,7 +23,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
         margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
-            borderRadius: new BorderRadius.all(Radius.circular(8.0))),
+            borderRadius: new BorderRadius.all(Radius.circular(24.0))),
         child: Column(
           children: <Widget>[
             Container(
@@ -46,7 +46,7 @@ class BaseHomeCardInProgress extends StatelessWidget{
                       pageState.onViewAllHideSelected();
                     },
                     child: Text(
-                      pageState.upcomingJobs.length > 3 ? (pageState.isMinimized ? 'View all' : 'Hide') : '',
+                      pageState.upcomingJobs.length > 3 ? (pageState.isMinimized ? 'View all (' + pageState.upcomingJobs.length.toString() + ')' : 'Hide') : '',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 20.0,

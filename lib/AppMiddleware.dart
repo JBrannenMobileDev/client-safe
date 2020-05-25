@@ -76,6 +76,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UpdateNewLocationAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveJobNameChangeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedJobTypeAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveTipChangeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobDetailsPricePackagesAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedPricePackageAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllInvoiceJobsAction>(NewInvoicePageMiddleware()));

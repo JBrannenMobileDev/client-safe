@@ -576,7 +576,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED);
         stageTitle = isStageCompleted ? 'Payment received!' : 'Payment received?';
         stageSubtitle = '';
-        actionButtonText = Job.containsStage(job.completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED) ? 'Resend' : '';
+        actionButtonText = Job.containsStage(job.completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED) ? 'Resend invoice' : '';
         actionIcon = Icons.attach_money;
         break;
       case 9:

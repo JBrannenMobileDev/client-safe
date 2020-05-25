@@ -29,12 +29,12 @@ class JobInfoCard extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            height: 396.0,
+            height: 448.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(8.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -545,6 +545,58 @@ class JobInfoCard extends StatelessWidget {
                               child: Text(
                                 pageState.job.depositAmount == null ? 'Not selected' :
                                 '\$' + (pageState.job.depositAmount != null ? pageState.job.depositAmount.toInt().toString() : '0') + ' (deposit)',
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        GestureDetector(
+                          onTap: null,
+                          child: Container(
+                            margin: EdgeInsets.only(right: 12.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    UserOptionsUtil.showTipChangeDialog(context);
+                  },
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 12.0),
+                              child: Container(
+                                margin: EdgeInsets.only(right: 12.0),
+                                height: 32.0,
+                                width: 32.0,
+                                child: Image.asset('assets/images/icons/deposit_icon_peach.png'),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                pageState.job.tipAmount == null ? '\$0 (tip)' :
+                                '\$' + (pageState.job.tipAmount != null ? pageState.job.tipAmount.toInt().toString() : '0') + ' (tip)',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,

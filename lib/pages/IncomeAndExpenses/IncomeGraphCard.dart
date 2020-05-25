@@ -23,7 +23,7 @@ class IncomeGraphCard extends StatelessWidget {
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
-                borderRadius: new BorderRadius.all(Radius.circular(8.0))),
+                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
             child: Column(
               children: <Widget>[
                 Container(

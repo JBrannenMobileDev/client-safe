@@ -95,6 +95,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
       converter: (store) => IncomeAndExpensesPageState.fromStore(store),
       builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
           Dialog(
+            insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
             backgroundColor: Colors.transparent,
             child: Container(
               width: 450.0,

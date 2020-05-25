@@ -73,6 +73,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveDepositChangeAction){
       _updateJobDeposit(store, action, next);
     }
+    if(action is SaveTipChangeAction){
+      _updateJobTip(store, action, next);
+    }
     if(action is OnDeleteInvoiceSelectedAction){
       deleteInvoice(store, action, next);
     }
@@ -106,9 +109,33 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       stage: store.state.jobDetailsPageState.job.stage,
       invoice: store.state.jobDetailsPageState.job.invoice,
       completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.selectedLocation,
-      priceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
+      location: store.state.jobDetailsPageState.job.location,
+      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: action.pageState.unsavedDepositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
+      createdDate: store.state.jobDetailsPageState.job.createdDate,
+    );
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+  }
+
+  void _updateJobTip(Store<AppState> store, SaveTipChangeAction action, NextDispatcher next) async{
+    Job jobToSave = Job(
+      id: store.state.jobDetailsPageState.job.id,
+      clientId: store.state.jobDetailsPageState.job.clientId,
+      clientName: store.state.jobDetailsPageState.job.clientName,
+      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+      type: store.state.jobDetailsPageState.job.type,
+      stage: store.state.jobDetailsPageState.job.stage,
+      invoice: store.state.jobDetailsPageState.job.invoice,
+      completedStages: store.state.jobDetailsPageState.job.completedStages,
+      location: store.state.jobDetailsPageState.job.location,
+      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: action.pageState.unsavedTipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -131,6 +158,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: action.pageState.selectedPriceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -153,6 +181,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
@@ -175,6 +204,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.selectedLocation,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
@@ -197,6 +227,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       invoice: store.state.jobDetailsPageState.job.invoice,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
@@ -237,6 +268,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
@@ -259,6 +291,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: store.state.jobDetailsPageState.job.location,
       priceProfile: store.state.jobDetailsPageState.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
@@ -311,6 +344,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       invoice: action.job.invoice,
       priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
@@ -360,6 +394,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       location: action.job.location,
       priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     if(stageToRemove.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){

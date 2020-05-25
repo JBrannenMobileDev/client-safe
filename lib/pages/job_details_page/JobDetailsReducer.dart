@@ -26,6 +26,8 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, UpdateSelectedPricePackageAction>(_setSelectedPriceProfiles),
   TypedReducer<JobDetailsPageState, AddToDepositAction>(_addToUnsavedDeposit),
   TypedReducer<JobDetailsPageState, ClearUnsavedDepositAction>(_clearUnsavedDeposit),
+  TypedReducer<JobDetailsPageState, AddToTipAction>(_addToUnsavedTip),
+  TypedReducer<JobDetailsPageState, ClearUnsavedTipAction>(_clearUnsavedTip),
   TypedReducer<JobDetailsPageState, SetDocumentPathAction>(_setDocumentPath),
   TypedReducer<JobDetailsPageState, SetNewInvoice>(_setInvoiceDocument),
 ]);
@@ -64,6 +66,15 @@ JobDetailsPageState _clearUnsavedDeposit(JobDetailsPageState previousState, Clea
 JobDetailsPageState _addToUnsavedDeposit(JobDetailsPageState previousState, AddToDepositAction action) {
   int newAmount = previousState.unsavedDepositAmount + action.amountToAdd;
   return previousState.copyWith(unsavedDepositAmount: newAmount);
+}
+
+JobDetailsPageState _clearUnsavedTip(JobDetailsPageState previousState, ClearUnsavedTipAction action) {
+  return previousState.copyWith(unsavedTipAmount: 0);
+}
+
+JobDetailsPageState _addToUnsavedTip(JobDetailsPageState previousState, AddToTipAction action) {
+  int newAmount = previousState.unsavedTipAmount + action.amountToAdd;
+  return previousState.copyWith(unsavedTipAmount: newAmount);
 }
 
 JobDetailsPageState _setSelectedPriceProfiles(JobDetailsPageState previousState, UpdateSelectedPricePackageAction action) {
