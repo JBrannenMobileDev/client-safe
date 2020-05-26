@@ -1,4 +1,6 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/AddTipJobListItem.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoiceJobListItem.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
@@ -11,14 +13,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class JobSelectionForm extends StatefulWidget {
+class JobSelectionForTip extends StatefulWidget {
   @override
-  _JobSelectionFormState createState() {
-    return _JobSelectionFormState();
+  _JobSelectionForTipState createState() {
+    return _JobSelectionForTipState();
   }
 }
 
-class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepAliveClientMixin {
+class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticKeepAliveClientMixin {
   bool searchHasFocus = false;
   final searchTextController = TextEditingController();
   ScrollController _controller = ScrollController();
@@ -26,20 +28,19 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return StoreConnector<AppState, NewInvoicePageState>(
+    return StoreConnector<AppState, IncomeAndExpensesPageState>(
       onInit: (store) {
-        store.dispatch(FetchAllInvoiceJobsAction(store.state.newInvoicePageState));
-        searchTextController.text = store.state.newInvoicePageState.jobSearchText;
+        searchTextController.text = store.state.incomeAndExpensesPageState.jobSearchText;
       },
-      converter: (store) => NewInvoicePageState.fromStore(store),
-      builder: (BuildContext context, NewInvoicePageState pageState) =>
+      converter: (store) => IncomeAndExpensesPageState.fromStore(store),
+      builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
           Container(
             margin: EdgeInsets.only(left: 16.0, right: 8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Select a Job",
+                  "What job is the tip for?",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 24.0,
@@ -96,8 +97,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                         )),
                   ],
                 ),
-                pageState.filteredJobs.length > 0 && pageState.isFinishedFetchingClients
-                    ? ConstrainedBox(
+                pageState.filteredJobs.length > 0 ? ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
                     maxHeight: 450.0,
@@ -154,7 +154,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                     Padding(
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
                       child: Text(
-                        pageState.allClients.length > 0
+                        pageState.allJobs.length > 0
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
@@ -174,7 +174,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                       marginRight: 0.0,
                       marginBottom: 0.0,
                       marginTop: 32.0,
-                      onPressed: onAddNewContactPressed,
+                      onPressed: startNewJobSelected,
                       urlText: "",
                     ),
                   ],
@@ -185,7 +185,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
     );
   }
 
-  void onAddNewContactPressed() {
+  void startNewJobSelected() {
     Navigator.of(context).pop();
     UserOptionsUtil.showNewJobDialog(context);
   }
@@ -198,6 +198,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, NewJobPageState>(
     converter: (store) => NewJobPageState.fromStore(store),
     builder: (BuildContext context, NewJobPageState pageState) =>
-        NewInvoiceJobListItem(index),
+        AddTipJobListItem(index),
   );
 }

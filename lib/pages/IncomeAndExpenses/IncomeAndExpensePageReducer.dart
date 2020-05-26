@@ -1,4 +1,5 @@
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:redux/redux.dart';
@@ -9,7 +10,76 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, UpdateSelectedYearAction>(_setSelectedYear),
   TypedReducer<IncomeAndExpensesPageState, UpdateShowHideState>(_updateShowHideState),
   TypedReducer<IncomeAndExpensesPageState, OnAllInvoicesFilterChangedAction>(_updateAllInvoicesFilter),
+  TypedReducer<IncomeAndExpensesPageState, SetTipTotalsAction>(_setTipInfo),
+  TypedReducer<IncomeAndExpensesPageState, JobSearchTextChangedAction>(_setJobSearchText),
+  TypedReducer<IncomeAndExpensesPageState, IncrementTipPageViewIndex>(_incrementTipPageViewIndex),
+  TypedReducer<IncomeAndExpensesPageState, DecrementTipPageViewIndex>(_decrementTipPageViewIndex),
+  TypedReducer<IncomeAndExpensesPageState, SetSelectedJobForTipAction>(_setSelectedJob),
+  TypedReducer<IncomeAndExpensesPageState, AddToTipAction>(_addToUnsavedDeposit),
+  TypedReducer<IncomeAndExpensesPageState, ClearUnsavedTipAction>(_clearUnsavedDeposit),
 ]);
+
+IncomeAndExpensesPageState _clearUnsavedDeposit(IncomeAndExpensesPageState previousState, ClearUnsavedTipAction action) {
+  return previousState.copyWith(
+    unsavedTipAmount: 0,
+    pageViewIndex: 0,
+    selectedJob: null,
+    filteredJobs: previousState.allJobs,
+  );
+}
+
+IncomeAndExpensesPageState _addToUnsavedDeposit(IncomeAndExpensesPageState previousState, AddToTipAction action) {
+  int newAmount = previousState.unsavedTipAmount + action.amountToAdd;
+  return previousState.copyWith(unsavedTipAmount: newAmount);
+}
+
+IncomeAndExpensesPageState _setSelectedJob(IncomeAndExpensesPageState previousState, SetSelectedJobForTipAction action) {
+  return previousState.copyWith(
+    selectedJob: action.selectedJob,
+  );
+}
+
+IncomeAndExpensesPageState _incrementTipPageViewIndex(IncomeAndExpensesPageState previousState, IncrementTipPageViewIndex action) {
+  return previousState.copyWith(
+    pageViewIndex: previousState.pageViewIndex + 1,
+  );
+}
+
+IncomeAndExpensesPageState _decrementTipPageViewIndex(IncomeAndExpensesPageState previousState, DecrementTipPageViewIndex action) {
+  return previousState.copyWith(
+    pageViewIndex: previousState.pageViewIndex - 1,
+  );
+}
+
+IncomeAndExpensesPageState _setJobSearchText(IncomeAndExpensesPageState previousState, JobSearchTextChangedAction action) {
+  List<Job> filteredJobs = action.jobSearchText.length > 0
+      ? previousState.allJobs
+      .where((job) => job
+      .jobTitle
+      .toLowerCase()
+      .contains(action.jobSearchText.toLowerCase()))
+      .toList()
+      : previousState.allJobs;
+  return previousState.copyWith(
+    jobSearchText: action.jobSearchText,
+    filteredJobs: filteredJobs,
+  );
+}
+
+IncomeAndExpensesPageState _setTipInfo(IncomeAndExpensesPageState previousState, SetTipTotalsAction action) {
+  List<Job> jobsSelectedYear = action.allJobs.where((job) => job.selectedDate.year == previousState.selectedYear).toList();
+  int totalTipsForYear = 0;
+  for(Job job in jobsSelectedYear) {
+    if(job != null && job.tipAmount != null) {
+      totalTipsForYear = totalTipsForYear + job.tipAmount;
+    }
+  }
+  return previousState.copyWith(
+    totalTips: totalTipsForYear.toDouble(),
+    allJobs: action.allJobs,
+    filteredJobs: action.allJobs,
+  );
+}
 
 IncomeAndExpensesPageState _updateAllInvoicesFilter(IncomeAndExpensesPageState previousState, OnAllInvoicesFilterChangedAction action) {
   return previousState.copyWith(
@@ -73,9 +143,18 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount;
     }
   }
+
+  List<Job> jobsSelectedYear = previousState.allJobs.where((job) => job.selectedDate.year == previousState.selectedYear).toList();
+  int totalTipsForYear = 0;
+  for(Job job in jobsSelectedYear) {
+    if(job != null && job.tipAmount != null) {
+      totalTipsForYear = totalTipsForYear + job.tipAmount;
+    }
+  }
   return previousState.copyWith(
     selectedYear: action.year,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
+    totalTips: totalTipsForYear.toDouble(),
   );
 }

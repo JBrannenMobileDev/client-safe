@@ -72,6 +72,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
       onInit: (appState) {
         appState.dispatch(LoadAllInvoicesAction(appState.state.incomeAndExpensesPageState));
+        appState.dispatch(LoadAllJobsAction(appState.state.incomeAndExpensesPageState));
       },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
@@ -226,7 +227,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                         Container(
                                           margin: EdgeInsets.only(left: 16.0),
                                           child: Text(
-                                            NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.incomeForSelectedYear.truncate()),
+                                            NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.totalTips.truncate() + pageState.incomeForSelectedYear.truncate()),
                                             style: TextStyle(
                                               fontFamily: 'simple',
                                               fontSize: 52.0,
@@ -368,7 +369,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-
+                        UserOptionsUtil.showAddTipDialog(context);
                       },
                     ),
                   ],
