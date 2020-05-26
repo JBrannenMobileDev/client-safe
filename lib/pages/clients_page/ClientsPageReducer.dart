@@ -10,8 +10,8 @@ final clientsPageReducer = combineReducers<ClientsPageState>([
 ]);
 
 ClientsPageState _setClientData(ClientsPageState previousState, SetClientsData action){
-  List<Client> _clients = action.clients.where((client) => (_hasAJobWithJobDateSaved(client.id, action.allJobs))).toList();
-  List<Client> _leads = action.clients.where((client) => (!_hasAJobWithJobDateSaved(client.id, action.allJobs))).toList();
+  List<Client> _clients = action.clients.where((client) => (_hasAJob(client.id, action.allJobs))).toList();
+  List<Client> _leads = action.clients.where((client) => (!_hasAJob(client.id, action.allJobs))).toList();
   _clients.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
   _leads.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
   action.clients.sort((client1, client2) => client1.firstName.compareTo(client2.firstName));
@@ -23,11 +23,9 @@ ClientsPageState _setClientData(ClientsPageState previousState, SetClientsData a
   );
 }
 
-bool _hasAJobWithJobDateSaved(int clientId, List<Job> jobs) {
+bool _hasAJob(int clientId, List<Job> jobs) {
   List<Job> clientJobs = jobs.where((job) => job.clientId == clientId).toList();
-  for(Job job in clientJobs){
-    if(job.selectedDate != null) return true;
-  }
+  if(clientJobs.length > 0) return true;
   return false;
 }
 

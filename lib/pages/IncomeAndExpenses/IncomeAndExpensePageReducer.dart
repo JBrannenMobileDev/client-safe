@@ -77,7 +77,7 @@ IncomeAndExpensesPageState _setTipInfo(IncomeAndExpensesPageState previousState,
   return previousState.copyWith(
     totalTips: totalTipsForYear.toDouble(),
     allJobs: action.allJobs,
-    filteredJobs: action.allJobs,
+    filteredJobs: action.allJobs.reversed.toList(),
   );
 }
 
