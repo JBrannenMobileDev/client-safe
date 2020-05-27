@@ -76,6 +76,7 @@ NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingC
     clientIcon: action.client.iconUrl,
     leadSource: action.client.leadSource,
     notes: action.client.notes,
+    client: action.client,
   );
 }
 

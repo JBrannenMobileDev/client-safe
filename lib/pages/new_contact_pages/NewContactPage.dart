@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
+import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/new_contact_pages/Children.dart';
 import 'package:client_safe/pages/new_contact_pages/ImportantDates.dart';
 import 'package:client_safe/pages/new_contact_pages/LeadSourceSelection.dart';
@@ -37,6 +39,7 @@ class _NewContactPageState extends State<NewContactPage> {
     initialPage: 0,
   );
   int currentPageIndex = 0;
+  int clientId = 0;
 
   @override
   void initState() {
@@ -79,6 +82,11 @@ class _NewContactPageState extends State<NewContactPage> {
         if(readContactsStatus == PermissionStatus.denied || readContactsStatus == PermissionStatus.denied
             || readContactsStatus == PermissionStatus.unknown){
           _checkPermissions(context, store.state.newContactPageState);
+        }
+      },
+      onDidChange: (pageState) {
+        if(pageState.client == null && pageState.client.id != null) {
+          clientId = pageState.client.id;
         }
       },
       converter: (store) => NewContactPageState.fromStore(store),
@@ -353,9 +361,15 @@ class _NewContactPageState extends State<NewContactPage> {
     );
   }
 
-  void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
-    UserOptionsUtil.showJobPromptDialog(context);
+  void onFlareCompleted(String unused) async{
+    Navigator.of(context).pop();
+    List<Job> jobs = await JobDao.getAllJobs();
+    List<Job> thisClientsJobs = jobs.where((job) => job.clientId == clientId).toList();
+    if(thisClientsJobs.length == 0){
+      UserOptionsUtil.showJobPromptDialog(context);
+    }else {
+      Navigator.of(context).pop();
+    }
   }
 
   void onBackPressed(NewContactPageState pageState) {

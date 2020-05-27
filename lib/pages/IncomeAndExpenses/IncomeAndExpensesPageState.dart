@@ -223,7 +223,10 @@ class IncomeAndExpensesPageState {
       onBackPressed: () => store.dispatch(DecrementTipPageViewIndex(store.state.incomeAndExpensesPageState)),
       onNextPressed: () => store.dispatch(IncrementTipPageViewIndex(store.state.incomeAndExpensesPageState)),
       onCancelPressed: () => store.dispatch(ClearAddTipStateAction(store.state.incomeAndExpensesPageState)),
-      onSaveTipSelected: () => store.dispatch(SaveTipIncomeChangeAction(store.state.incomeAndExpensesPageState)),
+      onSaveTipSelected: () {
+        store.dispatch(SaveTipIncomeChangeAction(store.state.incomeAndExpensesPageState));
+        store.dispatch(ClearUnsavedTipAction(store.state.incomeAndExpensesPageState));
+      },
       onJobSelected: (selectedJob) => store.dispatch(SetSelectedJobForTipAction(store.state.incomeAndExpensesPageState, selectedJob)),
       onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.incomeAndExpensesPageState, amountToAdd)),
       onSaveTipChange: () => store.dispatch(SaveTipIncomeChangeAction(store.state.incomeAndExpensesPageState)),

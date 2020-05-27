@@ -40,9 +40,10 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
           Dialog(
+            insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
                 backgroundColor: Colors.transparent,
                 child: Container(
-                  width: 400.0,
+
                   padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
                   decoration: new BoxDecoration(
                       color: Color(ColorConstants.white),

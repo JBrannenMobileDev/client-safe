@@ -57,6 +57,7 @@ dependencies:
   share_extend: ^1.1.5
   http: ^0.12.1
   flutter_google_places: ^0.2.5
+  fluttertoast: ^4.0.1
 
 flutter_icons:
   android: true
@@ -91,6 +92,7 @@ flutter:
     - assets/images/backgrounds/expenses_background_lighter.png
     - assets/images/backgrounds/job_details_background.png
     - assets/images/backgrounds/dashboard_flowers_image.png
+    - assets/images/backgrounds/expenses_background_peach.png
 
     - assets/images/instagram_logo_icon.png
 
@@ -171,6 +173,7 @@ flutter:
     - assets/images/icons/calendar_bold_white.png
     - assets/images/icons/location_icon_black.png
     - assets/images/icons/collections_icon_white.png
+    - assets/images/icons/expenses_icon_peach.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

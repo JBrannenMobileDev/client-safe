@@ -110,7 +110,7 @@ class NewPricingProfilePageState {
         saveButtonEnabled: false,
         shouldClear: true,
         profileName: "",
-        profileIcon: null,
+        profileIcon: 'assets/images/collection_icons/pricing_profile_icons/piggy_bank_icon_gold.png',
         rateType: Invoice.RATE_TYPE_FLAT_RATE,
         flatRate: 0,
         hourlyRate: 0,

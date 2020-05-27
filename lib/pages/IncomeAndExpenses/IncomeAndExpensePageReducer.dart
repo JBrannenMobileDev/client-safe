@@ -17,7 +17,17 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, SetSelectedJobForTipAction>(_setSelectedJob),
   TypedReducer<IncomeAndExpensesPageState, AddToTipAction>(_addToUnsavedDeposit),
   TypedReducer<IncomeAndExpensesPageState, ClearUnsavedTipAction>(_clearUnsavedDeposit),
+  TypedReducer<IncomeAndExpensesPageState, ClearAddTipStateAction>(_clearAddTipState),
 ]);
+
+IncomeAndExpensesPageState _clearAddTipState(IncomeAndExpensesPageState previousState, ClearAddTipStateAction action) {
+  return previousState.copyWith(
+    unsavedTipAmount: 0,
+    pageViewIndex: 0,
+    selectedJob: null,
+    filteredJobs: previousState.allJobs,
+  );
+}
 
 IncomeAndExpensesPageState _clearUnsavedDeposit(IncomeAndExpensesPageState previousState, ClearUnsavedTipAction action) {
   return previousState.copyWith(
@@ -77,7 +87,7 @@ IncomeAndExpensesPageState _setTipInfo(IncomeAndExpensesPageState previousState,
   return previousState.copyWith(
     totalTips: totalTipsForYear.toDouble(),
     allJobs: action.allJobs,
-    filteredJobs: action.allJobs.reversed.toList(),
+    filteredJobs: action.allJobs.where((job) => (job.tipAmount == null || job.tipAmount == 0)).toList().reversed.toList(),
   );
 }
 

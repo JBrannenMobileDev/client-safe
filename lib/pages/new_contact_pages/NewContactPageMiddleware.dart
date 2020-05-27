@@ -44,7 +44,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       importantDates: action.pageState.importantDates,
       notes: action.pageState.notes,
       leadSource: action.pageState.leadSource,
-      iconUrl: action.pageState.clientIcon != null ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale),
+      iconUrl: action.pageState.clientIcon.length > 0 ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale).assetName,
     );
     await ClientDao.insertOrUpdate(client);
     DeviceContactsDao.addOrUpdateContact(client);

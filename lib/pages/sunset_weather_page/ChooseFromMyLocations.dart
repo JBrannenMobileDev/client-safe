@@ -35,6 +35,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
     return StoreConnector<AppState, SunsetWeatherPageState>(
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) => Dialog(
+        insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
         backgroundColor: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
@@ -79,7 +80,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
               ConstrainedBox(
                 constraints: BoxConstraints(
                   minHeight: 65.0,
-                  maxHeight: MediaQuery.of(context).size.height - 260,
+                  maxHeight: MediaQuery.of(context).size.height - 208,
                 ),
                 child: ListView.builder(
                   reverse: false,

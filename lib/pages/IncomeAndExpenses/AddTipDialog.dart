@@ -67,8 +67,8 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                     tooltip: 'Close',
                     color: Color(ColorConstants.getPeachDark()),
                     onPressed: () {
-                      Navigator.of(context).pop();
                       pageState.onClearUnsavedTip();
+                      Navigator.of(context).pop();
                     },
                   ),
                   Padding(

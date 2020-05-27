@@ -32,6 +32,18 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
         onInit: (store) async {
           store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState));
         },
+      onDidChange: (pageState) {
+        final DateTime now = DateTime.now();
+        final DateTime today = DateTime(now.year, now.month, now.day);
+        final DateTime selectedDate = DateTime(pageState.selectedDate.year, pageState.selectedDate.month, pageState.selectedDate.day);
+          if(today == selectedDate) {
+            if(_controller.positions.isNotEmpty) {
+              _controller.animateTo((72 * now.hour + 16).toDouble(),
+                  duration: Duration(milliseconds: 250),
+                  curve: Curves.fastLinearToSlowEaseIn);
+            }
+          }
+      },
         converter: (store) => SunsetWeatherPageState.fromStore(store),
         builder: (BuildContext context, SunsetWeatherPageState pageState) => Scaffold(
           backgroundColor: Colors.white,
@@ -346,6 +358,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                               margin: EdgeInsets.only(top: 0.0, bottom: 32.0),
                               height: 124.0,
                               child: ListView.builder(
+                                controller: _controller,
                                 shrinkWrap: true,
                                 itemCount: pageState.hoursForecast.length,
                                 scrollDirection: Axis.horizontal,

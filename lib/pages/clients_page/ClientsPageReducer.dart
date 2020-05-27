@@ -19,7 +19,6 @@ ClientsPageState _setClientData(ClientsPageState previousState, SetClientsData a
       clients: _clients,
       leads: _leads,
       all: action.clients,
-      filterType: "All",
   );
 }
 

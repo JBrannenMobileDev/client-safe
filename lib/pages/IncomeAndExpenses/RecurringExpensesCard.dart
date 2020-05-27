@@ -67,7 +67,7 @@ class RecurringExpensesCard extends StatelessWidget{
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 16.0, right: 16.0),
                   height: 64.0,
                   child: Text(
-                    'You have zero unpaid invoices.',
+                    '',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 22.0,

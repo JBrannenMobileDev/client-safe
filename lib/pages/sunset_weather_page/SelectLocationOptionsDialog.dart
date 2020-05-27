@@ -45,7 +45,7 @@ class _SelectLocationOptionsDialog extends State<SelectLocationOptionsDialog> wi
               padding: EdgeInsets.only(bottom: 24.0),
               child: Text(
                 "Select from your collection of locations or select a new location from a map.",
-                textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.0,
                   fontFamily: 'simple',

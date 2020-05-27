@@ -83,10 +83,7 @@ class ClientDetailsPageState {
       onMessageClientClicked: () => store.dispatch(null),
       onEmailClientClicked: () => store.dispatch(null),
       onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState, client)),
-      onJobSelected: (job) {
-        store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
-//        store.dispatch(UpdateComingFromClientDetails(store.state.newJobPageState, true));
-      },
+      onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
     );
   }

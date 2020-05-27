@@ -88,16 +88,16 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
               body: Stack(
                 alignment: AlignmentDirectional.centerEnd,
                 children: <Widget>[
-                  selectedIndex == 0 ? Container(
+                  Container(
                     decoration: BoxDecoration(
-                      color: Color(ColorConstants.getBlueLight()),
+                      color: Color(selectedIndex == 0 ? ColorConstants.getBlueLight() : ColorConstants.getPeachLight()),
                       image: DecorationImage(
-                        image: AssetImage(ImageUtil.JOB_DETAILS_BG),
+                        image: AssetImage(selectedIndex == 0 ? ImageUtil.JOB_DETAILS_BG : ImageUtil.EXPENSES_BG),
                         repeat: ImageRepeat.repeat,
                         fit: BoxFit.contain,
                       ),
                     ),
-                  ) : SizedBox(),
+                  ),
                   CustomScrollView(
                     controller: scrollController,
                     slivers: <Widget>[
@@ -158,6 +158,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
                                     Container(
+                                      padding: EdgeInsets.only(left: selectedIndex == 1 ? 8.0 : 0.0),
                                       width: 96.0,
                                       height: 96.0,
                                       alignment: Alignment.center,
@@ -168,7 +169,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                       child: Image(
                                         height: 64.0,
                                         width: 64.0,
-                                        image: AssetImage("assets/images/job_progress/payment_requested.png"),
+                                        image: AssetImage(selectedIndex == 0 ? "assets/images/job_progress/payment_requested.png" : "assets/images/icons/expenses_icon_peach.png"),
                                       ),
                                     ),
                                     Column(
@@ -180,7 +181,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                             Container(
                                               margin: EdgeInsets.only(left: 16.0),
                                               child: Text(
-                                                'Income',
+                                                selectedIndex == 0 ? 'Income' : 'Expenses',
                                                 style: TextStyle(
                                                   fontFamily: 'simple',
                                                   fontSize: 26.0,

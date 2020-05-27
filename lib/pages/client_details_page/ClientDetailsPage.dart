@@ -4,7 +4,6 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:client_safe/pages/client_details_page/ClientJobItem.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -14,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class ClientDetailsPage extends StatefulWidget {
   @override
@@ -122,7 +122,19 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                             children: <Widget>[
                               GestureDetector(
                                 onTap: () {
-                                  onCallPressed(pageState.client.phone);
+                                  if(pageState.client.phone != null && pageState.client.phone.length > 0){
+                                    onCallPressed(pageState.client.phone);
+                                  }else{
+                                    Fluttertoast.showToast(
+                                        msg: 'No phone number saved yet',
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor: Color(ColorConstants.getPeachDark()),
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(12.0),
@@ -137,7 +149,19 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  onSMSPressed(pageState.client.phone);
+                                  if(pageState.client.phone != null && pageState.client.phone.length > 0){
+                                    onSMSPressed(pageState.client.phone);
+                                  }else{
+                                    Fluttertoast.showToast(
+                                        msg: 'No phone number saved yet',
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor: Color(ColorConstants.getPeachDark()),
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(12.0),
@@ -152,7 +176,19 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  onEmailPressed(pageState.client.email);
+                                  if(pageState.client.email != null && pageState.client.email.length > 0){
+                                    onEmailPressed(pageState.client.email);
+                                  }else{
+                                    Fluttertoast.showToast(
+                                        msg: 'No email saved yet',
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor: Color(ColorConstants.getPeachDark()),
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(12.0),
@@ -167,7 +203,19 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  pageState.onInstagramSelected();
+                                  if(pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0){
+                                    pageState.onInstagramSelected();
+                                  }else{
+                                    Fluttertoast.showToast(
+                                        msg: 'No Instagram URL saved yet',
+                                        toastLength: Toast.LENGTH_LONG,
+                                        gravity: ToastGravity.CENTER,
+                                        timeInSecForIosWeb: 5,
+                                        backgroundColor: Color(ColorConstants.getPeachDark()),
+                                        textColor: Colors.white,
+                                        fontSize: 16.0
+                                    );
+                                  }
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(12.0),

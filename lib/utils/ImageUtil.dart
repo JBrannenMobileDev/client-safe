@@ -10,7 +10,7 @@ class ImageUtil{
   static const String DANDY_BG = "assets/images/backgrounds/home_background_4.png";
   static const String JOB_DETAILS_BG = "assets/images/backgrounds/job_details_background.png";
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
-  static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_lighter.png";
+  static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_peach.png";
 
   static List<String> femaleIcons = [
     "assets/images/people/girl1.png",
