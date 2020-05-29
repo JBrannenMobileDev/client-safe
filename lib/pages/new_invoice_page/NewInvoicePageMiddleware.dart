@@ -80,6 +80,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.update(selectedJob);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, selectedJob.invoice));
+    store.dispatch(ClearStateAction(store.state.newInvoicePageState));
   }
 
   void _updateDepositStatus(Store<AppState> store, action, NextDispatcher next) async {
@@ -204,8 +205,8 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           italic: Font.ttf(await rootBundle.load('assets/fonts/simplicity.ttf')),
           boldItalic: Font.ttf(await rootBundle.load('assets/fonts/Raleway-Bold.ttf')),
         ),
-        pageFormat:
-        PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
+
+        pageFormat: PdfPageFormat.letter.copyWith(marginBottom: 1.5 * PdfPageFormat.cm),
         crossAxisAlignment: CrossAxisAlignment.start,
         header: (Context context) {
           if (context.pageNumber == 1) {
@@ -322,7 +323,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               child: Container(
                 height: 1.0,
                 width: 468.0,
-                color: PdfColor.fromHex('0x000000'),
+                color: PdfColor.fromHex('#000000'),
               )
           ),
 
@@ -400,7 +401,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               child: Container(
                 height: 1.0,
                 width: 468.0,
-                color: PdfColor.fromHex('0x000000'),
+                color: PdfColor.fromHex('#000000'),
               )
           ),
 
@@ -560,7 +561,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                   child: Container(
                     height: 1.0,
                     width: 205.0,
-                    color: PdfColor.fromHex('0x000000'),
+                    color: PdfColor.fromHex('#000000'),
                   )
               ),
             ],

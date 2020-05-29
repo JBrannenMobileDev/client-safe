@@ -2,6 +2,7 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 
 class SingleExpenseCard extends StatelessWidget{
@@ -14,12 +15,12 @@ class SingleExpenseCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 500.0,
+      height: 350.0,
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            height: 200.0,
+            height: 350.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -43,7 +44,47 @@ class SingleExpenseCard extends StatelessWidget{
                         ),
                       ),
                       Text(
-                        "2020",
+                        "View All (24)",
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w400,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  alignment: Alignment.center,
+                  child: Text(
+                    NumberFormat.simpleCurrency(decimalDigits: 0).format(1855),
+                    style: TextStyle(
+                      fontFamily: 'simple',
+                      fontSize: 48.0,
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.getPeachDark()),
+                    ),
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Text(
+                        'Items',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w400,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                      Text(
+                        "Cost",
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 20.0,

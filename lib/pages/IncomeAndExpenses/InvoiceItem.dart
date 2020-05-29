@@ -52,20 +52,28 @@ class InvoiceItem extends StatelessWidget{
                           fontSize: 20.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.getPrimaryBlack()),
+                          color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 2.0),
                       child: Text(
-                        (invoice.sentDate != null ? (invoice.dueDate != null ? ('Due: ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate)) : 'no due date' ) : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null ? invoice.unpaidAmount.truncate().toString() : '0'),
+                        (invoice.isOverdue() ? 'OVERDUE' : invoice.sentDate != null
+                                ? (invoice.dueDate != null
+                                    ? ('Due: ' +
+                                        DateFormat('MMM dd, yyyy')
+                                            .format(invoice.dueDate))
+                                    : 'no due date')
+                                : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null
+                                ? invoice.unpaidAmount.truncate().toString()
+                                : '0'),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 18.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
-                          color: Color(invoice.sentDate != null ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                          color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(invoice.sentDate != null ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
                         ),
                       ),
                     ),

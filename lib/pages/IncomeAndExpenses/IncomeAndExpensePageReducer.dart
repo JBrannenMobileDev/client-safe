@@ -99,7 +99,7 @@ IncomeAndExpensesPageState _updateAllInvoicesFilter(IncomeAndExpensesPageState p
 
 IncomeAndExpensesPageState _updateShowHideState(IncomeAndExpensesPageState previousState, UpdateShowHideState action) {
   List<Invoice> unpaidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
-
+  unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
   return previousState.copyWith(
     isMinimized: !previousState.isMinimized,
     unpaidInvoices: unpaidInvoices,
@@ -122,6 +122,7 @@ IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState
     }
   }
   paidInvoices.sort((invoiceA, invoiceB) => invoiceA.jobName.compareTo(invoiceB.jobName));
+  unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
   return previousState.copyWith(
     allInvoices: action.allInvoices,
     paidInvoices: paidInvoices,
@@ -161,6 +162,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       totalTipsForYear = totalTipsForYear + job.tipAmount;
     }
   }
+  unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
   return previousState.copyWith(
     selectedYear: action.year,
     incomeForSelectedYear: totalForSelectedYear,

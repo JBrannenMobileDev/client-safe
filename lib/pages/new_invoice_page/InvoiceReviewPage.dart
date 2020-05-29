@@ -74,7 +74,7 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               LineItemListWidget(pageState, true),
               GrayDividerWidget(),
               SubtotalRowWidget(pageState),
-              pageState.selectedJob.isDepositPaid() ? DepositRowWidget(pageState) : SizedBox(),
+              pageState.selectedJob != null ? (pageState.selectedJob.isDepositPaid() ? DepositRowWidget(pageState) : SizedBox()) : SizedBox(),
               pageState.discountValue > 0 ? DiscountRowWidget(pageState) : SizedBox(height: 16.0,),
               GrayDividerWidget(),
               BalanceDueWidget(pageState),

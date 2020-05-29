@@ -105,4 +105,10 @@ class Invoice {
     }
     return listOfLineItems;
   }
+
+  bool isOverdue() {
+    DateTime now = DateTime.now();
+    if(dueDate != null && now.isAfter(dueDate)) return true;
+    return false;
+  }
 }

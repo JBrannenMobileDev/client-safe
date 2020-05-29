@@ -250,8 +250,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         delegate: new SliverChildListDelegate(
                           <Widget>[
                             pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? IncomeGraphCard(pageState: pageState) : MileageExpensesCard(),
-                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? UnpaidInvoicesCard(pageState: pageState) : RecurringExpensesCard(),
-                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? SizedBox() : SingleExpenseCard(),
+                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? UnpaidInvoicesCard(pageState: pageState) : SingleExpenseCard(),
+                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? SizedBox() : RecurringExpensesCard(),
                           ],
                         ),
                       ),
@@ -287,7 +287,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),
-                  children: [
+                  children: selectedIndex == 0 ? [
                     SpeedDialChild(
                       child: Container(
                         padding: EdgeInsets.all(10.0),
@@ -373,6 +373,85 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         UserOptionsUtil.showAddTipDialog(context);
                       },
                     ),
+                  ] : [
+                    SpeedDialChild(
+                        child: Icon(Icons.add),
+                        backgroundColor: Color(ColorConstants.getPeachDark()),
+                        labelWidget: Container(
+                          alignment: Alignment.center,
+                          height: 42.0,
+                          width: 184.0,
+                          decoration: BoxDecoration(
+                            boxShadow: ElevationToShadow[4],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(21.0),
+                          ),
+                          child: Text(
+                            'Recurring Expense',
+                            style: TextStyle(
+                              fontFamily: 'simple',
+                              fontSize: 22.0,
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+
+                        }
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        width: 156.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Text(
+                          'Single Expense',
+                          style: TextStyle(
+                            fontFamily: 'simple',
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
+                      },
+                    ),
+                    SpeedDialChild(
+                      child: Icon(Icons.add),
+                      backgroundColor: Color(ColorConstants.getPeachLight()),
+                      labelWidget: Container(
+                        alignment: Alignment.center,
+                        height: 42.0,
+                        width: 172.0,
+                        decoration: BoxDecoration(
+                          boxShadow: ElevationToShadow[4],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(21.0),
+                        ),
+                        child: Text(
+                          'Mileage Expense',
+                          style: TextStyle(
+                            fontFamily: 'simple',
+                            fontSize: 22.0,
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                      onTap: () {
+
+                      },
+                    ),
                   ],
                 ),
             ),
@@ -385,7 +464,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
     if(isFabExpanded){
       return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
     }else{
-      return Icon(Icons.menu, color: Color(ColorConstants.getPrimaryWhite()));
+      return Icon(selectedIndex == 0 ? Icons.menu : Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
     }
   }
 }

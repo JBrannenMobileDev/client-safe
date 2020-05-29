@@ -14,7 +14,7 @@ class RecurringExpensesCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200.0,
+      height: 500.0,
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
