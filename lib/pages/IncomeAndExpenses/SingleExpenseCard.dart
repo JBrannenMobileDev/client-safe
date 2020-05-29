@@ -57,7 +57,7 @@ class SingleExpenseCard extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  alignment: Alignment.center,
+                  margin: EdgeInsets.only(left: 16.0),
                   child: Text(
                     NumberFormat.simpleCurrency(decimalDigits: 0).format(1855),
                     style: TextStyle(
@@ -69,7 +69,7 @@ class SingleExpenseCard extends StatelessWidget{
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.fromLTRB(32.0, 16.0, 32.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
