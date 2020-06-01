@@ -1,31 +1,25 @@
-import 'package:client_safe/models/PriceProfile.dart';
+import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 
 class LoadExistingPricingProfileData{
   final NewSingleExpensePageState pageState;
-  final PriceProfile profile;
-  LoadExistingPricingProfileData(this.pageState, this.profile);
+  final SingleExpense singleExpense;
+  LoadExistingPricingProfileData(this.pageState, this.singleExpense);
 }
 
-class SavePricingProfileAction{
+class SaveSingleExpenseProfileAction{
   final NewSingleExpensePageState pageState;
-  SavePricingProfileAction(this.pageState);
+  SaveSingleExpenseProfileAction(this.pageState);
 }
 
-class SetProfileIconAction{
+class ClearSingleEpenseStateAction{
   final NewSingleExpensePageState pageState;
-  final String profileIcon;
-  SetProfileIconAction(this.pageState, this.profileIcon);
+  ClearSingleEpenseStateAction(this.pageState);
 }
 
-class ClearStateAction{
+class DeleteSingleExpenseAction{
   final NewSingleExpensePageState pageState;
-  ClearStateAction(this.pageState);
-}
-
-class DeletePriceProfileAction{
-  final NewSingleExpensePageState pageState;
-  DeletePriceProfileAction(this.pageState);
+  DeleteSingleExpenseAction(this.pageState);
 }
 
 class IncrementPageViewIndex{
@@ -38,34 +32,28 @@ class DecrementPageViewIndex{
   DecrementPageViewIndex(this.pageState);
 }
 
-class UpdateProfileNameAction{
+class UpdateExpenseNameAction{
   final NewSingleExpensePageState pageState;
-  final String profileName;
-  UpdateProfileNameAction(this.pageState, this.profileName);
+  final String expenseName;
+  UpdateExpenseNameAction(this.pageState, this.expenseName);
 }
 
-class SaveSelectedRateTypeAction{
+class SetExpenseDateAction{
   final NewSingleExpensePageState pageState;
-  final String rateType;
-  SaveSelectedRateTypeAction(this.pageState, this.rateType);
+  final DateTime expenseDate;
+  SetExpenseDateAction(this.pageState, this.expenseDate);
 }
 
-class UpdateFlatRateTextAction{
+class UpdateCostAction{
   final NewSingleExpensePageState pageState;
-  final String flatRateText;
-  UpdateFlatRateTextAction(this.pageState, this.flatRateText);
+  final String newCost;
+  UpdateCostAction(this.pageState, this.newCost);
 }
 
-class UpdateHourlyRateTextAction{
+class LoadExistingSingleExpenseAction{
   final NewSingleExpensePageState pageState;
-  final String hourlyRateText;
-  UpdateHourlyRateTextAction(this.pageState, this.hourlyRateText);
-}
-
-class UpdateItemRateTextAction{
-  final NewSingleExpensePageState pageState;
-  final String itemRateText;
-  UpdateItemRateTextAction(this.pageState, this.itemRateText);
+  final SingleExpense singleExpense;
+  LoadExistingSingleExpenseAction(this.pageState, this.singleExpense);
 }
 
 

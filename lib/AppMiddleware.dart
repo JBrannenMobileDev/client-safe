@@ -2,6 +2,8 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensePageMiddleware.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageMiddleware.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
@@ -27,6 +29,8 @@ import 'package:client_safe/pages/new_location_page/NewLocationPageMiddleware.da
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix1;
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
@@ -93,6 +97,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, OnInvoiceSentAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadAllJobsAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveTipIncomeChangeAction>(IncomeAndExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchSingleExpenses>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnDeleteInvoiceSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InvoiceSentAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));
@@ -101,5 +106,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveCurrentMapLatLngAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchGoogleLocationsAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchSearchLocationDetails>(SunsetWeatherPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveSingleExpenseProfileAction>(NewSingleExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteSingleExpenseAction>(NewSingleExpensePageMiddleware()));
   return middlewareList;
 }

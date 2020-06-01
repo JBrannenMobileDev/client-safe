@@ -2,9 +2,11 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -20,17 +22,22 @@ class IncomeAndExpensesPageState {
   final List<Job> allJobs;
   final List<Job> filteredJobs;
   final List<Client> allClients;
+  final List<SingleExpense> allSingleExpenses;
+  final List<SingleExpense> singleExpensesForSelectedYear;
   final bool isFinishedFetchingClients;
   final String jobSearchText;
   final Function(String) onJobSearchTextChanged;
   final double totalIncome;//not from tips
   final double totalTips;
   final double incomeForSelectedYear;
+  final int singleExpensesTotal;
   final bool isMinimized;
+  final bool isSingleExpensesMinimized;
   final Function(String) onFilterChanged;
   final Function(String) onAllInvoicesFilterChanged;
   final Function(int) onYearChanged;
   final Function() onViewAllHideSelected;
+  final Function() onViewAllHideSingleExpensesSelected;
   final Function(Invoice) onEditInvoiceSelected;
   final Function(Invoice) onDeleteSelected;
   final Function(Invoice) onInvoiceSent;
@@ -43,6 +50,7 @@ class IncomeAndExpensesPageState {
   final Function() onSaveTipChange;
   final Function() onClearUnsavedTip;
   final int unsavedTipAmount;
+  final Function(SingleExpense) onSingleExpenseItemSelected;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -64,6 +72,7 @@ class IncomeAndExpensesPageState {
     @required this.onAllInvoicesFilterChanged,
     @required this.totalTips,
     @required this.allJobs,
+    @required this.isSingleExpensesMinimized,
     @required this.filteredJobs,
     @required this.allClients,
     @required this.isFinishedFetchingClients,
@@ -79,6 +88,11 @@ class IncomeAndExpensesPageState {
     @required this.onSaveTipChange,
     @required this.onClearUnsavedTip,
     @required this.unsavedTipAmount,
+    @required this.singleExpensesForSelectedYear,
+    @required this.singleExpensesTotal,
+    @required this.onViewAllHideSingleExpensesSelected,
+    @required this.allSingleExpenses,
+    @required this.onSingleExpenseItemSelected,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -96,6 +110,7 @@ class IncomeAndExpensesPageState {
     bool isMinimized,
     Job selectedJob,
     Function() onViewAllHideSelected,
+    Function() onViewAllHideSingleExpensesSelected,
     Function(Invoice) onEditInvoiceSelected,
     Function(Invoice) onDeleteSelected,
     Function(Invoice) onInvoiceSent,
@@ -107,6 +122,7 @@ class IncomeAndExpensesPageState {
     Function(String) onJobTextChanged,
     String jobSearchText,
     int pageViewIndex,
+    int singleExpensesTotal,
     Function() onBackPressed,
     Function() onCancelPressed,
     Function() onSaveTipSelected,
@@ -116,6 +132,10 @@ class IncomeAndExpensesPageState {
     Function() onSaveTipChange,
     Function() onClearUnsavedTip,
     int unsavedTipAmount,
+    List<SingleExpense> singleExpensesForSelectedYear,
+    List<SingleExpense> allSingleExpenses,
+    bool isSingleExpensesMinimized,
+    Function(SingleExpense) onSingleExpenseItemSelected,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -152,6 +172,12 @@ class IncomeAndExpensesPageState {
       onSaveTipChange: onSaveTipChange ?? this.onSaveTipChange,
       onClearUnsavedTip: onClearUnsavedTip ?? this.onClearUnsavedTip,
       unsavedTipAmount: unsavedTipAmount ?? this.unsavedTipAmount,
+      singleExpensesForSelectedYear: singleExpensesForSelectedYear ?? this.singleExpensesForSelectedYear,
+      singleExpensesTotal: singleExpensesTotal ?? this.singleExpensesTotal,
+      onViewAllHideSingleExpensesSelected: onViewAllHideSingleExpensesSelected ?? this.onViewAllHideSingleExpensesSelected,
+      allSingleExpenses: allSingleExpenses ?? this.allSingleExpenses,
+      isSingleExpensesMinimized: isSingleExpensesMinimized ?? this.isSingleExpensesMinimized,
+      onSingleExpenseItemSelected: onSingleExpenseItemSelected ?? this.onSingleExpenseItemSelected,
     );
   }
 
@@ -171,6 +197,7 @@ class IncomeAndExpensesPageState {
     onInvoiceSent: null,
     paidInvoices: List(),
     totalTips: 0.0,
+    singleExpensesTotal: 0,
     selectedJob: null,
     allInvoicesFilterType: AllInvoicesPage.FILTER_TYPE_UNPAID,
     onAllInvoicesFilterChanged: null,
@@ -190,6 +217,11 @@ class IncomeAndExpensesPageState {
     onClearUnsavedTip: null,
     onSaveTipChange: null,
     unsavedTipAmount: 0,
+    singleExpensesForSelectedYear: List(),
+    allSingleExpenses: List(),
+    onViewAllHideSingleExpensesSelected: null,
+    isSingleExpensesMinimized: true,
+    onSingleExpenseItemSelected: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -207,15 +239,20 @@ class IncomeAndExpensesPageState {
       allJobs: store.state.incomeAndExpensesPageState.allJobs,
       filteredJobs: store.state.incomeAndExpensesPageState.filteredJobs,
       allClients: store.state.incomeAndExpensesPageState.allClients,
+      isSingleExpensesMinimized: store.state.incomeAndExpensesPageState.isSingleExpensesMinimized,
       isFinishedFetchingClients: store.state.incomeAndExpensesPageState.isFinishedFetchingClients,
       jobSearchText: store.state.incomeAndExpensesPageState.jobSearchText,
       pageViewIndex: store.state.incomeAndExpensesPageState.pageViewIndex,
       selectedJob: store.state.incomeAndExpensesPageState.selectedJob,
       unsavedTipAmount: store.state.incomeAndExpensesPageState.unsavedTipAmount,
+      singleExpensesForSelectedYear: store.state.incomeAndExpensesPageState.singleExpensesForSelectedYear,
+      singleExpensesTotal: store.state.incomeAndExpensesPageState.singleExpensesTotal,
+      allSingleExpenses: store.state.incomeAndExpensesPageState.allSingleExpenses,
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.incomeAndExpensesPageState)),
+      onViewAllHideSingleExpensesSelected: () => store.dispatch(UpdateSingleExpenseShowHideState(store.state.incomeAndExpensesPageState)),
       onEditInvoiceSelected: (invoice) => store.dispatch(InvoiceEditSelected(store.state.incomeAndExpensesPageState, invoice)),
       onDeleteSelected: (invoice) => store.dispatch(DeleteInvoiceAction(store.state.incomeAndExpensesPageState, invoice)),
       onInvoiceSent: (invoice) => store.dispatch(OnInvoiceSentAction(store.state.incomeAndExpensesPageState, invoice)),
@@ -231,6 +268,7 @@ class IncomeAndExpensesPageState {
       onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.incomeAndExpensesPageState, amountToAdd)),
       onSaveTipChange: () => store.dispatch(SaveTipIncomeChangeAction(store.state.incomeAndExpensesPageState)),
       onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.incomeAndExpensesPageState)),
+      onSingleExpenseItemSelected: (selectedSingleExpense) => store.dispatch(LoadExistingSingleExpenseAction(store.state.newSingleExpensePageState, selectedSingleExpense)),
     );
   }
 
@@ -239,12 +277,15 @@ class IncomeAndExpensesPageState {
       filterType.hashCode ^
       filteredJobs.hashCode ^
       allClients.hashCode ^
+      singleExpensesTotal.hashCode ^
       isFinishedFetchingClients.hashCode ^
       jobSearchText.hashCode ^
       onJobSearchTextChanged.hashCode ^
       onAllInvoicesFilterChanged.hashCode ^
       selectedYear.hashCode ^
       allInvoices.hashCode ^
+      onSingleExpenseItemSelected.hashCode ^
+      isSingleExpensesMinimized.hashCode ^
       totalIncome.hashCode ^
       pageViewIndex.hashCode ^
       incomeForSelectedYear.hashCode ^
@@ -258,11 +299,13 @@ class IncomeAndExpensesPageState {
       paidInvoices.hashCode ^
       totalTips.hashCode ^
       allJobs.hashCode ^
+      singleExpensesForSelectedYear.hashCode ^
       allInvoicesFilterType.hashCode ^
       onBackPressed.hashCode ^
       onNextPressed.hashCode ^
       onCancelPressed.hashCode ^
       onSaveTipSelected.hashCode ^
+      allSingleExpenses.hashCode ^
       onYearChanged.hashCode;
 
   @override
@@ -273,8 +316,11 @@ class IncomeAndExpensesPageState {
               selectedYear == other.selectedYear &&
               filteredJobs == other.filteredJobs &&
               allClients == other.allClients &&
+              onSingleExpenseItemSelected == other.onSingleExpenseItemSelected &&
+              singleExpensesTotal == other.singleExpensesTotal &&
               pageViewIndex == other.pageViewIndex &&
               selectedJob == other.selectedJob &&
+              isSingleExpensesMinimized == other.isSingleExpensesMinimized &&
               isFinishedFetchingClients == other.isFinishedFetchingClients &&
               jobSearchText == other.jobSearchText &&
               onJobSearchTextChanged == other.onJobSearchTextChanged &&
@@ -288,6 +334,7 @@ class IncomeAndExpensesPageState {
               onInvoiceSent == other.onInvoiceSent &&
               totalTips == other.totalTips &&
               allJobs == other.allJobs &&
+              singleExpensesForSelectedYear == other.singleExpensesForSelectedYear &&
               onEditInvoiceSelected == other.onEditInvoiceSelected &&
               onViewAllHideSelected == other.onViewAllHideSelected &&
               paidInvoices == other.paidInvoices &&
@@ -296,5 +343,6 @@ class IncomeAndExpensesPageState {
               onNextPressed == other.onNextPressed &&
               onCancelPressed == other.onCancelPressed &&
               onSaveTipSelected == other.onSaveTipSelected &&
+              allSingleExpenses == other.allSingleExpenses &&
               onYearChanged == other.onYearChanged;
 }

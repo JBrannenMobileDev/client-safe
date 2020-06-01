@@ -51,7 +51,7 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
                 locationNameTextController,
                 "Location Name",
                 TextInputType.text,
-                60.0,
+                64.0,
                 pageState.onLocationNameChanged,
                 NewPricingProfilePageState.ERROR_PROFILE_NAME_MISSING,
                 TextInputAction.done,

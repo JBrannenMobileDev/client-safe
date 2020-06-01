@@ -20,6 +20,7 @@ import 'package:client_safe/pages/new_invoice_page/SendInvoicePromptDialog.dart'
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePage.dart';
 import 'package:client_safe/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:client_safe/pages/sunset_weather_page/SelectLocationDialog.dart';
 import 'package:flutter/material.dart';
@@ -169,6 +170,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return PricePackageChangeDialog();
+      },
+    );
+  }
+
+  static void showNewSingleExpenseDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewSingleExpensePage();
       },
     );
   }

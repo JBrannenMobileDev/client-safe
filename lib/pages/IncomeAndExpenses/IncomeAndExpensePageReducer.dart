@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:redux/redux.dart';
@@ -9,6 +10,7 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, FilterChangedAction>(_updateFilterSelection),
   TypedReducer<IncomeAndExpensesPageState, UpdateSelectedYearAction>(_setSelectedYear),
   TypedReducer<IncomeAndExpensesPageState, UpdateShowHideState>(_updateShowHideState),
+  TypedReducer<IncomeAndExpensesPageState, UpdateSingleExpenseShowHideState>(_updateSingleExpenseShowHideState),
   TypedReducer<IncomeAndExpensesPageState, OnAllInvoicesFilterChangedAction>(_updateAllInvoicesFilter),
   TypedReducer<IncomeAndExpensesPageState, SetTipTotalsAction>(_setTipInfo),
   TypedReducer<IncomeAndExpensesPageState, JobSearchTextChangedAction>(_setJobSearchText),
@@ -18,7 +20,21 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, AddToTipAction>(_addToUnsavedDeposit),
   TypedReducer<IncomeAndExpensesPageState, ClearUnsavedTipAction>(_clearUnsavedDeposit),
   TypedReducer<IncomeAndExpensesPageState, ClearAddTipStateAction>(_clearAddTipState),
+  TypedReducer<IncomeAndExpensesPageState, SetSingleExpensesAction>(_setSingleExpenses),
 ]);
+
+IncomeAndExpensesPageState _setSingleExpenses(IncomeAndExpensesPageState previousState, SetSingleExpensesAction action) {
+  int singleExpensesTotal = 0;
+  for(SingleExpense expense in action.singleExpenses){
+    singleExpensesTotal = singleExpensesTotal + expense.cost.toInt();
+  }
+  List<SingleExpense> singleExpenseForSelectedYear = action.singleExpenses.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();
+  return previousState.copyWith(
+    singleExpensesForSelectedYear: singleExpenseForSelectedYear,
+    allSingleExpenses: action.singleExpenses,
+    singleExpensesTotal: singleExpensesTotal,
+  );
+}
 
 IncomeAndExpensesPageState _clearAddTipState(IncomeAndExpensesPageState previousState, ClearAddTipStateAction action) {
   return previousState.copyWith(
@@ -98,11 +114,14 @@ IncomeAndExpensesPageState _updateAllInvoicesFilter(IncomeAndExpensesPageState p
 }
 
 IncomeAndExpensesPageState _updateShowHideState(IncomeAndExpensesPageState previousState, UpdateShowHideState action) {
-  List<Invoice> unpaidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
-  unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
   return previousState.copyWith(
     isMinimized: !previousState.isMinimized,
-    unpaidInvoices: unpaidInvoices,
+  );
+}
+
+IncomeAndExpensesPageState _updateSingleExpenseShowHideState(IncomeAndExpensesPageState previousState, UpdateSingleExpenseShowHideState action) {
+  return previousState.copyWith(
+    isSingleExpensesMinimized: !previousState.isSingleExpensesMinimized,
   );
 }
 
@@ -129,6 +148,7 @@ IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState
     isMinimized: true,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
+    pageViewIndex: 0,
   );
 }
 
@@ -163,10 +183,14 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     }
   }
   unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
+
+  List<SingleExpense> singleExpenseForSelectedYear = previousState.singleExpensesForSelectedYear.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();
+
   return previousState.copyWith(
     selectedYear: action.year,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
     totalTips: totalTipsForYear.toDouble(),
+    singleExpensesForSelectedYear: singleExpenseForSelectedYear,
   );
 }

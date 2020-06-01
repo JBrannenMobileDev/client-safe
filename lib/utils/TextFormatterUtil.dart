@@ -6,6 +6,16 @@ class TextFormatterUtil {
     return formatter.format(value);
   }
 
+  static String formatSimpleCurrency(int value){
+    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 0);
+    return formatter.format(value);
+  }
+
+  static String formatDecimalCurrency(double value){
+    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: 2);
+    return formatter.format(value);
+  }
+
   static String formatPhoneNum(String phoneToFormat) {
     String resultNum = "";
     String numsOnly = phoneToFormat.replaceAll(RegExp('[^0-9]+'), "");

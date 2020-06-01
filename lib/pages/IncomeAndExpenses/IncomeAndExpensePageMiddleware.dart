@@ -2,9 +2,11 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/JobStage.dart';
+import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
@@ -32,6 +34,9 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SaveTipIncomeChangeAction){
       _updateJobTip(store, action, next);
+    }
+    if(action is FetchSingleExpenses){
+      _fetchSingleExpenses(store, action, next);
     }
   }
 
@@ -66,6 +71,11 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchJobs(Store<AppState> store, NextDispatcher next) async {
     store.dispatch(SetTipTotalsAction(store.state.incomeAndExpensesPageState, await JobDao.getAllJobs()));
+  }
+
+  void _fetchSingleExpenses(Store<AppState> store, FetchSingleExpenses action, NextDispatcher next) async {
+    List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
+    store.dispatch(SetSingleExpensesAction(store.state.incomeAndExpensesPageState, singleExpenses));
   }
 
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{

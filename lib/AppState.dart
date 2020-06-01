@@ -12,6 +12,7 @@ import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/pages/search_page/SearchPageState.dart';
 import 'package:client_safe/pages/settings_page/SettingsPageState.dart';
@@ -41,6 +42,7 @@ class AppState {
   final NewInvoicePageState newInvoicePageState;
   final IncomeAndExpensesPageState incomeAndExpensesPageState;
   final SunsetWeatherPageState sunsetWeatherPageState;
+  final NewSingleExpensePageState newSingleExpensePageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -62,6 +64,7 @@ class AppState {
     @required this.newInvoicePageState,
     @required this.incomeAndExpensesPageState,
     @required this.sunsetWeatherPageState,
+    @required this.newSingleExpensePageState,
   });
 
   factory AppState.initial() {
@@ -85,6 +88,7 @@ class AppState {
       newInvoicePageState: NewInvoicePageState.initial(),
       incomeAndExpensesPageState: IncomeAndExpensesPageState.initial(),
       sunsetWeatherPageState: SunsetWeatherPageState.initial(),
+        newSingleExpensePageState: NewSingleExpensePageState.initial(),
     );
   }
 
@@ -108,6 +112,7 @@ class AppState {
     NewInvoicePageState newInvoicePageState,
     IncomeAndExpensesPageState incomeAndExpensesPageState,
     SunsetWeatherPageState sunsetWeatherPageState,
+    NewSingleExpensePageState newSingleExpensePageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -129,6 +134,7 @@ class AppState {
       newInvoicePageState: newInvoicePageState ?? this.newInvoicePageState,
       incomeAndExpensesPageState: incomeAndExpensesPageState ?? this.incomeAndExpensesPageState,
       sunsetWeatherPageState: sunsetWeatherPageState ?? this.sunsetWeatherPageState,
+      newSingleExpensePageState: newSingleExpensePageState ?? this.newSingleExpensePageState,
     );
   }
 
@@ -152,6 +158,7 @@ class AppState {
     calendarPageState.hashCode ^
     newInvoicePageState.hashCode ^
     sunsetWeatherPageState.hashCode ^
+    newSingleExpensePageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -176,5 +183,6 @@ class AppState {
               calendarPageState == other.calendarPageState &&
               newInvoicePageState == other.newInvoicePageState &&
               sunsetWeatherPageState == other.sunsetWeatherPageState &&
+              newSingleExpensePageState == other.newSingleExpensePageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

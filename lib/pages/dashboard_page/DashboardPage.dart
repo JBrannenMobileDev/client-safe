@@ -36,12 +36,6 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
   bool dialVisible = true;
   bool isFabExpanded = false;
 
-  void setDialVisible(bool value) {
-    setState(() {
-      dialVisible = value;
-    });
-  }
-
   @override
   void initState() {
     super.initState();
@@ -59,11 +53,6 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
       curve: Curves.fastOutSlowIn,
     ));
     _circleSize.addListener(() => this.setState(() {}));
-
-    _scrollController = ScrollController()..addListener(() {
-        setDialVisible(_scrollController.position.userScrollDirection == ScrollDirection.forward);
-        setState(() {});
-      });
   }
 
   @override

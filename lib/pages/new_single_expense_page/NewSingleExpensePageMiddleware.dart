@@ -1,46 +1,39 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/PriceProfileDao.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as prefix0;
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix1;
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
+import 'package:client_safe/data_layer/local_db/daos/SingleExpenseDao.dart';
+import 'package:client_safe/models/SingleExpense.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
 
-class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
+class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is SavePricingProfileAction){
+    if(action is SaveSingleExpenseProfileAction){
       saveProfile(store, action, next);
     }
-    if(action is prefix1.DeletePriceProfileAction){
-      _deletePricingProfile(store, action, next);
+    if(action is DeleteSingleExpenseAction){
+      _deleteSingleExpense(store, action, next);
     }
   }
 
   void saveProfile(Store<AppState> store, action, NextDispatcher next) async{
-    PriceProfile priceProfile = PriceProfile(
-      id: store.state.pricingProfilePageState.id,
-      profileName: store.state.pricingProfilePageState.profileName,
-      rateType: store.state.pricingProfilePageState.rateType,
-      flatRate: store.state.pricingProfilePageState.flatRate,
-      hourlyRate: store.state.pricingProfilePageState.hourlyRate,
-      itemRate: store.state.pricingProfilePageState.itemRate,
-      icon: store.state.pricingProfilePageState.profileIcon != null
-          ? store.state.pricingProfilePageState.profileIcon : ImageUtil.getDefaultPricingProfileIcon(),
+    SingleExpense singleExpense = SingleExpense(
+      id: store.state.newSingleExpensePageState.id,
+      expenseName: store.state.newSingleExpensePageState.expenseName,
+      cost: store.state.newSingleExpensePageState.expenseCost,
+      chargeDate: store.state.newSingleExpensePageState.expenseDate,
     );
-    await PriceProfileDao.insertOrUpdate(priceProfile);
-    store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
-    store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
-    store.dispatch(prefix0.FetchAllClientsAction(store.state.newJobPageState));
+    await SingleExpenseDao.insertOrUpdate(singleExpense);
+    store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState));
+    store.dispatch(FetchSingleExpenses(store.state.incomeAndExpensesPageState));
   }
 
-  void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
-    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id));
-    store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
+  void _deleteSingleExpense(Store<AppState> store, action, NextDispatcher next) async{
+    await SingleExpenseDao.delete(store.state.newSingleExpensePageState.id);
+    store.dispatch(FetchSingleExpenses(store.state.incomeAndExpensesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 }

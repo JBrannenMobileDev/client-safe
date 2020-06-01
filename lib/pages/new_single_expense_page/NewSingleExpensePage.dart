@@ -6,8 +6,13 @@ import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileIcon
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewProfileName.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/RateTypeSelection.dart';
+import 'package:client_safe/pages/new_single_expense_page/ExpenseDateSelection.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseCost.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseName.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/DandyToastUtil.dart';
 import 'package:client_safe/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,6 +21,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class NewSingleExpensePage extends StatefulWidget {
   @override
@@ -68,7 +74,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
     });
     return StoreConnector<AppState, NewSingleExpensePageState>(
       onInit: (store) {
-        if(store.state.pricingProfilePageState.shouldClear) store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
+        if(store.state.newSingleExpensePageState.shouldClear) store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState));
       },
       converter: (store) => NewSingleExpensePageState.fromStore(store),
       builder: (BuildContext context, NewSingleExpensePageState pageState) =>
@@ -94,7 +100,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                         alignment: Alignment.center,
                         children: <Widget>[
                           Text(
-                            pageState.shouldClear ? "New Price Package" : "Edit Price Package",
+                            pageState.shouldClear ? "New Single Expense" : "Edit Single Expense",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 26.0,
@@ -138,9 +144,9 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                         controller: controller,
                         pageSnapping: true,
                         children: <Widget>[
-                          NewProfileName(),
-                          RateTypeSelection(scaffoldKey),
-                          NewPricingProfileIconSelection(),
+                          NewSingleExpenseName(),
+                          ExpenseDateSelection(),
+                          NewSingleExpenseCost(),
                         ],
                       ),
                     ),
@@ -212,14 +218,18 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          if (pageState.profileName.length > 0) {
+          if (pageState.expenseName.length > 0) {
             canProgress = true;
           } else {
             HapticFeedback.heavyImpact();
           }
           break;
         case 1:
-          canProgress = true;
+          if(pageState.expenseDate != null) {
+            canProgress = true;
+          } else {
+            DandyToastUtil.showErrorToast('Expense charge date is required');
+          }
           break;
         default:
           canProgress = true;
@@ -234,8 +244,12 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
       }
     }
     if (pageState.pageViewIndex == pageCount) {
-      showSuccessAnimation();
-      pageState.onSavePressed();
+      if(pageState.expenseCost > 0.0){
+        showSuccessAnimation();
+        pageState.onSavePressed();
+      } else {
+        DandyToastUtil.showErrorToast('Cost must be greater than \$0.0');
+      }
     }
   }
 
@@ -254,7 +268,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
             ),
             new FlatButton(
               onPressed: () {
-                pageState.onDeleteProfileSelected();
+                pageState.onDeleteSingleExpenseSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -270,7 +284,7 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
             ),
             new FlatButton(
               onPressed: () {
-                pageState.onDeleteProfileSelected();
+                pageState.onDeleteSingleExpenseSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

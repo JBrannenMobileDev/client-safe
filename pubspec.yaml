@@ -58,6 +58,7 @@ dependencies:
   http: ^0.12.1
   flutter_google_places: ^0.2.5
   fluttertoast: ^4.0.1
+  flutter_masked_text: ^0.8.0
 
 flutter_icons:
   android: true
@@ -174,6 +175,7 @@ flutter:
     - assets/images/icons/location_icon_black.png
     - assets/images/icons/collections_icon_white.png
     - assets/images/icons/expenses_icon_peach.png
+    - assets/images/icons/coin_icon_peach.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

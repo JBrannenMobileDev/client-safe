@@ -1,7 +1,7 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -14,46 +14,34 @@ class NewSingleExpensePageState {
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
-  final String profileName;
-  final String profileIcon;
-  final String rateType;
-  final double flatRate;
-  final double hourlyRate;
-  final double itemRate;
+  final String expenseName;
+  final DateTime expenseDate;
+  final double expenseCost;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
   final Function() onBackPressed;
-  final Function() onDeleteProfileSelected;
-  final Function(String) onProfileNameChanged;
-  final Function(String) onProfileIconSelected;
-  final Function(String) onFilterChanged;
-  final Function(String) onFlatRateTextChanged;
-  final Function(String) onHourlyRateTextChanged;
-  final Function(String) onItemRateTextChanged;
+  final Function() onDeleteSingleExpenseSelected;
+  final Function(String) onNameChanged;
+  final Function(DateTime) onExpenseDateSelected;
+  final Function(String) onCostChanged;
 
   NewSingleExpensePageState({
     @required this.id,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
-    @required this.profileName,
-    @required this.profileIcon,
+    @required this.expenseName,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
     @required this.onBackPressed,
-    @required this.onDeleteProfileSelected,
-    @required this.onProfileNameChanged,
-    @required this.onProfileIconSelected,
-    @required this.rateType,
-    @required this.flatRate,
-    @required this.hourlyRate,
-    @required this.itemRate,
-    @required this.onFilterChanged,
-    @required this.onFlatRateTextChanged,
-    @required this.onHourlyRateTextChanged,
-    @required this.onItemRateTextChanged,
+    @required this.onDeleteSingleExpenseSelected,
+    @required this.onNameChanged,
+    @required this.onExpenseDateSelected,
+    @required this.expenseDate,
+    @required this.expenseCost,
+    @required this.onCostChanged,
   });
 
   NewSingleExpensePageState copyWith({
@@ -61,46 +49,34 @@ class NewSingleExpensePageState {
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
-    String profileName,
-    String profileIcon,
-    String rateType,
-    double flatRate,
-    double hourlyRate,
-    double itemRate,
+    String expenseName,
+    DateTime expenseDate,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
     Function() onBackPressed,
-    Function(PriceProfile) onDeleteProfileSelected,
-    Function(String) onProfileNameChanged,
-    Function(String) onProfileIconSelected,
-    Function(String) onFilterChanged,
-    Function(String) onFlatRateTextChanged,
-    Function(String) onHourlyRateTextChanged,
-    Function(String) onItemRateTextChanged,
+    Function(PriceProfile) onDeleteSingleExpenseSelected,
+    Function(String) onNameChanged,
+    Function(DateTime) onExpenseDateSelected,
+    double expenseCost,
+    Function(String) onCostChanged,
   }){
     return NewSingleExpensePageState(
       id: id?? this.id,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
-      profileName: profileName?? this.profileName,
-      profileIcon: profileIcon?? this.profileIcon,
-      rateType: rateType ?? this.rateType,
-      flatRate: flatRate ?? this.flatRate,
-      hourlyRate: hourlyRate ?? this.hourlyRate,
-      itemRate: itemRate ?? this.itemRate,
+      expenseName: expenseName?? this.expenseName,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
       onBackPressed: onBackPressed?? this.onBackPressed,
-      onDeleteProfileSelected: onDeleteProfileSelected?? this.onDeleteProfileSelected,
-      onProfileNameChanged: onProfileNameChanged?? this.onProfileNameChanged,
-      onProfileIconSelected: onProfileIconSelected?? this.onProfileIconSelected,
-      onFilterChanged: onFilterChanged ?? this.onFilterChanged,
-      onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
-      onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
-      onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
+      onDeleteSingleExpenseSelected: onDeleteSingleExpenseSelected?? this.onDeleteSingleExpenseSelected,
+      onNameChanged: onNameChanged?? this.onNameChanged,
+      onExpenseDateSelected: onExpenseDateSelected ?? this.onExpenseDateSelected,
+      expenseDate: expenseDate ?? this.expenseDate,
+      expenseCost: expenseCost ?? this.expenseCost,
+      onCostChanged: onCostChanged ?? this.onCostChanged,
     );
   }
 
@@ -109,47 +85,39 @@ class NewSingleExpensePageState {
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
-        profileName: "",
-        profileIcon: 'assets/images/collection_icons/pricing_profile_icons/piggy_bank_icon_gold.png',
-        rateType: Invoice.RATE_TYPE_FLAT_RATE,
-        flatRate: 0,
-        hourlyRate: 0,
-        itemRate: 0,
+        expenseName: "",
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
         onBackPressed: null,
-        onDeleteProfileSelected: null,
-        onProfileNameChanged: null,
-        onProfileIconSelected: null,
-        onFilterChanged: null,
-        onFlatRateTextChanged: null,
-        onHourlyRateTextChanged: null,
-        onItemRateTextChanged: null,
+        onDeleteSingleExpenseSelected: null,
+        onNameChanged: null,
+        expenseDate: null,
+        onExpenseDateSelected: null,
+        expenseCost: 0.0,
+        onCostChanged: null,
       );
 
   factory NewSingleExpensePageState.fromStore(Store<AppState> store) {
     return NewSingleExpensePageState(
-      id: store.state.pricingProfilePageState.id,
-      pageViewIndex: store.state.pricingProfilePageState.pageViewIndex,
-      saveButtonEnabled: store.state.pricingProfilePageState.saveButtonEnabled,
-      shouldClear: store.state.pricingProfilePageState.shouldClear,
-      profileName: store.state.pricingProfilePageState.profileName,
-      profileIcon: store.state.pricingProfilePageState.profileIcon,
-      rateType: store.state.pricingProfilePageState.rateType,
-      flatRate: store.state.pricingProfilePageState.flatRate,
-      hourlyRate: store.state.pricingProfilePageState.hourlyRate,
-      onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
-      onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
-      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
-      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.pricingProfilePageState)),
-      onDeleteProfileSelected: () => store.dispatch(DeletePriceProfileAction(store.state.pricingProfilePageState)),
-      onProfileNameChanged: (profileName) => store.dispatch(UpdateProfileNameAction(store.state.pricingProfilePageState, profileName)),
-      onProfileIconSelected: (fileLocation) => store.dispatch(SetProfileIconAction(store.state.pricingProfilePageState, fileLocation)),
-      onFilterChanged: (rateType) => store.dispatch(SaveSelectedRateTypeAction(store.state.pricingProfilePageState, rateType)),
-      onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.pricingProfilePageState, flatRateText)),
-      onHourlyRateTextChanged: (hourlyRateText) => store.dispatch(UpdateHourlyRateTextAction(store.state.pricingProfilePageState, hourlyRateText)),
-      onItemRateTextChanged: (itemRateText) => store.dispatch(UpdateItemRateTextAction(store.state.pricingProfilePageState, itemRateText)),
+      id: store.state.newSingleExpensePageState.id,
+      pageViewIndex: store.state.newSingleExpensePageState.pageViewIndex,
+      saveButtonEnabled: store.state.newSingleExpensePageState.saveButtonEnabled,
+      shouldClear: store.state.newSingleExpensePageState.shouldClear,
+      expenseName: store.state.newSingleExpensePageState.expenseName,
+      expenseDate: store.state.newSingleExpensePageState.expenseDate,
+      expenseCost: store.state.newSingleExpensePageState.expenseCost,
+      onSavePressed: () => store.dispatch(SaveSingleExpenseProfileAction(store.state.newSingleExpensePageState)),
+      onCancelPressed: () => store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState)),
+      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newSingleExpensePageState)),
+      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newSingleExpensePageState)),
+      onDeleteSingleExpenseSelected: () {
+        store.dispatch(DeleteSingleExpenseAction(store.state.newSingleExpensePageState));
+        store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState));
+      },
+      onNameChanged: (profileName) => store.dispatch(UpdateExpenseNameAction(store.state.newSingleExpensePageState, profileName)),
+      onExpenseDateSelected: (expenseDate) => store.dispatch(SetExpenseDateAction(store.state.newSingleExpensePageState, expenseDate)),
+      onCostChanged: (newCost) => store.dispatch(UpdateCostAction(store.state.newSingleExpensePageState, newCost)),
     );
   }
 
@@ -159,18 +127,16 @@ class NewSingleExpensePageState {
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
-      profileName.hashCode ^
-      profileIcon.hashCode ^
+      expenseName.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
       onBackPressed.hashCode ^
-      onProfileNameChanged.hashCode ^
-      onProfileIconSelected.hashCode ^
-      rateType.hashCode ^
-      flatRate.hashCode ^
-      hourlyRate.hashCode ^
-      itemRate.hashCode ;
+      onNameChanged.hashCode ^
+      expenseDate.hashCode ^
+      expenseCost.hashCode ^
+      onDeleteSingleExpenseSelected.hashCode ^
+      onExpenseDateSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -179,17 +145,15 @@ class NewSingleExpensePageState {
           id == other.id &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
+          onDeleteSingleExpenseSelected == other.onDeleteSingleExpenseSelected &&
           shouldClear == other.shouldClear &&
-          profileName == other.profileName &&
-          profileIcon == other.profileIcon &&
+          expenseName == other.expenseName &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&
-          onProfileNameChanged == other.onProfileNameChanged &&
-          onProfileIconSelected == other.onProfileIconSelected &&
-          rateType == other.rateType &&
-          hourlyRate == other.hourlyRate &&
-          itemRate == other.itemRate &&
-          flatRate == other.flatRate ;
+          onNameChanged == other.onNameChanged &&
+          expenseDate == other.expenseDate &&
+          expenseCost == other.expenseCost &&
+          onExpenseDateSelected == other.onExpenseDateSelected;
 }

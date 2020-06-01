@@ -1,76 +1,60 @@
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:redux/redux.dart';
 import 'NewSingleExpensePageState.dart';
 
 final newSingleExpensePageReducer = combineReducers<NewSingleExpensePageState>([
-  TypedReducer<NewSingleExpensePageState, ClearStateAction>(_clearState),
+  TypedReducer<NewSingleExpensePageState, SetExpenseDateAction>(_setExpenseDate),
+  TypedReducer<NewSingleExpensePageState, ClearSingleEpenseStateAction>(_clearState),
   TypedReducer<NewSingleExpensePageState, IncrementPageViewIndex>(_incrementPageViewIndex),
   TypedReducer<NewSingleExpensePageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewSingleExpensePageState, LoadExistingPricingProfileData>(_loadPriceProfile),
-  TypedReducer<NewSingleExpensePageState, SetProfileIconAction>(_setProfileIcon),
-  TypedReducer<NewSingleExpensePageState, UpdateProfileNameAction>(_updateName),
-  TypedReducer<NewSingleExpensePageState, SaveSelectedRateTypeAction>(_saveRateType),
-  TypedReducer<NewSingleExpensePageState, UpdateFlatRateTextAction>(_updateFlatRate),
-  TypedReducer<NewSingleExpensePageState, UpdateHourlyRateTextAction>(_updateHourlyRate),
-  TypedReducer<NewSingleExpensePageState, UpdateItemRateTextAction>(_updateItemRate),
+  TypedReducer<NewSingleExpensePageState, UpdateExpenseNameAction>(_updateName),
+  TypedReducer<NewSingleExpensePageState, UpdateCostAction>(_updateCost),
+  TypedReducer<NewSingleExpensePageState, LoadExistingSingleExpenseAction>(_setSelectedSingleExpense),
 ]);
 
-NewSingleExpensePageState _saveRateType(NewSingleExpensePageState previousState, SaveSelectedRateTypeAction action){
+NewSingleExpensePageState _setSelectedSingleExpense(NewSingleExpensePageState previousState, LoadExistingSingleExpenseAction action){
   return previousState.copyWith(
-    rateType: action.rateType,
+    expenseName: action.singleExpense.expenseName,
+    expenseDate: action.singleExpense.chargeDate,
+    expenseCost: action.singleExpense.cost,
+    id: action.singleExpense.id,
+    shouldClear: false,
   );
 }
 
-NewSingleExpensePageState _updateItemRate(NewSingleExpensePageState previousState, UpdateItemRateTextAction action){
-  String itemRate = action.itemRateText.replaceFirst(r'$', '');
+NewSingleExpensePageState _updateCost(NewSingleExpensePageState previousState, UpdateCostAction action){
+  String resultCost = action.newCost.replaceAll('\$', '');
+  resultCost = resultCost.replaceAll(',', '');
+  resultCost = resultCost.replaceAll(' ', '');
+  double doubleCost = double.parse(resultCost);
+  doubleCost = doubleCost * 10;
   return previousState.copyWith(
-    itemRate: double.parse(itemRate),
-    hourlyRate: itemRate.length > 0 ? 0 : previousState.hourlyRate,
-    flatRate: itemRate.length > 0 ? 0 : previousState.flatRate,
+    expenseCost: doubleCost,
   );
 }
 
-NewSingleExpensePageState _updateHourlyRate(NewSingleExpensePageState previousState, UpdateHourlyRateTextAction action){
-  String hourlyRate = action.hourlyRateText.replaceFirst(r'$', '');
+NewSingleExpensePageState _setExpenseDate(NewSingleExpensePageState previousState, SetExpenseDateAction action){
   return previousState.copyWith(
-    hourlyRate: double.parse(hourlyRate),
-    itemRate: hourlyRate.length > 0 ? 0 : previousState.itemRate,
-    flatRate: hourlyRate.length > 0 ? 0 : previousState.flatRate,
+    expenseDate: action.expenseDate,
   );
 }
 
-NewSingleExpensePageState _updateFlatRate(NewSingleExpensePageState previousState, UpdateFlatRateTextAction action){
-  String flatRate = action.flatRateText.replaceFirst(r'$', '');
+NewSingleExpensePageState _updateName(NewSingleExpensePageState previousState, UpdateExpenseNameAction action){
   return previousState.copyWith(
-    flatRate: double.parse(flatRate),
-    itemRate: flatRate.length > 0 ? 0 : previousState.itemRate,
-    hourlyRate: flatRate.length > 0 ? 0 : previousState.hourlyRate,
+      expenseName: action.expenseName,
   );
 }
 
-NewSingleExpensePageState _updateName(NewSingleExpensePageState previousState, UpdateProfileNameAction action){
-  return previousState.copyWith(
-      profileName: action.profileName,
-  );
-}
-
+//fix this method
 NewSingleExpensePageState _loadPriceProfile(NewSingleExpensePageState previousState, LoadExistingPricingProfileData action){
   return previousState.copyWith(
-    id: action.profile.id,
+    id: action.singleExpense.id,
     shouldClear: false,
-    profileName: action.profile.profileName,
-    profileIcon: action.profile.icon,
-    rateType: action.profile.rateType,
-    flatRate: action.profile.flatRate,
-    hourlyRate: action.profile.hourlyRate,
-    itemRate: action.profile.itemRate,
-  );
-}
-
-NewSingleExpensePageState _setProfileIcon(NewSingleExpensePageState previousState, SetProfileIconAction action){
-  return previousState.copyWith(
-    profileIcon: action.profileIcon,
+    expenseName: action.singleExpense.expenseName,
+    expenseDate: action.singleExpense.chargeDate,
+    expenseCost: action.singleExpense.cost,
   );
 }
 
@@ -90,6 +74,6 @@ NewSingleExpensePageState _decrementPageViewIndex(NewSingleExpensePageState prev
   );
 }
 
-NewSingleExpensePageState _clearState(NewSingleExpensePageState previousState, ClearStateAction action) {
+NewSingleExpensePageState _clearState(NewSingleExpensePageState previousState, ClearSingleEpenseStateAction action) {
   return NewSingleExpensePageState.initial();
 }

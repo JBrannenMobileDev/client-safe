@@ -47,12 +47,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   bool dialVisible = true;
   JobDetailsPageState pageStateLocal;
 
-  void setDialVisible(bool value) {
-    setState(() {
-      dialVisible = value;
-    });
-  }
-
   Future<void> _ackAlert(BuildContext context, JobDetailsPageState pageState) {
     return showDialog<void>(
       context: context,
@@ -93,16 +87,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
         );
       },
     );
-  }
-
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController()..addListener(() {
-      setDialVisible(_scrollController.position.userScrollDirection == ScrollDirection.forward);
-      setState(() {});
-    });
   }
 
   @override

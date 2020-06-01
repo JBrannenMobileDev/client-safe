@@ -1,6 +1,7 @@
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 
 class FilterChangedAction{
@@ -29,6 +30,11 @@ class SetAllInvoicesAction{
 class UpdateShowHideState{
   final IncomeAndExpensesPageState pageState;
   UpdateShowHideState(this.pageState);
+}
+
+class UpdateSingleExpenseShowHideState{
+  final IncomeAndExpensesPageState pageState;
+  UpdateSingleExpenseShowHideState(this.pageState);
 }
 
 class InvoiceEditSelected{
@@ -112,4 +118,15 @@ class SaveTipIncomeChangeAction{
 class ClearUnsavedTipAction{
   final IncomeAndExpensesPageState pageState;
   ClearUnsavedTipAction(this.pageState);
+}
+
+class FetchSingleExpenses{
+  final IncomeAndExpensesPageState pageState;
+  FetchSingleExpenses(this.pageState);
+}
+
+class SetSingleExpensesAction{
+  final IncomeAndExpensesPageState pageState;
+  final List<SingleExpense> singleExpenses;
+  SetSingleExpensesAction(this.pageState, this.singleExpenses);
 }

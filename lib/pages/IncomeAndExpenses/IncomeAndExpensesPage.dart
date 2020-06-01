@@ -37,23 +37,6 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
   bool isFabExpanded = false;
 
   @override
-  void initState() {
-    super.initState();
-
-    scrollController = ScrollController()
-      ..addListener(() {
-        setDialVisible(scrollController.position.userScrollDirection ==
-            ScrollDirection.forward);
-      });
-  }
-
-  void setDialVisible(bool value) {
-    setState(() {
-      dialVisible = value;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     tabs = <int, Widget>{
       0: Text(IncomeAndExpensesPage.FILTER_TYPE_INCOME, style: TextStyle(
@@ -73,6 +56,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
       onInit: (appState) {
         appState.dispatch(LoadAllInvoicesAction(appState.state.incomeAndExpensesPageState));
         appState.dispatch(LoadAllJobsAction(appState.state.incomeAndExpensesPageState));
+        appState.dispatch(FetchSingleExpenses(appState.state.incomeAndExpensesPageState));
       },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
@@ -249,9 +233,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                       SliverList(
                         delegate: new SliverChildListDelegate(
                           <Widget>[
-                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? IncomeGraphCard(pageState: pageState) : MileageExpensesCard(),
-                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? UnpaidInvoicesCard(pageState: pageState) : SingleExpenseCard(),
-                            pageState.filterType == IncomeAndExpensesPage.FILTER_TYPE_INCOME ? SizedBox() : RecurringExpensesCard(),
+                            selectedIndex == 0 ? IncomeGraphCard(pageState: pageState) : MileageExpensesCard(),
+                            selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
+                            selectedIndex == 0 ? SizedBox() : RecurringExpensesCard(),
                           ],
                         ),
                       ),
@@ -423,7 +407,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-
+                        UserOptionsUtil.showNewSingleExpenseDialog(context);
                       },
                     ),
                     SpeedDialChild(

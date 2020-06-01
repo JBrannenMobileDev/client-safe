@@ -5,6 +5,7 @@ import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dar
 import 'package:client_safe/pages/client_details_page/ClientJobItem.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
+import 'package:client_safe/utils/DandyToastUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -125,15 +126,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   if(pageState.client.phone != null && pageState.client.phone.length > 0){
                                     onCallPressed(pageState.client.phone);
                                   }else{
-                                    Fluttertoast.showToast(
-                                        msg: 'No phone number saved yet',
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 5,
-                                        backgroundColor: Color(ColorConstants.getPeachDark()),
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
+                                    DandyToastUtil.showErrorToast('No phone number saved yet');
                                   }
                                 },
                                 child: Container(
@@ -152,15 +145,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   if(pageState.client.phone != null && pageState.client.phone.length > 0){
                                     onSMSPressed(pageState.client.phone);
                                   }else{
-                                    Fluttertoast.showToast(
-                                        msg: 'No phone number saved yet',
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 5,
-                                        backgroundColor: Color(ColorConstants.getPeachDark()),
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
+                                    DandyToastUtil.showErrorToast('No phone number saved yet');
                                   }
                                 },
                                 child: Container(
@@ -179,15 +164,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   if(pageState.client.email != null && pageState.client.email.length > 0){
                                     onEmailPressed(pageState.client.email);
                                   }else{
-                                    Fluttertoast.showToast(
-                                        msg: 'No email saved yet',
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 5,
-                                        backgroundColor: Color(ColorConstants.getPeachDark()),
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
+                                    DandyToastUtil.showErrorToast('No email saved yet');
                                   }
                                 },
                                 child: Container(
@@ -206,15 +183,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                   if(pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0){
                                     pageState.onInstagramSelected();
                                   }else{
-                                    Fluttertoast.showToast(
-                                        msg: 'No Instagram URL saved yet',
-                                        toastLength: Toast.LENGTH_LONG,
-                                        gravity: ToastGravity.CENTER,
-                                        timeInSecForIosWeb: 5,
-                                        backgroundColor: Color(ColorConstants.getPeachDark()),
-                                        textColor: Colors.white,
-                                        fontSize: 16.0
-                                    );
+                                    DandyToastUtil.showErrorToast('No Instagram URL saved yet');
                                   }
                                 },
                                 child: Container(
