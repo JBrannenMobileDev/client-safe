@@ -3,6 +3,7 @@ import 'package:client_safe/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/DandyToastUtil.dart';
 import 'package:client_safe/utils/IntentLauncherUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -76,7 +77,11 @@ class ClientDetailsCard extends StatelessWidget {
                   children: <Widget>[
                     GestureDetector(
                         onTap: () {
-                          onCallPressed(pageState.client.phone);
+                          if(pageState.client.phone != null && pageState.client.phone.length > 0){
+                            onCallPressed(pageState.client.phone);
+                          }else{
+                            DandyToastUtil.showErrorToast('No phone number saved yet');
+                          }
                         },
                         child: Container(
                           height: 42.0,
@@ -86,7 +91,11 @@ class ClientDetailsCard extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          onSMSPressed(pageState.client.phone);
+                          if(pageState.client.phone != null && pageState.client.phone.length > 0){
+                            onSMSPressed(pageState.client.phone);
+                          }else{
+                            DandyToastUtil.showErrorToast('No phone number saved yet');
+                          }
                         },
                         child: Container(
                           height: 42.0,
@@ -96,7 +105,11 @@ class ClientDetailsCard extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          onEmailPressed(pageState.client.email);
+                          if(pageState.client.email != null && pageState.client.email.length > 0){
+                            onEmailPressed(pageState.client.email);
+                          }else{
+                            DandyToastUtil.showErrorToast('No email saved yet');
+                          }
                         },
                         child: Container(
                           height: 42.0,
@@ -106,7 +119,11 @@ class ClientDetailsCard extends StatelessWidget {
                     ),
                     GestureDetector(
                         onTap: () {
-                          pageState.onInstagramSelected();
+                          if(pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0){
+                            pageState.onInstagramSelected();
+                          }else{
+                            DandyToastUtil.showErrorToast('No Instagram URL saved yet');
+                          }
                         },
                         child: Container(
                           height: 42.0,

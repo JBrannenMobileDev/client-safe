@@ -24,15 +24,18 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
 ]);
 
 IncomeAndExpensesPageState _setSingleExpenses(IncomeAndExpensesPageState previousState, SetSingleExpensesAction action) {
-  int singleExpensesTotal = 0;
-  for(SingleExpense expense in action.singleExpenses){
-    singleExpensesTotal = singleExpensesTotal + expense.cost.toInt();
-  }
   List<SingleExpense> singleExpenseForSelectedYear = action.singleExpenses.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();
+  singleExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.chargeDate.isBefore(expenseB.chargeDate) == true ? 1 : -1);
+
+  double singleExpensesTotal = 0;
+  for(SingleExpense expense in singleExpenseForSelectedYear){
+    singleExpensesTotal = singleExpensesTotal + expense.cost;
+  }
   return previousState.copyWith(
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     allSingleExpenses: action.singleExpenses,
-    singleExpensesTotal: singleExpensesTotal,
+    singleExpensesTotal: singleExpensesTotal.round(),
+    expensesForSelectedYear: singleExpensesTotal.toDouble(),
   );
 }
 
@@ -176,7 +179,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
 
   List<Job> jobsSelectedYear = previousState.allJobs.where((job) => job.selectedDate.year == previousState.selectedYear).toList();
-  int totalTipsForYear = 0;
+  double totalTipsForYear = 0;
   for(Job job in jobsSelectedYear) {
     if(job != null && job.tipAmount != null) {
       totalTipsForYear = totalTipsForYear + job.tipAmount;
@@ -184,13 +187,19 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
   unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
 
-  List<SingleExpense> singleExpenseForSelectedYear = previousState.singleExpensesForSelectedYear.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();
+  List<SingleExpense> singleExpenseForSelectedYear = previousState.allSingleExpenses.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();
+  singleExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.chargeDate.isBefore(expenseB.chargeDate) == true ? 1 : -1);
 
+  double singleExpensesTotal = 0;
+  for(SingleExpense expense in singleExpenseForSelectedYear){
+    singleExpensesTotal = singleExpensesTotal + expense.cost;
+  }
   return previousState.copyWith(
     selectedYear: action.year,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
-    totalTips: totalTipsForYear.toDouble(),
+    totalTips: totalTipsForYear,
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
+    expensesForSelectedYear: singleExpensesTotal.toDouble(),
   );
 }

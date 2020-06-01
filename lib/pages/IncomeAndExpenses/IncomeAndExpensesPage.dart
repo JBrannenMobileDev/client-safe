@@ -212,7 +212,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                         Container(
                                           margin: EdgeInsets.only(left: 16.0),
                                           child: Text(
-                                            NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.totalTips.truncate() + pageState.incomeForSelectedYear.truncate()),
+                                            selectedIndex == 0 ? NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.totalTips.round() + pageState.incomeForSelectedYear.round())
+                                            : NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.expensesForSelectedYear.round()),
                                             style: TextStyle(
                                               fontFamily: 'simple',
                                               fontSize: 52.0,

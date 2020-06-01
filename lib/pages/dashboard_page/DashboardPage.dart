@@ -280,7 +280,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                       JobsHomeCard(pageState: pageState),
                       LeadsHomeCard(cardTitle: 'Leads', pageState: pageState),
                       StatsHomeCard(
-                          cardTitle: "Insights", pageState: pageState),
+                          cardTitle: "Business Insights", pageState: pageState),
                     ])),
                   ],
                 ),

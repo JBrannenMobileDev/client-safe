@@ -5,7 +5,6 @@ import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
-import 'package:client_safe/utils/JobUtil.dart';
 import 'package:redux/redux.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
@@ -13,8 +12,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
     if(action is LoadJobsAction) {
-      _loadClients(store, action, next);
       _loadAllJobs(store, action, next);
+      _loadClients(store, action, next);
     }
   }
 

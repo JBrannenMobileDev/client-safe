@@ -30,7 +30,8 @@ class IncomeAndExpensesPageState {
   final double totalIncome;//not from tips
   final double totalTips;
   final double incomeForSelectedYear;
-  final int singleExpensesTotal;
+  final double expensesForSelectedYear;
+  final int singleExpensesForSelectedYearTotal;
   final bool isMinimized;
   final bool isSingleExpensesMinimized;
   final Function(String) onFilterChanged;
@@ -89,10 +90,11 @@ class IncomeAndExpensesPageState {
     @required this.onClearUnsavedTip,
     @required this.unsavedTipAmount,
     @required this.singleExpensesForSelectedYear,
-    @required this.singleExpensesTotal,
+    @required this.singleExpensesForSelectedYearTotal,
     @required this.onViewAllHideSingleExpensesSelected,
     @required this.allSingleExpenses,
     @required this.onSingleExpenseItemSelected,
+    @required this.expensesForSelectedYear,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -105,6 +107,7 @@ class IncomeAndExpensesPageState {
     double totalIncome,
     double totalTips,
     double incomeForSelectedYear,
+    double expensesForSelectedYear,
     Function(String) onFilterChanged,
     Function(int) onYearChanged,
     bool isMinimized,
@@ -173,11 +176,12 @@ class IncomeAndExpensesPageState {
       onClearUnsavedTip: onClearUnsavedTip ?? this.onClearUnsavedTip,
       unsavedTipAmount: unsavedTipAmount ?? this.unsavedTipAmount,
       singleExpensesForSelectedYear: singleExpensesForSelectedYear ?? this.singleExpensesForSelectedYear,
-      singleExpensesTotal: singleExpensesTotal ?? this.singleExpensesTotal,
+      singleExpensesForSelectedYearTotal: singleExpensesTotal ?? this.singleExpensesForSelectedYearTotal,
       onViewAllHideSingleExpensesSelected: onViewAllHideSingleExpensesSelected ?? this.onViewAllHideSingleExpensesSelected,
       allSingleExpenses: allSingleExpenses ?? this.allSingleExpenses,
       isSingleExpensesMinimized: isSingleExpensesMinimized ?? this.isSingleExpensesMinimized,
       onSingleExpenseItemSelected: onSingleExpenseItemSelected ?? this.onSingleExpenseItemSelected,
+      expensesForSelectedYear: expensesForSelectedYear ?? this.expensesForSelectedYear,
     );
   }
 
@@ -197,7 +201,7 @@ class IncomeAndExpensesPageState {
     onInvoiceSent: null,
     paidInvoices: List(),
     totalTips: 0.0,
-    singleExpensesTotal: 0,
+    singleExpensesForSelectedYearTotal: 0,
     selectedJob: null,
     allInvoicesFilterType: AllInvoicesPage.FILTER_TYPE_UNPAID,
     onAllInvoicesFilterChanged: null,
@@ -222,6 +226,7 @@ class IncomeAndExpensesPageState {
     onViewAllHideSingleExpensesSelected: null,
     isSingleExpensesMinimized: true,
     onSingleExpenseItemSelected: null,
+    expensesForSelectedYear: 0.0,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -246,8 +251,9 @@ class IncomeAndExpensesPageState {
       selectedJob: store.state.incomeAndExpensesPageState.selectedJob,
       unsavedTipAmount: store.state.incomeAndExpensesPageState.unsavedTipAmount,
       singleExpensesForSelectedYear: store.state.incomeAndExpensesPageState.singleExpensesForSelectedYear,
-      singleExpensesTotal: store.state.incomeAndExpensesPageState.singleExpensesTotal,
+      singleExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.singleExpensesForSelectedYearTotal,
       allSingleExpenses: store.state.incomeAndExpensesPageState.allSingleExpenses,
+      expensesForSelectedYear: store.state.incomeAndExpensesPageState.expensesForSelectedYear,
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
@@ -277,11 +283,12 @@ class IncomeAndExpensesPageState {
       filterType.hashCode ^
       filteredJobs.hashCode ^
       allClients.hashCode ^
-      singleExpensesTotal.hashCode ^
+      singleExpensesForSelectedYearTotal.hashCode ^
       isFinishedFetchingClients.hashCode ^
       jobSearchText.hashCode ^
       onJobSearchTextChanged.hashCode ^
       onAllInvoicesFilterChanged.hashCode ^
+      expensesForSelectedYear.hashCode ^
       selectedYear.hashCode ^
       allInvoices.hashCode ^
       onSingleExpenseItemSelected.hashCode ^
@@ -317,12 +324,13 @@ class IncomeAndExpensesPageState {
               filteredJobs == other.filteredJobs &&
               allClients == other.allClients &&
               onSingleExpenseItemSelected == other.onSingleExpenseItemSelected &&
-              singleExpensesTotal == other.singleExpensesTotal &&
+              singleExpensesForSelectedYearTotal == other.singleExpensesForSelectedYearTotal &&
               pageViewIndex == other.pageViewIndex &&
               selectedJob == other.selectedJob &&
               isSingleExpensesMinimized == other.isSingleExpensesMinimized &&
               isFinishedFetchingClients == other.isFinishedFetchingClients &&
               jobSearchText == other.jobSearchText &&
+              expensesForSelectedYear == other.expensesForSelectedYear &&
               onJobSearchTextChanged == other.onJobSearchTextChanged &&
               onAllInvoicesFilterChanged == other.onAllInvoicesFilterChanged &&
               allInvoices == other.allInvoices &&

@@ -69,7 +69,7 @@ class SingleExpenseCard extends StatelessWidget{
                 Container(
                   alignment: Alignment.center,
                   child: Text(
-                    NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.singleExpensesTotal),
+                    NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.singleExpensesForSelectedYearTotal),
                     style: TextStyle(
                       fontFamily: 'simple',
                       fontSize: 48.0,
