@@ -130,3 +130,9 @@ class SetSingleExpensesAction{
   final List<SingleExpense> singleExpenses;
   SetSingleExpensesAction(this.pageState, this.singleExpenses);
 }
+
+class UpdateAlInvoicesSelectorPosition{
+  final IncomeAndExpensesPageState pageState;
+  final bool isUnpaidFilter;
+  UpdateAlInvoicesSelectorPosition(this.pageState, this.isUnpaidFilter);
+}

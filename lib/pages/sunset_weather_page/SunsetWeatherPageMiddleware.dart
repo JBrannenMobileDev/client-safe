@@ -102,11 +102,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetInitialMapLatLng(store.state.sunsetWeatherPageState, positionLastKnown.latitude, positionLastKnown.longitude));
       List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(positionLastKnown.latitude, positionLastKnown.longitude);
 
-      if(store.state.sunsetWeatherPageState.selectedLocation != null){
-        store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, store.state.sunsetWeatherPageState.selectedLocation.locationName));
-      }else {
-        store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
-      }
+      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
 
       final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: positionLastKnown.latitude, longitude: positionLastKnown.longitude);
       store.dispatch(

@@ -48,6 +48,7 @@ class PaidInvoiceCard extends StatelessWidget{
                       ),
                       pageState.paidInvoices != null && pageState.paidInvoices.length > 3 ? FlatButton(
                         onPressed: () {
+                          pageState.onViewAllSelected(false);
                           Navigator.of(context).push(
                             new MaterialPageRoute(builder: (context) => AllInvoicesPage()),
                           );

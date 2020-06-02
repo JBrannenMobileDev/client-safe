@@ -50,6 +50,7 @@ class IncomeAndExpensesPageState {
   final Function() onClearUnsavedTip;
   final int unsavedTipAmount;
   final Function(SingleExpense) onSingleExpenseItemSelected;
+  final Function(bool) onViewAllSelected;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -91,6 +92,7 @@ class IncomeAndExpensesPageState {
     @required this.allSingleExpenses,
     @required this.onSingleExpenseItemSelected,
     @required this.expensesForSelectedYear,
+    @required this.onViewAllSelected,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -133,6 +135,7 @@ class IncomeAndExpensesPageState {
     List<SingleExpense> allSingleExpenses,
     bool isSingleExpensesMinimized,
     Function(SingleExpense) onSingleExpenseItemSelected,
+    Function(bool) onViewAllSelected,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -174,6 +177,7 @@ class IncomeAndExpensesPageState {
       isSingleExpensesMinimized: isSingleExpensesMinimized ?? this.isSingleExpensesMinimized,
       onSingleExpenseItemSelected: onSingleExpenseItemSelected ?? this.onSingleExpenseItemSelected,
       expensesForSelectedYear: expensesForSelectedYear ?? this.expensesForSelectedYear,
+      onViewAllSelected: onViewAllSelected ?? this.onViewAllSelected,
     );
   }
 
@@ -217,6 +221,7 @@ class IncomeAndExpensesPageState {
     isSingleExpensesMinimized: true,
     onSingleExpenseItemSelected: null,
     expensesForSelectedYear: 0.0,
+    onViewAllSelected: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -263,6 +268,7 @@ class IncomeAndExpensesPageState {
       onSaveTipChange: () => store.dispatch(SaveTipIncomeChangeAction(store.state.incomeAndExpensesPageState)),
       onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.incomeAndExpensesPageState)),
       onSingleExpenseItemSelected: (selectedSingleExpense) => store.dispatch(LoadExistingSingleExpenseAction(store.state.newSingleExpensePageState, selectedSingleExpense)),
+      onViewAllSelected: (isUnpaidFilter) => store.dispatch(UpdateAlInvoicesSelectorPosition(store.state.incomeAndExpensesPageState, isUnpaidFilter)),
     );
   }
 

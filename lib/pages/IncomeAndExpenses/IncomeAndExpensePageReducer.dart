@@ -1,6 +1,7 @@
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/SingleExpense.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:redux/redux.dart';
@@ -20,7 +21,14 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, ClearUnsavedTipAction>(_clearUnsavedDeposit),
   TypedReducer<IncomeAndExpensesPageState, ClearAddTipStateAction>(_clearAddTipState),
   TypedReducer<IncomeAndExpensesPageState, SetSingleExpensesAction>(_setSingleExpenses),
+  TypedReducer<IncomeAndExpensesPageState, UpdateAlInvoicesSelectorPosition>(_setSelectorPosition)
 ]);
+
+IncomeAndExpensesPageState _setSelectorPosition(IncomeAndExpensesPageState previousState, UpdateAlInvoicesSelectorPosition action) {
+  return previousState.copyWith(
+    allInvoicesFilterType: action.isUnpaidFilter ? AllInvoicesPage.FILTER_TYPE_UNPAID : AllInvoicesPage.FILTER_TYPE_PAID,
+  );
+}
 
 IncomeAndExpensesPageState _setSingleExpenses(IncomeAndExpensesPageState previousState, SetSingleExpensesAction action) {
   List<SingleExpense> singleExpenseForSelectedYear = action.singleExpenses.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();

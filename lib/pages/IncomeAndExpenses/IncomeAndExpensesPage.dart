@@ -275,39 +275,6 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   shape: CircleBorder(),
                   children: selectedIndex == 0 ? [
                     SpeedDialChild(
-                      child: Container(
-                        padding: EdgeInsets.all(10.0),
-                        height: 116.0,
-                        width: 116.0,
-                        child: Image.asset('assets/images/icons/invoices_icon_white.png'),
-                      ),
-                        backgroundColor: Color(ColorConstants.getPeachDark()),
-                        labelWidget: Container(
-                          alignment: Alignment.center,
-                          height: 42.0,
-                          width: 124.0,
-                          decoration: BoxDecoration(
-                            boxShadow: ElevationToShadow[4],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(21.0),
-                          ),
-                          child: Text(
-                            'All invoices',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).push(
-                            new MaterialPageRoute(builder: (context) => AllInvoicesPage()),
-                          );
-                        }
-                    ),
-                    SpeedDialChild(
                       child: Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
@@ -450,7 +417,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
     if(isFabExpanded){
       return Icon(Icons.close, color: Color(ColorConstants.getPrimaryWhite()));
     }else{
-      return Icon(selectedIndex == 0 ? Icons.menu : Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
+      return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
     }
   }
 }
