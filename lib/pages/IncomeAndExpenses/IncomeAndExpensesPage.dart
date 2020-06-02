@@ -4,6 +4,7 @@ import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeGraphCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/MileageExpensesCard.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/PaidInvoiceCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpensesCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/UnpaidInvoicesCard.dart';
@@ -236,7 +237,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           <Widget>[
                             selectedIndex == 0 ? IncomeGraphCard(pageState: pageState) : MileageExpensesCard(),
                             selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
-                            selectedIndex == 0 ? SizedBox() : RecurringExpensesCard(),
+                            selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState,) : RecurringExpensesCard(),
                           ],
                         ),
                       ),

@@ -32,12 +32,10 @@ class IncomeAndExpensesPageState {
   final double incomeForSelectedYear;
   final double expensesForSelectedYear;
   final int singleExpensesForSelectedYearTotal;
-  final bool isMinimized;
   final bool isSingleExpensesMinimized;
   final Function(String) onFilterChanged;
   final Function(String) onAllInvoicesFilterChanged;
   final Function(int) onYearChanged;
-  final Function() onViewAllHideSelected;
   final Function() onViewAllHideSingleExpensesSelected;
   final Function(Invoice) onEditInvoiceSelected;
   final Function(Invoice) onDeleteSelected;
@@ -62,8 +60,6 @@ class IncomeAndExpensesPageState {
     @required this.incomeForSelectedYear,
     @required this.onFilterChanged,
     @required this.onYearChanged,
-    @required this.isMinimized,
-    @required this.onViewAllHideSelected,
     @required this.onEditInvoiceSelected,
     @required this.onDeleteSelected,
     @required this.unpaidInvoices,
@@ -110,9 +106,7 @@ class IncomeAndExpensesPageState {
     double expensesForSelectedYear,
     Function(String) onFilterChanged,
     Function(int) onYearChanged,
-    bool isMinimized,
     Job selectedJob,
-    Function() onViewAllHideSelected,
     Function() onViewAllHideSingleExpensesSelected,
     Function(Invoice) onEditInvoiceSelected,
     Function(Invoice) onDeleteSelected,
@@ -148,8 +142,6 @@ class IncomeAndExpensesPageState {
       incomeForSelectedYear: incomeForSelectedYear ?? this.incomeForSelectedYear,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
       onYearChanged: onYearChanged ?? this.onYearChanged,
-      isMinimized: isMinimized ?? this.isMinimized,
-      onViewAllHideSelected: onViewAllHideSelected ?? this.onViewAllHideSelected,
       onEditInvoiceSelected: onEditInvoiceSelected ?? this.onEditInvoiceSelected,
       onDeleteSelected: onDeleteSelected ?? this.onDeleteSelected,
       unpaidInvoices: unpaidInvoices ?? this.unpaidInvoices,
@@ -193,8 +185,6 @@ class IncomeAndExpensesPageState {
     incomeForSelectedYear: 0,
     onFilterChanged: null,
     onYearChanged: null,
-    isMinimized: true,
-    onViewAllHideSelected: null,
     onEditInvoiceSelected: null,
     onDeleteSelected: null,
     unpaidInvoices: List(),
@@ -235,7 +225,6 @@ class IncomeAndExpensesPageState {
       selectedYear: store.state.incomeAndExpensesPageState.selectedYear,
       allInvoices: store.state.incomeAndExpensesPageState.allInvoices,
       totalIncome: store.state.incomeAndExpensesPageState.totalIncome,
-      isMinimized: store.state.incomeAndExpensesPageState.isMinimized,
       incomeForSelectedYear: store.state.incomeAndExpensesPageState.incomeForSelectedYear,
       unpaidInvoices: store.state.incomeAndExpensesPageState.unpaidInvoices,
       paidInvoices: store.state.incomeAndExpensesPageState.paidInvoices,
@@ -257,7 +246,6 @@ class IncomeAndExpensesPageState {
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
-      onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.incomeAndExpensesPageState)),
       onViewAllHideSingleExpensesSelected: () => store.dispatch(UpdateSingleExpenseShowHideState(store.state.incomeAndExpensesPageState)),
       onEditInvoiceSelected: (invoice) => store.dispatch(InvoiceEditSelected(store.state.incomeAndExpensesPageState, invoice)),
       onDeleteSelected: (invoice) => store.dispatch(DeleteInvoiceAction(store.state.incomeAndExpensesPageState, invoice)),
@@ -297,10 +285,8 @@ class IncomeAndExpensesPageState {
       pageViewIndex.hashCode ^
       incomeForSelectedYear.hashCode ^
       onFilterChanged.hashCode ^
-      isMinimized.hashCode ^
       unpaidInvoices.hashCode ^
       selectedJob.hashCode ^
-      onViewAllHideSelected.hashCode ^
       onEditInvoiceSelected.hashCode ^
       onInvoiceSent.hashCode ^
       paidInvoices.hashCode ^
@@ -337,14 +323,12 @@ class IncomeAndExpensesPageState {
               totalIncome == other.totalIncome &&
               incomeForSelectedYear == other.incomeForSelectedYear &&
               onFilterChanged == other.onFilterChanged &&
-              isMinimized == other.isMinimized &&
               unpaidInvoices == other.unpaidInvoices &&
               onInvoiceSent == other.onInvoiceSent &&
               totalTips == other.totalTips &&
               allJobs == other.allJobs &&
               singleExpensesForSelectedYear == other.singleExpensesForSelectedYear &&
               onEditInvoiceSelected == other.onEditInvoiceSelected &&
-              onViewAllHideSelected == other.onViewAllHideSelected &&
               paidInvoices == other.paidInvoices &&
               allInvoicesFilterType == other.allInvoicesFilterType &&
               onBackPressed == other.onBackPressed &&

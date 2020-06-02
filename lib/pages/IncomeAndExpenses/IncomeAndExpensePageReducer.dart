@@ -9,7 +9,6 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, SetAllInvoicesAction>(_setInvoices),
   TypedReducer<IncomeAndExpensesPageState, FilterChangedAction>(_updateFilterSelection),
   TypedReducer<IncomeAndExpensesPageState, UpdateSelectedYearAction>(_setSelectedYear),
-  TypedReducer<IncomeAndExpensesPageState, UpdateShowHideState>(_updateShowHideState),
   TypedReducer<IncomeAndExpensesPageState, UpdateSingleExpenseShowHideState>(_updateSingleExpenseShowHideState),
   TypedReducer<IncomeAndExpensesPageState, OnAllInvoicesFilterChangedAction>(_updateAllInvoicesFilter),
   TypedReducer<IncomeAndExpensesPageState, SetTipTotalsAction>(_setTipInfo),
@@ -116,12 +115,6 @@ IncomeAndExpensesPageState _updateAllInvoicesFilter(IncomeAndExpensesPageState p
   );
 }
 
-IncomeAndExpensesPageState _updateShowHideState(IncomeAndExpensesPageState previousState, UpdateShowHideState action) {
-  return previousState.copyWith(
-    isMinimized: !previousState.isMinimized,
-  );
-}
-
 IncomeAndExpensesPageState _updateSingleExpenseShowHideState(IncomeAndExpensesPageState previousState, UpdateSingleExpenseShowHideState action) {
   return previousState.copyWith(
     isSingleExpensesMinimized: !previousState.isSingleExpensesMinimized,
@@ -148,7 +141,6 @@ IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState
   return previousState.copyWith(
     allInvoices: action.allInvoices,
     paidInvoices: paidInvoices,
-    isMinimized: true,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
     pageViewIndex: 0,

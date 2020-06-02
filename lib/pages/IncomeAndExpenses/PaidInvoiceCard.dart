@@ -2,26 +2,28 @@ import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/PaidInvoiceItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 
-class UnpaidInvoicesCard extends StatelessWidget{
+class PaidInvoiceCard extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
-  UnpaidInvoicesCard({
+  PaidInvoiceCard({
     this.pageState});
 
   final IncomeAndExpensesPageState pageState;
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 128.0),
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            height: getContainerHeight(pageState.unpaidInvoices.length, pageState),
+            height: getContainerHeight(pageState.paidInvoices.length, pageState),
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -35,7 +37,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Unpaid Invoices',
+                        'Paid Invoices',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
@@ -44,7 +46,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      pageState.unpaidInvoices != null && pageState.unpaidInvoices.length > 3 ? FlatButton(
+                      pageState.paidInvoices != null && pageState.paidInvoices.length > 3 ? FlatButton(
                         onPressed: () {
                           Navigator.of(context).push(
                             new MaterialPageRoute(builder: (context) => AllInvoicesPage()),
@@ -53,7 +55,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                         child: Container(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            'View all (' + pageState.unpaidInvoices.length.toString() + ')',
+                            'View all (' + pageState.paidInvoices.length.toString() + ')',
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'simple',
@@ -66,7 +68,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                     ],
                   ),
                 ),
-                pageState.unpaidInvoices.length > 0 ? ListView.builder(
+                pageState.paidInvoices.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
@@ -79,7 +81,7 @@ class UnpaidInvoicesCard extends StatelessWidget{
                   margin: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 16.0, right: 16.0),
                   height: 64.0,
                   child: Text(
-                    'You have zero unpaid invoices.',
+                    'You have zero paid invoices.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18.0,
@@ -110,12 +112,12 @@ class UnpaidInvoicesCard extends StatelessWidget{
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    List<Invoice> invoices = pageState.unpaidInvoices;
-    return InvoiceItem(invoice: invoices.elementAt(index), pageState: pageState);
+    List<Invoice> invoices = pageState.paidInvoices;
+    return PaidInvoiceItem(invoice: invoices.elementAt(index), pageState: pageState);
   }
 
   int _getItemCount(IncomeAndExpensesPageState pageState) {
-    if(pageState.unpaidInvoices.length > 3) {
+    if(pageState.paidInvoices.length > 3) {
       return 3;
     } else {
       return pageState.unpaidInvoices.length;

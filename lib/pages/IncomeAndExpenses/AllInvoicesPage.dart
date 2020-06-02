@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/PaidInvoiceItem.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
 import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
@@ -165,6 +166,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, IncomeAndExpensesPageState>(
     converter: (store) => IncomeAndExpensesPageState.fromStore(store),
     builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
-        InvoiceItem(invoice: pageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? pageState.unpaidInvoices.elementAt(index) : pageState.paidInvoices.elementAt(index), pageState: pageState),
+        pageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? InvoiceItem(invoice: pageState.unpaidInvoices.elementAt(index)) : PaidInvoiceItem(invoice: pageState.paidInvoices.elementAt(index)),
   );
 }
