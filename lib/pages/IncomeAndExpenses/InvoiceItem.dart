@@ -52,7 +52,7 @@ class InvoiceItem extends StatelessWidget{
                           fontSize: 20.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w800,
-                          color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryBlack()),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                     ),

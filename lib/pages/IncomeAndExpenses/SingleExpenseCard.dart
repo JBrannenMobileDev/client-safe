@@ -1,3 +1,4 @@
+import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseItem.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
@@ -32,12 +33,12 @@ class SingleExpenseCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Single Expenses',
+                        'Single Expenses (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 24.0,
@@ -48,12 +49,15 @@ class SingleExpenseCard extends StatelessWidget{
                       ),
                       pageState.singleExpensesForSelectedYear != null && pageState.singleExpensesForSelectedYear.length > 3 ? FlatButton(
                         onPressed: () {
-                          pageState.onViewAllHideSingleExpensesSelected();
+                          pageState.onViewAllExpensesSelected(1);
+                          Navigator.of(context).push(
+                            new MaterialPageRoute(builder: (context) => AllExpensesPage()),
+                          );
                         },
                         child: Container(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            pageState.isSingleExpensesMinimized ? 'View all (' + pageState.singleExpensesForSelectedYear.length.toString() + ')' : 'Hide',
+                            pageState.isSingleExpensesMinimized ? 'View all(' + pageState.singleExpensesForSelectedYear.length.toString() + ')' : 'Hide',
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'simple',
@@ -66,7 +70,7 @@ class SingleExpenseCard extends StatelessWidget{
                     ],
                   ),
                 ),
-                Container(
+                pageState.singleExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
                   child: Text(
                     NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.singleExpensesForSelectedYearTotal),
@@ -77,7 +81,7 @@ class SingleExpenseCard extends StatelessWidget{
                       color: Color(ColorConstants.getPeachDark()),
                     ),
                   ),
-                ),
+                ) : SizedBox(),
                 pageState.singleExpensesForSelectedYear.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),
                     reverse: false,
@@ -87,11 +91,12 @@ class SingleExpenseCard extends StatelessWidget{
                     itemCount: _getItemCount(pageState),
                     itemBuilder: _buildItem,
                   ) : Container(
+                  alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 16.0, right: 16.0),
                   height: 64.0,
                   child: Text(
-                    '',
-                    textAlign: TextAlign.start,
+                    'You have zero single expenses.',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22.0,
                       fontFamily: 'simple',

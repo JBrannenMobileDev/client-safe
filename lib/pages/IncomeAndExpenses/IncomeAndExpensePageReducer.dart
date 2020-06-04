@@ -1,6 +1,7 @@
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
 import 'package:client_safe/models/SingleExpense.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
@@ -12,6 +13,7 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, UpdateSelectedYearAction>(_setSelectedYear),
   TypedReducer<IncomeAndExpensesPageState, UpdateSingleExpenseShowHideState>(_updateSingleExpenseShowHideState),
   TypedReducer<IncomeAndExpensesPageState, OnAllInvoicesFilterChangedAction>(_updateAllInvoicesFilter),
+  TypedReducer<IncomeAndExpensesPageState, OnAllExpensesFilterChangedAction>(_updateAllExpensesFilter),
   TypedReducer<IncomeAndExpensesPageState, SetTipTotalsAction>(_setTipInfo),
   TypedReducer<IncomeAndExpensesPageState, JobSearchTextChangedAction>(_setJobSearchText),
   TypedReducer<IncomeAndExpensesPageState, IncrementTipPageViewIndex>(_incrementTipPageViewIndex),
@@ -21,12 +23,19 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, ClearUnsavedTipAction>(_clearUnsavedDeposit),
   TypedReducer<IncomeAndExpensesPageState, ClearAddTipStateAction>(_clearAddTipState),
   TypedReducer<IncomeAndExpensesPageState, SetSingleExpensesAction>(_setSingleExpenses),
-  TypedReducer<IncomeAndExpensesPageState, UpdateAlInvoicesSelectorPosition>(_setSelectorPosition)
+  TypedReducer<IncomeAndExpensesPageState, UpdateAlInvoicesSelectorPosition>(_setSelectorPosition),
+  TypedReducer<IncomeAndExpensesPageState, UpdateAllExpensesSelectorPosition>(_setExpensesSelectorPosition)
 ]);
 
 IncomeAndExpensesPageState _setSelectorPosition(IncomeAndExpensesPageState previousState, UpdateAlInvoicesSelectorPosition action) {
   return previousState.copyWith(
     allInvoicesFilterType: action.isUnpaidFilter ? AllInvoicesPage.FILTER_TYPE_UNPAID : AllInvoicesPage.FILTER_TYPE_PAID,
+  );
+}
+
+IncomeAndExpensesPageState _setExpensesSelectorPosition(IncomeAndExpensesPageState previousState, UpdateAllExpensesSelectorPosition action) {
+  return previousState.copyWith(
+    allExpensesFilterType: action.index == 0 ? AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES : action.index == 1 ? AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES : AllExpensesPage.FILTER_TYPE_RECURRING_EXPENSES,
   );
 }
 
@@ -123,6 +132,12 @@ IncomeAndExpensesPageState _updateAllInvoicesFilter(IncomeAndExpensesPageState p
   );
 }
 
+IncomeAndExpensesPageState _updateAllExpensesFilter(IncomeAndExpensesPageState previousState, OnAllExpensesFilterChangedAction action) {
+  return previousState.copyWith(
+    allExpensesFilterType: action.filter,
+  );
+}
+
 IncomeAndExpensesPageState _updateSingleExpenseShowHideState(IncomeAndExpensesPageState previousState, UpdateSingleExpenseShowHideState action) {
   return previousState.copyWith(
     isSingleExpensesMinimized: !previousState.isSingleExpensesMinimized,
@@ -178,7 +193,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     }
   }
 
-  List<Job> jobsSelectedYear = previousState.allJobs.where((job) => job.selectedDate.year == previousState.selectedYear).toList();
+  List<Job> jobsSelectedYear = previousState.allJobs.where((job) => job.selectedDate.year == action.year).toList();
   double totalTipsForYear = 0;
   for(Job job in jobsSelectedYear) {
     if(job != null && job.tipAmount != null) {
@@ -187,7 +202,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
   unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
 
-  List<SingleExpense> singleExpenseForSelectedYear = previousState.allSingleExpenses.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();
+  List<SingleExpense> singleExpenseForSelectedYear = previousState.allSingleExpenses.where((expense) => expense.chargeDate.year == action.year).toList();
   singleExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.chargeDate.isBefore(expenseB.chargeDate) == true ? 1 : -1);
 
   double singleExpensesTotal = 0;
@@ -198,6 +213,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     selectedYear: action.year,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
+    paidInvoices: paidInvoices,
     totalTips: totalTipsForYear,
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     expensesForSelectedYear: singleExpensesTotal.toDouble(),

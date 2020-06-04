@@ -46,6 +46,7 @@ SunsetWeatherPageState _setInitMapLatLng(SunsetWeatherPageState previousState, S
   return previousState.copyWith(
     lat: action.lat,
     lng: action.lng,
+    selectedDate: DateTime.now(),
   );
 }
 
@@ -234,25 +235,44 @@ AssetImage _getMostAccurateWeatherCode(List<OneHourForecast> hourly) {
         break;
     }
   }
-  if(containsLightning > 0){
-    return AssetImage('assets/images/icons/lightning_rain_icon.png');
-  } else if(containsSnowy > 0){
-    return AssetImage('assets/images/icons/snowing_icon.png');
-  } else if(containsHail > 0){
-    return AssetImage('assets/images/icons/hail_icon.png');
-  } else if(containsRainy > 0){
-    return AssetImage('assets/images/icons/rainy_icon.png');
+
+  AssetImage imageToReturn = AssetImage('assets/images/icons/sunny_icon_gold.png');
+  int highestCount = 0;
+
+  if(containsLightning > containsSnowy) {
+    imageToReturn = AssetImage('assets/images/icons/lightning_rain_icon.png');
+    highestCount = containsLightning;
   } else {
-    if(containsSunny > containsPartlyCloudy && containsSunny > containsCloudy) {
-      return AssetImage('assets/images/icons/sunny_icon_gold.png');
-    } else {
-      if(containsPartlyCloudy > containsCloudy) {
-        return AssetImage('assets/images/icons/partly_cloudy_icon.png');
-      } else {
-        return AssetImage('assets/images/icons/cloudy_icon.png');
-      }
-    }
+    imageToReturn = AssetImage('assets/images/icons/snowing_icon.png');
+    highestCount = containsSnowy;
   }
+
+  if(containsHail > highestCount){
+    imageToReturn = AssetImage('assets/images/icons/hail_icon.png');
+    highestCount = containsHail;
+  }
+
+  if(containsRainy > highestCount){
+    imageToReturn = AssetImage('assets/images/icons/rainy_icon.png');
+    highestCount = containsRainy;
+  }
+
+  if(containsCloudy > highestCount){
+    imageToReturn = AssetImage('assets/images/icons/cloudy_icon.png');
+    highestCount = containsCloudy;
+  }
+
+  if(containsPartlyCloudy > highestCount){
+    imageToReturn = AssetImage('assets/images/icons/partly_cloudy_icon.png');
+    highestCount = containsPartlyCloudy;
+  }
+
+  if(containsSunny > highestCount){
+    imageToReturn = AssetImage('assets/images/icons/sunny_icon_gold.png');
+    highestCount = containsSunny;
+  }
+
+  return imageToReturn;
 }
 
 SunsetWeatherPageState _setSelectedDate(SunsetWeatherPageState previousState, SetSelectedDateAction action){

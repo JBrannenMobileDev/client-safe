@@ -61,6 +61,12 @@ class OnAllInvoicesFilterChangedAction{
   OnAllInvoicesFilterChangedAction(this.pageState, this.filter);
 }
 
+class OnAllExpensesFilterChangedAction{
+  final IncomeAndExpensesPageState pageState;
+  final String filter;
+  OnAllExpensesFilterChangedAction(this.pageState, this.filter);
+}
+
 class LoadAllJobsAction {
   final IncomeAndExpensesPageState pageState;
   LoadAllJobsAction(this.pageState);
@@ -135,4 +141,10 @@ class UpdateAlInvoicesSelectorPosition{
   final IncomeAndExpensesPageState pageState;
   final bool isUnpaidFilter;
   UpdateAlInvoicesSelectorPosition(this.pageState, this.isUnpaidFilter);
+}
+
+class UpdateAllExpensesSelectorPosition{
+  final IncomeAndExpensesPageState pageState;
+  final int index;
+  UpdateAllExpensesSelectorPosition(this.pageState, this.index);
 }
