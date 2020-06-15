@@ -13,7 +13,9 @@ import 'package:client_safe/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageReducer.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageReducer.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageReducer.dart';
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageReducer.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpensePageReducer.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:client_safe/pages/search_page/SearchPageReducer.dart';
@@ -42,4 +44,6 @@ AppState appReducers(AppState state, dynamic action) =>
         incomeAndExpensesPageState: incomeAndExpensesPageReducer(state.incomeAndExpensesPageState, action),
         sunsetWeatherPageState: sunsetWeatherPageReducer(state.sunsetWeatherPageState, action),
         newSingleExpensePageState: newSingleExpensePageReducer(state.newSingleExpensePageState, action),
+        newRecurringExpensePageState: newRecurringExpensePageReducer(state.newRecurringExpensePageState, action),
+        newMileageExpensePageState: newMileageExpensePageReducer(state.newMileageExpensePageState, action),
     );

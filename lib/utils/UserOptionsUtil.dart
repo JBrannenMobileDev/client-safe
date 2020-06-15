@@ -19,7 +19,11 @@ import 'package:client_safe/pages/new_invoice_page/NewLineItemDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/SendInvoicePromptDialog.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPage.dart';
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePage.dart';
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
+import 'package:client_safe/pages/new_mileage_expense/SetHomeLocationPage.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpensePage.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePage.dart';
 import 'package:client_safe/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:client_safe/pages/sunset_weather_page/SelectLocationDialog.dart';
@@ -44,6 +48,24 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewPricingProfilePage();
+      },
+    );
+  }
+
+  static void showNewMileageExpenseSelected(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewMileageExpensePage();
+      },
+    );
+  }
+
+  static void showSetMileageDefaultStartLocationSelected(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SetHomeLocationPage();
       },
     );
   }
@@ -179,6 +201,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewSingleExpensePage();
+      },
+    );
+  }
+
+  static void showNewRecurringExpenseDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewRecurringExpensePage();
       },
     );
   }

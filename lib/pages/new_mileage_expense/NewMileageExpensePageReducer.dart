@@ -1,17 +1,17 @@
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:redux/redux.dart';
-import 'NewSingleExpensePageState.dart';
 
-final newSingleExpensePageReducer = combineReducers<NewSingleExpensePageState>([
-  TypedReducer<NewSingleExpensePageState, SetExpenseDateAction>(_setExpenseDate),
-  TypedReducer<NewSingleExpensePageState, ClearSingleEpenseStateAction>(_clearState),
-  TypedReducer<NewSingleExpensePageState, IncrementPageViewIndex>(_incrementPageViewIndex),
-  TypedReducer<NewSingleExpensePageState, DecrementPageViewIndex>(_decrementPageViewIndex),
-  TypedReducer<NewSingleExpensePageState, LoadExistingPricingProfileData>(_loadPriceProfile),
-  TypedReducer<NewSingleExpensePageState, UpdateExpenseNameAction>(_updateName),
-  TypedReducer<NewSingleExpensePageState, UpdateCostAction>(_updateCost),
-  TypedReducer<NewSingleExpensePageState, LoadExistingSingleExpenseAction>(_setSelectedSingleExpense),
+final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>([
+  TypedReducer<NewMileageExpensePageState, SetExpenseDateAction>(_setExpenseDate),
+  TypedReducer<NewMileageExpensePageState, ClearSingleEpenseStateAction>(_clearState),
+  TypedReducer<NewMileageExpensePageState, IncrementPageViewIndex>(_incrementPageViewIndex),
+  TypedReducer<NewMileageExpensePageState, DecrementPageViewIndex>(_decrementPageViewIndex),
+  TypedReducer<NewMileageExpensePageState, LoadExistingPricingProfileData>(_loadPriceProfile),
+  TypedReducer<NewMileageExpensePageState, UpdateExpenseNameAction>(_updateName),
+  TypedReducer<NewMileageExpensePageState, UpdateCostAction>(_updateCost),
+  TypedReducer<NewMileageExpensePageState, LoadExistingSingleExpenseAction>(_setSelectedSingleExpense),
 ]);
 
 NewSingleExpensePageState _setSelectedSingleExpense(NewSingleExpensePageState previousState, LoadExistingSingleExpenseAction action){

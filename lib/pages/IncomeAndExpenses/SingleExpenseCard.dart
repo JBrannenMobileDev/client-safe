@@ -24,7 +24,6 @@ class SingleExpenseCard extends StatelessWidget{
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -125,7 +124,7 @@ class SingleExpenseCard extends StatelessWidget{
     if(length == 0) {
       return 178.0;
     }else if(length == 1) {
-      return 242.0;
+      return 222.0;
     }else if(length == 2) {
       return 306.0;
     }else if(length == 3) {

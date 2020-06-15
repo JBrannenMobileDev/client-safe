@@ -1,8 +1,6 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/DandyLightTextField.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseCostTextField.dart';
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpenseCostTextField.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/InputDoneView.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,14 +12,14 @@ import 'package:intl/intl.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 
-class NewSingleExpenseCost extends StatefulWidget {
+class NewRecurringExpenseCost extends StatefulWidget {
   @override
-  _NewSingleExpenseCost createState() {
-    return _NewSingleExpenseCost();
+  _NewRecurringExpenseCost createState() {
+    return _NewRecurringExpenseCost();
   }
 }
 
-class _NewSingleExpenseCost extends State<NewSingleExpenseCost> with AutomaticKeepAliveClientMixin {
+class _NewRecurringExpenseCost extends State<NewRecurringExpenseCost> with AutomaticKeepAliveClientMixin {
   final costTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
   OverlayEntry overlayEntry;
   final FocusNode costFocusNode = new FocusNode();
@@ -29,9 +27,9 @@ class _NewSingleExpenseCost extends State<NewSingleExpenseCost> with AutomaticKe
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return StoreConnector<AppState, NewSingleExpensePageState>(
+    return StoreConnector<AppState, NewRecurringExpensePageState>(
       onInit: (store) {
-          costTextController.updateValue(store.state.newSingleExpensePageState.expenseCost);
+          costTextController.updateValue(store.state.newRecurringExpensePageState.expenseCost);
           KeyboardVisibilityNotification().addNewListener(
               onShow: () {
                 showOverlay(context);
@@ -49,8 +47,8 @@ class _NewSingleExpenseCost extends State<NewSingleExpenseCost> with AutomaticKe
               removeOverlay();
           });
       },
-      converter: (store) => NewSingleExpensePageState.fromStore(store),
-      builder: (BuildContext context, NewSingleExpensePageState pageState) =>
+      converter: (store) => NewRecurringExpensePageState.fromStore(store),
+      builder: (BuildContext context, NewRecurringExpensePageState pageState) =>
           Container(
         margin: EdgeInsets.only(left: 26.0, right: 26.0),
         child: Column(
@@ -59,7 +57,7 @@ class _NewSingleExpenseCost extends State<NewSingleExpenseCost> with AutomaticKe
             Padding(
               padding: EdgeInsets.only(bottom: 48.0, top: 16.0),
               child: Text(
-                'Enter the total cost of this expense.',
+                'Enter the cost for one billing period.',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 20.0,
@@ -69,7 +67,7 @@ class _NewSingleExpenseCost extends State<NewSingleExpenseCost> with AutomaticKe
                 ),
               ),
             ),
-            NewSingleExpenseCostTextField(
+            NewRecurringExpenseCostTextField(
                 costTextController,
                 "\$ 0.0",
                 TextInputType.number,

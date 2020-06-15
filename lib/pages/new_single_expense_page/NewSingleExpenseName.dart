@@ -1,5 +1,5 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPriceProfileTextField.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/DandyLightTextField.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -47,7 +47,7 @@ class _NewSingleExpenseName extends State<NewSingleExpenseName> with AutomaticKe
                 ),
               ),
             ),
-            NewPriceProfileTextField(
+            DandyLightTextField(
                 controller: profileNameTextController,
                 hintText: "Single expense name",
                 inputType: TextInputType.text,

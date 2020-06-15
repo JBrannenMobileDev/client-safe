@@ -1,12 +1,16 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/models/Charge.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/Profile.dart';
+import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -26,6 +30,8 @@ class IncomeAndExpensesPageState {
   final List<Client> allClients;
   final List<SingleExpense> allSingleExpenses;
   final List<SingleExpense> singleExpensesForSelectedYear;
+  final List<RecurringExpense> recurringExpensesForSelectedYear;
+  final List<RecurringExpense> allRecurringExpenses;
   final bool isFinishedFetchingClients;
   final String jobSearchText;
   final Function(String) onJobSearchTextChanged;
@@ -34,7 +40,9 @@ class IncomeAndExpensesPageState {
   final double incomeForSelectedYear;
   final double expensesForSelectedYear;
   final int singleExpensesForSelectedYearTotal;
+  final int recurringExpensesForSelectedYearTotal;
   final bool isSingleExpensesMinimized;
+  final Profile profile;
   final Function(String) onFilterChanged;
   final Function(String) onAllInvoicesFilterChanged;
   final Function(String) onAllExpensesFilterChanged;
@@ -52,8 +60,12 @@ class IncomeAndExpensesPageState {
   final Function() onClearUnsavedTip;
   final int unsavedTipAmount;
   final Function(SingleExpense) onSingleExpenseItemSelected;
+  final Function(RecurringExpense) onEditRecurringExpenseItemSelected;
   final Function(bool) onViewAllSelected;
   final Function(int) onViewAllExpensesSelected;
+  final Function(Charge, RecurringExpense, bool) onRecurringExpenseChargeChecked;
+  final Function(RecurringExpense) onCancelRecurringSubscriptionSelected;
+  final Function(RecurringExpense) onResumeRecurringSubscriptionSelected;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -98,9 +110,20 @@ class IncomeAndExpensesPageState {
     @required this.allExpensesFilterType,
     @required this.onAllExpensesFilterChanged,
     @required this.onViewAllExpensesSelected,
+    @required this.allRecurringExpenses,
+    @required this.recurringExpensesForSelectedYear,
+    @required this.recurringExpensesForSelectedYearTotal,
+    @required this.onEditRecurringExpenseItemSelected,
+    @required this.onRecurringExpenseChargeChecked,
+    @required this.onCancelRecurringSubscriptionSelected,
+    @required this.onResumeRecurringSubscriptionSelected,
+    @required this.profile,
   });
 
   IncomeAndExpensesPageState copyWith({
+    List<RecurringExpense> allRecurringExpenses,
+    List<RecurringExpense> recurringExpensesForSelectedYear,
+    int recurringExpensesForSelectedYearTotal,
     String filterType,
     String allInvoicesFilterType,
     int selectedYear,
@@ -126,7 +149,7 @@ class IncomeAndExpensesPageState {
     Function(String) onJobTextChanged,
     String jobSearchText,
     int pageViewIndex,
-    int singleExpensesTotal,
+    int singleExpensesForSelectedYearTotal,
     Function() onBackPressed,
     Function() onCancelPressed,
     Function() onSaveTipSelected,
@@ -143,6 +166,11 @@ class IncomeAndExpensesPageState {
     Function(bool) onViewAllSelected,
     String allExpensesFilterType,
     Function(int) onViewAllExpensesSelected,
+    Function(RecurringExpense) onRecurringExpenseItemSelected,
+    Function(Charge, RecurringExpense, bool) onRecurringExpenseChargeChecked,
+    Function(RecurringExpense) onCancelRecurringSubscriptionSelected,
+    Function(RecurringExpense) onResumeRecurringSubscriptionSelected,
+    Profile profile,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -179,7 +207,7 @@ class IncomeAndExpensesPageState {
       onClearUnsavedTip: onClearUnsavedTip ?? this.onClearUnsavedTip,
       unsavedTipAmount: unsavedTipAmount ?? this.unsavedTipAmount,
       singleExpensesForSelectedYear: singleExpensesForSelectedYear ?? this.singleExpensesForSelectedYear,
-      singleExpensesForSelectedYearTotal: singleExpensesTotal ?? this.singleExpensesForSelectedYearTotal,
+      singleExpensesForSelectedYearTotal: singleExpensesForSelectedYearTotal ?? this.singleExpensesForSelectedYearTotal,
       allSingleExpenses: allSingleExpenses ?? this.allSingleExpenses,
       isSingleExpensesMinimized: isSingleExpensesMinimized ?? this.isSingleExpensesMinimized,
       onSingleExpenseItemSelected: onSingleExpenseItemSelected ?? this.onSingleExpenseItemSelected,
@@ -187,6 +215,14 @@ class IncomeAndExpensesPageState {
       onViewAllSelected: onViewAllSelected ?? this.onViewAllSelected,
       allExpensesFilterType: allExpensesFilterType ?? this.allExpensesFilterType,
       onViewAllExpensesSelected: onViewAllExpensesSelected ?? this.onViewAllExpensesSelected,
+      allRecurringExpenses: allRecurringExpenses ?? this.allRecurringExpenses,
+      recurringExpensesForSelectedYear: recurringExpensesForSelectedYear ?? this.recurringExpensesForSelectedYear,
+      recurringExpensesForSelectedYearTotal: recurringExpensesForSelectedYearTotal ?? this.recurringExpensesForSelectedYearTotal,
+      onEditRecurringExpenseItemSelected: onRecurringExpenseItemSelected ?? this.onEditRecurringExpenseItemSelected,
+      onRecurringExpenseChargeChecked: onRecurringExpenseChargeChecked ?? this.onRecurringExpenseChargeChecked,
+      onCancelRecurringSubscriptionSelected: onCancelRecurringSubscriptionSelected ?? this.onCancelRecurringSubscriptionSelected,
+      onResumeRecurringSubscriptionSelected: onResumeRecurringSubscriptionSelected ?? this.onResumeRecurringSubscriptionSelected,
+      profile: profile ?? this.profile,
     );
   }
 
@@ -233,6 +269,14 @@ class IncomeAndExpensesPageState {
     onAllExpensesFilterChanged: null,
     allExpensesFilterType: AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES,
     onViewAllExpensesSelected: null,
+    allRecurringExpenses: List(),
+    recurringExpensesForSelectedYear: List(),
+    recurringExpensesForSelectedYearTotal: 0,
+    onEditRecurringExpenseItemSelected: null,
+    onRecurringExpenseChargeChecked: null,
+    onCancelRecurringSubscriptionSelected: null,
+    onResumeRecurringSubscriptionSelected: null,
+    profile: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -260,6 +304,10 @@ class IncomeAndExpensesPageState {
       allSingleExpenses: store.state.incomeAndExpensesPageState.allSingleExpenses,
       expensesForSelectedYear: store.state.incomeAndExpensesPageState.expensesForSelectedYear,
       allExpensesFilterType: store.state.incomeAndExpensesPageState.allExpensesFilterType,
+      allRecurringExpenses: store.state.incomeAndExpensesPageState.allRecurringExpenses,
+      recurringExpensesForSelectedYear: store.state.incomeAndExpensesPageState.recurringExpensesForSelectedYear,
+      recurringExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.recurringExpensesForSelectedYearTotal,
+      profile: store.state.incomeAndExpensesPageState.profile,
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
@@ -282,6 +330,10 @@ class IncomeAndExpensesPageState {
       onSingleExpenseItemSelected: (selectedSingleExpense) => store.dispatch(LoadExistingSingleExpenseAction(store.state.newSingleExpensePageState, selectedSingleExpense)),
       onViewAllSelected: (isUnpaidFilter) => store.dispatch(UpdateAlInvoicesSelectorPosition(store.state.incomeAndExpensesPageState, isUnpaidFilter)),
       onViewAllExpensesSelected: (index) => store.dispatch(UpdateAllExpensesSelectorPosition(store.state.incomeAndExpensesPageState, index)),
+      onEditRecurringExpenseItemSelected: (recurringExpense) => store.dispatch(LoadExistingRecurringExpenseAction(store.state.newRecurringExpensePageState, recurringExpense)),
+      onRecurringExpenseChargeChecked: (charge, expense, isChecked) => store.dispatch(UpdateSelectedRecurringChargeAction(store.state.incomeAndExpensesPageState, charge, expense, isChecked)),
+      onCancelRecurringSubscriptionSelected: (expense) => store.dispatch(SaveCancelledSubscriptionAction(store.state.incomeAndExpensesPageState, expense)),
+      onResumeRecurringSubscriptionSelected: (expense) => store.dispatch(SaveResumedSubscriptionAction(store.state.incomeAndExpensesPageState, expense)),
     );
   }
 
@@ -290,6 +342,8 @@ class IncomeAndExpensesPageState {
       filterType.hashCode ^
       filteredJobs.hashCode ^
       allClients.hashCode ^
+      onCancelRecurringSubscriptionSelected.hashCode ^
+      onEditRecurringExpenseItemSelected.hashCode ^
       allExpensesFilterType.hashCode ^
       singleExpensesForSelectedYearTotal.hashCode ^
       isFinishedFetchingClients.hashCode ^
@@ -298,7 +352,9 @@ class IncomeAndExpensesPageState {
       onAllInvoicesFilterChanged.hashCode ^
       expensesForSelectedYear.hashCode ^
       selectedYear.hashCode ^
+      profile.hashCode ^
       allInvoices.hashCode ^
+      onResumeRecurringSubscriptionSelected.hashCode ^
       onAllExpensesFilterChanged.hashCode ^
       onSingleExpenseItemSelected.hashCode ^
       isSingleExpensesMinimized.hashCode ^
@@ -322,6 +378,10 @@ class IncomeAndExpensesPageState {
       allSingleExpenses.hashCode ^
       onViewAllExpensesSelected.hashCode ^
       onViewAllSelected.hashCode ^
+      allRecurringExpenses.hashCode ^
+      recurringExpensesForSelectedYear.hashCode ^
+      recurringExpensesForSelectedYearTotal.hashCode ^
+      onRecurringExpenseChargeChecked.hashCode ^
       onYearChanged.hashCode;
 
   @override
@@ -332,15 +392,22 @@ class IncomeAndExpensesPageState {
               selectedYear == other.selectedYear &&
               filteredJobs == other.filteredJobs &&
               allClients == other.allClients &&
+              allRecurringExpenses == other.allRecurringExpenses &&
+              recurringExpensesForSelectedYearTotal == other.recurringExpensesForSelectedYearTotal &&
+              recurringExpensesForSelectedYear == other.recurringExpensesForSelectedYear &&
               onViewAllExpensesSelected == other.onViewAllExpensesSelected &&
               onViewAllSelected == other.onViewAllSelected &&
+              onEditRecurringExpenseItemSelected == other.onEditRecurringExpenseItemSelected &&
               onSingleExpenseItemSelected == other.onSingleExpenseItemSelected &&
               singleExpensesForSelectedYearTotal == other.singleExpensesForSelectedYearTotal &&
               pageViewIndex == other.pageViewIndex &&
+              onResumeRecurringSubscriptionSelected == other.onResumeRecurringSubscriptionSelected &&
               selectedJob == other.selectedJob &&
               isSingleExpensesMinimized == other.isSingleExpensesMinimized &&
               isFinishedFetchingClients == other.isFinishedFetchingClients &&
               jobSearchText == other.jobSearchText &&
+              profile == other.profile &&
+              onCancelRecurringSubscriptionSelected == other.onCancelRecurringSubscriptionSelected &&
               allExpensesFilterType == other.allExpensesFilterType &&
               expensesForSelectedYear == other.expensesForSelectedYear &&
               onJobSearchTextChanged == other.onJobSearchTextChanged &&
@@ -357,6 +424,7 @@ class IncomeAndExpensesPageState {
               singleExpensesForSelectedYear == other.singleExpensesForSelectedYear &&
               onEditInvoiceSelected == other.onEditInvoiceSelected &&
               paidInvoices == other.paidInvoices &&
+              onRecurringExpenseChargeChecked == other.onRecurringExpenseChargeChecked &&
               allInvoicesFilterType == other.allInvoicesFilterType &&
               onBackPressed == other.onBackPressed &&
               onNextPressed == other.onNextPressed &&

@@ -3,17 +3,17 @@ import 'package:flutter/cupertino.dart';
 class JobStage {
   static const String STAGE_1_INQUIRY_RECEIVED = "Inquiry Received";
   static const String STAGE_2_FOLLOWUP_SENT = "Followup Sent";
-  static const String STAGE_3_PROPOSAL_SENT = "Proposal Sent";
-  static const String STAGE_4_PROPOSAL_SIGNED = "Proposal Signed";
+  static const String STAGE_3_PROPOSAL_SENT = "Contract Sent";
+  static const String STAGE_4_PROPOSAL_SIGNED = "Contract Signed";
   static const String STAGE_5_DEPOSIT_RECEIVED = "Deposit received";
   static const String STAGE_6_PLANNING_COMPLETE = "Planning Complete";
   static const String STAGE_7_SESSION_COMPLETE = "Session Complete";
-  static const String STAGE_8_PAYMENT_REQUESTED = "Payment Requested";
+  static const String STAGE_8_PAYMENT_REQUESTED = "Invoice Sent";
   static const String STAGE_9_PAYMENT_RECEIVED = "Payment Received";
   static const String STAGE_10_EDITING_COMPLETE = "Editing Complete";
   static const String STAGE_11_GALLERY_SENT = "Gallery Sent";
   static const String STAGE_12_FEEDBACK_REQUESTED = "Feedback Requested";
-  static const String STAGE_13_FEEDBACK_RECEIVED = "Feedback Recieved";
+  static const String STAGE_13_FEEDBACK_RECEIVED = "Feedback Received";
   static const String STAGE_14_JOB_COMPLETE = "Job complete";
   static const String STAGE_COMPLETED_CHECK = "Completed";
 
@@ -345,9 +345,9 @@ class JobStage {
       case 2:
         return 'Send followup';
       case 3:
-        return 'Send proposal';
+        return 'Send contract';
       case 4:
-        return 'Receive signed proposal';
+        return 'Receive signed contract';
       case 5:
         return 'Receive deposit';
       case 6:
@@ -355,15 +355,15 @@ class JobStage {
       case 7:
         return 'Complete session';
       case 8:
-        return 'Request payment';
+        return 'Send invoice';
       case 9:
-        return 'Received payment';
+        return 'Receive payment';
       case 10:
         return 'Complete editing';
       case 11:
         return 'Send gallery';
       case 12:
-        return 'Receive feedback';
+        return 'Request feedback';
       case 13:
         return 'Receive feedback';
       case 14:

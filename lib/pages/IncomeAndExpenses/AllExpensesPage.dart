@@ -3,6 +3,7 @@ import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/PaidInvoiceItem.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpenseItem.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseItem.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
 import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
@@ -114,7 +115,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                         pinned: true,
                         centerTitle: true,
                         title: Text(
-                            "All Expenses",
+                            'All Expenses (' + pageState.selectedYear.toString() + ')',
                             style: TextStyle(
                               fontFamily: 'simple',
                               fontSize: 26.0,
@@ -155,7 +156,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: selectorIndex == 0 ? 0 : selectorIndex == 1 ? pageState.singleExpensesForSelectedYear.length : 0,
+                              itemCount: selectorIndex == 0 ? 0 : selectorIndex == 1 ? pageState.singleExpensesForSelectedYear.length : pageState.recurringExpensesForSelectedYear.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -184,6 +185,6 @@ Widget _buildItem(BuildContext context, int index) {
                     singleExpense: pageState.singleExpensesForSelectedYear
                         .elementAt(index),
                   )
-                : SizedBox(),
+                : RecurringExpenseItem(pageState: pageState, recurringExpense: pageState.recurringExpensesForSelectedYear.elementAt(index)),
   );
 }

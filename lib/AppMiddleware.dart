@@ -29,6 +29,8 @@ import 'package:client_safe/pages/new_location_page/NewLocationPageMiddleware.da
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpensePageMiddleware.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
@@ -98,6 +100,10 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LoadAllJobsAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveTipIncomeChangeAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchSingleExpenses>(IncomeAndExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchRecurringExpenses>(IncomeAndExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateSelectedRecurringChargeAction>(IncomeAndExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveCancelledSubscriptionAction>(IncomeAndExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveResumedSubscriptionAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnDeleteInvoiceSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InvoiceSentAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));
@@ -108,5 +114,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchSearchLocationDetails>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSingleExpenseProfileAction>(NewSingleExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSingleExpenseAction>(NewSingleExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveRecurringExpenseProfileAction>(NewRecurringExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteRecurringExpenseAction>(NewRecurringExpensePageMiddleware()));
   return middlewareList;
 }

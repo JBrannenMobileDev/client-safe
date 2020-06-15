@@ -176,6 +176,12 @@ flutter:
     - assets/images/icons/collections_icon_white.png
     - assets/images/icons/expenses_icon_peach.png
     - assets/images/icons/coin_icon_peach.png
+    - assets/images/icons/coins_icon_peach.png
+    - assets/images/icons/charge_not_paid_icon_peach.png
+    - assets/images/icons/charge_paid_icon_blue.png
+    - assets/images/icons/start_icon_white.png
+    - assets/images/icons/cancel_icon_white.png
+    - assets/images/icons/cancel_icon_peach.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

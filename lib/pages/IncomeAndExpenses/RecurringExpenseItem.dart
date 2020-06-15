@@ -1,19 +1,21 @@
 
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class SingleExpenseItem extends StatelessWidget{
-  final SingleExpense singleExpense;
+class RecurringExpenseItem extends StatelessWidget{
+  final RecurringExpense recurringExpense;
   final IncomeAndExpensesPageState pageState;
-  SingleExpenseItem({this.singleExpense, this.pageState});
+  RecurringExpenseItem({this.recurringExpense, this.pageState});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +23,7 @@ class SingleExpenseItem extends StatelessWidget{
       height: 74.0,
       child: FlatButton(
         onPressed: () async {
-          pageState.onSingleExpenseItemSelected(singleExpense);
-          UserOptionsUtil.showNewSingleExpenseDialog(context);
+          NavigationUtil.onRecurringChargeSelected(context, recurringExpense);
         },
         child: Padding(
           padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
@@ -38,7 +39,7 @@ class SingleExpenseItem extends StatelessWidget{
                     width: 42.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/icons/coin_icon_peach.png'),
+                        image: AssetImage(recurringExpense.cancelDate == null ? 'assets/images/icons/coins_icon_peach.png' : 'assets/images/icons/cancel_icon_peach.png'),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -53,13 +54,13 @@ class SingleExpenseItem extends StatelessWidget{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              (singleExpense.expenseName != null ? singleExpense.expenseName : 'Item name'),
+                              (recurringExpense.expenseName != null ? recurringExpense.expenseName : 'Item name') + (recurringExpense.cancelDate != null ? ' • Canceled' : ''),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w800,
-                                color: Color(ColorConstants.getPrimaryBlack()),
+                                color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                               ),
                             ),
                           ],
@@ -68,13 +69,13 @@ class SingleExpenseItem extends StatelessWidget{
                       Padding(
                         padding: EdgeInsets.only(top: 2.0),
                         child: Text(
-                          DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ' + TextFormatterUtil.formatSimpleCurrency(singleExpense.charge.chargeAmount.toInt()),
+                          TextFormatterUtil.formatSimpleCurrency(recurringExpense.cost.round()) + ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ' + TextFormatterUtil.formatSimpleCurrency(recurringExpense.getTotalOfChargesForYear(pageState.selectedYear).round()),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 18.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
+                            color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                           ),
                         ),
                       ),

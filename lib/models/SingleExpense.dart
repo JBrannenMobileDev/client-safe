@@ -1,23 +1,22 @@
+import 'package:client_safe/models/Charge.dart';
+
 class SingleExpense {
   int id;
   String expenseName;
-  double cost;
-  DateTime chargeDate;
+  Charge charge;
 
 
   SingleExpense({
     this.id,
     this.expenseName,
-    this.cost,
-    this.chargeDate,
+    this.charge
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
       'expenseName': expenseName,
-      'cost' : cost,
-      'chargeDate' : chargeDate?.millisecondsSinceEpoch ?? null,
+      'charge' : charge.toMap(),
     };
   }
 
@@ -25,8 +24,7 @@ class SingleExpense {
     return SingleExpense(
       id: map['id'],
       expenseName: map['expenseName'],
-      cost: map['cost'],
-      chargeDate: map['chargeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['chargeDate']) : null,
+      charge: Charge.fromMap(map['charge']),
     );
   }
 }

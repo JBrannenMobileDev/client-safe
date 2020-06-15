@@ -1,6 +1,9 @@
+import 'package:client_safe/models/Charge.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/Profile.dart';
+import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 
@@ -131,10 +134,21 @@ class FetchSingleExpenses{
   FetchSingleExpenses(this.pageState);
 }
 
+class FetchRecurringExpenses{
+  final IncomeAndExpensesPageState pageState;
+  FetchRecurringExpenses(this.pageState);
+}
+
 class SetSingleExpensesAction{
   final IncomeAndExpensesPageState pageState;
   final List<SingleExpense> singleExpenses;
   SetSingleExpensesAction(this.pageState, this.singleExpenses);
+}
+
+class SetRecurringExpensesAction{
+  final IncomeAndExpensesPageState pageState;
+  final List<RecurringExpense> recurringExpenses;
+  SetRecurringExpensesAction(this.pageState, this.recurringExpenses);
 }
 
 class UpdateAlInvoicesSelectorPosition{
@@ -147,4 +161,30 @@ class UpdateAllExpensesSelectorPosition{
   final IncomeAndExpensesPageState pageState;
   final int index;
   UpdateAllExpensesSelectorPosition(this.pageState, this.index);
+}
+
+class UpdateSelectedRecurringChargeAction{
+  final IncomeAndExpensesPageState pageState;
+  final Charge charge;
+  final RecurringExpense expense;
+  final bool isChecked;
+  UpdateSelectedRecurringChargeAction(this.pageState, this.charge, this.expense, this.isChecked);
+}
+
+class SaveCancelledSubscriptionAction{
+  final IncomeAndExpensesPageState pageState;
+  final RecurringExpense expense;
+  SaveCancelledSubscriptionAction(this.pageState, this.expense);
+}
+
+class SaveResumedSubscriptionAction{
+  final IncomeAndExpensesPageState pageState;
+  final RecurringExpense expense;
+  SaveResumedSubscriptionAction(this.pageState, this.expense);
+}
+
+class SetProfileAction{
+  final IncomeAndExpensesPageState pageState;
+  final Profile profile;
+  SetProfileAction(this.pageState, this.profile);
 }

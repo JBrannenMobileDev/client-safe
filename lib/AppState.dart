@@ -11,7 +11,9 @@ import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:client_safe/pages/search_page/SearchPageState.dart';
@@ -43,6 +45,8 @@ class AppState {
   final IncomeAndExpensesPageState incomeAndExpensesPageState;
   final SunsetWeatherPageState sunsetWeatherPageState;
   final NewSingleExpensePageState newSingleExpensePageState;
+  final NewRecurringExpensePageState newRecurringExpensePageState;
+  final NewMileageExpensePageState newMileageExpensePageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -65,6 +69,8 @@ class AppState {
     @required this.incomeAndExpensesPageState,
     @required this.sunsetWeatherPageState,
     @required this.newSingleExpensePageState,
+    @required this.newRecurringExpensePageState,
+    @required this.newMileageExpensePageState,
   });
 
   factory AppState.initial() {
@@ -88,7 +94,9 @@ class AppState {
       newInvoicePageState: NewInvoicePageState.initial(),
       incomeAndExpensesPageState: IncomeAndExpensesPageState.initial(),
       sunsetWeatherPageState: SunsetWeatherPageState.initial(),
-        newSingleExpensePageState: NewSingleExpensePageState.initial(),
+      newSingleExpensePageState: NewSingleExpensePageState.initial(),
+      newRecurringExpensePageState: NewRecurringExpensePageState.initial(),
+      newMileageExpensePageState: NewMileageExpensePageState.initial(),
     );
   }
 
@@ -113,6 +121,8 @@ class AppState {
     IncomeAndExpensesPageState incomeAndExpensesPageState,
     SunsetWeatherPageState sunsetWeatherPageState,
     NewSingleExpensePageState newSingleExpensePageState,
+    NewRecurringExpensePageState newRecurringExpensePageState,
+    NewMileageExpensePageState newMileageExpensePageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -135,6 +145,8 @@ class AppState {
       incomeAndExpensesPageState: incomeAndExpensesPageState ?? this.incomeAndExpensesPageState,
       sunsetWeatherPageState: sunsetWeatherPageState ?? this.sunsetWeatherPageState,
       newSingleExpensePageState: newSingleExpensePageState ?? this.newSingleExpensePageState,
+      newRecurringExpensePageState: newRecurringExpensePageState ?? this.newRecurringExpensePageState,
+      newMileageExpensePageState: newMileageExpensePageState ?? this.newMileageExpensePageState,
     );
   }
 
@@ -159,6 +171,8 @@ class AppState {
     newInvoicePageState.hashCode ^
     sunsetWeatherPageState.hashCode ^
     newSingleExpensePageState.hashCode ^
+    newRecurringExpensePageState.hashCode ^
+    newMileageExpensePageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -184,5 +198,7 @@ class AppState {
               newInvoicePageState == other.newInvoicePageState &&
               sunsetWeatherPageState == other.sunsetWeatherPageState &&
               newSingleExpensePageState == other.newSingleExpensePageState &&
+              newRecurringExpensePageState == other.newRecurringExpensePageState &&
+              newMileageExpensePageState == other.newMileageExpensePageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

@@ -1,11 +1,12 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/SingleExpenseDao.dart';
-import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/JobStage.dart';
+import 'package:client_safe/models/Profile.dart';
+import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
@@ -38,6 +39,45 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchSingleExpenses){
       _fetchSingleExpenses(store, action, next);
     }
+    if(action is FetchRecurringExpenses){
+      _fetchRecurringExpenses(store, action, next);
+    }
+    if(action is UpdateSelectedRecurringChargeAction){
+      _updateRecurringExpenseCharge(store, action, next);
+    }
+    if(action is SaveCancelledSubscriptionAction){
+      _updateRecurringExpenseChargeCancelDate(store, action, next);
+    }
+    if(action is SaveResumedSubscriptionAction){
+      _updateRecurringExpenseChargeResumeDate(store, action, next);
+    }
+  }
+
+  void _updateRecurringExpenseChargeCancelDate(Store<AppState> store, SaveCancelledSubscriptionAction action, NextDispatcher next) async{
+    action.expense.cancelDate = DateTime.now();
+    action.expense.resumeDate = null;
+    await RecurringExpenseDao.insertOrUpdate(action.expense);
+
+    List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
+    _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
+  }
+
+  void _updateRecurringExpenseChargeResumeDate(Store<AppState> store, SaveResumedSubscriptionAction action, NextDispatcher next) async{
+    action.expense.resumeDate = DateTime.now();
+    action.expense.cancelDate = null;
+    await RecurringExpenseDao.insertOrUpdate(action.expense);
+
+    List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
+    _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
+  }
+
+  void _updateRecurringExpenseCharge(Store<AppState> store, UpdateSelectedRecurringChargeAction action, NextDispatcher next) async{
+    int indexToUpdate = action.expense.charges.reversed.toList().indexWhere((charge) => charge.chargeDate == action.charge.chargeDate);
+    action.expense.charges.reversed.toList().elementAt(indexToUpdate).isPaid = action.isChecked;
+    await RecurringExpenseDao.insertOrUpdate(action.expense);
+
+    List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
+    _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
   }
 
   void _updateJobTip(Store<AppState> store, SaveTipIncomeChangeAction action, NextDispatcher next) async{
@@ -78,12 +118,25 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetSingleExpensesAction(store.state.incomeAndExpensesPageState, singleExpenses));
   }
 
+  void _fetchRecurringExpenses(Store<AppState> store, FetchRecurringExpenses action, NextDispatcher next) async {
+    List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
+    _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
+  }
+
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{
     //use this code to delete all invoice in the app for testing only.
 //    List<Invoice> invoices = await InvoiceDao.getAllSortedByDueDate();
 //    for(Invoice invoice in invoices){
 //      await InvoiceDao.deleteByInvoice(invoice);
 //    }
+      List<Profile> profiles = await ProfileDao.getAll();
+      if(profiles != null && profiles.length > 0) {
+        store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profiles.elementAt(0)));
+      }else {
+        Profile profile = Profile(latDefaultHome: 0.0, lngDefaultHome: 0.0);
+        await ProfileDao.insertOrUpdate(profile);
+        store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profile));
+      }
       store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
   }
 
@@ -99,5 +152,13 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     Job invoiceJob = await JobDao.getJobById(action.invoice.jobId);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, invoiceJob, 7));
+  }
+
+  void _updateSaveAndSetRecurringExpenses(Store<AppState> store, List<RecurringExpense> recurringExpenses) async{
+    for(RecurringExpense recurringExpense in recurringExpenses) {
+      recurringExpense.updateChargeList();
+      await RecurringExpenseDao.insertOrUpdate(recurringExpense);
+    }
+    store.dispatch(SetRecurringExpensesAction(store.state.incomeAndExpensesPageState, recurringExpenses));
   }
 }

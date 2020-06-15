@@ -1,5 +1,5 @@
 import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPriceProfileTextField.dart';
+import 'package:client_safe/pages/new_pricing_profile_page/DandyLightTextField.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/InputDoneView.dart';
@@ -162,7 +162,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                   ),
                   selectorIndex == 0 ? Container(
                     width: 300.0,
-                    child: NewPriceProfileTextField(
+                    child: DandyLightTextField(
                       controller: flatRateTextController,
                       hintText: "\$",
                       inputType: TextInputType.number,
@@ -180,7 +180,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                       children: <Widget>[
                         Container(
                           width: 300.0,
-                          child: NewPriceProfileTextField(
+                          child: DandyLightTextField(
                             controller: hourlyRateTextController,
                             hintText: "\$",
                             inputType: TextInputType.number,
@@ -200,7 +200,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                       children: <Widget>[
                         Container(
                           width: 300.0,
-                          child: NewPriceProfileTextField(
+                          child: DandyLightTextField(
                             controller: quantityRateTextController,
                             hintText: "\$",
                             inputType: TextInputType.number,

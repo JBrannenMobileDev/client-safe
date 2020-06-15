@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class NewPriceProfileTextField extends StatelessWidget {
+class DandyLightTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final String labelText;
@@ -22,7 +22,7 @@ class NewPriceProfileTextField extends StatelessWidget {
   final List<TextInputFormatter> inputFormatter;
   final bool enabled;
 
-  NewPriceProfileTextField({
+  DandyLightTextField({
       this.controller,
       this.hintText,
       this.inputType,
@@ -41,9 +41,7 @@ class NewPriceProfileTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, NewInvoicePageState>(
-      converter: (store) => NewInvoicePageState.fromStore(store),
-      builder: (BuildContext context, NewInvoicePageState pageState) => Container(
+    return  Container(
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           height: height,
           child: TextFormField(
@@ -94,7 +92,7 @@ class NewPriceProfileTextField extends StatelessWidget {
                 fontSize: 20.0,
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.getPrimaryBlack())),
-          )),
+          )
     );
   }
 }

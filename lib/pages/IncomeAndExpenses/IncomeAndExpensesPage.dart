@@ -58,6 +58,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(LoadAllInvoicesAction(appState.state.incomeAndExpensesPageState));
         appState.dispatch(LoadAllJobsAction(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchSingleExpenses(appState.state.incomeAndExpensesPageState));
+        appState.dispatch(FetchRecurringExpenses(appState.state.incomeAndExpensesPageState));
       },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
@@ -237,7 +238,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           <Widget>[
                             selectedIndex == 0 ? IncomeGraphCard(pageState: pageState) : MileageExpensesCard(),
                             selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
-                            selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState,) : RecurringExpensesCard(),
+                            selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState) : RecurringExpensesCard(pageState: pageState),
                           ],
                         ),
                       ),
@@ -350,7 +351,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           ),
                         ),
                         onTap: () {
-
+                          UserOptionsUtil.showNewRecurringExpenseDialog(context);
                         }
                     ),
                     SpeedDialChild(
@@ -402,7 +403,11 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-
+                        if(pageState.profile.latDefaultHome == 0 && pageState.profile.lngDefaultHome == 0){
+                          UserOptionsUtil.showSetMileageDefaultStartLocationSelected(context);
+                        } else {
+                          UserOptionsUtil.showNewMileageExpenseSelected(context);
+                        }
                       },
                     ),
                   ],

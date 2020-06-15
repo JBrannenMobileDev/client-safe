@@ -16,6 +16,10 @@ class TextFormatterUtil {
     return formatter.format(value);
   }
 
+  static String formatDateStandard(DateTime date) {
+    return DateFormat('MMM dd, yyyy').format(date);
+  }
+
   static String formatPhoneNum(String phoneToFormat) {
     String resultNum = "";
     String numsOnly = phoneToFormat.replaceAll(RegExp('[^0-9]+'), "");

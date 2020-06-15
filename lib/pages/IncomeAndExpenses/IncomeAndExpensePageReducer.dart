@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
@@ -23,9 +24,17 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, ClearUnsavedTipAction>(_clearUnsavedDeposit),
   TypedReducer<IncomeAndExpensesPageState, ClearAddTipStateAction>(_clearAddTipState),
   TypedReducer<IncomeAndExpensesPageState, SetSingleExpensesAction>(_setSingleExpenses),
+  TypedReducer<IncomeAndExpensesPageState, SetRecurringExpensesAction>(_setRecurringExpenses),
   TypedReducer<IncomeAndExpensesPageState, UpdateAlInvoicesSelectorPosition>(_setSelectorPosition),
-  TypedReducer<IncomeAndExpensesPageState, UpdateAllExpensesSelectorPosition>(_setExpensesSelectorPosition)
+  TypedReducer<IncomeAndExpensesPageState, UpdateAllExpensesSelectorPosition>(_setExpensesSelectorPosition),
+  TypedReducer<IncomeAndExpensesPageState, SetProfileAction>(_setProfile),
 ]);
+
+IncomeAndExpensesPageState _setProfile(IncomeAndExpensesPageState previousState, SetProfileAction action) {
+  return previousState.copyWith(
+    profile: action.profile,
+  );
+}
 
 IncomeAndExpensesPageState _setSelectorPosition(IncomeAndExpensesPageState previousState, UpdateAlInvoicesSelectorPosition action) {
   return previousState.copyWith(
@@ -40,18 +49,42 @@ IncomeAndExpensesPageState _setExpensesSelectorPosition(IncomeAndExpensesPageSta
 }
 
 IncomeAndExpensesPageState _setSingleExpenses(IncomeAndExpensesPageState previousState, SetSingleExpensesAction action) {
-  List<SingleExpense> singleExpenseForSelectedYear = action.singleExpenses.where((expense) => expense.chargeDate.year == previousState.selectedYear).toList();
-  singleExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.chargeDate.isBefore(expenseB.chargeDate) == true ? 1 : -1);
+  List<SingleExpense> singleExpenseForSelectedYear = action.singleExpenses.where((expense) => expense.charge.chargeDate.year == previousState.selectedYear).toList();
+  singleExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.charge.chargeDate.isBefore(expenseB.charge.chargeDate) == true ? 1 : -1);
 
   double singleExpensesTotal = 0;
   for(SingleExpense expense in singleExpenseForSelectedYear){
-    singleExpensesTotal = singleExpensesTotal + expense.cost;
+    singleExpensesTotal = singleExpensesTotal + expense.charge.chargeAmount;
+  }
+
+  double recurringExpenseTotal = 0;
+  for(RecurringExpense recurringExpense in previousState.recurringExpensesForSelectedYear){
+    recurringExpenseTotal = recurringExpenseTotal + recurringExpense.getTotalOfChargesForYear(previousState.selectedYear);
   }
   return previousState.copyWith(
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     allSingleExpenses: action.singleExpenses,
-    singleExpensesTotal: singleExpensesTotal.round(),
-    expensesForSelectedYear: singleExpensesTotal.toDouble(),
+    singleExpensesForSelectedYearTotal: singleExpensesTotal.round(),
+    expensesForSelectedYear: singleExpensesTotal.toDouble() + recurringExpenseTotal.toDouble(),
+  );
+}
+
+IncomeAndExpensesPageState _setRecurringExpenses(IncomeAndExpensesPageState previousState, SetRecurringExpensesAction action) {
+  List<RecurringExpense> recurringExpenseForSelectedYear = action.recurringExpenses.where((expense) => expense.initialChargeDate.year <= previousState.selectedYear && (expense.cancelDate == null || expense.cancelDate.year >= previousState.selectedYear)).toList();
+  double singleExpensesTotal = 0;
+  for(SingleExpense expense in previousState.singleExpensesForSelectedYear){
+    singleExpensesTotal = singleExpensesTotal + expense.charge.chargeAmount;
+  }
+
+  double recurringExpenseTotal = 0;
+  for(RecurringExpense recurringExpense in action.recurringExpenses){
+    recurringExpenseTotal = recurringExpenseTotal + recurringExpense.getTotalOfChargesForYear(previousState.selectedYear);
+  }
+  return previousState.copyWith(
+    recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
+    allRecurringExpenses: action.recurringExpenses,
+    recurringExpensesForSelectedYearTotal: recurringExpenseTotal.round(),
+    expensesForSelectedYear: singleExpensesTotal.toDouble() + recurringExpenseTotal.toDouble(),
   );
 }
 
@@ -202,12 +235,18 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
   unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
 
-  List<SingleExpense> singleExpenseForSelectedYear = previousState.allSingleExpenses.where((expense) => expense.chargeDate.year == action.year).toList();
-  singleExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.chargeDate.isBefore(expenseB.chargeDate) == true ? 1 : -1);
+  List<SingleExpense> singleExpenseForSelectedYear = previousState.allSingleExpenses.where((expense) => expense.charge.chargeDate.year == action.year).toList();
+  singleExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.charge.chargeDate.isBefore(expenseB.charge.chargeDate) == true ? 1 : -1);
 
   double singleExpensesTotal = 0;
   for(SingleExpense expense in singleExpenseForSelectedYear){
-    singleExpensesTotal = singleExpensesTotal + expense.cost;
+    singleExpensesTotal = singleExpensesTotal + expense.charge.chargeAmount;
+  }
+
+  List<RecurringExpense> recurringExpenseForSelectedYear = previousState.allRecurringExpenses.where((expense) => expense.initialChargeDate.year <= action.year && (expense.cancelDate == null || expense.cancelDate.year >= action.year)).toList();
+  double recurringExpenseTotal = 0;
+  for(RecurringExpense recurringExpense in recurringExpenseForSelectedYear){
+    recurringExpenseTotal = recurringExpenseTotal + recurringExpense.getTotalOfChargesForYear(action.year);
   }
   return previousState.copyWith(
     selectedYear: action.year,
@@ -216,6 +255,8 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     paidInvoices: paidInvoices,
     totalTips: totalTipsForYear,
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
-    expensesForSelectedYear: singleExpensesTotal.toDouble(),
+    recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
+    expensesForSelectedYear: singleExpensesTotal.toDouble() + recurringExpenseTotal.toDouble(),
+    recurringExpensesForSelectedYearTotal: recurringExpenseTotal.round(),
   );
 }
