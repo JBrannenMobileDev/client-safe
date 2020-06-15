@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
@@ -23,19 +24,32 @@ import '../../utils/Shadows.dart';
 import '../../utils/Shadows.dart';
 import '../../utils/Shadows.dart';
 
-class SelectStartLocationMapPage extends StatefulWidget {
+class MapLocationSelectionWidget extends StatefulWidget {
+  final Function(LatLng) onMapLocationSaved;
+  final double lat;
+  final double lng;
+
+  MapLocationSelectionWidget(this.onMapLocationSaved, this.lat, this.lng);
+
   @override
   State<StatefulWidget> createState() {
-    return _SelectStartLocationMapPage();
+    return _MapLocationSelectionWidgetState(onMapLocationSaved, lat, lng);
   }
 }
 
 
-class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
+class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget> {
   final Completer<GoogleMapController> _controller = Completer();
   TextEditingController controller = TextEditingController();
   Timer _throttle;
   final FocusNode _searchFocus = FocusNode();
+
+  final Function(LatLng) onMapLocationSaved;
+  final double lat;
+  final double lng;
+
+  _MapLocationSelectionWidgetState(this.onMapLocationSaved, this.lat, this.lng);
+
   @override
   void dispose() {
     controller.dispose();
@@ -50,15 +64,15 @@ class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, NewMileageExpensePageState>(
+    return StoreConnector<AppState, MapLocationSelectionWidgetState>(
       onWillChange: (pageStatePrevious, pageState) async {
         controller.value = controller.value.copyWith(text: pageState.searchText);
-        if(pageState.selectedSearchLocation != null && pageStatePrevious.locationsResults.length > 0){
+        if(pageState.selectedSearchLocation != null && pageStatePrevious.locationResults.length > 0){
           animateTo(pageState.selectedSearchLocation.latitude, pageState.selectedSearchLocation.longitude);
         }
       },
-      converter: (Store<AppState> store) => NewMileageExpensePageState.fromStore(store),
-      builder: (BuildContext context, NewMileageExpensePageState pageState) =>
+      converter: (Store<AppState> store) => MapLocationSelectionWidgetState.fromStore(store),
+      builder: (BuildContext context, MapLocationSelectionWidgetState pageState) =>
           Scaffold(
             resizeToAvoidBottomPadding: false,
             backgroundColor: Color(ColorConstants.getBlueDark()),
@@ -68,7 +82,7 @@ class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
                 Container(
                   child: GoogleMap(
                     initialCameraPosition: CameraPosition(
-                      target: LatLng(pageState.lat, pageState.lng),
+                      target: LatLng(lat, lng),
                       zoom: 15,
                     ),
                     onMapCreated: (GoogleMapController controller) {
@@ -111,8 +125,7 @@ class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
                 margin: EdgeInsets.only(bottom: 14.0),
                 child: GestureDetector(
                   onTap: () {
-                    pageState.onMapLocationSaved();
-                    Navigator.of(context).pop(true);
+                    onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
                     Navigator.of(context).pop(true);
                   },
                   child: Container(
@@ -188,7 +201,7 @@ class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
                   ),
                 ),
               ),
-              pageState.locationsResults.length > 0 ? SafeArea(
+              pageState.locationResults.length > 0 ? SafeArea(
                 child: Container(
                   height: 350.0,
                   margin: EdgeInsets.only(top: 64.0, left: 32.0, right: 32.0),
@@ -200,11 +213,11 @@ class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
-                    itemCount: pageState.locationsResults.length,
+                    itemCount: pageState.locationResults.length,
                     itemBuilder: (context, index) {
                       return FlatButton(
                         onPressed: () {
-                          pageState.onSearchLocationSelected(pageState.locationsResults.elementAt(index));
+                          pageState.onSearchLocationSelected(pageState.locationResults.elementAt(index));
                           _searchFocus.unfocus();
                         },
                         child: Container(
@@ -221,7 +234,7 @@ class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
                                 child: Image.asset('assets/images/collection_icons/location_pin_blue.png'),
                               ),
                               Text(
-                                pageState.locationsResults.elementAt(index).description,
+                                pageState.locationResults.elementAt(index).description,
                                 style: TextStyle(
                                   fontSize: 18.0,
                                   fontFamily: 'simple',
@@ -259,6 +272,36 @@ class _SelectStartLocationMapPage extends State<SelectStartLocationMapPage> {
                     ),
                   ),
                 ),
+                _searchFocus.hasFocus ? SafeArea(
+                  child: Container(
+                    margin: EdgeInsets.only(right: 16.0),
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 50.0,
+                      width: 50.0,
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: ElevationToShadow[2],
+                          color: Color(ColorConstants.getPrimaryWhite())
+                      ),
+                      child: Container(
+                        alignment: Alignment.center,
+
+                        child: IconButton(
+                          iconSize: 32.0,
+                          icon: const Icon(Icons.close),
+                          tooltip: 'Delete',
+                          color: Color(ColorConstants.getPrimaryColor()),
+                          onPressed: () {
+                            _searchFocus.unfocus();
+                            pageState.onClearSearchTextSelected();
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ) : SizedBox(),
               ],
             ),
           ),

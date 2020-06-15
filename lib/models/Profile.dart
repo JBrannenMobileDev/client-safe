@@ -49,4 +49,8 @@ class Profile{
       lngDefaultHome: map['lngDefaultHome']
     );
   }
+
+  bool hasDefaultHome() {
+    return latDefaultHome != 0.0 || lngDefaultHome != 0.0;
+  }
 }

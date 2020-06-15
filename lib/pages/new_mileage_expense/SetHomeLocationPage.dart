@@ -9,13 +9,20 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SetHomeLocationPage extends StatefulWidget {
+  final Function(NewMileageExpensePageState) onNextSelected;
+
+  SetHomeLocationPage(this.onNextSelected);
+
   @override
   _SetHomeLocationPage createState() {
-    return _SetHomeLocationPage();
+    return _SetHomeLocationPage(onNextSelected);
   }
 }
 
 class _SetHomeLocationPage extends State<SetHomeLocationPage> with AutomaticKeepAliveClientMixin {
+  final Function(NewMileageExpensePageState) onNextSelected;
+
+  _SetHomeLocationPage(this.onNextSelected);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +36,7 @@ class _SetHomeLocationPage extends State<SetHomeLocationPage> with AutomaticKeep
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(bottom: 56.0, top: 16.0),
+              padding: EdgeInsets.only(bottom: 42.0, top: 16.0),
               child: Text(
                 'Would you like to add your default start location?',
                 textAlign: TextAlign.start,
@@ -41,12 +48,12 @@ class _SetHomeLocationPage extends State<SetHomeLocationPage> with AutomaticKeep
                 ),
               ),
             ),
-            Row(
+            pageState.selectedHomeLocationName.isEmpty ? Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    NavigationUtil.onAddStartLocationSelected(context);
+                    NavigationUtil.onSelectMapLocation(context, pageState.onMapLocationSaved, pageState.lat, pageState.lng);
                   },
                   child: Container(
                   alignment: Alignment.center,
@@ -70,7 +77,7 @@ class _SetHomeLocationPage extends State<SetHomeLocationPage> with AutomaticKeep
                 ),
                 GestureDetector(
                   onTap: () {
-                    UserOptionsUtil.showNewMileageExpenseSelected(context);
+                    onNextSelected(pageState);
                   },
                   child: Container(
                   alignment: Alignment.center,
@@ -93,6 +100,29 @@ class _SetHomeLocationPage extends State<SetHomeLocationPage> with AutomaticKeep
                 ),
                 ),
               ],
+            ) : GestureDetector(
+              onTap: () {
+                NavigationUtil.onSelectMapLocation(context, pageState.onMapLocationSaved, pageState.lat, pageState.lng);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 64.0,
+                width: 250.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(32.0),
+                    color: Color(ColorConstants.getPeachDark())
+                ),
+                child: Text(
+                  pageState.selectedHomeLocationName,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                ),
+              ),
             ),
           ],
         ),

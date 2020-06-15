@@ -9,6 +9,7 @@ import 'package:client_safe/pages/home_page/HomePageReducer.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageReducer.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageReducer.dart';
+import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetReducer.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageReducer.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageReducer.dart';
@@ -46,4 +47,5 @@ AppState appReducers(AppState state, dynamic action) =>
         newSingleExpensePageState: newSingleExpensePageReducer(state.newSingleExpensePageState, action),
         newRecurringExpensePageState: newRecurringExpensePageReducer(state.newRecurringExpensePageState, action),
         newMileageExpensePageState: newMileageExpensePageReducer(state.newMileageExpensePageState, action),
+        mapLocationSelectionWidgetState: mapLocationSelectionWidgetReducer(state.mapLocationSelectionWidgetState, action),
     );

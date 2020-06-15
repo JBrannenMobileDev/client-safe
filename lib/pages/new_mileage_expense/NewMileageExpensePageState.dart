@@ -2,7 +2,8 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Location.dart';
 import 'package:client_safe/models/PlacesLocation.dart';
 import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
+import 'package:client_safe/models/Profile.dart';
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
@@ -26,16 +27,13 @@ class NewMileageExpensePageState {
   final Function(LatLng) onStartLocationChanged;
   final Function(LatLng) onEndLocationChanged;
   final Function(DateTime) onExpenseDateSelected;
-  final Function(String) onSearchInputChanged;
-  final Function(String) onThrottleGetLocations;
   final String searchText;
   final double lat;
   final double lng;
-  final List<PlacesLocation> locationsResults;
-  final Function(PlacesLocation) onSearchLocationSelected;
   final Location selectedSearchLocation;
-  final Function(LatLng) onMapLocationChanged;
-  final Function() onMapLocationSaved;
+  final Function(LatLng) onMapLocationSaved;
+  final Profile profile;
+  final String selectedHomeLocationName;
 
   NewMileageExpensePageState({
     @required this.id,
@@ -55,13 +53,10 @@ class NewMileageExpensePageState {
     @required this.onMapLocationSaved,
     @required this.lat,
     @required this.lng,
-    @required this.onSearchInputChanged,
     @required this.searchText,
-    @required this.locationsResults,
-    @required this.onSearchLocationSelected,
     @required this.selectedSearchLocation,
-    @required this.onThrottleGetLocations,
-    @required this.onMapLocationChanged,
+    @required this.profile,
+    @required this.selectedHomeLocationName,
   });
 
   NewMileageExpensePageState copyWith({
@@ -79,17 +74,14 @@ class NewMileageExpensePageState {
     Function(LatLng) onEndLocationChanged,
     Function(DateTime) onExpenseDateSelected,
     double expenseCost,
-    Function(LatLng) onMapLocationChanged,
-    Function() onMapLocationSaved,
+    Function(LatLng) onMapLocationSaved,
     double lat,
     double lng,
-    Function(String) onSearchInputChanged,
     String searchText,
     List<PlacesLocation> locationResults,
-    Function(PlacesLocation) onSearchLocationSelected,
     Location selectedSearchLocation,
-    Function(String) onThrottleGetLocations,
-    List<PlacesLocation> locationsResults,
+    Profile profile,
+    String selectedHomeLocationName,
   }){
     return NewMileageExpensePageState(
       id: id?? this.id,
@@ -106,16 +98,13 @@ class NewMileageExpensePageState {
       expenseCost: expenseCost ?? this.expenseCost,
       onStartLocationChanged: onStartLocationChanged ?? this.onStartLocationChanged,
       onEndLocationChanged: onEndLocationChanged ?? this.onEndLocationChanged,
-      onMapLocationChanged: onMapLocationChanged ?? this.onMapLocationChanged,
       onMapLocationSaved: onMapLocationSaved ?? this.onMapLocationSaved,
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
-      onSearchInputChanged: onSearchInputChanged ?? this.onSearchInputChanged,
       searchText: searchText ?? this.searchText,
-      locationsResults: locationResults ?? this.locationsResults,
-      onSearchLocationSelected: onSearchLocationSelected ?? this.onSearchLocationSelected,
       selectedSearchLocation: selectedSearchLocation ?? this.selectedSearchLocation,
-      onThrottleGetLocations: onThrottleGetLocations ?? this.onThrottleGetLocations,
+      profile: profile ?? this.profile,
+      selectedHomeLocationName: selectedHomeLocationName ?? this.selectedHomeLocationName,
     );
   }
 
@@ -134,16 +123,13 @@ class NewMileageExpensePageState {
         onExpenseDateSelected: null,
         expenseCost: 0.0,
         onEndLocationChanged: null,
-        onMapLocationChanged: null,
         onMapLocationSaved: null,
         lat: 0.0,
         lng: 0.0,
-        onSearchInputChanged: null,
         searchText: '',
-        locationsResults: List(),
-        onSearchLocationSelected: null,
         selectedSearchLocation: null,
-        onThrottleGetLocations: null,
+        profile: null,
+        selectedHomeLocationName: '',
       );
 
   factory NewMileageExpensePageState.fromStore(Store<AppState> store) {
@@ -157,54 +143,46 @@ class NewMileageExpensePageState {
       lat: store.state.newMileageExpensePageState.lat,
       lng: store.state.newMileageExpensePageState.lng,
       searchText: store.state.newMileageExpensePageState.searchText,
-      locationsResults: store.state.newMileageExpensePageState.locationsResults,
       selectedSearchLocation: store.state.newMileageExpensePageState.selectedSearchLocation,
-      onSavePressed: () => store.dispatch(SaveSingleExpenseProfileAction(store.state.newMileageExpensePageState)),
-      onCancelPressed: () => store.dispatch(ClearSingleEpenseStateAction(store.state.newMileageExpensePageState)),
+      profile: store.state.newMileageExpensePageState.profile,
+      selectedHomeLocationName: store.state.newMileageExpensePageState.selectedHomeLocationName,
+      onSavePressed: () => store.dispatch(SaveMileageExpenseProfileAction(store.state.newMileageExpensePageState)),
+      onCancelPressed: () => store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newMileageExpensePageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newMileageExpensePageState)),
       onDeleteMileageExpenseSelected: () {
-        store.dispatch(DeleteSingleExpenseAction(store.state.newMileageExpensePageState));
-        store.dispatch(ClearSingleEpenseStateAction(store.state.newMileageExpensePageState));
+        store.dispatch(DeleteMileageExpenseAction(store.state.newMileageExpensePageState));
+        store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
       },
       onStartLocationChanged: (latLng) => store.dispatch(UpdateStartLocationAction(store.state.newMileageExpensePageState, latLng)),
       onEndLocationChanged: (latLng) => store.dispatch(UpdateEndLocationAction(store.state.newMileageExpensePageState, latLng)),
       onExpenseDateSelected: (expenseDate) => store.dispatch(SetExpenseDateAction(store.state.newMileageExpensePageState, expenseDate)),
-      onMapLocationChanged: (newLatLng) => store.dispatch(SetCurrentMapLatLngAction(store.state.sunsetWeatherPageState, newLatLng)),
-      onMapLocationSaved: () => store.dispatch(SaveCurrentMapLatLngAction(store.state.sunsetWeatherPageState)),
-      onSearchInputChanged: (input) => store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, input)),
-      onSearchLocationSelected: (searchLocation) {
-        store.dispatch(FetchSearchLocationDetails(store.state.sunsetWeatherPageState, searchLocation));
-        store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, searchLocation.description));
-      },
-      onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.sunsetWeatherPageState, input)),
+      onMapLocationSaved: (latLngHome) => store.dispatch(SaveHomeLocationAction(store.state.newMileageExpensePageState, latLngHome)),
     );
   }
 
   @override
   int get hashCode =>
       id.hashCode ^
+      selectedHomeLocationName.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
-      onSearchInputChanged.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
       onBackPressed.hashCode ^
-      locationsResults.hashCode ^
       onStartLocationChanged.hashCode ^
       expenseDate.hashCode ^
       expenseCost.hashCode ^
       onDeleteMileageExpenseSelected.hashCode ^
       onEndLocationChanged.hashCode ^
-      onMapLocationChanged.hashCode ^
       onMapLocationSaved.hashCode ^
       selectedSearchLocation.hashCode ^
       lat.hashCode ^
       lng.hashCode ^
-      onSearchLocationSelected.hashCode ^
       searchText.hashCode ^
+      profile.hashCode ^
       onExpenseDateSelected.hashCode;
 
   @override
@@ -212,14 +190,12 @@ class NewMileageExpensePageState {
       identical(this, other) ||
       other is NewMileageExpensePageState &&
           id == other.id &&
-          locationsResults == other.locationsResults &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           onDeleteMileageExpenseSelected == other.onDeleteMileageExpenseSelected &&
           shouldClear == other.shouldClear &&
+          selectedHomeLocationName == other.selectedHomeLocationName &&
           onSavePressed == other.onSavePressed &&
-          onSearchLocationSelected == other.onSearchLocationSelected &&
-          onSearchInputChanged == other.onSearchInputChanged &&
           onCancelPressed == other.onCancelPressed &&
           selectedSearchLocation == other.selectedSearchLocation &&
           onNextPressed == other.onNextPressed &&
@@ -231,7 +207,7 @@ class NewMileageExpensePageState {
           searchText == other.searchText &&
           lat == other.lat &&
           lng == other.lng &&
-          onMapLocationChanged == other.onMapLocationChanged &&
+          profile == other.profile &&
           onMapLocationSaved == other.onMapLocationSaved &&
           onExpenseDateSelected == other.onExpenseDateSelected;
 }

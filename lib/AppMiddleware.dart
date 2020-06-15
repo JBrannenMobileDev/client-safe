@@ -2,8 +2,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensePageMiddleware.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
 import 'package:client_safe/pages/calendar_page/CalendarPageMiddleware.dart';
 import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
@@ -18,6 +16,8 @@ import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageMiddleware.dart';
 import 'package:client_safe/pages/locations_page/LocationsActions.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageMiddleware.dart';
+import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetMiddleware.dart';
+import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart' as mapLocationSelection;
 import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageMiddleware.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
@@ -26,6 +26,8 @@ import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as newJob
 import 'package:client_safe/pages/new_job_page/NewJobPageMiddleware.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationActions.dart' as prefix2;
 import 'package:client_safe/pages/new_location_page/NewLocationPageMiddleware.dart';
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageMiddleware.dart';
+import 'package:client_safe/pages/new_mileage_expense/NewMileageExpenseActions.dart' as mileageActions;
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
 import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
@@ -116,5 +118,10 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteSingleExpenseAction>(NewSingleExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveRecurringExpenseProfileAction>(NewRecurringExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteRecurringExpenseAction>(NewRecurringExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mileageActions.FetchLastKnowPosition>(NewMileageExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mileageActions.SaveHomeLocationAction>(NewMileageExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.SetLastKnowPosition>(MapLocationSelectionWidgetMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.FetchGoogleLocationsAction>(MapLocationSelectionWidgetMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.FetchSearchLocationDetails>(MapLocationSelectionWidgetMiddleware()));
   return middlewareList;
 }

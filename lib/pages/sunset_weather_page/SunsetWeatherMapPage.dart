@@ -11,14 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/ColorConstants.dart';
-import '../../utils/Shadows.dart';
-import '../../utils/Shadows.dart';
-import '../../utils/Shadows.dart';
 import '../../utils/Shadows.dart';
 
 class SunsetWeatherMapPage extends StatefulWidget {

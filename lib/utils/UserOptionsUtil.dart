@@ -61,15 +61,6 @@ class UserOptionsUtil {
     );
   }
 
-  static void showSetMileageDefaultStartLocationSelected(BuildContext context){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return SetHomeLocationPage();
-      },
-    );
-  }
-
   static void showNewJobDialog(BuildContext context){
     showDialog(
       context: context,

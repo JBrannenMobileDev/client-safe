@@ -7,6 +7,7 @@ import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
 import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
+import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
@@ -47,6 +48,7 @@ class AppState {
   final NewSingleExpensePageState newSingleExpensePageState;
   final NewRecurringExpensePageState newRecurringExpensePageState;
   final NewMileageExpensePageState newMileageExpensePageState;
+  final MapLocationSelectionWidgetState mapLocationSelectionWidgetState;
 
   AppState({
     @required this.newLocationPageState,
@@ -71,6 +73,7 @@ class AppState {
     @required this.newSingleExpensePageState,
     @required this.newRecurringExpensePageState,
     @required this.newMileageExpensePageState,
+    @required this.mapLocationSelectionWidgetState,
   });
 
   factory AppState.initial() {
@@ -97,6 +100,7 @@ class AppState {
       newSingleExpensePageState: NewSingleExpensePageState.initial(),
       newRecurringExpensePageState: NewRecurringExpensePageState.initial(),
       newMileageExpensePageState: NewMileageExpensePageState.initial(),
+      mapLocationSelectionWidgetState: MapLocationSelectionWidgetState.initial(),
     );
   }
 
@@ -123,6 +127,7 @@ class AppState {
     NewSingleExpensePageState newSingleExpensePageState,
     NewRecurringExpensePageState newRecurringExpensePageState,
     NewMileageExpensePageState newMileageExpensePageState,
+    MapLocationSelectionWidgetState mapLocationSelectionWidgetState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -147,6 +152,7 @@ class AppState {
       newSingleExpensePageState: newSingleExpensePageState ?? this.newSingleExpensePageState,
       newRecurringExpensePageState: newRecurringExpensePageState ?? this.newRecurringExpensePageState,
       newMileageExpensePageState: newMileageExpensePageState ?? this.newMileageExpensePageState,
+      mapLocationSelectionWidgetState: mapLocationSelectionWidgetState ?? this.mapLocationSelectionWidgetState,
     );
   }
 
@@ -173,6 +179,7 @@ class AppState {
     newSingleExpensePageState.hashCode ^
     newRecurringExpensePageState.hashCode ^
     newMileageExpensePageState.hashCode ^
+    mapLocationSelectionWidgetState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -200,5 +207,6 @@ class AppState {
               newSingleExpensePageState == other.newSingleExpensePageState &&
               newRecurringExpensePageState == other.newRecurringExpensePageState &&
               newMileageExpensePageState == other.newMileageExpensePageState &&
+              mapLocationSelectionWidgetState == other.mapLocationSelectionWidgetState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

@@ -3,6 +3,7 @@ import 'package:client_safe/models/Charge.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/Profile.dart';
 import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
@@ -32,6 +33,8 @@ class IncomeAndExpensesPageState {
   final List<SingleExpense> singleExpensesForSelectedYear;
   final List<RecurringExpense> recurringExpensesForSelectedYear;
   final List<RecurringExpense> allRecurringExpenses;
+  final List<MileageExpense> allMileageExpenses;
+  final List<MileageExpense> mileageExpensesForSelectedYear;
   final bool isFinishedFetchingClients;
   final String jobSearchText;
   final Function(String) onJobSearchTextChanged;
@@ -41,6 +44,7 @@ class IncomeAndExpensesPageState {
   final double expensesForSelectedYear;
   final int singleExpensesForSelectedYearTotal;
   final int recurringExpensesForSelectedYearTotal;
+  final int mileageExpensesForSelectedYearTotal;
   final bool isSingleExpensesMinimized;
   final Profile profile;
   final Function(String) onFilterChanged;
@@ -118,6 +122,9 @@ class IncomeAndExpensesPageState {
     @required this.onCancelRecurringSubscriptionSelected,
     @required this.onResumeRecurringSubscriptionSelected,
     @required this.profile,
+    @required this.allMileageExpenses,
+    @required this.mileageExpensesForSelectedYear,
+    @required this.mileageExpensesForSelectedYearTotal,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -171,6 +178,9 @@ class IncomeAndExpensesPageState {
     Function(RecurringExpense) onCancelRecurringSubscriptionSelected,
     Function(RecurringExpense) onResumeRecurringSubscriptionSelected,
     Profile profile,
+    List<MileageExpense> allMileageExpenses,
+    List<MileageExpense> mileageExpensesForSelectedYear,
+    int mileageExpensesForSelectedYearTotal,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -223,6 +233,9 @@ class IncomeAndExpensesPageState {
       onCancelRecurringSubscriptionSelected: onCancelRecurringSubscriptionSelected ?? this.onCancelRecurringSubscriptionSelected,
       onResumeRecurringSubscriptionSelected: onResumeRecurringSubscriptionSelected ?? this.onResumeRecurringSubscriptionSelected,
       profile: profile ?? this.profile,
+      allMileageExpenses: allMileageExpenses ?? this.allMileageExpenses,
+      mileageExpensesForSelectedYear: mileageExpensesForSelectedYear ?? this.mileageExpensesForSelectedYear,
+      mileageExpensesForSelectedYearTotal: mileageExpensesForSelectedYearTotal ?? this.mileageExpensesForSelectedYearTotal,
     );
   }
 
@@ -277,6 +290,9 @@ class IncomeAndExpensesPageState {
     onCancelRecurringSubscriptionSelected: null,
     onResumeRecurringSubscriptionSelected: null,
     profile: null,
+    allMileageExpenses: List(),
+    mileageExpensesForSelectedYear: List(),
+    mileageExpensesForSelectedYearTotal: 0,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -308,6 +324,9 @@ class IncomeAndExpensesPageState {
       recurringExpensesForSelectedYear: store.state.incomeAndExpensesPageState.recurringExpensesForSelectedYear,
       recurringExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.recurringExpensesForSelectedYearTotal,
       profile: store.state.incomeAndExpensesPageState.profile,
+      allMileageExpenses: store.state.incomeAndExpensesPageState.allMileageExpenses,
+      mileageExpensesForSelectedYear: store.state.incomeAndExpensesPageState.mileageExpensesForSelectedYear,
+      mileageExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.mileageExpensesForSelectedYearTotal,
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
@@ -368,6 +387,9 @@ class IncomeAndExpensesPageState {
       onInvoiceSent.hashCode ^
       paidInvoices.hashCode ^
       totalTips.hashCode ^
+      mileageExpensesForSelectedYearTotal.hashCode ^
+      allMileageExpenses.hashCode ^
+      mileageExpensesForSelectedYear.hashCode ^
       allJobs.hashCode ^
       singleExpensesForSelectedYear.hashCode ^
       allInvoicesFilterType.hashCode ^
@@ -413,6 +435,7 @@ class IncomeAndExpensesPageState {
               onJobSearchTextChanged == other.onJobSearchTextChanged &&
               onAllInvoicesFilterChanged == other.onAllInvoicesFilterChanged &&
               allInvoices == other.allInvoices &&
+              mileageExpensesForSelectedYearTotal == other.mileageExpensesForSelectedYearTotal &&
               totalIncome == other.totalIncome &&
               incomeForSelectedYear == other.incomeForSelectedYear &&
               onFilterChanged == other.onFilterChanged &&
@@ -420,6 +443,8 @@ class IncomeAndExpensesPageState {
               onInvoiceSent == other.onInvoiceSent &&
               totalTips == other.totalTips &&
               allJobs == other.allJobs &&
+              allMileageExpenses == other.allMileageExpenses &&
+              mileageExpensesForSelectedYear == other.mileageExpensesForSelectedYear &&
               onAllExpensesFilterChanged == other.onAllExpensesFilterChanged &&
               singleExpensesForSelectedYear == other.singleExpensesForSelectedYear &&
               onEditInvoiceSelected == other.onEditInvoiceSelected &&
