@@ -1,7 +1,9 @@
 
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/MileageExpenseItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -45,7 +47,7 @@ class MileageExpensesCard extends StatelessWidget {
                       ),
                       pageState.mileageExpensesForSelectedYear != null && pageState.mileageExpensesForSelectedYear.length > 3 ? FlatButton(
                         onPressed: () {
-                          pageState.onViewAllExpensesSelected(1);
+                          pageState.onViewAllExpensesSelected(0);
                           Navigator.of(context).push(
                             new MaterialPageRoute(builder: (context) => AllExpensesPage()),
                           );
@@ -53,7 +55,7 @@ class MileageExpensesCard extends StatelessWidget {
                         child: Container(
                           alignment: Alignment.centerRight,
                           child: Text(
-                            'View all(' + pageState.singleExpensesForSelectedYear.length.toString() + ')',
+                            'View all(' + pageState.mileageExpensesForSelectedYear.length.toString() + ')',
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'simple',
@@ -66,17 +68,109 @@ class MileageExpensesCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                pageState.mileageExpensesForSelectedYear.length > 0 ? Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.mileageExpensesForSelectedYearTotal),
-                    style: TextStyle(
-                      fontFamily: 'simple',
-                      fontSize: 48.0,
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPeachDark()),
+                pageState.mileageExpensesForSelectedYear.length > 0 ?
+                Column(
+                  children: [
+                    Container(
+                      alignment: Alignment.center,
+                      child: Text(
+                        NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.mileageExpensesForSelectedYearTotal),
+                        style: TextStyle(
+                          fontFamily: 'simple',
+                          fontSize: 48.0,
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.getPeachDark()),
+                        ),
+                      ),
                     ),
-                  ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 0.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    child: Text(
+                                      NumberFormat("###,###,###,###").format(pageState.totalMilesDriven),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 32.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.primary_black),
+                                      ),
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.only(bottom: 4.0),
+                                    child: Text(
+                                      'mi',
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 24.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.primary_black),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                              child: Text(
+                                'miles driven',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 0.0),
+                              child: Text(
+                                TextFormatterUtil.formatDecimalDigitsCurrency(0.575, 3) + '/mi',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontSize: 32.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                              child: Text(
+                                'deduction rate',
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
                 ) : SizedBox(),
                 pageState.mileageExpensesForSelectedYear.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),
@@ -110,7 +204,7 @@ class MileageExpensesCard extends StatelessWidget {
   }
 
   int _getItemCount(IncomeAndExpensesPageState pageState) {
-    if(pageState.singleExpensesForSelectedYear.length > 3) {
+    if(pageState.mileageExpensesForSelectedYear.length > 3) {
       return 3;
     } else {
       return pageState.mileageExpensesForSelectedYear.length;
@@ -121,18 +215,17 @@ class MileageExpensesCard extends StatelessWidget {
     if(length == 0) {
       return 178.0;
     }else if(length == 1) {
-      return 222.0;
+      return 290.0;
     }else if(length == 2) {
-      return 306.0;
+      return 374.0;
     }else if(length == 3) {
-      return 370.0;
+      return 438.0;
     }else {
-      return pageState.isSingleExpensesMinimized ? 390.0 : ((74*length) + 172).toDouble();
+      return ((74*length) + 172).toDouble();
     }
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return SizedBox();
-//    return SingleExpenseItem(singleExpense: pageState.singleExpensesForSelectedYear.elementAt(index), pageState: pageState);
+    return MileageExpenseItem(mileageExpense: pageState.mileageExpensesForSelectedYear.elementAt(index), pageState: pageState);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
@@ -28,11 +29,44 @@ final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>
   TypedReducer<IncomeAndExpensesPageState, UpdateAlInvoicesSelectorPosition>(_setSelectorPosition),
   TypedReducer<IncomeAndExpensesPageState, UpdateAllExpensesSelectorPosition>(_setExpensesSelectorPosition),
   TypedReducer<IncomeAndExpensesPageState, SetProfileAction>(_setProfile),
+  TypedReducer<IncomeAndExpensesPageState, SetMileageExpensesAction>(_setMileageExpenses),
 ]);
 
 IncomeAndExpensesPageState _setProfile(IncomeAndExpensesPageState previousState, SetProfileAction action) {
   return previousState.copyWith(
     profile: action.profile,
+  );
+}
+
+IncomeAndExpensesPageState _setMileageExpenses(IncomeAndExpensesPageState previousState, SetMileageExpensesAction action) {
+  List<MileageExpense> mileageExpenseForSelectedYear = action.mileageExpenses.where((expense) => expense.charge.chargeDate.year == previousState.selectedYear).toList();
+  mileageExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.charge.chargeDate.isBefore(expenseB.charge.chargeDate) == true ? 1 : -1);
+
+  double singleExpensesTotal = 0;
+  for(SingleExpense expense in previousState.singleExpensesForSelectedYear){
+    singleExpensesTotal = singleExpensesTotal + expense.charge.chargeAmount;
+  }
+
+  double recurringExpenseTotal = 0;
+  for(RecurringExpense recurringExpense in previousState.recurringExpensesForSelectedYear){
+    recurringExpenseTotal = recurringExpenseTotal + recurringExpense.getTotalOfChargesForYear(previousState.selectedYear);
+  }
+
+  double mileageExpensesTotal = 0;
+  for(MileageExpense expense in mileageExpenseForSelectedYear){
+    mileageExpensesTotal = mileageExpensesTotal + expense.charge.chargeAmount;
+  }
+
+  double totalMilesDriven = 0.0;
+  for(MileageExpense expense in mileageExpenseForSelectedYear){
+    totalMilesDriven = totalMilesDriven + expense.totalMiles;
+  }
+  return previousState.copyWith(
+    mileageExpensesForSelectedYear: mileageExpenseForSelectedYear,
+    allMileageExpenses: action.mileageExpenses,
+    totalMilesDriven: totalMilesDriven,
+    mileageExpensesForSelectedYearTotal: mileageExpensesTotal.round(),
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
   );
 }
 
@@ -61,11 +95,16 @@ IncomeAndExpensesPageState _setSingleExpenses(IncomeAndExpensesPageState previou
   for(RecurringExpense recurringExpense in previousState.recurringExpensesForSelectedYear){
     recurringExpenseTotal = recurringExpenseTotal + recurringExpense.getTotalOfChargesForYear(previousState.selectedYear);
   }
+
+  double mileageExpensesTotal = 0;
+  for(MileageExpense expense in previousState.mileageExpensesForSelectedYear){
+    mileageExpensesTotal = mileageExpensesTotal + expense.charge.chargeAmount;
+  }
   return previousState.copyWith(
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     allSingleExpenses: action.singleExpenses,
     singleExpensesForSelectedYearTotal: singleExpensesTotal.round(),
-    expensesForSelectedYear: singleExpensesTotal.toDouble() + recurringExpenseTotal.toDouble(),
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
   );
 }
 
@@ -80,11 +119,16 @@ IncomeAndExpensesPageState _setRecurringExpenses(IncomeAndExpensesPageState prev
   for(RecurringExpense recurringExpense in action.recurringExpenses){
     recurringExpenseTotal = recurringExpenseTotal + recurringExpense.getTotalOfChargesForYear(previousState.selectedYear);
   }
+
+  double mileageExpensesTotal = 0;
+  for(MileageExpense expense in previousState.mileageExpensesForSelectedYear){
+    mileageExpensesTotal = mileageExpensesTotal + expense.charge.chargeAmount;
+  }
   return previousState.copyWith(
     recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
     allRecurringExpenses: action.recurringExpenses,
     recurringExpensesForSelectedYearTotal: recurringExpenseTotal.round(),
-    expensesForSelectedYear: singleExpensesTotal.toDouble() + recurringExpenseTotal.toDouble(),
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
   );
 }
 
@@ -248,15 +292,31 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   for(RecurringExpense recurringExpense in recurringExpenseForSelectedYear){
     recurringExpenseTotal = recurringExpenseTotal + recurringExpense.getTotalOfChargesForYear(action.year);
   }
+
+
+  List<MileageExpense> mileageExpenseForSelectedYear = previousState.allMileageExpenses.where((expense) => expense.charge.chargeDate.year == action.year).toList();
+  mileageExpenseForSelectedYear.sort((expenseA, expenseB) => expenseA.charge.chargeDate.isBefore(expenseB.charge.chargeDate) == true ? 1 : -1);
+  double mileageExpensesTotal = 0;
+  for(MileageExpense expense in mileageExpenseForSelectedYear){
+    mileageExpensesTotal = mileageExpensesTotal + expense.charge.chargeAmount;
+  }
+
+  double totalMilesDriven = 0.0;
+  for(MileageExpense expense in mileageExpenseForSelectedYear){
+    totalMilesDriven = totalMilesDriven + expense.totalMiles;
+  }
   return previousState.copyWith(
     selectedYear: action.year,
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
     paidInvoices: paidInvoices,
     totalTips: totalTipsForYear,
+    totalMilesDriven: totalMilesDriven,
+    mileageExpensesForSelectedYear: mileageExpenseForSelectedYear,
+    mileageExpensesForSelectedYearTotal: mileageExpensesTotal.round(),
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
-    expensesForSelectedYear: singleExpensesTotal.toDouble() + recurringExpenseTotal.toDouble(),
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
     recurringExpensesForSelectedYearTotal: recurringExpenseTotal.round(),
   );
 }

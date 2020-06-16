@@ -1,6 +1,7 @@
 
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Invoice.dart';
+import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -10,10 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class SingleExpenseItem extends StatelessWidget{
-  final SingleExpense singleExpense;
+class MileageExpenseItem extends StatelessWidget{
+  final MileageExpense mileageExpense;
   final IncomeAndExpensesPageState pageState;
-  SingleExpenseItem({this.singleExpense, this.pageState});
+  MileageExpenseItem({this.mileageExpense, this.pageState});
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,8 @@ class SingleExpenseItem extends StatelessWidget{
       height: 74.0,
       child: FlatButton(
         onPressed: () async {
-          pageState.onSingleExpenseItemSelected(singleExpense);
-          UserOptionsUtil.showNewSingleExpenseDialog(context);
+          pageState.onMileageExpenseItemSelected(mileageExpense);
+          UserOptionsUtil.showNewMileageExpenseSelected(context);
         },
         child: Padding(
           padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),
@@ -38,7 +39,7 @@ class SingleExpenseItem extends StatelessWidget{
                     width: 42.0,
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/icons/coin_icon_peach.png'),
+                        image: AssetImage('assets/images/icons/driving_directions_icon_peach.png'),
                         fit: BoxFit.contain,
                       ),
                     ),
@@ -53,7 +54,7 @@ class SingleExpenseItem extends StatelessWidget{
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
                             Text(
-                              (singleExpense.expenseName != null ? singleExpense.expenseName : 'Item name'),
+                              DateFormat('MMM dd, yyyy').format(mileageExpense.charge.chargeDate),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 20.0,
@@ -68,7 +69,7 @@ class SingleExpenseItem extends StatelessWidget{
                       Padding(
                         padding: EdgeInsets.only(top: 0.0),
                         child: Text(
-                          DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ' + TextFormatterUtil.formatSimpleCurrency(singleExpense.charge.chargeAmount.toInt()),
+                          mileageExpense.totalMiles.toStringAsFixed(1) + 'mi  •  ' + TextFormatterUtil.formatSimpleCurrency(mileageExpense.charge.chargeAmount.round()),
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 20.0,

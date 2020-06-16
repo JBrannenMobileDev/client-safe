@@ -123,6 +123,30 @@ class SetSelectedFilterAction{
   SetSelectedFilterAction(this.pageState, this.selectedFilter);
 }
 
+class SetSelectedLocationAction{
+  final NewMileageExpensePageState pageState;
+  final Location selectedLocation;
+  SetSelectedLocationAction(this.pageState, this.selectedLocation);
+}
+
+class SetMileageLocationsAction{
+  final NewMileageExpensePageState pageState;
+  final List<Location> locations;
+  SetMileageLocationsAction(this.pageState, this.locations);
+}
+
+class MileageDocumentPathAction{
+  final NewMileageExpensePageState pageState;
+  final String documentPath;
+  MileageDocumentPathAction(this.pageState, this.documentPath);
+}
+
+class SetExistingMileageExpenseAction{
+  final NewMileageExpensePageState pageState;
+  final MileageExpense expense;
+  SetExistingMileageExpenseAction(this.pageState, this.expense);
+}
+
 
 
 

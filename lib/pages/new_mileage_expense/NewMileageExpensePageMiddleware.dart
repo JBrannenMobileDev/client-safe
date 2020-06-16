@@ -1,10 +1,20 @@
+import 'dart:io';
+
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/api_clients/GoogleApiClient.dart';
+import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:client_safe/models/Charge.dart';
+import 'package:client_safe/models/Location.dart';
+import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/Profile.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpenseActions.dart';
+import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +27,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
       saveHomeLocation(store, action, next);
     }
     if(action is DeleteMileageExpenseAction){
-
+      deleteExpense(store, action, next);
     }
     if(action is FetchLastKnowPosition){
       getLocationData(store, next, action);
@@ -28,6 +38,41 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateEndLocationAction){
       updateEndLocation(store, action, next);
     }
+    if(action is SaveMileageExpenseProfileAction){
+      saveMileageExpense(store, next, action);
+    }
+    if(action is LoadExistingMileageExpenseAction){
+      loadExistingMileageExpense(store, next, action);
+    }
+  }
+
+  void loadExistingMileageExpense(Store<AppState> store, NextDispatcher next, LoadExistingMileageExpenseAction action) async {
+    store.dispatch(SetExistingMileageExpenseAction(store.state.newMileageExpensePageState, action.mileageExpense));
+    List<Placemark> placeMarkStart = await Geolocator().placemarkFromCoordinates(action.mileageExpense.startLat, action.mileageExpense.startLng);
+    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng), placeMarkStart.elementAt(0).thoroughfare + ', ' + placeMarkStart.elementAt(0).locality));
+
+    List<Placemark> placeMarkEnd = await Geolocator().placemarkFromCoordinates(action.mileageExpense.endLat, action.mileageExpense.endLng);
+    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng), placeMarkEnd.elementAt(0).thoroughfare + ', ' + placeMarkEnd.elementAt(0).locality));
+
+    LatLng startLatLngToUse = LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng);
+    LatLng endLatLngToUse = LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng);
+    _calculateAndSetDistance(endLatLngToUse, startLatLngToUse, store);
+  }
+
+  void saveMileageExpense(Store<AppState> store, NextDispatcher next, SaveMileageExpenseProfileAction action) async {
+    MileageExpense expense = MileageExpense(
+      id: action.pageState.id,
+      totalMiles: action.pageState.milesDriven,
+      isRoundTrip: !action.pageState.isOneWay,
+      startLat: action.pageState.startLocation != null ? action.pageState.startLocation.latitude : action.pageState.profile.latDefaultHome,
+      startLng: action.pageState.startLocation != null ? action.pageState.startLocation.longitude : action.pageState.profile.lngDefaultHome,
+      endLat: action.pageState.endLocation.latitude,
+      endLng: action.pageState.endLocation.longitude,
+      deductionRate: action.pageState.deductionRate,
+      charge: Charge(chargeDate: action.pageState.expenseDate, chargeAmount: action.pageState.expenseCost),
+    );
+    await MileageExpenseDao.insertOrUpdate(expense);
+    store.dispatch(FetchMileageExpenses(store.state.incomeAndExpensesPageState));
   }
 
   void updateEndLocation(Store<AppState> store, UpdateEndLocationAction action, NextDispatcher next) async{
@@ -35,11 +80,17 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, action.endLocation, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
     LatLng startLatLngToUse;
     if(store.state.newMileageExpensePageState.startLocation == null) {
-      startLatLngToUse = LatLng(store.state.newMileageExpensePageState.profile.latDefaultHome, store.state.newMileageExpensePageState.profile.lngDefaultHome);
+      if(store.state.newMileageExpensePageState.profile.hasDefaultHome()){
+        startLatLngToUse = LatLng(store.state.newMileageExpensePageState.profile.latDefaultHome, store.state.newMileageExpensePageState.profile.lngDefaultHome);
+      }else {
+        startLatLngToUse = null;
+      }
     }else {
       startLatLngToUse = store.state.newMileageExpensePageState.startLocation;
     }
-    _calculateAndSetDistance(action.endLocation, startLatLngToUse, store);
+    if(startLatLngToUse != null) {
+      _calculateAndSetDistance(action.endLocation, startLatLngToUse, store);
+    }
   }
 
   void updateStartLocation(Store<AppState> store, UpdateStartLocationAction action, NextDispatcher next) async{
@@ -47,14 +98,27 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, action.startLocation, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
     LatLng endLatLngToUse;
     if(store.state.newMileageExpensePageState.endLocation == null) {
-      endLatLngToUse = LatLng(store.state.newMileageExpensePageState.profile.latDefaultHome, store.state.newMileageExpensePageState.profile.lngDefaultHome);
+      endLatLngToUse = null;
     }else {
       endLatLngToUse = store.state.newMileageExpensePageState.endLocation;
     }
-    _calculateAndSetDistance(endLatLngToUse, action.startLocation, store);
+    if(endLatLngToUse != null) {
+      _calculateAndSetDistance(endLatLngToUse, action.startLocation, store);
+    }
+  }
+
+  void deleteExpense(Store<AppState> store, DeleteMileageExpenseAction action, NextDispatcher next) async{
+    await MileageExpenseDao.delete(action.pageState.id);
+    store.dispatch(FetchMileageExpenses(store.state.incomeAndExpensesPageState));
+    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   void getLocationData(Store<AppState> store, NextDispatcher next, FetchLastKnowPosition action) async {
+    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations));
+    Directory appDocDir = await getApplicationDocumentsDirectory();
+    String path = appDocDir.path;
+    store.dispatch(MileageDocumentPathAction(store.state.newMileageExpensePageState, path));
     List<Profile> profiles = await ProfileDao.getAll();
     Profile profile = profiles.elementAt(0);
     if(profile != null) {

@@ -106,6 +106,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UpdateSelectedRecurringChargeAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCancelledSubscriptionAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveResumedSubscriptionAction>(IncomeAndExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchMileageExpenses>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnDeleteInvoiceSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InvoiceSentAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));
@@ -122,6 +123,9 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, mileageActions.SaveHomeLocationAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.UpdateStartLocationAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.UpdateEndLocationAction>(NewMileageExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mileageActions.LoadExistingMileageExpenseAction>(NewMileageExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mileageActions.SaveMileageExpenseProfileAction>(NewMileageExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mileageActions.DeleteMileageExpenseAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.SetLastKnowPosition>(MapLocationSelectionWidgetMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.FetchGoogleLocationsAction>(MapLocationSelectionWidgetMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.FetchSearchLocationDetails>(MapLocationSelectionWidgetMiddleware()));

@@ -67,12 +67,12 @@ class RecurringExpenseItem extends StatelessWidget{
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 2.0),
+                        padding: EdgeInsets.only(top: 0.0),
                         child: Text(
                           TextFormatterUtil.formatSimpleCurrency(recurringExpense.cost.round()) + ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ' + TextFormatterUtil.formatSimpleCurrency(recurringExpense.getTotalOfChargesForYear(pageState.selectedYear).round()),
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 18.0,
+                            fontSize: 20.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
                             color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),

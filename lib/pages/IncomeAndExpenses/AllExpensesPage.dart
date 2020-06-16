@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
+import 'package:client_safe/pages/IncomeAndExpenses/MileageExpenseItem.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/PaidInvoiceItem.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpenseItem.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseItem.dart';
@@ -156,7 +157,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: selectorIndex == 0 ? 0 : selectorIndex == 1 ? pageState.singleExpensesForSelectedYear.length : pageState.recurringExpensesForSelectedYear.length,
+                              itemCount: selectorIndex == 0 ? pageState.mileageExpensesForSelectedYear.length : selectorIndex == 1 ? pageState.singleExpensesForSelectedYear.length : pageState.recurringExpensesForSelectedYear.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -177,7 +178,7 @@ Widget _buildItem(BuildContext context, int index) {
     builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
         pageState.allExpensesFilterType ==
                 AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES
-            ? SizedBox()
+            ? MileageExpenseItem(pageState: pageState, mileageExpense: pageState.mileageExpensesForSelectedYear.elementAt(index))
             : pageState.allExpensesFilterType ==
                     AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES
                 ? SingleExpenseItem(

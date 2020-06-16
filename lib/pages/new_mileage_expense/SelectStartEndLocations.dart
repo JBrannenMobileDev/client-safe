@@ -77,11 +77,12 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
             ),
             GestureDetector(
               onTap: () {
-                NavigationUtil.onSelectMapLocation(
+                UserOptionsUtil.showMileageLocationSelectionDialog(
                     context,
                     pageState.onStartLocationChanged,
                     pageState.profile.hasDefaultHome() ? pageState.profile.latDefaultHome : pageState.startLocation != null ? pageState.startLocation.latitude : pageState.lat,
-                    pageState.profile.hasDefaultHome() ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng);
+                    pageState.profile.hasDefaultHome() ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng
+                );
               },
               child: Container(
                 alignment: Alignment.center,
@@ -130,11 +131,12 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
             ),
             GestureDetector(
               onTap: () {
-                NavigationUtil.onSelectMapLocation(
+                UserOptionsUtil.showMileageLocationSelectionDialog(
                     context,
                     pageState.onEndLocationChanged,
-                    pageState.endLocation != null ? pageState.endLocation.latitude : pageState.lat,
-                    pageState.endLocation != null ? pageState.endLocation.longitude : pageState.lng);
+                    pageState.profile.hasDefaultHome() ? pageState.profile.latDefaultHome : pageState.startLocation != null ? pageState.startLocation.latitude : pageState.lat,
+                    pageState.profile.hasDefaultHome() ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng
+                );
               },
               child: Container(
                 alignment: Alignment.center,
@@ -170,6 +172,23 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                 ),
               ),
             ),
+            Container(
+              alignment: Alignment.center,
+              width: 300.0,
+              margin: EdgeInsets.only(top: 32.0),
+              child: CupertinoSlidingSegmentedControl<int>(
+                thumbColor: Color(ColorConstants.getBlueDark()),
+                backgroundColor: Colors.transparent,
+                children: tabs,
+                onValueChanged: (int filterTypeIndex) {
+                  setState(() {
+                    selectedIndex = filterTypeIndex;
+                  });
+                  pageState.onFilterChanged(filterTypeIndex == 0 ? SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY : SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP);
+                },
+                groupValue: selectedIndex,
+              ),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -177,7 +196,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 32.0),
+                      padding: EdgeInsets.only(top: 24.0),
                       child: Text(
                         'Miles driven',
                         textAlign: TextAlign.start,
@@ -228,7 +247,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(top: 32.0),
+                      padding: EdgeInsets.only(top: 24.0),
                       child: Text(
                         'Potential deduction',
                         textAlign: TextAlign.end,
@@ -258,23 +277,6 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                   ],
                 ),
               ],
-            ),
-            Container(
-              alignment: Alignment.center,
-              width: 300.0,
-              margin: EdgeInsets.only(top: 18.0),
-              child: CupertinoSlidingSegmentedControl<int>(
-                thumbColor: Color(ColorConstants.getBlueDark()),
-                backgroundColor: Colors.transparent,
-                children: tabs,
-                onValueChanged: (int filterTypeIndex) {
-                  setState(() {
-                    selectedIndex = filterTypeIndex;
-                  });
-                  pageState.onFilterChanged(filterTypeIndex == 0 ? SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY : SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP);
-                },
-                groupValue: selectedIndex,
-              ),
             ),
           ],
         ),

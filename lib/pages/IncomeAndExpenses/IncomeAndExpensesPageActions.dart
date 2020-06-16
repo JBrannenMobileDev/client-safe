@@ -2,6 +2,7 @@ import 'package:client_safe/models/Charge.dart';
 import 'package:client_safe/models/Client.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/Profile.dart';
 import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
@@ -137,6 +138,17 @@ class FetchSingleExpenses{
 class FetchRecurringExpenses{
   final IncomeAndExpensesPageState pageState;
   FetchRecurringExpenses(this.pageState);
+}
+
+class FetchMileageExpenses{
+  final IncomeAndExpensesPageState pageState;
+  FetchMileageExpenses(this.pageState);
+}
+
+class SetMileageExpensesAction{
+  final IncomeAndExpensesPageState pageState;
+  final List<MileageExpense> mileageExpenses;
+  SetMileageExpensesAction(this.pageState, this.mileageExpenses);
 }
 
 class SetSingleExpensesAction{

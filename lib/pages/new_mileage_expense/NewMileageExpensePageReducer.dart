@@ -1,7 +1,6 @@
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:client_safe/pages/new_mileage_expense/SelectStartEndLocations.dart';
-import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:redux/redux.dart';
 
 final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>([
@@ -10,7 +9,6 @@ final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>
   TypedReducer<NewMileageExpensePageState, IncrementPageViewIndex>(_incrementPageViewIndex),
   TypedReducer<NewMileageExpensePageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewMileageExpensePageState, UpdateCostAction>(_updateCost),
-  TypedReducer<NewMileageExpensePageState, LoadExistingMileageExpenseAction>(_setSelectedMileageExpense),
   TypedReducer<NewMileageExpensePageState, SetInitialMapLatLng>(_setInitMapLatLng),
   TypedReducer<NewMileageExpensePageState, SetLocationNameAction>(_setHomeLocationName),
   TypedReducer<NewMileageExpensePageState, SetProfileData>(_setProfile),
@@ -18,7 +16,37 @@ final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>
   TypedReducer<NewMileageExpensePageState, SetEndLocationNameAction>(_setEndLocationName),
   TypedReducer<NewMileageExpensePageState, SetMilesDrivenAction>(_setMilesDriven),
   TypedReducer<NewMileageExpensePageState, SetSelectedFilterAction>(_setSelectedFilter),
+  TypedReducer<NewMileageExpensePageState, SetSelectedLocationAction>(_setSelectedLocation),
+  TypedReducer<NewMileageExpensePageState, SetMileageLocationsAction>(_setLocations),
+  TypedReducer<NewMileageExpensePageState, MileageDocumentPathAction>(_setDocumentPath),
+  TypedReducer<NewMileageExpensePageState, SetExistingMileageExpenseAction>(_setExistingMileageExpense),
 ]);
+
+NewMileageExpensePageState _setExistingMileageExpense(NewMileageExpensePageState previousState, SetExistingMileageExpenseAction action){
+  return previousState.copyWith(
+    isOneWay: !action.expense.isRoundTrip,
+    shouldClear: false,
+    id: action.expense.id,
+  );
+}
+
+NewMileageExpensePageState _setDocumentPath(NewMileageExpensePageState previousState, MileageDocumentPathAction action){
+  return previousState.copyWith(
+    documentPath: action.documentPath,
+  );
+}
+
+NewMileageExpensePageState _setSelectedLocation(NewMileageExpensePageState previousState, SetSelectedLocationAction action){
+  return previousState.copyWith(
+    selectedLocation: action.selectedLocation,
+  );
+}
+
+NewMileageExpensePageState _setLocations(NewMileageExpensePageState previousState, SetMileageLocationsAction action){
+  return previousState.copyWith(
+    locations: action.locations,
+  );
+}
 
 NewMileageExpensePageState _setSelectedFilter(NewMileageExpensePageState previousState, SetSelectedFilterAction action){
   bool isOneWay = action.selectedFilter == SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY;
@@ -66,12 +94,6 @@ NewMileageExpensePageState _setInitMapLatLng(NewMileageExpensePageState previous
   return previousState.copyWith(
     lat: action.lat,
     lng: action.lng,
-  );
-}
-
-NewMileageExpensePageState _setSelectedMileageExpense(NewMileageExpensePageState previousState, LoadExistingMileageExpenseAction action){
-  return previousState.copyWith(
-
   );
 }
 

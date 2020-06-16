@@ -1,10 +1,12 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
+import 'package:client_safe/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:client_safe/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:client_safe/models/Job.dart';
+import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/Profile.dart';
 import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
@@ -50,6 +52,9 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SaveResumedSubscriptionAction){
       _updateRecurringExpenseChargeResumeDate(store, action, next);
+    }
+    if(action is FetchMileageExpenses){
+      _fetchMileageExpenses(store, action, next);
     }
   }
 
@@ -121,6 +126,11 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   void _fetchRecurringExpenses(Store<AppState> store, FetchRecurringExpenses action, NextDispatcher next) async {
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
     _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
+  }
+
+  void _fetchMileageExpenses(Store<AppState> store, FetchMileageExpenses action, NextDispatcher next) async {
+    List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
+    store.dispatch(SetMileageExpensesAction(store.state.incomeAndExpensesPageState, mileageExpenses));
   }
 
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{

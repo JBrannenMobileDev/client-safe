@@ -19,6 +19,8 @@ import 'package:client_safe/pages/new_invoice_page/NewLineItemDialog.dart';
 import 'package:client_safe/pages/new_invoice_page/SendInvoicePromptDialog.dart';
 import 'package:client_safe/pages/new_job_page/NewJobPage.dart';
 import 'package:client_safe/pages/new_location_page/NewLocationPage.dart';
+import 'package:client_safe/pages/new_mileage_expense/ChooseFromMyLocationsMileage.dart';
+import 'package:client_safe/pages/new_mileage_expense/LocationOptionsMileageExpenseDialog.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePage.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:client_safe/pages/new_mileage_expense/SetHomeLocationPage.dart';
@@ -29,6 +31,7 @@ import 'package:client_safe/pages/sunset_weather_page/ChooseFromMyLocations.dart
 import 'package:client_safe/pages/sunset_weather_page/SelectLocationDialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
 import 'ColorConstants.dart';
 
@@ -39,6 +42,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewContactPage();
+      },
+    );
+  }
+
+  static void showMileageLocationSelectionDialog(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return LocationOptionsMileageExpenseDialog(onLocationSaved, lat, lng);
       },
     );
   }
@@ -84,6 +96,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return ChooseFromMyLocations();
+      },
+    );
+  }
+
+  static void showChooseFromMyLocationsMileageDialog(BuildContext context, Function(LatLng) onLocationSaved){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ChooseFromMyLocationsMileage(onLocationSaved);
       },
     );
   }

@@ -16,6 +16,11 @@ class TextFormatterUtil {
     return formatter.format(value);
   }
 
+  static String formatDecimalDigitsCurrency(double value, int digits){
+    final formatter = NumberFormat.currency(symbol: '\$', decimalDigits: digits);
+    return formatter.format(value);
+  }
+
   static String formatDateStandard(DateTime date) {
     return DateFormat('MMM dd, yyyy').format(date);
   }

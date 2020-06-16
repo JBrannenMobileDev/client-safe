@@ -65,12 +65,14 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      setState(() {
+        currentPageIndex = controller.page.toInt();
+      });
     });
     return StoreConnector<AppState, NewMileageExpensePageState>(
       onInit: (store) {
         store.dispatch(FetchLastKnowPosition(store.state.newMileageExpensePageState));
-        if(store.state.newSingleExpensePageState.shouldClear) store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
+        if(store.state.newMileageExpensePageState.shouldClear) store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
       },
       onDidChange: (pageState) {
         if(pageState.profile != null && pageState.profile.hasDefaultHome() && !hasJumpToBeenCalled) {
@@ -140,7 +142,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                         ),
                       ),
                       Container(
-                        height: currentPageIndex == 0 ? 225.0 : 432.0,
+                        height: currentPageIndex == 0 || currentPageIndex == 2 ? 225.0 : 432.0,
                         child: PageView(
                           physics: NeverScrollableScrollPhysics(),
                           controller: controller,
@@ -191,7 +193,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                                 onNextPressed(pageState);
                               },
                               child: Text(
-                                pageState.pageViewIndex == 0 && pageState.selectedHomeLocationName.isEmpty ? 'Skip' : pageState.pageViewIndex == pageCount
+                                pageState.pageViewIndex == 0 && pageState.selectedHomeLocationName.isEmpty ? 'Skip' : currentPageIndex == pageCount
                                     ? "Save"
                                     : "Next",
                                 textAlign: TextAlign.start,
@@ -217,12 +219,24 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
 
   void onNextPressed(NewMileageExpensePageState pageState) {
     bool canProgress = false;
-    if (pageState.pageViewIndex != pageCount) {
-      switch (pageState.pageViewIndex) {
+    if (currentPageIndex != pageCount) {
+      switch (currentPageIndex) {
         case 0:
           canProgress = true;
           break;
         case 1:
+          if(pageState.endLocationName.isNotEmpty && (pageState.profile.hasDefaultHome() || pageState.startLocationName.isNotEmpty)){
+            canProgress = true;
+          }else {
+            if(pageState.endLocationName.isEmpty) {
+              DandyToastUtil.showErrorToast('End location is required');
+            }
+            if(pageState.profile.hasDefaultHome() || pageState.startLocationName.isNotEmpty){
+              DandyToastUtil.showErrorToast('Start location is required');
+            }
+          }
+          break;
+        case 2:
           if(pageState.expenseDate != null) {
             canProgress = true;
           } else {
@@ -241,7 +255,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
         if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
       }
     }
-    if (pageState.pageViewIndex == pageCount) {
+    if (currentPageIndex == pageCount) {
       if(pageState.expenseCost > 0.0){
         showSuccessAnimation();
         pageState.onSavePressed();

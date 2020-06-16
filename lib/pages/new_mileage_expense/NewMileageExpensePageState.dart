@@ -44,6 +44,10 @@ class NewMileageExpensePageState {
   final LatLng endLocation;
   final String filterType;
   final Function(String) onFilterChanged;
+  final Location selectedLocation;
+  final List<Location> locations;
+  final Function(Location) onLocationSelected;
+  final String documentPath;
 
   NewMileageExpensePageState({
     @required this.id,
@@ -76,6 +80,10 @@ class NewMileageExpensePageState {
     @required this.endLocation,
     @required this.filterType,
     @required this.onFilterChanged,
+    @required this.selectedLocation,
+    @required this.locations,
+    @required this.onLocationSelected,
+    @required this.documentPath,
   });
 
   NewMileageExpensePageState copyWith({
@@ -110,6 +118,10 @@ class NewMileageExpensePageState {
     LatLng endLocation,
     String filterType,
     Function(String) onFilterChanged,
+    Location selectedLocation,
+    List<Location> locations,
+    Function(Location) onLocationSelected,
+    String documentPath,
   }){
     return NewMileageExpensePageState(
       id: id?? this.id,
@@ -142,6 +154,10 @@ class NewMileageExpensePageState {
       endLocation: endLocation ?? this.endLocation,
       filterType: filterType ?? this.filterType,
       onFilterChanged: onFilterChanged ?? this.onFilterChanged,
+      selectedLocation: selectedLocation ?? this.selectedLocation,
+      locations: locations ?? this.locations,
+      onLocationSelected: onLocationSelected ?? this.onLocationSelected,
+      documentPath: documentPath ?? this.documentPath,
     );
   }
 
@@ -176,6 +192,10 @@ class NewMileageExpensePageState {
     endLocation: null,
     filterType: SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP,
     onFilterChanged: null,
+    selectedLocation: null,
+    locations: List(),
+    onLocationSelected: null,
+    documentPath: '',
   );
 
   factory NewMileageExpensePageState.fromStore(Store<AppState> store) {
@@ -200,6 +220,9 @@ class NewMileageExpensePageState {
       startLocation: store.state.newMileageExpensePageState.startLocation,
       endLocation: store.state.newMileageExpensePageState.endLocation,
       filterType: store.state.newMileageExpensePageState.filterType,
+      selectedLocation: store.state.newMileageExpensePageState.selectedLocation,
+      locations: store.state.newMileageExpensePageState.locations,
+      documentPath: store.state.newMileageExpensePageState.documentPath,
       onSavePressed: () => store.dispatch(SaveMileageExpenseProfileAction(store.state.newMileageExpensePageState)),
       onCancelPressed: () => store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newMileageExpensePageState)),
@@ -213,6 +236,7 @@ class NewMileageExpensePageState {
       onExpenseDateSelected: (expenseDate) => store.dispatch(SetExpenseDateAction(store.state.newMileageExpensePageState, expenseDate)),
       onMapLocationSaved: (latLngHome) => store.dispatch(SaveHomeLocationAction(store.state.newMileageExpensePageState, latLngHome)),
       onFilterChanged: (selectedFilter) => store.dispatch(SetSelectedFilterAction(store.state.newMileageExpensePageState, selectedFilter)),
+      onLocationSelected: (selectedLocation) => store.dispatch(SetSelectedLocationAction(store.state.newMileageExpensePageState, selectedLocation)),
     );
   }
 
@@ -236,6 +260,7 @@ class NewMileageExpensePageState {
       onBackPressed.hashCode ^
       onStartLocationChanged.hashCode ^
       expenseDate.hashCode ^
+      documentPath.hashCode ^
       expenseCost.hashCode ^
       onDeleteMileageExpenseSelected.hashCode ^
       onEndLocationChanged.hashCode ^
@@ -247,6 +272,9 @@ class NewMileageExpensePageState {
       profile.hashCode ^
       startLocation.hashCode ^
       endLocation.hashCode ^
+      selectedLocation.hashCode ^
+      locations.hashCode ^
+      onLocationSelected.hashCode ^
       onExpenseDateSelected.hashCode;
 
   @override
@@ -257,12 +285,15 @@ class NewMileageExpensePageState {
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           filterType == other.filterType &&
+          selectedLocation == other.selectedLocation &&
+          locations == other.locations &&
           onFilterChanged == other.onFilterChanged &&
           onDeleteMileageExpenseSelected == other.onDeleteMileageExpenseSelected &&
           shouldClear == other.shouldClear &&
           startLocationName == other.startLocationName &&
           endLocationName == other.endLocationName &&
           isOneWay == other.isOneWay &&
+          documentPath == other.documentPath &&
           milesDriven == other.milesDriven &&
           deductionRate == other.deductionRate &&
           selectedHomeLocationName == other.selectedHomeLocationName &&

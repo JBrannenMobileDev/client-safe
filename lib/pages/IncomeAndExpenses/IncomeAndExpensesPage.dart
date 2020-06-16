@@ -59,6 +59,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(LoadAllJobsAction(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchSingleExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchRecurringExpenses(appState.state.incomeAndExpensesPageState));
+        appState.dispatch(FetchMileageExpenses(appState.state.incomeAndExpensesPageState));
       },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
