@@ -4,6 +4,7 @@ import 'package:client_safe/models/PlacesLocation.dart';
 import 'package:client_safe/models/PriceProfile.dart';
 import 'package:client_safe/models/Profile.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpenseActions.dart';
+import 'package:client_safe/pages/new_mileage_expense/SelectStartEndLocations.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
@@ -34,6 +35,15 @@ class NewMileageExpensePageState {
   final Function(LatLng) onMapLocationSaved;
   final Profile profile;
   final String selectedHomeLocationName;
+  final String startLocationName;
+  final String endLocationName;
+  final bool isOneWay;
+  final double milesDriven;
+  final double deductionRate;
+  final LatLng startLocation;
+  final LatLng endLocation;
+  final String filterType;
+  final Function(String) onFilterChanged;
 
   NewMileageExpensePageState({
     @required this.id,
@@ -57,6 +67,15 @@ class NewMileageExpensePageState {
     @required this.selectedSearchLocation,
     @required this.profile,
     @required this.selectedHomeLocationName,
+    @required this.startLocationName,
+    @required this.endLocationName,
+    @required this.isOneWay,
+    @required this.milesDriven,
+    @required this.deductionRate,
+    @required this.startLocation,
+    @required this.endLocation,
+    @required this.filterType,
+    @required this.onFilterChanged,
   });
 
   NewMileageExpensePageState copyWith({
@@ -82,6 +101,15 @@ class NewMileageExpensePageState {
     Location selectedSearchLocation,
     Profile profile,
     String selectedHomeLocationName,
+    String startLocationName,
+    String endLocationName,
+    bool isOneWay,
+    double milesDriven,
+    double deductionRate,
+    LatLng startLocation,
+    LatLng endLocation,
+    String filterType,
+    Function(String) onFilterChanged,
   }){
     return NewMileageExpensePageState(
       id: id?? this.id,
@@ -105,32 +133,50 @@ class NewMileageExpensePageState {
       selectedSearchLocation: selectedSearchLocation ?? this.selectedSearchLocation,
       profile: profile ?? this.profile,
       selectedHomeLocationName: selectedHomeLocationName ?? this.selectedHomeLocationName,
+      startLocationName: startLocationName ?? this.startLocationName,
+      endLocationName: endLocationName ?? this.endLocationName,
+      isOneWay: isOneWay ?? this.isOneWay,
+      milesDriven: milesDriven ?? this.milesDriven,
+      deductionRate: deductionRate ?? this.deductionRate,
+      startLocation: startLocation ?? this.startLocation,
+      endLocation: endLocation ?? this.endLocation,
+      filterType: filterType ?? this.filterType,
+      onFilterChanged: onFilterChanged ?? this.onFilterChanged,
     );
   }
 
   factory NewMileageExpensePageState.initial() => NewMileageExpensePageState(
-        id: null,
-        pageViewIndex: 0,
-        saveButtonEnabled: false,
-        shouldClear: true,
-        onSavePressed: null,
-        onCancelPressed: null,
-        onNextPressed: null,
-        onBackPressed: null,
-        onDeleteMileageExpenseSelected: null,
-        onStartLocationChanged: null,
-        expenseDate: null,
-        onExpenseDateSelected: null,
-        expenseCost: 0.0,
-        onEndLocationChanged: null,
-        onMapLocationSaved: null,
-        lat: 0.0,
-        lng: 0.0,
-        searchText: '',
-        selectedSearchLocation: null,
-        profile: null,
-        selectedHomeLocationName: '',
-      );
+    id: null,
+    pageViewIndex: 0,
+    saveButtonEnabled: false,
+    shouldClear: true,
+    onSavePressed: null,
+    onCancelPressed: null,
+    onNextPressed: null,
+    onBackPressed: null,
+    onDeleteMileageExpenseSelected: null,
+    onStartLocationChanged: null,
+    expenseDate: null,
+    onExpenseDateSelected: null,
+    expenseCost: 0.0,
+    onEndLocationChanged: null,
+    onMapLocationSaved: null,
+    lat: 0.0,
+    lng: 0.0,
+    searchText: '',
+    selectedSearchLocation: null,
+    profile: null,
+    selectedHomeLocationName: '',
+    startLocationName: '',
+    endLocationName: 'Select a location',
+    isOneWay: false,
+    milesDriven: 0.0,
+    deductionRate: 0.575,
+    startLocation: null,
+    endLocation: null,
+    filterType: SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP,
+    onFilterChanged: null,
+  );
 
   factory NewMileageExpensePageState.fromStore(Store<AppState> store) {
     return NewMileageExpensePageState(
@@ -146,6 +192,14 @@ class NewMileageExpensePageState {
       selectedSearchLocation: store.state.newMileageExpensePageState.selectedSearchLocation,
       profile: store.state.newMileageExpensePageState.profile,
       selectedHomeLocationName: store.state.newMileageExpensePageState.selectedHomeLocationName,
+      startLocationName: store.state.newMileageExpensePageState.startLocationName,
+      endLocationName: store.state.newMileageExpensePageState.endLocationName,
+      isOneWay: store.state.newMileageExpensePageState.isOneWay,
+      milesDriven: store.state.newMileageExpensePageState.milesDriven,
+      deductionRate: store.state.newMileageExpensePageState.deductionRate,
+      startLocation: store.state.newMileageExpensePageState.startLocation,
+      endLocation: store.state.newMileageExpensePageState.endLocation,
+      filterType: store.state.newMileageExpensePageState.filterType,
       onSavePressed: () => store.dispatch(SaveMileageExpenseProfileAction(store.state.newMileageExpensePageState)),
       onCancelPressed: () => store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newMileageExpensePageState)),
@@ -158,16 +212,24 @@ class NewMileageExpensePageState {
       onEndLocationChanged: (latLng) => store.dispatch(UpdateEndLocationAction(store.state.newMileageExpensePageState, latLng)),
       onExpenseDateSelected: (expenseDate) => store.dispatch(SetExpenseDateAction(store.state.newMileageExpensePageState, expenseDate)),
       onMapLocationSaved: (latLngHome) => store.dispatch(SaveHomeLocationAction(store.state.newMileageExpensePageState, latLngHome)),
+      onFilterChanged: (selectedFilter) => store.dispatch(SetSelectedFilterAction(store.state.newMileageExpensePageState, selectedFilter)),
     );
   }
 
   @override
   int get hashCode =>
       id.hashCode ^
+      startLocationName.hashCode ^
+      endLocationName.hashCode ^
+      isOneWay.hashCode ^
+      milesDriven.hashCode ^
+      deductionRate.hashCode ^
       selectedHomeLocationName.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
+      filterType.hashCode ^
+      onFilterChanged.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -183,6 +245,8 @@ class NewMileageExpensePageState {
       lng.hashCode ^
       searchText.hashCode ^
       profile.hashCode ^
+      startLocation.hashCode ^
+      endLocation.hashCode ^
       onExpenseDateSelected.hashCode;
 
   @override
@@ -192,11 +256,20 @@ class NewMileageExpensePageState {
           id == other.id &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
+          filterType == other.filterType &&
+          onFilterChanged == other.onFilterChanged &&
           onDeleteMileageExpenseSelected == other.onDeleteMileageExpenseSelected &&
           shouldClear == other.shouldClear &&
+          startLocationName == other.startLocationName &&
+          endLocationName == other.endLocationName &&
+          isOneWay == other.isOneWay &&
+          milesDriven == other.milesDriven &&
+          deductionRate == other.deductionRate &&
           selectedHomeLocationName == other.selectedHomeLocationName &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
+          startLocation == other.startLocation &&
+          endLocation == other.endLocation &&
           selectedSearchLocation == other.selectedSearchLocation &&
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&

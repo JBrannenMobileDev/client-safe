@@ -97,6 +97,31 @@ class SetProfileData{
   SetProfileData(this.pageState, this.profile);
 }
 
+class SetEndLocationNameAction{
+  final NewMileageExpensePageState pageState;
+  final String endLocationName;
+  final LatLng endLocation;
+  SetEndLocationNameAction(this.pageState, this.endLocation, this.endLocationName);
+}
+
+class SetStartLocationNameAction{
+  final NewMileageExpensePageState pageState;
+  final String startLocationName;
+  final LatLng startLocation;
+  SetStartLocationNameAction(this.pageState, this.startLocation, this.startLocationName);
+}
+
+class SetMilesDrivenAction{
+  final NewMileageExpensePageState pageState;
+  final double milesDriven;
+  SetMilesDrivenAction(this.pageState, this.milesDriven);
+}
+
+class SetSelectedFilterAction{
+  final NewMileageExpensePageState pageState;
+  final String selectedFilter;
+  SetSelectedFilterAction(this.pageState, this.selectedFilter);
+}
 
 
 

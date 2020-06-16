@@ -6,6 +6,7 @@ class MileageExpense {
   bool isRoundTrip;
   double startLat;
   double startLng;
+  double deductionRate;
   double endLat;
   double endLng;
   Charge charge;
@@ -17,6 +18,7 @@ class MileageExpense {
     this.isRoundTrip,
     this.startLat,
     this.startLng,
+    this.deductionRate,
     this.endLat,
     this.endLng,
     this.charge
@@ -29,6 +31,7 @@ class MileageExpense {
       'isRoundTrip' : isRoundTrip,
       'startLat' : startLat,
       'startLng' : startLng,
+      'deductionRate' : deductionRate,
       'endLat' : endLat,
       'endLng' : endLng,
       'charge' : charge.toMap(),
@@ -42,6 +45,7 @@ class MileageExpense {
       isRoundTrip: map['isRoundTrip'],
       startLat: map['startLat'],
       startLng: map['startLng'],
+      deductionRate: map['deductionRate'],
       endLat: map['endLat'],
       endLng: map['endLng'],
       charge: Charge.fromMap(map['charge']),

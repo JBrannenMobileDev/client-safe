@@ -2,6 +2,7 @@ import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
+import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class SelectStartEndLocationsPage extends StatefulWidget {
+  static const String FILTER_TYPE_ONE_WAY = "One Way";
+  static const String FILTER_TYPE_ROUND_TRIP = "Round Trip";
+  
   @override
   _SelectStartEndLocationsPage createState() {
     return _SelectStartEndLocationsPage();
@@ -16,9 +20,25 @@ class SelectStartEndLocationsPage extends StatefulWidget {
 }
 
 class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> with AutomaticKeepAliveClientMixin {
-
+  int selectedIndex = 1;
+  Map<int, Widget> tabs;
+  
   @override
   Widget build(BuildContext context) {
+    tabs = <int, Widget>{
+      0: Text(SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY, style: TextStyle(
+        fontSize: 20.0,
+        fontFamily: 'simple',
+        fontWeight: FontWeight.w400,
+        color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+      ),),
+      1: Text(SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP, style: TextStyle(
+        fontSize: 20.0,
+        fontFamily: 'simple',
+        fontWeight: FontWeight.w400,
+        color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+      ),),
+    };
     super.build(context);
     return StoreConnector<AppState, NewMileageExpensePageState>(
       converter: (store) => NewMileageExpensePageState.fromStore(store),
@@ -57,12 +77,15 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
             ),
             GestureDetector(
               onTap: () {
-                NavigationUtil.onSelectMapLocation(context, pageState.onStartLocationChanged, pageState.lat, pageState.lng);
+                NavigationUtil.onSelectMapLocation(
+                    context,
+                    pageState.onStartLocationChanged,
+                    pageState.profile.hasDefaultHome() ? pageState.profile.latDefaultHome : pageState.startLocation != null ? pageState.startLocation.latitude : pageState.lat,
+                    pageState.profile.hasDefaultHome() ? pageState.profile.lngDefaultHome : pageState.startLocation != null ? pageState.startLocation.longitude : pageState.lng);
               },
               child: Container(
                 alignment: Alignment.center,
                 height: 48.0,
-                width: 250.0,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(32.0),
                     color: Color(ColorConstants.getPeachDark())
@@ -78,7 +101,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                     ),
                     Container(
                       child: Text(
-                        pageState.selectedHomeLocationName,
+                        pageState.startLocationName.isEmpty ? pageState.selectedHomeLocationName : pageState.startLocationName,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20.0,
@@ -107,12 +130,15 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
             ),
             GestureDetector(
               onTap: () {
-                NavigationUtil.onSelectMapLocation(context, pageState.onEndLocationChanged, pageState.lat, pageState.lng);
+                NavigationUtil.onSelectMapLocation(
+                    context,
+                    pageState.onEndLocationChanged,
+                    pageState.endLocation != null ? pageState.endLocation.latitude : pageState.lat,
+                    pageState.endLocation != null ? pageState.endLocation.longitude : pageState.lng);
               },
               child: Container(
                 alignment: Alignment.center,
                 height: 48.0,
-                width: 250.0,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(32.0),
                     color: Color(ColorConstants.getPeachDark())
@@ -128,7 +154,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                     ),
                     Container(
                       child: Text(
-                        'Select location',
+                        pageState.endLocationName.isEmpty ? 'Select a location' : pageState.endLocationName,
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.fade,
                         maxLines: 1,
@@ -142,6 +168,112 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                     ),
                   ],
                 ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 32.0),
+                      child: Text(
+                        'Miles driven',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Container(
+                            child: Text(
+                              pageState.milesDriven.toString(),
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 36.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(bottom: 4.0),
+                            child: Text(
+                              'mi',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(top: 32.0),
+                      child: Text(
+                        'Potential deduction',
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                      child: Container(
+                        child: Text(
+                          TextFormatterUtil.formatDecimalCurrency(pageState.expenseCost),
+                          textAlign: TextAlign.end,
+                          style: TextStyle(
+                            fontSize: 36.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ],
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 300.0,
+              margin: EdgeInsets.only(top: 18.0),
+              child: CupertinoSlidingSegmentedControl<int>(
+                thumbColor: Color(ColorConstants.getBlueDark()),
+                backgroundColor: Colors.transparent,
+                children: tabs,
+                onValueChanged: (int filterTypeIndex) {
+                  setState(() {
+                    selectedIndex = filterTypeIndex;
+                  });
+                  pageState.onFilterChanged(filterTypeIndex == 0 ? SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY : SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP);
+                },
+                groupValue: selectedIndex,
               ),
             ),
           ],

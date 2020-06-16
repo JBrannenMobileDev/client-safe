@@ -1,5 +1,7 @@
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
+import 'package:client_safe/pages/new_mileage_expense/SelectStartEndLocations.dart';
+import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:redux/redux.dart';
 
 final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>([
@@ -12,7 +14,41 @@ final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>
   TypedReducer<NewMileageExpensePageState, SetInitialMapLatLng>(_setInitMapLatLng),
   TypedReducer<NewMileageExpensePageState, SetLocationNameAction>(_setHomeLocationName),
   TypedReducer<NewMileageExpensePageState, SetProfileData>(_setProfile),
+  TypedReducer<NewMileageExpensePageState, SetStartLocationNameAction>(_setStartLocationName),
+  TypedReducer<NewMileageExpensePageState, SetEndLocationNameAction>(_setEndLocationName),
+  TypedReducer<NewMileageExpensePageState, SetMilesDrivenAction>(_setMilesDriven),
+  TypedReducer<NewMileageExpensePageState, SetSelectedFilterAction>(_setSelectedFilter),
 ]);
+
+NewMileageExpensePageState _setSelectedFilter(NewMileageExpensePageState previousState, SetSelectedFilterAction action){
+  bool isOneWay = action.selectedFilter == SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY;
+  return previousState.copyWith(
+    filterType: action.selectedFilter,
+    isOneWay: isOneWay,
+    expenseCost: (isOneWay ? 1 : 2) * double.parse((previousState.milesDriven * 0.575).toStringAsFixed(2)),
+  );
+}
+
+NewMileageExpensePageState _setMilesDriven(NewMileageExpensePageState previousState, SetMilesDrivenAction action){
+  return previousState.copyWith(
+    milesDriven: double.parse(action.milesDriven.toStringAsFixed(1)),
+    expenseCost: (previousState.isOneWay ? 1 : 2) * double.parse((action.milesDriven * 0.575).toStringAsFixed(2)),
+  );
+}
+
+NewMileageExpensePageState _setEndLocationName(NewMileageExpensePageState previousState, SetEndLocationNameAction action){
+  return previousState.copyWith(
+    endLocationName: action.endLocationName,
+    endLocation: action.endLocation,
+  );
+}
+
+NewMileageExpensePageState _setStartLocationName(NewMileageExpensePageState previousState, SetStartLocationNameAction action){
+  return previousState.copyWith(
+    startLocationName: action.startLocationName,
+    startLocation: action.startLocation,
+  );
+}
 
 NewMileageExpensePageState _setHomeLocationName(NewMileageExpensePageState previousState, SetLocationNameAction action){
   return previousState.copyWith(
