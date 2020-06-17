@@ -41,6 +41,9 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
     };
     super.build(context);
     return StoreConnector<AppState, NewMileageExpensePageState>(
+      onInit: (appState) {
+        selectedIndex = appState.state.newMileageExpensePageState.isOneWay ? 0 : 1;
+      },
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) =>
           Container(

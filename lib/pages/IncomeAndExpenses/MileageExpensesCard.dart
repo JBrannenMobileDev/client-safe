@@ -2,6 +2,7 @@
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/MileageExpenseItem.dart';
+import 'package:client_safe/pages/common_widgets/CurrencyTextWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:flutter/material.dart';
@@ -73,107 +74,116 @@ class MileageExpensesCard extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      child: Text(
-                        NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.mileageExpensesForSelectedYearTotal),
-                        style: TextStyle(
-                          fontFamily: 'simple',
-                          fontSize: 48.0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPeachDark()),
-                        ),
+                      child: CurrencyTextWidget(
+                        amount: pageState.mileageExpensesForSelectedYearTotal,
+                        textSize: 48.0,
+                        textColor: Color(ColorConstants.getPeachDark()),
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 0.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    child: Text(
-                                      NumberFormat("###,###,###,###").format(pageState.totalMilesDriven),
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
+                    Container(
+                      width: 264.0,
+                      margin: EdgeInsets.only(top: 8.0),
+                      padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        border: Border.all(
+                          color: Color(ColorConstants.getPeachDark()),
+                          width: 1.0,
+                        )
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 0.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Container(
+                                      child: Text(
+                                        NumberFormat("###,###,###,###.#").format(pageState.totalMilesDriven),
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 26.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(ColorConstants.primary_black),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.only(bottom: 4.0),
-                                    child: Text(
-                                      'mi',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
+                                    Container(
+                                      padding: EdgeInsets.only(bottom: 4.0),
+                                      child: Text(
+                                        'mi',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 20.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(ColorConstants.primary_black),
+                                        ),
                                       ),
                                     ),
+                                  ],
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                                child: Text(
+                                  'miles driven',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
                                   ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                              child: Text(
-                                'miles driven',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              )
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 0.0),
+                                child: Text(
+                                  TextFormatterUtil.formatDecimalDigitsCurrency(0.575, 3) + '/mi',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontSize: 26.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(top: 0.0),
-                              child: Text(
-                                TextFormatterUtil.formatDecimalDigitsCurrency(0.575, 3) + '/mi',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontSize: 32.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                                child: Text(
+                                  'deduction rate',
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                              child: Text(
-                                'deduction rate',
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ) : SizedBox(),
                 pageState.mileageExpensesForSelectedYear.length > 0 ? ListView.builder(
-                  padding: EdgeInsets.only(top:0.0, bottom: 16.0),
+                  padding: EdgeInsets.only(top:16.0, bottom: 16.0),
                   reverse: false,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -215,11 +225,11 @@ class MileageExpensesCard extends StatelessWidget {
     if(length == 0) {
       return 178.0;
     }else if(length == 1) {
-      return 290.0;
+      return 316.0;
     }else if(length == 2) {
-      return 374.0;
+      return 400.0;
     }else if(length == 3) {
-      return 438.0;
+      return 464.0;
     }else {
       return ((74*length) + 172).toDouble();
     }

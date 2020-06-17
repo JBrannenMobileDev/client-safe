@@ -58,7 +58,7 @@ class MileageExpenseDao extends Equatable{
   static Future<List<MileageExpense>> getAll() async {
     final recordSnapshots = await _mileageExpenseStore.find(await _db);
 
-    //uncomment to delete all Single expense records.
+    //uncomment to delete all mileage expense records.
 //    for(RecordSnapshot snapshot in recordSnapshots) {
 //      delete(snapshot.key);
 //    }

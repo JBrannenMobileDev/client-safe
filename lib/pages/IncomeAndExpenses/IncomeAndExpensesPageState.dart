@@ -43,9 +43,9 @@ class IncomeAndExpensesPageState {
   final double totalTips;
   final double incomeForSelectedYear;
   final double expensesForSelectedYear;
-  final int singleExpensesForSelectedYearTotal;
-  final int recurringExpensesForSelectedYearTotal;
-  final int mileageExpensesForSelectedYearTotal;
+  final double singleExpensesForSelectedYearTotal;
+  final double recurringExpensesForSelectedYearTotal;
+  final double mileageExpensesForSelectedYearTotal;
   final bool isSingleExpensesMinimized;
   final Profile profile;
   final Function(String) onFilterChanged;
@@ -135,7 +135,7 @@ class IncomeAndExpensesPageState {
   IncomeAndExpensesPageState copyWith({
     List<RecurringExpense> allRecurringExpenses,
     List<RecurringExpense> recurringExpensesForSelectedYear,
-    int recurringExpensesForSelectedYearTotal,
+    double recurringExpensesForSelectedYearTotal,
     String filterType,
     String allInvoicesFilterType,
     int selectedYear,
@@ -161,7 +161,7 @@ class IncomeAndExpensesPageState {
     Function(String) onJobTextChanged,
     String jobSearchText,
     int pageViewIndex,
-    int singleExpensesForSelectedYearTotal,
+    double singleExpensesForSelectedYearTotal,
     Function() onBackPressed,
     Function() onCancelPressed,
     Function() onSaveTipSelected,
@@ -186,7 +186,7 @@ class IncomeAndExpensesPageState {
     Profile profile,
     List<MileageExpense> allMileageExpenses,
     List<MileageExpense> mileageExpensesForSelectedYear,
-    int mileageExpensesForSelectedYearTotal,
+    double mileageExpensesForSelectedYearTotal,
     double totalMilesDriven,
   }){
     return IncomeAndExpensesPageState(

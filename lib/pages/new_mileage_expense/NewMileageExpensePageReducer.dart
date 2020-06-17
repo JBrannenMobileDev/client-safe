@@ -27,6 +27,7 @@ NewMileageExpensePageState _setExistingMileageExpense(NewMileageExpensePageState
     isOneWay: !action.expense.isRoundTrip,
     shouldClear: false,
     id: action.expense.id,
+    expenseDate: action.expense.charge.chargeDate,
   );
 }
 

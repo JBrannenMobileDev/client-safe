@@ -4,6 +4,7 @@ import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:client_safe/pages/common_widgets/CurrencyTextWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -68,15 +69,26 @@ class MileageExpenseItem extends StatelessWidget{
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 0.0),
-                        child: Text(
-                          mileageExpense.totalMiles.toStringAsFixed(1) + 'mi  •  ' + TextFormatterUtil.formatSimpleCurrency(mileageExpense.charge.chargeAmount.round()),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              mileageExpense.totalMiles.toStringAsFixed(1) + 'mi  •  ',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
+                            ),
+                            CurrencyTextWidget(
+                              amount: mileageExpense.charge.chargeAmount,
+                              textSize: 20.0,
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
+                              fontWeight: FontWeight.w600,
+                            )
+                          ],
                         ),
                       ),
                     ],

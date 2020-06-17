@@ -65,7 +65,7 @@ IncomeAndExpensesPageState _setMileageExpenses(IncomeAndExpensesPageState previo
     mileageExpensesForSelectedYear: mileageExpenseForSelectedYear,
     allMileageExpenses: action.mileageExpenses,
     totalMilesDriven: totalMilesDriven,
-    mileageExpensesForSelectedYearTotal: mileageExpensesTotal.round(),
+    mileageExpensesForSelectedYearTotal: mileageExpensesTotal,
     expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
   );
 }
@@ -103,7 +103,7 @@ IncomeAndExpensesPageState _setSingleExpenses(IncomeAndExpensesPageState previou
   return previousState.copyWith(
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     allSingleExpenses: action.singleExpenses,
-    singleExpensesForSelectedYearTotal: singleExpensesTotal.round(),
+    singleExpensesForSelectedYearTotal: singleExpensesTotal,
     expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
   );
 }
@@ -127,7 +127,7 @@ IncomeAndExpensesPageState _setRecurringExpenses(IncomeAndExpensesPageState prev
   return previousState.copyWith(
     recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
     allRecurringExpenses: action.recurringExpenses,
-    recurringExpensesForSelectedYearTotal: recurringExpenseTotal.round(),
+    recurringExpensesForSelectedYearTotal: recurringExpenseTotal,
     expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
   );
 }
@@ -313,10 +313,10 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     totalTips: totalTipsForYear,
     totalMilesDriven: totalMilesDriven,
     mileageExpensesForSelectedYear: mileageExpenseForSelectedYear,
-    mileageExpensesForSelectedYearTotal: mileageExpensesTotal.round(),
+    mileageExpensesForSelectedYearTotal: mileageExpensesTotal,
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
     expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
-    recurringExpensesForSelectedYearTotal: recurringExpenseTotal.round(),
+    recurringExpensesForSelectedYearTotal: recurringExpenseTotal,
   );
 }
