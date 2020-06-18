@@ -1,6 +1,7 @@
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpenseItem.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -72,15 +73,14 @@ class RecurringExpensesCard extends StatelessWidget{
                 ),
                 pageState.recurringExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
-                  child: Text(
-                    NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.recurringExpensesForSelectedYearTotal),
-                    style: TextStyle(
-                      fontFamily: 'simple',
-                      fontSize: 48.0,
+                  child: DandyLightTextWidget(
+                      amount: pageState.recurringExpensesForSelectedYearTotal,
+                      textSize: 48.0,
+                      textColor: Color(ColorConstants.getPeachDark()),
                       fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPeachDark()),
+                      isCurrency: true,
+                      decimalPlaces: 2,
                     ),
-                  ),
                 ) : SizedBox(),
                 pageState.recurringExpensesForSelectedYear.length > 0 ? ListView.builder(
                   padding: EdgeInsets.only(top:0.0, bottom: 16.0),

@@ -3,6 +3,7 @@ import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
 import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -67,15 +68,28 @@ class SingleExpenseItem extends StatelessWidget{
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 0.0),
-                        child: Text(
-                          DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ' + TextFormatterUtil.formatSimpleCurrency(singleExpense.charge.chargeAmount.toInt()),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                        child: Row(
+
+                          children: [
+                            Text(
+                              DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
+                            ),
+                            DandyLightTextWidget(
+                              amount: singleExpense.charge.chargeAmount,
+                              textSize: 20.0,
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
+                              fontWeight: FontWeight.w600,
+                              isCurrency: true,
+                              decimalPlaces: 2,
+                            ),
+                          ],
                         ),
                       ),
                     ],

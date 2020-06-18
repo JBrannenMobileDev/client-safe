@@ -1,6 +1,7 @@
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseItem.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
 import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
@@ -71,14 +72,13 @@ class SingleExpenseCard extends StatelessWidget{
                 ),
                 pageState.singleExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
-                  child: Text(
-                    NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.singleExpensesForSelectedYearTotal),
-                    style: TextStyle(
-                      fontFamily: 'simple',
-                      fontSize: 48.0,
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPeachDark()),
-                    ),
+                  child: DandyLightTextWidget(
+                    amount: pageState.singleExpensesForSelectedYearTotal,
+                    textSize: 48.0,
+                    textColor: Color(ColorConstants.getPeachDark()),
+                    fontWeight: FontWeight.w600,
+                    isCurrency: true,
+                    decimalPlaces: 2,
                   ),
                 ) : SizedBox(),
                 pageState.singleExpensesForSelectedYear.length > 0 ? ListView.builder(

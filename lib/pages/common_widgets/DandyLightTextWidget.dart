@@ -18,12 +18,14 @@ class DandyLightTextWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int whole = amount.toInt();
-    int decimal = int.tryParse(amount.toString().split('.')[1]);
-
-    //this adds a 0 to the end to fill in the hundredths decimal place
-    if (decimal < 10) {
-      decimal = decimal * 10;
+    String decimalString = amount.toString().split('.')[1];
+    if(decimalString.length == 0){
+      decimalString = '00';
     }
+    if(decimalString.length == 1){
+      decimalString = decimalString + '0';
+    }
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -47,7 +49,7 @@ class DandyLightTextWidget extends StatelessWidget {
           ),
         ),
         Text(
-          decimal > 10 ? decimal.toString().substring(0, decimalPlaces) : decimal.toString(),
+          decimalString.substring(0, decimalPlaces),
           textAlign: TextAlign.end,
           style: TextStyle(
             fontSize: textSize,

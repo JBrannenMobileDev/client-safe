@@ -8,6 +8,7 @@ import 'package:client_safe/pages/IncomeAndExpenses/PaidInvoiceCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpensesCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseCard.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/UnpaidInvoicesCard.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/utils/ImageUtil.dart';
 import 'package:client_safe/utils/Shadows.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -214,16 +215,14 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(left: 16.0),
-                                          child: Text(
-                                            selectedIndex == 0 ? NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.totalTips.round() + pageState.incomeForSelectedYear.round())
-                                            : NumberFormat.simpleCurrency(decimalDigits: 0).format(pageState.expensesForSelectedYear.round()),
-                                            style: TextStyle(
-                                              fontFamily: 'simple',
-                                              fontSize: 52.0,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants.getPrimaryWhite()),
-                                            ),
-                                          ),
+                                          child: DandyLightTextWidget(
+                                                amount: selectedIndex == 0 ? pageState.totalTips + pageState.incomeForSelectedYear : pageState.expensesForSelectedYear,
+                                                textSize: 52.0,
+                                                textColor: Color(ColorConstants.getPrimaryWhite()),
+                                                fontWeight: FontWeight.w600,
+                                                isCurrency: true,
+                                                decimalPlaces: 2,
+                                              ),
                                         ),
                                       ],
                                     ),

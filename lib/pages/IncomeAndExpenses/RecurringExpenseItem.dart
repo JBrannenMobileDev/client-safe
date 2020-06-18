@@ -4,6 +4,7 @@ import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
@@ -68,15 +69,36 @@ class RecurringExpenseItem extends StatelessWidget{
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 0.0),
-                        child: Text(
-                          TextFormatterUtil.formatSimpleCurrency(recurringExpense.cost.round()) + ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ' + TextFormatterUtil.formatSimpleCurrency(recurringExpense.getTotalOfChargesForYear(pageState.selectedYear).round()),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
-                          ),
+                        child: Row(
+
+                          children: [
+                            DandyLightTextWidget(
+                              amount: recurringExpense.cost,
+                              textSize: 20.0,
+                              textColor: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              fontWeight: FontWeight.w600,
+                              isCurrency: true,
+                              decimalPlaces: 2,
+                            ),
+                            Text(
+                              ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              ),
+                            ),
+                            DandyLightTextWidget(
+                              amount: recurringExpense.getTotalOfChargesForYear(pageState.selectedYear),
+                              textSize: 20.0,
+                              textColor: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              fontWeight: FontWeight.w600,
+                              isCurrency: true,
+                              decimalPlaces: 2,
+                            ),
+                          ],
                         ),
                       ),
                     ],

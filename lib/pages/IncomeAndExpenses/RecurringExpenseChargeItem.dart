@@ -5,6 +5,7 @@ import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/RecurringExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
@@ -68,18 +69,13 @@ class RecurringExpenseChargeItem extends StatelessWidget{
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 2.0),
-                        child: Text(
-                          TextFormatterUtil.formatSimpleCurrency(charge.chargeAmount.round()),
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
-                          ),
-                        ),
+                      DandyLightTextWidget(
+                          amount: charge.chargeAmount,
+                          textSize: 20.0,
+                          textColor: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                          fontWeight: FontWeight.w600,
+                          isCurrency: true,
+                          decimalPlaces: 2,
                       ),
                     ],
                   ),

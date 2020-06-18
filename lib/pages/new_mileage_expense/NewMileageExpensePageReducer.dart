@@ -8,7 +8,6 @@ final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>
   TypedReducer<NewMileageExpensePageState, ClearMileageExpenseStateAction>(_clearState),
   TypedReducer<NewMileageExpensePageState, IncrementPageViewIndex>(_incrementPageViewIndex),
   TypedReducer<NewMileageExpensePageState, DecrementPageViewIndex>(_decrementPageViewIndex),
-  TypedReducer<NewMileageExpensePageState, UpdateCostAction>(_updateCost),
   TypedReducer<NewMileageExpensePageState, SetInitialMapLatLng>(_setInitMapLatLng),
   TypedReducer<NewMileageExpensePageState, SetLocationNameAction>(_setHomeLocationName),
   TypedReducer<NewMileageExpensePageState, SetProfileData>(_setProfile),
@@ -54,14 +53,14 @@ NewMileageExpensePageState _setSelectedFilter(NewMileageExpensePageState previou
   return previousState.copyWith(
     filterType: action.selectedFilter,
     isOneWay: isOneWay,
-    expenseCost: (isOneWay ? 1 : 2) * double.parse((previousState.milesDriven * 0.575).toStringAsFixed(2)),
+    expenseCost: (isOneWay ? 1 : 2) * (previousState.milesDriven * 0.575),
   );
 }
 
 NewMileageExpensePageState _setMilesDriven(NewMileageExpensePageState previousState, SetMilesDrivenAction action){
   return previousState.copyWith(
-    milesDriven: double.parse(action.milesDriven.toStringAsFixed(1)),
-    expenseCost: (previousState.isOneWay ? 1 : 2) * double.parse((action.milesDriven * 0.575).toStringAsFixed(2)),
+    milesDriven: action.milesDriven,
+    expenseCost: (previousState.isOneWay ? 1 : 2) * (action.milesDriven * 0.575),
   );
 }
 
@@ -95,13 +94,6 @@ NewMileageExpensePageState _setInitMapLatLng(NewMileageExpensePageState previous
   return previousState.copyWith(
     lat: action.lat,
     lng: action.lng,
-  );
-}
-
-NewMileageExpensePageState _updateCost(NewMileageExpensePageState previousState, UpdateCostAction action){
-  double doubleCost = 25.55;
-  return previousState.copyWith(
-    expenseCost: doubleCost,
   );
 }
 

@@ -1,4 +1,5 @@
 import 'package:client_safe/AppState.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/NavigationUtil.dart';
@@ -216,17 +217,13 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Container(
-                            child: Text(
-                              pageState.milesDriven.toString(),
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 36.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
-                            ),
+                          DandyLightTextWidget(
+                            amount: pageState.milesDriven,
+                            textSize: 36.0,
+                            textColor: Color(ColorConstants.getPrimaryBlack()),
+                            fontWeight: FontWeight.w600,
+                            isCurrency: false,
+                            decimalPlaces: 1,
                           ),
                           Container(
                             padding: EdgeInsets.only(bottom: 4.0),
@@ -264,19 +261,15 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                      child: Container(
-                        child: Text(
-                          TextFormatterUtil.formatDecimalCurrency(pageState.expenseCost),
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                            fontSize: 36.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
-                        ),
+                      child: DandyLightTextWidget(
+                        amount: pageState.expenseCost,
+                        textSize: 36.0,
+                        textColor: Color(ColorConstants.getPrimaryBlack()),
+                        fontWeight: FontWeight.w600,
+                        isCurrency: true,
+                        decimalPlaces: 2,
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],

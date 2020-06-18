@@ -43,12 +43,6 @@ class SetExpenseDateAction{
   SetExpenseDateAction(this.pageState, this.expenseDate);
 }
 
-class UpdateCostAction{
-  final NewMileageExpensePageState pageState;
-  final String newCost;
-  UpdateCostAction(this.pageState, this.newCost);
-}
-
 class LoadExistingMileageExpenseAction{
   final NewMileageExpensePageState pageState;
   final MileageExpense mileageExpense;
