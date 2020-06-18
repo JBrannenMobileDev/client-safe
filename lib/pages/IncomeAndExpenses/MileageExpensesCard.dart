@@ -2,7 +2,7 @@
 import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/MileageExpenseItem.dart';
-import 'package:client_safe/pages/common_widgets/CurrencyTextWidget.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:flutter/material.dart';
@@ -74,11 +74,12 @@ class MileageExpensesCard extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      child: CurrencyTextWidget(
+                      child: DandyLightTextWidget(
                         amount: pageState.mileageExpensesForSelectedYearTotal,
                         textSize: 48.0,
                         textColor: Color(ColorConstants.getPeachDark()),
                         fontWeight: FontWeight.w600,
+                        isCurrency: true,
                       ),
                     ),
                     Container(
@@ -103,20 +104,16 @@ class MileageExpensesCard extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Container(
-                                      child: Text(
-                                        NumberFormat("###,###,###,###.#").format(pageState.totalMilesDriven),
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 26.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.primary_black),
-                                        ),
-                                      ),
+                                    DandyLightTextWidget(
+                                      amount: pageState.totalMilesDriven,
+                                      textSize: 26.0,
+                                      textColor: Color(ColorConstants.getPrimaryBlack()),
+                                      fontWeight: FontWeight.w600,
+                                      isCurrency: false,
+                                      decimalPlaces: 1,
                                     ),
                                     Container(
-                                      padding: EdgeInsets.only(bottom: 4.0),
+                                      padding: EdgeInsets.only(bottom: 2.0),
                                       child: Text(
                                         'mi',
                                         textAlign: TextAlign.start,
@@ -149,18 +146,30 @@ class MileageExpensesCard extends StatelessWidget {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Container(
-                                margin: EdgeInsets.only(top: 0.0),
-                                child: Text(
-                                  TextFormatterUtil.formatDecimalDigitsCurrency(0.575, 3) + '/mi',
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontSize: 26.0,
-                                    fontFamily: 'simple',
+                              Row(
+
+                                children: [
+                                  DandyLightTextWidget(
+                                    amount: 0.575,
+                                    textSize: 26.0,
+                                    textColor: Color(ColorConstants.getPrimaryBlack()),
                                     fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
+                                    isCurrency: true,
                                   ),
-                                ),
+                                  Container(
+                                    margin: EdgeInsets.only(top: 3.0),
+                                    child: Text(
+                                      '/mi',
+                                      textAlign: TextAlign.end,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.primary_black),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                               Padding(
                                 padding: EdgeInsets.only(bottom: 4.0, top: 4.0),

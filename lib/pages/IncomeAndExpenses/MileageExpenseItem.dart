@@ -4,7 +4,7 @@ import 'package:client_safe/models/Invoice.dart';
 import 'package:client_safe/models/MileageExpense.dart';
 import 'package:client_safe/models/SingleExpense.dart';
 import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:client_safe/pages/common_widgets/CurrencyTextWidget.dart';
+import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/TextFormatterUtil.dart';
 import 'package:client_safe/utils/UserOptionsUtil.dart';
@@ -72,8 +72,16 @@ class MileageExpenseItem extends StatelessWidget{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
+                            DandyLightTextWidget(
+                              amount: mileageExpense.totalMiles,
+                              textSize: 20.0,
+                              textColor: Color(ColorConstants.getPrimaryBlack()),
+                              fontWeight: FontWeight.w600,
+                              isCurrency: false,
+                              decimalPlaces: 1,
+                            ),
                             Text(
-                              mileageExpense.totalMiles.toStringAsFixed(1) + 'mi  •  ',
+                              'mi  •  ',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 20.0,
@@ -82,11 +90,12 @@ class MileageExpenseItem extends StatelessWidget{
                                 color: Color(ColorConstants.primary_black),
                               ),
                             ),
-                            CurrencyTextWidget(
+                            DandyLightTextWidget(
                               amount: mileageExpense.charge.chargeAmount,
                               textSize: 20.0,
                               textColor: Color(ColorConstants.getPrimaryBlack()),
                               fontWeight: FontWeight.w600,
+                              isCurrency: true,
                             )
                           ],
                         ),
