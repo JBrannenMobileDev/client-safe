@@ -1,5 +1,6 @@
 import 'package:client_safe/AppState.dart';
 import 'package:client_safe/pages/home_page/HomePage.dart';
+import 'package:client_safe/pages/login_page/LoginPage.dart';
 import 'package:client_safe/utils/ColorConstants.dart';
 import 'package:client_safe/utils/GlobalKeyUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +26,7 @@ class ClientSafeApp extends StatelessWidget {
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,
         color: Color(ColorConstants.getPrimaryColor()),
         title: 'DandyLight',
-        home: HomePage(),
+        home: LoginPage(),
         theme: ThemeData(
           primaryColor: Color(ColorConstants.getPrimaryColor()),
           iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),

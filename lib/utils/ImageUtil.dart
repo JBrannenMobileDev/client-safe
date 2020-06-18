@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 class ImageUtil{
   static const String CAMERA_BG = "assets/images/backgrounds/cameras_background.png";
   static const String DANDY_BG = "assets/images/backgrounds/home_background_4.png";
+  static const String LOGIN_BG = 'assets/images/backgrounds/login_background.png';
   static const String JOB_DETAILS_BG = "assets/images/backgrounds/job_details_background.png";
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
   static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_peach.png";

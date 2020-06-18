@@ -94,6 +94,7 @@ flutter:
     - assets/images/backgrounds/job_details_background.png
     - assets/images/backgrounds/dashboard_flowers_image.png
     - assets/images/backgrounds/expenses_background_peach.png
+    - assets/images/backgrounds/login_background.png
 
     - assets/images/instagram_logo_icon.png
 
@@ -183,6 +184,8 @@ flutter:
     - assets/images/icons/cancel_icon_white.png
     - assets/images/icons/cancel_icon_peach.png
     - assets/images/icons/driving_directions_icon_peach.png
+    - assets/images/icons/facebook_icon_black.png
+    - assets/images/icons/gmail_icon_black.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
