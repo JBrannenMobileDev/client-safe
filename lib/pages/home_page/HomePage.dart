@@ -27,10 +27,10 @@ class _HomeState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _children[_currentIndex],
-      backgroundColor: _currentIndex == 1 || _currentIndex == 2 ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite()),
+      backgroundColor: Color(ColorConstants.getBlueLight()),
       bottomNavigationBar: new Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Color(ColorConstants.getPrimaryWhite()),
+          canvasColor: Color(ColorConstants.getBlueLight()),
           primaryColor: Color(ColorConstants.primary_black),
           textTheme: Theme
               .of(context)
@@ -41,54 +41,53 @@ class _HomeState extends State<HomePage> {
                 )
           ),
       ),
-        child: Container(
-          color: Color(ColorConstants.getPrimaryWhite()),
-          padding: EdgeInsets.only(left: 32.0, right: 32.0),
-          child: BottomNavigationBar(
-            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-            elevation: 0.0,
-            type: BottomNavigationBarType.fixed,
-            onTap: onTabTapped,
-            currentIndex: _currentIndex, // this will be set when a new tab is tapped
-            items: [
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.people,
-                    size: 30.0,
-                    color: _currentIndex == 0 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                  ),
-                  title: Container(height: 0.0)),
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.monetization_on,
-                    size: 28.0,
-                    color: _currentIndex == 1 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                  ),
-                  title: Container(height: 0.0)),
-              BottomNavigationBarItem(
-                  icon: Image.asset('assets/images/menu/home_icon.png',
-                    height: 26.0,
-                    width: 26.0,
-                    color: _currentIndex == 2 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                  ),
-                  title: Container(height: 0.0)),
-              BottomNavigationBarItem(
-                  icon: Icon(
-                    Icons.business_center,
-                    size: 28.0,
-                    color: _currentIndex == 3 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                  ),
-                  title: Container(height: 0.0)),
-              BottomNavigationBarItem(
-                  icon: Image.asset('assets/images/menu/collections_icon.png',
-                    height: 22.0,
-                    width: 22.0,
-                    color: _currentIndex == 4 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                  ),
-                  title: Container(height: 0.0)),
-            ],
+        child:  Container(
+            color: Color(ColorConstants.getBlueLight()),
+            child: BottomNavigationBar(
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+              elevation: 0.0,
+              type: BottomNavigationBarType.fixed,
+              onTap: onTabTapped,
+              currentIndex: _currentIndex, // this will be set when a new tab is tapped
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.people,
+                      size: 30.0,
+                      color: _currentIndex == 0 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    ),
+                    title: Container(height: 0.0)),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.monetization_on,
+                      size: 28.0,
+                      color: _currentIndex == 1 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    ),
+                    title: Container(height: 0.0)),
+                BottomNavigationBarItem(
+                    icon: Image.asset('assets/images/menu/home_icon.png',
+                      height: 26.0,
+                      width: 26.0,
+                      color: _currentIndex == 2 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    ),
+                    title: Container(height: 0.0)),
+                BottomNavigationBarItem(
+                    icon: Icon(
+                      Icons.business_center,
+                      size: 28.0,
+                      color: _currentIndex == 3 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    ),
+                    title: Container(height: 0.0)),
+                BottomNavigationBarItem(
+                    icon: Image.asset('assets/images/menu/collections_icon.png',
+                      height: 22.0,
+                      width: 22.0,
+                      color: _currentIndex == 4 ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                    ),
+                    title: Container(height: 0.0)),
+              ],
+            ),
           ),
-        ),
       ),
     );
   }

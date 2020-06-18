@@ -27,7 +27,13 @@ class NavigationUtil {
   }
 
   static void onSuccessfulLogin(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => HomePage()));
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration(seconds: 0),
+        pageBuilder: (context, animation1, animation2) => HomePage(),
+      ),
+    );
   }
 }
 
