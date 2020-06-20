@@ -22,9 +22,9 @@ class LocationsPage extends StatelessWidget {
   Widget build(BuildContext context) => StoreConnector<AppState, LocationsPageState>(
         onInit: (store)  async {
           store.dispatch(FetchLocationsAction(store.state.locationsPageState));
-          PermissionStatus locationStatus = await UserPermissionsUtil.getPermissionStatus(PermissionGroup.locationWhenInUse);
+          PermissionStatus locationStatus = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
           if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.denied
-              || locationStatus == PermissionStatus.unknown){
+              || locationStatus == PermissionStatus.undetermined){
             _checkPermissions(context, store.state.locationsPageState);
           }
         },
@@ -134,6 +134,7 @@ class LocationsPage extends StatelessWidget {
             ),
             new FlatButton(
               onPressed: () async {
+                await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -149,6 +150,7 @@ class LocationsPage extends StatelessWidget {
             ),
             new FlatButton(
               onPressed: () async{
+                await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

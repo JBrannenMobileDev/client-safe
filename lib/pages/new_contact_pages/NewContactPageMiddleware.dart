@@ -7,7 +7,7 @@ import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:flutter_contact/contact.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
 
 class NewContactPageMiddleware extends MiddlewareClass<AppState> {

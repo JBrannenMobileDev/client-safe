@@ -80,6 +80,7 @@ class MileageExpensesCard extends StatelessWidget {
                         textColor: Color(ColorConstants.getPeachDark()),
                         fontWeight: FontWeight.w600,
                         isCurrency: true,
+                        decimalPlaces: 2,
                       ),
                     ),
                     Container(
@@ -234,13 +235,13 @@ class MileageExpensesCard extends StatelessWidget {
     if(length == 0) {
       return 178.0;
     }else if(length == 1) {
-      return 316.0;
+      return 326.0;
     }else if(length == 2) {
       return 400.0;
     }else if(length == 3) {
-      return 464.0;
+      return 474.0;
     }else {
-      return ((74*length) + 172).toDouble();
+      return 494.0;
     }
   }
 

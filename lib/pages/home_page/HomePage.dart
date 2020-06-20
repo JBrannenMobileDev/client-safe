@@ -15,10 +15,10 @@ class HomePage extends StatefulWidget {
 
 class _HomeState extends State<HomePage> {
   int _currentIndex = 2;
-  final List<Widget> _children = [
+  List<Widget> _children = [
     ClientsPage(),
     IncomeAndExpensesPage(),
-    DashboardPage(),
+    DashboardPage(comingFromLogin: true),
     JobsPage(),
     CollectionsPage(),
   ];
@@ -94,6 +94,13 @@ class _HomeState extends State<HomePage> {
 
   void onTabTapped(int index) {
     setState(() {
+      _children = [
+        ClientsPage(),
+        IncomeAndExpensesPage(),
+        DashboardPage(comingFromLogin: false),
+        JobsPage(),
+        CollectionsPage(),
+      ];
       _currentIndex = index;
     });
   }

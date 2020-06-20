@@ -21,12 +21,13 @@ import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key key, this.destination}) : super(key: key);
+  const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
   final DashboardPage destination;
+  final bool comingFromLogin;
 
   @override
   State<StatefulWidget> createState() {
-    return _DashboardPageState();
+    return _DashboardPageState(comingFromLogin);
   }
 }
 
@@ -35,6 +36,9 @@ class _DashboardPageState extends State<DashboardPage>
   ScrollController _scrollController;
   bool dialVisible = true;
   bool isFabExpanded = false;
+  bool comingFromLogin;
+
+  _DashboardPageState(this.comingFromLogin);
 
   AnimationController controller;
   Tween<Offset> offsetUpTween;
@@ -42,7 +46,7 @@ class _DashboardPageState extends State<DashboardPage>
 
   initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+
     offsetUpTween = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: Offset.zero,
@@ -51,7 +55,13 @@ class _DashboardPageState extends State<DashboardPage>
       begin: const Offset(0.0, -1.0),
       end: Offset.zero,
     );
-    controller.forward();
+    if(comingFromLogin) {
+      controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+      controller.forward();
+    }else {
+      controller = AnimationController(duration: const Duration(milliseconds: 0), vsync: this);
+      controller.forward();
+    }
   }
 
   bool _visible = true;

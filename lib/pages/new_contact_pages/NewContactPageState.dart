@@ -4,7 +4,7 @@ import 'package:dandylight/models/ImportantDate.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as jobActions;
 import 'package:flutter/widgets.dart';
-import 'package:flutter_contact/contact.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
 
 @immutable

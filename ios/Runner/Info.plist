@@ -41,5 +41,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSContactsUsageDescription</key>
+	<string>Contacts will be used for loading device contacts to DandyLight</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location will be used for selecting a session location to save to a job.</string>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Photo Library will be uses to select an image to represent this location.</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Camera will be used to take a picture of this location.</string>
+
 </dict>
 </plist>

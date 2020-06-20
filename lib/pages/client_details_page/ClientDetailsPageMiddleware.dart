@@ -1,3 +1,4 @@
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/device_contacts/DeviceContactsDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
@@ -32,7 +33,7 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteClient(Store<AppState> store, NextDispatcher next) async{
     await ClientDao.delete(store.state.clientDetailsPageState.client);
-    UserPermissionsUtil.requestPermission(PermissionGroup.contacts);
+    UserPermissionsUtil.requestPermission(Permission.contacts);
     DeviceContactsDao.deleteContact(store.state.clientDetailsPageState.client);
     store.dispatch(FetchClientData(store.state.clientsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();

@@ -106,7 +106,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                     ),
                     Container(
                       child: Text(
-                        pageState.startLocationName.isEmpty ? pageState.selectedHomeLocationName : pageState.startLocationName,
+                        pageState.startLocationName.isNotEmpty ? pageState.startLocationName : pageState.selectedHomeLocationName.isNotEmpty ? pageState.selectedHomeLocationName : 'Select a location',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20.0,

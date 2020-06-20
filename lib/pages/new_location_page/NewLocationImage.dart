@@ -41,7 +41,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
             Padding(
               padding: EdgeInsets.only(bottom: 26.0),
               child: Text(
-                "Take a picture of this location to help you remeber what it looks like.",
+                "Take a picture of this location to help you remember what it looks like.",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 20.0,

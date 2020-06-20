@@ -48,6 +48,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
         insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
         backgroundColor: Colors.transparent,
         child: Container(
+          height: pageState.locations.length == 1 ? 400.0 : pageState.locations.length == 2 ? 600.0 : MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.circular(16.0),
@@ -56,8 +57,8 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
           margin: EdgeInsets.only(left: 16.0, right: 16.0),
           child: pageState.locations.length > 0
               ? Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 16.0, bottom: 0.0),

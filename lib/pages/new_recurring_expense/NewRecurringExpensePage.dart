@@ -329,7 +329,6 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
   void onFlareCompleted(String unused) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
   }
 
   void onBackPressed(NewRecurringExpensePageState pageState) {

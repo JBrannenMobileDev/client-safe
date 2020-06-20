@@ -1,7 +1,7 @@
+import 'package:contacts_service/contacts_service.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/ImportantDate.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:flutter_contact/contact.dart';
 
 class LoadExistingClientData{
   final NewContactPageState pageState;

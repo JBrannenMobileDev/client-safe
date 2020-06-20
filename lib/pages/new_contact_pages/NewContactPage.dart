@@ -78,9 +78,9 @@ class _NewContactPageState extends State<NewContactPage> {
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) async{
         store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
-        PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(PermissionGroup.contacts);
+        PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(Permission.contacts);
         if(readContactsStatus == PermissionStatus.denied || readContactsStatus == PermissionStatus.denied
-            || readContactsStatus == PermissionStatus.unknown){
+            || readContactsStatus == PermissionStatus.undetermined){
           _checkPermissions(context, store.state.newContactPageState);
         }
       },
@@ -245,7 +245,7 @@ class _NewContactPageState extends State<NewContactPage> {
             ),
             new FlatButton(
               onPressed: () async {
-                await UserPermissionsUtil.requestPermission(PermissionGroup.contacts);
+                await UserPermissionsUtil.requestPermission(Permission.contacts);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -261,7 +261,7 @@ class _NewContactPageState extends State<NewContactPage> {
             ),
             new FlatButton(
               onPressed: () async{
-                await UserPermissionsUtil.requestPermission(PermissionGroup.contacts);
+                await UserPermissionsUtil.requestPermission(Permission.contacts);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

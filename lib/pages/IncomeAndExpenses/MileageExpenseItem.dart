@@ -96,6 +96,7 @@ class MileageExpenseItem extends StatelessWidget{
                               textColor: Color(ColorConstants.getPrimaryBlack()),
                               fontWeight: FontWeight.w600,
                               isCurrency: true,
+                              decimalPlaces: 2,
                             )
                           ],
                         ),
