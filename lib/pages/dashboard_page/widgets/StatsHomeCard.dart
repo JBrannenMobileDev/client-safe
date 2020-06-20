@@ -1,5 +1,5 @@
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/widgets.dart';
 
 class StatsHomeCard extends StatelessWidget{
@@ -50,7 +50,7 @@ class StatsHomeCard extends StatelessWidget{
                   margin: EdgeInsets.only(top: 0.0, bottom: 16.0, left: 16.0, right: 16.0),
                   height: 64.0,
                   child: Text(
-                    "This feature will be available in future updates of DandyLight.",
+                    "This feature will be available in future updates of dandylight.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 20.0,

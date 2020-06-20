@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/pages/locations_page/LocationsActions.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationActions.dart' as newLocation;
-import 'package:client_safe/utils/GlobalKeyUtil.dart';
-import 'package:client_safe/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/pages/locations_page/LocationsActions.dart';
+import 'package:dandylight/pages/new_location_page/NewLocationActions.dart' as newLocation;
+import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';

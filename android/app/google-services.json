@@ -8,9 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:43963046767:android:16d1881d0f4b29ad85e69a",
+        "mobilesdk_app_id": "1:43963046767:android:466fd27fb4ea629d85e69a",
         "android_client_info": {
-          "package_name": "clientsafe.com.clientsafe"
+          "package_name": "com.dandylight.flutter"
         }
       },
       "oauth_client": [
@@ -32,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "43963046767-mshaaif344s9qamlgvd582qq0dqpkvue.apps.googleusercontent.com",
+              "client_id": "43963046767-rlna4n3l98kha6f3mp2j4vcekmlvadj4.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.clientsafe.ios"
+                "bundle_id": "com.dandylight.flutter"
               }
             }
           ]

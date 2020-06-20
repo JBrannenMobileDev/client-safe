@@ -1,6 +1,6 @@
-import 'package:client_safe/models/rest_models/Current.dart';
-import 'package:client_safe/models/rest_models/Location.dart';
-import 'package:client_safe/models/rest_models/Request.dart';
+import 'package:dandylight/models/rest_models/Current.dart';
+import 'package:dandylight/models/rest_models/Location.dart';
+import 'package:dandylight/models/rest_models/Request.dart';
 import 'package:flutter/cupertino.dart';
 
 class Forecast7Days {

@@ -1,8 +1,8 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/ImportantDate.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
-import 'package:client_safe/utils/TextFormatterUtil.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/ImportantDate.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
+import 'package:flutter_contact/contact.dart';
 import 'package:redux/redux.dart';
 import 'NewContactPageState.dart';
 

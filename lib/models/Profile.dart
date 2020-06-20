@@ -1,5 +1,5 @@
-import 'package:client_safe/models/ImportantDate.dart';
-import 'package:client_safe/models/Job.dart';
+import 'package:dandylight/models/ImportantDate.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 

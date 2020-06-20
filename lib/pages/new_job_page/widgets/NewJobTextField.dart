@@ -1,7 +1,7 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';

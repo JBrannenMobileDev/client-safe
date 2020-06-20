@@ -1,5 +1,5 @@
-import 'package:client_safe/models/Charge.dart';
-import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
+import 'package:dandylight/models/Charge.dart';
+import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 
 class RecurringExpense {
   int id;

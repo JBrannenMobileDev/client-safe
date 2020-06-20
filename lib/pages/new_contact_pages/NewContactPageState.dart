@@ -1,10 +1,10 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/ImportantDate.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as jobActions;
-import 'package:contacts_service/contacts_service.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/ImportantDate.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as jobActions;
 import 'package:flutter/widgets.dart';
+import 'package:flutter_contact/contact.dart';
 import 'package:redux/redux.dart';
 
 @immutable

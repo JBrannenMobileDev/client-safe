@@ -1,4 +1,4 @@
-import 'package:client_safe/models/Charge.dart';
+import 'package:dandylight/models/Charge.dart';
 
 class SingleExpense {
   int id;

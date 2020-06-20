@@ -1,13 +1,13 @@
 import 'dart:async';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/locations_page/LocationsActions.dart';
-import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/locations_page/LocationsActions.dart';
+import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 
-import 'package:client_safe/pages/locations_page/widgets/LocationListWidget.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
-import 'package:client_safe/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/pages/locations_page/widgets/LocationListWidget.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/UserPermissionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,7 +1,7 @@
 
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/BaseHomeCardInProgress.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/BaseHomeCardInProgress.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';

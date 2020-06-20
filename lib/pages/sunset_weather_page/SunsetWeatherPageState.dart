@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PlacesLocation.dart';
-import 'package:client_safe/models/rest_models/OneHourForecast.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/models/rest_models/OneHourForecast.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';

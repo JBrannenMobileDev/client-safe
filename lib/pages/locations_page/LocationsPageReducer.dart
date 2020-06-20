@@ -1,5 +1,5 @@
-import 'package:client_safe/pages/locations_page/LocationsActions.dart';
-import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
+import 'package:dandylight/pages/locations_page/LocationsActions.dart';
+import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:redux/redux.dart';
 
 final locationsReducer = combineReducers<LocationsPageState>([

@@ -1,9 +1,9 @@
 import 'dart:convert';
 
-import 'package:client_safe/credentials.dart';
-import 'package:client_safe/models/PlacesLocation.dart';
-import 'package:client_safe/models/rest_models/DistanceMatrixResponse.dart';
-import 'package:client_safe/utils/UUID.dart';
+import 'package:dandylight/credentials.dart';
+import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/models/rest_models/DistanceMatrixResponse.dart';
+import 'package:dandylight/utils/UUID.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';

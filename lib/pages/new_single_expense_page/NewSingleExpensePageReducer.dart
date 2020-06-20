@@ -1,5 +1,5 @@
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
+import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:redux/redux.dart';
 import 'NewSingleExpensePageState.dart';
 

@@ -1,5 +1,5 @@
-import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart';
-import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
+import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart';
+import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:redux/redux.dart';
 
 final mapLocationSelectionWidgetReducer = combineReducers<MapLocationSelectionWidgetState>([

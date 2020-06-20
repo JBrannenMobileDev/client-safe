@@ -1,7 +1,7 @@
-import 'package:client_safe/pages/jobs_page/JobsPage.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
-import 'package:client_safe/utils/JobUtil.dart';
+import 'package:dandylight/pages/jobs_page/JobsPage.dart';
+import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
+import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
+import 'package:dandylight/utils/JobUtil.dart';
 import 'package:redux/redux.dart';
 
 final jobsPageReducer = combineReducers<JobsPageState>([

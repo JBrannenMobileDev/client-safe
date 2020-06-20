@@ -1,12 +1,12 @@
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/MileageExpense.dart';
-import 'package:client_safe/models/RecurringExpense.dart';
-import 'package:client_safe/models/SingleExpense.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/AllInvoicesPage.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/MileageExpense.dart';
+import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/models/SingleExpense.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/AllInvoicesPage.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:redux/redux.dart';
 
 final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>([

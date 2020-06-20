@@ -1,6 +1,6 @@
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix0;
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix0;
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';

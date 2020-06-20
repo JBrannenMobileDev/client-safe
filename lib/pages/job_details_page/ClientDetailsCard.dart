@@ -1,10 +1,10 @@
 
-import 'package:client_safe/pages/client_details_page/ClientDetailsPage.dart';
-import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/DandyToastUtil.dart';
-import 'package:client_safe/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
+import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';

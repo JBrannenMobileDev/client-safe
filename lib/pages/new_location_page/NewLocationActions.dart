@@ -1,7 +1,7 @@
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PlacesLocation.dart';
-import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
+import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'NewLocationPageState.dart';

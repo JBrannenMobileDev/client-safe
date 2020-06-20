@@ -1,4 +1,4 @@
-package clientsafe.com.clientsafe;
+package com.dandylight.flutter;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;

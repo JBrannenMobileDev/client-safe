@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:client_safe/credentials.dart';
-import 'package:client_safe/models/rest_models/CurrentWeather.dart';
-import 'package:client_safe/models/rest_models/Forecast7Days.dart';
+import 'package:dandylight/credentials.dart';
+import 'package:dandylight/models/rest_models/CurrentWeather.dart';
+import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 

@@ -1,10 +1,10 @@
-import 'package:client_safe/models/Action.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/Notifications.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/models/Action.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/Notifications.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 

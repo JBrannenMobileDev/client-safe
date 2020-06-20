@@ -1,7 +1,7 @@
-import 'package:client_safe/models/Event.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
-import 'package:client_safe/pages/calendar_page/CalendarPageState.dart';
+import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
+import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:redux/redux.dart';
 
 final calendarPageReducer = combineReducers<CalendarPageState>([

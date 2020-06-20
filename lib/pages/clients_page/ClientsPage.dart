@@ -1,9 +1,9 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
-import 'package:client_safe/pages/clients_page/widgets/ClientListWidget.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
+import 'package:dandylight/pages/clients_page/ClientsPageState.dart';
+import 'package:dandylight/pages/clients_page/widgets/ClientListWidget.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';

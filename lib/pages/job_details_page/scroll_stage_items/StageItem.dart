@@ -1,15 +1,15 @@
 import 'dart:async';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/JobStage.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
-import 'package:client_safe/utils/IntentLauncherUtil.dart';
-import 'package:client_safe/utils/Shadows.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
-import 'package:client_safe/utils/VibrateUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/Shadows.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

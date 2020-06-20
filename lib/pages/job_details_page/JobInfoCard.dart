@@ -1,10 +1,10 @@
 
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/BaseHomeCardInProgress.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
-import 'package:client_safe/utils/VibrateUtil.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/BaseHomeCardInProgress.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

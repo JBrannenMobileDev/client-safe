@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/home_page/HomePage.dart';
-import 'package:client_safe/pages/login_page/LoginPage.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/home_page/HomePage.dart';
+import 'package:dandylight/pages/login_page/LoginPage.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -25,7 +25,7 @@ class ClientSafeApp extends StatelessWidget {
             MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false), child: child),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,
         color: Color(ColorConstants.getPrimaryColor()),
-        title: 'DandyLight',
+        title: 'dandylight',
         home: LoginPage(),
         theme: ThemeData(
           primaryColor: Color(ColorConstants.getPrimaryColor()),

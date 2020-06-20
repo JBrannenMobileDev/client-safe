@@ -1,4 +1,4 @@
-import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 
 class TranslationImage extends AnimatedWidget {

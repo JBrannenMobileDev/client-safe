@@ -1,10 +1,10 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPage.dart';
-import 'package:client_safe/pages/clients_page/ClientsPage.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
+import 'package:dandylight/pages/clients_page/ClientsPage.dart';
+import 'package:dandylight/pages/clients_page/ClientsPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

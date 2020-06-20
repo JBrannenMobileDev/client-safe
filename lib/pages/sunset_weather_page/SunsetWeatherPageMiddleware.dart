@@ -1,16 +1,16 @@
 import 'dart:io';
 
-import 'package:client_safe/data_layer/api_clients/GoogleApiClient.dart';
-import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PlacesLocation.dart';
-import 'package:client_safe/models/rest_models/Forecast7Days.dart';
+import 'package:dandylight/data_layer/api_clients/GoogleApiClient.dart';
+import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/api_clients/WeatherApiClient.dart';
-import 'package:client_safe/data_layer/repositories/WeatherRepository.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/api_clients/WeatherApiClient.dart';
+import 'package:dandylight/data_layer/repositories/WeatherRepository.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';

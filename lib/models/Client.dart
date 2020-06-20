@@ -1,5 +1,5 @@
-import 'package:client_safe/models/ImportantDate.dart';
-import 'package:client_safe/models/Job.dart';
+import 'package:dandylight/models/ImportantDate.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:flutter/widgets.dart';
 
 class Client{

@@ -1,8 +1,8 @@
-import 'package:client_safe/models/Event.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/calendar_page/CalendarPageActions.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as newJobActions;
+import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as newJobActions;
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';

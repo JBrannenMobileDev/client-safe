@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/ImportantDate.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/ImportantDate.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

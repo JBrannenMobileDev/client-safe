@@ -1,4 +1,4 @@
-import 'package:client_safe/models/rest_models/OneHourForecast.dart';
+import 'package:dandylight/models/rest_models/OneHourForecast.dart';
 
 class OneDayForecast {
   final String date;

@@ -1,4 +1,4 @@
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 
 class GrayDividerWidget extends StatelessWidget{

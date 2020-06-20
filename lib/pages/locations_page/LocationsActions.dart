@@ -1,5 +1,5 @@
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/pages/locations_page/LocationsPageState.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 
 class FetchLocationsAction{
   final LocationsPageState pageState;

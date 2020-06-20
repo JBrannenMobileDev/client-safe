@@ -1,9 +1,9 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/collections_page/CollectionsPageState.dart';
-import 'package:client_safe/pages/locations_page/LocationsPage.dart';
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPage.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
+import 'package:dandylight/pages/locations_page/LocationsPage.dart';
+import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPage.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 

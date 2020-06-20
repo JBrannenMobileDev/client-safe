@@ -1,9 +1,9 @@
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
-import 'package:client_safe/pages/collections_page/CollectionsPage.dart';
-import 'package:client_safe/pages/clients_page/ClientsPage.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPage.dart';
-import 'package:client_safe/pages/jobs_page/JobsPage.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPage.dart';
+import 'package:dandylight/pages/collections_page/CollectionsPage.dart';
+import 'package:dandylight/pages/clients_page/ClientsPage.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPage.dart';
+import 'package:dandylight/pages/jobs_page/JobsPage.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {

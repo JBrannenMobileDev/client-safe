@@ -1,4 +1,4 @@
-name: client_safe
+name: dandylight
 description: A new Flutter application.
 
 # The following defines the version and build number for your application.
@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0+1
+version: 1.0.0
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -18,14 +18,14 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  #  firebase_auth: "^0.11.1"
-  #  firebase_core: "^0.4.0"
-  #  cloud_firestore: "0.12.7"
+  firebase_analytics: ^5.0.15
+  firebase_auth: ^0.16.1
+  cloud_firestore: ^0.13.6
   cupertino_icons: ^0.1.2
   flutter_redux: "^0.6.0"
   redux_epics: "^0.14.0"
   flutter_parallax: "^0.1.2"
-  intl: "0.15.7"
+  intl: "0.16.1"
   shared_preferences: "^0.4.2"
   flutter_datetime_picker: "^1.2.6"
   flare_flutter: "^1.5.4"
@@ -37,7 +37,8 @@ dependencies:
   url_launcher: ^5.2.3
   sms: ^0.2.4
   flutter_launcher_icons: "^0.7.3"
-  contacts_service: ^0.3.6
+#  contacts_service: ^0.4.6
+  flutter_contact: ^0.4.14
   permission_handler: ^4.0.0
   image_picker: ^0.6.2
   google_maps_flutter: ^0.5.21
@@ -191,6 +192,7 @@ flutter:
     - assets/images/icons/driving_directions_icon_peach.png
     - assets/images/icons/facebook_icon_black.png
     - assets/images/icons/gmail_icon_black.png
+    - assets/images/icons/reminder_icon_peach.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

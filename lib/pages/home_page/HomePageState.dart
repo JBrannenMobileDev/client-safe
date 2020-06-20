@@ -1,6 +1,6 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Action.dart';
-import 'package:client_safe/models/Client.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Action.dart';
+import 'package:dandylight/models/Client.dart';
 import 'package:redux/redux.dart';
 
 enum AppBarBehavior { normal, pinned, floating, snapping }

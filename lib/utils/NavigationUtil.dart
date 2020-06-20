@@ -1,10 +1,10 @@
-import 'package:client_safe/models/RecurringExpense.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
-import 'package:client_safe/pages/calendar_page/CalendarPage.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPage.dart';
-import 'package:client_safe/pages/home_page/HomePage.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPage.dart';
-import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
+import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
+import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
+import 'package:dandylight/pages/home_page/HomePage.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
+import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

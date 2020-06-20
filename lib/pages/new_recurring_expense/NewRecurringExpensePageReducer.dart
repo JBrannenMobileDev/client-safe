@@ -1,4 +1,4 @@
-import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
+import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
 import 'package:redux/redux.dart';
 import 'NewRecurringExpensePageState.dart';
 

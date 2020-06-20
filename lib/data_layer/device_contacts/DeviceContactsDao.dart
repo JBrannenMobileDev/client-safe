@@ -1,13 +1,15 @@
 import 'dart:async';
 import 'dart:typed_data';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/utils/TextFormatterUtil.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_contact/contact.dart';
+import 'package:flutter_contact/contacts.dart';
 
 class DeviceContactsDao {
   static Future<Iterable<Contact>> getDeviceContacts() async {
-    return await ContactsService.getContacts();
+//    return await Contacts.listContacts();
+  return null;
   }
 
   static Future<List<Contact>> getNonClientDeviceContacts(List<Client> clients) async {
@@ -40,15 +42,15 @@ class DeviceContactsDao {
   }
 
   static void addContact(Client client) async {
-    await ContactsService.addContact(await _contactFromClient(client));
+//    await ContactsService.addContact(await _contactFromClient(client));
   }
 
   static void deleteContact(Client client) async {
-    await ContactsService.deleteContact(await _contactFromClient(client));
+//    await ContactsService.deleteContact(await _contactFromClient(client));
   }
 
   static void updateContact(Client client) async {
-    await ContactsService.updateContact(await _contactFromClient(client));
+//    await ContactsService.updateContact(await _contactFromClient(client));
   }
 
   static void addOrUpdateContact(Client client) async {

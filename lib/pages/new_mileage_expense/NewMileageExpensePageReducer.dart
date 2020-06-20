@@ -1,6 +1,6 @@
-import 'package:client_safe/pages/new_mileage_expense/NewMileageExpenseActions.dart';
-import 'package:client_safe/pages/new_mileage_expense/NewMileageExpensePageState.dart';
-import 'package:client_safe/pages/new_mileage_expense/SelectStartEndLocations.dart';
+import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
+import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
+import 'package:dandylight/pages/new_mileage_expense/SelectStartEndLocations.dart';
 import 'package:redux/redux.dart';
 
 final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>([

@@ -1,10 +1,10 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:redux/redux.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {

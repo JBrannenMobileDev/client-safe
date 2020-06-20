@@ -1,4 +1,4 @@
-import 'package:client_safe/models/Invoice.dart';
+import 'package:dandylight/models/Invoice.dart';
 
 class PriceProfile{
   int id;

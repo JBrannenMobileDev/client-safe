@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
-import 'package:client_safe/data_layer/local_db/daos/InvoiceDao.dart';
-import 'package:client_safe/models/Invoice.dart';
+import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
+import 'package:dandylight/models/Invoice.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:url_launcher/url_launcher.dart';

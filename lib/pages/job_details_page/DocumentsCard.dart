@@ -1,9 +1,9 @@
-import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/InvoiceItem.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/InvoiceItem.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';

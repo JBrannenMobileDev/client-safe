@@ -1,14 +1,14 @@
 import 'dart:io';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_job_page/widgets/JobLocationListWidget.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationTextField.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherLocationListWidget.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/new_job_page/widgets/JobLocationListWidget.dart';
+import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
+import 'package:dandylight/pages/new_location_page/NewLocationTextField.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherLocationListWidget.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,7 +1,7 @@
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/locations_page/LocationsActions.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/locations_page/LocationsActions.dart';
+import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';

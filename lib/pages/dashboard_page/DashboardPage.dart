@@ -1,23 +1,24 @@
 import 'dart:ui';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobsHomeCard.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/LeadsHomeCard.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/StatsHomeCard.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPage.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
-import 'package:client_safe/utils/NavigationUtil.dart';
-import 'package:client_safe/utils/Shadows.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/common_widgets/SwipeableCardsWidget.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/JobsHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/LeadsHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/StatsHomeCard.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/Shadows.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key key, this.destination}) : super(key: key);
@@ -41,7 +42,7 @@ class _DashboardPageState extends State<DashboardPage>
 
   initState() {
     super.initState();
-    controller = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
+    controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
     offsetUpTween = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: Offset.zero,
@@ -308,6 +309,10 @@ class _DashboardPageState extends State<DashboardPage>
                                   ),
                                 ),
                               ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 238.0),
+                              child: SwipeableCardsWidget(MediaQuery.of(context).size.width),
                             ),
                           ],
                         ),

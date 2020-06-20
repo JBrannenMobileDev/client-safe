@@ -1,7 +1,7 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpenseActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 

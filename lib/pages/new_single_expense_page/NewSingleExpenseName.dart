@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/DandyLightTextField.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextField.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

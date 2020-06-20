@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpenseCostTextField.dart';
-import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/InputDoneView.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseCostTextField.dart';
+import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/InputDoneView.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

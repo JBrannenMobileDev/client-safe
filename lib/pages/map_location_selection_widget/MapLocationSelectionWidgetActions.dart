@@ -1,6 +1,6 @@
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PlacesLocation.dart';
-import 'package:client_safe/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class FetchGoogleLocationsAction{

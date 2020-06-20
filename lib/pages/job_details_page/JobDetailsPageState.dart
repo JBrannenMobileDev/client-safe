@@ -1,13 +1,13 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Event.dart';
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
-import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
+import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -280,7 +280,12 @@ class JobDetailsPageState {
     eventMap: Map(),
     jobs: List(),
     jobTitleText: "",
+    onDeleteInvoiceSelected: null,
+    documents: List(),
+    onLocationSaveSelected: null,
+    setNewIndexForStageAnimation: null,
     locations: List(),
+    onInvoiceSent: null,
     selectedLocation: null,
     expandedIndexes: List(),
     onStageCompleted: null,

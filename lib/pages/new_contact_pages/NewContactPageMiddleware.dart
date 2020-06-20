@@ -1,13 +1,13 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/device_contacts/DeviceContactsDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
-import 'package:contacts_service/contacts_service.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/device_contacts/DeviceContactsDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:flutter_contact/contact.dart';
 import 'package:redux/redux.dart';
 
 class NewContactPageMiddleware extends MiddlewareClass<AppState> {

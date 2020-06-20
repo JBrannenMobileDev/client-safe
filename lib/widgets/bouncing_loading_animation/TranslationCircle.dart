@@ -1,4 +1,4 @@
-import 'package:client_safe/widgets/bouncing_loading_animation/Circle.dart';
+import 'package:dandylight/widgets/bouncing_loading_animation/Circle.dart';
 import 'package:flutter/material.dart';
 
 class TranslationCircle extends AnimatedWidget {

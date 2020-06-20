@@ -1,5 +1,5 @@
-import 'package:client_safe/pages/home_page/HomePageActions.dart';
-import 'package:client_safe/pages/home_page/HomePageState.dart';
+import 'package:dandylight/pages/home_page/HomePageActions.dart';
+import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:redux/redux.dart';
 
 final homePageReducer = combineReducers<HomePageState>([

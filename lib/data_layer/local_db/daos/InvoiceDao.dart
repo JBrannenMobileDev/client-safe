@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:client_safe/data_layer/local_db/SembastDb.dart';
-import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/NextInvoiceNumber.dart';
+import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 

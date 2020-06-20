@@ -1,7 +1,7 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -130,6 +130,7 @@ class NewPricingProfilePageState {
 
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {
     return NewPricingProfilePageState(
+      itemRate: store.state.pricingProfilePageState.itemRate,
       id: store.state.pricingProfilePageState.id,
       pageViewIndex: store.state.pricingProfilePageState.pageViewIndex,
       saveButtonEnabled: store.state.pricingProfilePageState.saveButtonEnabled,

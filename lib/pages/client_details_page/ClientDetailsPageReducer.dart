@@ -1,4 +1,4 @@
-import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:redux/redux.dart';
 import 'ClientDetailsPageState.dart';
 

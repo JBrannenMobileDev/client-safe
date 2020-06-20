@@ -1,11 +1,11 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Event.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/JobStage.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
 import 'NewJobPageState.dart';
 

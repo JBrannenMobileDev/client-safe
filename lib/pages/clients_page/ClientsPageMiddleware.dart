@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/ClientDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:redux/redux.dart';
 
 class ClientsPageMiddleware extends MiddlewareClass<AppState> {

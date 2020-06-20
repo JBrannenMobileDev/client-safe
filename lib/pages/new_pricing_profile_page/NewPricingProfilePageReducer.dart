@@ -1,4 +1,4 @@
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:redux/redux.dart';
 import 'NewPricingProfilePageState.dart';
 

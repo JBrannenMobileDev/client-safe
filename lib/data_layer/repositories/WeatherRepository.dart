@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:client_safe/data_layer/api_clients/WeatherApiClient.dart';
-import 'package:client_safe/models/rest_models/CurrentWeather.dart';
-import 'package:client_safe/models/rest_models/Forecast7Days.dart';
+import 'package:dandylight/data_layer/api_clients/WeatherApiClient.dart';
+import 'package:dandylight/models/rest_models/CurrentWeather.dart';
+import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:meta/meta.dart';
 
 class WeatherRepository {

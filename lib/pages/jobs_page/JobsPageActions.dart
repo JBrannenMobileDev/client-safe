@@ -1,5 +1,5 @@
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 
 class JobSelectedAction{
   final JobsPageState pageState;

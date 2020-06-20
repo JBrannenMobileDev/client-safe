@@ -1,5 +1,5 @@
-import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
 class InvoiceDocument implements DocumentItem {

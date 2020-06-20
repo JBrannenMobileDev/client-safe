@@ -1,6 +1,6 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/utils/JobUtil.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/utils/JobUtil.dart';
 import 'package:redux/redux.dart';
 
 import 'DashboardPageActions.dart';

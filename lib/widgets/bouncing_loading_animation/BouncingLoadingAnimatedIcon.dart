@@ -1,4 +1,4 @@
-import 'package:client_safe/widgets/bouncing_loading_animation/TranslationCircle.dart';
+import 'package:dandylight/widgets/bouncing_loading_animation/TranslationCircle.dart';
 import 'package:flutter/material.dart';
 
 class BouncingLoadingAnimatedIcon extends StatefulWidget {

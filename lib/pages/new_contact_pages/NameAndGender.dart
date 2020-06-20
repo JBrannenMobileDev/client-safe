@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactDeviceContactListWidget.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactDeviceContactListWidget.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -165,6 +165,9 @@ class _NameAndGenderState extends State<NameAndGender>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       IconButton(
+                        onPressed: () {
+
+                        },
                         color: Color(ColorConstants.getPeachDark()),
                         icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid, color: Color(ColorConstants.getPeachDark()),) : Icon(Icons.people, color: Color(ColorConstants.getPeachDark())),
                         tooltip: 'Search',

@@ -1,10 +1,10 @@
-import 'package:client_safe/models/Event.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:client_safe/pages/job_details_page/document_items/DocumentItem.dart';
-import 'package:client_safe/pages/job_details_page/document_items/InvoiceDocument.dart';
+import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
+import 'package:dandylight/pages/job_details_page/document_items/InvoiceDocument.dart';
 import 'package:redux/redux.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([

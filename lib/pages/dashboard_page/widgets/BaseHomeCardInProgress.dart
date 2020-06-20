@@ -1,8 +1,8 @@
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
-import 'package:client_safe/pages/home_page/HomePage.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/JobInProgressItem.dart';
+import 'package:dandylight/pages/home_page/HomePage.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

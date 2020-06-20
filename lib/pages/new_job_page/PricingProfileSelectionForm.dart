@@ -1,10 +1,10 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/common_widgets/ClientSafeButton.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageState.dart';
-import 'package:client_safe/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
+import 'package:dandylight/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

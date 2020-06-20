@@ -1,5 +1,5 @@
-import 'package:client_safe/models/SingleExpense.dart';
-import 'package:client_safe/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:dandylight/models/SingleExpense.dart';
+import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 
 class LoadExistingPricingProfileData{
   final NewSingleExpensePageState pageState;

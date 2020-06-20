@@ -1,4 +1,4 @@
-import 'package:client_safe/pages/home_page/HomePageActions.dart';
+import 'package:dandylight/pages/home_page/HomePageActions.dart';
 import 'package:redux/redux.dart';
 import 'SettingsPageState.dart';
 

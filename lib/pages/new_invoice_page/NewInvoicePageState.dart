@@ -1,12 +1,12 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Discount.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/JobStage.dart';
-import 'package:client_safe/models/LineItem.dart';
-import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:client_safe/pages/new_invoice_page/PriceBreakdownForm.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Discount.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/models/LineItem.dart';
+import 'package:dandylight/pages/new_invoice_page/NewDiscountDialog.dart';
+import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/pages/new_invoice_page/PriceBreakdownForm.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -403,6 +403,7 @@ class NewInvoicePageState {
       onDeleteDiscountSelected: () => store.dispatch(DeleteDiscountAction(store.state.newInvoicePageState)),
       onDepositActionPressed: () => store.dispatch(UpdateDepositStatusAction(store.state.newInvoicePageState)),
       generateInvoicePdf: () => store.dispatch(GenerateInvoicePdfAction(store.state.newInvoicePageState)),
+      onEditSelected: null,
     );
   }
 

@@ -1,6 +1,6 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:redux/redux.dart';
 
 class JobsPageMiddleware extends MiddlewareClass<AppState> {

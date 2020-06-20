@@ -1,9 +1,9 @@
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/ViewInvoiceLineItemWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/LineItemWidget.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceLineItemWidget.dart';
+import 'package:dandylight/pages/new_invoice_page/LineItemWidget.dart';
+import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

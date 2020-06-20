@@ -1,5 +1,5 @@
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/JobStage.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobStage.dart';
 
 class JobUtil {
   static List<Job> getJobsInProgress(List<Job> jobs) {

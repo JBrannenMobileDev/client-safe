@@ -1,6 +1,6 @@
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

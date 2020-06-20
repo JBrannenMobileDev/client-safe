@@ -1,7 +1,7 @@
-import 'package:client_safe/models/rest_models/OneDayForecast.dart';
-import 'package:client_safe/models/rest_models/OneHourForecast.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
+import 'package:dandylight/models/rest_models/OneDayForecast.dart';
+import 'package:dandylight/models/rest_models/OneHourForecast.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';

@@ -1,4 +1,4 @@
-import 'package:client_safe/pages/home_page/HomePageState.dart';
+import 'package:dandylight/pages/home_page/HomePageState.dart';
 
 class InitHomePageAction{
   final HomePageState item;

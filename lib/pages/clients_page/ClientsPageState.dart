@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
-import 'package:client_safe/pages/clients_page/ClientsPage.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:dandylight/pages/clients_page/ClientsPage.dart';
+import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 

@@ -1,8 +1,8 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/PriceProfileDao.dart';
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesActions.dart';
-import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
+import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
 class PricingProfilesPageMiddleware extends MiddlewareClass<AppState> {

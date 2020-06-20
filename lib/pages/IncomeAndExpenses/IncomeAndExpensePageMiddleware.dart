@@ -1,19 +1,19 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/InvoiceDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/JobDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/MileageExpenseDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/ProfileDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/RecurringExpenseDao.dart';
-import 'package:client_safe/data_layer/local_db/daos/SingleExpenseDao.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/MileageExpense.dart';
-import 'package:client_safe/models/Profile.dart';
-import 'package:client_safe/models/RecurringExpense.dart';
-import 'package:client_safe/models/SingleExpense.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/MileageExpense.dart';
+import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/models/SingleExpense.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:redux/redux.dart';
 
 class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {

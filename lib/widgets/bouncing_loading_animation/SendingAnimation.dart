@@ -1,4 +1,4 @@
-import 'package:client_safe/widgets/bouncing_loading_animation/SendingTranslationCircle.dart';
+import 'package:dandylight/widgets/bouncing_loading_animation/SendingTranslationCircle.dart';
 import 'package:flutter/material.dart';
 
 class SendingAnimation extends StatefulWidget {

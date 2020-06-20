@@ -1,7 +1,7 @@
-import 'package:client_safe/models/Invoice.dart';
-import 'package:client_safe/models/JobStage.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PriceProfile.dart';
+import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PriceProfile.dart';
 
 class Job {
   static const String JOB_TYPE_MATERNITY = 'assets/images/job_types/maternity.png';

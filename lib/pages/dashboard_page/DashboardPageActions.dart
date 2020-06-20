@@ -1,7 +1,7 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/home_page/HomePageState.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/home_page/HomePageState.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
 
 class InitDashboardPageAction{

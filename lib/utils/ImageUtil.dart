@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/JobStage.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/JobStage.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 

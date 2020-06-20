@@ -1,5 +1,5 @@
-import 'package:client_safe/models/PriceProfile.dart';
-import 'package:client_safe/pages/pricing_profiles_page/PricingProfilesPageState.dart';
+import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 
 class FetchPricingProfilesAction{
   final PricingProfilesPageState pageState;

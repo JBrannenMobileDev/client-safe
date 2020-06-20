@@ -1,6 +1,6 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPageState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 
 class InitializeClientDetailsAction{
   final ClientDetailsPageState pageState;

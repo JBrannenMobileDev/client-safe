@@ -1,9 +1,9 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/local_db/daos/RecurringExpenseDao.dart';
-import 'package:client_safe/models/RecurringExpense.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
-import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
-import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
+import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
+import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
 class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {

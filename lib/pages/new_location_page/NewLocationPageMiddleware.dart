@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/data_layer/api_clients/GoogleApiClient.dart';
-import 'package:client_safe/data_layer/local_db/daos/LocationDao.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PlacesLocation.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart' as jobs;
-import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
-import 'package:client_safe/pages/locations_page/LocationsActions.dart' as locations;
-import 'package:client_safe/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/api_clients/GoogleApiClient.dart';
+import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as jobs;
+import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
+import 'package:dandylight/pages/locations_page/LocationsActions.dart' as locations;
+import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;

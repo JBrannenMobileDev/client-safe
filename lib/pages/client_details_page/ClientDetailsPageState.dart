@@ -1,11 +1,11 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/client_details_page/ClientDetailsPageActions.dart';
-import 'package:client_safe/pages/job_details_page/JobDetailsActions.dart';
-import 'package:client_safe/pages/new_contact_pages/NewContactPageActions.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:client_safe/pages/new_job_page/NewJobPageActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 

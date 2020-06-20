@@ -1,10 +1,10 @@
-import 'package:client_safe/models/Discount.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/models/LineItem.dart';
-import 'package:client_safe/pages/new_invoice_page/NewDiscountDialog.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:client_safe/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/RateTypeSelection.dart';
+import 'package:dandylight/models/Discount.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/LineItem.dart';
+import 'package:dandylight/pages/new_invoice_page/NewDiscountDialog.dart';
+import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:redux/redux.dart';
 
 final newInvoicePageReducer = combineReducers<NewInvoicePageState>([

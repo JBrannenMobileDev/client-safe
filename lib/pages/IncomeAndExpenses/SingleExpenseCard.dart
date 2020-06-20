@@ -1,10 +1,10 @@
-import 'package:client_safe/pages/IncomeAndExpenses/AllExpensesPage.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:client_safe/pages/IncomeAndExpenses/SingleExpenseItem.dart';
-import 'package:client_safe/pages/common_widgets/DandyLightTextWidget.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/LeadItem.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseItem.dart';
+import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/LeadItem.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';

@@ -1,5 +1,5 @@
-import 'package:client_safe/models/LineItem.dart';
-import 'package:client_safe/models/PriceProfile.dart';
+import 'package:dandylight/models/LineItem.dart';
+import 'package:dandylight/models/PriceProfile.dart';
 
 class Invoice {
   static const String RATE_TYPE_FLAT_RATE = "Flat rate";

@@ -1,9 +1,9 @@
 import 'dart:async';
 
-import 'package:client_safe/data_layer/local_db/SembastDb.dart';
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/MileageExpense.dart';
-import 'package:client_safe/models/SingleExpense.dart';
+import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/MileageExpense.dart';
+import 'package:dandylight/models/SingleExpense.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 

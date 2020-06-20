@@ -1,8 +1,8 @@
-import 'package:client_safe/models/Location.dart';
-import 'package:client_safe/models/PlacesLocation.dart';
-import 'package:client_safe/models/rest_models/CurrentWeather.dart';
-import 'package:client_safe/models/rest_models/Forecast7Days.dart';
-import 'package:client_safe/pages/sunset_weather_page/SunsetWeatherPageState.dart';
+import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/models/rest_models/CurrentWeather.dart';
+import 'package:dandylight/models/rest_models/Forecast7Days.dart';
+import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'SunsetWeatherPageState.dart';

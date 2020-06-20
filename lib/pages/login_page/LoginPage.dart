@@ -1,15 +1,15 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/ImageUtil.dart';
-import 'package:client_safe/utils/NavigationUtil.dart';
-import 'package:client_safe/widgets/login_animations/TranslationImage.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/widgets/login_animations/TranslationImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:client_safe/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -35,6 +35,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     super.initState();
     _controller = new AnimationController(
       duration: const Duration(milliseconds: 2000),
+      reverseDuration: const Duration(milliseconds: 500),
       vsync: this,
     );
 
@@ -44,7 +45,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     );
 
     _controllerLogoOut = new AnimationController(
-      duration: const Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     )..addListener(() =>
         setState(() {}));
@@ -249,7 +250,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     'assets/images/icons/gmail_icon_black.png'),
                               ),
                               Text(
-                                'Sign in with Gmail',
+                                'Sign in with Google',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 22.0,
@@ -293,7 +294,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             setState(() {
                               isSelected = true;
                             });
-                            Timer(const Duration(milliseconds: 2100), () {
+                            Timer(const Duration(milliseconds: 600), () {
                               NavigationUtil.onSuccessfulLogin(context);
                             });
                           },
@@ -354,7 +355,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               color: Color(ColorConstants.getPrimaryWhite())
                                   .withOpacity(1.0),
                             ),
-                            duration: const Duration(milliseconds: 2000),
+                            duration: const Duration(milliseconds: 500),
                             curve: Curves.ease,
                             child: Text(
                               'DandyLight',

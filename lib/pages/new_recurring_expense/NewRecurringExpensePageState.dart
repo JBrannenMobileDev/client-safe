@@ -1,5 +1,5 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 

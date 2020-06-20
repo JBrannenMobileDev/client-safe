@@ -1,10 +1,10 @@
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobCompletedItem.dart';
-import 'package:client_safe/pages/dashboard_page/widgets/JobInProgressItem.dart';
-import 'package:client_safe/pages/jobs_page/JobsPageState.dart';
-import 'package:client_safe/pages/jobs_page/widgets/JobsPageInProgressItem.dart';
-import 'package:client_safe/utils/UserOptionsUtil.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/JobCompletedItem.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/JobInProgressItem.dart';
+import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
+import 'package:dandylight/pages/jobs_page/widgets/JobsPageInProgressItem.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';

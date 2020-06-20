@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:client_safe/data_layer/local_db/SembastDb.dart';
-import 'package:client_safe/models/PriceProfile.dart';
+import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/models/PriceProfile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 

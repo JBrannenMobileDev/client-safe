@@ -1,4 +1,4 @@
-import 'package:client_safe/models/ListItem.dart';
+import 'package:dandylight/models/ListItem.dart';
 
 class TitleListItem extends ListItem{
   final String title;

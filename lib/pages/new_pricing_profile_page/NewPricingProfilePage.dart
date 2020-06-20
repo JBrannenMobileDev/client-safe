@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:client_safe/AppState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfileIconSelection.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/NewProfileName.dart';
-import 'package:client_safe/pages/new_pricing_profile_page/RateTypeSelection.dart';
-import 'package:client_safe/utils/ColorConstants.dart';
-import 'package:client_safe/utils/InputDoneView.dart';
-import 'package:client_safe/utils/KeyboardUtil.dart';
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileIconSelection.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/NewProfileName.dart';
+import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/InputDoneView.dart';
+import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

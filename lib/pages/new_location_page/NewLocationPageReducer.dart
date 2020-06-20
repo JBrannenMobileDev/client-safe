@@ -1,5 +1,5 @@
-import 'package:client_safe/pages/new_location_page/NewLocationActions.dart';
-import 'package:client_safe/pages/new_location_page/NewLocationPageState.dart';
+import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
+import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:redux/redux.dart';
 
 import 'NewLocationActions.dart';

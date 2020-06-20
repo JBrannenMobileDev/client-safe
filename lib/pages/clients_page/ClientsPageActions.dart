@@ -1,6 +1,6 @@
-import 'package:client_safe/models/Client.dart';
-import 'package:client_safe/models/Job.dart';
-import 'package:client_safe/pages/clients_page/ClientsPageState.dart';
+import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/pages/clients_page/ClientsPageState.dart';
 
 class ClientSelectedAction{
   final ClientsPageState pageState;
