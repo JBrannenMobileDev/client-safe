@@ -89,7 +89,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 500),
       reverseDuration: const Duration(milliseconds: 500),
       vsync: this,
-    );
+    )..addListener(() =>
+        setState(() {}));
 
     _controllerLoginView = new AnimationController(
       duration: const Duration(milliseconds: 500),
@@ -101,7 +102,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 500),
       reverseDuration: const Duration(milliseconds: 500),
       vsync: this,
-    );
+    )..addListener(() =>
+        setState(() {}));
 
     peachMountainOffsetTween = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),

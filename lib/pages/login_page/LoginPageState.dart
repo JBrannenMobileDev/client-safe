@@ -25,6 +25,7 @@ class LoginPageState {
   final Function() onContinueWithGoogleSubmitted;
   final Function() onLoginSelected;
   final Function() onForgotPasswordSelected;
+  final Function() onResendEmailVerificationSelected;
 
   LoginPageState({
     this.firstName,
@@ -41,23 +42,25 @@ class LoginPageState {
     this.onContinueWithGoogleSubmitted,
     this.onLoginSelected,
     this.onForgotPasswordSelected,
+    this.onResendEmailVerificationSelected,
   });
 
   LoginPageState copyWith({
-  String firstName,
-  String lastName,
-  String businessName,
-  String emailAddress,
-  String password,
-  Function(String) onFirstNameChanged,
-  Function(String) onLastNameChanged,
-  Function(String) onBusinessNameChanged,
-  Function(String) onEmailAddressNameChanged,
-  Function(String) onPasswordChanged,
-  Function() onCreateAccountSubmitted,
-  Function() onContinueWithGoogleSubmitted,
-  Function() onLoginSelected,
-  Function() onForgotPasswordSelected,
+    String firstName,
+    String lastName,
+    String businessName,
+    String emailAddress,
+    String password,
+    Function(String) onFirstNameChanged,
+    Function(String) onLastNameChanged,
+    Function(String) onBusinessNameChanged,
+    Function(String) onEmailAddressNameChanged,
+    Function(String) onPasswordChanged,
+    Function() onCreateAccountSubmitted,
+    Function() onContinueWithGoogleSubmitted,
+    Function() onLoginSelected,
+    Function() onForgotPasswordSelected,
+    Function() onResendEmailVerificationSelected,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -74,6 +77,7 @@ class LoginPageState {
       onContinueWithGoogleSubmitted: onContinueWithGoogleSubmitted ?? this.onContinueWithGoogleSubmitted,
       onLoginSelected: onLoginSelected ?? this.onLoginSelected,
       onForgotPasswordSelected: onForgotPasswordSelected ?? this.onForgotPasswordSelected,
+      onResendEmailVerificationSelected: onResendEmailVerificationSelected ?? this.onResendEmailVerificationSelected,
     );
   }
 
@@ -93,6 +97,7 @@ class LoginPageState {
       onContinueWithGoogleSubmitted: () => store.dispatch(ContinueWithGoogleAction(store.state.loginPageState)),
       onLoginSelected: () => store.dispatch(LoginAction(store.state.loginPageState)),
       onForgotPasswordSelected: () => store.dispatch(ForgotPasswordSelectedAction(store.state.loginPageState)),
+      onResendEmailVerificationSelected: () => store.dispatch(ResendEmailVerificationAction(store.state.loginPageState)),
     );
   }
 
@@ -111,6 +116,7 @@ class LoginPageState {
     onContinueWithGoogleSubmitted: null,
     onLoginSelected: null,
     onForgotPasswordSelected: null,
+    onResendEmailVerificationSelected: null,
   );
 
   @override
@@ -128,6 +134,7 @@ class LoginPageState {
       onCreateAccountSubmitted.hashCode ^
       onContinueWithGoogleSubmitted.hashCode ^
       onLoginSelected.hashCode ^
+      onResendEmailVerificationSelected.hashCode ^
       onForgotPasswordSelected.hashCode ;
 
   @override
@@ -139,6 +146,7 @@ class LoginPageState {
               businessName == other.businessName &&
               emailAddress == other.emailAddress &&
               password == other.password &&
+              onResendEmailVerificationSelected == other.onResendEmailVerificationSelected &&
               onFirstNameChanged == other.onFirstNameChanged &&
               onLastNameChanged == other.onLastNameChanged &&
               onBusinessNameChanged == other.onBusinessNameChanged &&

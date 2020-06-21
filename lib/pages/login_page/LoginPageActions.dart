@@ -57,3 +57,8 @@ class CheckForCurrentUserAction{
   final LoginPageState pageState;
   CheckForCurrentUserAction(this.pageState);
 }
+
+class ResendEmailVerificationAction{
+  final LoginPageState pageState;
+  ResendEmailVerificationAction(this.pageState);
+}
