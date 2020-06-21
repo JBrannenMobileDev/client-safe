@@ -1,5 +1,4 @@
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,14 +17,14 @@ class DandyToastUtil {
     );
   }
 
-  static void showToast(String msg) {
+  static void showToast(String msg, Color color) {
     HapticFeedback.heavyImpact();
     Fluttertoast.showToast(
         msg: msg,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.CENTER,
         timeInSecForIosWeb: 3,
-        backgroundColor: Color(ColorConstants.getBlueDark()),
+        backgroundColor: color,
         textColor: Colors.white,
         fontSize: 16.0
     );

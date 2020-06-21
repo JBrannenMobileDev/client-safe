@@ -7,6 +7,7 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
+import 'package:dandylight/pages/login_page/LoginPageState.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
@@ -49,6 +50,7 @@ class AppState {
   final NewRecurringExpensePageState newRecurringExpensePageState;
   final NewMileageExpensePageState newMileageExpensePageState;
   final MapLocationSelectionWidgetState mapLocationSelectionWidgetState;
+  final LoginPageState loginPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -74,6 +76,7 @@ class AppState {
     @required this.newRecurringExpensePageState,
     @required this.newMileageExpensePageState,
     @required this.mapLocationSelectionWidgetState,
+    @required this.loginPageState,
   });
 
   factory AppState.initial() {
@@ -101,6 +104,7 @@ class AppState {
       newRecurringExpensePageState: NewRecurringExpensePageState.initial(),
       newMileageExpensePageState: NewMileageExpensePageState.initial(),
       mapLocationSelectionWidgetState: MapLocationSelectionWidgetState.initial(),
+      loginPageState: LoginPageState.initial(),
     );
   }
 
@@ -128,6 +132,7 @@ class AppState {
     NewRecurringExpensePageState newRecurringExpensePageState,
     NewMileageExpensePageState newMileageExpensePageState,
     MapLocationSelectionWidgetState mapLocationSelectionWidgetState,
+    LoginPageState loginPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -153,6 +158,7 @@ class AppState {
       newRecurringExpensePageState: newRecurringExpensePageState ?? this.newRecurringExpensePageState,
       newMileageExpensePageState: newMileageExpensePageState ?? this.newMileageExpensePageState,
       mapLocationSelectionWidgetState: mapLocationSelectionWidgetState ?? this.mapLocationSelectionWidgetState,
+      loginPageState: loginPageState ?? this.loginPageState,
     );
   }
 
@@ -180,6 +186,7 @@ class AppState {
     newRecurringExpensePageState.hashCode ^
     newMileageExpensePageState.hashCode ^
     mapLocationSelectionWidgetState.hashCode ^
+    loginPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -208,5 +215,6 @@ class AppState {
               newRecurringExpensePageState == other.newRecurringExpensePageState &&
               newMileageExpensePageState == other.newMileageExpensePageState &&
               mapLocationSelectionWidgetState == other.mapLocationSelectionWidgetState &&
+              loginPageState == other.loginPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

@@ -16,6 +16,8 @@ import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageMiddleware.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageMiddleware.dart';
+import 'package:dandylight/pages/login_page/LoginPageActions.dart';
+import 'package:dandylight/pages/login_page/LoginPageMiddleware.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetMiddleware.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart' as mapLocationSelection;
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
@@ -129,5 +131,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.SetLastKnowPosition>(MapLocationSelectionWidgetMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.FetchGoogleLocationsAction>(MapLocationSelectionWidgetMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.FetchSearchLocationDetails>(MapLocationSelectionWidgetMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, CreateAccountAction>(LoginPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, CheckForCurrentUserAction>(LoginPageMiddleware()));
   return middlewareList;
 }
