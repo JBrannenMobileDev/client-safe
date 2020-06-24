@@ -1,3 +1,4 @@
+
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipDialog.dart';
@@ -10,6 +11,7 @@ import 'package:dandylight/pages/job_details_page/NewDateSelectionDialog.dart';
 import 'package:dandylight/pages/job_details_page/PricePackageChangeDialog.dart.dart';
 import 'package:dandylight/pages/job_details_page/TipChangeDialog.dart';
 import 'package:dandylight/pages/job_details_page/document_items/InvoiceOptionsDialog.dart';
+import 'package:dandylight/pages/login_page/ShowAccountCreatedDialog.dart';
 import 'package:dandylight/pages/new_contact_pages/DeviceContactsPage.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPage.dart';
 import 'package:dandylight/pages/new_contact_pages/StartJobPromptDialog.dart';
@@ -22,13 +24,12 @@ import 'package:dandylight/pages/new_location_page/NewLocationPage.dart';
 import 'package:dandylight/pages/new_mileage_expense/ChooseFromMyLocationsMileage.dart';
 import 'package:dandylight/pages/new_mileage_expense/LocationOptionsMileageExpenseDialog.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePage.dart';
-import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
-import 'package:dandylight/pages/new_mileage_expense/SetHomeLocationPage.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePage.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePage.dart';
 import 'package:dandylight/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
@@ -168,6 +169,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return SendInvoicePromptDialog(invoiceId, onSendInvoiceSelected);
+      },
+    );
+  }
+
+  static void showAccountCreatedDialog(BuildContext context, FirebaseUser user) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ShowAccountCreatedDialog(user);
       },
     );
   }

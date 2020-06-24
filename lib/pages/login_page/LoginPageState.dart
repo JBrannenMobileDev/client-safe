@@ -1,11 +1,4 @@
-import 'package:dandylight/models/Action.dart';
-import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Notifications.dart';
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import 'LoginPageActions.dart';
@@ -16,6 +9,13 @@ class LoginPageState {
   final String businessName;
   final String emailAddress;
   final String password;
+  final String loginErrorMessage;
+  final String createAccountErrorMessage;
+  final bool mainButtonsVisible;
+  final bool showResendMessage;
+  final bool navigateToHome;
+  final bool shouldShowAccountCreatedDialog;
+  final FirebaseUser user;
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
   final Function(String) onBusinessNameChanged;
@@ -26,6 +26,9 @@ class LoginPageState {
   final Function() onLoginSelected;
   final Function() onForgotPasswordSelected;
   final Function() onResendEmailVerificationSelected;
+  final Function(bool) updateMainButtonVisible;
+  final Function() onClearErrorMessages;
+  final Function() resetShouldShowSuccessDialog;
 
   LoginPageState({
     this.firstName,
@@ -43,6 +46,16 @@ class LoginPageState {
     this.onLoginSelected,
     this.onForgotPasswordSelected,
     this.onResendEmailVerificationSelected,
+    this.mainButtonsVisible,
+    this.showResendMessage,
+    this.updateMainButtonVisible,
+    this.navigateToHome,
+    this.loginErrorMessage,
+    this.createAccountErrorMessage,
+    this.onClearErrorMessages,
+    this.shouldShowAccountCreatedDialog,
+    this.user,
+    this.resetShouldShowSuccessDialog,
   });
 
   LoginPageState copyWith({
@@ -51,6 +64,13 @@ class LoginPageState {
     String businessName,
     String emailAddress,
     String password,
+    String loginErrorMessage,
+    String createAccountErrorMessage,
+    bool mainButtonsVisible,
+    bool showResendMessage,
+    bool navigateToHome,
+    bool shouldShowAccountCreatedDialog,
+    FirebaseUser user,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -61,6 +81,9 @@ class LoginPageState {
     Function() onLoginSelected,
     Function() onForgotPasswordSelected,
     Function() onResendEmailVerificationSelected,
+    Function(bool) updateMainButtonVisible,
+    Function() onClearErrorMessages,
+    Function() resetShouldShowSuccessDialog,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -78,6 +101,16 @@ class LoginPageState {
       onLoginSelected: onLoginSelected ?? this.onLoginSelected,
       onForgotPasswordSelected: onForgotPasswordSelected ?? this.onForgotPasswordSelected,
       onResendEmailVerificationSelected: onResendEmailVerificationSelected ?? this.onResendEmailVerificationSelected,
+      mainButtonsVisible: mainButtonsVisible ?? this.mainButtonsVisible,
+      showResendMessage: showResendMessage ?? this.showResendMessage,
+      updateMainButtonVisible: updateMainButtonVisible ?? this.updateMainButtonVisible,
+      navigateToHome: navigateToHome ?? this.navigateToHome,
+      loginErrorMessage: loginErrorMessage ?? this.loginErrorMessage,
+      createAccountErrorMessage: createAccountErrorMessage ?? this.createAccountErrorMessage,
+      onClearErrorMessages: onClearErrorMessages ?? this.onClearErrorMessages,
+      shouldShowAccountCreatedDialog: shouldShowAccountCreatedDialog ?? this.shouldShowAccountCreatedDialog,
+      user: user ?? this.user,
+      resetShouldShowSuccessDialog: resetShouldShowSuccessDialog ?? this.resetShouldShowSuccessDialog,
     );
   }
 
@@ -88,6 +121,13 @@ class LoginPageState {
       businessName: store.state.loginPageState.businessName,
       emailAddress: store.state.loginPageState.emailAddress,
       password: store.state.loginPageState.password,
+      mainButtonsVisible: store.state.loginPageState.mainButtonsVisible,
+      showResendMessage: store.state.loginPageState.showResendMessage,
+      navigateToHome: store.state.loginPageState.navigateToHome,
+      loginErrorMessage: store.state.loginPageState.loginErrorMessage,
+      createAccountErrorMessage: store.state.loginPageState.createAccountErrorMessage,
+      shouldShowAccountCreatedDialog: store.state.loginPageState.shouldShowAccountCreatedDialog,
+      user: store.state.loginPageState.user,
       onFirstNameChanged: (firstName) => store.dispatch(UpdateFirstNameAction(store.state.loginPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(UpdateLastNameAction(store.state.loginPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(UpdateBusinessNameAction(store.state.loginPageState, businessName)),
@@ -97,7 +137,13 @@ class LoginPageState {
       onContinueWithGoogleSubmitted: () => store.dispatch(ContinueWithGoogleAction(store.state.loginPageState)),
       onLoginSelected: () => store.dispatch(LoginAction(store.state.loginPageState)),
       onForgotPasswordSelected: () => store.dispatch(ForgotPasswordSelectedAction(store.state.loginPageState)),
-      onResendEmailVerificationSelected: () => store.dispatch(ResendEmailVerificationAction(store.state.loginPageState)),
+      onResendEmailVerificationSelected: () {
+        store.dispatch(ResendEmailVerificationAction(store.state.loginPageState));
+        store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
+      },
+      updateMainButtonVisible: (visible) => store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, visible)),
+      onClearErrorMessages: () => store.dispatch(ClearErrorMessagesAction(store.state.loginPageState)),
+      resetShouldShowSuccessDialog: () => store.dispatch((ClearShowAccountCreatedDialogFlagAction(store.state.loginPageState))),
     );
   }
 
@@ -107,16 +153,26 @@ class LoginPageState {
     businessName: '',
     emailAddress: '',
     password: '',
+    navigateToHome: false,
+    mainButtonsVisible: true,
+    showResendMessage: false,
     onFirstNameChanged: null,
     onLastNameChanged: null,
     onBusinessNameChanged: null,
     onEmailAddressNameChanged: null,
     onPasswordChanged: null,
+    shouldShowAccountCreatedDialog: false,
     onCreateAccountSubmitted: null,
     onContinueWithGoogleSubmitted: null,
     onLoginSelected: null,
+    user: null,
+    resetShouldShowSuccessDialog: null,
     onForgotPasswordSelected: null,
     onResendEmailVerificationSelected: null,
+    updateMainButtonVisible: null,
+    loginErrorMessage:'',
+    createAccountErrorMessage: '',
+    onClearErrorMessages: null,
   );
 
   @override
@@ -126,6 +182,10 @@ class LoginPageState {
       businessName.hashCode ^
       emailAddress.hashCode ^
       password.hashCode ^
+      onClearErrorMessages.hashCode ^
+      mainButtonsVisible.hashCode ^
+      showResendMessage.hashCode ^
+      updateMainButtonVisible.hashCode ^
       onFirstNameChanged.hashCode ^
       onLastNameChanged.hashCode ^
       onBusinessNameChanged.hashCode ^
@@ -135,6 +195,12 @@ class LoginPageState {
       onContinueWithGoogleSubmitted.hashCode ^
       onLoginSelected.hashCode ^
       onResendEmailVerificationSelected.hashCode ^
+      navigateToHome.hashCode ^
+      resetShouldShowSuccessDialog.hashCode ^
+      loginErrorMessage.hashCode ^
+      user.hashCode ^
+      shouldShowAccountCreatedDialog.hashCode ^
+      createAccountErrorMessage.hashCode ^
       onForgotPasswordSelected.hashCode ;
 
   @override
@@ -146,14 +212,24 @@ class LoginPageState {
               businessName == other.businessName &&
               emailAddress == other.emailAddress &&
               password == other.password &&
+              mainButtonsVisible == other.mainButtonsVisible &&
+              showResendMessage == other.showResendMessage &&
               onResendEmailVerificationSelected == other.onResendEmailVerificationSelected &&
               onFirstNameChanged == other.onFirstNameChanged &&
               onLastNameChanged == other.onLastNameChanged &&
+              user == other.user &&
+              shouldShowAccountCreatedDialog == other.shouldShowAccountCreatedDialog &&
               onBusinessNameChanged == other.onBusinessNameChanged &&
               onEmailAddressNameChanged == other.onEmailAddressNameChanged &&
               onPasswordChanged == other.onPasswordChanged &&
               onCreateAccountSubmitted == other.onCreateAccountSubmitted &&
               onContinueWithGoogleSubmitted == other.onContinueWithGoogleSubmitted &&
               onLoginSelected == other.onLoginSelected &&
+              navigateToHome == other.navigateToHome &&
+              resetShouldShowSuccessDialog == other.resetShouldShowSuccessDialog &&
+              loginErrorMessage == other.loginErrorMessage &&
+              createAccountErrorMessage == other.createAccountErrorMessage &&
+              updateMainButtonVisible == other.updateMainButtonVisible &&
+              onClearErrorMessages == other.onClearErrorMessages &&
               onForgotPasswordSelected == other.onForgotPasswordSelected;
 }

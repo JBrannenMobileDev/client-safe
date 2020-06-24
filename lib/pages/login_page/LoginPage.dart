@@ -5,11 +5,11 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
 import 'package:dandylight/pages/login_page/LoginPageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/DandyLightTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/widgets/login_animations/TranslationImage.dart';
 import 'package:dandylight/widgets/login_animations/TranslationWidget.dart';
 import 'package:flutter/cupertino.dart';
@@ -17,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -49,6 +48,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   AnimationController _controllerCreateAccount;
   AnimationController _controllerSunIn;
   AnimationController _controllerLoginView;
+  AnimationController _controllerErrorShake;
   Tween<Offset> peachMountainOffsetTween;
   Tween<Offset> peachDarkMountainOffsetTween;
   Tween<Offset> blueDarkMountainOffsetTween;
@@ -62,8 +62,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Tween<double> sunHeightTween;
   Tween<double> sunRadiusTween;
   String selectedButton;
-
-  bool mainButtonsHidden = false;
 
   @override
   void initState() {
@@ -104,6 +102,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       vsync: this,
     )..addListener(() =>
         setState(() {}));
+
+    _controllerErrorShake = new AnimationController(
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
 
     peachMountainOffsetTween = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),
@@ -181,6 +185,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _controllerCreateAccount.dispose();
     _controllerSunIn.dispose();
     _controllerLoginView.dispose();
+    _controllerErrorShake.dispose();
   }
 
   Animation<Offset> get backArrowTranslation => backArrowOffsetTween.animate(
@@ -282,8 +287,32 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         onInit: (appState) {
           appState.dispatch(CheckForCurrentUserAction(appState.state.loginPageState));
         },
+        onWillChange: (pageStateCurrent, pageStatePrevious) {
+          if(pageStatePrevious.mainButtonsVisible != pageStateCurrent.mainButtonsVisible){
+            if(pageStateCurrent.mainButtonsVisible){
+              _controllerLoginView.forward();
+            }else {
+              _controllerLoginView.reverse();
+            }
+          }
+        },
+        onDidChange: (pageState) {
+          if(pageState.navigateToHome) {
+            _onStartAnimationForGoingToHomePage();
+          }
+          if(pageState.createAccountErrorMessage.isNotEmpty){
+            _controllerErrorShake.reset();
+            _controllerErrorShake.forward();
+          }
+          if(pageState.shouldShowAccountCreatedDialog){
+            UserOptionsUtil.showAccountCreatedDialog(context, pageState.user);
+            pageState.resetShouldShowSuccessDialog();
+            _onBackPressed(pageState);
+          }
+        },
         converter: (Store<AppState> store) => LoginPageState.fromStore(store),
         builder: (BuildContext context, LoginPageState pageState) => Scaffold(
+          resizeToAvoidBottomPadding: false,
           backgroundColor: Color(ColorConstants.getBlueLight()),
           body: Stack(
             alignment: Alignment.topCenter,
@@ -461,20 +490,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         margin: EdgeInsets.only(top: 16.0),
                         child: GestureDetector(
                           onTap: () {
-                            if(!mainButtonsHidden){
-                              _controllerLoginView.forward();
-                              setState(() {
-                                mainButtonsHidden = true;
-                              });
+                            if(pageState.mainButtonsVisible){
+                              pageState.updateMainButtonVisible(false);
                             }else {
-                              _controllerLoginView.reverse();
-                              setState(() {
-                                mainButtonsHidden = false;
-                              });
+                              pageState.updateMainButtonVisible(true);
                             }
                           },
                           child: Text(
-                            mainButtonsHidden ? 'Create account' : 'Sign in',
+                            pageState.mainButtonsVisible ? 'Sign in' : 'Create account',
                             style: TextStyle(
                               fontSize: 22.0,
                               fontFamily: 'simple',
@@ -488,6 +511,53 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
+          pageState.showResendMessage ? SlideTransition(
+            position: lightPeachMountainsStep1,
+            child:Container(
+                height: MediaQuery.of(context).size.height,
+                alignment: Alignment.bottomCenter,
+                margin: EdgeInsets.only(bottom: 332.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'Your email verification has expired.',
+                      style: TextStyle(
+                        fontSize: 18.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        pageState.onResendEmailVerificationSelected();
+                      },
+                      child: Container(
+                        height: 32.0,
+                        width: 88.0,
+                        margin: EdgeInsets.only(left: 8.0),
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPeachDark()),
+                            borderRadius: BorderRadius.circular(24.0)
+                        ),
+                        child: Text(
+                          'Resend',
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ) : SizedBox(),
               SlideTransition(
                 position: lightPeachMountainsStep1,
                 child: Container(
@@ -503,6 +573,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           onTap: () {
 
                           },
+                          //TODO convert to LoginTextField
                           child: Container(
                             padding: EdgeInsets.only(left: 24.0),
                             alignment: Alignment.centerLeft,
@@ -536,6 +607,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           onTap: () {
 
                           },
+                          //TODO convert to LoginTextField
                           child: Container(
                             margin: EdgeInsets.only(top: 16.0),
                             padding: EdgeInsets.only(left: 24.0),
@@ -568,7 +640,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         position: showLoginButtonsStep,
                         child: GestureDetector(
                           onTap: () {
-
+//                            pageState.onLoginSelected();
+                              _onStartAnimationForGoingToHomePage();
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 16.0),
@@ -748,10 +821,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         color: Color(ColorConstants.getPrimaryWhite()),
                         iconSize: 36,
                         onPressed: () {
-                          selectedButton = null;
-                          _controllerCreateAccount.reverse();
-                          _controllerLogoOut.reverse();
-                          _controller.forward();
+                          _onBackPressed(pageState);
                         },
                       ),
                     controller: _controller,
@@ -799,6 +869,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 },
                 capitalization: TextCapitalization.words,
                 enabled: true,
+                obscureText: false,
               ),
               LoginTextField(
                 controller: lastNameTextController,
@@ -817,6 +888,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 },
                 capitalization: TextCapitalization.words,
                 enabled: true,
+                obscureText: false,
               ),
               LoginTextField(
                 controller: businessNameTextController,
@@ -835,6 +907,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 },
                 capitalization: TextCapitalization.words,
                 enabled: true,
+                obscureText: false,
               ),
               LoginTextField(
                 controller: emailTextController,
@@ -855,36 +928,51 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 },
                 capitalization: TextCapitalization.none,
                 enabled: true,
+                obscureText: false,
               ),
               selectedButton == CREATE_ACCOUNT ? LoginTextField(
-                controller: passwordTextController,
-                hintText: 'Password',
-                labelText: 'Password',
-                inputType: TextInputType.visiblePassword,
-                height: 64.0,
-                inputTypeError: 'Password name is required',
-                onTextInputChanged: (password) => pageState.onPasswordChanged(password),
-                onEditingCompleted: null,
-                keyboardAction: TextInputAction.done,
-                focusNode: passwordFocusNode,
-                onFocusAction: null,
-                capitalization: TextCapitalization.none,
-                enabled: true,
+                  controller: passwordTextController,
+                  hintText: 'Password',
+                  labelText: 'Password',
+                  inputType: TextInputType.visiblePassword,
+                  height: 64.0,
+                  inputTypeError: 'Password name is required',
+                  onTextInputChanged: (password) => pageState.onPasswordChanged(password),
+                  onEditingCompleted: null,
+                  keyboardAction: TextInputAction.done,
+                  focusNode: passwordFocusNode,
+                  onFocusAction: null,
+                  capitalization: TextCapitalization.none,
+                  enabled: true,
+                  obscureText: true,
               ) : SizedBox(),
-              selectedButton == CREATE_ACCOUNT ? Container(
+          Container(
+            margin: EdgeInsets.only(bottom: 256.0),
+            child: selectedButton == CREATE_ACCOUNT ? ScaleTransition(
+                  scale: Tween(begin: 0.0, end: 1.0).animate(
+                    CurvedAnimation(
+                      parent: _controllerErrorShake,
+                      curve: new Interval(
+                        0.0,
+                        0.5,
+                        curve: Curves.elasticOut,
+                      ),
+                    ),
+                  ),
+                  child: Container(
                 margin: EdgeInsets.only(top: 8.0, left: 42.0, right: 42.0, bottom: 128.0),
-                alignment: Alignment.center,
                 child: Text(
-                  'Password must be at least 8 characters long, include one upper case and one lower case letter, one number, and one special character.',
+                  'Error: ' + (pageState.createAccountErrorMessage.isNotEmpty ? pageState.createAccountErrorMessage : 'Password must be at least 8 characters long, include one upper case and one lower case letter, one number, and one special character.'),
                   textAlign: TextAlign.start,
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 22.0,
                     fontFamily: 'simple',
                     fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.getPrimaryWhite()),
+                    color: Color(pageState.createAccountErrorMessage.isNotEmpty ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
                   ),
                 ),
-              ) : SizedBox()
+              ),
+              ) : SizedBox()),
             ],
           ),
         ),
@@ -892,5 +980,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     } else {
       return SizedBox();
     }
+  }
+
+  void _onBackPressed(LoginPageState pageState) {
+    selectedButton = null;
+    _controllerCreateAccount.reverse();
+    _controllerLogoOut.reverse();
+    _controller.forward();
+    pageState.onClearErrorMessages();
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart';
 
 class VibrateUtil {
@@ -15,5 +17,12 @@ class VibrateUtil {
 
   static void vibrate() async {
     HapticFeedback.vibrate();
+  }
+
+  static void vibrateMultiple() async {
+    HapticFeedback.heavyImpact();
+    Timer(const Duration(milliseconds: 100), () {
+      HapticFeedback.heavyImpact();
+    });
   }
 }

@@ -2,14 +2,18 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:flutter/services.dart';
 import 'package:redux/redux.dart';
 
 import 'LoginPageActions.dart';
@@ -36,35 +40,85 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser user = await _auth.currentUser();
     if (user != null && user.isEmailVerified) {
-      //go to home
-    } else {
+      store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+    } else if(user != null && !user.isEmailVerified) {
+      DandyToastUtil.showToast('Email verification required', Color(ColorConstants.getPrimaryColor()));
+      store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
+    }
       await _auth.signInWithEmailAndPassword(email: store.state.loginPageState.emailAddress, password: store.state.loginPageState.password)
           .then((authResult) => {
-        if(authResult.user != null && user.isEmailVerified) {
-          //go to home
+        if(authResult.user != null && authResult.user.isEmailVerified) {
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true)),
+        } else if(authResult.user != null && !authResult.user.isEmailVerified){
+          DandyToastUtil.showToast('Email verification required', Color(ColorConstants.getPrimaryColor())),
+          store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true)),
         }
       }).catchError((error) {
-        print(error);
+        PlatformException exception = error;
+        String errorMessage = '';
+        switch(exception.code){
+          case 'FIRAuthErrorCodeInvalidEmail':
+          case 'FIRAuthErrorCodeUserDisabled':
+          case 'FIRAuthErrorCodeWrongPassword':
+            errorMessage = exception.message;
+            break;
+          default:
+            errorMessage = 'There was an error while attempting to sign in.';
+            break;
+        }
+        store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, errorMessage));
+        VibrateUtil.vibrateHeavy();
       });
-    }
   }
 
   void _createAccount(Store<AppState> store, CreateAccountAction action, next) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
-    FirebaseUser user = await _auth.currentUser();
-    if (user != null && user.isEmailVerified) {
-      NavigationUtil.onSuccessfulLogin(GlobalKeyUtil.instance.navigatorKey.currentContext);
-    } else if(user != null && !user.isEmailVerified){
-      _sendEmailVerification(user, 'Email verification sent');
-    } else {
-      FirebaseUser user = await FirebaseAuthentication()
-          .registerFirebaseUser(store.state.loginPageState.emailAddress, store.state.loginPageState.password, _auth)
-          .catchError((error) => print(error));
-      if(user.isEmailVerified){
-        NavigationUtil.onSuccessfulLogin(GlobalKeyUtil.instance.navigatorKey.currentContext);
-      } else {
-        _sendEmailVerification(user, 'Email verification sent');
+
+    if(store.state.loginPageState.firstName.isEmpty) {
+      store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, 'First name is required'));
+      VibrateUtil.vibrateMultiple();
+    } else if(store.state.loginPageState.lastName.isEmpty) {
+      store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, 'Last name is required'));
+      VibrateUtil.vibrateMultiple();
+    } else if(store.state.loginPageState.emailAddress.isNotEmpty && store.state.loginPageState.password.isNotEmpty){
+      FirebaseUser user = await FirebaseAuthentication().registerFirebaseUser(store.state.loginPageState.emailAddress, store.state.loginPageState.password, _auth)
+          .catchError((error) {
+        store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, error.message));
+        VibrateUtil.vibrateMultiple();
+      });
+      if(user != null && !user.isEmailVerified){
+        store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
+//        UserOptionsUtil.showAccountCreatedDialog(GlobalKeyUtil.instance.navigatorKey.currentContext, user);
+        List<Profile> userProfiles = await ProfileDao.getAll();
+        if(userProfiles.isNotEmpty) {
+          Profile updatedProfile = userProfiles.elementAt(0).copyWith(
+            firstName: store.state.loginPageState.firstName,
+            lastName: store.state.loginPageState.lastName,
+            businessName: store.state.loginPageState.businessName,
+            email: store.state.loginPageState.emailAddress,
+          );
+          ProfileDao.insertOrUpdate(updatedProfile);
+        } else {
+          Profile newProfile = Profile(
+            firstName: store.state.loginPageState.firstName,
+            lastName: store.state.loginPageState.lastName,
+            businessName: store.state.loginPageState.businessName,
+            email: store.state.loginPageState.emailAddress,
+          );
+          ProfileDao.insertOrUpdate(newProfile);
+        }
       }
+    } else {
+      String errorMessage = '';
+      if(store.state.loginPageState.emailAddress.isEmpty) {
+        errorMessage = 'Email address is required.';
+      }
+
+      if(store.state.loginPageState.lastName.isEmpty) {
+        errorMessage = 'Password is required.';
+      }
+      store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, errorMessage));
+      VibrateUtil.vibrateMultiple();
     }
   }
 
@@ -74,19 +128,19 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     if (user != null && user.isEmailVerified) {
       NavigationUtil.onSuccessfulLogin(GlobalKeyUtil.instance.navigatorKey.currentContext);
     }else if(user != null && !user.isEmailVerified){
-      //TODO show resend UI message by changing the mainButtonsVisible flag.
+      store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
     }
   }
 
-  void _sendEmailVerification(FirebaseUser user, String message) {
+  void _sendEmailVerification(FirebaseUser user, String message, Store<AppState> store) {
     user.sendEmailVerification();
     DandyToastUtil.showToast(message, Color(ColorConstants.getPrimaryColor()));
-    //TODO show login view  move mainButtonsVisible to pageState;
+    store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
   }
 
   void _resendEmailVerification(Store<AppState> store, ResendEmailVerificationAction action, next) async{
     final FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser user = await _auth.currentUser();
-    _sendEmailVerification(user, 'Email verification resent');
+    _sendEmailVerification(user, 'Email verification resent', store);
   }
 }

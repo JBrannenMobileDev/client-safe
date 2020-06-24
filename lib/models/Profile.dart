@@ -1,7 +1,3 @@
-import 'package:dandylight/models/ImportantDate.dart';
-import 'package:dandylight/models/Job.dart';
-import 'package:flutter/widgets.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class Profile{
   int id;
@@ -9,7 +5,7 @@ class Profile{
   String lastName;
   String email;
   String phone;
-  String gender;
+  String businessName;
   double latDefaultHome;
   double lngDefaultHome;
 
@@ -17,12 +13,36 @@ class Profile{
     this.id,
     this.firstName,
     this.lastName,
+    this.businessName,
     this.email,
     this.phone,
-    this.gender,
     this.latDefaultHome,
     this.lngDefaultHome,
   });
+
+  Profile copyWith({
+    int id,
+    String firstName,
+    String lastName,
+    String businessName,
+    String email,
+    String phone,
+    double latDefaultHome,
+    double lngDefaultHome,
+  }){
+    return Profile(
+      id: id ?? this.id,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+      businessName: businessName ?? this.businessName,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      latDefaultHome: latDefaultHome ?? this.latDefaultHome,
+      lngDefaultHome: lngDefaultHome ?? this.lngDefaultHome,
+    );
+  }
+
+
 
   Map<String, dynamic> toMap() {
     return {
@@ -31,7 +51,7 @@ class Profile{
       'lastName' : lastName,
       'email' : email,
       'phone' : phone,
-      'gender' : gender,
+      'businessName' : businessName,
       'latDefaultHome' : latDefaultHome,
       'lngDefaultHome' : lngDefaultHome,
     };
@@ -44,7 +64,7 @@ class Profile{
       lastName: map['lastName'],
       email: map['email'],
       phone: map['phone'],
-      gender: map['gender'],
+      businessName: map['businessName'],
       latDefaultHome: map['latDefaultHome'],
       lngDefaultHome: map['lngDefaultHome']
     );

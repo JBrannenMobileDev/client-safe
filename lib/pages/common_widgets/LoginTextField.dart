@@ -21,6 +21,7 @@ class LoginTextField extends StatelessWidget {
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
   final bool enabled;
+  final bool obscureText;
 
   LoginTextField({
       this.controller,
@@ -37,6 +38,7 @@ class LoginTextField extends StatelessWidget {
       this.labelText,
       this.onEditingCompleted,
       this.enabled,
+      this.obscureText,
   });
 
   @override
@@ -50,6 +52,7 @@ class LoginTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(32.0),
           ),
           child: TextFormField(
+            obscureText: obscureText,
             cursorColor: Color(ColorConstants.getPrimaryColor()),
             enabled: enabled,
             focusNode: focusNode,

@@ -1,6 +1,7 @@
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/login_page/LoginPageState.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 
 class UpdateFirstNameAction{
@@ -61,4 +62,51 @@ class CheckForCurrentUserAction{
 class ResendEmailVerificationAction{
   final LoginPageState pageState;
   ResendEmailVerificationAction(this.pageState);
+}
+
+class UpdateMainButtonsVisibleAction{
+  final LoginPageState pageState;
+  final bool mainButtonsVisible;
+  UpdateMainButtonsVisibleAction(this.pageState, this.mainButtonsVisible);
+}
+
+class UpdateShowResendMessageAction{
+  final LoginPageState pageState;
+  final bool showResendMessage;
+  UpdateShowResendMessageAction(this.pageState, this.showResendMessage);
+}
+
+class UpdateNavigateToHomeAction{
+  final LoginPageState pageState;
+  final bool navigateToHome;
+  UpdateNavigateToHomeAction(this.pageState, this.navigateToHome);
+}
+
+class SetSignInErrorMessageAction{
+  final LoginPageState pageState;
+  final String errorMessage;
+  SetSignInErrorMessageAction(this.pageState, this.errorMessage);
+}
+
+class SetCreateAccountErrorMessageAction{
+  final LoginPageState pageState;
+  final String errorMessage;
+  SetCreateAccountErrorMessageAction(this.pageState, this.errorMessage);
+}
+
+class SetShowAccountCreatedDialogAction{
+  final LoginPageState pageState;
+  final bool showAccountCreatedDialog;
+  final FirebaseUser user;
+  SetShowAccountCreatedDialogAction(this.pageState, this.showAccountCreatedDialog, this.user);
+}
+
+class ClearErrorMessagesAction{
+  final LoginPageState pageState;
+  ClearErrorMessagesAction(this.pageState);
+}
+
+class ClearShowAccountCreatedDialogFlagAction{
+  final LoginPageState pageState;
+  ClearShowAccountCreatedDialogFlagAction(this.pageState);
 }
