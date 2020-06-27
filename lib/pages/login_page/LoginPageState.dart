@@ -15,6 +15,10 @@ class LoginPageState {
   final bool showResendMessage;
   final bool navigateToHome;
   final bool shouldShowAccountCreatedDialog;
+  final bool showCreateAccountLoadingAnimation;
+  final bool showLoginLoadingAnimation;
+  final bool showLoginErrorAnimation;
+  final bool isUserVerified;
   final FirebaseUser user;
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
@@ -29,6 +33,9 @@ class LoginPageState {
   final Function(bool) updateMainButtonVisible;
   final Function() onClearErrorMessages;
   final Function() resetShouldShowSuccessDialog;
+  final Function(String) onLoginPasswordChanged;
+  final Function(String) onLoginEmailChanged;
+  final Function() onClearLoginErrorShake;
 
   LoginPageState({
     this.firstName,
@@ -56,6 +63,13 @@ class LoginPageState {
     this.shouldShowAccountCreatedDialog,
     this.user,
     this.resetShouldShowSuccessDialog,
+    this.showCreateAccountLoadingAnimation,
+    this.showLoginLoadingAnimation,
+    this.onLoginEmailChanged,
+    this.onLoginPasswordChanged,
+    this.showLoginErrorAnimation,
+    this.onClearLoginErrorShake,
+    this.isUserVerified,
   });
 
   LoginPageState copyWith({
@@ -70,6 +84,7 @@ class LoginPageState {
     bool showResendMessage,
     bool navigateToHome,
     bool shouldShowAccountCreatedDialog,
+    bool showLoginErrorAnimation,
     FirebaseUser user,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
@@ -84,6 +99,12 @@ class LoginPageState {
     Function(bool) updateMainButtonVisible,
     Function() onClearErrorMessages,
     Function() resetShouldShowSuccessDialog,
+    bool showCreateAccountLoadingAnimation,
+    bool showLoginLoadingAnimation,
+    Function(String) onLoginEmailChanged,
+    Function(String) onLoginPasswordChanged,
+    Function() onClearLoginErrorShake,
+    bool isUserVerified,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -111,6 +132,13 @@ class LoginPageState {
       shouldShowAccountCreatedDialog: shouldShowAccountCreatedDialog ?? this.shouldShowAccountCreatedDialog,
       user: user ?? this.user,
       resetShouldShowSuccessDialog: resetShouldShowSuccessDialog ?? this.resetShouldShowSuccessDialog,
+      showCreateAccountLoadingAnimation: showCreateAccountLoadingAnimation ?? this.showCreateAccountLoadingAnimation,
+      showLoginLoadingAnimation: showLoginLoadingAnimation ?? this.showLoginLoadingAnimation,
+      onLoginEmailChanged: onLoginPasswordChanged ?? this.onLoginEmailChanged,
+      onLoginPasswordChanged: onLoginPasswordChanged ?? this.onLoginPasswordChanged,
+      showLoginErrorAnimation: showLoginErrorAnimation ?? this.showLoginErrorAnimation,
+      onClearLoginErrorShake: onClearLoginErrorShake ?? this.onClearLoginErrorShake,
+      isUserVerified: isUserVerified ?? this.isUserVerified,
     );
   }
 
@@ -128,6 +156,10 @@ class LoginPageState {
       createAccountErrorMessage: store.state.loginPageState.createAccountErrorMessage,
       shouldShowAccountCreatedDialog: store.state.loginPageState.shouldShowAccountCreatedDialog,
       user: store.state.loginPageState.user,
+      showCreateAccountLoadingAnimation: store.state.loginPageState.showCreateAccountLoadingAnimation,
+      showLoginLoadingAnimation: store.state.loginPageState.showLoginLoadingAnimation,
+      showLoginErrorAnimation: store.state.loginPageState.showLoginErrorAnimation,
+      isUserVerified: store.state.loginPageState.isUserVerified,
       onFirstNameChanged: (firstName) => store.dispatch(UpdateFirstNameAction(store.state.loginPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(UpdateLastNameAction(store.state.loginPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(UpdateBusinessNameAction(store.state.loginPageState, businessName)),
@@ -144,6 +176,9 @@ class LoginPageState {
       updateMainButtonVisible: (visible) => store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, visible)),
       onClearErrorMessages: () => store.dispatch(ClearErrorMessagesAction(store.state.loginPageState)),
       resetShouldShowSuccessDialog: () => store.dispatch((ClearShowAccountCreatedDialogFlagAction(store.state.loginPageState))),
+      onLoginEmailChanged: (email) => store.dispatch(UpdateLoginEmailAction(store.state.loginPageState, email)),
+      onLoginPasswordChanged: (password) => store.dispatch(UpdateLoginPasswordAction(store.state.loginPageState, password)),
+      onClearLoginErrorShake: () => store.dispatch(ClearLoginErrorShake(store.state.loginPageState)),
     );
   }
 
@@ -153,9 +188,14 @@ class LoginPageState {
     businessName: '',
     emailAddress: '',
     password: '',
+    isUserVerified: false,
+    showLoginErrorAnimation: false,
+    onLoginEmailChanged: null,
+    onLoginPasswordChanged: null,
     navigateToHome: false,
     mainButtonsVisible: true,
     showResendMessage: false,
+    onClearLoginErrorShake: null,
     onFirstNameChanged: null,
     onLastNameChanged: null,
     onBusinessNameChanged: null,
@@ -164,6 +204,8 @@ class LoginPageState {
     shouldShowAccountCreatedDialog: false,
     onCreateAccountSubmitted: null,
     onContinueWithGoogleSubmitted: null,
+    showCreateAccountLoadingAnimation: false,
+    showLoginLoadingAnimation: false,
     onLoginSelected: null,
     user: null,
     resetShouldShowSuccessDialog: null,
@@ -179,14 +221,21 @@ class LoginPageState {
   int get hashCode =>
       firstName.hashCode ^
       lastName.hashCode ^
+      onLoginPasswordChanged.hashCode ^
+      onLoginEmailChanged.hashCode ^
       businessName.hashCode ^
+      showLoginErrorAnimation.hashCode ^
       emailAddress.hashCode ^
       password.hashCode ^
       onClearErrorMessages.hashCode ^
       mainButtonsVisible.hashCode ^
+      isUserVerified.hashCode ^
       showResendMessage.hashCode ^
       updateMainButtonVisible.hashCode ^
       onFirstNameChanged.hashCode ^
+      onClearLoginErrorShake.hashCode ^
+      showCreateAccountLoadingAnimation.hashCode ^
+      showLoginLoadingAnimation.hashCode ^
       onLastNameChanged.hashCode ^
       onBusinessNameChanged.hashCode ^
       onEmailAddressNameChanged.hashCode ^
@@ -207,17 +256,24 @@ class LoginPageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is LoginPageState &&
+              isUserVerified == other.isUserVerified &&
               firstName == other.firstName &&
               lastName == other.lastName &&
               businessName == other.businessName &&
+              showCreateAccountLoadingAnimation == other.showCreateAccountLoadingAnimation &&
+              showLoginLoadingAnimation == other.showLoginLoadingAnimation &&
               emailAddress == other.emailAddress &&
               password == other.password &&
+              onClearLoginErrorShake == other.onClearLoginErrorShake &&
+              onLoginPasswordChanged == other.onLoginPasswordChanged &&
+              onLoginEmailChanged == other.onLoginEmailChanged &&
               mainButtonsVisible == other.mainButtonsVisible &&
               showResendMessage == other.showResendMessage &&
               onResendEmailVerificationSelected == other.onResendEmailVerificationSelected &&
               onFirstNameChanged == other.onFirstNameChanged &&
               onLastNameChanged == other.onLastNameChanged &&
               user == other.user &&
+              showLoginErrorAnimation == other.showLoginErrorAnimation &&
               shouldShowAccountCreatedDialog == other.shouldShowAccountCreatedDialog &&
               onBusinessNameChanged == other.onBusinessNameChanged &&
               onEmailAddressNameChanged == other.onEmailAddressNameChanged &&

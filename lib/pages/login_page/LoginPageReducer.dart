@@ -1,4 +1,3 @@
-import 'package:dandylight/pages/login_page/ShowAccountCreatedDialog.dart';
 import 'package:redux/redux.dart';
 import 'LoginPageActions.dart';
 import 'LoginPageState.dart';
@@ -17,12 +16,60 @@ final loginPageReducer = combineReducers<LoginPageState>([
   TypedReducer<LoginPageState, ClearErrorMessagesAction>(_clearErrorMessages),
   TypedReducer<LoginPageState, SetShowAccountCreatedDialogAction>(_setShowAccountCreatedDialogAction),
   TypedReducer<LoginPageState, ClearShowAccountCreatedDialogFlagAction>(_resetShowAccountCreatedDialogFlag),
+  TypedReducer<LoginPageState, UpdateShowCreateAccountAnimation>(_updateShowCreateAccountAnimation),
+  TypedReducer<LoginPageState, UpdateShowLoginAnimation>(_updateShowLoginAnimation),
+  TypedReducer<LoginPageState, UpdateLoginEmailAction>(_updateLoginEmail),
+  TypedReducer<LoginPageState, UpdateLoginPasswordAction>(_updateLoginPassword),
+  TypedReducer<LoginPageState, AnimateLoginErrorMessageAction>(_animateLoginError),
+  TypedReducer<LoginPageState, ClearLoginErrorShake>(_clearLoginShake),
+  TypedReducer<LoginPageState, SetIsUserVerifiedAction>(_setIsVerified),
 ]);
+
+LoginPageState _setIsVerified(LoginPageState previousState, SetIsUserVerifiedAction action) {
+  return previousState.copyWith(
+    isUserVerified: action.isVerified,
+  );
+}
+
+LoginPageState _clearLoginShake(LoginPageState previousState, ClearLoginErrorShake action) {
+  return previousState.copyWith(
+    showLoginErrorAnimation: false,
+  );
+}
+
+LoginPageState _animateLoginError(LoginPageState previousState, AnimateLoginErrorMessageAction action) {
+  return previousState.copyWith(
+    showLoginErrorAnimation: action.show,
+  );
+}
+
+LoginPageState _updateLoginEmail(LoginPageState previousState, UpdateLoginEmailAction action) {
+  return previousState.copyWith(
+    emailAddress: action.email,
+  );
+}
+
+LoginPageState _updateLoginPassword(LoginPageState previousState, UpdateLoginPasswordAction action) {
+  return previousState.copyWith(
+    password: action.password,
+  );
+}
+
+LoginPageState _updateShowLoginAnimation(LoginPageState previousState, UpdateShowLoginAnimation action) {
+  return previousState.copyWith(
+    showLoginLoadingAnimation: action.show,
+  );
+}
+
+LoginPageState _updateShowCreateAccountAnimation(LoginPageState previousState, UpdateShowCreateAccountAnimation action) {
+  return previousState.copyWith(
+    showCreateAccountLoadingAnimation: action.show,
+  );
+}
 
 LoginPageState _resetShowAccountCreatedDialogFlag(LoginPageState previousState, ClearShowAccountCreatedDialogFlagAction action) {
   return previousState.copyWith(
     shouldShowAccountCreatedDialog: false,
-    user: null,
     mainButtonsVisible: false,
   );
 }
@@ -31,6 +78,8 @@ LoginPageState _setShowAccountCreatedDialogAction(LoginPageState previousState, 
   return previousState.copyWith(
     shouldShowAccountCreatedDialog: action.showAccountCreatedDialog,
     user: action.user,
+    showCreateAccountLoadingAnimation: false,
+    showResendMessage: false,
   );
 }
 
@@ -49,6 +98,7 @@ LoginPageState _setSignInError(LoginPageState previousState, SetSignInErrorMessa
 LoginPageState _setCreateAccountError(LoginPageState previousState, SetCreateAccountErrorMessageAction action) {
   return previousState.copyWith(
     createAccountErrorMessage: action.errorMessage,
+    showCreateAccountLoadingAnimation: false,
   );
 }
 

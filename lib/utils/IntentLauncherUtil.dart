@@ -54,7 +54,7 @@ class IntentLauncherUtil{
   }
 
   static Future shareInvoice(Invoice invoice) async{
-    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId));
+    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceNumber));
     ShareExtend.share(invoiceFile.path, "file");
   }
 

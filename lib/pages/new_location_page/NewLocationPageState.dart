@@ -7,7 +7,7 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
 class NewLocationPageState{
-  final int id;
+  final String documentId;
   final bool shouldClear;
   final bool locationUpdated;
   final String documentFilePath;
@@ -37,7 +37,7 @@ class NewLocationPageState{
   final LatLng currentMapLatLng;
 
   NewLocationPageState({
-    @required this.id,
+    @required this.documentId,
     @required this.shouldClear,
     @required this.locationName,
     @required this.pageViewIndex,
@@ -68,7 +68,7 @@ class NewLocationPageState{
   });
 
   NewLocationPageState copyWith({
-    int id,
+    String documentId,
     bool shouldClear,
     bool locationUpdate,
     String locationName,
@@ -99,7 +99,7 @@ class NewLocationPageState{
     LatLng currentMapLatLng,
   }){
     return NewLocationPageState(
-      id: id?? this.id,
+      documentId: documentId?? this.documentId,
       shouldClear: shouldClear?? this.shouldClear,
       locationName: locationName?? this.locationName,
       pageViewIndex: pageViewIndex ?? this.pageViewIndex,
@@ -131,7 +131,7 @@ class NewLocationPageState{
   }
 
   factory NewLocationPageState.initial() => NewLocationPageState(
-    id: null,
+    documentId: '',
     shouldClear: true,
     locationName: "",
     pageViewIndex: 0,
@@ -163,7 +163,7 @@ class NewLocationPageState{
 
   factory NewLocationPageState.fromStore(Store<AppState> store) {
     return NewLocationPageState(
-      id: store.state.newLocationPageState.id,
+      documentId: store.state.newLocationPageState.documentId,
       shouldClear: store.state.newLocationPageState.shouldClear,
       locationName: store.state.newLocationPageState.locationName,
       newLocationAddress: store.state.newLocationPageState.newLocationAddress,
@@ -199,7 +199,7 @@ class NewLocationPageState{
 
   @override
   int get hashCode =>
-      id.hashCode ^
+      documentId.hashCode ^
       searchText.hashCode ^
       selectedSearchLocation.hashCode ^
       locationsResults.hashCode ^
@@ -229,7 +229,7 @@ class NewLocationPageState{
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is NewLocationPageState &&
-              id == other.id &&
+              documentId == other.documentId &&
               searchText == other.searchText &&
               selectedSearchLocation == other.selectedSearchLocation &&
               locationsResults == other.locationsResults &&

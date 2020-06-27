@@ -99,8 +99,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobDeposit(Store<AppState> store, SaveDepositChangeAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
@@ -122,8 +122,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobTip(Store<AppState> store, SaveTipChangeAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
@@ -145,8 +145,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
@@ -168,8 +168,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
@@ -191,8 +191,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobName(Store<AppState> store, SaveJobNameChangeAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: action.pageState.jobTitleText,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
@@ -214,8 +214,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobLocation(Store<AppState> store, action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
@@ -236,7 +236,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<Location> locations = await LocationDao.getAll();
     store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations));
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
@@ -244,7 +244,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchPricePackages(Store<AppState> store, action, NextDispatcher next) async{
-    List<PriceProfile> priceProfiles = await PriceProfileDao.getAllSortedByName();
+    List<PriceProfile> priceProfiles = await PriceProfileDao.getAll();
     store.dispatch(SetPricingProfiles(store.state.jobDetailsPageState, priceProfiles));
   }
 
@@ -255,8 +255,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobWithNewTime(Store<AppState> store, UpdateJobTimeAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: store.state.jobDetailsPageState.job.selectedDate,
@@ -278,8 +278,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
+      documentId: store.state.jobDetailsPageState.job.documentId,
+      clientDocumentId: store.state.jobDetailsPageState.job.clientDocumentId,
       clientName: store.state.jobDetailsPageState.job.clientName,
       jobTitle: store.state.jobDetailsPageState.job.jobTitle,
       selectedDate: action.newDate,
@@ -313,7 +313,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action)async{
-    Client client = await ClientDao.getClientById(action.job.clientId);
+    Client client = await ClientDao.getClientById(action.job.clientDocumentId);
     next(action);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
   }
@@ -331,8 +331,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     action.job.completedStages = completedJobStages;
     action.job.stage = _getNextUncompletedStage(action.stageIndex, action.job.completedStages);
     Job jobToSave = Job(
-      id: action.job.id,
-      clientId: action.job.clientId,
+      documentId: action.job.documentId,
+      clientDocumentId: action.job.clientDocumentId,
       clientName: action.job.clientName,
       jobTitle: action.job.jobTitle,
       selectedDate: action.job.selectedDate,
@@ -381,8 +381,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       action.job.stage = JobStage.getStageFromIndex(1);
     }
     Job jobToSave = Job(
-      id: action.job.id,
-      clientId: action.job.clientId,
+      documentId: action.job.documentId,
+      clientDocumentId: action.job.clientDocumentId,
       clientName: action.job.clientName,
       jobTitle: action.job.jobTitle,
       selectedDate: action.job.selectedDate,

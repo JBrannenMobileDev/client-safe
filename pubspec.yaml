@@ -189,6 +189,7 @@ flutter:
     - assets/images/icons/facebook_icon_black.png
     - assets/images/icons/gmail_icon_black.png
     - assets/images/icons/reminder_icon_peach.png
+    - assets/images/icons/confirm_icon_gold.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

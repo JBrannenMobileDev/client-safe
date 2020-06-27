@@ -134,5 +134,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, CreateAccountAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, CheckForCurrentUserAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResendEmailVerificationAction>(LoginPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoginAction>(LoginPageMiddleware()));
   return middlewareList;
 }

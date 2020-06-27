@@ -12,6 +12,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:path_provider/path_provider.dart';
@@ -61,7 +62,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void saveMileageExpense(Store<AppState> store, NextDispatcher next, SaveMileageExpenseProfileAction action) async {
     MileageExpense expense = MileageExpense(
-      id: action.pageState.id,
+      documentId: action.pageState.documentId,
       totalMiles: action.pageState.milesDriven,
       isRoundTrip: !action.pageState.isOneWay,
       startLat: action.pageState.startLocation != null ? action.pageState.startLocation.latitude : action.pageState.profile.latDefaultHome,
@@ -108,19 +109,20 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void deleteExpense(Store<AppState> store, DeleteMileageExpenseAction action, NextDispatcher next) async{
-    await MileageExpenseDao.delete(action.pageState.id);
+    MileageExpenseDao.delete(action.pageState.documentId);
     store.dispatch(FetchMileageExpenses(store.state.incomeAndExpensesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   void getLocationData(Store<AppState> store, NextDispatcher next, FetchLastKnowPosition action) async {
-    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    List<Location> locations = await LocationDao.getAll();
     store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations));
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(MileageDocumentPathAction(store.state.newMileageExpensePageState, path));
-    List<Profile> profiles = await ProfileDao.getAll();
-    Profile profile = profiles.elementAt(0);
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    FirebaseUser user = await _auth.currentUser();
+    Profile profile = await ProfileDao.getByUid(user.uid);
     if(profile != null) {
       store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
       if(profile.hasDefaultHome()){
@@ -140,7 +142,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     Profile profile = store.state.newMileageExpensePageState.profile;
     profile.latDefaultHome = action.homeLocation.latitude;
     profile.lngDefaultHome = action.homeLocation.longitude;
-    await ProfileDao.insertOrUpdate(profile);
+    ProfileDao.update(profile);
     store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
   }
 

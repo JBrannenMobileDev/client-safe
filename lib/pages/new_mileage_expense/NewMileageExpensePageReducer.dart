@@ -25,7 +25,7 @@ NewMileageExpensePageState _setExistingMileageExpense(NewMileageExpensePageState
   return previousState.copyWith(
     isOneWay: !action.expense.isRoundTrip,
     shouldClear: false,
-    id: action.expense.id,
+    documentId: action.expense.documentId,
     expenseDate: action.expense.charge.chargeDate,
   );
 }

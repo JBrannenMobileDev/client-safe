@@ -19,7 +19,7 @@ class NewInvoicePageState {
   static const String DISCOUNT_STAGE_AMOUNT_SELECTION = 'amountSelection';
   static const String DISCOUNT_STAGE_STAGE_ADDED = 'stageAdded';
 
-  final int id;
+  final String documentId;
   final int invoiceNumber;
   final int pageViewIndex;
   final bool saveButtonEnabled;
@@ -82,7 +82,7 @@ class NewInvoicePageState {
   final Function() generateInvoicePdf;
 
   NewInvoicePageState({
-    @required this.id,
+    @required this.documentId,
     @required this.invoiceNumber,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
@@ -146,7 +146,7 @@ class NewInvoicePageState {
   });
 
   NewInvoicePageState copyWith({
-    int id,
+    String documentId,
     int invoiceNumber,
     int pageViewIndex,
     bool saveButtonEnabled,
@@ -209,7 +209,7 @@ class NewInvoicePageState {
     Function() generateInvoicePdf,
   }){
     return NewInvoicePageState(
-      id: id?? this.id,
+      documentId: documentId?? this.documentId,
       invoiceNumber: invoiceNumber ?? this.invoiceNumber,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
@@ -277,7 +277,7 @@ class NewInvoicePageState {
     List<JobStage> selectedStagesInitial = List();
     selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
     return NewInvoicePageState(
-        id: null,
+        documentId: '',
         invoiceNumber: 0,
         pageViewIndex: 0,
         saveButtonEnabled: false,
@@ -343,7 +343,7 @@ class NewInvoicePageState {
 
   factory NewInvoicePageState.fromStore(Store<AppState> store) {
     return NewInvoicePageState(
-      id: store.state.newInvoicePageState.id,
+      documentId: store.state.newInvoicePageState.documentId,
       invoiceNumber: store.state.newInvoicePageState.invoiceNumber,
       pageViewIndex: store.state.newInvoicePageState.pageViewIndex,
       saveButtonEnabled: store.state.newInvoicePageState.saveButtonEnabled,
@@ -409,7 +409,7 @@ class NewInvoicePageState {
 
   @override
   int get hashCode =>
-      id.hashCode ^
+      documentId.hashCode ^
       invoicePdfSaved.hashCode ^
       invoiceNumber.hashCode ^
       onDepositActionPressed.hashCode ^
@@ -464,7 +464,7 @@ class NewInvoicePageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is NewInvoicePageState &&
-          id == other.id &&
+          documentId == other.documentId &&
           invoicePdfSaved == other.invoicePdfSaved &&
           invoiceNumber == other.invoiceNumber &&
           onDepositActionPressed == other.onDepositActionPressed &&

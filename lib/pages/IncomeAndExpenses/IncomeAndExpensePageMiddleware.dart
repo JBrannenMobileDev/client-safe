@@ -14,6 +14,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:redux/redux.dart';
 
 class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
@@ -87,8 +88,8 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobTip(Store<AppState> store, SaveTipIncomeChangeAction action, NextDispatcher next) async{
     Job jobToSave = Job(
-      id: store.state.incomeAndExpensesPageState.selectedJob.id,
-      clientId: store.state.incomeAndExpensesPageState.selectedJob.clientId,
+      documentId: store.state.incomeAndExpensesPageState.selectedJob.documentId,
+      clientDocumentId: store.state.incomeAndExpensesPageState.selectedJob.clientDocumentId,
       clientName: store.state.incomeAndExpensesPageState.selectedJob.clientName,
       jobTitle: store.state.incomeAndExpensesPageState.selectedJob.jobTitle,
       selectedDate: store.state.incomeAndExpensesPageState.selectedJob.selectedDate,
@@ -134,32 +135,25 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{
-    //use this code to delete all invoice in the app for testing only.
-//    List<Invoice> invoices = await InvoiceDao.getAllSortedByDueDate();
-//    for(Invoice invoice in invoices){
-//      await InvoiceDao.deleteByInvoice(invoice);
-//    }
-      List<Profile> profiles = await ProfileDao.getAll();
-      if(profiles != null && profiles.length > 0) {
-        store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profiles.elementAt(0)));
-      }else {
-        Profile profile = Profile(latDefaultHome: 0.0, lngDefaultHome: 0.0);
-        await ProfileDao.insertOrUpdate(profile);
+      final FirebaseAuth _auth = FirebaseAuth.instance;
+      FirebaseUser user = await _auth.currentUser();
+      Profile profile = await ProfileDao.getByUid(user.uid);
+      if(profile != null) {
         store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profile));
       }
       store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
   }
 
   void onEditInvoice(Store<AppState> store, InvoiceEditSelected action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.invoice.jobId);
+    Job job = await JobDao.getJobById(action.invoice.jobDocumentId);
     store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
     store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, job));
   }
 
   void updateInvoiceToSent(Store<AppState> store, OnInvoiceSentAction action, NextDispatcher next) async {
     action.invoice.sentDate = DateTime.now();
-    await InvoiceDao.update(action.invoice);
-    Job invoiceJob = await JobDao.getJobById(action.invoice.jobId);
+    InvoiceDao.update(action.invoice);
+    Job invoiceJob = await JobDao.getJobById(action.invoice.jobDocumentId);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, invoiceJob, 7));
   }

@@ -19,7 +19,7 @@ class AddTipJobListItem extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
             ),
-            color: pageState.filteredJobs.elementAt(index).id == pageState.selectedJob?.id ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
+            color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
         onPressed: () {
           pageState.onJobSelected(pageState.filteredJobs.elementAt(index));
         },
@@ -52,7 +52,7 @@ class AddTipJobListItem extends StatelessWidget {
                           fontSize: 20.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
-                          color: pageState.filteredJobs.elementAt(index).id == pageState.selectedJob?.id ? Colors.white : Color(ColorConstants.primary_black),
+                          color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Colors.white : Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],

@@ -70,7 +70,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           )
       );
       Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(latLng.latitude, latLng.longitude);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAll()));
     }
   }
 
@@ -92,7 +92,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           )
       );
       Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(selectedLocation.latitude, selectedLocation.longitude);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAll()));
     }
   }
 
@@ -117,7 +117,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           )
       );
       Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAll()));
 
       Directory appDocDir = await getApplicationDocumentsDirectory();
       String path = appDocDir.path;
@@ -145,7 +145,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       );
 
       Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAll()));
     }
   }
 }

@@ -1,7 +1,6 @@
-import 'package:dandylight/models/Invoice.dart';
 
 class PriceProfile{
-  int id;
+  String documentId;
   String profileName;
   String rateType;
   double flatRate;
@@ -10,7 +9,7 @@ class PriceProfile{
   String icon;
 
   PriceProfile({
-    this.id,
+    this.documentId,
     this.profileName,
     this.rateType,
     this.flatRate,
@@ -21,7 +20,6 @@ class PriceProfile{
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
       'profileName': profileName,
       'rateType' : rateType,
       'flatRate' : flatRate,
@@ -31,9 +29,9 @@ class PriceProfile{
     };
   }
 
-  static PriceProfile fromMap(Map<String, dynamic> map) {
+  static PriceProfile fromMap(Map<String, dynamic> map, String documentId) {
     return PriceProfile(
-      id: map['id'],
+      documentId: documentId,
       profileName: map['profileName'],
       rateType: map['rateType'],
       flatRate: map['flatRate'],

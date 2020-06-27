@@ -246,6 +246,20 @@ class _DashboardPageState extends State<DashboardPage>
                               margin: EdgeInsets.only(right: 16.0),
                               height: 28.0,
                               width: 28.0,
+                              child: Image.asset(ImageUtil.collectionIcons.elementAt(2)),
+                            ),
+                          ),
+                        ),
+                        SlideTransition(
+                          position: offsetAnimationDown,
+                          child: GestureDetector(
+                            onTap: () {
+                              NavigationUtil.onCalendarSelected(context);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 16.0),
+                              height: 28.0,
+                              width: 28.0,
                               child: Image.asset(
                                   'assets/images/icons/calendar_bold_white.png'),
                             ),

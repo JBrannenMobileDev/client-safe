@@ -22,69 +22,76 @@ class ShowAccountCreatedDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return Scaffold(
       backgroundColor: Colors.transparent,
-      child: Container(
-        height: 300.0,
-        padding: EdgeInsets.only(left: 32.0, right: 32.0),
-        decoration: BoxDecoration(
-          color: Color(ColorConstants.getPrimaryWhite()),
-          borderRadius: BorderRadius.circular(16.0),
-        ),
+      body: Center(
 
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
+        child: Container(
+          alignment: Alignment.center,
+          height: 324.0,
+          margin: EdgeInsets.only(left: 16.0, right: 16.0),
+          padding: EdgeInsets.only(left: 32.0, right: 32.0),
+          decoration: BoxDecoration(
+            color: Color(ColorConstants.getPrimaryWhite()),
+            borderRadius: BorderRadius.circular(16.0),
+          ),
 
-            Padding(
-              padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-              child: Text(
-                'Success!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
-              ),
-            ),
-            Container(
-              child: Image.asset('assets/images/job_progress/check_mark.png'),
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-              child: Text(
-                'Next we will send you a verification email. After verification is complete you will be able to sign in to DandyLight.',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                user.sendEmailVerification();
-                Navigator.of(context).pop();
-              },
-              child: Container(
-                alignment: Alignment.centerRight,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
                 child: Text(
-                  'OK',
-                  textAlign: TextAlign.end,
+                  'Success!',
+                  textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontSize: 24.0,
+                    fontSize: 42.0,
                     fontFamily: 'simple',
-                    fontWeight: FontWeight.w800,
-                    color: Color(ColorConstants.getPeachDark()),
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPrimaryColor()),
                   ),
                 ),
               ),
-            ),
-          ],
+              Container(
+                height: 96.0,
+                width: 96.0,
+                child: Image.asset('assets/images/icons/confirm_icon_gold.png'),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
+                child: Text(
+                  'Next we will send you a verification email. After verification is complete you will be able to sign in to DandyLight.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.primary_black),
+                  ),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  user.sendEmailVerification();
+                  Navigator.of(context).pop();
+                },
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    'OK',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      fontSize: 24.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w800,
+                      color: Color(ColorConstants.getPeachDark()),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

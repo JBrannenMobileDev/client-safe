@@ -10,7 +10,7 @@ class NewPricingProfilePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final int id;
+  final String documentId;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -33,7 +33,7 @@ class NewPricingProfilePageState {
   final Function(String) onItemRateTextChanged;
 
   NewPricingProfilePageState({
-    @required this.id,
+    @required this.documentId,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -57,7 +57,7 @@ class NewPricingProfilePageState {
   });
 
   NewPricingProfilePageState copyWith({
-    int id,
+    String documentId,
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
@@ -80,7 +80,7 @@ class NewPricingProfilePageState {
     Function(String) onItemRateTextChanged,
   }){
     return NewPricingProfilePageState(
-      id: id?? this.id,
+      documentId: documentId?? this.documentId,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
@@ -105,7 +105,7 @@ class NewPricingProfilePageState {
   }
 
   factory NewPricingProfilePageState.initial() => NewPricingProfilePageState(
-        id: null,
+        documentId: null,
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
@@ -131,7 +131,7 @@ class NewPricingProfilePageState {
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {
     return NewPricingProfilePageState(
       itemRate: store.state.pricingProfilePageState.itemRate,
-      id: store.state.pricingProfilePageState.id,
+      documentId: store.state.pricingProfilePageState.documentId,
       pageViewIndex: store.state.pricingProfilePageState.pageViewIndex,
       saveButtonEnabled: store.state.pricingProfilePageState.saveButtonEnabled,
       shouldClear: store.state.pricingProfilePageState.shouldClear,
@@ -156,7 +156,7 @@ class NewPricingProfilePageState {
 
   @override
   int get hashCode =>
-      id.hashCode ^
+      documentId.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
@@ -177,7 +177,7 @@ class NewPricingProfilePageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is NewPricingProfilePageState &&
-          id == other.id &&
+          documentId == other.documentId &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&

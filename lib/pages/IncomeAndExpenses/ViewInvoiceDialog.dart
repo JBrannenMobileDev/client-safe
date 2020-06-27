@@ -123,7 +123,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                       Padding(
                         padding: EdgeInsets.only(right: 16.0),
                         child: Text(
-                          "Invoice " + invoice.invoiceId.toString(),
+                          "Invoice " + invoice.invoiceNumber.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22.0,
@@ -209,7 +209,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                         children: <Widget>[
                                           GestureDetector(
                                             onTap: () async {
-                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceId);
+                                              String path = await PdfUtil.getInvoiceFilePath(invoice.invoiceNumber);
                                               Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PdfViewerPage(path: path)));
                                             },
                                             child: Container(

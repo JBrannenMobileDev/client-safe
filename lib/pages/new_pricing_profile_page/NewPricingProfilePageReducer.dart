@@ -56,7 +56,7 @@ NewPricingProfilePageState _updateName(NewPricingProfilePageState previousState,
 
 NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previousState, LoadExistingPricingProfileData action){
   return previousState.copyWith(
-    id: action.profile.id,
+    documentId: action.profile.documentId,
     shouldClear: false,
     profileName: action.profile.profileName,
     profileIcon: action.profile.icon,

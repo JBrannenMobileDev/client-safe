@@ -1,5 +1,8 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:dandylight/widgets/bouncing_loading_animation/BouncingLoadingAnimatedIcon.dart';
+import 'package:dandylight/widgets/bouncing_loading_animation/LoginLoadingWidget.dart';
+import 'package:flutter/services.dart';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
@@ -31,16 +34,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   static const String SIGN_IN_WITH_FACEBOOK = 'Sign in with Facebook';
   static const String CREATE_ACCOUNT = 'Create Account';
 
-  TextEditingController firstNameTextController;
-  TextEditingController lastNameTextController;
-  TextEditingController businessNameTextController;
-  TextEditingController emailTextController;
-  TextEditingController passwordTextController;
+  TextEditingController firstNameTextController = TextEditingController();
+  TextEditingController lastNameTextController = TextEditingController();
+  TextEditingController businessNameTextController = TextEditingController();
+  TextEditingController emailTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+  TextEditingController loginEmailTextController = TextEditingController();
+  TextEditingController loginPasswordTextController = TextEditingController();
   final firstNameFocusNode = FocusNode();
   final lastNameFocusNode = FocusNode();
   final businessNameFocusNode = FocusNode();
   final emailFocusNode = FocusNode();
   final passwordFocusNode = FocusNode();
+  final loginEmailFocusNode = FocusNode();
+  final loginPasswordFocusNode = FocusNode();
 
   AnimationController _controller;
   AnimationController _controllerLogoIn;
@@ -49,6 +56,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   AnimationController _controllerSunIn;
   AnimationController _controllerLoginView;
   AnimationController _controllerErrorShake;
+  AnimationController _controllerLoginErrorShake;
+  AnimationController _controllerSlideUp;
   Tween<Offset> peachMountainOffsetTween;
   Tween<Offset> peachDarkMountainOffsetTween;
   Tween<Offset> blueDarkMountainOffsetTween;
@@ -56,6 +65,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Tween<Offset> backArrowOffsetTween;
   Tween<Offset> mainButtonsOffsetTween;
   Tween<Offset> loginButtonsOffsetTween;
+  Tween<Offset> slideUpTween;
   Tween<double> opacityTween;
   Tween<double> marginTopTween;
   Tween<double> marginTopCreateAccountTween;
@@ -66,6 +76,22 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    loginEmailFocusNode.addListener(() {
+      if(loginEmailFocusNode.hasFocus || loginPasswordFocusNode.hasFocus){
+        _controllerSlideUp.forward();
+      } else {
+        _controllerSlideUp.reverse();
+      }
+    });
+
+    loginPasswordFocusNode.addListener(() {
+      if(loginEmailFocusNode.hasFocus || loginPasswordFocusNode.hasFocus){
+        _controllerSlideUp.forward();
+      } else {
+        _controllerSlideUp.reverse();
+      }
+    });
+
     _controller = new AnimationController(
       duration: const Duration(milliseconds: 2000),
       reverseDuration: const Duration(milliseconds: 500),
@@ -109,6 +135,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       vsync: this,
     );
 
+    _controllerLoginErrorShake = new AnimationController(
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
+    _controllerSlideUp = new AnimationController(
+      duration: const Duration(milliseconds: 500),
+      reverseDuration: const Duration(milliseconds: 500),
+      vsync: this,
+    );
+
     peachMountainOffsetTween = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),
       end: Offset.zero,
@@ -144,6 +182,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       end: Offset.zero,
     );
 
+    slideUpTween = Tween<Offset>(
+      begin: Offset.zero,
+      end: const Offset(0.0, -0.225),
+    );
+
     opacityTween = new Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -174,6 +217,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _controller.forward();
     _controllerLogoIn.forward();
     _controllerSunIn.forward();
+    _controllerLoginErrorShake.forward();
   }
 
   @override
@@ -186,7 +230,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _controllerSunIn.dispose();
     _controllerLoginView.dispose();
     _controllerErrorShake.dispose();
+    _controllerSlideUp.dispose();
+    _controllerLoginErrorShake.dispose();
   }
+
+  Animation<Offset> get slideUpAnimation => slideUpTween.animate(
+    new CurvedAnimation(
+      parent: _controllerSlideUp,
+      curve: Curves.ease,
+    ),
+  );
 
   Animation<Offset> get backArrowTranslation => backArrowOffsetTween.animate(
     new CurvedAnimation(
@@ -281,9 +334,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     ),
   );
 
+  bool updateCurrentUserStatus = false;
+
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, LoginPageState>(
+  Widget build(BuildContext context) {
+    return StoreConnector<AppState, LoginPageState>(
         onInit: (appState) {
           appState.dispatch(CheckForCurrentUserAction(appState.state.loginPageState));
         },
@@ -309,6 +364,13 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             pageState.resetShouldShowSuccessDialog();
             _onBackPressed(pageState);
           }
+          if(pageState.showLoginErrorAnimation){
+            _controllerLoginErrorShake.reset();
+            _controllerLoginErrorShake.forward();
+            pageState.onClearLoginErrorShake();
+          }
+          if(pageState.emailAddress.isNotEmpty && loginEmailTextController.text != pageState.emailAddress)loginEmailTextController.text = pageState.emailAddress;
+          if(pageState.password.isNotEmpty && loginPasswordTextController.text != pageState.password)loginPasswordTextController.text = pageState.password;
         },
         converter: (Store<AppState> store) => LoginPageState.fromStore(store),
         builder: (BuildContext context, LoginPageState pageState) => Scaffold(
@@ -353,12 +415,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   lightPeachMountainsStep1,
                 ],
               ),
-              SlideTransition(
+              !pageState.isUserVerified ? SlideTransition(
                 position: lightPeachMountainsStep1,
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   height: MediaQuery.of(context).size.height,
-                  margin: EdgeInsets.only(bottom: 48.0),
+                  margin: EdgeInsets.only(bottom: 32.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -366,7 +428,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     position: hideMainButtonsStep,
                     child: GestureDetector(
                         onTap: () {
-                          DandyToastUtil.showToast('Login with Facebook is not ready yet.', Color(ColorConstants.getPrimaryColor()));
+                          DandyToastUtil.showToast('Sign in with Facebook is not ready yet.', Color(ColorConstants.getPrimaryColor()));
                         },
                         child: Container(
                           padding: EdgeInsets.only(left: 24.0),
@@ -406,15 +468,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     position: hideMainButtonsStep,
                     child: GestureDetector(
                         onTap: () {
-                          _controller.reverse();
-                          Timer(const Duration(milliseconds: 500), () {
-                            setState(() {
-                              selectedButton = SIGN_IN_WITH_GOOGLE;
-                            });
-                          });
-                          Timer(const Duration(milliseconds: 250), () {
-                            _controllerCreateAccount.forward();
-                          });
+                          DandyToastUtil.showToast('Sign in with Google is not ready yet.', Color(ColorConstants.getPrimaryColor()));
+//                          _controller.reverse();
+//                          Timer(const Duration(milliseconds: 500), () {
+//                            setState(() {
+//                              selectedButton = SIGN_IN_WITH_GOOGLE;
+//                            });
+//                          });
+//                          Timer(const Duration(milliseconds: 250), () {
+//                            _controllerCreateAccount.forward();
+//                          });
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 16.0),
@@ -510,138 +573,127 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     ],
                   ),
                 ),
-              ),
-          pageState.showResendMessage ? SlideTransition(
+              ) : SizedBox(),
+          !pageState.isUserVerified ? pageState.showResendMessage ? SlideTransition(
             position: lightPeachMountainsStep1,
             child:Container(
                 height: MediaQuery.of(context).size.height,
-                alignment: Alignment.bottomCenter,
-                margin: EdgeInsets.only(bottom: 332.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'Your email verification has expired.',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        pageState.onResendEmailVerificationSelected();
-                      },
-                      child: Container(
-                        height: 32.0,
-                        width: 88.0,
-                        margin: EdgeInsets.only(left: 8.0),
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            color: Color(ColorConstants.getPeachDark()),
-                            borderRadius: BorderRadius.circular(24.0)
-                        ),
-                        child: Text(
-                          'Resend',
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                      alignment: Alignment.bottomCenter,
+                      margin: EdgeInsets.only(bottom: 316.0),
+                      child: ScaleTransition(
+                        scale: Tween(begin: 0.0, end: 1.0).animate(
+                          CurvedAnimation(
+                            parent: _controllerLoginErrorShake,
+                            curve: new Interval(
+                              0.0,
+                              0.5,
+                              curve: Curves.elasticOut,
+                            ),
                           ),
                         ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text(
+                              'Verification is incomplete.',
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                pageState.onResendEmailVerificationSelected();
+                              },
+                              child: Container(
+                                height: 32.0,
+                                width: 88.0,
+                                margin: EdgeInsets.only(left: 8.0),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                    color: Color(ColorConstants.getPeachDark()),
+                                    borderRadius: BorderRadius.circular(24.0)),
+                                child: Text(
+                                  'Resend',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color:
+                                        Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ],
-                ),
-              ),
-          ) : SizedBox(),
-              SlideTransition(
+                  )
+                : SizedBox() : SizedBox(),
+            SlideTransition(
+              position: slideUpAnimation,
+            child: SlideTransition(
                 position: lightPeachMountainsStep1,
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   height: MediaQuery.of(context).size.height,
-                  margin: EdgeInsets.only(bottom: 90.0),
+                  margin: EdgeInsets.only(bottom: 74.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SlideTransition(
                         position: showLoginButtonsStep,
-                        child: GestureDetector(
-                          onTap: () {
-
+                        child: LoginTextField(
+                          controller: loginEmailTextController,
+                          hintText: 'Email address',
+                          labelText: 'Email address',
+                          inputType: TextInputType.emailAddress,
+                          height: 64.0,
+                          inputTypeError: 'Email address is required',
+                          onTextInputChanged: (email) => pageState.onLoginEmailChanged(email),
+                          onEditingCompleted: null,
+                          keyboardAction: TextInputAction.next,
+                          focusNode: loginEmailFocusNode,
+                          onFocusAction: () {
+                            loginEmailFocusNode.unfocus();
+                            FocusScope.of(context).requestFocus(loginPasswordFocusNode);
                           },
-                          //TODO convert to LoginTextField
-                          child: Container(
-                            padding: EdgeInsets.only(left: 24.0),
-                            alignment: Alignment.centerLeft,
-                            height: 64.0,
-                            width: 300.0,
-                            decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                borderRadius: BorderRadius.circular(36.0)),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                Text(
-                                  'Email address',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
+                          capitalization: TextCapitalization.none,
+                          enabled: true,
+                          obscureText: false,
+                        ),
+                      ),
+                      SlideTransition(
+                        position: showLoginButtonsStep,
+                        child: LoginTextField(
+                          controller: loginPasswordTextController,
+                          hintText: 'Password',
+                          labelText: 'Password',
+                          inputType: TextInputType.text,
+                          height: 64.0,
+                          inputTypeError: 'Password is required',
+                          onTextInputChanged: (password) => pageState.onLoginPasswordChanged(password),
+                          onEditingCompleted: null,
+                          keyboardAction: TextInputAction.done,
+                          focusNode: loginPasswordFocusNode,
+                          onFocusAction: () {
+                            loginPasswordFocusNode.unfocus();
+                            _controllerSlideUp.reverse();
+                          },
+                          capitalization: TextCapitalization.none,
+                          enabled: true,
+                          obscureText: true,
                         ),
                       ),
                       SlideTransition(
                         position: showLoginButtonsStep,
                         child: GestureDetector(
                           onTap: () {
-
-                          },
-                          //TODO convert to LoginTextField
-                          child: Container(
-                            margin: EdgeInsets.only(top: 16.0),
-                            padding: EdgeInsets.only(left: 24.0),
-                            alignment: Alignment.centerLeft,
-                            height: 64.0,
-                            width: 300.0,
-                            decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                borderRadius: BorderRadius.circular(36.0)),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: <Widget>[
-                                Text(
-                                  'Password',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      SlideTransition(
-                        position: showLoginButtonsStep,
-                        child: GestureDetector(
-                          onTap: () {
-//                            pageState.onLoginSelected();
-                              _onStartAnimationForGoingToHomePage();
+                            pageState.onLoginSelected();
                           },
                           child: Container(
                             margin: EdgeInsets.only(top: 16.0),
@@ -651,7 +703,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             decoration: BoxDecoration(
                                 color: Color(ColorConstants.getPrimaryWhite()),
                                 borderRadius: BorderRadius.circular(36.0)),
-                            child: Text(
+                            child: pageState.showLoginLoadingAnimation ? Padding(
+                              padding: EdgeInsets.only(top: 22.0),
+                              child: Center(child: BouncingLoadingAnimatedIcon()),
+                            ) : Text(
                               'Sign in',
                               textAlign: TextAlign.center,
                               style: TextStyle(
@@ -668,6 +723,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
+          ),
               SafeArea(
                 child: ScaleTransition(
                   scale: Tween(begin: 0.0, end: 1.0).animate(
@@ -769,7 +825,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.getPeachDark()),
                           borderRadius: BorderRadius.circular(32.0)),
-                      child: Text(
+                      child: pageState.showCreateAccountLoadingAnimation ? Center(child: LoginLoadingWidget()) : Text(
                         'Submit',
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -797,7 +853,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           color: Color(ColorConstants.getPeachDark()),
                           borderRadius: BorderRadius.circular(32.0)),
                       child: Text(
-                        'Continue with Google sign in',
+                        'Sign in with Google',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24.0,
@@ -835,6 +891,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           ),
         ),
       );
+  }
 
   void _onStartAnimationForGoingToHomePage(){
     _controller.reverse();
@@ -935,8 +992,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   hintText: 'Password',
                   labelText: 'Password',
                   inputType: TextInputType.visiblePassword,
-                  height: 64.0,
-                  inputTypeError: 'Password name is required',
+                  height: 64.0,                 inputTypeError: 'Password name is required',
                   onTextInputChanged: (password) => pageState.onPasswordChanged(password),
                   onEditingCompleted: null,
                   keyboardAction: TextInputAction.done,
@@ -988,5 +1044,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     _controllerLogoOut.reverse();
     _controller.forward();
     pageState.onClearErrorMessages();
+    if(pageState.emailAddress.isNotEmpty)loginEmailTextController.text = pageState.emailAddress;
+    if(pageState.password.isNotEmpty)loginPasswordTextController.text = pageState.password;
   }
 }

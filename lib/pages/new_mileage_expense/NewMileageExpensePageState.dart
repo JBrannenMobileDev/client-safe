@@ -14,7 +14,7 @@ class NewMileageExpensePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final int id;
+  final String documentId;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -50,7 +50,7 @@ class NewMileageExpensePageState {
   final String documentPath;
 
   NewMileageExpensePageState({
-    @required this.id,
+    @required this.documentId,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -87,7 +87,7 @@ class NewMileageExpensePageState {
   });
 
   NewMileageExpensePageState copyWith({
-    int id,
+    String documentId,
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
@@ -124,7 +124,7 @@ class NewMileageExpensePageState {
     String documentPath,
   }){
     return NewMileageExpensePageState(
-      id: id?? this.id,
+      documentId: documentId?? this.documentId,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
@@ -162,7 +162,7 @@ class NewMileageExpensePageState {
   }
 
   factory NewMileageExpensePageState.initial() => NewMileageExpensePageState(
-    id: null,
+    documentId: '',
     pageViewIndex: 0,
     saveButtonEnabled: false,
     shouldClear: true,
@@ -200,7 +200,7 @@ class NewMileageExpensePageState {
 
   factory NewMileageExpensePageState.fromStore(Store<AppState> store) {
     return NewMileageExpensePageState(
-      id: store.state.newMileageExpensePageState.id,
+      documentId: store.state.newMileageExpensePageState.documentId,
       pageViewIndex: store.state.newMileageExpensePageState.pageViewIndex,
       saveButtonEnabled: store.state.newMileageExpensePageState.saveButtonEnabled,
       shouldClear: store.state.newMileageExpensePageState.shouldClear,
@@ -242,7 +242,7 @@ class NewMileageExpensePageState {
 
   @override
   int get hashCode =>
-      id.hashCode ^
+      documentId.hashCode ^
       startLocationName.hashCode ^
       endLocationName.hashCode ^
       isOneWay.hashCode ^
@@ -281,7 +281,7 @@ class NewMileageExpensePageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is NewMileageExpensePageState &&
-          id == other.id &&
+          documentId == other.documentId &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           filterType == other.filterType &&

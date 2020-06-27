@@ -8,7 +8,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,22 +41,38 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     FirebaseUser user = await _auth.currentUser();
     if (user != null && user.isEmailVerified) {
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-    } else if(user != null && !user.isEmailVerified) {
-      DandyToastUtil.showToast('Email verification required', Color(ColorConstants.getPrimaryColor()));
-      store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
-    }
-      await _auth.signInWithEmailAndPassword(email: store.state.loginPageState.emailAddress, password: store.state.loginPageState.password)
-          .then((authResult) => {
-        if(authResult.user != null && authResult.user.isEmailVerified) {
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true)),
-        } else if(authResult.user != null && !authResult.user.isEmailVerified){
-          DandyToastUtil.showToast('Email verification required', Color(ColorConstants.getPrimaryColor())),
-          store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true)),
+    } else {
+      store
+          .dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+      await _auth
+          .signInWithEmailAndPassword(
+              email: store.state.loginPageState.emailAddress,
+              password: store.state.loginPageState.password)
+          .then((authResult) async {
+        if (authResult.user != null && authResult.user.isEmailVerified) {
+          Profile profile = await ProfileDao.getByUid(authResult.user.uid).then((profile) => profile.copyWith(
+              firstName: store.state.loginPageState.firstName,
+              lastName: store.state.loginPageState.lastName,
+              businessName: store.state.loginPageState.businessName,
+              email: store.state.loginPageState.emailAddress,
+              signedIn: true,
+            )
+          );
+          ProfileDao.update(profile);
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+        } else if (user != null && !user.isEmailVerified) {
+          store.dispatch(
+              UpdateShowResendMessageAction(store.state.loginPageState, true));
+          VibrateUtil.vibrateHeavy();
+          store.dispatch(
+              AnimateLoginErrorMessageAction(store.state.loginPageState, true));
         }
+        store.dispatch(
+            UpdateShowLoginAnimation(store.state.loginPageState, false));
       }).catchError((error) {
         PlatformException exception = error;
         String errorMessage = '';
-        switch(exception.code){
+        switch (exception.code) {
           case 'FIRAuthErrorCodeInvalidEmail':
           case 'FIRAuthErrorCodeUserDisabled':
           case 'FIRAuthErrorCodeWrongPassword':
@@ -66,14 +82,18 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             errorMessage = 'There was an error while attempting to sign in.';
             break;
         }
-        store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, errorMessage));
+        store.dispatch(SetSignInErrorMessageAction(
+            store.state.loginPageState, errorMessage));
         VibrateUtil.vibrateHeavy();
+        store.dispatch(
+            UpdateShowLoginAnimation(store.state.loginPageState, false));
       });
+    }
   }
 
   void _createAccount(Store<AppState> store, CreateAccountAction action, next) async {
+    store.dispatch(UpdateShowCreateAccountAnimation(store.state.loginPageState, true));
     final FirebaseAuth _auth = FirebaseAuth.instance;
-
     if(store.state.loginPageState.firstName.isEmpty) {
       store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, 'First name is required'));
       VibrateUtil.vibrateMultiple();
@@ -87,26 +107,16 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         VibrateUtil.vibrateMultiple();
       });
       if(user != null && !user.isEmailVerified){
-        store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
-//        UserOptionsUtil.showAccountCreatedDialog(GlobalKeyUtil.instance.navigatorKey.currentContext, user);
-        List<Profile> userProfiles = await ProfileDao.getAll();
-        if(userProfiles.isNotEmpty) {
-          Profile updatedProfile = userProfiles.elementAt(0).copyWith(
-            firstName: store.state.loginPageState.firstName,
-            lastName: store.state.loginPageState.lastName,
-            businessName: store.state.loginPageState.businessName,
-            email: store.state.loginPageState.emailAddress,
-          );
-          ProfileDao.insertOrUpdate(updatedProfile);
-        } else {
-          Profile newProfile = Profile(
-            firstName: store.state.loginPageState.firstName,
-            lastName: store.state.loginPageState.lastName,
-            businessName: store.state.loginPageState.businessName,
-            email: store.state.loginPageState.emailAddress,
-          );
-          ProfileDao.insertOrUpdate(newProfile);
-        }
+        await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
+        Profile profile = await ProfileDao.getByUid(user.uid).then((profile) => profile.copyWith(
+          firstName: store.state.loginPageState.firstName,
+          lastName: store.state.loginPageState.lastName,
+          businessName: store.state.loginPageState.businessName,
+          email: store.state.loginPageState.emailAddress,
+          signedIn: false,
+        )
+        );
+        ProfileDao.update(profile);
       }
     } else {
       String errorMessage = '';
@@ -125,10 +135,29 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
   void _checkForCurrentUser(Store<AppState> store, CheckForCurrentUserAction action, next) async{
     final FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser user = await _auth.currentUser();
-    if (user != null && user.isEmailVerified) {
-      NavigationUtil.onSuccessfulLogin(GlobalKeyUtil.instance.navigatorKey.currentContext);
+
+    Profile profile;
+    if(user != null){
+      UidUtil().setUid(user.uid);
+      profile = await ProfileDao.getByUid(user.uid);
+      if(profile != null) {
+        store.dispatch(UpdateEmailAddressAction(store.state.loginPageState, profile.email));
+      }
+    }
+
+    if (user != null && user.isEmailVerified && profile != null && (profile.signedIn ?? false)) {
+      store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.isEmailVerified));
+      store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+      store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+      await Future.delayed(const Duration(milliseconds: 2500), () {
+        UidUtil().setUid(profile.uid);
+        store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+      });
     }else if(user != null && !user.isEmailVerified){
       store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
+      store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+    }else if(user != null && user.isEmailVerified && !profile.signedIn){
+      store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
     }
   }
 

@@ -110,3 +110,44 @@ class ClearShowAccountCreatedDialogFlagAction{
   final LoginPageState pageState;
   ClearShowAccountCreatedDialogFlagAction(this.pageState);
 }
+
+class UpdateShowCreateAccountAnimation{
+  final LoginPageState pageState;
+  final bool show;
+  UpdateShowCreateAccountAnimation(this.pageState, this.show);
+}
+
+class UpdateShowLoginAnimation{
+  final LoginPageState pageState;
+  final bool show;
+  UpdateShowLoginAnimation(this.pageState, this.show);
+}
+
+class UpdateLoginEmailAction{
+  final LoginPageState pageState;
+  final String email;
+  UpdateLoginEmailAction(this.pageState, this.email);
+}
+
+class UpdateLoginPasswordAction{
+  final LoginPageState pageState;
+  final String password;
+  UpdateLoginPasswordAction(this.pageState, this.password);
+}
+
+class AnimateLoginErrorMessageAction{
+  final LoginPageState pageState;
+  final bool show;
+  AnimateLoginErrorMessageAction(this.pageState, this.show);
+}
+
+class ClearLoginErrorShake{
+  final LoginPageState pageState;
+  ClearLoginErrorShake(this.pageState);
+}
+
+class SetIsUserVerifiedAction{
+  final LoginPageState pageState;
+  bool isVerified;
+  SetIsUserVerifiedAction(this.pageState, this.isVerified);
+}

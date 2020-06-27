@@ -18,7 +18,7 @@ class NewJobClientListWidget extends StatelessWidget {
             shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
             ),
-            color: pageState.filteredClients.elementAt(clientIndex).id == pageState.selectedClient?.id ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
+            color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
         onPressed: () {
           pageState.onClientSelected(pageState.filteredClients.elementAt(clientIndex));
         },
@@ -53,7 +53,7 @@ class NewJobClientListWidget extends StatelessWidget {
                           fontSize: 20.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
-                          color: pageState.filteredClients.elementAt(clientIndex).id == pageState.selectedClient?.id ? Colors.white : Color(ColorConstants.primary_black),
+                          color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Colors.white : Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],

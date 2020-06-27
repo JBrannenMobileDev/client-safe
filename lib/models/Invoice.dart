@@ -8,10 +8,10 @@ class Invoice {
   static const String DISCOUNT_TYPE_FIXED_AMOUNT = "Fixed amount";
   static const String DISCOUNT_TYPE_PERCENTAGE = "Percentage";
 
-  int id;
-  int clientId;
-  int invoiceId;
-  int jobId;
+  String documentId;
+  String clientDocumentId;
+  int invoiceNumber;
+  String jobDocumentId;
   String clientName;
   String jobName;
   DateTime createdDate;
@@ -27,10 +27,10 @@ class Invoice {
   List<LineItem> lineItems;
 
   Invoice({
-    this.id,
-    this.clientId,
-    this.invoiceId,
-    this.jobId,
+    this.documentId,
+    this.clientDocumentId,
+    this.invoiceNumber,
+    this.jobDocumentId,
     this.clientName,
     this.jobName,
     this.createdDate,
@@ -48,12 +48,11 @@ class Invoice {
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
-      'clientId': clientId,
-      'invoiceId': invoiceId,
+      'clientDocumentId': clientDocumentId,
+      'invoiceNumber': invoiceNumber,
       'clientName': clientName,
       'jobName' :jobName,
-      'jobId' : jobId,
+      'jobDocumentId' : jobDocumentId,
       'createdDate': createdDate?.millisecondsSinceEpoch ?? null,
       'sentDate': sentDate?.millisecondsSinceEpoch ?? null,
       'dueDate' : dueDate?.millisecondsSinceEpoch ?? null,
@@ -68,20 +67,20 @@ class Invoice {
     };
   }
 
-  static Invoice fromMap(Map<String, dynamic> map) {
+  static Invoice fromMap(Map<String, dynamic> map, String documentId) {
     return Invoice(
-      id: map['id'],
-      clientId: map['clientId'],
-      invoiceId: map['invoiceId'],
+      documentId: documentId,
+      clientDocumentId: map['clientDocumentId'],
+      invoiceNumber: map['invoiceNumber'],
       clientName: map['clientName'],
       jobName: map['jobName'],
-      jobId: map['jobId'],
+      jobDocumentId: map['jobDocumentId'],
       createdDate: map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       sentDate: map['sentDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['sentDate']) : null,
       dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : null,
       depositPaid: map['depositPaid'],
       invoicePaid: map['invoicePaid'],
-      priceProfile: PriceProfile.fromMap(map['priceProfile']),
+      priceProfile: PriceProfile.fromMap(map['priceProfile'], ''),
       discount: map['discount'],
       total: map['total'],
       unpaidAmount: map['unpaidAmount'],

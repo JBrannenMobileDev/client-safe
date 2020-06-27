@@ -86,7 +86,7 @@ class DocumentsCard extends StatelessWidget {
 
     return FlatButton(
       onPressed: () async {
-        UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobId), onSendInvoiceSelected);
+        UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
       },
       child: Container(
         height: 48.0,
