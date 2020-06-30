@@ -19,7 +19,7 @@ NewSingleExpensePageState _setSelectedSingleExpense(NewSingleExpensePageState pr
     expenseName: action.singleExpense.expenseName,
     expenseDate: action.singleExpense.charge.chargeDate,
     expenseCost: action.singleExpense.charge.chargeAmount,
-    documentId: action.singleExpense.documentId,
+    id: action.singleExpense.id,
     shouldClear: false,
   );
 }
@@ -50,7 +50,7 @@ NewSingleExpensePageState _updateName(NewSingleExpensePageState previousState, U
 //fix this method
 NewSingleExpensePageState _loadPriceProfile(NewSingleExpensePageState previousState, LoadExistingPricingProfileData action){
   return previousState.copyWith(
-    documentId: action.singleExpense.documentId,
+    id: action.singleExpense.id,
     shouldClear: false,
     expenseName: action.singleExpense.expenseName,
     expenseDate: action.singleExpense.charge.chargeDate,

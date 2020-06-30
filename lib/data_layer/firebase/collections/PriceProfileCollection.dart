@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
@@ -13,10 +12,10 @@ class PriceProfileCollection {
         .add(priceProfile.toMap());
   }
 
-  void deleteJob(String documentId) {
+  Future<void> deleteJob(String documentId) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('priceProfiles')
@@ -29,18 +28,22 @@ class PriceProfileCollection {
 
   Future<PriceProfile> getJob(String documentId) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('priceProfiles')
         .document(documentId)
         .get()
-        .then((snapshot) => PriceProfile.fromMap(snapshot.data, snapshot.documentID));
+        .then((priceProfileSnapshot) {
+            PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data);
+            profile.documentId = priceProfileSnapshot.documentID;
+            return profile;
+        });
   }
 
   Future<List<PriceProfile>> getAll(String uid) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('priceProfiles')
@@ -50,10 +53,10 @@ class PriceProfileCollection {
 
 
 
-  void updateJob(PriceProfile priceProfile) {
+  Future<void> updateJob(PriceProfile priceProfile) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('priceProfiles')
@@ -67,7 +70,9 @@ class PriceProfileCollection {
   List<PriceProfile> _buildPriceProfilesList(QuerySnapshot jobs) {
     List<PriceProfile> priceProfilesList = List();
     for(DocumentSnapshot priceProfileSnapshot in jobs.documents){
-      priceProfilesList.add(PriceProfile.fromMap(priceProfileSnapshot.data, priceProfileSnapshot.documentID));
+      PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data);
+      profile.documentId = priceProfileSnapshot.documentID;
+      priceProfilesList.add(profile);
     }
     return priceProfilesList;
   }

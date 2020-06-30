@@ -16,7 +16,7 @@ class NewContactPageState {
   static const String ERROR_INSTAGRAM_URL_INVALID = "invalidInstaUrl";
   static const String ERROR_MISSING_CONTACT_INFO = "missingContactInfo";
 
-  final String clientDocumentId;
+  final int id;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool isFemale;
@@ -67,7 +67,7 @@ class NewContactPageState {
   final Function() onStartNewJobSelected;
 
   NewContactPageState({
-    @required this.clientDocumentId,
+    @required this.id,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.isFemale,
@@ -119,7 +119,7 @@ class NewContactPageState {
   });
 
   NewContactPageState copyWith({
-    String clientDocumentId,
+    int id,
     int pageViewIndex,
     saveButtonEnabled,
     bool isFemale,
@@ -170,7 +170,7 @@ class NewContactPageState {
     Function() onStartNewJobSelected,
   }){
     return NewContactPageState(
-      clientDocumentId: clientDocumentId?? this.clientDocumentId,
+      id: id?? this.id,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       isFemale: isFemale?? this.isFemale,
@@ -223,7 +223,7 @@ class NewContactPageState {
   }
 
   factory NewContactPageState.initial() => NewContactPageState(
-        clientDocumentId: '',
+        id: null,
         pageViewIndex: 0,
         saveButtonEnabled: false,
         isFemale: true,
@@ -276,7 +276,7 @@ class NewContactPageState {
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
     return NewContactPageState(
-      clientDocumentId: store.state.newContactPageState.clientDocumentId,
+      id: store.state.newContactPageState.id,
       pageViewIndex: store.state.newContactPageState.pageViewIndex,
       saveButtonEnabled: store.state.newContactPageState.saveButtonEnabled,
       isFemale: store.state.newContactPageState.isFemale,
@@ -330,7 +330,7 @@ class NewContactPageState {
 
   @override
   int get hashCode =>
-      clientDocumentId.hashCode ^
+      id.hashCode ^
       client.hashCode ^
       onStartNewJobSelected.hashCode ^
       pageViewIndex.hashCode ^
@@ -383,7 +383,7 @@ class NewContactPageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is NewContactPageState &&
-          clientDocumentId == other.clientDocumentId &&
+          id == other.id &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           isFemale == other.isFemale &&

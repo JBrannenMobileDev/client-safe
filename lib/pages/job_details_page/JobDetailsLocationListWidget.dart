@@ -55,7 +55,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              pageState.selectedLocation.documentId != pageState.locations.elementAt(locationIndex).documentId
+              pageState.selectedLocation.id != pageState.locations.elementAt(locationIndex).id
                   ? Container(
                       height: _getItemWidthHeight(context),
                       margin:

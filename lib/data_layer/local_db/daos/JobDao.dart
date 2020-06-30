@@ -1,44 +1,79 @@
 import 'dart:async';
 
-import 'package:dandylight/data_layer/firebase/collections/JobCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 
 class JobDao extends Equatable{
-  static void insert(Job job) {
-    JobCollection().createJob(job);
+  static const String JOB_STORE_NAME = 'jobs';
+  // A Store with int keys and Map<String, dynamic> values.
+  // This Store acts like a persistent map, values of which are Client objects converted to Map
+  static final _jobStore = intMapStoreFactory.store(JOB_STORE_NAME);
+
+  // Private getter to shorten the amount of code needed to get the
+  // singleton instance of an opened database.
+  static Future<Database> get _db async => await SembastDb.instance.database;
+
+  static Future insert(Job job) async {
+    await _jobStore.add(await _db, job.toMap());
   }
 
   static Future insertOrUpdate(Job job) async {
-    bool alreadyExists = job.documentId.isNotEmpty;
-
+    List<Job> jobList = await getAllJobs();
+    bool alreadyExists = false;
+    for(Job singleJob in jobList){
+      if(singleJob.id == job.id){
+        alreadyExists = true;
+      }
+    }
     if(alreadyExists){
-      update(job);
+      await update(job);
     }else{
-      insert(job);
+      await insert(job);
     }
   }
 
-  static void update(Job job) {
-    JobCollection().updateJob(job);
+  static Future update(Job job) async {
+    // For filtering by key (ID), RegEx, greater than, and many other criteria,
+    // we use a Finder.
+    final finder = Finder(filter: Filter.byKey(job.id));
+    await _jobStore.update(
+      await _db,
+      job.toMap(),
+      finder: finder,
+    );
   }
 
-  static void delete(Job job) {
-    JobCollection().deleteJob(job.documentId);
+  static Future delete(Job job) async {
+    final finder = Finder(filter: Filter.byKey(job.id));
+    await _jobStore.delete(
+      await _db,
+      finder: finder,
+    );
   }
 
    static Future<List<Job>> getAllJobs() async {
-    return await JobCollection().getAll(UidUtil().getUid());
+    final recordSnapshots = await _jobStore.find(await _db);
+    return recordSnapshots.map((snapshot) {
+      final job = Job.fromMap(snapshot.value);
+      job.id = snapshot.key;
+      return job;
+    }).toList();
   }
 
   @override
   // TODO: implement props
   List<Object> get props => [];
 
-  static Future<Job> getJobById(String jobDocumentId) async{
-    return await JobCollection().getJob(jobDocumentId);
+  static Future<Job> getJobById(int jobId) async{
+    final finder = Finder(filter: Filter.equals('id', jobId));
+    final recordSnapshots = await _jobStore.find(await _db, finder: finder);
+    // Making a List<Client> out of List<RecordSnapshot>
+    return recordSnapshots.map((snapshot) {
+      final job = Job.fromMap(snapshot.value);
+      job.id = snapshot.key;
+      return job;
+    }).toList().elementAt(0);
   }
 }

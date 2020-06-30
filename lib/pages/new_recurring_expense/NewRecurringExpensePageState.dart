@@ -12,7 +12,7 @@ class NewRecurringExpensePageState {
   static const String BILLING_PERIOD_6MONTHS = '6months';
   static const String BILLING_PERIOD_1YEAR = '1year';
 
-  final String documentId;
+  final int id;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -33,7 +33,7 @@ class NewRecurringExpensePageState {
   final Function(bool) onAutoPaySelected;
 
   NewRecurringExpensePageState({
-    @required this.documentId,
+    @required this.id,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -55,7 +55,7 @@ class NewRecurringExpensePageState {
   });
 
   NewRecurringExpensePageState copyWith({
-    String documentId,
+    int id,
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
@@ -76,7 +76,7 @@ class NewRecurringExpensePageState {
     Function(bool) onAutoPaySelected,
   }){
     return NewRecurringExpensePageState(
-      documentId: documentId?? this.documentId,
+      id: id?? this.id,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
@@ -99,7 +99,7 @@ class NewRecurringExpensePageState {
   }
 
   factory NewRecurringExpensePageState.initial() => NewRecurringExpensePageState(
-        documentId: '',
+        id: null,
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
@@ -122,7 +122,7 @@ class NewRecurringExpensePageState {
 
   factory NewRecurringExpensePageState.fromStore(Store<AppState> store) {
     return NewRecurringExpensePageState(
-      documentId: store.state.newRecurringExpensePageState.documentId,
+      id: store.state.newRecurringExpensePageState.id,
       pageViewIndex: store.state.newRecurringExpensePageState.pageViewIndex,
       saveButtonEnabled: store.state.newRecurringExpensePageState.saveButtonEnabled,
       shouldClear: store.state.newRecurringExpensePageState.shouldClear,
@@ -149,7 +149,7 @@ class NewRecurringExpensePageState {
 
   @override
   int get hashCode =>
-      documentId.hashCode ^
+      id.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
@@ -171,7 +171,7 @@ class NewRecurringExpensePageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is NewRecurringExpensePageState &&
-          documentId == other.documentId &&
+          id == other.id &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           onDeleteRecurringExpenseSelected == other.onDeleteRecurringExpenseSelected &&

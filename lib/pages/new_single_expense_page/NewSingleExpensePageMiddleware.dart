@@ -5,6 +5,7 @@ import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
 
 class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
@@ -24,7 +25,7 @@ class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
     charge.chargeDate = store.state.newSingleExpensePageState.expenseDate;
     charge.chargeAmount = store.state.newSingleExpensePageState.expenseCost;
     SingleExpense singleExpense = SingleExpense(
-      documentId: store.state.newSingleExpensePageState.documentId,
+      id: store.state.newSingleExpensePageState.id,
       expenseName: store.state.newSingleExpensePageState.expenseName,
       charge: charge,
     );
@@ -34,7 +35,7 @@ class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteSingleExpense(Store<AppState> store, action, NextDispatcher next) async{
-    SingleExpenseDao.delete(store.state.newSingleExpensePageState.documentId);
+    await SingleExpenseDao.delete(store.state.newSingleExpensePageState.id);
     store.dispatch(FetchSingleExpenses(store.state.incomeAndExpensesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

@@ -12,10 +12,10 @@ class ClientCollection {
         .add(client.toMap());
   }
 
-  void deleteClient(String documentId) {
+  Future<void> deleteClient(String documentId) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('clients')
@@ -26,20 +26,24 @@ class ClientCollection {
     }
   }
 
-  Future<Client> getUser(String documentId) async {
+  Future<Client> getClient(String documentId) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('clients')
         .document(documentId)
         .get()
-        .then((client) => Client.fromMap(client.data, client.documentID));
+        .then((client) {
+          Client result = Client.fromMap(client.data);
+          result.documentId = client.documentID;
+          return result;
+        });
   }
 
-  Future<List<Client>> getAllUsersSortedByFirstName(String uid) async {
+  Future<List<Client>> getAllClientsSortedByFirstName(String uid) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('clients')
@@ -47,10 +51,12 @@ class ClientCollection {
         .then((clients) => _buildClientsList(clients));
   }
 
-  void updateUser(Client client) {
+  Future<void> updateClient(Client client) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
+          .collection('users')
+          .document(UidUtil().getUid())
           .collection('clients')
           .document(client.documentId)
           .updateData(client.toMap());
@@ -62,7 +68,9 @@ class ClientCollection {
   List<Client> _buildClientsList(QuerySnapshot clients) {
     List<Client> clientList = List();
     for(DocumentSnapshot clientDocument in clients.documents){
-      clientList.add(Client.fromMap(clientDocument.data, clientDocument.documentID));
+      Client result = Client.fromMap(clientDocument.data);
+      result.documentId = clientDocument.documentID;
+      clientList.add(result);
     }
     clientList.sort((clientA, clientB) => clientA.firstName.compareTo(clientB.firstName));
     return clientList;

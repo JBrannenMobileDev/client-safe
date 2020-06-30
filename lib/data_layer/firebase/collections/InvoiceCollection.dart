@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
@@ -10,13 +9,14 @@ class InvoiceCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('invoices')
-        .add(invoice.toMap());
+        .document(invoice.documentId)
+        .setData(invoice.toMap());
   }
 
-  void deleteInvoice(String documentId) {
+  Future<void> deleteInvoice(String documentId) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('invoices')
@@ -29,18 +29,22 @@ class InvoiceCollection {
 
   Future<Invoice> getInvoice(String documentId) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('invoices')
         .document(documentId)
         .get()
-        .then((invoice) => Invoice.fromMap(invoice.data, invoice.documentID));
+        .then((invoice) {
+          Invoice result = Invoice.fromMap(invoice.data);
+          result.documentId = invoice.documentID;
+          return result;
+        });
   }
 
   Future<List<Invoice>> getAllInvoicesSortedByDate(String uid) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('invoices')
@@ -48,9 +52,9 @@ class InvoiceCollection {
         .then((invoices) => _buildInvoicesList(invoices));
   }
 
-  void replaceInvoice(Invoice invoice) {
+  Future<void> replaceInvoice(Invoice invoice) async {
     final databaseReference = Firestore.instance;
-    databaseReference
+    await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('invoices')
@@ -58,10 +62,10 @@ class InvoiceCollection {
         .setData(invoice.toMap());
   }
 
-  void updateInvoice(Invoice invoice) {
+  Future<void> updateInvoice(Invoice invoice) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('invoices')
@@ -75,21 +79,27 @@ class InvoiceCollection {
   List<Invoice> _buildInvoicesList(QuerySnapshot invoices) {
     List<Invoice> invoiceList = List();
     for(DocumentSnapshot invoiceDocument in invoices.documents){
-      invoiceList.add(Invoice.fromMap(invoiceDocument.data, invoiceDocument.documentID));
+      Invoice result = Invoice.fromMap(invoiceDocument.data);
+      result.documentId = invoiceDocument.documentID;
+      invoiceList.add(result);
     }
     invoiceList.sort((invoiceA, invoiceB) => invoiceA.dueDate.compareTo(invoiceB.dueDate));
     return invoiceList;
   }
 
-  Future<Invoice> getInvoiceByInvoiceNumber(int invoiceNumber) {
+  Future<Invoice> getInvoiceByInvoiceNumber(String documentId) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('invoices')
-        .where('invoiceNumber', isEqualTo: invoiceNumber)
+        .where('documentId', isEqualTo: documentId)
         .snapshots()
         .first
-        .then((snapshot) => Invoice.fromMap(snapshot.documents.elementAt(0).data, snapshot.documents.elementAt(0).documentID));
+        .then((snapshot) {
+          Invoice result = Invoice.fromMap(snapshot.documents.elementAt(0).data);
+          result.documentId = snapshot.documents.elementAt(0).documentID;
+          return result;
+        });
   }
 }

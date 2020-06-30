@@ -1,6 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
@@ -14,10 +12,10 @@ class JobCollection {
         .add(job.toMap());
   }
 
-  void deleteJob(String documentId) {
+  Future<void> deleteJob(String documentId) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('jobs')
@@ -30,18 +28,22 @@ class JobCollection {
 
   Future<Job> getJob(String documentId) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('jobs')
         .document(documentId)
         .get()
-        .then((snapshot) => Job.fromMap(snapshot.data, snapshot.documentID));
+        .then((jobSnapshot) {
+          Job result = Job.fromMap(jobSnapshot.data);
+          result.documentId = jobSnapshot.documentID;
+          return result;
+        });
   }
 
   Future<List<Job>> getAll(String uid) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('jobs')
@@ -51,10 +53,10 @@ class JobCollection {
 
 
 
-  void updateJob(Job job) {
+  Future<void> updateJob(Job job) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('jobs')
@@ -68,7 +70,9 @@ class JobCollection {
   List<Job> _buildJobsList(QuerySnapshot jobs) {
     List<Job> jobsList = List();
     for(DocumentSnapshot jobSnapshot in jobs.documents){
-      jobsList.add(Job.fromMap(jobSnapshot.data, jobSnapshot.documentID));
+      Job result = Job.fromMap(jobSnapshot.data);
+      result.documentId = jobSnapshot.documentID;
+      jobsList.add(result);
     }
     return jobsList;
   }

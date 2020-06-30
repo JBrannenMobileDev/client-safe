@@ -39,7 +39,7 @@ class _NewContactPageState extends State<NewContactPage> {
     initialPage: 0,
   );
   int currentPageIndex = 0;
-  String clientDocumentId = '';
+  int clientId = 0;
 
   @override
   void initState() {
@@ -85,8 +85,8 @@ class _NewContactPageState extends State<NewContactPage> {
         }
       },
       onDidChange: (pageState) {
-        if(pageState.client == null && pageState.client.documentId != null) {
-          clientDocumentId = pageState.client.documentId;
+        if(pageState.client == null && pageState.client.id != null) {
+          clientId = pageState.client.id;
         }
       },
       converter: (store) => NewContactPageState.fromStore(store),
@@ -364,7 +364,7 @@ class _NewContactPageState extends State<NewContactPage> {
   void onFlareCompleted(String unused) async{
     Navigator.of(context).pop();
     List<Job> jobs = await JobDao.getAllJobs();
-    List<Job> thisClientsJobs = jobs.where((job) => job.clientDocumentId == clientDocumentId).toList();
+    List<Job> thisClientsJobs = jobs.where((job) => job.clientId == clientId).toList();
     if(thisClientsJobs.length == 0){
       UserOptionsUtil.showJobPromptDialog(context);
     }else {

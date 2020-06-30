@@ -1,36 +1,73 @@
 import 'dart:async';
 
-import 'package:dandylight/data_layer/firebase/collections/MileageExpenseCollection.dart';
+import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/MileageExpense.dart';
-import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/models/SingleExpense.dart';
 import 'package:equatable/equatable.dart';
+import 'package:sembast/sembast.dart';
 
 class MileageExpenseDao extends Equatable{
+  static const String MILEAGE_EXPENSE_STORE_NAME = 'mileageExpense';
+  // A Store with int keys and Map<String, dynamic> values.
+  // This Store acts like a persistent map, values of which are Client objects converted to Map
+  static final _mileageExpenseStore = intMapStoreFactory.store(MILEAGE_EXPENSE_STORE_NAME);
 
-  static void insert(MileageExpense mileageExpense) {
-    MileageExpenseCollection().createMileageExpense(mileageExpense);
+  // Private getter to shorten the amount of code needed to get the
+  // singleton instance of an opened database.
+  static Future<Database> get _db async => await SembastDb.instance.database;
+
+  static Future insert(MileageExpense mileageExpense) async {
+    await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
   }
 
   static Future insertOrUpdate(MileageExpense mileageExpense) async {
-    bool alreadyExists = mileageExpense.documentId.isNotEmpty;
-
+    List<MileageExpense> mileageExpenseList = await getAll();
+    bool alreadyExists = false;
+    for(MileageExpense expense in mileageExpenseList){
+      if(expense.id == mileageExpense.id){
+        alreadyExists = true;
+      }
+    }
     if(alreadyExists){
-      update(mileageExpense);
+      await update(mileageExpense);
     }else{
-      insert(mileageExpense);
+      await insert(mileageExpense);
     }
   }
 
-  static void update(MileageExpense mileageExpense) {
-    MileageExpenseCollection().updateMileageExpense(mileageExpense);
+  static Future update(MileageExpense mileageExpense) async {
+    // For filtering by key (ID), RegEx, greater than, and many other criteria,
+    // we use a Finder.
+    final finder = Finder(filter: Filter.byKey(mileageExpense.id));
+    await _mileageExpenseStore.update(
+      await _db,
+      mileageExpense.toMap(),
+      finder: finder,
+    );
   }
 
-  static void delete(String documentId) {
-    MileageExpenseCollection().deleteMileageExpense(documentId);
+  static Future delete(int id) async {
+    final finder = Finder(filter: Filter.byKey(id));
+    await _mileageExpenseStore.delete(
+      await _db,
+      finder: finder,
+    );
   }
 
   static Future<List<MileageExpense>> getAll() async {
-    return await MileageExpenseCollection().getAll(UidUtil().getUid());
+    final recordSnapshots = await _mileageExpenseStore.find(await _db);
+
+    //uncomment to delete all mileage expense records.
+//    for(RecordSnapshot snapshot in recordSnapshots) {
+//      delete(snapshot.key);
+//    }
+    // Making a List<Client> out of List<RecordSnapshot>
+    return recordSnapshots.map((snapshot) {
+      final mileageExpense = MileageExpense.fromMap(snapshot.value);
+      mileageExpense.id = snapshot.key;
+      return mileageExpense;
+    }).toList();
   }
 
   @override

@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:android_intent/android_intent.dart';
-import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:share_extend/share_extend.dart';
@@ -54,7 +53,7 @@ class IntentLauncherUtil{
   }
 
   static Future shareInvoice(Invoice invoice) async{
-    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceNumber));
+    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId));
     ShareExtend.share(invoiceFile.path, "file");
   }
 

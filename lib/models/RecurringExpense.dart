@@ -2,6 +2,7 @@ import 'package:dandylight/models/Charge.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 
 class RecurringExpense {
+  int id;
   String documentId;
   String expenseName;
   double cost;
@@ -14,6 +15,7 @@ class RecurringExpense {
 
 
   RecurringExpense({
+    this.id,
     this.documentId,
     this.expenseName,
     this.cost,
@@ -27,6 +29,7 @@ class RecurringExpense {
 
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
       'expenseName': expenseName,
       'cost' : cost,
       'billingPeriod' : billingPeriod,
@@ -38,9 +41,9 @@ class RecurringExpense {
     };
   }
 
-  static RecurringExpense fromMap(Map<String, dynamic> map, String documentId) {
+  static RecurringExpense fromMap(Map<String, dynamic> map) {
     return RecurringExpense(
-      documentId: documentId,
+      id: map['id'],
       expenseName: map['expenseName'],
       cost: map['cost'],
       billingPeriod: map['billingPeriod'],

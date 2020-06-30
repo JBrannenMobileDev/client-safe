@@ -1,4 +1,5 @@
 class Location {
+  int id;
   String documentId;
   String locationName;
   double latitude;
@@ -9,6 +10,7 @@ class Location {
 
 
   Location({
+    this.id,
     this.documentId,
     this.locationName,
     this.latitude,
@@ -20,6 +22,8 @@ class Location {
 
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
+      'documentId' : documentId,
       'locationName': locationName,
       'latitude' : latitude,
       'longitude' : longitude,
@@ -29,9 +33,9 @@ class Location {
     };
   }
 
-  static Location fromMap(Map<String, dynamic> map, String documentId) {
+  static Location fromMap(Map<String, dynamic> map) {
     return Location(
-      documentId: documentId,
+      id: map['id'],
       locationName: map['locationName'],
       latitude: map['latitude'],
       longitude: map['longitude'],

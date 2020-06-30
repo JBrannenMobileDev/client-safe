@@ -122,7 +122,7 @@ NewLocationPageState _updateLocationName(NewLocationPageState previousState, Upd
 
 NewLocationPageState _loadLocationData(NewLocationPageState previousState, LoadExistingLocationData action){
   return previousState.copyWith(
-    documentId: action.location.documentId,
+    id: action.location.id,
     shouldClear: false,
     locationName: action.location.locationName,
     newLocationLatitude: action.location.latitude,

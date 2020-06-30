@@ -181,7 +181,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
 
   int getClientIndex(Client selectedClient, List<Client> filteredClients) {
     for(Client client in filteredClients){
-      if(client.documentId == selectedClient.documentId) return filteredClients.indexOf(client);
+      if(client.id == selectedClient.id) return filteredClients.indexOf(client);
     }
     return 0;
   }

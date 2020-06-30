@@ -48,9 +48,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
-    List<PriceProfile> allPriceProfiles = await PriceProfileDao.getAll();
+    List<PriceProfile> allPriceProfiles = await PriceProfileDao.getAllSortedByName();
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
-    List<Location> allLocations = await LocationDao.getAll();
+    List<Location> allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();
     store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs));
     Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -60,8 +60,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
     Job jobToSave = Job(
-      documentId: store.state.newJobPageState.documentId,
-      clientDocumentId: store.state.newJobPageState.selectedClient.documentId,
+      id: store.state.newJobPageState.id,
+      clientId: store.state.newJobPageState.selectedClient.id,
       clientName: store.state.newJobPageState.selectedClient.getClientFullName(),
       jobTitle: store.state.newJobPageState.jobTitle,
       selectedDate: store.state.newJobPageState.selectedDate,

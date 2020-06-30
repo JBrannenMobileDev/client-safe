@@ -1,6 +1,7 @@
 import 'package:dandylight/models/Charge.dart';
 
 class MileageExpense {
+  int id;
   String documentId;
   double totalMiles;
   bool isRoundTrip;
@@ -13,6 +14,7 @@ class MileageExpense {
 
 
   MileageExpense({
+    this.id,
     this.documentId,
     this.totalMiles,
     this.isRoundTrip,
@@ -26,6 +28,7 @@ class MileageExpense {
 
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
       'totalMiles': totalMiles,
       'isRoundTrip' : isRoundTrip,
       'startLat' : startLat,
@@ -37,9 +40,9 @@ class MileageExpense {
     };
   }
 
-  static MileageExpense fromMap(Map<String, dynamic> map, String documentId) {
+  static MileageExpense fromMap(Map<String, dynamic> map) {
     return MileageExpense(
-      documentId: documentId,
+      id: map['id'],
       totalMiles: map['totalMiles'],
       isRoundTrip: map['isRoundTrip'],
       startLat: map['startLat'],

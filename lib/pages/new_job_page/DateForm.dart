@@ -297,7 +297,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     List<Job> jobs = List();
     for(Event event in events){
       for(Job job in allJobs){
-        if(job.documentId == event.jobDocumentId) jobs.add(job);
+        if(job.id == event.jobId) jobs.add(job);
       }
     }
     return jobs;

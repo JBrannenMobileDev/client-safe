@@ -9,7 +9,6 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -59,12 +58,11 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     NewInvoicePageState pageState = store.state.newInvoicePageState;
     await InvoiceDao.insertOrUpdate(
         Invoice(
-          documentId: pageState.documentId,
-          clientDocumentId: pageState.selectedJob.clientDocumentId,
-          invoiceNumber: pageState.invoiceNumber,
+          clientId: pageState.selectedJob.clientId,
+          invoiceId: pageState.invoiceNumber,
           clientName: pageState.selectedJob.clientName,
           jobName: pageState.selectedJob.jobTitle,
-          jobDocumentId: pageState.selectedJob.documentId,
+          jobId: pageState.selectedJob.id,
           unpaidAmount: pageState.unpaidAmount,
           createdDate: DateTime.now(),
           dueDate: pageState.dueDate,
@@ -78,7 +76,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     ));
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));
     Job selectedJob = pageState.selectedJob;
-    selectedJob.invoice = await InvoiceDao.getInvoiceByInvoiceNumber(pageState.invoiceNumber);
+    selectedJob.invoice = await InvoiceDao.getInvoiceById(pageState.invoiceNumber);
     await JobDao.update(selectedJob);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, selectedJob.invoice));
@@ -104,8 +102,8 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
         selectedJob.stage = JobStage.getStageFromIndex(1);
       }
       Job jobToSave = Job(
-        documentId: selectedJob.documentId,
-        clientDocumentId: selectedJob.clientDocumentId,
+        id: selectedJob.id,
+        clientId: selectedJob.clientId,
         clientName: selectedJob.clientName,
         jobTitle: selectedJob.jobTitle,
         selectedDate: selectedJob.selectedDate,
@@ -126,8 +124,8 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       selectedJob.completedStages = completedJobStages;
       selectedJob.stage = _getNextUncompletedStage(4, selectedJob.completedStages);
       Job jobToSave = Job(
-        documentId: selectedJob.documentId,
-        clientDocumentId: selectedJob.clientDocumentId,
+        id: selectedJob.id,
+        clientId: selectedJob.clientId,
         clientName: selectedJob.clientName,
         jobTitle: selectedJob.jobTitle,
         selectedDate: selectedJob.selectedDate,
@@ -173,7 +171,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
   void _loadAll(Store<AppState> store, FetchAllInvoiceJobsAction action, NextDispatcher next) async {
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
-    int newInvoiceNumber = await NextInvoiceNumberDao.getNext().then((next) => next.highestInvoiceNumber);
+    int newInvoiceNumber = await NextInvoiceNumberDao.nextNumber();
     List<Job> allJobs = await JobDao.getAllJobs();
     allJobs = allJobs.where((job) => !job.hasCompletedStage(JobStage.STAGE_9_PAYMENT_RECEIVED) && !job.hasCompletedStage(JobStage.STAGE_14_JOB_COMPLETE)).toList();
     store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber));
@@ -197,7 +195,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
   void _generateNewInvoicePdf(Store<AppState> store, action, NextDispatcher next) async {
     NewInvoicePageState pageState = store.state.newInvoicePageState;
-    Client client = await ClientDao.getClientById(pageState.selectedJob.clientDocumentId);
+    Client client = await ClientDao.getClientById(pageState.selectedJob.clientId);
     final Document pdf = Document();
 
     pdf.addPage(MultiPage(

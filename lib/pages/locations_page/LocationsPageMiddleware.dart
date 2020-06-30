@@ -47,7 +47,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfiles(Store<AppState> store, NextDispatcher next) async{
-    List<Location> locations = await LocationDao.getAll();
+    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     next(SetLocationsAction(store.state.locationsPageState, locations, path));

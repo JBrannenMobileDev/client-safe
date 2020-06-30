@@ -5,19 +5,19 @@ import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 class MileageExpenseCollection {
-  void createMileageExpense(MileageExpense expense) {
+  Future<void> createMileageExpense(MileageExpense expense) async {
     final databaseReference = Firestore.instance;
-    databaseReference
+    await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('mileageExpenses')
         .add(expense.toMap());
   }
 
-  void deleteMileageExpense(String documentId) {
+  Future<void> deleteMileageExpense(String documentId) async {
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('mileageExpenses')
@@ -30,18 +30,22 @@ class MileageExpenseCollection {
 
   Future<MileageExpense> getMileageExpense(String documentId) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('mileageExpenses')
         .document(documentId)
         .get()
-        .then((snapshot) => MileageExpense.fromMap(snapshot.data, snapshot.documentID));
+        .then((expenseSnapshot) {
+          MileageExpense expense = MileageExpense.fromMap(expenseSnapshot.data);
+          expense.documentId = expenseSnapshot.documentID;
+          return expense;
+        });
   }
 
   Future<List<MileageExpense>> getAll(String uid) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(UidUtil().getUid())
         .collection('mileageExpenses')
@@ -51,10 +55,10 @@ class MileageExpenseCollection {
 
 
 
-  void updateMileageExpense(MileageExpense expense) {
+  Future<void> updateMileageExpense(MileageExpense expense) async{
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(UidUtil().getUid())
           .collection('mileageExpenses')
@@ -68,7 +72,9 @@ class MileageExpenseCollection {
   List<MileageExpense> _buildMileageExpensesList(QuerySnapshot jobs) {
     List<MileageExpense> expensesList = List();
     for(DocumentSnapshot expenseSnapshot in jobs.documents){
-      expensesList.add(MileageExpense.fromMap(expenseSnapshot.data, expenseSnapshot.documentID));
+      MileageExpense expense = MileageExpense.fromMap(expenseSnapshot.data);
+      expense.documentId = expenseSnapshot.documentID;
+      expensesList.add(expense);
     }
     return expensesList;
   }

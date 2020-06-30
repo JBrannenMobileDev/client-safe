@@ -10,7 +10,7 @@ class NewSingleExpensePageState {
   static const String NO_ERROR = "noError";
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
-  final String documentId;
+  final int id;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -27,7 +27,7 @@ class NewSingleExpensePageState {
   final Function(String) onCostChanged;
 
   NewSingleExpensePageState({
-    @required this.documentId,
+    @required this.id,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -45,7 +45,7 @@ class NewSingleExpensePageState {
   });
 
   NewSingleExpensePageState copyWith({
-    String documentId,
+    int id,
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
@@ -62,7 +62,7 @@ class NewSingleExpensePageState {
     Function(String) onCostChanged,
   }){
     return NewSingleExpensePageState(
-      documentId: documentId?? this.documentId,
+      id: id?? this.id,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
@@ -81,7 +81,7 @@ class NewSingleExpensePageState {
   }
 
   factory NewSingleExpensePageState.initial() => NewSingleExpensePageState(
-        documentId: '',
+        id: null,
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
@@ -100,7 +100,7 @@ class NewSingleExpensePageState {
 
   factory NewSingleExpensePageState.fromStore(Store<AppState> store) {
     return NewSingleExpensePageState(
-      documentId: store.state.newSingleExpensePageState.documentId,
+      id: store.state.newSingleExpensePageState.id,
       pageViewIndex: store.state.newSingleExpensePageState.pageViewIndex,
       saveButtonEnabled: store.state.newSingleExpensePageState.saveButtonEnabled,
       shouldClear: store.state.newSingleExpensePageState.shouldClear,
@@ -123,7 +123,7 @@ class NewSingleExpensePageState {
 
   @override
   int get hashCode =>
-      documentId.hashCode ^
+      id.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
@@ -142,7 +142,7 @@ class NewSingleExpensePageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is NewSingleExpensePageState &&
-          documentId == other.documentId &&
+          id == other.id &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           onDeleteSingleExpenseSelected == other.onDeleteSingleExpenseSelected &&

@@ -52,13 +52,13 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocations(Store<AppState> store, NextDispatcher next) async{
-    List<Location> locations = await LocationDao.getAll();
+    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     next(SetLocationsAction(store.state.newLocationPageState, locations));
   }
 
   void _saveLocation(Store<AppState> store, SaveLocationAction action, NextDispatcher next) async{
     Location location = Location();
-    location.documentId = action.pageState.documentId;
+    location.id = action.pageState.id;
     location.locationName = action.pageState.locationName;
     location.latitude = action.pageState.newLocationLatitude;
     location.longitude = action.pageState.newLocationLongitude;
@@ -70,7 +70,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
-    LocationDao.delete(action.pageState.documentId);
+    await LocationDao.delete(action.pageState.id);
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

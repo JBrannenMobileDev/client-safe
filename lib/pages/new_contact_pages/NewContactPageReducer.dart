@@ -60,7 +60,7 @@ NewContactPageState _filterContacts(NewContactPageState previousState, FilterDev
 
 NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingClientData action){
   return previousState.copyWith(
-    clientDocumentId: action.client.documentId,
+    id: action.client.id,
     shouldClear: false,
     newContactFirstName: action.client.firstName,
     newContactLastName: action.client.lastName,

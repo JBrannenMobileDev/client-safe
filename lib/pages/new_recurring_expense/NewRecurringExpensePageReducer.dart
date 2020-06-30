@@ -33,7 +33,7 @@ NewRecurringExpensePageState _setSelectedRecurringExpense(NewRecurringExpensePag
     expenseDate: action.recurringExpense.initialChargeDate,
     expenseCost: action.recurringExpense.cost,
     billingPeriod: action.recurringExpense.billingPeriod,
-    documentId: action.recurringExpense.documentId,
+    id: action.recurringExpense.id,
     shouldClear: false,
   );
 }
@@ -63,7 +63,7 @@ NewRecurringExpensePageState _updateName(NewRecurringExpensePageState previousSt
 
 NewRecurringExpensePageState _loadRecurringExpense(NewRecurringExpensePageState previousState, LoadExistingRecurringExpenseData action){
   return previousState.copyWith(
-    documentId: action.recurringExpense.documentId,
+    id: action.recurringExpense.id,
     shouldClear: false,
     expenseName: action.recurringExpense.expenseName,
     expenseDate: action.recurringExpense.initialChargeDate,

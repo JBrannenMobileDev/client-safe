@@ -1,0 +1,962 @@
+Index: lib/data_layer/firebase/collections/NextInvoiceNumberCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/NextInvoiceNumberCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/NextInvoiceNumberCollection.dart	(date 1593325226000)
+@@ -14,9 +14,18 @@
+         .setData(number.toMap());
+   }
+ 
++  Future<void> setStartingValue() async {
++    final databaseReference = Firestore.instance;
++    await databaseReference.collection('users')
++        .document(UidUtil().getUid())
++        .collection('nextInvoiceNumber')
++        .document(singletonItemId)
++        .setData(NextInvoiceNumber(highestInvoiceNumber: 1000).toMap());
++  }
++
+   Future<NextInvoiceNumber> getNextInvoiceNumber(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await  databaseReference
+         .collection('users')
+         .document(uid)
+         .collection('nextInvoiceNumber')
+Index: lib/data_layer/firebase/collections/SingleExpenseCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/SingleExpenseCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/SingleExpenseCollection.dart	(date 1593315129000)
+@@ -1,22 +1,21 @@
+ import 'package:cloud_firestore/cloud_firestore.dart';
+-import 'package:dandylight/models/Location.dart';
+ import 'package:dandylight/models/SingleExpense.dart';
+ import 'package:dandylight/utils/UidUtil.dart';
+ 
+ class SingleExpenseCollection {
+-  void createSingleExpense(SingleExpense expense) {
++  Future<void> createSingleExpense(SingleExpense expense) async {
+     final databaseReference = Firestore.instance;
+-    databaseReference
++    await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('singleExpenses')
+         .add(expense.toMap());
+   }
+ 
+-  void deleteSingleExpense(String documentId) {
++  Future<void> deleteSingleExpense(String documentId) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('singleExpenses')
+@@ -29,7 +28,7 @@
+ 
+   Future<SingleExpense> getSingleExpense(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('singleExpenses')
+@@ -40,7 +39,7 @@
+ 
+   Future<List<SingleExpense>> getAll(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('singleExpenses')
+@@ -50,10 +49,10 @@
+ 
+ 
+ 
+-  void updateSingleExpense(SingleExpense expense) {
++  Future<void> updateSingleExpense(SingleExpense expense) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('singleExpenses')
+Index: lib/data_layer/firebase/collections/PriceProfileCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/PriceProfileCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/PriceProfileCollection.dart	(date 1593315129000)
+@@ -1,5 +1,4 @@
+ import 'package:cloud_firestore/cloud_firestore.dart';
+-import 'package:dandylight/models/Job.dart';
+ import 'package:dandylight/models/PriceProfile.dart';
+ import 'package:dandylight/utils/UidUtil.dart';
+ 
+@@ -13,10 +12,10 @@
+         .add(priceProfile.toMap());
+   }
+ 
+-  void deleteJob(String documentId) {
++  Future<void> deleteJob(String documentId) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('priceProfiles')
+@@ -29,7 +28,7 @@
+ 
+   Future<PriceProfile> getJob(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('priceProfiles')
+@@ -40,7 +39,7 @@
+ 
+   Future<List<PriceProfile>> getAll(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('priceProfiles')
+@@ -50,10 +49,10 @@
+ 
+ 
+ 
+-  void updateJob(PriceProfile priceProfile) {
++  Future<void> updateJob(PriceProfile priceProfile) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('priceProfiles')
+Index: lib/data_layer/local_db/daos/ClientDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/ClientDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/ClientDao.dart	(date 1593311716000)
+@@ -2,6 +2,7 @@
+ 
+ import 'package:dandylight/data_layer/firebase/collections/ClientCollection.dart';
+ import 'package:dandylight/models/Client.dart';
++import 'package:dandylight/utils/UidUtil.dart';
+ 
+ class ClientDao{
+   static Future create(Client client) async {
+@@ -9,7 +10,7 @@
+   }
+ 
+   static Future update(Client client) async {
+-    ClientCollection().updateUser(client);
++    await ClientCollection().updateClient(client);
+   }
+ 
+   static Future delete(Client client) async {
+@@ -17,10 +18,10 @@
+   }
+ 
+   static Future<List<Client>> getAllSortedByFirstName() async {
+-
++    return await ClientCollection().getAllClientsSortedByFirstName(UidUtil().getUid());
+   }
+ 
+   static Future<Client> getClientById(String documentId) async{
+-
++    return await ClientCollection().getClient(documentId);
+   }
+ }
+\ No newline at end of file
+Index: lib/data_layer/firebase/collections/LocationCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/LocationCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/LocationCollection.dart	(date 1593315129000)
+@@ -1,24 +1,21 @@
+ import 'package:cloud_firestore/cloud_firestore.dart';
+-import 'package:dandylight/models/Client.dart';
+-import 'package:dandylight/models/Invoice.dart';
+-import 'package:dandylight/models/Job.dart';
+ import 'package:dandylight/models/Location.dart';
+ import 'package:dandylight/utils/UidUtil.dart';
+ 
+ class LocationCollection {
+-  void createLocation(Location location) {
++  Future<void> createLocation(Location location) async {
+     final databaseReference = Firestore.instance;
+-    databaseReference
++    await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('locations')
+         .add(location.toMap());
+   }
+ 
+-  void deleteJob(String documentId) {
++  Future<void> deleteJob(String documentId) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('locations')
+@@ -31,7 +28,7 @@
+ 
+   Future<Location> getLocation(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('locations')
+@@ -42,7 +39,7 @@
+ 
+   Future<List<Location>> getAll(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('locations')
+@@ -52,10 +49,10 @@
+ 
+ 
+ 
+-  void updateLocation(Location location) {
++  Future<void> updateLocation(Location location) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('locations')
+Index: lib/data_layer/firebase/collections/JobCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/JobCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/JobCollection.dart	(date 1593315129000)
+@@ -14,10 +14,10 @@
+         .add(job.toMap());
+   }
+ 
+-  void deleteJob(String documentId) {
++  Future<void> deleteJob(String documentId) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('jobs')
+@@ -30,7 +30,7 @@
+ 
+   Future<Job> getJob(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('jobs')
+@@ -41,7 +41,7 @@
+ 
+   Future<List<Job>> getAll(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('jobs')
+@@ -51,10 +51,10 @@
+ 
+ 
+ 
+-  void updateJob(Job job) {
++  Future<void> updateJob(Job job) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('jobs')
+Index: lib/data_layer/firebase/daos/InvoiceDao.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/daos/InvoiceDao.dart	(date 1593386243000)
++++ lib/data_layer/firebase/daos/InvoiceDao.dart	(date 1593386243000)
+@@ -0,0 +1,48 @@
++import 'dart:async';
++
++import 'package:dandylight/data_layer/firebase/collections/InvoiceCollection.dart';
++import 'package:dandylight/data_layer/firebase/daos/NextInvoiceNumberDao.dart';
++import 'package:dandylight/models/Invoice.dart';
++import 'package:dandylight/models/NextInvoiceNumber.dart';
++import 'package:dandylight/utils/UidUtil.dart';
++import 'package:equatable/equatable.dart';
++
++class InvoiceDao extends Equatable{
++
++  static Future insertOrUpdate(Invoice invoice) async {
++    String invoiceNumberToDelete = (int.parse(invoice.documentId) -1).toString();
++    await InvoiceCollection().deleteInvoice(invoiceNumberToDelete);
++    NextInvoiceNumber nextInvoiceNumber = await NextInvoiceNumberDao.getNext();
++    if(nextInvoiceNumber == null) {
++      nextInvoiceNumber = NextInvoiceNumber(highestInvoiceNumber: 1001);
++    }
++    invoice.documentId = nextInvoiceNumber.highestInvoiceNumber.toString();
++    await InvoiceCollection().createInvoice(invoice);
++    nextInvoiceNumber.highestInvoiceNumber = (nextInvoiceNumber.highestInvoiceNumber + 1);
++    await NextInvoiceNumberDao.update(nextInvoiceNumber);
++  }
++
++  static Future<void> update(Invoice invoice) async {
++    await InvoiceCollection().updateInvoice(invoice);
++  }
++
++  static Future<void> deleteById(String documentId) async {
++    await InvoiceCollection().deleteInvoice(documentId);
++  }
++
++  static Future<void> deleteByInvoice(Invoice invoice) async {
++    await deleteById(invoice.documentId);
++  }
++
++  static Future<List<Invoice>> getAllSortedByDueDate() async {
++    return await InvoiceCollection().getAllInvoicesSortedByDate(UidUtil().getUid());
++  }
++
++  @override
++  // TODO: implement props
++  List<Object> get props => [];
++
++  static Future<Invoice> getInvoiceById(String documentId) async{
++    return await InvoiceCollection().getInvoice(documentId);
++  }
++}
+\ No newline at end of file
+Index: lib/data_layer/local_db/daos/JobDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/JobDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/JobDao.dart	(date 1593315129000)
+@@ -8,26 +8,26 @@
+ import 'package:sembast/sembast.dart';
+ 
+ class JobDao extends Equatable{
+-  static void insert(Job job) {
+-    JobCollection().createJob(job);
++  static Future<void> insert(Job job) async{
++    await JobCollection().createJob(job);
+   }
+ 
+   static Future insertOrUpdate(Job job) async {
+     bool alreadyExists = job.documentId.isNotEmpty;
+ 
+     if(alreadyExists){
+-      update(job);
++      await update(job);
+     }else{
+-      insert(job);
++      await insert(job);
+     }
+   }
+ 
+-  static void update(Job job) {
+-    JobCollection().updateJob(job);
++  static Future<void> update(Job job) async {
++    await JobCollection().updateJob(job);
+   }
+ 
+-  static void delete(Job job) {
+-    JobCollection().deleteJob(job.documentId);
++  static Future<void> delete(Job job) async {
++    await JobCollection().deleteJob(job.documentId);
+   }
+ 
+    static Future<List<Job>> getAllJobs() async {
+Index: lib/data_layer/firebase/collections/InvoiceCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/InvoiceCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/InvoiceCollection.dart	(date 1593366185000)
+@@ -1,5 +1,4 @@
+ import 'package:cloud_firestore/cloud_firestore.dart';
+-import 'package:dandylight/models/Client.dart';
+ import 'package:dandylight/models/Invoice.dart';
+ import 'package:dandylight/utils/UidUtil.dart';
+ 
+@@ -10,13 +9,14 @@
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('invoices')
+-        .add(invoice.toMap());
++        .document(invoice.documentId)
++        .setData(invoice.toMap());
+   }
+ 
+-  void deleteInvoice(String documentId) {
++  Future<void> deleteInvoice(String documentId) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('invoices')
+@@ -29,18 +29,18 @@
+ 
+   Future<Invoice> getInvoice(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('invoices')
+         .document(documentId)
+         .get()
+-        .then((invoice) => Invoice.fromMap(invoice.data, invoice.documentID));
++        .then((invoice) => Invoice.fromMap(invoice.data));
+   }
+ 
+   Future<List<Invoice>> getAllInvoicesSortedByDate(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('invoices')
+@@ -48,9 +48,9 @@
+         .then((invoices) => _buildInvoicesList(invoices));
+   }
+ 
+-  void replaceInvoice(Invoice invoice) {
++  Future<void> replaceInvoice(Invoice invoice) async {
+     final databaseReference = Firestore.instance;
+-    databaseReference
++    await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('invoices')
+@@ -58,10 +58,10 @@
+         .setData(invoice.toMap());
+   }
+ 
+-  void updateInvoice(Invoice invoice) {
++  Future<void> updateInvoice(Invoice invoice) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('invoices')
+@@ -75,21 +75,21 @@
+   List<Invoice> _buildInvoicesList(QuerySnapshot invoices) {
+     List<Invoice> invoiceList = List();
+     for(DocumentSnapshot invoiceDocument in invoices.documents){
+-      invoiceList.add(Invoice.fromMap(invoiceDocument.data, invoiceDocument.documentID));
++      invoiceList.add(Invoice.fromMap(invoiceDocument.data));
+     }
+     invoiceList.sort((invoiceA, invoiceB) => invoiceA.dueDate.compareTo(invoiceB.dueDate));
+     return invoiceList;
+   }
+ 
+-  Future<Invoice> getInvoiceByInvoiceNumber(int invoiceNumber) {
++  Future<Invoice> getInvoiceByInvoiceNumber(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('invoices')
+-        .where('invoiceNumber', isEqualTo: invoiceNumber)
++        .where('documentId', isEqualTo: documentId)
+         .snapshots()
+         .first
+-        .then((snapshot) => Invoice.fromMap(snapshot.documents.elementAt(0).data, snapshot.documents.elementAt(0).documentID));
++        .then((snapshot) => Invoice.fromMap(snapshot.documents.elementAt(0).data));
+   }
+ }
+\ No newline at end of file
+Index: lib/data_layer/local_db/daos/LocationDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/LocationDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/LocationDao.dart	(date 1593315129000)
+@@ -7,25 +7,25 @@
+ 
+ class LocationDao extends Equatable{
+ 
+-  static void insert(Location location) {
+-    LocationCollection().createLocation(location);
++  static Future<void> insert(Location location) async {
++    await LocationCollection().createLocation(location);
+   }
+ 
+   static Future insertOrUpdate(Location location) async {
+     bool alreadyExists = location.documentId.isNotEmpty;
+     if(alreadyExists){
+-      update(location);
++      await update(location);
+     }else{
+-      insert(location);
++      await insert(location);
+     }
+   }
+ 
+-  static Future update(Location location) async {
+-    LocationCollection().updateLocation(location);
++  static Future<void> update(Location location) async {
++    await LocationCollection().updateLocation(location);
+   }
+ 
+-  static void delete(String documentId) {
+-    LocationCollection().deleteJob(documentId);
++  static Future<void> delete(String documentId) async {
++    await LocationCollection().deleteJob(documentId);
+   }
+ 
+   static Future<List<Location>> getAll() async {
+Index: lib/data_layer/local_db/daos/MileageExpenseDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/MileageExpenseDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/MileageExpenseDao.dart	(date 1593315129000)
+@@ -7,26 +7,26 @@
+ 
+ class MileageExpenseDao extends Equatable{
+ 
+-  static void insert(MileageExpense mileageExpense) {
+-    MileageExpenseCollection().createMileageExpense(mileageExpense);
++  static Future<void> insert(MileageExpense mileageExpense) async {
++   await MileageExpenseCollection().createMileageExpense(mileageExpense);
+   }
+ 
+   static Future insertOrUpdate(MileageExpense mileageExpense) async {
+     bool alreadyExists = mileageExpense.documentId.isNotEmpty;
+ 
+     if(alreadyExists){
+-      update(mileageExpense);
++      await update(mileageExpense);
+     }else{
+-      insert(mileageExpense);
++      await insert(mileageExpense);
+     }
+   }
+ 
+-  static void update(MileageExpense mileageExpense) {
+-    MileageExpenseCollection().updateMileageExpense(mileageExpense);
++  static Future<void> update(MileageExpense mileageExpense) async {
++    await MileageExpenseCollection().updateMileageExpense(mileageExpense);
+   }
+ 
+-  static void delete(String documentId) {
+-    MileageExpenseCollection().deleteMileageExpense(documentId);
++  static Future<void> delete(String documentId) async {
++    await MileageExpenseCollection().deleteMileageExpense(documentId);
+   }
+ 
+   static Future<List<MileageExpense>> getAll() async {
+Index: lib/data_layer/local_db/daos/NextInvoiceNumberDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/NextInvoiceNumberDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/NextInvoiceNumberDao.dart	(date 1593315129000)
+@@ -7,8 +7,8 @@
+ 
+ class NextInvoiceNumberDao extends Equatable{
+ 
+-  static void update(NextInvoiceNumber next) {
+-    NextInvoiceNumberCollection().updateNextInvoiceNumber(next);
++  static Future<void> update(NextInvoiceNumber next) async {
++    await NextInvoiceNumberCollection().updateNextInvoiceNumber(next);
+   }
+ 
+   static Future<NextInvoiceNumber> getNext() async {
+Index: lib/data_layer/local_db/daos/PriceProfileDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/PriceProfileDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/PriceProfileDao.dart	(date 1593315129000)
+@@ -7,26 +7,26 @@
+ 
+ class PriceProfileDao extends Equatable{
+ 
+-  static void insert(PriceProfile profile) {
+-    PriceProfileCollection().createJob(profile);
++  static Future<void> insert(PriceProfile profile) async {
++    await PriceProfileCollection().createJob(profile);
+   }
+ 
+-  static void insertOrUpdate(PriceProfile profile) {
++  static Future<void> insertOrUpdate(PriceProfile profile) async {
+     bool alreadyExists = profile.documentId.isNotEmpty;
+ 
+     if(alreadyExists){
+-      update(profile);
++      await update(profile);
+     }else{
+-      insert(profile);
++      await insert(profile);
+     }
+   }
+ 
+-  static void update(PriceProfile profile) {
+-    PriceProfileCollection().updateJob(profile);
++  static Future<void> update(PriceProfile profile) async {
++    await PriceProfileCollection().updateJob(profile);
+   }
+ 
+-  static void delete(PriceProfile profile) {
+-    PriceProfileCollection().deleteJob(profile.documentId);
++  static Future<void> delete(PriceProfile profile) async {
++    await PriceProfileCollection().deleteJob(profile.documentId);
+   }
+ 
+   static Future<List<PriceProfile>> getAll() async {
+Index: lib/data_layer/local_db/daos/ProfileDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/ProfileDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/ProfileDao.dart	(date 1593315129000)
+@@ -8,12 +8,12 @@
+     await UserCollection().createUser(profile);
+   }
+ 
+-  static void  update(Profile profile) {
+-    UserCollection().updateUser(profile);
++  static Future<void>  update(Profile profile) async {
++    await UserCollection().updateUser(profile);
+   }
+ 
+-  static Future delete(Profile profile) async {
+-    UserCollection().deleteUser(profile.uid);
++  static Future<void> delete(Profile profile) async {
++    await UserCollection().deleteUser(profile.uid);
+   }
+ 
+   static Future<Profile> getByUid(String documentId) async{
+Index: lib/data_layer/local_db/daos/RecurringExpenseDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/RecurringExpenseDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/RecurringExpenseDao.dart	(date 1593315129000)
+@@ -7,26 +7,26 @@
+ 
+ class RecurringExpenseDao extends Equatable{
+ 
+-  static void insert(RecurringExpense recurringExpense) {
+-    RecurringExpenseCollection().createRecurringExpense(recurringExpense);
++  static Future<void> insert(RecurringExpense recurringExpense) async {
++    await RecurringExpenseCollection().createRecurringExpense(recurringExpense);
+   }
+ 
+   static Future insertOrUpdate(RecurringExpense recurringExpense) async {
+     bool alreadyExists = recurringExpense.documentId.isNotEmpty;
+ 
+     if(alreadyExists){
+-      update(recurringExpense);
++      await update(recurringExpense);
+     }else{
+-      insert(recurringExpense);
++      await insert(recurringExpense);
+     }
+   }
+ 
+-  static void update(RecurringExpense recurringExpense) {
+-    RecurringExpenseCollection().updateRecurringExpense(recurringExpense);
++  static Future<void> update(RecurringExpense recurringExpense) async {
++    await RecurringExpenseCollection().updateRecurringExpense(recurringExpense);
+   }
+ 
+-  static void delete(String documentId) {
+-    RecurringExpenseCollection().deleteRecurringExpense(documentId);
++  static Future<void> delete(String documentId) async {
++    await RecurringExpenseCollection().deleteRecurringExpense(documentId);
+   }
+ 
+   static Future<List<RecurringExpense>> getAll() async {
+Index: lib/data_layer/firebase/collections/ClientCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/ClientCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/ClientCollection.dart	(date 1593312295000)
+@@ -26,9 +26,9 @@
+     }
+   }
+ 
+-  Future<Client> getUser(String documentId) async {
++  Future<Client> getClient(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('clients')
+@@ -37,9 +37,9 @@
+         .then((client) => Client.fromMap(client.data, client.documentID));
+   }
+ 
+-  Future<List<Client>> getAllUsersSortedByFirstName(String uid) async {
++  Future<List<Client>> getAllClientsSortedByFirstName(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('clients')
+@@ -47,10 +47,12 @@
+         .then((clients) => _buildClientsList(clients));
+   }
+ 
+-  void updateUser(Client client) {
++  Future<void> updateClient(Client client) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
++          .collection('users')
++          .document(UidUtil().getUid())
+           .collection('clients')
+           .document(client.documentId)
+           .updateData(client.toMap());
+Index: lib/data_layer/local_db/daos/SingleExpenseDao.dart
+===================================================================
+--- lib/data_layer/local_db/daos/SingleExpenseDao.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/daos/SingleExpenseDao.dart	(date 1593315129000)
+@@ -6,26 +6,26 @@
+ import 'package:equatable/equatable.dart';
+ 
+ class SingleExpenseDao extends Equatable{
+-  static void insert(SingleExpense singleExpense) {
+-    SingleExpenseCollection().createSingleExpense(singleExpense);
++  static Future<void> insert(SingleExpense singleExpense) async {
++    await SingleExpenseCollection().createSingleExpense(singleExpense);
+   }
+ 
+   static Future insertOrUpdate(SingleExpense singleExpense) async {
+     bool alreadyExists = singleExpense.documentId.isNotEmpty;
+ 
+     if(alreadyExists){
+-      update(singleExpense);
++      await update(singleExpense);
+     }else{
+-      insert(singleExpense);
++      await insert(singleExpense);
+     }
+   }
+ 
+-  static void update(SingleExpense singleExpense) {
++  static Future<void> update(SingleExpense singleExpense) async {
+     SingleExpenseCollection().updateSingleExpense(singleExpense);
+   }
+ 
+-  static void delete(String documentId) {
+-    SingleExpenseCollection().deleteSingleExpense(documentId);
++  static Future<void> delete(String documentId) async {
++    await SingleExpenseCollection().deleteSingleExpense(documentId);
+   }
+ 
+   static Future<List<SingleExpense>> getAll() async {
+Index: lib/data_layer/firebase/collections/UserCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/UserCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/UserCollection.dart	(date 1593315129000)
+@@ -6,16 +6,18 @@
+     final databaseReference = Firestore.instance;
+     await databaseReference.collection('users')
+         .document(user.uid)
+-        .setData(user.toMap());
++        .setData(user.toMap())
++        .catchError((error) => print(error));
+   }
+ 
+-  void deleteUser(String uid) {
++  Future<void> deleteUser(String uid) async{
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(uid)
+-          .delete();
++          .delete()
++          .catchError((error) => print(error));
+     } catch (e) {
+       print(e.toString());
+     }
+@@ -23,20 +25,22 @@
+ 
+   Future<Profile> getUser(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(uid)
+         .get()
+-        .then((userProfile) => Profile.fromMap(userProfile.data, userProfile.documentID));
++        .then((userProfile) => Profile.fromMap(userProfile.data, userProfile.documentID))
++        .catchError((error) => print(error));
+   }
+ 
+-  void updateUser(Profile profile) {
++  Future<void> updateUser(Profile profile) async{
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(profile.uid)
+-          .updateData(profile.toMap());
++          .updateData(profile.toMap())
++          .catchError((error) => print(error));
+     } catch (e) {
+       print(e.toString());
+     }
+Index: lib/data_layer/firebase/collections/MileageExpenseCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/MileageExpenseCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/MileageExpenseCollection.dart	(date 1593315129000)
+@@ -5,19 +5,19 @@
+ import 'package:dandylight/utils/UidUtil.dart';
+ 
+ class MileageExpenseCollection {
+-  void createMileageExpense(MileageExpense expense) {
++  Future<void> createMileageExpense(MileageExpense expense) async {
+     final databaseReference = Firestore.instance;
+-    databaseReference
++    await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('mileageExpenses')
+         .add(expense.toMap());
+   }
+ 
+-  void deleteMileageExpense(String documentId) {
++  Future<void> deleteMileageExpense(String documentId) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('mileageExpenses')
+@@ -30,7 +30,7 @@
+ 
+   Future<MileageExpense> getMileageExpense(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('mileageExpenses')
+@@ -41,7 +41,7 @@
+ 
+   Future<List<MileageExpense>> getAll(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('mileageExpenses')
+@@ -51,10 +51,10 @@
+ 
+ 
+ 
+-  void updateMileageExpense(MileageExpense expense) {
++  Future<void> updateMileageExpense(MileageExpense expense) async{
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('mileageExpenses')
+Index: lib/data_layer/firebase/collections/RecurringExpenseCollection.dart
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- lib/data_layer/firebase/collections/RecurringExpenseCollection.dart	(revision 58a672f05bc1f443af47ede0ea3ddc5cb131eff4)
++++ lib/data_layer/firebase/collections/RecurringExpenseCollection.dart	(date 1593315129000)
+@@ -5,19 +5,19 @@
+ import 'package:dandylight/utils/UidUtil.dart';
+ 
+ class RecurringExpenseCollection {
+-  void createRecurringExpense(RecurringExpense expense) {
++  Future<void> createRecurringExpense(RecurringExpense expense) async {
+     final databaseReference = Firestore.instance;
+-    databaseReference
++    await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('recurringExpenses')
+         .add(expense.toMap());
+   }
+ 
+-  void deleteRecurringExpense(String documentId) {
++  Future<void> deleteRecurringExpense(String documentId) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('recurringExpenses')
+@@ -30,7 +30,7 @@
+ 
+   Future<RecurringExpense> getRecurringExpense(String documentId) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('recurringExpenses')
+@@ -41,7 +41,7 @@
+ 
+   Future<List<RecurringExpense>> getAll(String uid) async {
+     final databaseReference = Firestore.instance;
+-    return databaseReference
++    return await databaseReference
+         .collection('users')
+         .document(UidUtil().getUid())
+         .collection('recurringExpenses')
+@@ -51,10 +51,10 @@
+ 
+ 
+ 
+-  void updateRecurringExpense(RecurringExpense expense) {
++  Future<void> updateRecurringExpense(RecurringExpense expense) async {
+     try {
+       final databaseReference = Firestore.instance;
+-      databaseReference
++      await databaseReference
+           .collection('users')
+           .document(UidUtil().getUid())
+           .collection('recurringExpenses')

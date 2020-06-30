@@ -18,7 +18,7 @@ class PricingProfilesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchProfiles(Store<AppState> store, NextDispatcher next) async{
-      List<PriceProfile> priceProfiles = await PriceProfileDao.getAll();
+      List<PriceProfile> priceProfiles = await PriceProfileDao.getAllSortedByName();
       next(SetPricingProfilesAction(store.state.pricingProfilesPageState, priceProfiles));
   }
 

@@ -25,8 +25,9 @@ class Job {
   static const String GENDER_MALE = "male";
   static const String GENDER_NEUTRAL = "neutral";
 
+  int id;
   String documentId;
-  String clientDocumentId;
+  int clientId;
   String clientName;
   String jobTitle;
   PriceProfile priceProfile;
@@ -44,8 +45,9 @@ class Job {
   List<JobStage> completedStages;
 
   Job({
+    this.id,
     this.documentId,
-    this.clientDocumentId,
+    this.clientId,
     this.clientName,
     this.jobTitle,
     this.notes,
@@ -64,8 +66,9 @@ class Job {
   });
 
   Job copyWith({
+    int id,
     String documentId,
-    String clientDocumentId,
+    int clientId,
     String clientName,
     String jobTitle,
     PriceProfile priceProfile,
@@ -83,9 +86,10 @@ class Job {
     DateTime createdDate,
   }){
     return Job(
-      documentId: documentId?? this.documentId,
-      clientDocumentId: clientDocumentId ?? this.clientDocumentId,
-      clientName: clientName ?? this.clientName,
+      id: id?? this.id,
+      documentId: documentId ?? this.documentId,
+      clientId: clientId ?? this.clientId,
+      clientName: clientName ?? this.clientId,
       jobTitle: jobTitle ?? this.jobTitle,
       priceProfile: priceProfile ?? this.priceProfile,
       location: location ?? this.location,
@@ -105,7 +109,8 @@ class Job {
 
   Map<String, dynamic> toMap() {
     return {
-      'clientDocumentId': clientDocumentId,
+      'id' : id,
+      'clientId': clientId,
       'clientName' : clientName,
       'jobTitle' : jobTitle,
       'notes' : notes,
@@ -124,10 +129,10 @@ class Job {
     };
   }
 
-  static Job fromMap(Map<String, dynamic> map, String documentId) {
+  static Job fromMap(Map<String, dynamic> map) {
     return Job(
-      documentId: documentId,
-      clientDocumentId: map['clientDocumentId'],
+      id: map['id'],
+      clientId: map['clientId'],
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
@@ -137,9 +142,9 @@ class Job {
       createdDate: map['createdDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       type: map['type'],
       stage: JobStage.fromMap(map['stage']),
-      location: map['location'] != null ? Location.fromMap(map['location'], '') : null,
-      priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile'], '') : null,
-      invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice'], '') : null,
+      location: map['location'] != null ? Location.fromMap(map['location']) : null,
+      priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
+      invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
       depositAmount: map['depositAmount'],
       tipAmount: map['tipAmount'],

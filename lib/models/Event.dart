@@ -10,12 +10,12 @@ class Event{
   String eventTitle;
   AssetImage icon;
   String nextStageText;
-  String jobDocumentId;
+  int jobId;
 
 
   Event({
     this.selectedDate, this.selectedTime, this.isPersonalEvent,
-    this.eventTitle, this.icon, this.nextStageText, this.jobDocumentId
+    this.eventTitle, this.icon, this.nextStageText, this.jobId
   });
 
   static Event fromJob(Job job) {
@@ -26,7 +26,7 @@ class Event{
       eventTitle: job.jobTitle,
       icon: job.stage.getNextStageImage(),
       nextStageText: 'Next: ' + JobStage.getNextStageNameStatic(JobStage.getStageValue(job.stage.stage)),
-      jobDocumentId: job.documentId,
+      jobId: job.id,
     );
   }
 }

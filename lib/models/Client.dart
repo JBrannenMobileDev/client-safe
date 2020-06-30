@@ -19,6 +19,7 @@ class Client{
   static const String LEAD_SOURCE_GIVEAWAY = "Free Giveaway";
   static const String LEAD_SOURCE_OTHER = "Other";
 
+  int id;
   String documentId;
   String firstName;
   String lastName;
@@ -38,6 +39,7 @@ class Client{
   String notes;
 
   Client({
+    this.id,
     this.documentId,
     @required this.firstName,
     this.lastName,
@@ -59,6 +61,7 @@ class Client{
 
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -78,9 +81,9 @@ class Client{
     };
   }
 
-  static Client fromMap(Map<String, dynamic> map, String documentId) {
+  static Client fromMap(Map<String, dynamic> map) {
     return Client(
-      documentId: documentId,
+      id: map['id'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],

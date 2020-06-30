@@ -6,16 +6,18 @@ class UserCollection {
     final databaseReference = Firestore.instance;
     await databaseReference.collection('users')
         .document(user.uid)
-        .setData(user.toMap());
+        .setData(user.toMap())
+        .catchError((error) => print(error));
   }
 
-  void deleteUser(String uid) {
+  Future<void> deleteUser(String uid) async{
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(uid)
-          .delete();
+          .delete()
+          .catchError((error) => print(error));
     } catch (e) {
       print(e.toString());
     }
@@ -23,20 +25,26 @@ class UserCollection {
 
   Future<Profile> getUser(String uid) async {
     final databaseReference = Firestore.instance;
-    return databaseReference
+    return await databaseReference
         .collection('users')
         .document(uid)
         .get()
-        .then((userProfile) => Profile.fromMap(userProfile.data, userProfile.documentID));
+        .then((userProfile) {
+          Profile profile = Profile.fromMap(userProfile.data);
+          profile.uid = userProfile.documentID;
+          return profile;
+        })
+        .catchError((error) => print(error));
   }
 
-  void updateUser(Profile profile) {
+  Future<void> updateUser(Profile profile) async{
     try {
       final databaseReference = Firestore.instance;
-      databaseReference
+      await databaseReference
           .collection('users')
           .document(profile.uid)
-          .updateData(profile.toMap());
+          .updateData(profile.toMap())
+          .catchError((error) => print(error));
     } catch (e) {
       print(e.toString());
     }

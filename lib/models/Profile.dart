@@ -1,5 +1,6 @@
 
 class Profile{
+  int id;
   String uid;
   String firstName;
   String lastName;
@@ -9,9 +10,10 @@ class Profile{
   double latDefaultHome;
   double lngDefaultHome;
   bool signedIn;
+  DateTime lastSignIn;
 
   Profile({
-    this.uid,
+    this.id,
     this.firstName,
     this.lastName,
     this.businessName,
@@ -20,10 +22,11 @@ class Profile{
     this.latDefaultHome,
     this.lngDefaultHome,
     this.signedIn,
+    this.lastSignIn,
   });
 
   Profile copyWith({
-    String uid,
+    int id,
     String firstName,
     String lastName,
     String businessName,
@@ -32,9 +35,10 @@ class Profile{
     double latDefaultHome,
     double lngDefaultHome,
     bool signedIn,
+    DateTime lastSignIn,
   }){
     return Profile(
-      uid: uid ?? this.uid,
+      id: id ?? this.id,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       businessName: businessName ?? this.businessName,
@@ -43,6 +47,7 @@ class Profile{
       latDefaultHome: latDefaultHome ?? this.latDefaultHome,
       lngDefaultHome: lngDefaultHome ?? this.lngDefaultHome,
       signedIn: signedIn ?? this.signedIn,
+      lastSignIn: lastSignIn ?? this.lastSignIn,
     );
   }
 
@@ -50,6 +55,7 @@ class Profile{
 
   Map<String, dynamic> toMap() {
     return {
+      'id' : id,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -58,12 +64,13 @@ class Profile{
       'latDefaultHome' : latDefaultHome,
       'lngDefaultHome' : lngDefaultHome,
       'signedIn' : signedIn,
+      'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
     };
   }
 
-  static Profile fromMap(Map<String, dynamic> map, String documentId) {
+  static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
-      uid: documentId,
+      id: map['id'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],
@@ -72,6 +79,7 @@ class Profile{
       latDefaultHome: map['latDefaultHome'],
       lngDefaultHome: map['lngDefaultHome'],
       signedIn: map['signedIn'],
+      lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
     );
   }
 
