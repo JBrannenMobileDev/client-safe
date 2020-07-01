@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/PriceProfileCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:equatable/equatable.dart';
@@ -17,6 +18,7 @@ class PriceProfileDao extends Equatable{
 
   static Future insert(PriceProfile profile) async {
     await _priceProfileStore.add(await _db, profile.toMap());
+    await PriceProfileCollection().createPriceProfile(profile);
   }
 
   static Future insertOrUpdate(PriceProfile profile) async {
@@ -43,6 +45,7 @@ class PriceProfileDao extends Equatable{
       profile.toMap(),
       finder: finder,
     );
+    await PriceProfileCollection().updatePriceProfile(profile);
   }
 
   static Future delete(PriceProfile profile) async {
@@ -51,6 +54,7 @@ class PriceProfileDao extends Equatable{
       await _db,
       finder: finder,
     );
+    await PriceProfileCollection().deletePriceProfile(profile.documentId);
   }
 
   static Future<List<PriceProfile>> getAllSortedByName() async {

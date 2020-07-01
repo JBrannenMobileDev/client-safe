@@ -14,13 +14,13 @@ class NextInvoiceNumberCollection {
         .setData(number.toMap());
   }
 
-  Future<void> setStartingValue() async {
+  Future<void> setStartingValue(int startingValue) async {
     final databaseReference = Firestore.instance;
     await databaseReference.collection('users')
         .document(UidUtil().getUid())
         .collection('nextInvoiceNumber')
         .document(singletonItemId)
-        .setData(NextInvoiceNumber(highestInvoiceNumber: 1000).toMap());
+        .setData(NextInvoiceNumber(highestInvoiceNumber: startingValue).toMap());
   }
 
   Future<NextInvoiceNumber> getNextInvoiceNumber(String uid) async {

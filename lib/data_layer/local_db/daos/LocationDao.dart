@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/LocationCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:equatable/equatable.dart';
@@ -17,6 +18,7 @@ class LocationDao extends Equatable{
 
   static Future insert(Location location) async {
     await _locationStore.add(await _db, location.toMap());
+    await LocationCollection().createLocation(location);
   }
 
   static Future insertOrUpdate(Location location) async {
@@ -43,14 +45,16 @@ class LocationDao extends Equatable{
       location.toMap(),
       finder: finder,
     );
+    await LocationCollection().updateLocation(location);
   }
 
-  static Future delete(int id) async {
+  static Future delete(int id, String documentId) async {
     final finder = Finder(filter: Filter.byKey(id));
     await _locationStore.delete(
       await _db,
       finder: finder,
     );
+    await LocationCollection().deleteJob(documentId);
   }
 
   static Future<List<Location>> getAllSortedMostFrequent() async {

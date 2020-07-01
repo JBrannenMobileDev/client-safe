@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/MileageExpenseCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/MileageExpense.dart';
@@ -19,6 +20,7 @@ class MileageExpenseDao extends Equatable{
 
   static Future insert(MileageExpense mileageExpense) async {
     await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
+    await MileageExpenseCollection().createMileageExpense(mileageExpense);
   }
 
   static Future insertOrUpdate(MileageExpense mileageExpense) async {
@@ -45,14 +47,16 @@ class MileageExpenseDao extends Equatable{
       mileageExpense.toMap(),
       finder: finder,
     );
+    await MileageExpenseCollection().updateMileageExpense(mileageExpense);
   }
 
-  static Future delete(int id) async {
+  static Future delete(int id, String documentId) async {
     final finder = Finder(filter: Filter.byKey(id));
     await _mileageExpenseStore.delete(
       await _db,
       finder: finder,
     );
+    await MileageExpenseCollection().deleteMileageExpense(documentId);
   }
 
   static Future<List<MileageExpense>> getAll() async {

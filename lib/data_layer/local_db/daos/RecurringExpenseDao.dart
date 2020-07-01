@@ -1,9 +1,8 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/RecurringExpenseCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
-import 'package:dandylight/models/SingleExpense.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 
@@ -19,6 +18,7 @@ class RecurringExpenseDao extends Equatable{
 
   static Future insert(RecurringExpense recurringExpense) async {
     await _recurringExpenseStore.add(await _db, recurringExpense.toMap());
+    await RecurringExpenseCollection().createRecurringExpense(recurringExpense);
   }
 
   static Future insertOrUpdate(RecurringExpense recurringExpense) async {
@@ -45,14 +45,16 @@ class RecurringExpenseDao extends Equatable{
       recurringExpense.toMap(),
       finder: finder,
     );
+    await RecurringExpenseCollection().updateRecurringExpense(recurringExpense);
   }
 
-  static Future delete(int id) async {
+  static Future delete(int id, String documentId) async {
     final finder = Finder(filter: Filter.byKey(id));
     await _recurringExpenseStore.delete(
       await _db,
       finder: finder,
     );
+    await RecurringExpenseCollection().deleteRecurringExpense(documentId);
   }
 
   static Future<List<RecurringExpense>> getAll() async {

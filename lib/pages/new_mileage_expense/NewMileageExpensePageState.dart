@@ -15,6 +15,7 @@ class NewMileageExpensePageState {
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
   final int id;
+  final String documentId;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -51,6 +52,7 @@ class NewMileageExpensePageState {
 
   NewMileageExpensePageState({
     @required this.id,
+    @required this.documentId,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -88,6 +90,7 @@ class NewMileageExpensePageState {
 
   NewMileageExpensePageState copyWith({
     int id,
+    String documentId,
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
@@ -125,6 +128,7 @@ class NewMileageExpensePageState {
   }){
     return NewMileageExpensePageState(
       id: id?? this.id,
+      documentId: documentId ?? this.documentId,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
@@ -163,6 +167,7 @@ class NewMileageExpensePageState {
 
   factory NewMileageExpensePageState.initial() => NewMileageExpensePageState(
     id: null,
+    documentId: '',
     pageViewIndex: 0,
     saveButtonEnabled: false,
     shouldClear: true,
@@ -223,6 +228,7 @@ class NewMileageExpensePageState {
       selectedLocation: store.state.newMileageExpensePageState.selectedLocation,
       locations: store.state.newMileageExpensePageState.locations,
       documentPath: store.state.newMileageExpensePageState.documentPath,
+      documentId: store.state.newMileageExpensePageState.documentId,
       onSavePressed: () => store.dispatch(SaveMileageExpenseProfileAction(store.state.newMileageExpensePageState)),
       onCancelPressed: () => store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newMileageExpensePageState)),
@@ -243,6 +249,7 @@ class NewMileageExpensePageState {
   @override
   int get hashCode =>
       id.hashCode ^
+      documentId.hashCode ^
       startLocationName.hashCode ^
       endLocationName.hashCode ^
       isOneWay.hashCode ^
@@ -282,6 +289,7 @@ class NewMileageExpensePageState {
       identical(this, other) ||
       other is NewMileageExpensePageState &&
           id == other.id &&
+          documentId == other.documentId &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           filterType == other.filterType &&

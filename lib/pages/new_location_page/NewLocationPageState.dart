@@ -8,6 +8,7 @@ import '../../AppState.dart';
 
 class NewLocationPageState{
   final int id;
+  final String documentId;
   final bool shouldClear;
   final bool locationUpdated;
   final String documentFilePath;
@@ -38,6 +39,7 @@ class NewLocationPageState{
 
   NewLocationPageState({
     @required this.id,
+    @required this.documentId,
     @required this.shouldClear,
     @required this.locationName,
     @required this.pageViewIndex,
@@ -69,6 +71,7 @@ class NewLocationPageState{
 
   NewLocationPageState copyWith({
     int id,
+    String documentId,
     bool shouldClear,
     bool locationUpdate,
     String locationName,
@@ -100,6 +103,7 @@ class NewLocationPageState{
   }){
     return NewLocationPageState(
       id: id?? this.id,
+      documentId: documentId ?? this.documentId,
       shouldClear: shouldClear?? this.shouldClear,
       locationName: locationName?? this.locationName,
       pageViewIndex: pageViewIndex ?? this.pageViewIndex,
@@ -132,6 +136,7 @@ class NewLocationPageState{
 
   factory NewLocationPageState.initial() => NewLocationPageState(
     id: null,
+    documentId: '',
     shouldClear: true,
     locationName: "",
     pageViewIndex: 0,
@@ -178,6 +183,7 @@ class NewLocationPageState{
       selectedSearchLocation: store.state.newLocationPageState.selectedSearchLocation,
       locationsResults: store.state.newLocationPageState.locationsResults,
       currentMapLatLng: store.state.newLocationPageState.currentMapLatLng,
+      documentId: store.state.newLocationPageState.documentId,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
       onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
@@ -208,6 +214,7 @@ class NewLocationPageState{
       onSearchInputChanged.hashCode ^
       onSearchLocationSelected.hashCode ^
       onThrottleGetLocations.hashCode ^
+      documentId.hashCode ^
       shouldClear.hashCode ^
       locationName.hashCode ^
       pageViewIndex.hashCode ^
@@ -230,6 +237,7 @@ class NewLocationPageState{
       identical(this, other) ||
           other is NewLocationPageState &&
               id == other.id &&
+              documentId == other.documentId &&
               searchText == other.searchText &&
               selectedSearchLocation == other.selectedSearchLocation &&
               locationsResults == other.locationsResults &&

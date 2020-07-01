@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/InvoiceCollection.dart';
+import 'package:dandylight/data_layer/firebase/collections/NextInvoiceNumberCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
@@ -21,6 +23,7 @@ class InvoiceDao extends Equatable{
 
   static Future insert(Invoice invoice) async {
     await _invoiceStore.add(await _db, invoice.toMap());
+    await InvoiceCollection().createInvoice(invoice);
   }
 
   static Future insertOrUpdate(Invoice invoice) async {
@@ -48,6 +51,7 @@ class InvoiceDao extends Equatable{
       List<NextInvoiceNumber> nextInvoiceNumbers = await NextInvoiceNumberDao.getAllSorted();
       if(nextInvoiceNumbers.length == 0){
         nextInvoiceNumbers.add(NextInvoiceNumber(highestInvoiceNumber: 1000));
+        await NextInvoiceNumberCollection().setStartingValue(1000);
       }
       NextInvoiceNumber nextInvoiceNumber = nextInvoiceNumbers.elementAt(0);
       nextInvoiceNumber.highestInvoiceNumber = (nextInvoiceNumber.highestInvoiceNumber + 1);
@@ -62,14 +66,16 @@ class InvoiceDao extends Equatable{
       invoice.toMap(),
       finder: finder,
     );
+    await InvoiceCollection().updateInvoice(invoice);
   }
 
-  static Future deleteById(int id) async {
+  static Future deleteById(int id, String documentId) async {
     final finder = Finder(filter: Filter.byKey(id));
     await _invoiceStore.delete(
       await _db,
       finder: finder,
     );
+    await InvoiceCollection().deleteInvoice(documentId);
     List<Job> jobs = await JobDao.getAllJobs();
     for(Job job in jobs){
       if(job.invoice?.id == id){
@@ -80,7 +86,7 @@ class InvoiceDao extends Equatable{
   }
 
   static Future deleteByInvoice(Invoice invoice) async {
-    await deleteById(invoice.id);
+    await deleteById(invoice.id, invoice.documentId);
   }
 
   static Future<List<Invoice>> getAllSortedByDueDate() async {

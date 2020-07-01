@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/SingleExpenseCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/SingleExpense.dart';
@@ -18,6 +19,7 @@ class SingleExpenseDao extends Equatable{
 
   static Future insert(SingleExpense singleExpense) async {
     await _singleExpenseStore.add(await _db, singleExpense.toMap());
+    await SingleExpenseCollection().createSingleExpense(singleExpense);
   }
 
   static Future insertOrUpdate(SingleExpense singleExpense) async {
@@ -44,14 +46,16 @@ class SingleExpenseDao extends Equatable{
       singleExpense.toMap(),
       finder: finder,
     );
+    await SingleExpenseCollection().updateSingleExpense(singleExpense);
   }
 
-  static Future delete(int id) async {
+  static Future delete(int id, String documentId) async {
     final finder = Finder(filter: Filter.byKey(id));
     await _singleExpenseStore.delete(
       await _db,
       finder: finder,
     );
+    await SingleExpenseCollection().deleteSingleExpense(documentId);
   }
 
   static Future<List<SingleExpense>> getAll() async {

@@ -64,6 +64,7 @@ NewRecurringExpensePageState _updateName(NewRecurringExpensePageState previousSt
 NewRecurringExpensePageState _loadRecurringExpense(NewRecurringExpensePageState previousState, LoadExistingRecurringExpenseData action){
   return previousState.copyWith(
     id: action.recurringExpense.id,
+    documentId: action.recurringExpense.documentId,
     shouldClear: false,
     expenseName: action.recurringExpense.expenseName,
     expenseDate: action.recurringExpense.initialChargeDate,

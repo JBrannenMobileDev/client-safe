@@ -51,6 +51,7 @@ NewSingleExpensePageState _updateName(NewSingleExpensePageState previousState, U
 NewSingleExpensePageState _loadPriceProfile(NewSingleExpensePageState previousState, LoadExistingPricingProfileData action){
   return previousState.copyWith(
     id: action.singleExpense.id,
+    documentId: action.singleExpense.documentId,
     shouldClear: false,
     expenseName: action.singleExpense.expenseName,
     expenseDate: action.singleExpense.charge.chargeDate,

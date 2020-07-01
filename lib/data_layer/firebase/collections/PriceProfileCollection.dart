@@ -3,7 +3,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 class PriceProfileCollection {
-  Future<void> createJob(PriceProfile priceProfile) async {
+  Future<void> createPriceProfile(PriceProfile priceProfile) async {
     final databaseReference = Firestore.instance;
     await databaseReference
         .collection('users')
@@ -12,7 +12,7 @@ class PriceProfileCollection {
         .add(priceProfile.toMap());
   }
 
-  Future<void> deleteJob(String documentId) async {
+  Future<void> deletePriceProfile(String documentId) async {
     try {
       final databaseReference = Firestore.instance;
       await databaseReference
@@ -26,7 +26,7 @@ class PriceProfileCollection {
     }
   }
 
-  Future<PriceProfile> getJob(String documentId) async {
+  Future<PriceProfile> getPriceProfile(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference
         .collection('users')
@@ -53,7 +53,7 @@ class PriceProfileCollection {
 
 
 
-  Future<void> updateJob(PriceProfile priceProfile) async {
+  Future<void> updatePriceProfile(PriceProfile priceProfile) async {
     try {
       final databaseReference = Firestore.instance;
       await databaseReference

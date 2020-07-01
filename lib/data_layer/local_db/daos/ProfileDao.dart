@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:equatable/equatable.dart';
@@ -17,6 +18,7 @@ class ProfileDao extends Equatable{
 
   static Future insert(Profile profile) async {
     await _profileStore.add(await _db, profile.toMap());
+    await UserCollection().createUser(profile);
   }
 
   static Future insertOrUpdate(Profile profile) async {
@@ -43,6 +45,7 @@ class ProfileDao extends Equatable{
       profile.toMap(),
       finder: finder,
     );
+    await UserCollection().updateUser(profile);
   }
 
   static Future delete(Profile profile) async {
@@ -51,6 +54,7 @@ class ProfileDao extends Equatable{
       await _db,
       finder: finder,
     );
+    await UserCollection().deleteUser(profile.uid);
   }
 
   static Future<List<Profile>> getAllSortedByFirstName() async {

@@ -1,7 +1,7 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/NextInvoiceNumberCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
@@ -18,6 +18,7 @@ class NextInvoiceNumberDao extends Equatable{
 
   static Future insert(NextInvoiceNumber next) async {
     await _nextInvoiceNumberStore.add(await _db, next.toMap());
+    await NextInvoiceNumberCollection().updateNextInvoiceNumber(next);
   }
 
   static Future insertOrUpdate(NextInvoiceNumber next) async {
@@ -44,14 +45,7 @@ class NextInvoiceNumberDao extends Equatable{
       next.toMap(),
       finder: finder,
     );
-  }
-
-  static Future delete(int id) async {
-    final finder = Finder(filter: Filter.byKey(id));
-    await _nextInvoiceNumberStore.delete(
-      await _db,
-      finder: finder,
-    );
+    await NextInvoiceNumberCollection().updateNextInvoiceNumber(next);
   }
 
   static Future<List<NextInvoiceNumber>> getAllSorted() async {

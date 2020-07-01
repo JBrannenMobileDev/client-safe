@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/firebase/collections/JobCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:equatable/equatable.dart';
@@ -17,6 +18,7 @@ class JobDao extends Equatable{
 
   static Future insert(Job job) async {
     await _jobStore.add(await _db, job.toMap());
+    await JobCollection().createJob(job);
   }
 
   static Future insertOrUpdate(Job job) async {
@@ -43,6 +45,7 @@ class JobDao extends Equatable{
       job.toMap(),
       finder: finder,
     );
+    await JobCollection().updateJob(job);
   }
 
   static Future delete(Job job) async {
@@ -51,6 +54,7 @@ class JobDao extends Equatable{
       await _db,
       finder: finder,
     );
+    await JobCollection().deleteJob(job.documentId);
   }
 
    static Future<List<Job>> getAllJobs() async {
