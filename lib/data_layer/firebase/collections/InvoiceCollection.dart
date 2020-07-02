@@ -35,11 +35,7 @@ class InvoiceCollection {
         .collection('invoices')
         .document(documentId)
         .get()
-        .then((invoice) {
-          Invoice result = Invoice.fromMap(invoice.data);
-          result.documentId = invoice.documentID;
-          return result;
-        });
+        .then((invoice) => Invoice.fromMap(invoice.data));
   }
 
   Future<List<Invoice>> getAllInvoicesSortedByDate(String uid) async {

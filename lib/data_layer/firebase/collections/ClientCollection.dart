@@ -9,7 +9,11 @@ class ClientCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('clients')
-        .add(client.toMap());
+        .document(client.documentId)
+        .setData(client.toMap())
+        .catchError((error) {
+          print(error);
+        });
   }
 
   Future<void> deleteClient(String documentId) async {
@@ -34,11 +38,7 @@ class ClientCollection {
         .collection('clients')
         .document(documentId)
         .get()
-        .then((client) {
-          Client result = Client.fromMap(client.data);
-          result.documentId = client.documentID;
-          return result;
-        });
+        .then((client) => Client.fromMap(client.data));
   }
 
   Future<List<Client>> getAllClientsSortedByFirstName(String uid) async {

@@ -31,6 +31,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
   void saveClient(Store<AppState> store, SaveNewContactAction action, NextDispatcher next) async{
     Client client = Client(
       id: action.pageState.id,
+      documentId: action.pageState.client?.documentId,
       firstName: action.pageState.newContactFirstName,
       lastName: action.pageState.newContactLastName,
       gender: action.pageState.isFemale ? Client.GENDER_FEMALE : Client.GENDER_MALE,

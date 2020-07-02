@@ -36,6 +36,7 @@ class Location {
   static Location fromMap(Map<String, dynamic> map) {
     return Location(
       id: map['id'],
+      documentId: map['documentId'],
       locationName: map['locationName'],
       latitude: map['latitude'],
       longitude: map['longitude'],

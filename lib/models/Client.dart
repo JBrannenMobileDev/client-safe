@@ -62,6 +62,7 @@ class Client{
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
+      'documentId' : documentId,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -84,6 +85,7 @@ class Client{
   static Client fromMap(Map<String, dynamic> map) {
     return Client(
       id: map['id'],
+      documentId: map['documentId'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],

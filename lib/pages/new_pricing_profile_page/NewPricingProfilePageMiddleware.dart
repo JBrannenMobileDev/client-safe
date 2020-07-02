@@ -24,6 +24,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
   void saveProfile(Store<AppState> store, action, NextDispatcher next) async{
     PriceProfile priceProfile = PriceProfile(
       id: store.state.pricingProfilePageState.id,
+      documentId: store.state.pricingProfilePageState.documentId,
       profileName: store.state.pricingProfilePageState.profileName,
       rateType: store.state.pricingProfilePageState.rateType,
       flatRate: store.state.pricingProfilePageState.flatRate,
@@ -39,7 +40,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
-    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id));
+    await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id, documentId: store.state.pricingProfilePageState.documentId));
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

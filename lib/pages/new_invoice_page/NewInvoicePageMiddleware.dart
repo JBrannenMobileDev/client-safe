@@ -19,9 +19,7 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'package:pdf/pdf.dart';
-import 'dart:io';
 import 'package:pdf/widgets.dart';
-import 'package:path_provider/path_provider.dart';
 
 class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -59,6 +57,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     await InvoiceDao.insertOrUpdate(
         Invoice(
           clientId: pageState.selectedJob.clientId,
+          documentId: pageState.selectedJob.invoice.documentId,
           invoiceId: pageState.invoiceNumber,
           clientName: pageState.selectedJob.clientName,
           jobName: pageState.selectedJob.jobTitle,

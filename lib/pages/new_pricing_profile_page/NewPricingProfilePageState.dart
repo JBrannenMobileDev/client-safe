@@ -11,6 +11,7 @@ class NewPricingProfilePageState {
   static const String ERROR_PROFILE_NAME_MISSING = "missingProfileName";
 
   final int id;
+  final String documentId;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -34,6 +35,7 @@ class NewPricingProfilePageState {
 
   NewPricingProfilePageState({
     @required this.id,
+    @required this.documentId,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
     @required this.shouldClear,
@@ -58,6 +60,7 @@ class NewPricingProfilePageState {
 
   NewPricingProfilePageState copyWith({
     int id,
+    String documentId,
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
@@ -101,11 +104,13 @@ class NewPricingProfilePageState {
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
       onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
       onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
+      documentId: documentId ?? this.documentId,
     );
   }
 
   factory NewPricingProfilePageState.initial() => NewPricingProfilePageState(
         id: null,
+        documentId: '',
         pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
@@ -140,6 +145,7 @@ class NewPricingProfilePageState {
       rateType: store.state.pricingProfilePageState.rateType,
       flatRate: store.state.pricingProfilePageState.flatRate,
       hourlyRate: store.state.pricingProfilePageState.hourlyRate,
+      documentId: store.state.pricingProfilePageState.documentId,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
@@ -157,6 +163,7 @@ class NewPricingProfilePageState {
   @override
   int get hashCode =>
       id.hashCode ^
+      documentId.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
@@ -178,6 +185,7 @@ class NewPricingProfilePageState {
       identical(this, other) ||
       other is NewPricingProfilePageState &&
           id == other.id &&
+          documentId == other.documentId &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&

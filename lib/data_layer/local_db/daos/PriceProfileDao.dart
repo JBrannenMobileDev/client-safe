@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class PriceProfileDao extends Equatable{
   static const String PRICE_PROFILE_STORE_NAME = 'priceProfile';
@@ -17,7 +18,8 @@ class PriceProfileDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(PriceProfile profile) async {
-    await _priceProfileStore.add(await _db, profile.toMap());
+    profile.documentId = Uuid().v1();
+    profile.id = await _priceProfileStore.add(await _db, profile.toMap());
     await PriceProfileCollection().createPriceProfile(profile);
   }
 

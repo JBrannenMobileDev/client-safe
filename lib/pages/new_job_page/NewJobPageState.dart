@@ -16,6 +16,7 @@ class NewJobPageState {
   static const String ERROR_JOB_TITLE_MISSING = "missingJobTitle";
 
   final int id;
+  final String documentId;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -63,6 +64,7 @@ class NewJobPageState {
 
   NewJobPageState({
     @required this.id,
+    @required this.documentId,
     @required this.comingFromClientDetails,
     @required this.documentPath,
     @required this.pageViewIndex,
@@ -111,6 +113,7 @@ class NewJobPageState {
 
   NewJobPageState copyWith({
     int id,
+    String documentId,
     String documentPath,
     int pageViewIndex,
     bool comingFromClientDetails,
@@ -202,6 +205,7 @@ class NewJobPageState {
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
       clearDepositAmount: clearDepositAmount ?? this.clearDepositAmount,
       comingFromClientDetails: comingFromClientDetails ?? this.comingFromClientDetails,
+      documentId: documentId ?? this.documentId,
     );
   }
 
@@ -210,6 +214,7 @@ class NewJobPageState {
     selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
     return NewJobPageState(
         id: null,
+        documentId: '',
         documentPath: '',
         pageViewIndex: 0,
         saveButtonEnabled: false,
@@ -260,6 +265,7 @@ class NewJobPageState {
   factory NewJobPageState.fromStore(Store<AppState> store) {
     return NewJobPageState(
       id: store.state.newJobPageState.id,
+      documentId: store.state.newJobPageState.documentId,
       documentPath: store.state.newJobPageState.documentPath,
       pageViewIndex: store.state.newJobPageState.pageViewIndex,
       saveButtonEnabled: store.state.newJobPageState.saveButtonEnabled,
@@ -310,6 +316,7 @@ class NewJobPageState {
   @override
   int get hashCode =>
       id.hashCode ^
+      documentId.hashCode ^
       pageViewIndex.hashCode ^
       documentPath.hashCode ^
       saveButtonEnabled.hashCode ^
@@ -355,6 +362,7 @@ class NewJobPageState {
       identical(this, other) ||
       other is NewJobPageState &&
           id == other.id &&
+          documentId == other.documentId &&
           documentPath == other.documentPath &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&

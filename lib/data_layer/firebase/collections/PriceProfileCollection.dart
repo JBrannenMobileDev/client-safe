@@ -9,7 +9,8 @@ class PriceProfileCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('priceProfiles')
-        .add(priceProfile.toMap());
+        .document(priceProfile.documentId)
+        .setData(priceProfile.toMap());
   }
 
   Future<void> deletePriceProfile(String documentId) async {

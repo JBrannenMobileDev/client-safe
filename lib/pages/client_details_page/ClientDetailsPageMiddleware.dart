@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/UserPermissionsUtil.dart';
@@ -24,6 +25,13 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is InstagramSelectedAction){
       _launchInstagramProfile(store.state.clientDetailsPageState.client.instagramProfileUrl);
     }
+    if(action is LoadClientJobsAction) {
+      _loadClientJobs(store, next, action);
+    }
+  }
+
+  void _loadClientJobs(Store<AppState> store, NextDispatcher next, LoadClientJobsAction action) async{
+    store.dispatch(SetClientJobsAction(store.state.clientDetailsPageState, await JobDao.getAllJobs()));
   }
 
   void _initializedClientDetailsState(Store<AppState> store, NextDispatcher next, InitializeClientDetailsAction action) async{
@@ -36,6 +44,7 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     UserPermissionsUtil.requestPermission(Permission.contacts);
     DeviceContactsDao.deleteContact(store.state.clientDetailsPageState.client);
     store.dispatch(FetchClientData(store.state.clientsPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 

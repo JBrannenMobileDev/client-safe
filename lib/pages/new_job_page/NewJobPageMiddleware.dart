@@ -61,6 +61,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
+      documentId: store.state.newJobPageState.documentId,
       clientId: store.state.newJobPageState.selectedClient.id,
       clientName: store.state.newJobPageState.selectedClient.getClientFullName(),
       jobTitle: store.state.newJobPageState.jobTitle,

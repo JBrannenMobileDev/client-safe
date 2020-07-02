@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class LocationDao extends Equatable{
   static const String LOCATION_STORE_NAME = 'location';
@@ -17,7 +18,8 @@ class LocationDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(Location location) async {
-    await _locationStore.add(await _db, location.toMap());
+    location.documentId = Uuid().v1();
+    location.id = await _locationStore.add(await _db, location.toMap());
     await LocationCollection().createLocation(location);
   }
 

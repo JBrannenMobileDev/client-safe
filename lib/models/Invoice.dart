@@ -51,6 +51,7 @@ class Invoice {
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
+      'documentId' : documentId,
       'clientId': clientId,
       'invoiceId': invoiceId,
       'clientName': clientName,
@@ -73,6 +74,7 @@ class Invoice {
   static Invoice fromMap(Map<String, dynamic> map) {
     return Invoice(
       id: map['id'],
+      documentId: map['documentId'],
       clientId: map['clientId'],
       invoiceId: map['invoiceId'],
       clientName: map['clientName'],

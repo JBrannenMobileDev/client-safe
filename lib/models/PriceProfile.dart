@@ -24,6 +24,7 @@ class PriceProfile{
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
+      'documentId' : documentId,
       'profileName': profileName,
       'rateType' : rateType,
       'flatRate' : flatRate,
@@ -36,6 +37,7 @@ class PriceProfile{
   static PriceProfile fromMap(Map<String, dynamic> map) {
     return PriceProfile(
       id: map['id'],
+      documentId: map['documentId'],
       profileName: map['profileName'],
       rateType: map['rateType'],
       flatRate: map['flatRate'],

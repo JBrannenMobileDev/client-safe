@@ -49,7 +49,7 @@ class _JobNameFormState extends State<JobNameForm>
                 controller: jobTitleTextController,
                 hintText: "Job name",
                 inputType: TextInputType.text,
-                height: 60.0,
+                height: 64.0,
                 onTextInputChanged: pageState.onJobTitleTextChanged,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,

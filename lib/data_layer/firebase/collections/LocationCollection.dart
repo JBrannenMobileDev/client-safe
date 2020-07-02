@@ -9,7 +9,8 @@ class LocationCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('locations')
-        .add(location.toMap());
+        .document(location.documentId)
+        .setData(location.toMap());
   }
 
   Future<void> deleteJob(String documentId) async {

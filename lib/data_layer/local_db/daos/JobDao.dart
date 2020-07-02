@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class JobDao extends Equatable{
   static const String JOB_STORE_NAME = 'jobs';
@@ -17,7 +18,9 @@ class JobDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(Job job) async {
-    await _jobStore.add(await _db, job.toMap());
+    job.documentId = Uuid().v1();
+    int jobId = await _jobStore.add(await _db, job.toMap());
+    job.id = jobId;
     await JobCollection().createJob(job);
   }
 

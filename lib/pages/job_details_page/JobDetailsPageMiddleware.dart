@@ -12,6 +12,7 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
+import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
@@ -98,22 +99,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobDeposit(Store<AppState> store, SaveDepositChangeAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
-      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
-      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
-      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
-      type: store.state.jobDetailsPageState.job.type,
-      stage: store.state.jobDetailsPageState.job.stage,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.job.location,
-      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       depositAmount: action.pageState.unsavedDepositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
@@ -121,22 +108,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobTip(Store<AppState> store, SaveTipChangeAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
-      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
-      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
-      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
-      type: store.state.jobDetailsPageState.job.type,
-      stage: store.state.jobDetailsPageState.job.stage,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.job.location,
-      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       tipAmount: action.pageState.unsavedTipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
@@ -144,22 +117,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
-      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
-      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
-      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
-      type: store.state.jobDetailsPageState.job.type,
-      stage: store.state.jobDetailsPageState.job.stage,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.selectedLocation,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       priceProfile: action.pageState.selectedPriceProfile,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
@@ -167,22 +126,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
-      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
-      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
-      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       type: action.pageState.jobTypeIcon,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      stage: store.state.jobDetailsPageState.job.stage,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.selectedLocation,
-      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -190,22 +135,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobName(Store<AppState> store, SaveJobNameChangeAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       jobTitle: action.pageState.jobTitleText,
-      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
-      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
-      type: store.state.jobDetailsPageState.job.type,
-      stage: store.state.jobDetailsPageState.job.stage,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.selectedLocation,
-      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -213,22 +144,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobLocation(Store<AppState> store, action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
-      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
-      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
-      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
-      type: store.state.jobDetailsPageState.job.type,
-      stage: store.state.jobDetailsPageState.job.stage,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       location: action.location,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -254,22 +171,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobWithNewTime(Store<AppState> store, UpdateJobTimeAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
-      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
-      selectedDate: store.state.jobDetailsPageState.job.selectedDate,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       selectedTime: action.newTime,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      type: store.state.jobDetailsPageState.job.type,
-      stage: store.state.jobDetailsPageState.job.stage,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.job.location,
-      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -277,22 +180,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.jobDetailsPageState.job.id,
-      clientId: store.state.jobDetailsPageState.job.clientId,
-      clientName: store.state.jobDetailsPageState.job.clientName,
-      jobTitle: store.state.jobDetailsPageState.job.jobTitle,
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       selectedDate: action.newDate,
-      selectedTime: store.state.jobDetailsPageState.job.selectedTime,
-      type: store.state.jobDetailsPageState.job.type,
-      stage: store.state.jobDetailsPageState.job.stage,
-      invoice: store.state.jobDetailsPageState.job.invoice,
-      completedStages: store.state.jobDetailsPageState.job.completedStages,
-      location: store.state.jobDetailsPageState.job.location,
-      priceProfile: store.state.jobDetailsPageState.job.priceProfile,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -320,6 +209,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{
     await JobDao.delete(store.state.jobDetailsPageState.job);
+    store.dispatch(LoadClientJobsAction(store.state.clientDetailsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
@@ -330,19 +220,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     completedJobStages.add(stageToComplete);
     action.job.completedStages = completedJobStages;
     action.job.stage = _getNextUncompletedStage(action.stageIndex, action.job.completedStages);
-    Job jobToSave = Job(
-      id: action.job.id,
-      clientId: action.job.clientId,
-      clientName: action.job.clientName,
-      jobTitle: action.job.jobTitle,
-      selectedDate: action.job.selectedDate,
-      selectedTime: action.job.selectedTime,
-      type: action.job.type,
-      stage: action.job.stage,
+    Job jobToSave = action.job.copyWith(
       completedStages: completedJobStages,
-      location: action.job.location,
-      invoice: action.job.invoice,
-      priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
       tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,
@@ -380,19 +259,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }else{
       action.job.stage = JobStage.getStageFromIndex(1);
     }
-    Job jobToSave = Job(
-      id: action.job.id,
-      clientId: action.job.clientId,
-      clientName: action.job.clientName,
-      jobTitle: action.job.jobTitle,
-      selectedDate: action.job.selectedDate,
-      selectedTime: action.job.selectedTime,
-      type: action.job.type,
-      stage: action.job.stage,
-      invoice: action.job.invoice,
+    Job jobToSave = action.job.copyWith(
       completedStages: completedJobStages,
-      location: action.job.location,
-      priceProfile: action.job.priceProfile,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
       tipAmount: store.state.jobDetailsPageState.job.tipAmount,
       createdDate: store.state.jobDetailsPageState.job.createdDate,

@@ -8,6 +8,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,15 +40,16 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser user = await _auth.currentUser();
     if (user != null && user.isEmailVerified) {
+      _updateUserLoginTime(user.uid);
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
     } else {
-      store
-          .dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-      await _auth
-          .signInWithEmailAndPassword(
+      store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+      await _auth.signInWithEmailAndPassword(
               email: store.state.loginPageState.emailAddress,
-              password: store.state.loginPageState.password)
-          .then((authResult) async {
+              password: store.state.loginPageState.password).then((authResult) async {
+                if(authResult.user != null) {
+                  UidUtil().setUid(authResult.user.uid);
+                }
         if (authResult.user != null && authResult.user.isEmailVerified) {
           List<Profile> userProfiles = await ProfileDao.getAll();
           if (userProfiles.isNotEmpty) {
@@ -57,6 +59,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
                   businessName: store.state.loginPageState.businessName,
                   email: store.state.loginPageState.emailAddress,
                   signedIn: true,
+                  lastSignIn: DateTime.now()
                 );
             ProfileDao.insertOrUpdate(updatedProfile);
           }
@@ -64,11 +67,10 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         } else if (user != null && !user.isEmailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
           VibrateUtil.vibrateHeavy();
-          store.dispatch(
-              AnimateLoginErrorMessageAction(store.state.loginPageState, true));
+          store.dispatch(AnimateLoginErrorMessageAction(store.state.loginPageState, true));
+          _updateUserLoginTime(user.uid);
         }
-        store.dispatch(
-            UpdateShowLoginAnimation(store.state.loginPageState, false));
+        store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, false));
       }).catchError((error) {
         PlatformException exception = error;
         String errorMessage = '';
@@ -88,6 +90,18 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(
             UpdateShowLoginAnimation(store.state.loginPageState, false));
       });
+    }
+  }
+
+  Future<void> _updateUserLoginTime(String uid) async{
+    List<Profile> userProfiles = await ProfileDao.getAll();
+    if (userProfiles.isNotEmpty) {
+      Profile updatedProfile = userProfiles.elementAt(0).copyWith(
+          uid: uid,
+          signedIn: true,
+          lastSignIn: DateTime.now()
+      );
+      ProfileDao.insertOrUpdate(updatedProfile);
     }
   }
 
@@ -111,6 +125,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         List<Profile> userProfiles = await ProfileDao.getAll();
         if(userProfiles.isNotEmpty) {
           Profile updatedProfile = userProfiles.elementAt(0).copyWith(
+            uid: user.uid,
             firstName: store.state.loginPageState.firstName,
             lastName: store.state.loginPageState.lastName,
             businessName: store.state.loginPageState.businessName,
@@ -120,6 +135,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           ProfileDao.insertOrUpdate(updatedProfile);
         } else {
           Profile newProfile = Profile(
+            uid: user.uid,
             firstName: store.state.loginPageState.firstName,
             lastName: store.state.loginPageState.lastName,
             businessName: store.state.loginPageState.businessName,
@@ -159,6 +175,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
       store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
       await Future.delayed(const Duration(milliseconds: 2500), () {
+        _updateUserLoginTime(user.uid);
+        UidUtil().setUid(user.uid);
         store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
       });
     }else if(user != null && !user.isEmailVerified){

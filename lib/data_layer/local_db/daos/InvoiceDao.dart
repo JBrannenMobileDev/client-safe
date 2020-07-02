@@ -10,6 +10,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class InvoiceDao extends Equatable{
   static const String INVOICE_STORE_NAME = 'invoice';
@@ -22,7 +23,9 @@ class InvoiceDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(Invoice invoice) async {
-    await _invoiceStore.add(await _db, invoice.toMap());
+    invoice.documentId = Uuid().v1();
+    int savedClientId = await _invoiceStore.add(await _db, invoice.toMap());
+    invoice.id = savedClientId;
     await InvoiceCollection().createInvoice(invoice);
   }
 

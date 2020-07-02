@@ -89,7 +89,7 @@ class Job {
       id: id?? this.id,
       documentId: documentId ?? this.documentId,
       clientId: clientId ?? this.clientId,
-      clientName: clientName ?? this.clientId,
+      clientName: clientName ?? this.clientName,
       jobTitle: jobTitle ?? this.jobTitle,
       priceProfile: priceProfile ?? this.priceProfile,
       location: location ?? this.location,
@@ -110,6 +110,7 @@ class Job {
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
+      'documentId' : documentId,
       'clientId': clientId,
       'clientName' : clientName,
       'jobTitle' : jobTitle,
@@ -132,6 +133,7 @@ class Job {
   static Job fromMap(Map<String, dynamic> map) {
     return Job(
       id: map['id'],
+      documentId: map['documentId'],
       clientId: map['clientId'],
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],

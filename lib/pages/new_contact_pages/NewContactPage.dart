@@ -85,8 +85,10 @@ class _NewContactPageState extends State<NewContactPage> {
         }
       },
       onDidChange: (pageState) {
-        if(pageState.client == null && pageState.client.id != null) {
-          clientId = pageState.client.id;
+        if(pageState.client != null) {
+          if (pageState.client.id != null) {
+            clientId = pageState.client.id;
+          }
         }
       },
       converter: (store) => NewContactPageState.fromStore(store),

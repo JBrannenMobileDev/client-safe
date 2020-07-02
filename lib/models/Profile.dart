@@ -14,6 +14,7 @@ class Profile{
 
   Profile({
     this.id,
+    this.uid,
     this.firstName,
     this.lastName,
     this.businessName,
@@ -27,6 +28,7 @@ class Profile{
 
   Profile copyWith({
     int id,
+    String uid,
     String firstName,
     String lastName,
     String businessName,
@@ -39,6 +41,7 @@ class Profile{
   }){
     return Profile(
       id: id ?? this.id,
+      uid: uid ?? this.uid,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       businessName: businessName ?? this.businessName,

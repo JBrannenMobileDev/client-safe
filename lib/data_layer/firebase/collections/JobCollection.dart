@@ -9,7 +9,8 @@ class JobCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('jobs')
-        .add(job.toMap());
+        .document(job.documentId)
+        .setData(job.toMap());
   }
 
   Future<void> deleteJob(String documentId) async {

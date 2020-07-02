@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class ClientDao extends Equatable{
   static const String CLIENT_STORE_NAME = 'clients';
@@ -17,7 +18,9 @@ class ClientDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(Client client) async {
-    await _clientStore.add(await _db, client.toMap());
+    client.documentId = Uuid().v1();
+    int savedClientId = await _clientStore.add(await _db, client.toMap());
+    client.id = savedClientId;
     await ClientCollection().createClient(client);
   }
 
