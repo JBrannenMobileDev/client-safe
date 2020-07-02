@@ -88,6 +88,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
     action.invoice.sentDate = DateTime.now();
     await InvoiceDao.update(action.invoice);
+    Job selectedJob = store.state.jobDetailsPageState.job;
+    selectedJob.invoice = action.invoice;
+    await JobDao.update(selectedJob);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
   }
 

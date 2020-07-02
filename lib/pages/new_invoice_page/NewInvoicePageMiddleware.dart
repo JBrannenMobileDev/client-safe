@@ -55,9 +55,10 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     bool invoicePaid = store.state.newInvoicePageState.selectedJob.isPaymentReceived();
     NewInvoicePageState pageState = store.state.newInvoicePageState;
     await InvoiceDao.insertOrUpdate(
+
         Invoice(
           clientId: pageState.selectedJob.clientId,
-          documentId: pageState.selectedJob.invoice.documentId,
+          documentId: pageState.selectedJob.invoice?.documentId,
           invoiceId: pageState.invoiceNumber,
           clientName: pageState.selectedJob.clientName,
           jobName: pageState.selectedJob.jobTitle,
@@ -72,6 +73,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           depositAmount: pageState.depositValue,
           total: pageState.total,
           lineItems: pageState.lineItems,
+          sentDate: pageState.selectedJob.invoice?.sentDate,
     ));
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));
     Job selectedJob = pageState.selectedJob;
@@ -100,45 +102,16 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       }else{
         selectedJob.stage = JobStage.getStageFromIndex(1);
       }
-      Job jobToSave = Job(
-        id: selectedJob.id,
-        clientId: selectedJob.clientId,
-        clientName: selectedJob.clientName,
-        jobTitle: selectedJob.jobTitle,
-        selectedDate: selectedJob.selectedDate,
-        selectedTime: selectedJob.selectedTime,
-        type: selectedJob.type,
-        stage: selectedJob.stage,
-        completedStages: selectedJob.completedStages,
-        location: selectedJob.location,
-        priceProfile: selectedJob.priceProfile,
-        depositAmount: selectedJob.depositAmount,
-      );
-      await JobDao.insertOrUpdate(jobToSave);
-      store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, jobToSave));
+      await JobDao.insertOrUpdate(selectedJob.copyWith());
+      store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
     }else {
       List<JobStage> completedJobStages = selectedJob.completedStages.toList();
       JobStage stageToComplete = JobStage.getStageFromIndex(4);
       completedJobStages.add(stageToComplete);
       selectedJob.completedStages = completedJobStages;
       selectedJob.stage = _getNextUncompletedStage(4, selectedJob.completedStages);
-      Job jobToSave = Job(
-        id: selectedJob.id,
-        clientId: selectedJob.clientId,
-        clientName: selectedJob.clientName,
-        jobTitle: selectedJob.jobTitle,
-        selectedDate: selectedJob.selectedDate,
-        selectedTime: selectedJob.selectedTime,
-        type: selectedJob.type,
-        stage: selectedJob.stage,
-        completedStages: selectedJob.completedStages,
-        location: selectedJob.location,
-        priceProfile: selectedJob.priceProfile,
-        depositAmount: selectedJob.depositAmount,
-        createdDate: selectedJob.createdDate,
-      );
-      await JobDao.insertOrUpdate(jobToSave);
-      store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, jobToSave));
+      await JobDao.insertOrUpdate(selectedJob.copyWith());
+      store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
     }
   }
 

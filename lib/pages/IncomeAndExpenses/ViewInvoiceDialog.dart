@@ -244,7 +244,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                             onTap: () {
                                               pageState.onEditInvoiceSelected(invoice);
                                               Navigator.of(context).pop();
-                                              UserOptionsUtil.showNewInvoiceDialog(context, null);
+                                              UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
