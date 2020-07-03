@@ -44,6 +44,9 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is LoadExistingMileageExpenseAction){
       loadExistingMileageExpense(store, next, action);
     }
+    if(action is LoadNewMileageLocationsAction) {
+      loadLocations(store, next, action);
+    }
   }
 
   void loadExistingMileageExpense(Store<AppState> store, NextDispatcher next, LoadExistingMileageExpenseAction action) async {
@@ -62,6 +65,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   void saveMileageExpense(Store<AppState> store, NextDispatcher next, SaveMileageExpenseProfileAction action) async {
     MileageExpense expense = MileageExpense(
       id: action.pageState.id,
+      documentId: action.pageState?.documentId,
       totalMiles: action.pageState.milesDriven,
       isRoundTrip: !action.pageState.isOneWay,
       startLat: action.pageState.startLocation != null ? action.pageState.startLocation.latitude : action.pageState.profile.latDefaultHome,
@@ -111,6 +115,11 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     await MileageExpenseDao.delete(action.pageState.id, action.pageState.documentId);
     store.dispatch(FetchMileageExpenses(store.state.incomeAndExpensesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+  }
+
+  void loadLocations(Store<AppState> store, NextDispatcher next, LoadNewMileageLocationsAction action) async {
+    List<Location> locations = await LocationDao.getAllSortedMostFrequent();
+    store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations));
   }
 
   void getLocationData(Store<AppState> store, NextDispatcher next, FetchLastKnowPosition action) async {

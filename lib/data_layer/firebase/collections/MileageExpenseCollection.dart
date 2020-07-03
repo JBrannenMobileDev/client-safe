@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/MileageExpense.dart';
-import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 class MileageExpenseCollection {
@@ -11,7 +9,8 @@ class MileageExpenseCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('mileageExpenses')
-        .add(expense.toMap());
+        .document(expense.documentId)
+        .setData(expense.toMap());
   }
 
   Future<void> deleteMileageExpense(String documentId) async {

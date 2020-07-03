@@ -225,22 +225,15 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
           canProgress = true;
           break;
         case 1:
-          if(pageState.endLocationName.isNotEmpty && (pageState.profile.hasDefaultHome() || pageState.startLocationName.isNotEmpty)){
+          if((pageState.endLocationName.isNotEmpty && pageState.endLocationName != 'Select a location') && (pageState.profile.hasDefaultHome() || pageState.startLocationName.isNotEmpty)){
             canProgress = true;
           }else {
-            if(pageState.endLocationName.isEmpty) {
-              DandyToastUtil.showErrorToast('End location is required');
+            if(pageState.endLocationName.isEmpty || pageState.endLocationName == 'Select a location') {
+              DandyToastUtil.showToast('End location is required', Color(ColorConstants.getPrimaryColor()));
             }
-            if(pageState.profile.hasDefaultHome() || pageState.startLocationName.isNotEmpty){
-              DandyToastUtil.showErrorToast('Start location is required');
+            if(!pageState.profile.hasDefaultHome() && pageState.startLocationName.isEmpty){
+              DandyToastUtil.showToast('Start location is required', Color(ColorConstants.getPrimaryColor()));
             }
-          }
-          break;
-        case 2:
-          if(pageState.expenseDate != null) {
-            canProgress = true;
-          } else {
-            DandyToastUtil.showErrorToast('Expense charge date is required');
           }
           break;
         default:
@@ -256,11 +249,15 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
       }
     }
     if (currentPageIndex == pageCount) {
-      if(pageState.expenseCost > 0.0){
-        showSuccessAnimation();
-        pageState.onSavePressed();
+      if(pageState.expenseDate != null) {
+        if(pageState.expenseCost > 0.0){
+          showSuccessAnimation();
+          pageState.onSavePressed();
+        } else {
+          DandyToastUtil.showToast('Cost must be greater than \$0.0', Color(ColorConstants.getPrimaryColor()));
+        }
       } else {
-        DandyToastUtil.showErrorToast('Cost must be greater than \$0.0');
+        DandyToastUtil.showToast('Expense charge date is required', Color(ColorConstants.getPrimaryColor()));
       }
     }
   }

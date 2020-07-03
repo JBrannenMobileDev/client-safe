@@ -1,14 +1,8 @@
 import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/JobLocationListWidget.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationTextField.dart';
 import 'package:dandylight/pages/new_mileage_expense/MileageLocationListWidget.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherLocationListWidget.dart';
-import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 
 
 class ChooseFromMyLocationsMileage extends StatefulWidget {
@@ -48,12 +40,12 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
         insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
         backgroundColor: Colors.transparent,
         child: Container(
-          height: pageState.locations.length == 1 ? 400.0 : pageState.locations.length == 2 ? 600.0 : MediaQuery.of(context).size.height,
+          height: pageState.locations.length == 0 ? 300.0 : pageState.locations.length == 1 ? 400.0 : pageState.locations.length == 2 ? 600.0 : MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.circular(16.0),
           ),
-          alignment: Alignment.topCenter,
+          alignment: Alignment.center,
           margin: EdgeInsets.only(left: 16.0, right: 16.0),
           child: pageState.locations.length > 0
               ? Column(
@@ -181,7 +173,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
               Padding(
                 padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
                 child: Text(
-                  "You do ot have any locations saved to your collection. Select the + Location button to create a new location.",
+                  "You do ot have any locations saved to your collection.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,

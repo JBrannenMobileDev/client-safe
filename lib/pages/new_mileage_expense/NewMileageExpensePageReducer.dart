@@ -23,6 +23,7 @@ final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>
 
 NewMileageExpensePageState _setExistingMileageExpense(NewMileageExpensePageState previousState, SetExistingMileageExpenseAction action){
   return previousState.copyWith(
+    pageViewIndex: 0,
     isOneWay: !action.expense.isRoundTrip,
     shouldClear: false,
     id: action.expense.id,

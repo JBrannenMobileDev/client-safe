@@ -59,6 +59,7 @@ class Profile{
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
+      'uid' : uid,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -74,6 +75,7 @@ class Profile{
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
       id: map['id'],
+      uid: map['uid'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],
@@ -87,6 +89,6 @@ class Profile{
   }
 
   bool hasDefaultHome() {
-    return latDefaultHome != 0.0 || lngDefaultHome != 0.0;
+    return (latDefaultHome != null && latDefaultHome != 0.0) || (lngDefaultHome != null && lngDefaultHome != 0.0);
   }
 }

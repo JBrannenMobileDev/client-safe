@@ -9,6 +9,7 @@ import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as jobs;
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart' as locations;
+import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
@@ -68,6 +69,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     store.dispatch(jobs.FetchAllClientsAction(store.state.newJobPageState));
+    store.dispatch(LoadNewMileageLocationsAction(store.state.newMileageExpensePageState));
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{

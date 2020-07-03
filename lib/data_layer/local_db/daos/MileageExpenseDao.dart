@@ -7,6 +7,7 @@ import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class MileageExpenseDao extends Equatable{
   static const String MILEAGE_EXPENSE_STORE_NAME = 'mileageExpense';
@@ -19,7 +20,8 @@ class MileageExpenseDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(MileageExpense mileageExpense) async {
-    await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
+    mileageExpense.documentId = Uuid().v1();
+    mileageExpense.id = await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
     await MileageExpenseCollection().createMileageExpense(mileageExpense);
   }
 
@@ -64,7 +66,7 @@ class MileageExpenseDao extends Equatable{
 
     //uncomment to delete all mileage expense records.
 //    for(RecordSnapshot snapshot in recordSnapshots) {
-//      delete(snapshot.key);
+//      delete(snapshot.key, MileageExpense.fromMap(snapshot.value).documentId);
 //    }
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {

@@ -7,6 +7,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
+import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
@@ -61,6 +62,7 @@ class JobDetailsPageState {
   final Function() onAddInvoiceSelected;
   final Function(Invoice) onDeleteInvoiceSelected;
   final Function(Invoice) onInvoiceSent;
+  final Function() onBackPressed;
 
   JobDetailsPageState({
     @required this.job,
@@ -111,6 +113,7 @@ class JobDetailsPageState {
     @required this.onAddToTip,
     @required this.onSaveTipChange,
     @required this.onClearUnsavedTip,
+    @required this.onBackPressed,
   });
 
   JobDetailsPageState copyWith({
@@ -162,6 +165,7 @@ class JobDetailsPageState {
     Function() onSaveTipChange,
     Function() onClearUnsavedTip,
     int unsavedTipAmount,
+    Function() onBackPressed,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -212,6 +216,7 @@ class JobDetailsPageState {
       onDeleteInvoiceSelected: onDeleteInvoiceSelected ?? this.onDeleteInvoiceSelected,
       invoice: invoice ?? this.invoice,
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
+      onBackPressed: onBackPressed ?? this.onBackPressed,
     );
   }
 
@@ -268,6 +273,7 @@ class JobDetailsPageState {
       },
       onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
       onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
+      onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
     );
   }
 

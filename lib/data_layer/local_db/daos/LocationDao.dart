@@ -64,7 +64,9 @@ class LocationDao extends Equatable{
       SortOrder('numOfSessionsAtThisLocation'),
     ]);
 
-    final recordSnapshots = await _locationStore.find(await _db, finder: finder);
+    final recordSnapshots = await _locationStore.find(await _db, finder: finder).catchError((error) {
+      print(error);
+    });
 
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {

@@ -141,6 +141,11 @@ class SetExistingMileageExpenseAction{
   SetExistingMileageExpenseAction(this.pageState, this.expense);
 }
 
+class LoadNewMileageLocationsAction{
+  final NewMileageExpensePageState pageState;
+  LoadNewMileageLocationsAction(this.pageState);
+}
+
 
 
 

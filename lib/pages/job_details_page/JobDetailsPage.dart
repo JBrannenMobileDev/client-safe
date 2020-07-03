@@ -89,6 +89,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     );
   }
 
+  Future<bool> _onWillPop() async {
+    pageStateLocal.onBackPressed();
+    Navigator.of(context).pop();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
@@ -115,7 +121,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             pageState.setNewIndexForStageAnimation(-1);
             if(scrollPosition == -2) scrollPosition = 0;
           }
-              return Scaffold(
+              return WillPopScope(
+              onWillPop: _onWillPop,
+              child: Scaffold(
                 floatingActionButton: SpeedDial(
                   // both default to 16
                   marginRight: 18,
@@ -435,6 +443,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     ),
                   ],
                 ),
+              ),
               ),
             );
         },

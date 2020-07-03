@@ -86,24 +86,7 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobTip(Store<AppState> store, SaveTipIncomeChangeAction action, NextDispatcher next) async{
-    Job jobToSave = Job(
-      id: store.state.incomeAndExpensesPageState.selectedJob.id,
-      clientId: store.state.incomeAndExpensesPageState.selectedJob.clientId,
-      clientName: store.state.incomeAndExpensesPageState.selectedJob.clientName,
-      jobTitle: store.state.incomeAndExpensesPageState.selectedJob.jobTitle,
-      selectedDate: store.state.incomeAndExpensesPageState.selectedJob.selectedDate,
-      selectedTime: store.state.incomeAndExpensesPageState.selectedJob.selectedTime,
-      type: store.state.incomeAndExpensesPageState.selectedJob.type,
-      stage: store.state.incomeAndExpensesPageState.selectedJob.stage,
-      invoice: store.state.incomeAndExpensesPageState.selectedJob.invoice,
-      completedStages: store.state.incomeAndExpensesPageState.selectedJob.completedStages,
-      location: store.state.incomeAndExpensesPageState.selectedJob.location,
-      priceProfile: store.state.incomeAndExpensesPageState.selectedJob.priceProfile,
-      depositAmount: store.state.incomeAndExpensesPageState.selectedJob.depositAmount,
-      tipAmount: action.pageState.unsavedTipAmount,
-      createdDate: store.state.incomeAndExpensesPageState.selectedJob.createdDate,
-    );
-    await JobDao.insertOrUpdate(jobToSave);
+    await JobDao.insertOrUpdate(store.state.incomeAndExpensesPageState.selectedJob.copyWith(tipAmount: action.pageState.unsavedTipAmount));
     store.dispatch(LoadAllJobsAction(store.state.incomeAndExpensesPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
