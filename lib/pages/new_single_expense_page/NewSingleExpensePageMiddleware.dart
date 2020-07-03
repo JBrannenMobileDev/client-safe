@@ -5,7 +5,6 @@ import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
 
 class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
@@ -26,6 +25,7 @@ class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
     charge.chargeAmount = store.state.newSingleExpensePageState.expenseCost;
     SingleExpense singleExpense = SingleExpense(
       id: store.state.newSingleExpensePageState.id,
+      documentId: store.state.newSingleExpensePageState.documentId,
       expenseName: store.state.newSingleExpensePageState.expenseName,
       charge: charge,
     );

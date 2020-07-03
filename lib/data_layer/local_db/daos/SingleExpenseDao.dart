@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/firebase/collections/SingleExpenseCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class SingleExpenseDao extends Equatable{
   static const String SINGLE_EXPENSE_STORE_NAME = 'singleExpense';
@@ -18,7 +18,8 @@ class SingleExpenseDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(SingleExpense singleExpense) async {
-    await _singleExpenseStore.add(await _db, singleExpense.toMap());
+    singleExpense.documentId = Uuid().v1();
+    singleExpense.id = await _singleExpenseStore.add(await _db, singleExpense.toMap());
     await SingleExpenseCollection().createSingleExpense(singleExpense);
   }
 

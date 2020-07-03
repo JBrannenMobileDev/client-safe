@@ -20,6 +20,7 @@ NewSingleExpensePageState _setSelectedSingleExpense(NewSingleExpensePageState pr
     expenseDate: action.singleExpense.charge.chargeDate,
     expenseCost: action.singleExpense.charge.chargeAmount,
     id: action.singleExpense.id,
+    documentId: action.singleExpense.documentId,
     shouldClear: false,
   );
 }

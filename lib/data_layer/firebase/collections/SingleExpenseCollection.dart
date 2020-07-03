@@ -9,7 +9,10 @@ class SingleExpenseCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('singleExpenses')
-        .add(expense.toMap());
+        .document(expense.documentId)
+        .setData(expense.toMap()).catchError((error) {
+          print(error);
+        });
   }
 
   Future<void> deleteSingleExpense(String documentId) async {
