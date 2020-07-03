@@ -2,8 +2,6 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -218,7 +216,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           DandyLightTextWidget(
-                            amount: pageState.milesDriven,
+                            amount: pageState.isOneWay ? pageState.milesDrivenOneWay : pageState.milesDrivenRoundTrip,
                             textSize: 36.0,
                             textColor: Color(ColorConstants.getPrimaryBlack()),
                             fontWeight: FontWeight.w600,

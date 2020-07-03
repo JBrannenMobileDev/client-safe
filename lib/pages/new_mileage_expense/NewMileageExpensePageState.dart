@@ -39,7 +39,8 @@ class NewMileageExpensePageState {
   final String startLocationName;
   final String endLocationName;
   final bool isOneWay;
-  final double milesDriven;
+  final double milesDrivenOneWay;
+  final double milesDrivenRoundTrip;
   final double deductionRate;
   final LatLng startLocation;
   final LatLng endLocation;
@@ -76,7 +77,8 @@ class NewMileageExpensePageState {
     @required this.startLocationName,
     @required this.endLocationName,
     @required this.isOneWay,
-    @required this.milesDriven,
+    @required this.milesDrivenOneWay,
+    @required this.milesDrivenRoundTrip,
     @required this.deductionRate,
     @required this.startLocation,
     @required this.endLocation,
@@ -115,7 +117,8 @@ class NewMileageExpensePageState {
     String startLocationName,
     String endLocationName,
     bool isOneWay,
-    double milesDriven,
+    double milesDrivenOneWay,
+    double milesDrivenRoundTrip,
     double deductionRate,
     LatLng startLocation,
     LatLng endLocation,
@@ -152,7 +155,8 @@ class NewMileageExpensePageState {
       startLocationName: startLocationName ?? this.startLocationName,
       endLocationName: endLocationName ?? this.endLocationName,
       isOneWay: isOneWay ?? this.isOneWay,
-      milesDriven: milesDriven ?? this.milesDriven,
+      milesDrivenOneWay: milesDrivenOneWay ?? this.milesDrivenOneWay,
+      milesDrivenRoundTrip: milesDrivenRoundTrip ?? this.milesDrivenRoundTrip,
       deductionRate: deductionRate ?? this.deductionRate,
       startLocation: startLocation ?? this.startLocation,
       endLocation: endLocation ?? this.endLocation,
@@ -191,7 +195,8 @@ class NewMileageExpensePageState {
     startLocationName: '',
     endLocationName: 'Select a location',
     isOneWay: false,
-    milesDriven: 0.0,
+    milesDrivenOneWay: 0.0,
+    milesDrivenRoundTrip: 0.0,
     deductionRate: 0.575,
     startLocation: null,
     endLocation: null,
@@ -220,7 +225,8 @@ class NewMileageExpensePageState {
       startLocationName: store.state.newMileageExpensePageState.startLocationName,
       endLocationName: store.state.newMileageExpensePageState.endLocationName,
       isOneWay: store.state.newMileageExpensePageState.isOneWay,
-      milesDriven: store.state.newMileageExpensePageState.milesDriven,
+      milesDrivenOneWay: store.state.newMileageExpensePageState.milesDrivenOneWay,
+      milesDrivenRoundTrip: store.state.newMileageExpensePageState.milesDrivenRoundTrip,
       deductionRate: store.state.newMileageExpensePageState.deductionRate,
       startLocation: store.state.newMileageExpensePageState.startLocation,
       endLocation: store.state.newMileageExpensePageState.endLocation,
@@ -253,7 +259,7 @@ class NewMileageExpensePageState {
       startLocationName.hashCode ^
       endLocationName.hashCode ^
       isOneWay.hashCode ^
-      milesDriven.hashCode ^
+      milesDrivenOneWay.hashCode ^
       deductionRate.hashCode ^
       selectedHomeLocationName.hashCode ^
       pageViewIndex.hashCode ^
@@ -264,6 +270,7 @@ class NewMileageExpensePageState {
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
+      milesDrivenRoundTrip.hashCode ^
       onBackPressed.hashCode ^
       onStartLocationChanged.hashCode ^
       expenseDate.hashCode ^
@@ -301,8 +308,9 @@ class NewMileageExpensePageState {
           startLocationName == other.startLocationName &&
           endLocationName == other.endLocationName &&
           isOneWay == other.isOneWay &&
+          milesDrivenRoundTrip == other.milesDrivenRoundTrip &&
           documentPath == other.documentPath &&
-          milesDriven == other.milesDriven &&
+          milesDrivenOneWay == other.milesDrivenOneWay &&
           deductionRate == other.deductionRate &&
           selectedHomeLocationName == other.selectedHomeLocationName &&
           onSavePressed == other.onSavePressed &&

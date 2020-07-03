@@ -55,13 +55,14 @@ NewMileageExpensePageState _setSelectedFilter(NewMileageExpensePageState previou
   return previousState.copyWith(
     filterType: action.selectedFilter,
     isOneWay: isOneWay,
-    expenseCost: (isOneWay ? 1 : 2) * (previousState.milesDriven * 0.575),
+    expenseCost: (isOneWay ? previousState.milesDrivenOneWay * 0.575 : previousState.milesDrivenRoundTrip * 0.575),
   );
 }
 
 NewMileageExpensePageState _setMilesDriven(NewMileageExpensePageState previousState, SetMilesDrivenAction action){
   return previousState.copyWith(
-    milesDriven: action.milesDriven,
+    milesDrivenOneWay: action.milesDriven,
+    milesDrivenRoundTrip: action.milesDriven * 2,
     expenseCost: (previousState.isOneWay ? 1 : 2) * (action.milesDriven * 0.575),
   );
 }

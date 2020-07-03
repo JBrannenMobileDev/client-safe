@@ -34,6 +34,7 @@ NewRecurringExpensePageState _setSelectedRecurringExpense(NewRecurringExpensePag
     expenseCost: action.recurringExpense.cost,
     billingPeriod: action.recurringExpense.billingPeriod,
     id: action.recurringExpense.id,
+    documentId: action.recurringExpense.documentId,
     shouldClear: false,
   );
 }

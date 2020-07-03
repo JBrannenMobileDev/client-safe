@@ -21,6 +21,7 @@ class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
   void saveRecurringExpense(Store<AppState> store, action, NextDispatcher next) async{
     RecurringExpense recurringExpense = RecurringExpense(
       id: store.state.newRecurringExpensePageState.id,
+      documentId: store.state.newRecurringExpensePageState.documentId,
       expenseName: store.state.newRecurringExpensePageState.expenseName,
       cost: store.state.newRecurringExpensePageState.expenseCost,
       initialChargeDate: store.state.newRecurringExpensePageState.expenseDate,

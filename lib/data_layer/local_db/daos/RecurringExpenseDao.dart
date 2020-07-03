@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
+import 'package:uuid/uuid.dart';
 
 class RecurringExpenseDao extends Equatable{
   static const String RECURRING_EXPENSE_STORE_NAME = 'recurringExpense';
@@ -17,7 +18,8 @@ class RecurringExpenseDao extends Equatable{
   static Future<Database> get _db async => await SembastDb.instance.database;
 
   static Future insert(RecurringExpense recurringExpense) async {
-    await _recurringExpenseStore.add(await _db, recurringExpense.toMap());
+    recurringExpense.documentId = Uuid().v1();
+    recurringExpense.id = await _recurringExpenseStore.add(await _db, recurringExpense.toMap());
     await RecurringExpenseCollection().createRecurringExpense(recurringExpense);
   }
 

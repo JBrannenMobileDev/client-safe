@@ -9,7 +9,8 @@ class RecurringExpenseCollection {
         .collection('users')
         .document(UidUtil().getUid())
         .collection('recurringExpenses')
-        .add(expense.toMap());
+        .document(expense.documentId)
+        .setData(expense.toMap());
   }
 
   Future<void> deleteRecurringExpense(String documentId) async {

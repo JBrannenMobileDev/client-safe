@@ -66,7 +66,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     MileageExpense expense = MileageExpense(
       id: action.pageState.id,
       documentId: action.pageState?.documentId,
-      totalMiles: action.pageState.milesDriven,
+      totalMiles: action.pageState.isOneWay ? action.pageState.milesDrivenOneWay : action.pageState.milesDrivenRoundTrip,
       isRoundTrip: !action.pageState.isOneWay,
       startLat: action.pageState.startLocation != null ? action.pageState.startLocation.latitude : action.pageState.profile.latDefaultHome,
       startLng: action.pageState.startLocation != null ? action.pageState.startLocation.longitude : action.pageState.profile.lngDefaultHome,
