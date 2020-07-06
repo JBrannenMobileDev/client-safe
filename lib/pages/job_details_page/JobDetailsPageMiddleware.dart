@@ -96,6 +96,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
     await InvoiceDao.deleteByInvoice(action.invoice);
+    List<JobStage> completedJobStages = store.state.jobDetailsPageState.job.completedStages.toList();
+    completedJobStages.remove(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED, value: 8));
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
+      completedStages: completedJobStages,
+    );
+    await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, null));

@@ -1,8 +1,12 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/PriceProfileCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -21,6 +25,14 @@ class PriceProfileDao extends Equatable{
     profile.documentId = Uuid().v1();
     profile.id = await _priceProfileStore.add(await _db, profile.toMap());
     await PriceProfileCollection().createPriceProfile(profile);
+    Profile userProfile = (await ProfileDao.getAll()).elementAt(0);
+    userProfile.priceProfilesLastChangeDate = DateTime.now();
+    ProfileDao.update(userProfile);
+  }
+
+  static Future insertLocalOnly(PriceProfile profile) async {
+    profile.id = null;
+    profile.id = await _priceProfileStore.add(await _db, profile.toMap());
   }
 
   static Future insertOrUpdate(PriceProfile profile) async {
@@ -38,6 +50,26 @@ class PriceProfileDao extends Equatable{
     }
   }
 
+  static Future<PriceProfile> getById(int profileId) async{
+    final finder = Finder(filter: Filter.byKey(profileId));
+    final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
+    // Making a List<profileId> out of List<RecordSnapshot>
+    return recordSnapshots.map((snapshot) {
+      final profile = PriceProfile.fromMap(snapshot.value);
+      profile.id = snapshot.key;
+      return profile;
+    }).toList().elementAt(0);
+  }
+
+  static Future<Stream<List<RecordSnapshot>>> getPriceProfilesStream() async {
+    var query = _priceProfileStore.query();
+    return query.onSnapshots(await _db);
+  }
+
+  static Stream<QuerySnapshot> getPriceProfilesStreamFromFireStore() {
+    return PriceProfileCollection().getPriceProfilesStream();
+  }
+
   static Future update(PriceProfile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
@@ -48,6 +80,17 @@ class PriceProfileDao extends Equatable{
       finder: finder,
     );
     await PriceProfileCollection().updatePriceProfile(profile);
+  }
+
+  static Future updateLocalOnly(PriceProfile profile) async {
+    // For filtering by key (ID), RegEx, greater than, and many other criteria,
+    // we use a Finder.
+    final finder = Finder(filter: Filter.byKey(profile.id));
+    await _priceProfileStore.update(
+      await _db,
+      profile.toMap(),
+      finder: finder,
+    );
   }
 
   static Future delete(PriceProfile profile) async {
@@ -72,6 +115,80 @@ class PriceProfileDao extends Equatable{
       profile.id = snapshot.key;
       return profile;
     }).toList();
+  }
+
+  static Future<void> syncAllFromFireStore() async {
+    List<PriceProfile> allLocalPriceProfiles = await getAllSortedByName();
+    List<PriceProfile> allFireStorePriceProfiles = await PriceProfileCollection().getAll(UidUtil().getUid());
+
+    if(allLocalPriceProfiles != null && allLocalPriceProfiles.length > 0) {
+      if(allFireStorePriceProfiles != null && allFireStorePriceProfiles.length > 0) {
+        //both local and fireStore have PriceProfiles
+        //fireStore is source of truth for this sync.
+        await _syncFireStoreToLocal(allLocalPriceProfiles, allFireStorePriceProfiles);
+      } else {
+        //all PriceProfiles have been deleted in the cloud. Delete all local PriceProfiles also.
+        _deleteAllLocalPriceProfiles(allLocalPriceProfiles);
+      }
+    } else {
+      if(allFireStorePriceProfiles != null && allFireStorePriceProfiles.length > 0){
+        //no local PriceProfiles but there are fireStore PriceProfiles.
+        await _copyAllFireStorePriceProfilesToLocal(allFireStorePriceProfiles);
+      } else {
+        //no PriceProfiles in either database. nothing to sync.
+      }
+    }
+  }
+
+  static Future<void> _deleteAllLocalPriceProfiles(List<PriceProfile> allLocalPriceProfiles) async {
+    for(PriceProfile priceProfile in allLocalPriceProfiles) {
+      final finder = Finder(filter: Filter.byKey(priceProfile.id));
+      await _priceProfileStore.delete(
+        await _db,
+        finder: finder,
+      );
+    }
+  }
+
+  static Future<void> _copyAllFireStorePriceProfilesToLocal(List<PriceProfile> allFireStorePriceProfiles) async {
+    for (PriceProfile PriceProfileToSave in allFireStorePriceProfiles) {
+      await _priceProfileStore.add(await _db, PriceProfileToSave.toMap());
+    }
+  }
+
+  static Future<void> _syncFireStoreToLocal(List<PriceProfile> allLocalPriceProfiles, List<PriceProfile> allFireStorePriceProfiles) async {
+    for(PriceProfile localPriceProfile in allLocalPriceProfiles) {
+      //should only be 1 matching
+      List<PriceProfile> matchingFireStorePriceProfiles = allFireStorePriceProfiles.where((fireStorePriceProfile) => localPriceProfile.documentId == fireStorePriceProfile.documentId).toList();
+      if(matchingFireStorePriceProfiles !=  null && matchingFireStorePriceProfiles.length > 0) {
+        PriceProfile fireStorePriceProfile = matchingFireStorePriceProfiles.elementAt(0);
+        fireStorePriceProfile.id = localPriceProfile.id;
+        final finder = Finder(filter: Filter.byKey(fireStorePriceProfile.id));
+        await _priceProfileStore.update(
+          await _db,
+          fireStorePriceProfile.toMap(),
+          finder: finder,
+        );
+      } else {
+        //PriceProfile does nto exist on cloud. so delete from local.
+        final finder = Finder(filter: Filter.byKey(localPriceProfile.id));
+        await _priceProfileStore.delete(
+          await _db,
+          finder: finder,
+        );
+      }
+    }
+
+    for(PriceProfile fireStorePriceProfile in allFireStorePriceProfiles) {
+      List<PriceProfile> matchingLocalPriceProfiles = allLocalPriceProfiles.where((localPriceProfile) => localPriceProfile.documentId == fireStorePriceProfile.documentId).toList();
+      if(matchingLocalPriceProfiles != null && matchingLocalPriceProfiles.length > 0) {
+        //do nothing. PriceProfile already synced.
+      } else {
+        //add to local. does not exist in local and has not been synced yet.
+        fireStorePriceProfile.id = null;
+        await _priceProfileStore.add(await _db, fireStorePriceProfile.toMap());
+      }
+    }
   }
 
   @override

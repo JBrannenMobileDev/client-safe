@@ -11,6 +11,14 @@ class Profile{
   double lngDefaultHome;
   bool signedIn;
   DateTime lastSignIn;
+  DateTime clientsLastChangeDate;
+  DateTime invoicesLastChangeDate;
+  DateTime jobsLastChangeDate;
+  DateTime locationsLastChangeDate;
+  DateTime mileageExpensesLastChangeDate;
+  DateTime priceProfilesLastChangeDate;
+  DateTime recurringExpensesLastChangeDate;
+  DateTime singleExpensesLastChangeDate;
 
   Profile({
     this.id,
@@ -24,6 +32,14 @@ class Profile{
     this.lngDefaultHome,
     this.signedIn,
     this.lastSignIn,
+    this.clientsLastChangeDate,
+    this.invoicesLastChangeDate,
+    this.jobsLastChangeDate,
+    this.locationsLastChangeDate,
+    this.mileageExpensesLastChangeDate,
+    this.priceProfilesLastChangeDate,
+    this.recurringExpensesLastChangeDate,
+    this.singleExpensesLastChangeDate,
   });
 
   Profile copyWith({
@@ -38,6 +54,14 @@ class Profile{
     double lngDefaultHome,
     bool signedIn,
     DateTime lastSignIn,
+    DateTime clientsLastChangeDate,
+    DateTime invoicesLastChangeDate,
+    DateTime jobsLastChangeDate,
+    DateTime locationsLastChangeDate,
+    DateTime mileageExpensesLastChangeDate,
+    DateTime priceProfilesLastChangeDate,
+    DateTime recurringExpensesLastChangeDate,
+    DateTime singleExpensesLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -51,6 +75,14 @@ class Profile{
       lngDefaultHome: lngDefaultHome ?? this.lngDefaultHome,
       signedIn: signedIn ?? this.signedIn,
       lastSignIn: lastSignIn ?? this.lastSignIn,
+      clientsLastChangeDate:  clientsLastChangeDate ?? this.clientsLastChangeDate,
+      invoicesLastChangeDate: invoicesLastChangeDate ?? this.invoicesLastChangeDate,
+      jobsLastChangeDate: jobsLastChangeDate ?? this.jobsLastChangeDate,
+      locationsLastChangeDate: locationsLastChangeDate ?? this.locationsLastChangeDate,
+      mileageExpensesLastChangeDate: mileageExpensesLastChangeDate ?? this.mileageExpensesLastChangeDate,
+      priceProfilesLastChangeDate: priceProfilesLastChangeDate ?? this.priceProfilesLastChangeDate,
+      recurringExpensesLastChangeDate: recurringExpensesLastChangeDate ?? this.recurringExpensesLastChangeDate,
+      singleExpensesLastChangeDate: singleExpensesLastChangeDate ?? this.singleExpensesLastChangeDate,
     );
   }
 
@@ -69,6 +101,14 @@ class Profile{
       'lngDefaultHome' : lngDefaultHome,
       'signedIn' : signedIn,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
+      'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'invoicesLastChangeDate' : invoicesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'jobsLastChangeDate' : jobsLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'locationsLastChangeDate' : locationsLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'mileageExpensesLastChangeDate' : mileageExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'priceProfilesLastChangeDate' : priceProfilesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'recurringExpensesLastChangeDate' : recurringExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'singleExpensesLastChangeDate' : singleExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -85,6 +125,14 @@ class Profile{
       lngDefaultHome: map['lngDefaultHome'],
       signedIn: map['signedIn'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
+      clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
+      invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,
+      jobsLastChangeDate: map['jobsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['jobsLastChangeDate']) : null,
+      locationsLastChangeDate: map['locationsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['locationsLastChangeDate']) : null,
+      mileageExpensesLastChangeDate: map['mileageExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['mileageExpensesLastChangeDate']) : null,
+      priceProfilesLastChangeDate: map['priceProfilesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['priceProfilesLastChangeDate']) : null,
+      recurringExpensesLastChangeDate: map['recurringExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['recurringExpensesLastChangeDate']) : null,
+      singleExpensesLastChangeDate: map['singleExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['singleExpensesLastChangeDate']) : null,
     );
   }
 

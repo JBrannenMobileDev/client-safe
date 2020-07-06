@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 
@@ -81,6 +82,30 @@ class ProfileDao extends Equatable{
       profile.id = snapshot.key;
       return profile;
     }).toList();
+  }
+
+  static Future<void> updateUserLoginTime(String uid) async{
+    List<Profile> userProfiles = await ProfileDao.getAll();
+    if (userProfiles.isNotEmpty) {
+      Profile fireStoreProfile = await UserCollection().getUser(uid);
+      DateTime now = DateTime.now();
+      if(now.millisecondsSinceEpoch > fireStoreProfile.lastSignIn.millisecondsSinceEpoch) {
+        Profile updatedProfile = userProfiles.elementAt(0).copyWith(
+          uid: uid,
+          signedIn: true,
+          lastSignIn: now,
+          clientsLastChangeDate: fireStoreProfile.clientsLastChangeDate,
+          invoicesLastChangeDate: fireStoreProfile.invoicesLastChangeDate,
+          jobsLastChangeDate: fireStoreProfile.jobsLastChangeDate,
+          locationsLastChangeDate: fireStoreProfile.locationsLastChangeDate,
+          mileageExpensesLastChangeDate: fireStoreProfile.mileageExpensesLastChangeDate,
+          priceProfilesLastChangeDate: fireStoreProfile.priceProfilesLastChangeDate,
+          recurringExpensesLastChangeDate: fireStoreProfile.recurringExpensesLastChangeDate,
+          singleExpensesLastChangeDate: fireStoreProfile.singleExpensesLastChangeDate,
+        );
+        ProfileDao.insertOrUpdate(updatedProfile);
+      }
+    }
   }
 
   @override

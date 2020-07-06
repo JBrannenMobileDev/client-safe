@@ -2,9 +2,9 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/firebase/collections/MileageExpenseCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/MileageExpense.dart';
-import 'package:dandylight/models/SingleExpense.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -23,6 +23,9 @@ class MileageExpenseDao extends Equatable{
     mileageExpense.documentId = Uuid().v1();
     mileageExpense.id = await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
     await MileageExpenseCollection().createMileageExpense(mileageExpense);
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.mileageExpensesLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(MileageExpense mileageExpense) async {

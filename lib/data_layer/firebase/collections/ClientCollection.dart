@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -14,6 +16,14 @@ class ClientCollection {
         .catchError((error) {
           print(error);
         });
+  }
+
+  Stream<QuerySnapshot> getClientsStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('clients')
+        .snapshots();
   }
 
   Future<void> deleteClient(String documentId) async {

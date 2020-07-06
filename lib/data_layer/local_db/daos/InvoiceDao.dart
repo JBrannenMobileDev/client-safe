@@ -8,9 +8,12 @@ import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
+
+import 'ProfileDao.dart';
 
 class InvoiceDao extends Equatable{
   static const String INVOICE_STORE_NAME = 'invoice';
@@ -27,6 +30,9 @@ class InvoiceDao extends Equatable{
     int savedClientId = await _invoiceStore.add(await _db, invoice.toMap());
     invoice.id = savedClientId;
     await InvoiceCollection().createInvoice(invoice);
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.invoicesLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(Invoice invoice) async {
@@ -70,6 +76,9 @@ class InvoiceDao extends Equatable{
       finder: finder,
     );
     await InvoiceCollection().updateInvoice(invoice);
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.invoicesLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future deleteById(int id, String documentId) async {

@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/firebase/collections/RecurringExpenseCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
@@ -21,6 +23,9 @@ class RecurringExpenseDao extends Equatable{
     recurringExpense.documentId = Uuid().v1();
     recurringExpense.id = await _recurringExpenseStore.add(await _db, recurringExpense.toMap());
     await RecurringExpenseCollection().createRecurringExpense(recurringExpense);
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.recurringExpensesLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(RecurringExpense recurringExpense) async {

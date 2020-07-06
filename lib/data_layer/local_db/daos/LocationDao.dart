@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/firebase/collections/LocationCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -21,6 +23,9 @@ class LocationDao extends Equatable{
     location.documentId = Uuid().v1();
     location.id = await _locationStore.add(await _db, location.toMap());
     await LocationCollection().createLocation(location);
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.locationsLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(Location location) async {

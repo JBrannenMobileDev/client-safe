@@ -9,6 +9,7 @@ import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 
 class NewContactPageMiddleware extends MiddlewareClass<AppState> {
 

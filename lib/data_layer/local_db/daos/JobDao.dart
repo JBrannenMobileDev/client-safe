@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/firebase/collections/JobCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -22,6 +24,9 @@ class JobDao extends Equatable{
     int jobId = await _jobStore.add(await _db, job.toMap());
     job.id = jobId;
     await JobCollection().createJob(job);
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.jobsLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future insertOrUpdate(Job job) async {
@@ -49,6 +54,9 @@ class JobDao extends Equatable{
       finder: finder,
     );
     await JobCollection().updateJob(job);
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.jobsLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future delete(Job job) async {

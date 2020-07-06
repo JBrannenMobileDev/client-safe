@@ -27,6 +27,14 @@ class PriceProfileCollection {
     }
   }
 
+  Stream<QuerySnapshot> getPriceProfilesStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('priceProfiles')
+        .snapshots();
+  }
+
   Future<PriceProfile> getPriceProfile(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference

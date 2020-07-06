@@ -1,13 +1,12 @@
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,6 +18,8 @@ import 'package:redux/redux.dart';
 import 'LoginPageActions.dart';
 
 class LoginPageMiddleware extends MiddlewareClass<AppState> {
+  bool _syncFinished = false;
+  bool _animationFinished = false;
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
@@ -40,7 +41,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser user = await _auth.currentUser();
     if (user != null && user.isEmailVerified) {
-      _updateUserLoginTime(user.uid);
+      ProfileDao.updateUserLoginTime(user.uid);
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
     } else {
       store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
@@ -68,7 +69,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
           VibrateUtil.vibrateHeavy();
           store.dispatch(AnimateLoginErrorMessageAction(store.state.loginPageState, true));
-          _updateUserLoginTime(user.uid);
+          ProfileDao.updateUserLoginTime(user.uid);
         }
         store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, false));
       }).catchError((error) {
@@ -90,18 +91,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(
             UpdateShowLoginAnimation(store.state.loginPageState, false));
       });
-    }
-  }
-
-  Future<void> _updateUserLoginTime(String uid) async{
-    List<Profile> userProfiles = await ProfileDao.getAll();
-    if (userProfiles.isNotEmpty) {
-      Profile updatedProfile = userProfiles.elementAt(0).copyWith(
-          uid: uid,
-          signedIn: true,
-          lastSignIn: DateTime.now()
-      );
-      ProfileDao.insertOrUpdate(updatedProfile);
     }
   }
 
@@ -174,10 +163,20 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.isEmailVerified));
       store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
       store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+      UidUtil().setUid(user.uid);
+      await FireStoreSync().dandyLightAppInitializationSync().then((value) {
+        _syncFinished = true;
+        if(_animationFinished) {
+          ProfileDao.updateUserLoginTime(user.uid);
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+        }
+      });
       await Future.delayed(const Duration(milliseconds: 2500), () {
-        _updateUserLoginTime(user.uid);
-        UidUtil().setUid(user.uid);
-        store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+        _animationFinished = true;
+        if(_syncFinished) {
+          ProfileDao.updateUserLoginTime(user.uid);
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+        }
       });
     }else if(user != null && !user.isEmailVerified){
       store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));

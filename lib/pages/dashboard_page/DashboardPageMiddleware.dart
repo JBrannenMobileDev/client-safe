@@ -6,6 +6,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -26,5 +27,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   Future<void> _loadClients(Store<AppState> store, action, NextDispatcher next) async {
     List<Client> clients = await ClientDao.getAll();
     store.dispatch(SetClientsDashboardAction(store.state.dashboardPageState, clients));
+
+    (await ClientDao.getClientsStream()).listen((clientSnapshots) {
+      List<Client> clients = List();
+      for(RecordSnapshot clientSnapshot in clientSnapshots) {
+        clients.add(Client.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetClientsDashboardAction(store.state.dashboardPageState, clients));
+    });
   }
 }
