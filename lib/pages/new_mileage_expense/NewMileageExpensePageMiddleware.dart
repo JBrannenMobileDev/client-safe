@@ -17,6 +17,7 @@ import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
+import 'package:sembast/sembast.dart';
 
 
 class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
@@ -141,6 +142,14 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(positionLastKnown != null) {
       store.dispatch(SetInitialMapLatLng(store.state.newMileageExpensePageState, positionLastKnown.latitude, positionLastKnown.longitude));
     }
+
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
+      List<Location> locations = List();
+      for(RecordSnapshot locationSnapshot in locationSnapshots) {
+        locations.add(Location.fromMap(locationSnapshot.value));
+      }
+      store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations));
+    });
   }
 
   void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{

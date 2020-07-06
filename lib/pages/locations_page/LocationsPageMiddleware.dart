@@ -10,6 +10,7 @@ import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 import 'package:share/share.dart';
 
 class LocationsPageMiddleware extends MiddlewareClass<AppState> {
@@ -52,6 +53,14 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
     String path = appDocDir.path;
     next(SetLocationsAction(store.state.locationsPageState, locations, path));
     store.dispatch(newLocation.SetDocumentPathAction(store.state.newLocationPageState, path));
+
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
+      List<Location> locations = List();
+      for(RecordSnapshot locationSnapshot in locationSnapshots) {
+        locations.add(Location.fromMap(locationSnapshot.value));
+      }
+      store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, path));
+    });
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocationAction action, NextDispatcher next) async{

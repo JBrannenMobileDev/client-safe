@@ -130,3 +130,9 @@ class SetSearchTextAction{
   final String input;
   SetSearchTextAction(this.pageState, this.input);
 }
+
+class SetLocationsAction{
+  final SunsetWeatherPageState pageState;
+  final List<Location> locations;
+  SetLocationsAction(this.pageState, this.locations);
+}

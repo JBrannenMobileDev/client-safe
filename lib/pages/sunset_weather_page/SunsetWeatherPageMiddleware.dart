@@ -14,6 +14,7 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.da
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
@@ -103,6 +104,14 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(positionLastKnown.latitude, positionLastKnown.longitude);
 
       store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
+
+      (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
+        List<Location> locations = List();
+        for(RecordSnapshot locationSnapshot in locationSnapshots) {
+          locations.add(Location.fromMap(locationSnapshot.value));
+        }
+        store.dispatch(SetLocationsAction(store.state.sunsetWeatherPageState, locations));
+      });
 
       final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: positionLastKnown.latitude, longitude: positionLastKnown.longitude);
       store.dispatch(

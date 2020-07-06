@@ -27,6 +27,14 @@ class LocationCollection {
     }
   }
 
+  Stream<QuerySnapshot> getLocationsStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('locations')
+        .snapshots();
+  }
+
   Future<Location> getLocation(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference

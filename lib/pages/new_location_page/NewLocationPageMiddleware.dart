@@ -14,6 +14,7 @@ import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
+import 'package:sembast/sembast.dart';
 
 
 import 'NewLocationActions.dart';
@@ -55,6 +56,14 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   void fetchLocations(Store<AppState> store, NextDispatcher next) async{
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     next(SetLocationsAction(store.state.newLocationPageState, locations));
+
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
+      List<Location> locations = List();
+      for(RecordSnapshot locationSnapshot in locationSnapshots) {
+        locations.add(Location.fromMap(locationSnapshot.value));
+      }
+      store.dispatch(SetLocationsAction(store.state.newLocationPageState, locations));
+    });
   }
 
   void _saveLocation(Store<AppState> store, SaveLocationAction action, NextDispatcher next) async{

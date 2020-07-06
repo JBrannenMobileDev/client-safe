@@ -20,6 +20,7 @@ import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
@@ -167,6 +168,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(SetDocumentPathAction(store.state.jobDetailsPageState, path));
+
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
+      List<Location> locations = List();
+      for(RecordSnapshot locationSnapshot in locationSnapshots) {
+        locations.add(Location.fromMap(locationSnapshot.value));
+      }
+      store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations));
+    });
   }
 
   void _fetchPricePackages(Store<AppState> store, action, NextDispatcher next) async{

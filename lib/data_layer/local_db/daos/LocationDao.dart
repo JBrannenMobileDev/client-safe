@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/LocationCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -23,8 +25,16 @@ class LocationDao extends Equatable{
     location.documentId = Uuid().v1();
     location.id = await _locationStore.add(await _db, location.toMap());
     await LocationCollection().createLocation(location);
+    _updateLastChangedTime();
+  }
+
+  static Future insertLocalOnly(Location location) async {
+    location.id = await _locationStore.add(await _db, location.toMap());
+  }
+
+  static Future<void> _updateLastChangedTime() async {
     Profile profile = (await ProfileDao.getAll()).elementAt(0);
-    profile.locationsLastChangeDate = DateTime.now();
+    profile.priceProfilesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
@@ -43,6 +53,26 @@ class LocationDao extends Equatable{
     }
   }
 
+  static Future<Location> getById(int locationId) async{
+    final finder = Finder(filter: Filter.byKey(locationId));
+    final recordSnapshots = await _locationStore.find(await _db, finder: finder);
+    // Making a List<profileId> out of List<RecordSnapshot>
+    return recordSnapshots.map((snapshot) {
+      final location = Location.fromMap(snapshot.value);
+      location.id = snapshot.key;
+      return location;
+    }).toList().elementAt(0);
+  }
+
+  static Future<Stream<List<RecordSnapshot>>> getLocationsStream() async {
+    var query = _locationStore.query();
+    return query.onSnapshots(await _db);
+  }
+
+  static Stream<QuerySnapshot> getLocationsStreamFromFireStore() {
+    return LocationCollection().getLocationsStream();
+  }
+
   static Future update(Location location) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
@@ -53,6 +83,18 @@ class LocationDao extends Equatable{
       finder: finder,
     );
     await LocationCollection().updateLocation(location);
+    _updateLastChangedTime();
+  }
+
+  static Future updateLocalOnly(Location location) async {
+    // For filtering by key (ID), RegEx, greater than, and many other criteria,
+    // we use a Finder.
+    final finder = Finder(filter: Filter.byKey(location.id));
+    await _locationStore.update(
+      await _db,
+      location.toMap(),
+      finder: finder,
+    );
   }
 
   static Future delete(int id, String documentId) async {
@@ -62,6 +104,7 @@ class LocationDao extends Equatable{
       finder: finder,
     );
     await LocationCollection().deleteJob(documentId);
+    _updateLastChangedTime();
   }
 
   static Future<List<Location>> getAllSortedMostFrequent() async {
@@ -79,6 +122,80 @@ class LocationDao extends Equatable{
       location.id = snapshot.key;
       return location;
     }).toList();
+  }
+
+  static Future<void> syncAllFromFireStore() async {
+    List<Location> allLocalLocations = await getAllSortedMostFrequent();
+    List<Location> allFireStoreLocations = await LocationCollection().getAll(UidUtil().getUid());
+
+    if(allLocalLocations != null && allLocalLocations.length > 0) {
+      if(allFireStoreLocations != null && allFireStoreLocations.length > 0) {
+        //both local and fireStore have Locations
+        //fireStore is source of truth for this sync.
+        await _syncFireStoreToLocal(allLocalLocations, allFireStoreLocations);
+      } else {
+        //all Locations have been deleted in the cloud. Delete all local Locations also.
+        _deleteAllLocalLocations(allLocalLocations);
+      }
+    } else {
+      if(allFireStoreLocations != null && allFireStoreLocations.length > 0){
+        //no local Locations but there are fireStore Locations.
+        await _copyAllFireStoreLocationsToLocal(allFireStoreLocations);
+      } else {
+        //no Locations in either database. nothing to sync.
+      }
+    }
+  }
+
+  static Future<void> _deleteAllLocalLocations(List<Location> allLocalLocations) async {
+    for(Location location in allLocalLocations) {
+      final finder = Finder(filter: Filter.byKey(location.id));
+      await _locationStore.delete(
+        await _db,
+        finder: finder,
+      );
+    }
+  }
+
+  static Future<void> _copyAllFireStoreLocationsToLocal(List<Location> allFireStoreLocations) async {
+    for (Location LocationToSave in allFireStoreLocations) {
+      await _locationStore.add(await _db, LocationToSave.toMap());
+    }
+  }
+
+  static Future<void> _syncFireStoreToLocal(List<Location> allLocalLocations, List<Location> allFireStoreLocations) async {
+    for(Location localLocation in allLocalLocations) {
+      //should only be 1 matching
+      List<Location> matchingFireStoreLocations = allFireStoreLocations.where((fireStoreLocation) => localLocation.documentId == fireStoreLocation.documentId).toList();
+      if(matchingFireStoreLocations !=  null && matchingFireStoreLocations.length > 0) {
+        Location fireStoreLocation = matchingFireStoreLocations.elementAt(0);
+        fireStoreLocation.id = localLocation.id;
+        final finder = Finder(filter: Filter.byKey(fireStoreLocation.id));
+        await _locationStore.update(
+          await _db,
+          fireStoreLocation.toMap(),
+          finder: finder,
+        );
+      } else {
+        //Location does nto exist on cloud. so delete from local.
+        final finder = Finder(filter: Filter.byKey(localLocation.id));
+        await _locationStore.delete(
+          await _db,
+          finder: finder,
+        );
+      }
+    }
+
+    for(Location fireStoreLocation in allFireStoreLocations) {
+      List<Location> matchingLocalLocations = allLocalLocations.where((localLocation) => localLocation.documentId == fireStoreLocation.documentId).toList();
+      if(matchingLocalLocations != null && matchingLocalLocations.length > 0) {
+        //do nothing. Location already synced.
+      } else {
+        //add to local. does not exist in local and has not been synced yet.
+        fireStoreLocation.id = null;
+        await _locationStore.add(await _db, fireStoreLocation.toMap());
+      }
+    }
   }
 
   @override

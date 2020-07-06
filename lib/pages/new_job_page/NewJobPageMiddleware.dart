@@ -15,6 +15,7 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 class NewJobPageMiddleware extends MiddlewareClass<AppState> {
@@ -56,6 +57,22 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(SetDocumentPathAction(store.state.newJobPageState, path));
+
+    (await PriceProfileDao.getPriceProfilesStream()).listen((snapshots) async {
+      List<PriceProfile> priceProfilesToUpdate = List();
+      for(RecordSnapshot clientSnapshot in snapshots) {
+        priceProfilesToUpdate.add(PriceProfile.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, priceProfilesToUpdate, allLocations, upcomingJobs));
+    });
+
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
+      List<Location> locations = List();
+      for(RecordSnapshot locationSnapshot in locationSnapshots) {
+        locations.add(Location.fromMap(locationSnapshot.value));
+      }
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs));
+    });
   }
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {

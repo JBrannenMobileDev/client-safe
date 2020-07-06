@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dandylight/data_layer/firebase/collections/ClientCollection.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -31,7 +32,6 @@ class FireStoreSync {
     }
 
     Future<void> setupFireStoreListeners () async {
-        //TODO wrap with internet connection listener.
         ClientDao.getClientsStreamFromFireStore()
             .listen((snapshots) async {
                 for(DocumentChange snapshot in snapshots.documentChanges) {
@@ -57,14 +57,31 @@ class FireStoreSync {
                 }
             }
         });
+
+        LocationDao.getLocationsStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.documentChanges) {
+                Location location = Location.fromMap(snapshot.document.data);
+                Location locationFromLocal = await LocationDao.getById(location.id);
+                if(locationFromLocal != null) {
+                    LocationDao.updateLocalOnly(location);
+                }else {
+                    LocationDao.insertLocalOnly(location);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.clientsLastChangeDate != userFireStoreDb.clientsLastChangeDate) || (userLocalDb.clientsLastChangeDate == null && userFireStoreDb.clientsLastChangeDate != null)) {
-            if(userLocalDb.clientsLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.clientsLastChangeDate.millisecondsSinceEpoch) {
-                await ClientDao.syncAllFromFireStore();
-            } else {
-                //do nothing localFirebase cache has not synced up to cloud yet.
+            if(userLocalDb.clientsLastChangeDate != null && userFireStoreDb.clientsLastChangeDate != null) {
+                if (userLocalDb.clientsLastChangeDate.millisecondsSinceEpoch <
+                    userFireStoreDb.clientsLastChangeDate
+                        .millisecondsSinceEpoch) {
+                    await ClientDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
             }
         }
     }
@@ -78,7 +95,15 @@ class FireStoreSync {
     }
 
     Future<void> _syncLocations(Profile userLocalDb, Profile userFireStoreDb) async {
-
+        if((userLocalDb.locationsLastChangeDate != userFireStoreDb.locationsLastChangeDate) || (userLocalDb.locationsLastChangeDate == null && userFireStoreDb.locationsLastChangeDate != null)) {
+            if(userLocalDb.locationsLastChangeDate != null && userFireStoreDb.locationsLastChangeDate != null){
+                if(userLocalDb.locationsLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.locationsLastChangeDate.millisecondsSinceEpoch) {
+                    await LocationDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
     }
 
     Future<void> _syncMileageExpenses(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -87,10 +112,12 @@ class FireStoreSync {
 
     Future<void> _syncPriceProfiles(Profile userLocalDb, Profile userFireStoreDb) async {
         if((userLocalDb.priceProfilesLastChangeDate != userFireStoreDb.priceProfilesLastChangeDate) || (userLocalDb.priceProfilesLastChangeDate == null && userFireStoreDb.priceProfilesLastChangeDate != null)) {
-            if(userLocalDb.priceProfilesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.priceProfilesLastChangeDate.millisecondsSinceEpoch) {
-                await PriceProfileDao.syncAllFromFireStore();
-            } else {
-                //do nothing localFirebase cache has not synced up to cloud yet.
+            if(userLocalDb.priceProfilesLastChangeDate != null && userFireStoreDb.priceProfilesLastChangeDate != null){
+                if(userLocalDb.priceProfilesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.priceProfilesLastChangeDate.millisecondsSinceEpoch) {
+                    await PriceProfileDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
             }
         }
     }

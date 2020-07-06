@@ -25,9 +25,13 @@ class PriceProfileDao extends Equatable{
     profile.documentId = Uuid().v1();
     profile.id = await _priceProfileStore.add(await _db, profile.toMap());
     await PriceProfileCollection().createPriceProfile(profile);
-    Profile userProfile = (await ProfileDao.getAll()).elementAt(0);
-    userProfile.priceProfilesLastChangeDate = DateTime.now();
-    ProfileDao.update(userProfile);
+    _updateLastChangedTime();
+  }
+
+  static Future<void> _updateLastChangedTime() async {
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.priceProfilesLastChangeDate = DateTime.now();
+    ProfileDao.update(profile);
   }
 
   static Future insertLocalOnly(PriceProfile profile) async {
@@ -80,6 +84,7 @@ class PriceProfileDao extends Equatable{
       finder: finder,
     );
     await PriceProfileCollection().updatePriceProfile(profile);
+    _updateLastChangedTime();
   }
 
   static Future updateLocalOnly(PriceProfile profile) async {
@@ -100,6 +105,7 @@ class PriceProfileDao extends Equatable{
       finder: finder,
     );
     await PriceProfileCollection().deletePriceProfile(profile.documentId);
+    _updateLastChangedTime();
   }
 
   static Future<List<PriceProfile>> getAllSortedByName() async {
