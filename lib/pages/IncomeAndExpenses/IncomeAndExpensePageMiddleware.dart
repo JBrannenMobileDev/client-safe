@@ -15,6 +15,7 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 
 class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -99,6 +100,14 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchJobs(Store<AppState> store, NextDispatcher next) async {
     store.dispatch(SetTipTotalsAction(store.state.incomeAndExpensesPageState, await JobDao.getAllJobs()));
+
+    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
+      List<Job> jobs = List();
+      for(RecordSnapshot clientSnapshot in jobSnapshots) {
+        jobs.add(Job.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetTipTotalsAction(store.state.incomeAndExpensesPageState, jobs));
+    });
   }
 
   void _fetchSingleExpenses(Store<AppState> store, FetchSingleExpenses action, NextDispatcher next) async {

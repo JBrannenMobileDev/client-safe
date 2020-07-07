@@ -20,6 +20,7 @@ import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
+import 'package:sembast/sembast.dart';
 
 class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -147,6 +148,22 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     List<Job> allJobs = await JobDao.getAllJobs();
     allJobs = allJobs.where((job) => !job.hasCompletedStage(JobStage.STAGE_9_PAYMENT_RECEIVED) && !job.hasCompletedStage(JobStage.STAGE_14_JOB_COMPLETE)).toList();
     store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber));
+
+    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
+      List<Job> jobs = List();
+      for(RecordSnapshot clientSnapshot in jobSnapshots) {
+        jobs.add(Job.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, jobs, allClients, newInvoiceNumber));
+    });
+
+    (await ClientDao.getClientsStream()).listen((clientSnapshots) async {
+      List<Client> clients = List();
+      for(RecordSnapshot clientSnapshot in clientSnapshots) {
+        clients.add(Client.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, clients, newInvoiceNumber));
+    });
   }
 
   void _saveNewLineItem(Store<AppState> store, action, NextDispatcher next) async {

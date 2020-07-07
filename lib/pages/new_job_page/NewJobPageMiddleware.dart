@@ -73,6 +73,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       }
       store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs));
     });
+
+    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
+      List<Job> jobs = List();
+      for(RecordSnapshot clientSnapshot in jobSnapshots) {
+        jobs.add(Job.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, jobs));
+    });
   }
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {

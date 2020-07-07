@@ -230,3 +230,9 @@ class InvoiceSentAction{
   InvoiceSentAction(this.pageState, this.invoice);
 }
 
+class SetJobAction{
+  final JobDetailsPageState pageState;
+  final Job job;
+  SetJobAction(this.pageState, this.job);
+}
+

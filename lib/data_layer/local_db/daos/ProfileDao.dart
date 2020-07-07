@@ -22,6 +22,10 @@ class ProfileDao extends Equatable{
     await UserCollection().createUser(profile);
   }
 
+  static Future insertLocal(Profile profile) async {
+    await _profileStore.add(await _db, profile.toMap());
+  }
+
   static Future insertOrUpdate(Profile profile) async {
     List<Profile> profileList = await getAllSortedByFirstName();
     bool alreadyExists = false;

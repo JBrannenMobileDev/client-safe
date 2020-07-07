@@ -121,7 +121,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
             pageState.setNewIndexForStageAnimation(-1);
             if(scrollPosition == -2) scrollPosition = 0;
           }
-              return WillPopScope(
+              return pageState.job != null ? WillPopScope(
               onWillPop: _onWillPop,
               child: Scaffold(
                 floatingActionButton: SpeedDial(
@@ -445,7 +445,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                 ),
               ),
               ),
-            );
+            ) : SizedBox();
         },
       );
   }

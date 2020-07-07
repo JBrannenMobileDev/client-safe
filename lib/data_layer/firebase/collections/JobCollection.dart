@@ -27,6 +27,14 @@ class JobCollection {
     }
   }
 
+  Stream<QuerySnapshot> getJobsStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('jobs')
+        .snapshots();
+  }
+
   Future<Job> getJob(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference

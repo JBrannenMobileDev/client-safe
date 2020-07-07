@@ -8,7 +8,7 @@ import 'package:dandylight/pages/job_details_page/document_items/InvoiceDocument
 import 'package:redux/redux.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([
-  TypedReducer<JobDetailsPageState, SetJobInfo>(_setJobInfo),
+  TypedReducer<JobDetailsPageState, SetJobAction>(_setJobInfo),
   TypedReducer<JobDetailsPageState, SaveStageCompleted>(_saveStageCompleted),
   TypedReducer<JobDetailsPageState, SetNewStagAnimationIndex>(_setNewStagAnimationIndex),
   TypedReducer<JobDetailsPageState, SetExpandedIndexAction>(_setExpandedIndex),
@@ -146,7 +146,7 @@ JobDetailsPageState _updateScrollOffset(JobDetailsPageState previousState, Updat
   );
 }
 
-JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobInfo action){
+JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction action){
   List<DocumentItem> documents = List();
   if(action.job.invoice != null) {
     documents.add(InvoiceDocument());

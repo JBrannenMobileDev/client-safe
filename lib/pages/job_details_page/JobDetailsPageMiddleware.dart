@@ -12,7 +12,6 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
@@ -186,6 +185,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _fetchAllJobs(Store<AppState> store, action, NextDispatcher next) async{
     List<Job> upcomingJobs = await JobDao.getAllJobs();
     store.dispatch(SetEventMapAction(store.state.jobDetailsPageState, upcomingJobs));
+
+    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
+      List<Job> jobs = List();
+      for(RecordSnapshot clientSnapshot in jobSnapshots) {
+        jobs.add(Job.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetEventMapAction(store.state.jobDetailsPageState, jobs));
+    });
   }
 
   void _updateJobWithNewTime(Store<AppState> store, UpdateJobTimeAction action, NextDispatcher next) async{
@@ -219,16 +226,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     IntentLauncherUtil.launchURL(instagramUrl);
   }
 
-  void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action)async{
+  void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
+    store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
     Client client = await ClientDao.getClientById(action.job.clientId);
-    next(action);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
   }
 
   void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{
     await JobDao.delete(store.state.jobDetailsPageState.job);
-    store.dispatch(LoadClientJobsAction(store.state.clientDetailsPageState));
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 

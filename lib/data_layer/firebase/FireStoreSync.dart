@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -70,6 +72,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        JobDao.getJobsStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.documentChanges) {
+                Job job = Job.fromMap(snapshot.document.data);
+                Job jobFromLocal = await JobDao.getJobById(job.id);
+                if(jobFromLocal != null) {
+                    JobDao.updateLocalOnly(job);
+                }else {
+                    JobDao.insertLocalOnly(job);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -91,7 +106,15 @@ class FireStoreSync {
     }
 
     Future<void> _syncJobs(Profile userLocalDb, Profile userFireStoreDb) async {
-
+        if((userLocalDb.jobsLastChangeDate != userFireStoreDb.jobsLastChangeDate) || (userLocalDb.jobsLastChangeDate == null && userFireStoreDb.jobsLastChangeDate != null)) {
+            if(userLocalDb.jobsLastChangeDate != null && userFireStoreDb.jobsLastChangeDate != null){
+                if(userLocalDb.jobsLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobsLastChangeDate.millisecondsSinceEpoch) {
+                    await JobDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
     }
 
     Future<void> _syncLocations(Profile userLocalDb, Profile userFireStoreDb) async {

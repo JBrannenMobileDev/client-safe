@@ -24,9 +24,4 @@ class SetClientJobsAction{
   SetClientJobsAction(this.pageState, this.clientJobs);
 }
 
-class LoadClientJobsAction{
-  final ClientDetailsPageState pageState;
-  LoadClientJobsAction(this.pageState);
-}
-
 

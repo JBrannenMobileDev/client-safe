@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
+import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -40,7 +41,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
   void _signIn(Store<AppState> store, LoginAction action, next) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     FirebaseUser user = await _auth.currentUser();
-    if (user != null && user.isEmailVerified) {
+    List<Profile> profiles = await ProfileDao.getAllSortedByFirstName();
+    Profile profile;
+    if(profiles != null && profiles.length > 0) {
+      profile = profiles.elementAt(0);
+    }
+    if (user != null && user.isEmailVerified && profile != null && profile.signedIn) {
       ProfileDao.updateUserLoginTime(user.uid);
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
     } else {
@@ -48,23 +54,28 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await _auth.signInWithEmailAndPassword(
               email: store.state.loginPageState.emailAddress,
               password: store.state.loginPageState.password).then((authResult) async {
-                if(authResult.user != null) {
-                  UidUtil().setUid(authResult.user.uid);
-                }
+        if (authResult.user != null) {
+          UidUtil().setUid(authResult.user.uid);
+          if(profile == null){
+            ProfileDao.insertLocal(await UserCollection().getUser(user.uid));
+            await FireStoreSync().dandyLightAppInitializationSync();
+            //TODO it worked. but now it is not copying everything from cloud. i need a new function to just copy all of cloud to local.
+          }
+        }
         if (authResult.user != null && authResult.user.isEmailVerified) {
           List<Profile> userProfiles = await ProfileDao.getAll();
           if (userProfiles.isNotEmpty) {
             Profile updatedProfile = userProfiles.elementAt(0).copyWith(
-                  firstName: store.state.loginPageState.firstName,
-                  lastName: store.state.loginPageState.lastName,
-                  businessName: store.state.loginPageState.businessName,
-                  email: store.state.loginPageState.emailAddress,
-                  signedIn: true,
-                  lastSignIn: DateTime.now()
-                );
+                firstName: store.state.loginPageState.firstName,
+                lastName: store.state.loginPageState.lastName,
+                businessName: store.state.loginPageState.businessName,
+                email: store.state.loginPageState.emailAddress,
+                signedIn: true,
+                lastSignIn: DateTime.now());
             ProfileDao.insertOrUpdate(updatedProfile);
           }
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          store.dispatch(
+              UpdateNavigateToHomeAction(store.state.loginPageState, true));
         } else if (user != null && !user.isEmailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
           VibrateUtil.vibrateHeavy();
@@ -183,6 +194,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
     }else if(user != null && user.isEmailVerified && !profile.signedIn){
       store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+    }else {
+
     }
   }
 
