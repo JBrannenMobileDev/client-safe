@@ -143,15 +143,15 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void onEditInvoice(Store<AppState> store, InvoiceEditSelected action, NextDispatcher next) async {
-    Job job = await JobDao.getJobById(action.invoice.jobId);
+    Job job = await JobDao.getJobById(action.invoice.jobDocumentId);
     store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
     store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, job));
   }
 
   void updateInvoiceToSent(Store<AppState> store, OnInvoiceSentAction action, NextDispatcher next) async {
     action.invoice.sentDate = DateTime.now();
-    await InvoiceDao.update(action.invoice);
-    Job invoiceJob = await JobDao.getJobById(action.invoice.jobId);
+    await InvoiceDao.update(action.invoice, await JobDao.getJobById(action.invoice.jobDocumentId));
+    Job invoiceJob = await JobDao.getJobById(action.invoice.jobDocumentId);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, invoiceJob, 7));
   }

@@ -350,7 +350,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
     List<Job> jobs = List();
     for(Event event in events){
       for(Job job in allJobs){
-        if(job.id == event.jobId) jobs.add(job);
+        if(job.documentId == event.jobDocumentId) jobs.add(job);
       }
     }
     return jobs;

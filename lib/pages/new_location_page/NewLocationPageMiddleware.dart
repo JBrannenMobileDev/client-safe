@@ -82,7 +82,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
-    await LocationDao.delete(action.pageState.id, action.pageState.documentId);
+    await LocationDao.delete(action.pageState.documentId);
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

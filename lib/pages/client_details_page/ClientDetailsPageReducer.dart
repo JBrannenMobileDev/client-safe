@@ -15,6 +15,6 @@ ClientDetailsPageState _setClient(ClientDetailsPageState previousState, Initiali
 
 ClientDetailsPageState _setJobs(ClientDetailsPageState previousState, SetClientJobsAction action){
   return previousState.copyWith(
-    clientJobs: action.clientJobs.where((job) => job.clientId == previousState.client.id).toList(),
+    clientJobs: action.clientJobs.where((job) => job.clientDocumentId == previousState.client.documentId).toList(),
   );
 }

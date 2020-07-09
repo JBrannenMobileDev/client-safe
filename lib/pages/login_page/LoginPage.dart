@@ -647,6 +647,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     children: [
                       SlideTransition(
                         position: showLoginButtonsStep,
+                        child: Text(
+                          pageState.loginErrorMessage,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 18.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w800,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                          ),
+                        ),
+                      ),
+                      SlideTransition(
+                        position: showLoginButtonsStep,
                         child: LoginTextField(
                           controller: loginEmailTextController,
                           hintText: 'Email address',

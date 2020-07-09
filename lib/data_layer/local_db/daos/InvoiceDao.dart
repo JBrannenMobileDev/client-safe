@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/InvoiceCollection.dart';
 import 'package:dandylight/data_layer/firebase/collections/NextInvoiceNumberCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
@@ -9,6 +10,7 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -25,38 +27,48 @@ class InvoiceDao extends Equatable{
   // singleton instance of an opened database.
   static Future<Database> get _db async => await SembastDb.instance.database;
 
-  static Future insert(Invoice invoice) async {
+  static Future insert(Invoice invoice, Job jobToUpdate) async {
     invoice.documentId = Uuid().v1();
-    int savedClientId = await _invoiceStore.add(await _db, invoice.toMap());
-    invoice.id = savedClientId;
+    int savedInvoiceId = await _invoiceStore.add(await _db, invoice.toMap());
+    invoice.id = savedInvoiceId;
+    jobToUpdate.invoice = invoice;
+    await JobDao.update(jobToUpdate);
     await InvoiceCollection().createInvoice(invoice);
+    _updateLastChangedTime();
+  }
+
+  static Future insertLocalOnly(Invoice invoice) async {
+    await _invoiceStore.add(await _db, invoice.toMap());
+  }
+
+  static Future<void> _updateLastChangedTime() async {
     Profile profile = (await ProfileDao.getAll()).elementAt(0);
     profile.invoicesLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }
 
-  static Future insertOrUpdate(Invoice invoice) async {
+  static Future insertOrUpdate(Invoice invoice, Job selectedJob) async {
     List<Invoice> invoices = await getAllSortedByDueDate();
     bool alreadyExists = false;
     for(Invoice singleInvoice in invoices){
-      if(singleInvoice.id == invoice.id){
+      if(singleInvoice.documentId == invoice.documentId){
         alreadyExists = true;
       }
     }
     if(alreadyExists){
-      await update(invoice);
+      await update(invoice, selectedJob);
     }else{
       List<Invoice> allInvoices = await getAllSortedByDueDate();
       List<Invoice> invoicesToDelete = List();
       for(Invoice invoiceItem in allInvoices){
-        if(invoiceItem.jobId == invoice.jobId) invoicesToDelete.add(invoiceItem);
+        if(invoiceItem.jobDocumentId == invoice.jobDocumentId) invoicesToDelete.add(invoiceItem);
       }
 
       for(Invoice invoiceToDelete in invoicesToDelete){
         await deleteByInvoice(invoiceToDelete);
       }
 
-      await insert(invoice);
+      await insert(invoice, selectedJob);
       List<NextInvoiceNumber> nextInvoiceNumbers = await NextInvoiceNumberDao.getAllSorted();
       if(nextInvoiceNumbers.length == 0){
         nextInvoiceNumbers.add(NextInvoiceNumber(highestInvoiceNumber: 1000));
@@ -68,21 +80,42 @@ class InvoiceDao extends Equatable{
     }
   }
 
-  static Future update(Invoice invoice) async {
-    final finder = Finder(filter: Filter.byKey(invoice.id));
+  static Future update(Invoice invoice, Job jobToUpdate) async {
+    final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
+    await _invoiceStore.update(
+      await _db,
+      invoice.toMap(),
+      finder: finder,
+    );
+    jobToUpdate.invoice = invoice;
+    await JobDao.update(jobToUpdate);
+    await InvoiceCollection().updateInvoice(invoice);
+    _updateLastChangedTime();
+  }
+
+  static Future updateInvoiceOnly(Invoice invoice) async {
+    final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
     await _invoiceStore.update(
       await _db,
       invoice.toMap(),
       finder: finder,
     );
     await InvoiceCollection().updateInvoice(invoice);
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
-    profile.invoicesLastChangeDate = DateTime.now();
-    ProfileDao.update(profile);
+    _updateLastChangedTime();
   }
 
-  static Future deleteById(int id, String documentId) async {
-    final finder = Finder(filter: Filter.byKey(id));
+  static Future updateLocalOnly(Invoice invoice) async {
+    final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
+    await _invoiceStore.update(
+      await _db,
+      invoice.toMap(),
+      finder: finder,
+    );
+    await InvoiceCollection().updateInvoice(invoice);
+  }
+
+  static Future deleteById(String documentId) async {
+    final finder = Finder(filter: Filter.equals('documentId', documentId));
     await _invoiceStore.delete(
       await _db,
       finder: finder,
@@ -90,15 +123,16 @@ class InvoiceDao extends Equatable{
     await InvoiceCollection().deleteInvoice(documentId);
     List<Job> jobs = await JobDao.getAllJobs();
     for(Job job in jobs){
-      if(job.invoice?.id == id){
+      if(job.invoice?.documentId == documentId){
         job.invoice = null;
         await JobDao.update(job);
       }
     }
+    _updateLastChangedTime();
   }
 
   static Future deleteByInvoice(Invoice invoice) async {
-    await deleteById(invoice.id, invoice.documentId);
+    await deleteById(invoice.documentId);
   }
 
   static Future<List<Invoice>> getAllSortedByDueDate() async {
@@ -107,19 +141,6 @@ class InvoiceDao extends Equatable{
     ]);
 
     final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
-
-//    List<Invoice> allInvoices = recordSnapshots.map((snapshot) {
-//      final invoice = Invoice.fromMap(snapshot.value);
-//      invoice.id = snapshot.key;
-//      return invoice;
-//    }).toList();
-//
-//    for(Invoice invoice in allInvoices){
-//      await delete(invoice.id);
-//    }
-//
-//    return List();
-
     return recordSnapshots.map((snapshot) {
       final invoice = Invoice.fromMap(snapshot.value);
       invoice.id = snapshot.key;
@@ -131,8 +152,8 @@ class InvoiceDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static Future<Invoice> getInvoiceById(int invoiceId) async{
-    final finder = Finder(filter: Filter.equals('invoiceId', invoiceId));
+  static Future<Invoice> getInvoiceById(String documentId) async{
+    final finder = Finder(filter: Filter.equals('documentId', documentId));
     final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
@@ -140,5 +161,87 @@ class InvoiceDao extends Equatable{
       invoice.id = snapshot.key;
       return invoice;
     }).toList().elementAt(0);
+  }
+
+  static Future<Stream<List<RecordSnapshot>>> getInvoiceStream() async {
+    var query = _invoiceStore.query();
+    return query.onSnapshots(await _db);
+  }
+
+  static Stream<QuerySnapshot> getInvoicesStreamFromFireStore() {
+    return InvoiceCollection().getInvoiceStream();
+  }
+
+  static Future<void> syncAllFromFireStore() async {
+    List<Invoice> allLocalInvoices = await getAllSortedByDueDate();
+    List<Invoice> allFireStoreInvoices = await InvoiceCollection().getAllInvoicesSortedByDate(UidUtil().getUid());
+
+    if(allLocalInvoices != null && allLocalInvoices.length > 0) {
+      if(allFireStoreInvoices != null && allFireStoreInvoices.length > 0) {
+        //both local and fireStore have Invoices
+        //fireStore is source of truth for this sync.
+        await _syncFireStoreToLocal(allLocalInvoices, allFireStoreInvoices);
+      } else {
+        //all Invoices have been deleted in the cloud. Delete all local Invoices also.
+        _deleteAllLocalInvoices(allLocalInvoices);
+      }
+    } else {
+      if(allFireStoreInvoices != null && allFireStoreInvoices.length > 0){
+        //no local Invoices but there are fireStore Invoices.
+        await _copyAllFireStoreInvoicesToLocal(allFireStoreInvoices);
+      } else {
+        //no Invoices in either database. nothing to sync.
+      }
+    }
+  }
+
+  static Future<void> _deleteAllLocalInvoices(List<Invoice> allLocalInvoices) async {
+    for(Invoice invoice in allLocalInvoices) {
+      final finder = Finder(filter: Filter.equals('documentId', invoice.documentId));
+      await _invoiceStore.delete(
+        await _db,
+        finder: finder,
+      );
+    }
+  }
+
+  static Future<void> _copyAllFireStoreInvoicesToLocal(List<Invoice> allFireStoreInvoices) async {
+    for (Invoice InvoiceToSave in allFireStoreInvoices) {
+      await _invoiceStore.add(await _db, InvoiceToSave.toMap());
+    }
+  }
+
+  static Future<void> _syncFireStoreToLocal(List<Invoice> allLocalInvoices, List<Invoice> allFireStoreInvoices) async {
+    for(Invoice localInvoice in allLocalInvoices) {
+      //should only be 1 matching
+      List<Invoice> matchingFireStoreInvoices = allFireStoreInvoices.where((fireStoreInvoice) => localInvoice.documentId == fireStoreInvoice.documentId).toList();
+      if(matchingFireStoreInvoices !=  null && matchingFireStoreInvoices.length > 0) {
+        Invoice fireStoreInvoice = matchingFireStoreInvoices.elementAt(0);
+        final finder = Finder(filter: Filter.equals('documentId', fireStoreInvoice.documentId));
+        await _invoiceStore.update(
+          await _db,
+          fireStoreInvoice.toMap(),
+          finder: finder,
+        );
+      } else {
+        //client does nto exist on cloud. so delete from local.
+        final finder = Finder(filter: Filter.equals('documentId', localInvoice.documentId));
+        await _invoiceStore.delete(
+          await _db,
+          finder: finder,
+        );
+      }
+    }
+
+    for(Invoice fireStoreInvoice in allFireStoreInvoices) {
+      List<Invoice> matchingLocalInvoices = allLocalInvoices.where((localInvoice) => localInvoice.documentId == fireStoreInvoice.documentId).toList();
+      if(matchingLocalInvoices != null && matchingLocalInvoices.length > 0) {
+        //do nothing. Invoice already synced.
+      } else {
+        //add to local. does not exist in local and has not been synced yet.
+        fireStoreInvoice.id = null;
+        await _invoiceStore.add(await _db, fireStoreInvoice.toMap());
+      }
+    }
   }
 }

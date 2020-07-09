@@ -57,9 +57,17 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         if (authResult.user != null) {
           UidUtil().setUid(authResult.user.uid);
           if(profile == null){
-            ProfileDao.insertLocal(await UserCollection().getUser(user.uid));
+            Profile fireStoreProfile = await UserCollection().getUser(user.uid);
+            if(fireStoreProfile.clientsLastChangeDate != null) fireStoreProfile.clientsLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.invoicesLastChangeDate != null) fireStoreProfile.invoicesLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.jobsLastChangeDate != null) fireStoreProfile.jobsLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.locationsLastChangeDate != null) fireStoreProfile.locationsLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.mileageExpensesLastChangeDate != null) fireStoreProfile.mileageExpensesLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.priceProfilesLastChangeDate != null) fireStoreProfile.priceProfilesLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.recurringExpensesLastChangeDate != null) fireStoreProfile.recurringExpensesLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.singleExpensesLastChangeDate != null) fireStoreProfile.singleExpensesLastChangeDate = DateTime(1970);
+            await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync();
-            //TODO it worked. but now it is not copying everything from cloud. i need a new function to just copy all of cloud to local.
           }
         }
         if (authResult.user != null && authResult.user.isEmailVerified) {
@@ -87,17 +95,18 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         PlatformException exception = error;
         String errorMessage = '';
         switch (exception.code) {
-          case 'FIRAuthErrorCodeInvalidEmail':
-          case 'FIRAuthErrorCodeUserDisabled':
-          case 'FIRAuthErrorCodeWrongPassword':
+          case 'ERROR_USER_NOT_FOUND':
+          case 'ERROR_WRONG_PASSWORD':
+            errorMessage = 'Username or password is incorrect.';
+            break;
+          case 'ERROR_INVALID_EMAIL':
             errorMessage = exception.message;
             break;
           default:
             errorMessage = 'There was an error while attempting to sign in.';
             break;
         }
-        store.dispatch(SetSignInErrorMessageAction(
-            store.state.loginPageState, errorMessage));
+        store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, errorMessage));
         VibrateUtil.vibrateHeavy();
         store.dispatch(
             UpdateShowLoginAnimation(store.state.loginPageState, false));

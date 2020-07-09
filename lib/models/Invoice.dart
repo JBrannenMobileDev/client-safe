@@ -10,9 +10,9 @@ class Invoice {
 
   int id;
   String documentId;
-  int clientId;
+  String clientDocumentId;
   int invoiceId;
-  int jobId;
+  String jobDocumentId;
   String clientName;
   String jobName;
   DateTime createdDate;
@@ -30,9 +30,9 @@ class Invoice {
   Invoice({
     this.id,
     this.documentId,
-    this.clientId,
+    this.clientDocumentId,
     this.invoiceId,
-    this.jobId,
+    this.jobDocumentId,
     this.clientName,
     this.jobName,
     this.createdDate,
@@ -50,13 +50,12 @@ class Invoice {
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
       'documentId' : documentId,
-      'clientId': clientId,
+      'clientDocumentId': clientDocumentId,
       'invoiceId': invoiceId,
       'clientName': clientName,
       'jobName' :jobName,
-      'jobId' : jobId,
+      'jobDocumentId' : jobDocumentId,
       'createdDate': createdDate?.millisecondsSinceEpoch ?? null,
       'sentDate': sentDate?.millisecondsSinceEpoch ?? null,
       'dueDate' : dueDate?.millisecondsSinceEpoch ?? null,
@@ -73,13 +72,12 @@ class Invoice {
 
   static Invoice fromMap(Map<String, dynamic> map) {
     return Invoice(
-      id: map['id'],
       documentId: map['documentId'],
-      clientId: map['clientId'],
+      clientDocumentId: map['clientDocumentId'],
       invoiceId: map['invoiceId'],
       clientName: map['clientName'],
       jobName: map['jobName'],
-      jobId: map['jobId'],
+      jobDocumentId: map['jobDocumentId'],
       createdDate: map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       sentDate: map['sentDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['sentDate']) : null,
       dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : null,

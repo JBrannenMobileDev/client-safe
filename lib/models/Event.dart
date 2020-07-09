@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
@@ -10,12 +11,12 @@ class Event{
   String eventTitle;
   AssetImage icon;
   String nextStageText;
-  int jobId;
+  String jobDocumentId;
 
 
   Event({
     this.selectedDate, this.selectedTime, this.isPersonalEvent,
-    this.eventTitle, this.icon, this.nextStageText, this.jobId
+    this.eventTitle, this.icon, this.nextStageText, this.jobDocumentId
   });
 
   static Event fromJob(Job job) {
@@ -26,7 +27,7 @@ class Event{
       eventTitle: job.jobTitle,
       icon: job.stage.getNextStageImage(),
       nextStageText: 'Next: ' + JobStage.getNextStageNameStatic(JobStage.getStageValue(job.stage.stage)),
-      jobId: job.id,
+      jobDocumentId: job.documentId,
     );
   }
 }

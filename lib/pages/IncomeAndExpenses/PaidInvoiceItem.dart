@@ -18,7 +18,7 @@ class PaidInvoiceItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return FlatButton(
       onPressed: () async {
-        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobId), onSendInvoiceSelected);
+        UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobDocumentId), onSendInvoiceSelected);
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),

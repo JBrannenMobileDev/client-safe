@@ -28,7 +28,6 @@ class MileageExpense {
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
       'documentId' : documentId,
       'totalMiles': totalMiles,
       'isRoundTrip' : isRoundTrip,
@@ -43,7 +42,6 @@ class MileageExpense {
 
   static MileageExpense fromMap(Map<String, dynamic> map) {
     return MileageExpense(
-      id: map['id'],
       documentId: map['documentId'],
       totalMiles: map['totalMiles'],
       isRoundTrip: map['isRoundTrip'],

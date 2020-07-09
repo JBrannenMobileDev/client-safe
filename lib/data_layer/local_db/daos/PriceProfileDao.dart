@@ -36,14 +36,14 @@ class PriceProfileDao extends Equatable{
 
   static Future insertLocalOnly(PriceProfile profile) async {
     profile.id = null;
-    profile.id = await _priceProfileStore.add(await _db, profile.toMap());
+    await _priceProfileStore.add(await _db, profile.toMap());
   }
 
   static Future insertOrUpdate(PriceProfile profile) async {
     List<PriceProfile> profileList = await getAllSortedByName();
     bool alreadyExists = false;
     for(PriceProfile singleProfile in profileList){
-      if(singleProfile.id == profile.id){
+      if(singleProfile.documentId == profile.documentId){
         alreadyExists = true;
       }
     }
@@ -54,8 +54,8 @@ class PriceProfileDao extends Equatable{
     }
   }
 
-  static Future<PriceProfile> getById(int profileId) async{
-    final finder = Finder(filter: Filter.byKey(profileId));
+  static Future<PriceProfile> getById(String profileDocumentId) async{
+    final finder = Finder(filter: Filter.equals('documentId', profileDocumentId));
     final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
     // Making a List<profileId> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
@@ -77,7 +77,7 @@ class PriceProfileDao extends Equatable{
   static Future update(PriceProfile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(profile.id));
+    final finder = Finder(filter: Filter.equals('documentId', profile.documentId));
     await _priceProfileStore.update(
       await _db,
       profile.toMap(),
@@ -90,7 +90,7 @@ class PriceProfileDao extends Equatable{
   static Future updateLocalOnly(PriceProfile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(profile.id));
+    final finder = Finder(filter: Filter.equals('documentId', profile.documentId));
     await _priceProfileStore.update(
       await _db,
       profile.toMap(),
@@ -99,7 +99,7 @@ class PriceProfileDao extends Equatable{
   }
 
   static Future delete(PriceProfile profile) async {
-    final finder = Finder(filter: Filter.byKey(profile.id));
+    final finder = Finder(filter: Filter.equals('documentId', profile.documentId));
     await _priceProfileStore.delete(
       await _db,
       finder: finder,
@@ -148,7 +148,7 @@ class PriceProfileDao extends Equatable{
 
   static Future<void> _deleteAllLocalPriceProfiles(List<PriceProfile> allLocalPriceProfiles) async {
     for(PriceProfile priceProfile in allLocalPriceProfiles) {
-      final finder = Finder(filter: Filter.byKey(priceProfile.id));
+      final finder = Finder(filter: Filter.equals('documentId', priceProfile.documentId));
       await _priceProfileStore.delete(
         await _db,
         finder: finder,
@@ -168,8 +168,7 @@ class PriceProfileDao extends Equatable{
       List<PriceProfile> matchingFireStorePriceProfiles = allFireStorePriceProfiles.where((fireStorePriceProfile) => localPriceProfile.documentId == fireStorePriceProfile.documentId).toList();
       if(matchingFireStorePriceProfiles !=  null && matchingFireStorePriceProfiles.length > 0) {
         PriceProfile fireStorePriceProfile = matchingFireStorePriceProfiles.elementAt(0);
-        fireStorePriceProfile.id = localPriceProfile.id;
-        final finder = Finder(filter: Filter.byKey(fireStorePriceProfile.id));
+        final finder = Finder(filter: Filter.equals('documentId', fireStorePriceProfile.documentId));
         await _priceProfileStore.update(
           await _db,
           fireStorePriceProfile.toMap(),
@@ -177,7 +176,7 @@ class PriceProfileDao extends Equatable{
         );
       } else {
         //PriceProfile does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.byKey(localPriceProfile.id));
+        final finder = Finder(filter: Filter.equals('documentId', localPriceProfile.documentId));
         await _priceProfileStore.delete(
           await _db,
           finder: finder,

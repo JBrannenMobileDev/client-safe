@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/ClientCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -45,7 +44,7 @@ class ClientDao extends Equatable{
     List<Client> clientList = await getAllSortedByFirstName();
     bool alreadyExists = false;
     for(Client singleClient in clientList){
-      if(singleClient.id == client.id){
+      if(singleClient.documentId == client.documentId){
         alreadyExists = true;
       }
     }
@@ -68,7 +67,7 @@ class ClientDao extends Equatable{
   static Future update(Client client) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(client.id));
+    final finder = Finder(filter: Filter.equals('documentId', client.documentId));
     await _clientStore.update(
       await _db,
       client.toMap(),
@@ -81,7 +80,7 @@ class ClientDao extends Equatable{
   static Future updateLocalOnly(Client client) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(client.id));
+    final finder = Finder(filter: Filter.equals('documentId', client.documentId));
     await _clientStore.update(
       await _db,
       client.toMap(),
@@ -90,7 +89,7 @@ class ClientDao extends Equatable{
   }
 
   static Future delete(Client client) async {
-    final finder = Finder(filter: Filter.byKey(client.id));
+    final finder = Finder(filter: Filter.equals('documentId', client.documentId));
     await _clientStore.delete(
       await _db,
       finder: finder,
@@ -125,8 +124,8 @@ class ClientDao extends Equatable{
     }).toList();
   }
 
-  static Future<Client> getClientById(int clientId) async{
-    final finder = Finder(filter: Filter.byKey(clientId));
+  static Future<Client> getClientById(String clientDocumentId) async{
+    final finder = Finder(filter: Filter.equals('documentId', clientDocumentId));
     final recordSnapshots = await _clientStore.find(await _db, finder: finder);
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
@@ -161,7 +160,7 @@ class ClientDao extends Equatable{
 
   static Future<void> _deleteAllLocalClients(List<Client> allLocalClients) async {
     for(Client client in allLocalClients) {
-      final finder = Finder(filter: Filter.byKey(client.id));
+      final finder = Finder(filter: Filter.equals('documentId', client.documentId));
       await _clientStore.delete(
         await _db,
         finder: finder,
@@ -181,8 +180,7 @@ class ClientDao extends Equatable{
       List<Client> matchingFireStoreClients = allFireStoreClients.where((fireStoreClient) => localClient.documentId == fireStoreClient.documentId).toList();
       if(matchingFireStoreClients !=  null && matchingFireStoreClients.length > 0) {
         Client fireStoreClient = matchingFireStoreClients.elementAt(0);
-        fireStoreClient.id = localClient.id;
-        final finder = Finder(filter: Filter.byKey(fireStoreClient.id));
+        final finder = Finder(filter: Filter.equals('documentId', fireStoreClient.documentId));
         await _clientStore.update(
           await _db,
           fireStoreClient.toMap(),
@@ -190,7 +188,7 @@ class ClientDao extends Equatable{
         );
       } else {
         //client does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.byKey(localClient.id));
+        final finder = Finder(filter: Filter.equals('documentId', localClient.documentId));
         await _clientStore.delete(
           await _db,
           finder: finder,

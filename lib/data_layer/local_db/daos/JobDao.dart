@@ -36,6 +36,7 @@ class JobDao extends Equatable{
   }
 
   static Future insertLocalOnly(Job job) async {
+    job.id = null;
     await _jobStore.add(await _db, job.toMap());
   }
 
@@ -43,7 +44,7 @@ class JobDao extends Equatable{
     List<Job> jobList = await getAllJobs();
     bool alreadyExists = false;
     for(Job singleJob in jobList){
-      if(singleJob.id == job.id){
+      if(singleJob.documentId == job.documentId){
         alreadyExists = true;
       }
     }
@@ -57,7 +58,7 @@ class JobDao extends Equatable{
   static Future update(Job job) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(job.id));
+    final finder = Finder(filter: Filter.equals('documentId', job.documentId));
     await _jobStore.update(
       await _db,
       job.toMap(),
@@ -70,7 +71,7 @@ class JobDao extends Equatable{
   static Future updateLocalOnly(Job job) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(job.id));
+    final finder = Finder(filter: Filter.equals('documentId', job.documentId));
     await _jobStore.update(
       await _db,
       job.toMap(),
@@ -79,7 +80,7 @@ class JobDao extends Equatable{
   }
 
   static Future delete(Job job) async {
-    final finder = Finder(filter: Filter.byKey(job.id));
+    final finder = Finder(filter: Filter.equals('documentId', job.documentId));
     await _jobStore.delete(
       await _db,
       finder: finder,
@@ -101,8 +102,8 @@ class JobDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static Future<Job> getJobById(int jobId) async{
-    final finder = Finder(filter: Filter.equals('id', jobId));
+  static Future<Job> getJobById(String jobDocumentId) async{
+    final finder = Finder(filter: Filter.equals('documentId', jobDocumentId));
     final recordSnapshots = await _jobStore.find(await _db, finder: finder);
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
@@ -146,7 +147,7 @@ class JobDao extends Equatable{
 
   static Future<void> deleteAllLocalJobs(List<Job> allLocalJobs) async {
     for(Job job in allLocalJobs) {
-      final finder = Finder(filter: Filter.byKey(job.id));
+      final finder = Finder(filter: Filter.equals('documentId', job.documentId));
       await _jobStore.delete(
         await _db,
         finder: finder,
@@ -166,8 +167,7 @@ class JobDao extends Equatable{
       List<Job> matchingFireStoreJobs = allFireStoreJobs.where((fireStoreJob) => localJob.documentId == fireStoreJob.documentId).toList();
       if(matchingFireStoreJobs !=  null && matchingFireStoreJobs.length > 0) {
         Job fireStoreJob = matchingFireStoreJobs.elementAt(0);
-        fireStoreJob.id = localJob.id;
-        final finder = Finder(filter: Filter.byKey(fireStoreJob.id));
+        final finder = Finder(filter: Filter.equals('documentId', fireStoreJob.documentId));
         await _jobStore.update(
           await _db,
           fireStoreJob.toMap(),
@@ -175,7 +175,7 @@ class JobDao extends Equatable{
         );
       } else {
         //Job does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.byKey(localJob.id));
+        final finder = Finder(filter: Filter.equals('documentId', localJob.documentId));
         await _jobStore.delete(
           await _db,
           finder: finder,

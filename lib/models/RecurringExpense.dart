@@ -29,7 +29,6 @@ class RecurringExpense {
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
       'documentId' : documentId,
       'expenseName': expenseName,
       'cost' : cost,
@@ -44,7 +43,6 @@ class RecurringExpense {
 
   static RecurringExpense fromMap(Map<String, dynamic> map) {
     return RecurringExpense(
-      id: map['id'],
       documentId: map['documentId'],
       expenseName: map['expenseName'],
       cost: map['cost'],

@@ -90,7 +90,6 @@ class Profile{
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
       'uid' : uid,
       'firstName': firstName,
       'lastName' : lastName,
@@ -114,7 +113,6 @@ class Profile{
 
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
-      id: map['id'],
       uid: map['uid'],
       firstName: map['firstName'],
       lastName: map['lastName'],

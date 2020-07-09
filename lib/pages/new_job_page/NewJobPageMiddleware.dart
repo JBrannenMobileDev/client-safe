@@ -87,7 +87,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
       documentId: store.state.newJobPageState.documentId,
-      clientId: store.state.newJobPageState.selectedClient.id,
+      clientDocumentId: store.state.newJobPageState.selectedClient.documentId,
       clientName: store.state.newJobPageState.selectedClient.getClientFullName(),
       jobTitle: store.state.newJobPageState.jobTitle,
       selectedDate: store.state.newJobPageState.selectedDate,

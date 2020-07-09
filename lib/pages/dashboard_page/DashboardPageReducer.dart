@@ -38,13 +38,13 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
 }
 
 DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashboardAction action) {
-  List<Client> leads = action.clients.where((client) => (!_hasAJob(client.id, previousState.allJobs))).toList();
+  List<Client> leads = action.clients.where((client) => (!_hasAJob(client.documentId, previousState.allJobs))).toList();
   return previousState.copyWith(
       recentLeads: leads.reversed.toList());
 }
 
-bool _hasAJob(int clientId, List<Job> jobs) {
-  List<Job> clientJobs = jobs.where((job) => job.clientId == clientId).toList();
+bool _hasAJob(String clientDocumentId, List<Job> jobs) {
+  List<Job> clientJobs = jobs.where((job) => job.clientDocumentId == clientDocumentId).toList();
   if(clientJobs.length > 0) return true;
   return false;
 }

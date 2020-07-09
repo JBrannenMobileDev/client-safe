@@ -16,7 +16,6 @@ class SingleExpense {
 
   Map<String, dynamic> toMap() {
     return {
-      'id' : id,
       'documentId' : documentId,
       'expenseName': expenseName,
       'charge' : charge.toMap(),
@@ -25,7 +24,6 @@ class SingleExpense {
 
   static SingleExpense fromMap(Map<String, dynamic> map) {
     return SingleExpense(
-      id: map['id'],
       documentId: map['documentId'],
       expenseName: map['expenseName'],
       charge: Charge.fromMap(map['charge']),

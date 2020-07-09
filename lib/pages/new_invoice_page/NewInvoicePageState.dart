@@ -21,6 +21,7 @@ class NewInvoicePageState {
 
   final int id;
   final int invoiceNumber;
+  final String invoiceDocumentId;
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
@@ -83,6 +84,7 @@ class NewInvoicePageState {
 
   NewInvoicePageState({
     @required this.id,
+    @required this.invoiceDocumentId,
     @required this.invoiceNumber,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
@@ -147,6 +149,7 @@ class NewInvoicePageState {
 
   NewInvoicePageState copyWith({
     int id,
+    String invoiceDocumentId,
     int invoiceNumber,
     int pageViewIndex,
     bool saveButtonEnabled,
@@ -270,6 +273,7 @@ class NewInvoicePageState {
       onDueDateSelected:  onDueDateSelected ?? this.onDueDateSelected,
       onDepositActionPressed: onDepositActionPressed ?? this.onDepositActionPressed,
       generateInvoicePdf: generateInvoicePdf ?? this.generateInvoicePdf,
+      invoiceDocumentId: invoiceDocumentId ?? this.invoiceDocumentId,
     );
   }
 
@@ -278,6 +282,7 @@ class NewInvoicePageState {
     selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
     return NewInvoicePageState(
         id: null,
+        invoiceDocumentId: '',
         invoiceNumber: 0,
         pageViewIndex: 0,
         saveButtonEnabled: false,
@@ -375,6 +380,7 @@ class NewInvoicePageState {
       isInEditMode: store.state.newInvoicePageState.isInEditMode,
       dueDate: store.state.newInvoicePageState.dueDate,
       invoicePdfSaved: store.state.newInvoicePageState.invoicePdfSaved,
+      invoiceDocumentId: store.state.newInvoicePageState.invoiceDocumentId,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
@@ -410,6 +416,7 @@ class NewInvoicePageState {
   @override
   int get hashCode =>
       id.hashCode ^
+      invoiceDocumentId.hashCode ^
       invoicePdfSaved.hashCode ^
       invoiceNumber.hashCode ^
       onDepositActionPressed.hashCode ^
@@ -465,6 +472,7 @@ class NewInvoicePageState {
       identical(this, other) ||
       other is NewInvoicePageState &&
           id == other.id &&
+          invoiceDocumentId == other.invoiceDocumentId &&
           invoicePdfSaved == other.invoicePdfSaved &&
           invoiceNumber == other.invoiceNumber &&
           onDepositActionPressed == other.onDepositActionPressed &&

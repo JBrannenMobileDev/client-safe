@@ -27,6 +27,14 @@ class InvoiceCollection {
     }
   }
 
+  Stream<QuerySnapshot> getInvoiceStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('invoices')
+        .snapshots();
+  }
+
   Future<Invoice> getInvoice(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference

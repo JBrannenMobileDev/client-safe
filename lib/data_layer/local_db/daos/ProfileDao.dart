@@ -23,6 +23,7 @@ class ProfileDao extends Equatable{
   }
 
   static Future insertLocal(Profile profile) async {
+    profile.id = null;
     await _profileStore.add(await _db, profile.toMap());
   }
 

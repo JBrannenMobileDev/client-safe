@@ -58,12 +58,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     await InvoiceDao.insertOrUpdate(
 
         Invoice(
-          clientId: pageState.selectedJob.clientId,
+          clientDocumentId: pageState.selectedJob.clientDocumentId,
           documentId: pageState.selectedJob.invoice?.documentId,
           invoiceId: pageState.invoiceNumber,
           clientName: pageState.selectedJob.clientName,
           jobName: pageState.selectedJob.jobTitle,
-          jobId: pageState.selectedJob.id,
+          jobDocumentId: pageState.selectedJob.documentId,
           unpaidAmount: pageState.unpaidAmount,
           createdDate: DateTime.now(),
           dueDate: pageState.dueDate,
@@ -75,13 +75,10 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           total: pageState.total,
           lineItems: pageState.lineItems,
           sentDate: pageState.selectedJob.invoice?.sentDate,
-    ));
+    ), pageState.selectedJob);
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));
-    Job selectedJob = pageState.selectedJob;
-    selectedJob.invoice = await InvoiceDao.getInvoiceById(pageState.invoiceNumber);
-    await JobDao.update(selectedJob);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, selectedJob.invoice));
+    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, (await JobDao.getJobById(pageState.selectedJob.documentId)).invoice));
     store.dispatch(ClearStateAction(store.state.newInvoicePageState));
   }
 
@@ -184,7 +181,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
   void _generateNewInvoicePdf(Store<AppState> store, action, NextDispatcher next) async {
     NewInvoicePageState pageState = store.state.newInvoicePageState;
-    Client client = await ClientDao.getClientById(pageState.selectedJob.clientId);
+    Client client = await ClientDao.getClientById(pageState.selectedJob.clientDocumentId);
     final Document pdf = Document();
 
     pdf.addPage(MultiPage(

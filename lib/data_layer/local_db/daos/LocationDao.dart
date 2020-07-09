@@ -29,7 +29,8 @@ class LocationDao extends Equatable{
   }
 
   static Future insertLocalOnly(Location location) async {
-    location.id = await _locationStore.add(await _db, location.toMap());
+    location.id = null;
+    await _locationStore.add(await _db, location.toMap());
   }
 
   static Future<void> _updateLastChangedTime() async {
@@ -42,7 +43,7 @@ class LocationDao extends Equatable{
     List<Location> locationList = await getAllSortedMostFrequent();
     bool alreadyExists = false;
     for(Location singleLocation in locationList){
-      if(singleLocation.id == location.id){
+      if(singleLocation.documentId == location.documentId){
         alreadyExists = true;
       }
     }
@@ -53,8 +54,8 @@ class LocationDao extends Equatable{
     }
   }
 
-  static Future<Location> getById(int locationId) async{
-    final finder = Finder(filter: Filter.byKey(locationId));
+  static Future<Location> getById(String locationDocumentId) async{
+    final finder = Finder(filter: Filter.equals('documentId', locationDocumentId));
     final recordSnapshots = await _locationStore.find(await _db, finder: finder);
     // Making a List<profileId> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
@@ -76,7 +77,7 @@ class LocationDao extends Equatable{
   static Future update(Location location) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(location.id));
+    final finder = Finder(filter: Filter.equals('documentId', location.documentId));
     await _locationStore.update(
       await _db,
       location.toMap(),
@@ -89,7 +90,7 @@ class LocationDao extends Equatable{
   static Future updateLocalOnly(Location location) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(location.id));
+    final finder = Finder(filter: Filter.equals('documentId', location.documentId));
     await _locationStore.update(
       await _db,
       location.toMap(),
@@ -97,8 +98,8 @@ class LocationDao extends Equatable{
     );
   }
 
-  static Future delete(int id, String documentId) async {
-    final finder = Finder(filter: Filter.byKey(id));
+  static Future delete(String documentId) async {
+    final finder = Finder(filter: Filter.equals('documentId', documentId));
     await _locationStore.delete(
       await _db,
       finder: finder,
@@ -149,7 +150,7 @@ class LocationDao extends Equatable{
 
   static Future<void> _deleteAllLocalLocations(List<Location> allLocalLocations) async {
     for(Location location in allLocalLocations) {
-      final finder = Finder(filter: Filter.byKey(location.id));
+      final finder = Finder(filter: Filter.equals('documentId', location.documentId));
       await _locationStore.delete(
         await _db,
         finder: finder,
@@ -169,8 +170,7 @@ class LocationDao extends Equatable{
       List<Location> matchingFireStoreLocations = allFireStoreLocations.where((fireStoreLocation) => localLocation.documentId == fireStoreLocation.documentId).toList();
       if(matchingFireStoreLocations !=  null && matchingFireStoreLocations.length > 0) {
         Location fireStoreLocation = matchingFireStoreLocations.elementAt(0);
-        fireStoreLocation.id = localLocation.id;
-        final finder = Finder(filter: Filter.byKey(fireStoreLocation.id));
+        final finder = Finder(filter: Filter.equals('documentId', fireStoreLocation.documentId));
         await _locationStore.update(
           await _db,
           fireStoreLocation.toMap(),
@@ -178,7 +178,7 @@ class LocationDao extends Equatable{
         );
       } else {
         //Location does nto exist on cloud. so delete from local.
-        final finder = Finder(filter: Filter.byKey(localLocation.id));
+        final finder = Finder(filter: Filter.equals('documentId', localLocation.documentId));
         await _locationStore.delete(
           await _db,
           finder: finder,

@@ -87,10 +87,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
     action.invoice.sentDate = DateTime.now();
-    await InvoiceDao.update(action.invoice);
-    Job selectedJob = store.state.jobDetailsPageState.job;
-    selectedJob.invoice = action.invoice;
-    await JobDao.update(selectedJob);
+    await InvoiceDao.update(action.invoice, store.state.jobDetailsPageState.job);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
   }
 
@@ -228,7 +225,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
     store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
-    Client client = await ClientDao.getClientById(action.job.clientId);
+    Client client = await ClientDao.getClientById(action.job.clientDocumentId);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
   }
 
@@ -252,14 +249,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
       if(action.job.invoice != null){
         action.job.invoice.invoicePaid = true;
-        await InvoiceDao.update(action.job.invoice);
+        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
     }
     if(stageToComplete.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
       if(action.job.invoice != null){
         action.job.invoice.depositPaid = true;
         action.job.invoice.unpaidAmount = action.job.invoice.unpaidAmount - action.job.invoice.depositAmount;
-        await InvoiceDao.update(action.job.invoice);
+        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
     }
     await JobDao.insertOrUpdate(jobToSave);
@@ -291,20 +288,20 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(stageToRemove.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
       if(action.job.invoice != null){
         action.job.invoice.invoicePaid = false;
-        await InvoiceDao.update(action.job.invoice);
+        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
     }
     if(stageToRemove.stage == JobStage.STAGE_8_PAYMENT_REQUESTED){
       if(action.job.invoice != null){
         action.job.invoice.sentDate = null;
-        await InvoiceDao.update(action.job.invoice);
+        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
     }
     if(stageToRemove.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
       if(action.job.invoice != null){
         action.job.invoice.depositPaid = false;
         action.job.invoice.unpaidAmount = action.job.invoice.unpaidAmount + action.job.invoice.depositAmount;
-        await InvoiceDao.update(action.job.invoice);
+        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
     }
     await JobDao.insertOrUpdate(jobToSave);
