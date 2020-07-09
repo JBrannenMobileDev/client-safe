@@ -27,6 +27,14 @@ class MileageExpenseCollection {
     }
   }
 
+  Stream<QuerySnapshot> getClientsStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('mileageExpense')
+        .snapshots();
+  }
+
   Future<MileageExpense> getMileageExpense(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference

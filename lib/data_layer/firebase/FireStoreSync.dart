@@ -4,12 +4,14 @@ import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
+import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -100,6 +102,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        MileageExpenseDao.getMileageExpensesStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.documentChanges) {
+                MileageExpense expense = MileageExpense.fromMap(snapshot.document.data);
+                MileageExpense expenseFromLocal = await MileageExpenseDao.getMileageExpenseById(expense.documentId);
+                if(expenseFromLocal != null) {
+                    MileageExpenseDao.updateLocalOnly(expense);
+                }else {
+                    MileageExpenseDao.insertLocalOnly(expense);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -153,7 +168,15 @@ class FireStoreSync {
     }
 
     Future<void> _syncMileageExpenses(Profile userLocalDb, Profile userFireStoreDb) async {
-
+        if((userLocalDb.mileageExpensesLastChangeDate != userFireStoreDb.mileageExpensesLastChangeDate) || (userLocalDb.mileageExpensesLastChangeDate == null && userFireStoreDb.mileageExpensesLastChangeDate != null)) {
+            if(userLocalDb.mileageExpensesLastChangeDate != null && userFireStoreDb.mileageExpensesLastChangeDate != null){
+                if(userLocalDb.mileageExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.mileageExpensesLastChangeDate.millisecondsSinceEpoch) {
+                    await MileageExpenseDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
     }
 
     Future<void> _syncPriceProfiles(Profile userLocalDb, Profile userFireStoreDb) async {

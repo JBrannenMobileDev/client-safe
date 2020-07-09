@@ -113,7 +113,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void deleteExpense(Store<AppState> store, DeleteMileageExpenseAction action, NextDispatcher next) async{
-    await MileageExpenseDao.delete(action.pageState.id, action.pageState.documentId);
+    await MileageExpenseDao.delete(action.pageState.documentId);
     store.dispatch(FetchMileageExpenses(store.state.incomeAndExpensesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
