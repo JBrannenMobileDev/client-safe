@@ -114,8 +114,15 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchSingleExpenses(Store<AppState> store, FetchSingleExpenses action, NextDispatcher next) async {
-    List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
-    store.dispatch(SetSingleExpensesAction(store.state.incomeAndExpensesPageState, singleExpenses));
+    (await SingleExpenseDao.getSingleExpenseStream()).listen((expenseSnapshots) {
+      List<SingleExpense> expenses = List();
+      for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
+        SingleExpense expenseToSave = SingleExpense.fromMap(expenseSnapshot.value);
+        expenseToSave.id = expenseSnapshot.key;
+        expenses.add(expenseToSave);
+      }
+      store.dispatch(SetSingleExpensesAction(store.state.incomeAndExpensesPageState, expenses));
+    });
   }
 
   void _fetchRecurringExpenses(Store<AppState> store, FetchRecurringExpenses action, NextDispatcher next) async {

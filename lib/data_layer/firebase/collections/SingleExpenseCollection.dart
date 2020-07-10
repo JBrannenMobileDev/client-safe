@@ -29,6 +29,14 @@ class SingleExpenseCollection {
     }
   }
 
+  Stream<QuerySnapshot> getExpensesStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('singleExpenses')
+        .snapshots();
+  }
+
   Future<SingleExpense> getSingleExpense(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference

@@ -9,6 +9,7 @@ import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
@@ -18,6 +19,7 @@ import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 class FireStoreSync {
@@ -145,6 +147,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        SingleExpenseDao.getSingleExpensesStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.documentChanges) {
+                SingleExpense expense = SingleExpense.fromMap(snapshot.document.data);
+                SingleExpense expenseFromLocal = await SingleExpenseDao.getSingleExpenseById(expense.documentId);
+                if(expenseFromLocal != null) {
+                    SingleExpenseDao.updateLocalOnly(expense);
+                }else {
+                    SingleExpenseDao.insertLocalOnly(expense);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -246,6 +261,14 @@ class FireStoreSync {
     }
 
     Future<void> _syncSingleExpenses(Profile userLocalDb, Profile userFireStoreDb) async {
-
+        if((userLocalDb.singleExpensesLastChangeDate != userFireStoreDb.singleExpensesLastChangeDate) || (userLocalDb.singleExpensesLastChangeDate == null && userFireStoreDb.singleExpensesLastChangeDate != null)) {
+            if(userLocalDb.singleExpensesLastChangeDate != null && userFireStoreDb.singleExpensesLastChangeDate != null){
+                if(userLocalDb.singleExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.singleExpensesLastChangeDate.millisecondsSinceEpoch) {
+                    await SingleExpenseDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
     }
 }
