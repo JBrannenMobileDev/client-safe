@@ -66,6 +66,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             if(fireStoreProfile.priceProfilesLastChangeDate != null) fireStoreProfile.priceProfilesLastChangeDate = DateTime(1970);
             if(fireStoreProfile.recurringExpensesLastChangeDate != null) fireStoreProfile.recurringExpensesLastChangeDate = DateTime(1970);
             if(fireStoreProfile.singleExpensesLastChangeDate != null) fireStoreProfile.singleExpensesLastChangeDate = DateTime(1970);
+            if(fireStoreProfile.nextInvoiceNumberLastChangeDate != null) fireStoreProfile.nextInvoiceNumberLastChangeDate = DateTime(1970);
             await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync();
           }

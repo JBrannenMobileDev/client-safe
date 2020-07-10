@@ -14,6 +14,15 @@ class NextInvoiceNumberCollection {
         .setData(number.toMap());
   }
 
+  Stream<DocumentSnapshot> getStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('nextInvoiceNumber')
+        .document(singletonItemId)
+        .snapshots();
+  }
+
   Future<void> setStartingValue(int startingValue) async {
     final databaseReference = Firestore.instance;
     await databaseReference.collection('users')

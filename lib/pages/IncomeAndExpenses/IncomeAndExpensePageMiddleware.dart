@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
+import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -95,7 +96,9 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   void deleteInvoice(Store<AppState> store, DeleteInvoiceAction action, NextDispatcher next) async {
     await InvoiceDao.deleteByInvoice(action.invoice);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, null));
   }
 
   void fetchJobs(Store<AppState> store, NextDispatcher next) async {
@@ -118,19 +121,29 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   void _fetchRecurringExpenses(Store<AppState> store, FetchRecurringExpenses action, NextDispatcher next) async {
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
     _updateSaveAndSetRecurringExpenses(store, recurringExpenses);
+
+    (await RecurringExpenseDao.getRecurringExpenseStream()).listen((expenseSnapshots) async {
+      List<RecurringExpense> expenses = List();
+      for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
+        expenses.add(RecurringExpense.fromMap(expenseSnapshot.value));
+      }
+      store.dispatch(SetRecurringExpensesAction(store.state.incomeAndExpensesPageState, expenses));
+    });
   }
 
   void _fetchMileageExpenses(Store<AppState> store, FetchMileageExpenses action, NextDispatcher next) async {
-    List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
-    store.dispatch(SetMileageExpensesAction(store.state.incomeAndExpensesPageState, mileageExpenses));
+    (await MileageExpenseDao.getMileageExpenseStream()).listen((expenseSnapshots) {
+      List<MileageExpense> expenses = List();
+      for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
+        MileageExpense expenseToSave = MileageExpense.fromMap(expenseSnapshot.value);
+        expenseToSave.id = expenseSnapshot.key;
+        expenses.add(expenseToSave);
+      }
+      store.dispatch(SetMileageExpensesAction(store.state.incomeAndExpensesPageState, expenses));
+    });
   }
 
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{
-    //use this code to delete all invoice in the app for testing only.
-//    List<Invoice> invoices = await InvoiceDao.getAllSortedByDueDate();
-//    for(Invoice invoice in invoices){
-//      await InvoiceDao.deleteByInvoice(invoice);
-//    }
       List<Profile> profiles = await ProfileDao.getAll();
       if(profiles != null && profiles.length > 0) {
         store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profiles.elementAt(0)));
@@ -140,6 +153,14 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profile));
       }
       store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+
+      (await InvoiceDao.getInvoiceStream()).listen((invoiceSnapshots) async {
+        List<Invoice> invoices = List();
+        for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
+          invoices.add(Invoice.fromMap(invoiceSnapshot.value));
+        }
+        store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, invoices));
+      });
   }
 
   void onEditInvoice(Store<AppState> store, InvoiceEditSelected action, NextDispatcher next) async {

@@ -5,15 +5,19 @@ import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/MileageExpense.dart';
+import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 class FireStoreSync {
@@ -32,12 +36,25 @@ class FireStoreSync {
                 await _syncPriceProfiles(userLocalDb, userFireStoreDb);
                 await _syncRecurringExpenses(userLocalDb, userFireStoreDb);
                 await _syncSingleExpenses(userLocalDb, userFireStoreDb);
+                await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
             }
         }
         setupFireStoreListeners();
     }
 
     Future<void> setupFireStoreListeners () async {
+        NextInvoiceNumberDao.getStreamFromFireStore()
+            .listen((documentSnapshot) async {
+                NextInvoiceNumber nextNumber = NextInvoiceNumber.fromMap(documentSnapshot.data);
+                NextInvoiceNumber nextNumberLocal = await NextInvoiceNumberDao.getNextNumber();
+                nextNumber.id = 1;
+                if(nextNumberLocal != null) {
+                    NextInvoiceNumberDao.updateLocalOnly(nextNumber);
+                }else {
+                    NextInvoiceNumberDao.insertLocalOnly(nextNumber);
+                }
+        });
+
         ClientDao.getClientsStreamFromFireStore()
             .listen((snapshots) async {
                 for(DocumentChange snapshot in snapshots.documentChanges) {
@@ -112,6 +129,19 @@ class FireStoreSync {
                     MileageExpenseDao.updateLocalOnly(expense);
                 }else {
                     MileageExpenseDao.insertLocalOnly(expense);
+                }
+            }
+        });
+
+        RecurringExpenseDao.getRecurringExpensesStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.documentChanges) {
+                RecurringExpense expense = RecurringExpense.fromMap(snapshot.document.data);
+                RecurringExpense expenseFromLocal = await RecurringExpenseDao.getRecurringExpenseById(expense.documentId);
+                if(expenseFromLocal != null) {
+                    RecurringExpenseDao.updateLocalOnly(expense);
+                }else {
+                    RecurringExpenseDao.insertLocalOnly(expense);
                 }
             }
         });
@@ -192,7 +222,27 @@ class FireStoreSync {
     }
 
     Future<void> _syncRecurringExpenses(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.recurringExpensesLastChangeDate != userFireStoreDb.recurringExpensesLastChangeDate) || (userLocalDb.recurringExpensesLastChangeDate == null && userFireStoreDb.recurringExpensesLastChangeDate != null)) {
+            if(userLocalDb.recurringExpensesLastChangeDate != null && userFireStoreDb.recurringExpensesLastChangeDate != null){
+                if(userLocalDb.recurringExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.recurringExpensesLastChangeDate.millisecondsSinceEpoch) {
+                    await RecurringExpenseDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
 
+    Future<void> _syncNextInvoiceNumber(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.nextInvoiceNumberLastChangeDate != userFireStoreDb.nextInvoiceNumberLastChangeDate) || (userLocalDb.nextInvoiceNumberLastChangeDate == null && userFireStoreDb.nextInvoiceNumberLastChangeDate != null)) {
+            if(userLocalDb.nextInvoiceNumberLastChangeDate != null && userFireStoreDb.nextInvoiceNumberLastChangeDate != null){
+                if(userLocalDb.nextInvoiceNumberLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.nextInvoiceNumberLastChangeDate.millisecondsSinceEpoch) {
+                    await NextInvoiceNumberDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
     }
 
     Future<void> _syncSingleExpenses(Profile userLocalDb, Profile userFireStoreDb) async {

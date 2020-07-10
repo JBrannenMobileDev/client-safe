@@ -36,7 +36,7 @@ class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteSingleExpense(Store<AppState> store, DeleteRecurringExpenseAction action, NextDispatcher next) async{
-    await RecurringExpenseDao.delete(store.state.newRecurringExpensePageState.id, store.state.newRecurringExpensePageState.documentId);
+    await RecurringExpenseDao.delete(store.state.newRecurringExpensePageState.documentId);
     store.dispatch(FetchRecurringExpenses(store.state.incomeAndExpensesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

@@ -56,12 +56,14 @@ class MileageExpenseDao extends Equatable{
   static Future update(MileageExpense mileageExpense) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', mileageExpense));
+    final finder = Finder(filter: Filter.equals('documentId', mileageExpense.documentId));
     await _mileageExpenseStore.update(
       await _db,
       mileageExpense.toMap(),
       finder: finder,
-    );
+    ).catchError((error) {
+      print(error);
+    });
     await MileageExpenseCollection().updateMileageExpense(mileageExpense);
     _updateLastChangedTime();
   }
@@ -112,7 +114,7 @@ class MileageExpenseDao extends Equatable{
   }
 
   static Stream<QuerySnapshot> getMileageExpensesStreamFromFireStore() {
-    return MileageExpenseCollection().getClientsStream();
+    return MileageExpenseCollection().getExpensesStream();
   }
 
   static Future<void> syncAllFromFireStore() async {

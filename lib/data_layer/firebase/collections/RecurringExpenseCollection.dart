@@ -27,6 +27,14 @@ class RecurringExpenseCollection {
     }
   }
 
+  Stream<QuerySnapshot> getExpensesStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .collection('recurringExpenses')
+        .snapshots();
+  }
+
   Future<RecurringExpense> getRecurringExpense(String documentId) async {
     final databaseReference = Firestore.instance;
     return await databaseReference

@@ -19,6 +19,7 @@ class Profile{
   DateTime priceProfilesLastChangeDate;
   DateTime recurringExpensesLastChangeDate;
   DateTime singleExpensesLastChangeDate;
+  DateTime nextInvoiceNumberLastChangeDate;
 
   Profile({
     this.id,
@@ -40,6 +41,7 @@ class Profile{
     this.priceProfilesLastChangeDate,
     this.recurringExpensesLastChangeDate,
     this.singleExpensesLastChangeDate,
+    this.nextInvoiceNumberLastChangeDate,
   });
 
   Profile copyWith({
@@ -62,6 +64,7 @@ class Profile{
     DateTime priceProfilesLastChangeDate,
     DateTime recurringExpensesLastChangeDate,
     DateTime singleExpensesLastChangeDate,
+    DateTime nextInvoiceNumberLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -83,6 +86,7 @@ class Profile{
       priceProfilesLastChangeDate: priceProfilesLastChangeDate ?? this.priceProfilesLastChangeDate,
       recurringExpensesLastChangeDate: recurringExpensesLastChangeDate ?? this.recurringExpensesLastChangeDate,
       singleExpensesLastChangeDate: singleExpensesLastChangeDate ?? this.singleExpensesLastChangeDate,
+      nextInvoiceNumberLastChangeDate: nextInvoiceNumberLastChangeDate ?? this.nextInvoiceNumberLastChangeDate,
     );
   }
 
@@ -108,6 +112,7 @@ class Profile{
       'priceProfilesLastChangeDate' : priceProfilesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'recurringExpensesLastChangeDate' : recurringExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'singleExpensesLastChangeDate' : singleExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'nextInvoiceNumberLastChangeDate' : nextInvoiceNumberLastChangeDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -131,6 +136,7 @@ class Profile{
       priceProfilesLastChangeDate: map['priceProfilesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['priceProfilesLastChangeDate']) : null,
       recurringExpensesLastChangeDate: map['recurringExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['recurringExpensesLastChangeDate']) : null,
       singleExpensesLastChangeDate: map['singleExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['singleExpensesLastChangeDate']) : null,
+      nextInvoiceNumberLastChangeDate: map['nextInvoiceNumberLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['nextInvoiceNumberLastChangeDate']) : null,
     );
   }
 

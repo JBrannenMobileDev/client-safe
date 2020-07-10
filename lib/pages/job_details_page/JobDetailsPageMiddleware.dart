@@ -98,6 +98,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       completedStages: completedJobStages,
     );
+    jobToSave.invoice = null;
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));

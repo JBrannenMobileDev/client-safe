@@ -27,7 +27,7 @@ class MileageExpenseCollection {
     }
   }
 
-  Stream<QuerySnapshot> getClientsStream() {
+  Stream<QuerySnapshot> getExpensesStream() {
     return Firestore.instance
         .collection('users')
         .document(UidUtil().getUid())

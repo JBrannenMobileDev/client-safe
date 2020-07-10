@@ -77,7 +77,6 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
       charge: Charge(chargeDate: action.pageState.expenseDate, chargeAmount: action.pageState.expenseCost),
     );
     await MileageExpenseDao.insertOrUpdate(expense);
-    store.dispatch(FetchMileageExpenses(store.state.incomeAndExpensesPageState));
   }
 
   void updateEndLocation(Store<AppState> store, UpdateEndLocationAction action, NextDispatcher next) async{
