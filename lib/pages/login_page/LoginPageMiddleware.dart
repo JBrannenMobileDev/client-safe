@@ -8,6 +8,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/InputValidator.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -124,7 +125,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     } else if(store.state.loginPageState.lastName.isEmpty) {
       store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, 'Last name is required'));
       VibrateUtil.vibrateMultiple();
-    } else if(store.state.loginPageState.emailAddress.isNotEmpty && store.state.loginPageState.password.isNotEmpty){
+    } else if(store.state.loginPageState.emailAddress.isNotEmpty && store.state.loginPageState.password.isNotEmpty && InputValidator.isValidPasswordStrong(store.state.loginPageState.password)){
       FirebaseUser user = await FirebaseAuthentication().registerFirebaseUser(store.state.loginPageState.emailAddress, store.state.loginPageState.password, _auth)
           .catchError((error) {
         store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, error.message));
@@ -159,10 +160,10 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       String errorMessage = '';
       if(store.state.loginPageState.emailAddress.isEmpty) {
         errorMessage = 'Email address is required.';
-      }
-
-      if(store.state.loginPageState.lastName.isEmpty) {
+      } else if(store.state.loginPageState.lastName.isEmpty) {
         errorMessage = 'Password is required.';
+      } else if(InputValidator.isValidPasswordStrong(store.state.loginPageState.password)) {
+        errorMessage = InputValidator.login_invalid_password_error_msg;
       }
       store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, errorMessage));
       VibrateUtil.vibrateMultiple();

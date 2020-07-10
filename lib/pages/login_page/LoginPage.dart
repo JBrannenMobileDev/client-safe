@@ -658,7 +658,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      SlideTransition(
+                      !pageState.showLoginLoadingAnimation ? SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
                           controller: loginEmailTextController,
@@ -679,8 +679,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           enabled: true,
                           obscureText: false,
                         ),
-                      ),
-                      SlideTransition(
+                      ) : SizedBox(),
+                      !pageState.showLoginLoadingAnimation ? SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
                           controller: loginPasswordTextController,
@@ -701,7 +701,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           enabled: true,
                           obscureText: true,
                         ),
-                      ),
+                      ) : SizedBox(),
                       SlideTransition(
                         position: showLoginButtonsStep,
                         child: GestureDetector(
@@ -716,9 +716,25 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             decoration: BoxDecoration(
                                 color: Color(ColorConstants.getPrimaryWhite()),
                                 borderRadius: BorderRadius.circular(36.0)),
-                            child: pageState.showLoginLoadingAnimation ? Padding(
-                              padding: EdgeInsets.only(top: 22.0),
-                              child: Center(child: BouncingLoadingAnimatedIcon()),
+                            child: pageState.showLoginLoadingAnimation
+                                ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Text(
+                                  'Loading',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 30.0, left: 4.0),
+                                  child: BouncingLoadingAnimatedIcon(),
+                                )
+                              ],
                             ) : Text(
                               'Sign in',
                               textAlign: TextAlign.center,
@@ -838,7 +854,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.getPeachDark()),
                           borderRadius: BorderRadius.circular(32.0)),
-                      child: pageState.showCreateAccountLoadingAnimation ? Center(child: LoginLoadingWidget()) : Text(
+                      child: pageState.showCreateAccountLoadingAnimation
+                          ? Center(child: LoginLoadingWidget())
+                          : Text(
                         'Submit',
                         textAlign: TextAlign.center,
                         style: TextStyle(

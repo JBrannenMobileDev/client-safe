@@ -33,6 +33,7 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage>
     with TickerProviderStateMixin {
+  static const List<String> settingsChoices = <String>['My profile', 'Notifications', 'Sign out'];
   ScrollController _scrollController;
   bool dialVisible = true;
   bool isFabExpanded = false;
@@ -267,16 +268,38 @@ class _DashboardPageState extends State<DashboardPage>
                         ),
                         SlideTransition(
                           position: offsetAnimationDown,
-                          child: GestureDetector(
-                            onTap: null,
-                            child: Container(
-                              margin: EdgeInsets.only(right: 16.0),
-                              height: 28.0,
-                              width: 28.0,
-                              child: Image.asset(
-                                  'assets/images/icons/settings_icon_white.png'),
-                            ),
+                          child: PopupMenuButton<String>(
+                            icon: Image.asset('assets/images/icons/settings_icon_white.png'),
+                            onSelected: choiceAction,
+                            itemBuilder: (BuildContext context) {
+                              return settingsChoices.map((choice) {
+                                return PopupMenuItem<String> (
+                                  value: choice,
+                                  child: Text(
+                                    choice,
+                                    style: TextStyle(
+                                      fontSize: 22.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(
+                                          ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                );
+                              }).toList();
+                            },
                           ),
+
+//                          GestureDetector(
+//                            onTap: null,
+//                            child: Container(
+//                              margin: EdgeInsets.only(right: 16.0),
+//                              height: 28.0,
+//                              width: 28.0,
+//                              child: Image.asset(
+//                                  'assets/images/icons/settings_icon_white.png'),
+//                            ),
+//                          ),
                         ),
                       ],
                       flexibleSpace: new FlexibleSpaceBar(
@@ -364,6 +387,10 @@ class _DashboardPageState extends State<DashboardPage>
           ),
         ),
       );
+
+  void choiceAction(String choice) {
+
+  }
 
   getFabIcon() {
     if (isFabExpanded) {
