@@ -18,6 +18,8 @@ import 'package:dandylight/pages/locations_page/LocationsActions.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageMiddleware.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
 import 'package:dandylight/pages/login_page/LoginPageMiddleware.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPageMiddleware.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetMiddleware.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart' as mapLocationSelection;
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
@@ -136,5 +138,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, CheckForCurrentUserAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResendEmailVerificationAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoginAction>(LoginPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadSettingsFromProfile>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePushNotificationSettingAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveCalendarSettingAction>(MainSettingsPageMiddleware()));
   return middlewareList;
 }

@@ -39,6 +39,7 @@ class FireStoreSync {
                 await _syncRecurringExpenses(userLocalDb, userFireStoreDb);
                 await _syncSingleExpenses(userLocalDb, userFireStoreDb);
                 await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
+                await _syncProfile(userLocalDb, userFireStoreDb);
             }
         }
         setupFireStoreListeners();
@@ -265,6 +266,18 @@ class FireStoreSync {
             if(userLocalDb.singleExpensesLastChangeDate != null && userFireStoreDb.singleExpensesLastChangeDate != null){
                 if(userLocalDb.singleExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.singleExpensesLastChangeDate.millisecondsSinceEpoch) {
                     await SingleExpenseDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncProfile(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.profileLastChangeDate != userFireStoreDb.profileLastChangeDate) || (userLocalDb.profileLastChangeDate == null && userFireStoreDb.profileLastChangeDate != null)) {
+            if(userLocalDb.profileLastChangeDate != null && userFireStoreDb.profileLastChangeDate != null){
+                if(userLocalDb.profileLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.profileLastChangeDate.millisecondsSinceEpoch) {
+                    await ProfileDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }

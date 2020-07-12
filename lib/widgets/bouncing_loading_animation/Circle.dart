@@ -10,7 +10,7 @@ class Circle extends StatelessWidget {
       height: 5.0,
       decoration: new BoxDecoration(
         shape: BoxShape.circle,
-        color: Color(ColorConstants.getPeachDark()),
+        color: Color(ColorConstants.getPrimaryBlack()),
       ),
     );
   }

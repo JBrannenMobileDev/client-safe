@@ -10,6 +10,8 @@ class Profile{
   double latDefaultHome;
   double lngDefaultHome;
   bool signedIn;
+  bool pushNotificationsEnabled;
+  bool calendarEnabled;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -20,6 +22,7 @@ class Profile{
   DateTime recurringExpensesLastChangeDate;
   DateTime singleExpensesLastChangeDate;
   DateTime nextInvoiceNumberLastChangeDate;
+  DateTime profileLastChangeDate;
 
   Profile({
     this.id,
@@ -32,6 +35,8 @@ class Profile{
     this.latDefaultHome,
     this.lngDefaultHome,
     this.signedIn,
+    this.pushNotificationsEnabled,
+    this.calendarEnabled,
     this.lastSignIn,
     this.clientsLastChangeDate,
     this.invoicesLastChangeDate,
@@ -42,6 +47,7 @@ class Profile{
     this.recurringExpensesLastChangeDate,
     this.singleExpensesLastChangeDate,
     this.nextInvoiceNumberLastChangeDate,
+    this.profileLastChangeDate,
   });
 
   Profile copyWith({
@@ -55,6 +61,8 @@ class Profile{
     double latDefaultHome,
     double lngDefaultHome,
     bool signedIn,
+    bool pushNotificationsEnabled,
+    bool calendarEnabled,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
     DateTime invoicesLastChangeDate,
@@ -65,6 +73,7 @@ class Profile{
     DateTime recurringExpensesLastChangeDate,
     DateTime singleExpensesLastChangeDate,
     DateTime nextInvoiceNumberLastChangeDate,
+    DateTime profileLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -77,6 +86,8 @@ class Profile{
       latDefaultHome: latDefaultHome ?? this.latDefaultHome,
       lngDefaultHome: lngDefaultHome ?? this.lngDefaultHome,
       signedIn: signedIn ?? this.signedIn,
+      pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
+      calendarEnabled: calendarEnabled ?? this.calendarEnabled,
       lastSignIn: lastSignIn ?? this.lastSignIn,
       clientsLastChangeDate:  clientsLastChangeDate ?? this.clientsLastChangeDate,
       invoicesLastChangeDate: invoicesLastChangeDate ?? this.invoicesLastChangeDate,
@@ -87,6 +98,7 @@ class Profile{
       recurringExpensesLastChangeDate: recurringExpensesLastChangeDate ?? this.recurringExpensesLastChangeDate,
       singleExpensesLastChangeDate: singleExpensesLastChangeDate ?? this.singleExpensesLastChangeDate,
       nextInvoiceNumberLastChangeDate: nextInvoiceNumberLastChangeDate ?? this.nextInvoiceNumberLastChangeDate,
+      profileLastChangeDate: profileLastChangeDate ?? this.profileLastChangeDate,
     );
   }
 
@@ -103,6 +115,8 @@ class Profile{
       'latDefaultHome' : latDefaultHome,
       'lngDefaultHome' : lngDefaultHome,
       'signedIn' : signedIn,
+      'pushNotificationsEnabled' : pushNotificationsEnabled,
+      'calendarEnabled' : calendarEnabled,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'invoicesLastChangeDate' : invoicesLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -113,6 +127,7 @@ class Profile{
       'recurringExpensesLastChangeDate' : recurringExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'singleExpensesLastChangeDate' : singleExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'nextInvoiceNumberLastChangeDate' : nextInvoiceNumberLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'profileLastChangeDate' : profileLastChangeDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -127,6 +142,8 @@ class Profile{
       latDefaultHome: map['latDefaultHome'],
       lngDefaultHome: map['lngDefaultHome'],
       signedIn: map['signedIn'],
+      pushNotificationsEnabled: map['pushNotificationsEnabled'],
+      calendarEnabled: map['calendarEnabled'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,
@@ -137,6 +154,7 @@ class Profile{
       recurringExpensesLastChangeDate: map['recurringExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['recurringExpensesLastChangeDate']) : null,
       singleExpensesLastChangeDate: map['singleExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['singleExpensesLastChangeDate']) : null,
       nextInvoiceNumberLastChangeDate: map['nextInvoiceNumberLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['nextInvoiceNumberLastChangeDate']) : null,
+      profileLastChangeDate: map['profileLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['profileLastChangeDate']) : null,
     );
   }
 

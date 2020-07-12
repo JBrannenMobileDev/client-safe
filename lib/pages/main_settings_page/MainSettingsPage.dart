@@ -1,0 +1,554 @@
+import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
+
+class MainSettingsPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return _MainSettingsPageState();
+  }
+}
+
+class _MainSettingsPageState extends State<MainSettingsPage> with TickerProviderStateMixin {
+
+  @override
+  Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
+        onInit: (store) {
+          store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
+        },
+        converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
+        builder: (BuildContext context, MainSettingsPageState pageState) =>
+            Scaffold(
+              body: Container(
+                decoration: BoxDecoration(
+                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                ),
+                child: CustomScrollView(
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      iconTheme: IconThemeData(
+                        color: Color(ColorConstants.getPrimaryBlack()), //change your color here
+                      ),
+                      brightness: Brightness.light,
+                      backgroundColor: Colors.transparent,
+                      pinned: true,
+                      centerTitle: true,
+                      elevation: 0.0,
+                      title: Text(
+                          "Settings",
+                          style: TextStyle(
+                            fontSize: 26.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                    ),
+                    SliverList(
+                      delegate: new SliverChildListDelegate(
+                        <Widget>[
+                          SafeArea(
+                            child: Container(
+                              margin: EdgeInsets.only(left: 16.0, right: 16.0),
+                              padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                              decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(16.0),
+                              ),
+                              child: Column(
+                                children: <Widget>[
+                                  FlatButton(
+                                    onPressed: () {
+                                      NavigationUtil.onEditProfileSelected(context, pageState.profile);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Image.asset('assets/images/icons/profile_icon_black.png'),
+                                              ),
+                                              Text(
+                                                'Edit profile',
+                                                textAlign: TextAlign.center,
+                                                style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  fontFamily: 'simple',
+                                                  fontWeight: FontWeight.w600,
+                                                  color:
+                                                  Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                          Container(
+                                            child: Icon(
+                                              Icons.chevron_right,
+                                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                ),
+                              ),
+                              FlatButton(
+                                onPressed: () {},
+                                child: SizedBox(
+                                  height: 48.0,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin:
+                                                EdgeInsets.only(right: 16.0),
+                                            height: 28.0,
+                                            width: 28.0,
+                                            child: Icon(
+                                              Device.get().isIos
+                                                  ? CupertinoIcons.share
+                                                  : Icons.share,
+                                              size: 32.0,
+                                            ),
+                                          ),
+                                          Text(
+                                            'Share DandyLight',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 22.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        child: Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              FlatButton(
+                                onPressed: () {},
+                                child: SizedBox(
+                                  height: 48.0,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin:
+                                                EdgeInsets.only(right: 16.0),
+                                            height: 32.0,
+                                            width: 32.0,
+                                            child: Image.asset(
+                                                'assets/images/icons/manage_subscription_icon_black.png'),
+                                          ),
+                                          Text(
+                                            'Manage Subscription',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 22.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        child: Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              FlatButton(
+                                onPressed: () {},
+                                child: SizedBox(
+                                  height: 48.0,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin:
+                                            EdgeInsets.only(right: 16.0),
+                                            height: 32.0,
+                                            width: 32.0,
+                                            child: Image.asset(
+                                                'assets/images/icons/provide_feedback_icon_black.png'),
+                                          ),
+                                          Text(
+                                            'Provide feedback',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 22.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        child: Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              FlatButton(
+                                onPressed: () {},
+                                child: SizedBox(
+                                  height: 48.0,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin:
+                                            EdgeInsets.only(right: 16.0),
+                                            height: 32.0,
+                                            width: 32.0,
+                                            child: Image.asset(
+                                                'assets/images/icons/suggestions_icon_black.png'),
+                                          ),
+                                          Text(
+                                            'Suggestions',
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              fontSize: 22.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        child: Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBackgroundGrey()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  height: 48.0,
+                                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        'Push Notifications',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 22.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                      ),
+                                      Device.get().isIos?
+                                      CupertinoSwitch(
+                                        trackColor: Color(ColorConstants.getBlueLight()),
+                                        activeColor: Color(ColorConstants.getBlueDark()),
+                                        onChanged: (enabled) {
+                                          pageState.onPushNotificationsChanged(enabled);
+                                        },
+                                        value: pageState.pushNotificationsEnabled,
+                                      ) : Switch(
+                                        activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                        inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                        onChanged: (enabled) {
+                                          pageState.onPushNotificationsChanged(enabled);
+                                        },
+                                        value: pageState.pushNotificationsEnabled,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 32.0),
+                                  child: Text(
+                                    'Enable push notifications to get notified of job reminders, e-signatures, questionnaires, payments and custom reminders.',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  height: 48.0,
+                                  padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Text(
+                                        'Calendar',
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          fontSize: 22.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                      ),
+                                      Device.get().isIos?
+                                      CupertinoSwitch(
+                                        trackColor: Color(ColorConstants.getBlueLight()),
+                                        activeColor: Color(ColorConstants.getBlueDark()),
+                                        onChanged: (enabled) {
+                                          pageState.onCalendarChanged(enabled);
+                                        },
+                                        value: pageState.calendarEnabled,
+                                      ) : Switch(
+                                        activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                        inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                        onChanged: (enabled) {
+                                          pageState.onCalendarChanged(enabled);
+                                        },
+                                        value: pageState.calendarEnabled,
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
+                                  child: Text(
+                                    'Enable DandyLight to display your ' + (Device.get().isIos ? 'iPhone' : 'Andriod') + ' Calendar events within the app.',
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 18.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 32.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                FlatButton(
+                                  onPressed: () {
+
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Image.asset('assets/images/icons/profile_icon_black.png'),
+                                            ),
+                                            Text(
+                                              'FAQ',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 22.0,
+                                                fontFamily: 'simple',
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                FlatButton(
+                                  onPressed: () {},
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              margin:
+                                              EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Icon(
+                                                Device.get().isIos
+                                                    ? CupertinoIcons.share
+                                                    : Icons.share,
+                                                size: 32.0,
+                                              ),
+                                            ),
+                                            Text(
+                                              'Terms & Privacy',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 22.0,
+                                                fontFamily: 'simple',
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          FlatButton(
+                            onPressed: () {
+                              pageState.onSignOutSelected();
+                              FirebaseAuthentication().signOut();
+                              NavigationUtil.onSignOutSelected(context);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 48.0,
+                              width: 172.0,
+                              decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPeachDark()),
+                                borderRadius: BorderRadius.circular(32.0),
+                              ),
+                              child: Text(
+                                'Sign out',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 26.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 128.0,
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+      );
+}

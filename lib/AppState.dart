@@ -8,6 +8,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:dandylight/pages/login_page/LoginPageState.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
@@ -19,7 +20,6 @@ import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageSt
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/search_page/SearchPageState.dart';
-import 'package:dandylight/pages/settings_page/SettingsPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:meta/meta.dart';
 
@@ -39,7 +39,7 @@ class AppState {
   final ClientDetailsPageState clientDetailsPageState;
   final JobsPageState jobsPageState;
   final CollectionsPageState collectionsPageState;
-  final SettingsPageState settingsPageState;
+  final MainSettingsPageState mainSettingsPageState;
   final SearchPageState searchPageState;
   final CalendarPageState calendarPageState;
   final JobDetailsPageState jobDetailsPageState;
@@ -64,7 +64,7 @@ class AppState {
     @required this.clientDetailsPageState,
     @required this.jobsPageState,
     @required this.collectionsPageState,
-    @required this.settingsPageState,
+    @required this.mainSettingsPageState,
     @required this.searchPageState,
     @required this.newJobPageState,
     @required this.calendarPageState,
@@ -92,7 +92,7 @@ class AppState {
       clientDetailsPageState: ClientDetailsPageState.initial(),
       jobsPageState: JobsPageState.initial(),
       collectionsPageState: CollectionsPageState.initial(),
-      settingsPageState: SettingsPageState.initial(),
+      mainSettingsPageState: MainSettingsPageState.initial(),
       searchPageState: SearchPageState.initial(),
       newJobPageState: NewJobPageState.initial(),
       calendarPageState: CalendarPageState.initial(),
@@ -120,7 +120,7 @@ class AppState {
     ClientDetailsPageState clientDetailsPageState,
     JobsPageState jobsPageState,
     CollectionsPageState collectionsPageState,
-    SettingsPageState settingsPageState,
+    MainSettingsPageState settingsPageState,
     SearchPageState searchPageState,
     NewJobPageState newJobPageState,
     CalendarPageState calendarPageState,
@@ -146,7 +146,7 @@ class AppState {
       clientDetailsPageState: clientDetailsPageState?? this.clientDetailsPageState,
       jobsPageState: jobsPageState ?? this.jobsPageState,
       collectionsPageState: collectionsPageState ?? this.collectionsPageState,
-      settingsPageState: settingsPageState ?? this.settingsPageState,
+      mainSettingsPageState: settingsPageState ?? this.mainSettingsPageState,
       searchPageState: searchPageState ?? this.searchPageState,
       newJobPageState: newJobPageState ?? this.newJobPageState,
       calendarPageState: calendarPageState ?? this.calendarPageState,
@@ -175,7 +175,7 @@ class AppState {
     clientDetailsPageState.hashCode ^
     jobsPageState.hashCode ^
     collectionsPageState.hashCode ^
-    settingsPageState.hashCode ^
+    mainSettingsPageState.hashCode ^
     searchPageState.hashCode ^
     newJobPageState.hashCode ^
     jobDetailsPageState.hashCode ^
@@ -204,7 +204,7 @@ class AppState {
               clientDetailsPageState == other.clientDetailsPageState &&
               jobsPageState == other.jobsPageState &&
               collectionsPageState == other.collectionsPageState &&
-              settingsPageState == other.settingsPageState &&
+              mainSettingsPageState == other.mainSettingsPageState &&
               searchPageState == other.searchPageState &&
               newJobPageState == other.newJobPageState &&
               jobDetailsPageState == other.jobDetailsPageState &&

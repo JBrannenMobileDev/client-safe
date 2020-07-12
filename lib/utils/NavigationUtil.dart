@@ -1,9 +1,14 @@
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
+import 'package:dandylight/pages/login_page/LoginPage.dart';
+import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -24,6 +29,16 @@ class NavigationUtil {
   }
   static onSelectMapLocation(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MapLocationSelectionWidget(onLocationSaved, lat, lng)));
+  }
+  static onSignOutSelected(BuildContext context) async {
+    await ProfileDao.signOut();
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => LoginPage()));
+  }
+  static onMainSettingsSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MainSettingsPage()));
+  }
+  static onEditProfileSelected(BuildContext context, Profile profile) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
   }
 
   static void onSuccessfulLogin(BuildContext context) {

@@ -116,4 +116,9 @@ class ProfileDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static signOut() async {
+    Profile profile = (await getAll()).elementAt(0);
+    await update(profile.copyWith(signedIn: false));
+  }
 }

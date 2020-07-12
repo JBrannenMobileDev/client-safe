@@ -6,6 +6,11 @@ class FirebaseAuthentication {
     return (await _auth.signInWithEmailAndPassword(email: null, password: null)).user;
   }
 
+  Future<void> signOut() async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    await _auth.signOut();
+  }
+
   Future<FirebaseUser> registerFirebaseUser(String email, String password, FirebaseAuth auth) async {
     return (await auth.createUserWithEmailAndPassword(
           email: email,

@@ -10,6 +10,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageReducer.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageReducer.dart';
 import 'package:dandylight/pages/login_page/LoginPageReducer.dart';
+import 'package:dandylight/pages/main_settings_page/MainSettingsPageReducer.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetReducer.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageReducer.dart';
@@ -21,7 +22,6 @@ import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageRe
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:dandylight/pages/search_page/SearchPageReducer.dart';
-import 'package:dandylight/pages/settings_page/SettingsPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) =>
@@ -38,7 +38,7 @@ AppState appReducers(AppState state, dynamic action) =>
         clientDetailsPageState: clientDetailsPageReducer(state.clientDetailsPageState, action),
         jobsPageState: jobsPageReducer(state.jobsPageState, action),
         collectionsPageState: collectionsPageReducer(state.collectionsPageState, action),
-        settingsPageState: settingsPageReducer(state.settingsPageState, action),
+        mainSettingsPageState: mainSettingsPageReducer(state.mainSettingsPageState, action),
         searchPageState: searchPageReducer(state.searchPageState, action),
         calendarPageState: calendarPageReducer(state.calendarPageState, action),
         jobDetailsPageState: jobDetailsReducer(state.jobDetailsPageState, action),
