@@ -16,6 +16,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:redux/redux.dart';
+import 'package:uuid/uuid.dart';
 
 import 'LoginPageActions.dart';
 
@@ -135,26 +136,20 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
         List<Profile> userProfiles = await ProfileDao.getAll();
         if(userProfiles.isNotEmpty) {
-          Profile updatedProfile = userProfiles.elementAt(0).copyWith(
-            uid: user.uid,
-            firstName: store.state.loginPageState.firstName,
-            lastName: store.state.loginPageState.lastName,
-            businessName: store.state.loginPageState.businessName,
-            email: store.state.loginPageState.emailAddress,
-            signedIn: false,
-          );
-          ProfileDao.insertOrUpdate(updatedProfile);
-        } else {
-          Profile newProfile = Profile(
-            uid: user.uid,
-            firstName: store.state.loginPageState.firstName,
-            lastName: store.state.loginPageState.lastName,
-            businessName: store.state.loginPageState.businessName,
-            email: store.state.loginPageState.emailAddress,
-            signedIn: false,
-          );
-          ProfileDao.insertOrUpdate(newProfile);
+          for(Profile profile in userProfiles) {
+            await ProfileDao.delete(profile);
+          }
         }
+        Profile newProfile = Profile(
+            uid: user.uid,
+            referralUid: Uuid().v1().substring(0, 8),
+            firstName: store.state.loginPageState.firstName,
+            lastName: store.state.loginPageState.lastName,
+            businessName: store.state.loginPageState.businessName,
+            email: store.state.loginPageState.emailAddress,
+            signedIn: false,
+          );
+        ProfileDao.insertOrUpdate(newProfile);
       }
     } else {
       String errorMessage = '';

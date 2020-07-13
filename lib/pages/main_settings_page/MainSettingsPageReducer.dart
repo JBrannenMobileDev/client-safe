@@ -6,7 +6,28 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, UpdatePushNotificationEnabled>(_setPushNotificationsState),
   TypedReducer<MainSettingsPageState, UpdateCalendarEnabled>(_setCalendarState),
   TypedReducer<MainSettingsPageState, LoadUserProfileDataAction>(_setUserProfileInfo),
+  TypedReducer<MainSettingsPageState, SetFirstNameAction>(_updateFirstName),
+  TypedReducer<MainSettingsPageState, SetLastNameAction>(_updateLastName),
+  TypedReducer<MainSettingsPageState, SetBusinessNameAction>(_updateBusinessName),
 ]);
+
+MainSettingsPageState _updateFirstName(MainSettingsPageState previousState, SetFirstNameAction action){
+  return previousState.copyWith(
+    firstName: action.name,
+  );
+}
+
+MainSettingsPageState _updateLastName(MainSettingsPageState previousState, SetLastNameAction action){
+  return previousState.copyWith(
+    lastName: action.name,
+  );
+}
+
+MainSettingsPageState _updateBusinessName(MainSettingsPageState previousState, SetBusinessNameAction action){
+  return previousState.copyWith(
+    businessName: action.name,
+  );
+}
 
 MainSettingsPageState _setPushNotificationsState(MainSettingsPageState previousState, UpdatePushNotificationEnabled action){
   return previousState.copyWith(

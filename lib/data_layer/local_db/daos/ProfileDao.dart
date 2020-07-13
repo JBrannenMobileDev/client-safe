@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -20,6 +21,19 @@ class ProfileDao extends Equatable{
   static Future insert(Profile profile) async {
     await _profileStore.add(await _db, profile.toMap());
     await UserCollection().createUser(profile);
+    _updateLastChangedTime();
+  }
+
+  static Future<void> _updateLastChangedTime() async {
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.profileLastChangeDate = DateTime.now();
+    final finder = Finder(filter: Filter.equals('uid', profile.uid));
+    await _profileStore.update(
+      await _db,
+      profile.toMap(),
+      finder: finder,
+    );
+    await UserCollection().updateUser(profile);
   }
 
   static Future insertLocal(Profile profile) async {
@@ -31,7 +45,7 @@ class ProfileDao extends Equatable{
     List<Profile> profileList = await getAllSortedByFirstName();
     bool alreadyExists = false;
     for(Profile singleProfile in profileList){
-      if(singleProfile.id == profile.id){
+      if(singleProfile.uid == profile.uid){
         alreadyExists = true;
       }
     }
@@ -45,17 +59,29 @@ class ProfileDao extends Equatable{
   static Future update(Profile profile) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.byKey(profile.id));
+    final finder = Finder(filter: Filter.equals('uid', profile.uid));
     await _profileStore.update(
       await _db,
       profile.toMap(),
       finder: finder,
     );
     await UserCollection().updateUser(profile);
+    _updateLastChangedTime();
+  }
+
+  static Future updateLocalOnly(Profile profile) async {
+    // For filtering by key (ID), RegEx, greater than, and many other criteria,
+    // we use a Finder.
+    final finder = Finder(filter: Filter.equals('uid', profile.uid));
+    await _profileStore.update(
+      await _db,
+      profile.toMap(),
+      finder: finder,
+    );
   }
 
   static Future delete(Profile profile) async {
-    final finder = Finder(filter: Filter.byKey(profile.id));
+    final finder = Finder(filter: Filter.equals('uid', profile.uid));
     await _profileStore.delete(
       await _db,
       finder: finder,
@@ -111,6 +137,20 @@ class ProfileDao extends Equatable{
         ProfileDao.insertOrUpdate(updatedProfile);
       }
     }
+  }
+
+  static syncAllFromFireStore() async {
+    Profile fireStoreProfile = await UserCollection().getUser(UidUtil().getUid());
+    await updateLocalOnly(fireStoreProfile);
+  }
+
+  static Future<Stream<List<RecordSnapshot>>> getProfileStream() async {
+    var query = _profileStore.query();
+    return query.onSnapshots(await _db);
+  }
+
+  static Stream<DocumentSnapshot> getProfileStreamFromFireStore() {
+    return UserCollection().getProfileStream();
   }
 
   @override

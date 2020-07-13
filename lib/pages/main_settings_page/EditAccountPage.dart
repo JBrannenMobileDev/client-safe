@@ -42,6 +42,8 @@ class _EditAccountPageState extends State<EditAccountPage>
       StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) {
           if(store.state.mainSettingsPageState.firstName.isNotEmpty)firstNameTextController.text = store.state.mainSettingsPageState.firstName;
+          if(store.state.mainSettingsPageState.lastName.isNotEmpty)lastNameTextController.text = store.state.mainSettingsPageState.lastName;
+          if(store.state.mainSettingsPageState.businessName.isNotEmpty)businessNameTextController.text = store.state.mainSettingsPageState.businessName;
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) => Scaffold(

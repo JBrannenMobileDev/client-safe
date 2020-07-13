@@ -299,14 +299,14 @@ class _DashboardPageState extends State<DashboardPage>
                                           fontWeight: FontWeight.w600,
                                           color: Color(
                                               ColorConstants.getPrimaryWhite()),
-                                        ),
                                       ),
                                     ),
-                                    Container(
-                                      margin: EdgeInsets.only(
-                                          left: 89.0, top: 37.0),
-                                      height: 116.0,
-                                      decoration: BoxDecoration(
+                                  ),
+                                  Container(
+                                    margin:
+                                        EdgeInsets.only(left: 89.0, top: 37.0),
+                                    height: 116.0,
+                                    decoration: BoxDecoration(
                                         color: Colors.transparent,
                                         image: DecorationImage(
                                           image: AssetImage(
@@ -316,24 +316,6 @@ class _DashboardPageState extends State<DashboardPage>
                                     ),
                                   )
                                 ],
-                              ),
-                            ),
-                            SlideTransition(
-                              position: offsetAnimationUp,
-                              child: Container(
-                                width: 175.0,
-                                margin: EdgeInsets.only(top: 172.0),
-                                child: Text(
-                                  'Capture the moment We\'ll do the rest',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color:
-                                        Color(ColorConstants.getPrimaryWhite()),
-                                  ),
-                                ),
                               ),
                             ),
                             Container(

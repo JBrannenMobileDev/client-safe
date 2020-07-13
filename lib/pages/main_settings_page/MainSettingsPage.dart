@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:share/share.dart';
 
 class MainSettingsPage extends StatefulWidget {
   @override
@@ -110,7 +111,13 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 ),
                               ),
                               FlatButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Share.share('Hey you should try this app, i love it!'
+                                      '\n\nDandyLight: Photography Business Management'
+                                      '\n\nUse this referral code when signing up so your friend can get 3 months free.'
+                                      '\n\nCode: ' + pageState.profile.referralUid +
+                                      '\n\nDandyLight.com');
+                                },
                                 child: SizedBox(
                                   height: 48.0,
                                   child: Row(
@@ -160,7 +167,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 ),
                               ),
                               FlatButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                                },
                                 child: SizedBox(
                                   height: 48.0,
                                   child: Row(

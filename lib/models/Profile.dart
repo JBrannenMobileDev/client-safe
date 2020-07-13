@@ -2,6 +2,7 @@
 class Profile{
   int id;
   String uid;
+  String referralUid;
   String firstName;
   String lastName;
   String email;
@@ -27,6 +28,7 @@ class Profile{
   Profile({
     this.id,
     this.uid,
+    this.referralUid,
     this.firstName,
     this.lastName,
     this.businessName,
@@ -53,6 +55,7 @@ class Profile{
   Profile copyWith({
     int id,
     String uid,
+    String referralUid,
     String firstName,
     String lastName,
     String businessName,
@@ -78,6 +81,7 @@ class Profile{
     return Profile(
       id: id ?? this.id,
       uid: uid ?? this.uid,
+      referralUid: referralUid ?? this.referralUid,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       businessName: businessName ?? this.businessName,
@@ -107,6 +111,7 @@ class Profile{
   Map<String, dynamic> toMap() {
     return {
       'uid' : uid,
+      'referralUid' : referralUid,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -134,6 +139,7 @@ class Profile{
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
       uid: map['uid'],
+      referralUid: map['referralUid'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],

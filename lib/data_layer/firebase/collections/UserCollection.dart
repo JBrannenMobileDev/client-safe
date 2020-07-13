@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 
 class UserCollection {
   Future<void> createUser(Profile user) async {
@@ -21,6 +22,13 @@ class UserCollection {
     } catch (e) {
       print(e.toString());
     }
+  }
+
+  Stream<DocumentSnapshot> getProfileStream() {
+    return Firestore.instance
+        .collection('users')
+        .document(UidUtil().getUid())
+        .snapshots();
   }
 
   Future<Profile> getUser(String uid) async {

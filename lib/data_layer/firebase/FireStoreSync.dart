@@ -161,6 +161,15 @@ class FireStoreSync {
                 }
             }
         });
+
+        ProfileDao.getProfileStreamFromFireStore()
+            .listen((snapshot) async {
+                Profile profile = Profile.fromMap(snapshot.data);
+                Profile profileFromLocal = (await ProfileDao.getAll()).elementAt(0);
+                if(profileFromLocal != null) {
+                    ProfileDao.updateLocalOnly(profile);
+                }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {

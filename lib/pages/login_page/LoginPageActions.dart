@@ -1,5 +1,3 @@
-import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/login_page/LoginPageState.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

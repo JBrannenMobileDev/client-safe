@@ -9,6 +9,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/login_page/LoginPage.dart';
 import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
+import 'package:dandylight/pages/main_settings_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -39,6 +40,9 @@ class NavigationUtil {
   }
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
+  }
+  static onManageSubscriptionSelected(BuildContext context, Profile profile) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
 
   static void onSuccessfulLogin(BuildContext context) {
