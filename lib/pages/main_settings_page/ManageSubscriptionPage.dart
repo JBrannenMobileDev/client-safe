@@ -195,7 +195,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 fontFamily: 'simple',
                                                 fontWeight: FontWeight.w600,
                                                 color:
-                                                Color(_radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getPrimaryWhite()),
+                                                Color(_radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
                                               ),
                                             ),
                                           ),
@@ -270,7 +270,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(bottom: 16.0, top: 16.0),
+                                  margin: EdgeInsets.only(bottom: 8.0, top: 16.0),
                                   padding: EdgeInsets.only(left: 4.0, right: 20.0),
                                   height: 64.0,
                                   decoration: BoxDecoration(
@@ -331,6 +331,50 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ],
                                   ),
                                 ),
+                                FlatButton(
+                                  onPressed: () {
+
+                                  },
+                                  child: Container(
+                                    child: Text(
+                                      'Enter Referral Code',
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 22.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.getBlueDark()),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                FlatButton(
+                                  onPressed: () {
+
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    margin: EdgeInsets.only(bottom: 16.0, top: 8.0),
+                                    height: 48.0,
+                                    width: 200.0,
+                                    decoration: BoxDecoration(
+                                        color: Color(ColorConstants.getPrimaryWhite()),
+                                        borderRadius: BorderRadius.circular(32.0)
+                                    ),
+                                    child: Text(
+                                      'Continue',
+                                      textAlign: TextAlign.center,
+                                      softWrap: true,
+                                      style: TextStyle(
+                                        fontSize: 28.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.getBlueDark()),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                                 Text(
                                   'You can cancel your subscription at any time.',
                                   textAlign: TextAlign.center,
@@ -343,7 +387,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
-                                  margin: EdgeInsets.only(top: 64.0, bottom: 16.0),
+                                  margin: EdgeInsets.only(top: 32.0, bottom: 16.0),
                                   child: Text(
                                     'Payment will be charged to your ' + (Device.get().isIos ? 'iTunes' : 'GooglePlay') + ' account, and your account will be charged for renewal 24-hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the App Store after purchase.',
                                     textAlign: TextAlign.center,
