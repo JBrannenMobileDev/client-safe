@@ -1,4 +1,4 @@
-package com.dandylight.dandylight
+package com.dandylight.flutter
 
 import io.flutter.embedding.android.FlutterActivity
 

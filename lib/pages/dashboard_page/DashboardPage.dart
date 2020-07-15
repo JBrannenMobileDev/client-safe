@@ -10,6 +10,7 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -240,7 +241,7 @@ class _DashboardPageState extends State<DashboardPage>
                           position: offsetAnimationDown,
                           child: GestureDetector(
                             onTap: () {
-                              NavigationUtil.onCalendarSelected(context);
+                              PushNotificationsManager().sendAndRetrieveMessage();
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 16.0),

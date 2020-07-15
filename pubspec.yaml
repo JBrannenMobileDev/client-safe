@@ -61,6 +61,7 @@ dependencies:
   flutter_google_places: ^0.2.5
   fluttertoast: ^4.0.1
   flutter_masked_text: ^0.8.0
+  firebase_messaging: ^6.0.16
   uuid: ^2.1.0
 
 flutter_icons:

@@ -3,6 +3,7 @@ class Profile{
   int id;
   String uid;
   String referralUid;
+  String deviceToken;
   String firstName;
   String lastName;
   String email;
@@ -29,6 +30,7 @@ class Profile{
     this.id,
     this.uid,
     this.referralUid,
+    this.deviceToken,
     this.firstName,
     this.lastName,
     this.businessName,
@@ -56,6 +58,7 @@ class Profile{
     int id,
     String uid,
     String referralUid,
+    String deviceToken,
     String firstName,
     String lastName,
     String businessName,
@@ -82,6 +85,7 @@ class Profile{
       id: id ?? this.id,
       uid: uid ?? this.uid,
       referralUid: referralUid ?? this.referralUid,
+      deviceToken: deviceToken ?? this.deviceToken,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       businessName: businessName ?? this.businessName,
@@ -112,6 +116,7 @@ class Profile{
     return {
       'uid' : uid,
       'referralUid' : referralUid,
+      'deviceToken' : deviceToken,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -140,6 +145,7 @@ class Profile{
     return Profile(
       uid: map['uid'],
       referralUid: map['referralUid'],
+      deviceToken: map['deviceToken'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],

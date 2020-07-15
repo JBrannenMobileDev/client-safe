@@ -48,7 +48,9 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     if(profiles != null && profiles.length > 0) {
       profile = profiles.elementAt(0);
     }
+
     if (user != null && user.isEmailVerified && profile != null && profile.signedIn) {
+      await ProfileDao.insertOrUpdate(profile);
       ProfileDao.updateUserLoginTime(user.uid);
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
     } else {
@@ -77,10 +79,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           List<Profile> userProfiles = await ProfileDao.getAll();
           if (userProfiles.isNotEmpty) {
             Profile updatedProfile = userProfiles.elementAt(0).copyWith(
-                firstName: store.state.loginPageState.firstName,
-                lastName: store.state.loginPageState.lastName,
-                businessName: store.state.loginPageState.businessName,
-                email: store.state.loginPageState.emailAddress,
                 signedIn: true,
                 lastSignIn: DateTime.now());
             ProfileDao.insertOrUpdate(updatedProfile);

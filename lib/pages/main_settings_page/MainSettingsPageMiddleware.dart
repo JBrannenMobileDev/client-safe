@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -40,6 +41,12 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   void savePushNotificationSetting(Store<AppState> store, SavePushNotificationSettingAction action, NextDispatcher next) async{
     Profile profile = (await ProfileDao.getAll()).elementAt(0);
     profile.pushNotificationsEnabled = action.enabled;
+    if(profile.pushNotificationsEnabled) {
+      PushNotificationsManager().init();
+      profile.deviceToken = await PushNotificationsManager().getToken();
+    } else {
+      profile.deviceToken = null;
+    }
     await ProfileDao.update(profile);
     store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profile.pushNotificationsEnabled ?? false));
   }

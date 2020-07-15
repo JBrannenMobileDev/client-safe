@@ -51,6 +51,9 @@ class ProfileDao extends Equatable{
     }
     if(alreadyExists){
       await update(profile);
+      if((await UserCollection().getUser(UidUtil().getUid())) == null) {
+        await UserCollection().createUser(profile);
+      }
     }else{
       await insert(profile);
     }
