@@ -24,6 +24,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveUpdatedUserProfileAction) {
       saveUpdatedUserProfile(store, action, next);
     }
+    if(action is RemoveDeviceTokenAction){
+      removeDeviceToken(store, action, next);
+    }
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
@@ -43,12 +46,18 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     profile.pushNotificationsEnabled = action.enabled;
     if(profile.pushNotificationsEnabled) {
       PushNotificationsManager().init();
-      profile.deviceToken = await PushNotificationsManager().getToken();
+      profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
     } else {
-      profile.deviceToken = null;
+      profile.removeDeviceToken(await PushNotificationsManager().getToken());
     }
     await ProfileDao.update(profile);
     store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profile.pushNotificationsEnabled ?? false));
+  }
+
+  void removeDeviceToken(Store<AppState> store, RemoveDeviceTokenAction action, NextDispatcher next) async{
+    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    profile.removeDeviceToken(await PushNotificationsManager().getToken());
+    await ProfileDao.update(profile);
   }
 
   void saveCalendarSetting(Store<AppState> store, SaveCalendarSettingAction action, NextDispatcher next) async{

@@ -96,6 +96,7 @@ class MainSettingsPageState{
       businessName: store.state.mainSettingsPageState.businessName,
       profile: store.state.mainSettingsPageState.profile,
       onSignOutSelected: () {
+        store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, false));
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
       },

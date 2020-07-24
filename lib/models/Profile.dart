@@ -3,7 +3,7 @@ class Profile{
   int id;
   String uid;
   String referralUid;
-  String deviceToken;
+  List<dynamic> deviceTokens;
   String firstName;
   String lastName;
   String email;
@@ -30,7 +30,7 @@ class Profile{
     this.id,
     this.uid,
     this.referralUid,
-    this.deviceToken,
+    this.deviceTokens,
     this.firstName,
     this.lastName,
     this.businessName,
@@ -58,7 +58,7 @@ class Profile{
     int id,
     String uid,
     String referralUid,
-    String deviceToken,
+    List<dynamic> deviceTokens,
     String firstName,
     String lastName,
     String businessName,
@@ -85,7 +85,7 @@ class Profile{
       id: id ?? this.id,
       uid: uid ?? this.uid,
       referralUid: referralUid ?? this.referralUid,
-      deviceToken: deviceToken ?? this.deviceToken,
+      deviceTokens: deviceTokens ?? this.deviceTokens,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
       businessName: businessName ?? this.businessName,
@@ -116,7 +116,7 @@ class Profile{
     return {
       'uid' : uid,
       'referralUid' : referralUid,
-      'deviceToken' : deviceToken,
+      'deviceTokens' : deviceTokens,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -145,7 +145,7 @@ class Profile{
     return Profile(
       uid: map['uid'],
       referralUid: map['referralUid'],
-      deviceToken: map['deviceToken'],
+      deviceTokens: map['deviceTokens'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],
@@ -172,5 +172,21 @@ class Profile{
 
   bool hasDefaultHome() {
     return (latDefaultHome != null && latDefaultHome != 0.0) || (lngDefaultHome != null && lngDefaultHome != 0.0);
+  }
+
+  bool removeDeviceToken(String deviceToken) {
+    deviceTokens = deviceTokens?.toList();
+    return deviceTokens?.remove(deviceToken);
+  }
+
+  bool addUniqueDeviceToken(String deviceToken) {
+    bool alreadyExists = false;
+    if(deviceTokens == null) deviceTokens = List();
+    deviceTokens = deviceTokens.toList();
+    for(String listToken in deviceTokens) {
+      if(listToken == deviceToken) alreadyExists = true;
+    }
+    if(!alreadyExists) deviceTokens.add(deviceToken);
+    return !alreadyExists;
   }
 }

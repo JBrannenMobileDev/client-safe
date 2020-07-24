@@ -59,3 +59,8 @@ class SaveUpdatedUserProfileAction{
   SaveUpdatedUserProfileAction(this.pageState);
 }
 
+class RemoveDeviceTokenAction{
+  final MainSettingsPageState pageState;
+  RemoveDeviceTokenAction(this.pageState);
+}
+

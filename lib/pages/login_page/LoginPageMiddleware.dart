@@ -9,6 +9,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
+import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -53,6 +54,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await ProfileDao.insertOrUpdate(profile);
       ProfileDao.updateUserLoginTime(user.uid);
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+      profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+      await ProfileDao.update(profile);
     } else {
       store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
       await _auth.signInWithEmailAndPassword(
@@ -83,8 +86,9 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
                 lastSignIn: DateTime.now());
             ProfileDao.insertOrUpdate(updatedProfile);
           }
-          store.dispatch(
-              UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+          await ProfileDao.update(profile);
         } else if (user != null && !user.isEmailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
           VibrateUtil.vibrateHeavy();

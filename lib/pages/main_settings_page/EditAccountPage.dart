@@ -81,6 +81,19 @@ class _EditAccountPageState extends State<EditAccountPage>
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: 56.0),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'First name',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                      ),
+                                    ),
+                                  ),
                                   LoginTextField(
                                     controller: firstNameTextController,
                                     hintText: 'First name',
@@ -102,6 +115,19 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     enabled: true,
                                     obscureText: false,
                                   ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 56.0, top: 8.0),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Last name',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                      ),
+                                    ),
+                                  ),
                                   LoginTextField(
                                     controller: lastNameTextController,
                                     hintText: 'Last name',
@@ -122,6 +148,19 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     capitalization: TextCapitalization.words,
                                     enabled: true,
                                     obscureText: false,
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(left: 56.0, top: 8.0),
+                                    alignment: Alignment.centerLeft,
+                                    child: Text(
+                                      'Business name',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(ColorConstants.getPrimaryBlack()),
+                                      ),
+                                    ),
                                   ),
                                   LoginTextField(
                                     controller: businessNameTextController,
