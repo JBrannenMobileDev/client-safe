@@ -36,7 +36,7 @@ class _NewPricingProfileIconSelection extends State<NewPricingProfileIconSelecti
             Container(
               margin: EdgeInsets.only(bottom: 16.0),
               child: Text(
-                "Select an icon that best represents this profile.",
+                'Select an icon that best represents this profile.',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.0,

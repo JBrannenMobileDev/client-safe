@@ -17,8 +17,10 @@ import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
+import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/search_page/SearchPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:meta/meta.dart';
@@ -51,6 +53,8 @@ class AppState {
   final NewMileageExpensePageState newMileageExpensePageState;
   final MapLocationSelectionWidgetState mapLocationSelectionWidgetState;
   final LoginPageState loginPageState;
+  final RemindersPageState remindersPageState;
+  final NewReminderPageState newReminderPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -77,6 +81,8 @@ class AppState {
     @required this.newMileageExpensePageState,
     @required this.mapLocationSelectionWidgetState,
     @required this.loginPageState,
+    @required this.remindersPageState,
+    @required this.newReminderPageState,
   });
 
   factory AppState.initial() {
@@ -105,6 +111,8 @@ class AppState {
       newMileageExpensePageState: NewMileageExpensePageState.initial(),
       mapLocationSelectionWidgetState: MapLocationSelectionWidgetState.initial(),
       loginPageState: LoginPageState.initial(),
+      remindersPageState: RemindersPageState.initial(),
+      newReminderPageState: NewReminderPageState.initial(),
     );
   }
 
@@ -133,6 +141,8 @@ class AppState {
     NewMileageExpensePageState newMileageExpensePageState,
     MapLocationSelectionWidgetState mapLocationSelectionWidgetState,
     LoginPageState loginPageState,
+    RemindersPageState remindersPageState,
+    NewReminderPageState newReminderPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -159,6 +169,8 @@ class AppState {
       newMileageExpensePageState: newMileageExpensePageState ?? this.newMileageExpensePageState,
       mapLocationSelectionWidgetState: mapLocationSelectionWidgetState ?? this.mapLocationSelectionWidgetState,
       loginPageState: loginPageState ?? this.loginPageState,
+      remindersPageState: remindersPageState ?? this.remindersPageState,
+      newReminderPageState: newReminderPageState ?? this.newReminderPageState,
     );
   }
 
@@ -187,6 +199,8 @@ class AppState {
     newMileageExpensePageState.hashCode ^
     mapLocationSelectionWidgetState.hashCode ^
     loginPageState.hashCode ^
+    remindersPageState.hashCode ^
+    newReminderPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -216,5 +230,7 @@ class AppState {
               newMileageExpensePageState == other.newMileageExpensePageState &&
               mapLocationSelectionWidgetState == other.mapLocationSelectionWidgetState &&
               loginPageState == other.loginPageState &&
+              remindersPageState == other.remindersPageState &&
+              newReminderPageState == other.newReminderPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

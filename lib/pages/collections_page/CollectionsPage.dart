@@ -2,6 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
 import 'package:dandylight/pages/locations_page/LocationsPage.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPage.dart';
+import 'package:dandylight/pages/reminders_page/RemindersPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
@@ -114,7 +115,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 2:
-
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => RemindersPage()),
+        );
         break;
       case 3:
         Navigator.of(context).push(

@@ -26,6 +26,7 @@ import 'package:dandylight/pages/new_mileage_expense/LocationOptionsMileageExpen
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePage.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePage.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderPage.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePage.dart';
 import 'package:dandylight/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
@@ -61,6 +62,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewPricingProfilePage();
+      },
+    );
+  }
+
+  static void showNewReminderDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewReminderPage();
       },
     );
   }
