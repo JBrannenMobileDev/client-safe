@@ -1,7 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Invoice.dart';
-import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -15,156 +13,108 @@ class NewReminderPageState {
   final int id;
   final String documentId;
   final String when;
-  final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
-  final String profileName;
-  final String profileIcon;
-  final String rateType;
-  final double flatRate;
-  final double hourlyRate;
-  final double itemRate;
+  final String reminderDescription;
+  final String daysWeeksMonths;
+  final int daysWeeksMonthsAmount;
   final Function() onSavePressed;
   final Function() onCancelPressed;
-  final Function() onNextPressed;
-  final Function() onBackPressed;
-  final Function() onDeleteProfileSelected;
-  final Function(String) onProfileNameChanged;
-  final Function(String) onProfileIconSelected;
-  final Function(String) onFilterChanged;
-  final Function(String) onFlatRateTextChanged;
-  final Function(String) onHourlyRateTextChanged;
-  final Function(String) onItemRateTextChanged;
+  final Function() onDeleteReminderSelected;
+  final Function(String) whenSelected;
+  final Function(String) onReminderDescriptionChanged;
+  final Function(String) onDaysWeeksMonthsChanged;
+  final Function(int) onDaysWeeksMonthsAmountChanged;
 
   NewReminderPageState({
     @required this.id,
-    @required this.documentId,
-    @required this.when,
-    @required this.pageViewIndex,
-    @required this.saveButtonEnabled,
-    @required this.shouldClear,
-    @required this.profileName,
-    @required this.profileIcon,
-    @required this.onSavePressed,
-    @required this.onCancelPressed,
-    @required this.onNextPressed,
-    @required this.onBackPressed,
-    @required this.onDeleteProfileSelected,
-    @required this.onProfileNameChanged,
-    @required this.onProfileIconSelected,
-    @required this.rateType,
-    @required this.flatRate,
-    @required this.hourlyRate,
-    @required this.itemRate,
-    @required this.onFilterChanged,
-    @required this.onFlatRateTextChanged,
-    @required this.onHourlyRateTextChanged,
-    @required this.onItemRateTextChanged,
-  });
+  @required this.documentId,
+  @required this.when,
+  @required this.saveButtonEnabled,
+  @required this.shouldClear,
+  @required this.reminderDescription,
+  @required this.daysWeeksMonths,
+  @required this.daysWeeksMonthsAmount,
+  @required this.onSavePressed,
+  @required this.onCancelPressed,
+  @required this.onDeleteReminderSelected,
+  @required this.whenSelected,
+  @required this.onReminderDescriptionChanged,
+  @required this.onDaysWeeksMonthsChanged,
+  @required this.onDaysWeeksMonthsAmountChanged,
+});
 
   NewReminderPageState copyWith({
     int id,
     String documentId,
     String when,
-    int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
-    String profileName,
-    String profileIcon,
-    String rateType,
-    double flatRate,
-    double hourlyRate,
-    double itemRate,
+    String reminderDescription,
+    String daysWeeksMonths,
+    int daysWeeksMonthsAmount,
     Function() onSavePressed,
     Function() onCancelPressed,
-    Function() onNextPressed,
-    Function() onBackPressed,
-    Function(PriceProfile) onDeleteProfileSelected,
-    Function(String) onProfileNameChanged,
-    Function(String) onProfileIconSelected,
-    Function(String) onFilterChanged,
-    Function(String) onFlatRateTextChanged,
-    Function(String) onHourlyRateTextChanged,
-    Function(String) onItemRateTextChanged,
+    Function() onDeleteReminderSelected,
+    Function(String) whenSelected,
+    Function(String) onReminderDescriptionChanged,
+    Function(String) onDaysWeeksMonthsChanged,
+    Function(int) onDaysWeeksMonthsAmountChanged,
   }){
     return NewReminderPageState(
       id: id?? this.id,
       when: when?? this.when,
-      pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
-      profileName: profileName?? this.profileName,
-      profileIcon: profileIcon?? this.profileIcon,
-      rateType: rateType ?? this.rateType,
-      flatRate: flatRate ?? this.flatRate,
-      hourlyRate: hourlyRate ?? this.hourlyRate,
-      itemRate: itemRate ?? this.itemRate,
+      daysWeeksMonthsAmount: daysWeeksMonthsAmount ?? this.daysWeeksMonthsAmount,
+      reminderDescription: reminderDescription?? this.reminderDescription,
+      daysWeeksMonths: daysWeeksMonths ?? this.daysWeeksMonths,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
-      onNextPressed: onNextPressed?? this.onNextPressed,
-      onBackPressed: onBackPressed?? this.onBackPressed,
-      onDeleteProfileSelected: onDeleteProfileSelected?? this.onDeleteProfileSelected,
-      onProfileNameChanged: onProfileNameChanged?? this.onProfileNameChanged,
-      onProfileIconSelected: onProfileIconSelected?? this.onProfileIconSelected,
-      onFilterChanged: onFilterChanged ?? this.onFilterChanged,
-      onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
-      onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
-      onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
+      onDeleteReminderSelected: onDeleteReminderSelected?? this.onDeleteReminderSelected,
       documentId: documentId ?? this.documentId,
+      whenSelected: whenSelected ?? this.whenSelected,
+      onReminderDescriptionChanged: onReminderDescriptionChanged ?? this.onReminderDescriptionChanged,
+      onDaysWeeksMonthsChanged: onDaysWeeksMonthsChanged ?? this.onDaysWeeksMonthsChanged,
+      onDaysWeeksMonthsAmountChanged: onDaysWeeksMonthsAmountChanged ?? this.onDaysWeeksMonthsAmountChanged,
     );
   }
 
   factory NewReminderPageState.initial() => NewReminderPageState(
         id: null,
         documentId: '',
-        pageViewIndex: 0,
         saveButtonEnabled: false,
         shouldClear: true,
-        profileName: "",
-        profileIcon: 'assets/images/collection_icons/pricing_profile_icons/piggy_bank_icon_gold.png',
-        rateType: Invoice.RATE_TYPE_FLAT_RATE,
-        flatRate: 0,
-        hourlyRate: 0,
-        itemRate: 0,
+        reminderDescription: "",
+        daysWeeksMonths: NewReminderPage.DAYS,
+        daysWeeksMonthsAmount: 2,
         onSavePressed: null,
         onCancelPressed: null,
-        onNextPressed: null,
-        onBackPressed: null,
-        onDeleteProfileSelected: null,
-        onProfileNameChanged: null,
-        onProfileIconSelected: null,
-        onFilterChanged: null,
-        onFlatRateTextChanged: null,
-        onHourlyRateTextChanged: null,
-        onItemRateTextChanged: null,
+        onDeleteReminderSelected: null,
+        whenSelected: null,
+        onReminderDescriptionChanged: null,
+        onDaysWeeksMonthsChanged: null,
+        onDaysWeeksMonthsAmountChanged: null,
         when: NewReminderPage.BEFORE,
       );
 
   factory NewReminderPageState.fromStore(Store<AppState> store) {
     return NewReminderPageState(
-      itemRate: store.state.pricingProfilePageState.itemRate,
-      id: store.state.pricingProfilePageState.id,
+      id: store.state.newReminderPageState.id,
       when: store.state.newReminderPageState.when,
-      pageViewIndex: store.state.pricingProfilePageState.pageViewIndex,
-      saveButtonEnabled: store.state.pricingProfilePageState.saveButtonEnabled,
-      shouldClear: store.state.pricingProfilePageState.shouldClear,
-      profileName: store.state.pricingProfilePageState.profileName,
-      profileIcon: store.state.pricingProfilePageState.profileIcon,
-      rateType: store.state.pricingProfilePageState.rateType,
-      flatRate: store.state.pricingProfilePageState.flatRate,
-      hourlyRate: store.state.pricingProfilePageState.hourlyRate,
-      documentId: store.state.pricingProfilePageState.documentId,
-      onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
-      onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
-      onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
-      onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.pricingProfilePageState)),
-      onDeleteProfileSelected: () => store.dispatch(DeletePriceProfileAction(store.state.pricingProfilePageState)),
-      onProfileNameChanged: (profileName) => store.dispatch(UpdateProfileNameAction(store.state.pricingProfilePageState, profileName)),
-      onProfileIconSelected: (fileLocation) => store.dispatch(SetProfileIconAction(store.state.pricingProfilePageState, fileLocation)),
-      onFilterChanged: (rateType) => store.dispatch(SaveSelectedRateTypeAction(store.state.pricingProfilePageState, rateType)),
-      onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.pricingProfilePageState, flatRateText)),
-      onHourlyRateTextChanged: (hourlyRateText) => store.dispatch(UpdateHourlyRateTextAction(store.state.pricingProfilePageState, hourlyRateText)),
-      onItemRateTextChanged: (itemRateText) => store.dispatch(UpdateItemRateTextAction(store.state.pricingProfilePageState, itemRateText)),
+      saveButtonEnabled: store.state.newReminderPageState.saveButtonEnabled,
+      shouldClear: store.state.newReminderPageState.shouldClear,
+      reminderDescription: store.state.newReminderPageState.reminderDescription,
+      documentId: store.state.newReminderPageState.documentId,
+      daysWeeksMonths: store.state.newReminderPageState.daysWeeksMonths,
+      daysWeeksMonthsAmount: store.state.newReminderPageState.daysWeeksMonthsAmount,
+      onSavePressed: () => store.dispatch(SaveNewReminderAction(store.state.newReminderPageState)),
+      onCancelPressed: () => store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState)),
+      onDeleteReminderSelected: () => store.dispatch(DeleteReminderAction(store.state.newReminderPageState)),
+      whenSelected: (when) => store.dispatch(UpdateWhenAction(store.state.newReminderPageState, when)),
+      onReminderDescriptionChanged: (description) => store.dispatch(UpdateDescription(store.state.newReminderPageState, description)),
+      onDaysWeeksMonthsChanged: (selection) => store.dispatch(UpdateDaysWeeksMonthsAction(store.state.newReminderPageState, selection)),
+      onDaysWeeksMonthsAmountChanged: (amount) => store.dispatch(UpdateDaysWeeksMonthsAmountAction(store.state.newReminderPageState, amount)),
     );
   }
 
@@ -173,21 +123,18 @@ class NewReminderPageState {
       id.hashCode ^
       documentId.hashCode ^
       when.hashCode ^
-      pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
-      profileName.hashCode ^
-      profileIcon.hashCode ^
+      reminderDescription.hashCode ^
+      daysWeeksMonths.hashCode ^
+      daysWeeksMonthsAmount.hashCode ^
+      onDeleteReminderSelected.hashCode ^
+      whenSelected.hashCode ^
+      onReminderDescriptionChanged.hashCode ^
+      onDaysWeeksMonthsChanged.hashCode ^
+      onDaysWeeksMonthsAmountChanged.hashCode ^
       onSavePressed.hashCode ^
-      onCancelPressed.hashCode ^
-      onNextPressed.hashCode ^
-      onBackPressed.hashCode ^
-      onProfileNameChanged.hashCode ^
-      onProfileIconSelected.hashCode ^
-      rateType.hashCode ^
-      flatRate.hashCode ^
-      hourlyRate.hashCode ^
-      itemRate.hashCode ;
+      onCancelPressed.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -196,19 +143,16 @@ class NewReminderPageState {
           id == other.id &&
           documentId == other.documentId &&
           when == other.when &&
-          pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
           shouldClear == other.shouldClear &&
-          profileName == other.profileName &&
-          profileIcon == other.profileIcon &&
+          reminderDescription == other.reminderDescription &&
+          daysWeeksMonthsAmount == other.daysWeeksMonthsAmount &&
+          daysWeeksMonths == other.daysWeeksMonths &&
+          onDeleteReminderSelected == other.onDeleteReminderSelected &&
+          whenSelected == other.whenSelected &&
+          onReminderDescriptionChanged == other.onReminderDescriptionChanged &&
+          onDaysWeeksMonthsAmountChanged == other.onDaysWeeksMonthsAmountChanged &&
+          onDaysWeeksMonthsChanged == other.onDaysWeeksMonthsChanged &&
           onSavePressed == other.onSavePressed &&
-          onCancelPressed == other.onCancelPressed &&
-          onNextPressed == other.onNextPressed &&
-          onBackPressed == other.onBackPressed &&
-          onProfileNameChanged == other.onProfileNameChanged &&
-          onProfileIconSelected == other.onProfileIconSelected &&
-          rateType == other.rateType &&
-          hourlyRate == other.hourlyRate &&
-          itemRate == other.itemRate &&
-          flatRate == other.flatRate ;
+          onCancelPressed == other.onCancelPressed;
 }

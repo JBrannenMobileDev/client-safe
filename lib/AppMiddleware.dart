@@ -37,6 +37,8 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActio
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseActions.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageMiddleware.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderPageMiddleware.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
@@ -143,5 +145,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveCalendarSettingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedUserProfileAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, RemoveDeviceTokenAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNewReminderAction>(NewReminderPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteReminderAction>(NewReminderPageMiddleware()));
   return middlewareList;
 }

@@ -4,7 +4,6 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_reminder_page/DandyLightTextField.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +15,10 @@ class NewReminderPage extends StatefulWidget {
   static const String BEFORE = "before";
   static const String ON = "on";
   static const String AFTER = "after";
+
+  static const String DAYS = "Days";
+  static const String WEEKS = "Weeks";
+  static const String MONTHS = "Months";
 
   @override
   _NewReminderPageState createState() {
@@ -175,7 +178,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                     focusNode: null,
                                     onFocusAction: null,
                                     height: 64.0,
-                                    onTextInputChanged: pageState.onProfileNameChanged,
+                                    onTextInputChanged: pageState.onReminderDescriptionChanged,
                                     keyboardAction: TextInputAction.done,
                                     capitalization: TextCapitalization.words,
                                   ),
@@ -224,29 +227,38 @@ class _NewReminderPageState extends State<NewReminderPage> {
                             ),
                           ],
                         ),
-                        Container(
-                          margin: EdgeInsets.only(top: 8.0),
-                          alignment: Alignment.center,
-                          height: 32.0,
-                          width: 200.0,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32.0),
-                            color: pageState.when == NewReminderPage.BEFORE
-                                ? Color(ColorConstants.getBlueDark())
-                                : Color(ColorConstants.getBlueLight()),
-                          ),
-                          child: Text(
-                            'Before shoot date',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryWhite()),
+                        GestureDetector(
+                          onTap: () {
+                            pageState.whenSelected(NewReminderPage.BEFORE);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 8.0),
+                            alignment: Alignment.center,
+                            height: 32.0,
+                            width: 200.0,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(32.0),
+                              color: pageState.when == NewReminderPage.BEFORE
+                                  ? Color(ColorConstants.getBlueLight())
+                                  : Color(ColorConstants.getPrimaryWhite()),
+                            ),
+                            child: Text(
+                              'Before shoot date',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontSize: 24.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
                             ),
                           ),
                         ),
-                        Container(
+                    GestureDetector(
+                      onTap: () {
+                        pageState.whenSelected(NewReminderPage.ON);
+                      },
+                      child: Container(
                           margin: EdgeInsets.only(top: 8.0),
                           alignment: Alignment.center,
                           height: 32.0,
@@ -254,8 +266,8 @@ class _NewReminderPageState extends State<NewReminderPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(32.0),
                             color: pageState.when == NewReminderPage.ON
-                                ? Color(ColorConstants.getBlueDark())
-                                : Color(ColorConstants.getBlueLight()),
+                                ? Color(ColorConstants.getBlueLight())
+                                : Color(ColorConstants.getPrimaryWhite()),
                           ),
                           child: Text(
                             'On shoot date',
@@ -268,7 +280,12 @@ class _NewReminderPageState extends State<NewReminderPage> {
                             ),
                           ),
                         ),
-                        Container(
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        pageState.whenSelected(NewReminderPage.AFTER);
+                      },
+                      child: Container(
                           margin: EdgeInsets.only(top: 8.0),
                           alignment: Alignment.center,
                           height: 32.0,
@@ -276,8 +293,8 @@ class _NewReminderPageState extends State<NewReminderPage> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(32.0),
                             color: pageState.when == NewReminderPage.AFTER
-                                ? Color(ColorConstants.getBlueDark())
-                                : Color(ColorConstants.getBlueLight()),
+                                ? Color(ColorConstants.getBlueLight())
+                                : Color(ColorConstants.getPrimaryWhite()),
                           ),
                           child: Text(
                             'After shoot date',
@@ -290,6 +307,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                             ),
                           ),
                         ),
+                    ),
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
@@ -813,7 +831,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                             onBackPressed(pageState);
                             },
                             child: Text(
-                              pageState.pageViewIndex == 0 ? "Cancel" : "Back",
+                              'Cancel',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -835,9 +853,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               onNextPressed(pageState);
                             },
                             child: Text(
-                              pageState.pageViewIndex == pageCount
-                                  ? "Save"
-                                  : "Next",
+                              'Save',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -860,28 +876,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
   }
 
   void onNextPressed(NewReminderPageState pageState) {
-    bool canProgress = false;
-    if (pageState.pageViewIndex != pageCount) {
-      switch (pageState.pageViewIndex) {
-        case 0:
-          canProgress = true;
-          break;
-        case 1:
-          canProgress = true;
-          break;
-        default:
-          canProgress = true;
-          break;
-      }
-
-      if (canProgress) {
-        pageState.onNextPressed();
-        controller.animateToPage(currentPageIndex + 1,
-            duration: Duration(milliseconds: 150), curve: Curves.ease);
-        if(MediaQuery.of(context).viewInsets.bottom != 0) KeyboardUtil.closeKeyboard(context);
-      }
-    }
-    if (pageState.pageViewIndex == pageCount) {
+    if(pageState.reminderDescription.isNotEmpty && pageState.when.isNotEmpty && pageState.daysWeeksMonthsAmount > 0 && pageState.daysWeeksMonths.isNotEmpty) {
       showSuccessAnimation();
       pageState.onSavePressed();
     }
@@ -894,7 +889,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          content: new Text('This reminder will be gone for good!'),
           actions: <Widget>[
             new FlatButton(
               onPressed: () => Navigator.of(context).pop(false),
@@ -902,7 +897,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
             ),
             new FlatButton(
               onPressed: () {
-                pageState.onDeleteProfileSelected();
+                pageState.onDeleteReminderSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -910,7 +905,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          content: new Text('This reminder will be gone for good!'),
           actions: <Widget>[
             new FlatButton(
               onPressed: () => Navigator.of(context).pop(false),
@@ -918,7 +913,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
             ),
             new FlatButton(
               onPressed: () {
-                pageState.onDeleteProfileSelected();
+                pageState.onDeleteReminderSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -953,13 +948,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
   }
 
   void onBackPressed(NewReminderPageState pageState) {
-    if (pageState.pageViewIndex == 0) {
-      pageState.onCancelPressed();
-      Navigator.of(context).pop();
-    } else {
-      pageState.onBackPressed();
-      controller.animateToPage(currentPageIndex - 1,
-          duration: Duration(milliseconds: 150), curve: Curves.ease);
-    }
+    pageState.onCancelPressed();
+    Navigator.of(context).pop();
   }
 }

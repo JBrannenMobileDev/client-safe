@@ -1,71 +1,51 @@
-import 'package:dandylight/models/PriceProfile.dart';
+
+
+import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 
-class LoadExistingPricingProfileData{
+class LoadExistingReminderData{
   final NewReminderPageState pageState;
-  final PriceProfile profile;
-  LoadExistingPricingProfileData(this.pageState, this.profile);
+  final Reminder reminder;
+  LoadExistingReminderData(this.pageState, this.reminder);
 }
 
-class SavePricingProfileAction{
+class SaveNewReminderAction{
   final NewReminderPageState pageState;
-  SavePricingProfileAction(this.pageState);
+  SaveNewReminderAction(this.pageState);
 }
 
-class SetProfileIconAction{
+class DeleteReminderAction{
   final NewReminderPageState pageState;
-  final String profileIcon;
-  SetProfileIconAction(this.pageState, this.profileIcon);
+  DeleteReminderAction(this.pageState);
 }
 
-class ClearStateAction{
+class ClearNewReminderStateAction{
   final NewReminderPageState pageState;
-  ClearStateAction(this.pageState);
+  ClearNewReminderStateAction(this.pageState);
 }
 
-class DeletePriceProfileAction{
+class UpdateWhenAction{
   final NewReminderPageState pageState;
-  DeletePriceProfileAction(this.pageState);
+  final String when;
+  UpdateWhenAction(this.pageState, this.when);
 }
 
-class IncrementPageViewIndex{
+class UpdateDescription{
   final NewReminderPageState pageState;
-  IncrementPageViewIndex(this.pageState);
+  final String description;
+  UpdateDescription(this.pageState, this.description);
 }
 
-class DecrementPageViewIndex{
+class UpdateDaysWeeksMonthsAction{
   final NewReminderPageState pageState;
-  DecrementPageViewIndex(this.pageState);
+  final String daysWeeksMonthsSelection;
+  UpdateDaysWeeksMonthsAction(this.pageState, this.daysWeeksMonthsSelection);
 }
 
-class UpdateProfileNameAction{
+class UpdateDaysWeeksMonthsAmountAction{
   final NewReminderPageState pageState;
-  final String profileName;
-  UpdateProfileNameAction(this.pageState, this.profileName);
-}
-
-class SaveSelectedRateTypeAction{
-  final NewReminderPageState pageState;
-  final String rateType;
-  SaveSelectedRateTypeAction(this.pageState, this.rateType);
-}
-
-class UpdateFlatRateTextAction{
-  final NewReminderPageState pageState;
-  final String flatRateText;
-  UpdateFlatRateTextAction(this.pageState, this.flatRateText);
-}
-
-class UpdateHourlyRateTextAction{
-  final NewReminderPageState pageState;
-  final String hourlyRateText;
-  UpdateHourlyRateTextAction(this.pageState, this.hourlyRateText);
-}
-
-class UpdateItemRateTextAction{
-  final NewReminderPageState pageState;
-  final String itemRateText;
-  UpdateItemRateTextAction(this.pageState, this.itemRateText);
+  final int amount;
+  UpdateDaysWeeksMonthsAmountAction(this.pageState, this.amount);
 }
 
 

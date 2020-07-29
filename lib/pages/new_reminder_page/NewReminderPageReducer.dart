@@ -1,23 +1,40 @@
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:redux/redux.dart';
 import 'NewReminderPageState.dart';
 
 final newReminderPageReducer = combineReducers<NewReminderPageState>([
-  TypedReducer<NewReminderPageState, SaveSelectedRateTypeAction>(_saveRateType),
-  TypedReducer<NewReminderPageState, UpdateItemRateTextAction>(_updateItemRate),
+  TypedReducer<NewReminderPageState, ClearNewReminderStateAction>(_clearState),
+  TypedReducer<NewReminderPageState, UpdateWhenAction>(_updateWhen),
+  TypedReducer<NewReminderPageState, UpdateDescription>(_updateDescription),
+  TypedReducer<NewReminderPageState, UpdateDaysWeeksMonthsAction>(_updateDaysWeeksMonths),
+  TypedReducer<NewReminderPageState, UpdateDaysWeeksMonthsAmountAction>(_updateDaysWeeksMonthsAmount),
 ]);
 
-NewReminderPageState _saveRateType(NewReminderPageState previousState, SaveSelectedRateTypeAction action){
+NewReminderPageState _clearState(NewReminderPageState previousState, ClearNewReminderStateAction action){
+  return NewReminderPageState.initial();
+}
+
+NewReminderPageState _updateWhen(NewReminderPageState previousState, UpdateWhenAction action){
   return previousState.copyWith(
-    rateType: action.rateType,
+    when: action.when,
   );
 }
 
-NewReminderPageState _updateItemRate(NewReminderPageState previousState, UpdateItemRateTextAction action){
-  String itemRate = action.itemRateText.replaceFirst(r'$', '');
+NewReminderPageState _updateDescription(NewReminderPageState previousState, UpdateDescription action){
   return previousState.copyWith(
-    itemRate: double.parse(itemRate),
-    hourlyRate: itemRate.length > 0 ? 0 : previousState.hourlyRate,
-    flatRate: itemRate.length > 0 ? 0 : previousState.flatRate,
+    reminderDescription: action.description,
   );
 }
+
+NewReminderPageState _updateDaysWeeksMonths(NewReminderPageState previousState, UpdateDaysWeeksMonthsAction action){
+  return previousState.copyWith(
+    daysWeeksMonths: action.daysWeeksMonthsSelection,
+  );
+}
+
+NewReminderPageState _updateDaysWeeksMonthsAmount(NewReminderPageState previousState, UpdateDaysWeeksMonthsAmountAction action){
+  return previousState.copyWith(
+    daysWeeksMonthsAmount: action.amount,
+  );
+}
+
