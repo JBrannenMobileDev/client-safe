@@ -249,7 +249,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                 fontSize: 24.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryWhite()),
+                                color: pageState.when == NewReminderPage.BEFORE
+                                    ? Color(ColorConstants.getPrimaryWhite())
+                                    : Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ),
@@ -276,7 +278,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               fontSize: 24.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
+                              color: pageState.when == NewReminderPage.ON
+                                  ? Color(ColorConstants.getPrimaryWhite())
+                                  : Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ),
@@ -303,34 +307,39 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               fontSize: 24.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
+                              color: pageState.when == NewReminderPage.AFTER
+                                  ? Color(ColorConstants.getPrimaryWhite())
+                                  : Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ),
                     ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              margin: EdgeInsets.only(top: 48.0),
-                              width: 24.0,
-                              child: Text(
-                                '3.',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                        Opacity(
+                          opacity: pageState.when == NewReminderPage.ON
+                              ? 0.25 : 1.0,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(top: 48.0),
+                                width: 24.0,
+                                child: Text(
+                                  '3.',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 48.0),
-                              width: MediaQuery.of(context).size.width - 95,
-                              child: Column(
-                                children: <Widget>[
-                                  Text(
+                              Container(
+                                margin: EdgeInsets.only(top: 48.0),
+                                width: MediaQuery.of(context).size.width - 95,
+                                child: Column(
+                                  children: <Widget>[
+                                    Text(
                                       'Select how far ' + pageState.when + ' the shoot you want the reminder to be sent.',
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
@@ -339,476 +348,484 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                         fontWeight: FontWeight.w600,
                                         color: Color(ColorConstants.primary_black),
                                       ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          height: 150.0,
-                          margin: EdgeInsets.only(bottom: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                alignment: Alignment.center,
-                                width: 100.0,
-                                child: CupertinoPicker(
-                                  onSelectedItemChanged: (index) {
-
-                                  },
-                                  itemExtent: 24.0,
-                                  magnification: 1.25,
-                                  backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                                  children: <Widget>[
-                                    Container(
-                                      height: 32.0,
-                                      child: Text(
-                                        'Days',
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 24.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.primary_black),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 32.0,
-                                      child: Text(
-                                        'Weeks',
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 24.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.primary_black),
-                                        ),
-                                      ),
-                                    ),
-                                    Container(
-                                      height: 32.0,
-                                      child: Text(
-                                        'Months',
-                                        textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 24.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.primary_black),
-                                        ),
-                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                          Container(
-                            alignment: Alignment.center,
-                            width: 100.0,
-                            child: CupertinoPicker(
-                                onSelectedItemChanged: (index) {
-
-                                },
-                                itemExtent: 24.0,
-                                magnification: 1.25,
-                                backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                            ],
+                          ),
+                        ),
+                        AbsorbPointer(
+                          absorbing: pageState.when == NewReminderPage.ON ? true : false,
+                          child: Opacity(
+                            opacity: pageState.when == NewReminderPage.ON
+                                ? 0.25 : 1.0,
+                            child: Container(
+                              height: 150.0,
+                              margin: EdgeInsets.only(bottom: 8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '1',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
+                                    alignment: Alignment.center,
+                                    width: 100.0,
+                                    child: CupertinoPicker(
+                                      onSelectedItemChanged: (index) {
+                                        pageState.onDaysWeeksMonthsChanged(index == 0 ? 'Days' : index == 1 ? 'Weeks' : 'Months');
+                                      },
+                                      itemExtent: 24.0,
+                                      magnification: 1.25,
+                                      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                                      children: <Widget>[
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            'Days',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            'Weeks',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            'Months',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                   Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '2',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '3',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '4',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '5',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '6',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '7',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '8',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '9',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '10',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '11',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '12',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '13',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '14',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '15',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '16',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '17',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '18',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '19',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '20',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '21',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '22',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '23',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '24',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '25',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '26',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '27',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '28',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '29',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 32.0,
-                                    child: Text(
-                                      '30',
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
+                                    alignment: Alignment.center,
+                                    width: 100.0,
+                                    child: CupertinoPicker(
+                                      onSelectedItemChanged: (index) {
+                                        pageState.onDaysWeeksMonthsAmountChanged(index);
+                                      },
+                                      itemExtent: 24.0,
+                                      magnification: 1.25,
+                                      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                                      children: <Widget>[
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '1',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '2',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '3',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '4',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '5',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '6',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '7',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '8',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '9',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '10',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '11',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '12',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '13',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '14',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '15',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '16',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '17',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '18',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '19',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '20',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '21',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '22',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '23',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '24',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '25',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '26',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '27',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '28',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '29',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 32.0,
+                                          child: Text(
+                                            '30',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 24.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
-                          ),
-                            ],
+                            ),
                           ),
                         ),
                       ],

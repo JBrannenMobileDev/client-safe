@@ -87,7 +87,7 @@ class NewReminderPageState {
         shouldClear: true,
         reminderDescription: "",
         daysWeeksMonths: NewReminderPage.DAYS,
-        daysWeeksMonthsAmount: 2,
+        daysWeeksMonthsAmount: 1,
         onSavePressed: null,
         onCancelPressed: null,
         onDeleteReminderSelected: null,
