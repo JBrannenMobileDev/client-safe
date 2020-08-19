@@ -3,6 +3,7 @@ class Reminder {
   String documentId;
   String description;
   String when;
+  String daysWeeksMonths;
   int amount;
 
   Reminder({
@@ -10,6 +11,7 @@ class Reminder {
     this.documentId,
     this.description,
     this.when,
+    this.daysWeeksMonths,
     this.amount,
   });
 
@@ -18,6 +20,7 @@ class Reminder {
       'documentId' : documentId,
       'description': description,
       'when' : when,
+      'daysWeeksMonths' : daysWeeksMonths,
       'amount' : amount,
     };
   }
@@ -27,6 +30,7 @@ class Reminder {
       documentId: map['documentId'],
       description: map['description'],
       when: map['when'],
+      daysWeeksMonths: map['daysWeeksMonths'],
       amount: map['amount'],
     );
   }

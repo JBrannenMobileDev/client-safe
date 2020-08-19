@@ -9,6 +9,7 @@ import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
@@ -19,6 +20,7 @@ import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
@@ -40,6 +42,7 @@ class FireStoreSync {
                 await _syncSingleExpenses(userLocalDb, userFireStoreDb);
                 await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
                 await _syncProfile(userLocalDb, userFireStoreDb);
+                await _syncReminders(userLocalDb, userFireStoreDb);
             }
         }
         setupFireStoreListeners();
@@ -162,6 +165,19 @@ class FireStoreSync {
             }
         });
 
+        ReminderDao.getReminderStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.documentChanges) {
+                Reminder reminder = Reminder.fromMap(snapshot.document.data);
+                Reminder reminderFromLocal = await ReminderDao.getReminderById(reminder.documentId);
+                if(reminderFromLocal != null) {
+                    ReminderDao.updateLocalOnly(reminder);
+                }else {
+                    ReminderDao.insertLocalOnly(reminder);
+                }
+            }
+        });
+
         ProfileDao.getProfileStreamFromFireStore()
             .listen((snapshot) async {
                 Profile profile = Profile.fromMap(snapshot.data);
@@ -275,6 +291,18 @@ class FireStoreSync {
             if(userLocalDb.singleExpensesLastChangeDate != null && userFireStoreDb.singleExpensesLastChangeDate != null){
                 if(userLocalDb.singleExpensesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.singleExpensesLastChangeDate.millisecondsSinceEpoch) {
                     await SingleExpenseDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncReminders(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.remindersLastChangeDate != userFireStoreDb.remindersLastChangeDate) || (userLocalDb.remindersLastChangeDate == null && userFireStoreDb.remindersLastChangeDate != null)) {
+            if(userLocalDb.remindersLastChangeDate != null && userFireStoreDb.remindersLastChangeDate != null){
+                if(userLocalDb.remindersLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.remindersLastChangeDate.millisecondsSinceEpoch) {
+                    await ReminderDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }

@@ -25,6 +25,7 @@ class Profile{
   DateTime singleExpensesLastChangeDate;
   DateTime nextInvoiceNumberLastChangeDate;
   DateTime profileLastChangeDate;
+  DateTime remindersLastChangeDate;
 
   Profile({
     this.id,
@@ -52,6 +53,7 @@ class Profile{
     this.singleExpensesLastChangeDate,
     this.nextInvoiceNumberLastChangeDate,
     this.profileLastChangeDate,
+    this.remindersLastChangeDate,
   });
 
   Profile copyWith({
@@ -80,6 +82,7 @@ class Profile{
     DateTime singleExpensesLastChangeDate,
     DateTime nextInvoiceNumberLastChangeDate,
     DateTime profileLastChangeDate,
+    DateTime remindersLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -107,6 +110,7 @@ class Profile{
       singleExpensesLastChangeDate: singleExpensesLastChangeDate ?? this.singleExpensesLastChangeDate,
       nextInvoiceNumberLastChangeDate: nextInvoiceNumberLastChangeDate ?? this.nextInvoiceNumberLastChangeDate,
       profileLastChangeDate: profileLastChangeDate ?? this.profileLastChangeDate,
+      remindersLastChangeDate: remindersLastChangeDate ?? this.remindersLastChangeDate,
     );
   }
 
@@ -138,6 +142,7 @@ class Profile{
       'singleExpensesLastChangeDate' : singleExpensesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'nextInvoiceNumberLastChangeDate' : nextInvoiceNumberLastChangeDate?.millisecondsSinceEpoch ?? null,
       'profileLastChangeDate' : profileLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'remindersLastChangeDate' : remindersLastChangeDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -167,6 +172,7 @@ class Profile{
       singleExpensesLastChangeDate: map['singleExpensesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['singleExpensesLastChangeDate']) : null,
       nextInvoiceNumberLastChangeDate: map['nextInvoiceNumberLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['nextInvoiceNumberLastChangeDate']) : null,
       profileLastChangeDate: map['profileLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['profileLastChangeDate']) : null,
+      remindersLastChangeDate: map['remindersLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['remindersLastChangeDate']) : null,
     );
   }
 
