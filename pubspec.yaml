@@ -198,6 +198,7 @@ flutter:
     - assets/images/icons/manage_subscription_icon_black.png
     - assets/images/icons/provide_feedback_icon_black.png
     - assets/images/icons/suggestions_icon_black.png
+    - assets/images/icons/reminder_icon_blue_light.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_reminder_page/DandyLightTextField.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -19,10 +20,13 @@ class NewReminderPage extends StatefulWidget {
   static const String DAYS = "Days";
   static const String WEEKS = "Weeks";
   static const String MONTHS = "Months";
+  final Reminder reminder;
+
+  NewReminderPage(this.reminder);
 
   @override
   _NewReminderPageState createState() {
-    return _NewReminderPageState();
+    return _NewReminderPageState(reminder);
   }
 }
 
@@ -33,7 +37,13 @@ class _NewReminderPageState extends State<NewReminderPage> {
     initialPage: 0,
   );
   int currentPageIndex = 0;
-  final profileNameTextController = TextEditingController();
+  final Reminder reminder;
+
+  _NewReminderPageState(this.reminder);
+
+  final descriptionTextController = TextEditingController();
+  var daysWeeksMonthsController;
+  var amount;
 
   @override
   void initState() {
@@ -69,9 +79,15 @@ class _NewReminderPageState extends State<NewReminderPage> {
     controller.addListener(() {
       currentPageIndex = controller.page.toInt();
     });
+    if(daysWeeksMonthsController == null) {
+      daysWeeksMonthsController = FixedExtentScrollController(initialItem: 2);//TODO fix this to be dynamic based on reminder object passed in.
+    }
+    if(amount == null) {
+      amount = FixedExtentScrollController(initialItem: reminder != null ? reminder.amount - 1 : 1);
+    }
     return StoreConnector<AppState, NewReminderPageState>(
       onInit: (store) {
-        profileNameTextController.text = store.state.pricingProfilePageState.profileName;
+        descriptionTextController.text = store.state.newReminderPageState.reminderDescription;
       },
       converter: (store) => NewReminderPageState.fromStore(store),
       builder: (BuildContext context, NewReminderPageState pageState) =>
@@ -172,7 +188,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                     ),
                                   ),
                                   DandyLightTextField(
-                                    controller: profileNameTextController,
+                                    controller: descriptionTextController,
                                     hintText: 'Reminder description',
                                     inputType: TextInputType.text,
                                     focusNode: null,
@@ -373,6 +389,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                       onSelectedItemChanged: (index) {
                                         pageState.onDaysWeeksMonthsChanged(index == 0 ? 'Days' : index == 1 ? 'Weeks' : 'Months');
                                       },
+                                      scrollController: daysWeeksMonthsController,
                                       itemExtent: 24.0,
                                       magnification: 1.25,
                                       backgroundColor: Color(ColorConstants.getPrimaryWhite()),
@@ -426,6 +443,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                       onSelectedItemChanged: (index) {
                                         pageState.onDaysWeeksMonthsAmountChanged(index);
                                       },
+                                      scrollController: amount,
                                       itemExtent: 24.0,
                                       magnification: 1.25,
                                       backgroundColor: Color(ColorConstants.getPrimaryWhite()),

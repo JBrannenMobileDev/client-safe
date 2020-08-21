@@ -1,20 +1,20 @@
-import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
+import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 
-class FetchPricingProfilesAction{
-  final PricingProfilesPageState pageState;
-  FetchPricingProfilesAction(this.pageState);
+class FetchRemindersAction{
+  final RemindersPageState pageState;
+  FetchRemindersAction(this.pageState);
 }
 
-class SetPricingProfilesAction{
-  final PricingProfilesPageState pageState;
-  final List<PriceProfile> priceProfiles;
-  SetPricingProfilesAction(this.pageState, this.priceProfiles);
+class SetRemindersAction{
+  final RemindersPageState pageState;
+  final List<Reminder> reminders;
+  SetRemindersAction(this.pageState, this.reminders);
 }
 
-class DeletePriceProfileAction{
-  final PricingProfilesPageState pageState;
-  final PriceProfile priceProfile;
-  DeletePriceProfileAction(this.pageState, this.priceProfile);
+class DeleteReminderAction{
+  final RemindersPageState pageState;
+  final Reminder reminder;
+  DeleteReminderAction(this.pageState, this.reminder);
 }
 

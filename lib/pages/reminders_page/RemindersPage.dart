@@ -1,15 +1,18 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
+import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
+import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
+import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+
+import 'ReminderListWidget.dart';
 
 class RemindersPage extends StatefulWidget {
   @override
@@ -29,12 +32,12 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
   }
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, PricingProfilesPageState>(
+  Widget build(BuildContext context) => StoreConnector<AppState, RemindersPageState>(
         onInit: (store) {
-          store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
+          store.dispatch(FetchRemindersAction(store.state.remindersPageState));
         },
-        converter: (Store<AppState> store) => PricingProfilesPageState.fromStore(store),
-        builder: (BuildContext context, PricingProfilesPageState pageState) =>
+        converter: (Store<AppState> store) => RemindersPageState.fromStore(store),
+        builder: (BuildContext context, RemindersPageState pageState) =>
             Scaffold(
               body: Container(
                 decoration: BoxDecoration(
@@ -68,7 +71,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                           color: Color(ColorConstants.white),
                           tooltip: 'Add',
                           onPressed: () {
-                            UserOptionsUtil.showNewReminderDialog(context);
+                            UserOptionsUtil.showNewReminderDialog(context, pageState.reminders.elementAt(null));
                           },
                         ),
                       ],
@@ -76,14 +79,14 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                     SliverList(
                       delegate: new SliverChildListDelegate(
                         <Widget>[
-                          pageState.pricingProfiles.length > 0 ? ListView.builder(
+                          pageState.reminders.length > 0 ? ListView.builder(
                             reverse: false,
                             padding: new EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 64.0),
                             shrinkWrap: true,
                             controller: _scrollController,
                             physics: ClampingScrollPhysics(),
                             key: _listKey,
-                            itemCount: pageState.pricingProfiles.length,
+                            itemCount: pageState.reminders.length,
                             itemBuilder: _buildItem,
                           ) :
                           Padding(
@@ -109,19 +112,19 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
       );
 
   Widget _buildItem(BuildContext context, int index) {
-    return StoreConnector<AppState, PricingProfilesPageState>(
-      converter: (store) => PricingProfilesPageState.fromStore(store),
-      builder: (BuildContext context, PricingProfilesPageState pageState) =>
+    return StoreConnector<AppState, RemindersPageState>(
+      converter: (store) => RemindersPageState.fromStore(store),
+      builder: (BuildContext context, RemindersPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: PriceProfileListWidget(pageState.pricingProfiles.elementAt(index), pageState, onProfileSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
+            child: ReminderListWidget(pageState.reminders.elementAt(index), pageState, onReminderSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
           ),
     );
   }
 
-  onProfileSelected(PriceProfile priceProfile, var pageState,  BuildContext context) {
-    pageState.onProfileSelected(priceProfile);
-    UserOptionsUtil.showNewPriceProfileDialog(context);
+  onReminderSelected(Reminder reminder, RemindersPageState pageState,  BuildContext context) {
+    pageState.onReminderSelected(reminder);
+    UserOptionsUtil.showNewReminderDialog(context, reminder);
   }
 
   bool get _isMinimized {

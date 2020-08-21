@@ -44,6 +44,8 @@ import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageMid
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix1;
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
+import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminders;
+import 'package:dandylight/pages/reminders_page/RemindersPageMiddleware.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
 import 'package:redux/redux.dart';
@@ -147,5 +149,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, RemoveDeviceTokenAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderAction>(NewReminderPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, collectionReminders.FetchRemindersAction>(RemindersPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, collectionReminders.DeleteReminderAction>(RemindersPageMiddleware()));
   return middlewareList;
 }

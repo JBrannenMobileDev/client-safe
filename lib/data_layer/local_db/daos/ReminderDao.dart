@@ -40,18 +40,18 @@ class ReminderDao extends Equatable{
     ProfileDao.update(profile);
   }
 
-  static Future insertOrUpdate(Reminder reminder) async {
+  static Future insertOrUpdate(Reminder newReminder) async {
     List<Reminder> reminderList = await getAll();
     bool alreadyExists = false;
     for(Reminder reminder in reminderList){
-      if(reminder.documentId == reminder.documentId){
+      if(newReminder.documentId == reminder.documentId){
         alreadyExists = true;
       }
     }
     if(alreadyExists){
-      await update(reminder);
+      await update(newReminder);
     }else{
-      await insert(reminder);
+      await insert(newReminder);
     }
   }
 

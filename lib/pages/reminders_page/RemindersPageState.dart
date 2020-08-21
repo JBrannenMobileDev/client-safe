@@ -1,59 +1,60 @@
-import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix0;
+import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
+import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminder;
+
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
 class RemindersPageState{
 
-  final List<PriceProfile> pricingProfiles;
-  final Function(PriceProfile) onProfileSelected;
-  final Function(PriceProfile) onDeleteProfileSelected;
+  final List<Reminder> reminders;
+  final Function(Reminder) onReminderSelected;
+  final Function(Reminder) onDeleteReminderSelected;
 
   RemindersPageState({
-    @required this.pricingProfiles,
-    @required this.onProfileSelected,
-    @required this.onDeleteProfileSelected,
+    @required this.reminders,
+    @required this.onReminderSelected,
+    @required this.onDeleteReminderSelected,
   });
 
   RemindersPageState copyWith({
-    List<PriceProfile> pricingProfiles,
-    Function(int) onProfileSelected,
-    Function(PriceProfile) onDeleteProfileSelected,
+    List<Reminder> reminders,
+    Function(Reminder) onReminderSelected,
+    Function(Reminder) onDeleteReminderSelected,
   }){
     return RemindersPageState(
-      pricingProfiles: pricingProfiles?? this.pricingProfiles,
-      onProfileSelected: onProfileSelected?? this.onProfileSelected,
-      onDeleteProfileSelected: onDeleteProfileSelected?? this.onDeleteProfileSelected,
+      reminders: reminders?? this.reminders,
+      onReminderSelected: onReminderSelected?? this.onReminderSelected,
+      onDeleteReminderSelected: onDeleteReminderSelected?? this.onDeleteReminderSelected,
     );
   }
 
   factory RemindersPageState.initial() => RemindersPageState(
-    pricingProfiles: List(),
-    onProfileSelected: null,
-    onDeleteProfileSelected: null,
+    reminders: List(),
+    onReminderSelected: null,
+    onDeleteReminderSelected: null,
   );
 
   factory RemindersPageState.fromStore(Store<AppState> store) {
     return RemindersPageState(
-      pricingProfiles: store.state.pricingProfilesPageState.pricingProfiles,
-      onProfileSelected: (profile) => store.dispatch(LoadExistingPricingProfileData(store.state.pricingProfilePageState, profile)),
-      onDeleteProfileSelected: (priceProfile) => store.dispatch(prefix0.DeletePriceProfileAction(store.state.pricingProfilesPageState, priceProfile)),
+      reminders: store.state.remindersPageState.reminders,
+      onReminderSelected: (reminder) => store.dispatch(LoadExistingReminderData(store.state.newReminderPageState, reminder)),
+      onDeleteReminderSelected: (reminder) => store.dispatch(collectionReminder.DeleteReminderAction(store.state.remindersPageState, reminder)),
     );
   }
 
   @override
   int get hashCode =>
-      pricingProfiles.hashCode ^
-      onProfileSelected.hashCode ^
-      onDeleteProfileSelected.hashCode;
+      reminders.hashCode ^
+      onReminderSelected.hashCode ^
+      onDeleteReminderSelected.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is RemindersPageState &&
-              pricingProfiles == other.pricingProfiles &&
-              onProfileSelected == other.onProfileSelected &&
-              onDeleteProfileSelected == other.onDeleteProfileSelected;
+              reminders == other.reminders &&
+              onReminderSelected == other.onReminderSelected &&
+              onDeleteReminderSelected == other.onDeleteReminderSelected;
 }

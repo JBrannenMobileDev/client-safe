@@ -19,18 +19,6 @@ class ColorConstants{
   static const int primary_divider = 0xffe0e0e0;
   static const int white = 0xffffffff;
 
-  //Set 2
-//  static const int gold = 0xffD0AC58;
-//  static const int gold_dark = 0xff94793b;
-//  static const int blue_dark = 0xff4B6C6A;
-//  static const int blue_light = 0xffBDD5D0;
-//  static const int peach_dark = 0xffB9754B;
-//  static const int peach_light = 0xffCDA090;
-//  static const int grey_alt = 0xff868982;
-//  static const int grey = 0xffe3e1da;
-//  static const int charcoal = 0xff504B47;
-//  static const int black = 0xff444444;
-
   //Set 3
   static const int gold = 0xffE6CE97;
   static const int gold_dark = 0xffE6CE97;

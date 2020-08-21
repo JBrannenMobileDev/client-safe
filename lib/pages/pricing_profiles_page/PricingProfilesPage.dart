@@ -120,7 +120,7 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
   }
 
   onProfileSelected(PriceProfile priceProfile, var pageState,  BuildContext context) {
-    pageState.onProfileSelected(priceProfile);
+    pageState.onReminderSelected(priceProfile);
     UserOptionsUtil.showNewPriceProfileDialog(context);
   }
 

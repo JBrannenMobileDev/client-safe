@@ -1,14 +1,13 @@
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
+import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:redux/redux.dart';
 
 final remindersReducer = combineReducers<RemindersPageState>([
-  TypedReducer<RemindersPageState, SetPricingProfilesAction>(_setPricingProfiles),
+  TypedReducer<RemindersPageState, SetRemindersAction>(_setReminders),
 ]);
 
-RemindersPageState _setPricingProfiles(RemindersPageState previousState, SetPricingProfilesAction action){
+RemindersPageState _setReminders(RemindersPageState previousState, SetRemindersAction action){
   return previousState.copyWith(
-    pricingProfiles: action.priceProfiles
+    reminders: action.reminders
   );
 }

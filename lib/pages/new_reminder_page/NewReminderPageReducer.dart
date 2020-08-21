@@ -8,7 +8,19 @@ final newReminderPageReducer = combineReducers<NewReminderPageState>([
   TypedReducer<NewReminderPageState, UpdateDescription>(_updateDescription),
   TypedReducer<NewReminderPageState, UpdateDaysWeeksMonthsAction>(_updateDaysWeeksMonths),
   TypedReducer<NewReminderPageState, UpdateDaysWeeksMonthsAmountAction>(_updateDaysWeeksMonthsAmount),
+  TypedReducer<NewReminderPageState, LoadExistingReminderData>(_loadExistingReminder),
 ]);
+
+NewReminderPageState _loadExistingReminder(NewReminderPageState previousState, LoadExistingReminderData action){
+  return previousState.copyWith(
+    shouldClear: false,
+    daysWeeksMonths: action.reminder.daysWeeksMonths,
+    daysWeeksMonthsAmount: action.reminder.amount,
+    when: action.reminder.when,
+    documentId: action.reminder.documentId,
+    reminderDescription: action.reminder.description,
+  );
+}
 
 NewReminderPageState _clearState(NewReminderPageState previousState, ClearNewReminderStateAction action){
   return NewReminderPageState.initial();
