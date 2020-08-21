@@ -71,7 +71,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                           color: Color(ColorConstants.white),
                           tooltip: 'Add',
                           onPressed: () {
-                            UserOptionsUtil.showNewReminderDialog(context, pageState.reminders.elementAt(null));
+                            UserOptionsUtil.showNewReminderDialog(context, null);
                           },
                         ),
                       ],

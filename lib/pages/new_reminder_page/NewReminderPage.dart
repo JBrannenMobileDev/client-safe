@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_reminder_page/DandyLightTextField.dart';
+import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -80,14 +81,17 @@ class _NewReminderPageState extends State<NewReminderPage> {
       currentPageIndex = controller.page.toInt();
     });
     if(daysWeeksMonthsController == null) {
-      daysWeeksMonthsController = FixedExtentScrollController(initialItem: 2);//TODO fix this to be dynamic based on reminder object passed in.
+      daysWeeksMonthsController = FixedExtentScrollController(initialItem: reminder != null ? (reminder.daysWeeksMonths == 'Days') ? 0 : reminder.daysWeeksMonths == 'Weeks' ? 1 : 2 : 0);
     }
     if(amount == null) {
-      amount = FixedExtentScrollController(initialItem: reminder != null ? reminder.amount - 1 : 1);
+      amount = FixedExtentScrollController(initialItem: reminder != null ? reminder.amount - 1 : 0);
     }
     return StoreConnector<AppState, NewReminderPageState>(
       onInit: (store) {
         descriptionTextController.text = store.state.newReminderPageState.reminderDescription;
+        if(reminder == null) {
+          store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState));
+        }
       },
       converter: (store) => NewReminderPageState.fromStore(store),
       builder: (BuildContext context, NewReminderPageState pageState) =>
@@ -441,7 +445,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                                     width: 100.0,
                                     child: CupertinoPicker(
                                       onSelectedItemChanged: (index) {
-                                        pageState.onDaysWeeksMonthsAmountChanged(index);
+                                        pageState.onDaysWeeksMonthsAmountChanged(index+1);
                                       },
                                       scrollController: amount,
                                       itemExtent: 24.0,
