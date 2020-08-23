@@ -255,7 +255,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
-
+                        UserOptionsUtil.showNewJobReminderDialog(context);
                       },
                     ),
                     SpeedDialChild(

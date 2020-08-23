@@ -3,6 +3,7 @@ import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
@@ -14,6 +15,7 @@ import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
@@ -43,6 +45,7 @@ class FireStoreSync {
                 await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
                 await _syncProfile(userLocalDb, userFireStoreDb);
                 await _syncReminders(userLocalDb, userFireStoreDb);
+                await _syncJobReminders(userLocalDb, userFireStoreDb);
             }
         }
         setupFireStoreListeners();
@@ -178,6 +181,19 @@ class FireStoreSync {
             }
         });
 
+        JobReminderDao.getReminderStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.documentChanges) {
+                JobReminder reminder = JobReminder.fromMap(snapshot.document.data);
+                JobReminder reminderFromLocal = await JobReminderDao.getReminderById(reminder.documentId);
+                if(reminderFromLocal != null) {
+                    JobReminderDao.updateLocalOnly(reminder);
+                }else {
+                    JobReminderDao.insertLocalOnly(reminder);
+                }
+            }
+        });
+
         ProfileDao.getProfileStreamFromFireStore()
             .listen((snapshot) async {
                 Profile profile = Profile.fromMap(snapshot.data);
@@ -303,6 +319,18 @@ class FireStoreSync {
             if(userLocalDb.remindersLastChangeDate != null && userFireStoreDb.remindersLastChangeDate != null){
                 if(userLocalDb.remindersLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.remindersLastChangeDate.millisecondsSinceEpoch) {
                     await ReminderDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncJobReminders(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.jobReminderLastChangeDate != userFireStoreDb.jobReminderLastChangeDate) || (userLocalDb.jobReminderLastChangeDate == null && userFireStoreDb.jobReminderLastChangeDate != null)) {
+            if(userLocalDb.jobReminderLastChangeDate != null && userFireStoreDb.jobReminderLastChangeDate != null){
+                if(userLocalDb.jobReminderLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobReminderLastChangeDate.millisecondsSinceEpoch) {
+                    await JobReminderDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }

@@ -13,6 +13,7 @@ import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelect
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
+import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
@@ -55,6 +56,7 @@ class AppState {
   final LoginPageState loginPageState;
   final RemindersPageState remindersPageState;
   final NewReminderPageState newReminderPageState;
+  final NewJobReminderPageState newJobReminderPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -83,6 +85,7 @@ class AppState {
     @required this.loginPageState,
     @required this.remindersPageState,
     @required this.newReminderPageState,
+    @required this.newJobReminderPageState,
   });
 
   factory AppState.initial() {
@@ -113,6 +116,7 @@ class AppState {
       loginPageState: LoginPageState.initial(),
       remindersPageState: RemindersPageState.initial(),
       newReminderPageState: NewReminderPageState.initial(),
+      newJobReminderPageState: NewJobReminderPageState.initial(),
     );
   }
 
@@ -143,6 +147,7 @@ class AppState {
     LoginPageState loginPageState,
     RemindersPageState remindersPageState,
     NewReminderPageState newReminderPageState,
+    NewJobReminderPageState newJobReminderPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -171,6 +176,7 @@ class AppState {
       loginPageState: loginPageState ?? this.loginPageState,
       remindersPageState: remindersPageState ?? this.remindersPageState,
       newReminderPageState: newReminderPageState ?? this.newReminderPageState,
+      newJobReminderPageState: newJobReminderPageState ?? this.newJobReminderPageState,
     );
   }
 
@@ -201,6 +207,7 @@ class AppState {
     loginPageState.hashCode ^
     remindersPageState.hashCode ^
     newReminderPageState.hashCode ^
+    newJobReminderPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -232,5 +239,6 @@ class AppState {
               loginPageState == other.loginPageState &&
               remindersPageState == other.remindersPageState &&
               newReminderPageState == other.newReminderPageState &&
+              newJobReminderPageState == other.newJobReminderPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

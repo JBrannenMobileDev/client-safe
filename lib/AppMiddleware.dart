@@ -28,6 +28,8 @@ import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageMiddleware.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as newJobPageActions;
 import 'package:dandylight/pages/new_job_page/NewJobPageMiddleware.dart';
+import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
+import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageMiddleware.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart' as prefix2;
 import 'package:dandylight/pages/new_location_page/NewLocationPageMiddleware.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageMiddleware.dart';
@@ -151,5 +153,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.FetchRemindersAction>(RemindersPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.DeleteReminderAction>(RemindersPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchAllRemindersAction>(NewJobReminderPageMiddleware()));
   return middlewareList;
 }

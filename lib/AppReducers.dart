@@ -15,6 +15,7 @@ import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelect
 import 'package:dandylight/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageReducer.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageReducer.dart';
+import 'package:dandylight/pages/new_job_reminder/NewJobRemnderPageReducer.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageReducer.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageReducer.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
@@ -54,4 +55,5 @@ AppState appReducers(AppState state, dynamic action) =>
         loginPageState: loginPageReducer(state.loginPageState, action),
         remindersPageState: remindersReducer(state.remindersPageState, action),
         newReminderPageState: newReminderPageReducer(state.newReminderPageState, action),
+        newJobReminderPageState: newJobReminderPageReducer(state.newJobReminderPageState, action),
     );

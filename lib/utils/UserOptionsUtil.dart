@@ -21,6 +21,7 @@ import 'package:dandylight/pages/new_invoice_page/NewInvoiceDialog.dart';
 import 'package:dandylight/pages/new_invoice_page/NewLineItemDialog.dart';
 import 'package:dandylight/pages/new_invoice_page/SendInvoicePromptDialog.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPage.dart';
+import 'package:dandylight/pages/new_job_reminder/NewJobReminderPage.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPage.dart';
 import 'package:dandylight/pages/new_mileage_expense/ChooseFromMyLocationsMileage.dart';
 import 'package:dandylight/pages/new_mileage_expense/LocationOptionsMileageExpenseDialog.dart';
@@ -72,6 +73,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewReminderPage(reminder);
+      },
+    );
+  }
+
+  static void showNewJobReminderDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewJobReminderPage();
       },
     );
   }
