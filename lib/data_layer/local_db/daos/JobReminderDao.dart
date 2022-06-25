@@ -101,13 +101,17 @@ class JobReminderDao extends Equatable{
   }
 
   static Future<JobReminder> getReminderById(String documentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
-    final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
-    return recordSnapshots.map((snapshot) {
-      final reminder = JobReminder.fromMap(snapshot.value);
-      reminder.id = snapshot.key;
-      return reminder;
-    }).toList().elementAt(0);
+    if((await getAll()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
+      return recordSnapshots.map((snapshot) {
+        final reminder = JobReminder.fromMap(snapshot.value);
+        reminder.id = snapshot.key;
+        return reminder;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
   }
 
   static Future<Stream<List<RecordSnapshot>>> getReminderStream() async {

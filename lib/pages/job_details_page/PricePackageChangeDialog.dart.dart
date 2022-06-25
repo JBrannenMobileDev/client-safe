@@ -6,6 +6,7 @@ import 'package:dandylight/pages/pricing_profiles_page/widgets/PriceProfileListW
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -76,7 +77,8 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -91,7 +93,8 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                             ),
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             pageState.onSaveUpdatedPriceProfileSelected();
                             VibrateUtil.vibrateHeavy();

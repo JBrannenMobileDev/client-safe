@@ -4,23 +4,23 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class RecurringExpenseCollection {
   Future<void> createRecurringExpense(RecurringExpense expense) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('recurringExpenses')
-        .document(expense.documentId)
-        .setData(expense.toMap());
+        .doc(expense.documentId)
+        .set(expense.toMap());
   }
 
   Future<void> deleteRecurringExpense(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('recurringExpenses')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -28,35 +28,35 @@ class RecurringExpenseCollection {
   }
 
   Stream<QuerySnapshot> getExpensesStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('recurringExpenses')
         .snapshots();
   }
 
   Future<RecurringExpense> getRecurringExpense(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('recurringExpenses')
-        .document(documentId)
+        .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-            RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data);
-            expense.documentId = expenseSnapshot.documentID;
+            RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data());
+            expense.documentId = expenseSnapshot.id;
             return expense;
         });
   }
 
   Future<List<RecurringExpense>> getAll(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('recurringExpenses')
-        .getDocuments()
+        .get()
         .then((recurringExpenses) => _buildRecurringExpensesList(recurringExpenses));
   }
 
@@ -64,23 +64,23 @@ class RecurringExpenseCollection {
 
   Future<void> updateRecurringExpense(RecurringExpense expense) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('recurringExpenses')
-          .document(expense.documentId)
-          .updateData(expense.toMap());
+          .doc(expense.documentId)
+          .update(expense.toMap());
     } catch (e) {
       print(e.toString());
     }
   }
 
   List<RecurringExpense> _buildRecurringExpensesList(QuerySnapshot jobs) {
-    List<RecurringExpense> expensesList = List();
-    for(DocumentSnapshot expenseSnapshot in jobs.documents){
-      RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data);
-      expense.documentId = expenseSnapshot.documentID;
+    List<RecurringExpense> expensesList = [];
+    for(DocumentSnapshot expenseSnapshot in jobs.docs){
+      RecurringExpense expense = RecurringExpense.fromMap(expenseSnapshot.data());
+      expense.documentId = expenseSnapshot.id;
       expensesList.add(expense);
     }
     return expensesList;

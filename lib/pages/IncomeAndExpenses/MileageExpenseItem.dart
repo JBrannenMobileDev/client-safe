@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class MileageExpenseItem extends StatelessWidget{
   final MileageExpense mileageExpense;
   final IncomeAndExpensesPageState pageState;
@@ -21,7 +23,8 @@ class MileageExpenseItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       height: 74.0,
-      child: FlatButton(
+      child: TextButton(
+        style: Styles.getButtonStyle(),
         onPressed: () async {
           pageState.onMileageExpenseItemSelected(mileageExpense);
           UserOptionsUtil.showNewMileageExpenseSelected(context);

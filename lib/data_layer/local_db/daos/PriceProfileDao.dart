@@ -55,14 +55,19 @@ class PriceProfileDao extends Equatable{
   }
 
   static Future<PriceProfile> getById(String profileDocumentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', profileDocumentId));
-    final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
-    // Making a List<profileId> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
-      final profile = PriceProfile.fromMap(snapshot.value);
-      profile.id = snapshot.key;
-      return profile;
-    }).toList().elementAt(0);
+    if((await getAllSortedByName()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', profileDocumentId));
+      final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
+      // Making a List<profileId> out of List<RecordSnapshot>
+      return recordSnapshots.map((snapshot) {
+        final profile = PriceProfile.fromMap(snapshot.value);
+        profile.id = snapshot.key;
+        return profile;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
+
   }
 
   static Future<Stream<List<RecordSnapshot>>> getPriceProfilesStream() async {
@@ -199,4 +204,9 @@ class PriceProfileDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static void deleteAllLocal() async {
+    List<PriceProfile> profiles = await getAllSortedByName();
+    _deleteAllLocalPriceProfiles(profiles);
+  }
 }

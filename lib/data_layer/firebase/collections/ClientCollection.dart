@@ -6,34 +6,34 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class ClientCollection {
   Future<void> createClient(Client client) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('clients')
-        .document(client.documentId)
-        .setData(client.toMap())
+        .doc(client.documentId)
+        .set(client.toMap())
         .catchError((error) {
           print(error);
         });
   }
 
   Stream<QuerySnapshot> getClientsStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('clients')
         .snapshots();
   }
 
   Future<void> deleteClient(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('clients')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -41,35 +41,35 @@ class ClientCollection {
   }
 
   Future<Client> getClient(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('clients')
-        .document(documentId)
+        .doc(documentId)
         .get()
-        .then((client) => Client.fromMap(client.data));
+        .then((client) => Client.fromMap(client.data()));
   }
 
   Future<List<Client>> getAllClientsSortedByFirstName(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('clients')
-        .getDocuments()
+        .get()
         .then((clients) => _buildClientsList(clients));
   }
 
   Future<void> updateClient(Client client) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('clients')
-          .document(client.documentId)
-          .updateData(client.toMap());
+          .doc(client.documentId)
+          .update(client.toMap());
     } catch (e) {
       print(e.toString());
     }
@@ -77,9 +77,9 @@ class ClientCollection {
 
   List<Client> _buildClientsList(QuerySnapshot clients) {
     List<Client> clientList = List();
-    for(DocumentSnapshot clientDocument in clients.documents){
-      Client result = Client.fromMap(clientDocument.data);
-      result.documentId = clientDocument.documentID;
+    for(DocumentSnapshot clientDocument in clients.docs){
+      Client result = Client.fromMap(clientDocument.data());
+      result.documentId = clientDocument.id;
       clientList.add(result);
     }
     clientList.sort((clientA, clientB) => clientA.firstName.compareTo(clientB.firstName));

@@ -4,6 +4,7 @@ import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/JobLocationListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -111,14 +112,16 @@ class _LocationSelectionFormState
                       ),
                     ),
                   ),
-                  FlatButton(
+                  TextButton(
+                    style: Styles.getButtonStyle(
+                      color: Color(ColorConstants.getPrimaryColor()),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: new BorderRadius.circular(24.0),
+                      ),
+                    ),
                     onPressed: () {
                       UserOptionsUtil.showNewLocationDialog(context);
                     },
-                    color: Color(ColorConstants.getPrimaryColor()),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(24.0),
-                    ),
                     child: Container(
                       width: 150.0,
                       child: Row(

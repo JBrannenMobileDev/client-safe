@@ -2,11 +2,10 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsLocationListWidget.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/JobLocationListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -89,7 +88,8 @@ class _LocationSelectionDialogState
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -104,7 +104,8 @@ class _LocationSelectionDialogState
                             ),
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             pageState.onLocationSaveSelected(pageState.selectedLocation);
                             VibrateUtil.vibrateHeavy();

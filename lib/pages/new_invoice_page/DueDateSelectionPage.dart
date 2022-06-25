@@ -1,13 +1,11 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoiceTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
@@ -47,7 +45,8 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
               Container(
                 margin: EdgeInsets.only(top: 32.0),
                 alignment: Alignment.center,
-                child: FlatButton(
+                child: TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     DatePicker.showDatePicker(
                         context,

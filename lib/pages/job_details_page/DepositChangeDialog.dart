@@ -1,9 +1,8 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -102,14 +101,16 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(left: 0.0),
-                            child: FlatButton(
+                            child: TextButton(
+                              style: Styles.getButtonStyle(
+                                color: Color(ColorConstants.getPrimaryColor()),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(48.0),
+                                ),
+                              ),
                               onPressed: () {
                                 pageState.onAddToDeposit(1);
                               },
-                              color: Color(ColorConstants.getPrimaryColor()),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(48.0),
-                              ),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: 78.0,
@@ -144,14 +145,16 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 8.0),
-                            child: FlatButton(
+                            child: TextButton(
+                              style: Styles.getButtonStyle(
+                                color: Color(ColorConstants.getPrimaryColor()),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(48.0),
+                                ),
+                              ),
                               onPressed: () {
                                 pageState.onAddToDeposit(5);
                               },
-                              color: Color(ColorConstants.getPrimaryColor()),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(48.0),
-                              ),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: 78.0,
@@ -193,14 +196,16 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 0.0),
-                              child: FlatButton(
+                              child: TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Color(ColorConstants.getPrimaryColor()),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(48.0),
+                                  ),
+                                ),
                                 onPressed: () {
                                   pageState.onAddToDeposit(25);
                                 },
-                                color: Color(ColorConstants.getPrimaryColor()),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(48.0),
-                                ),
                                 child: Container(
                                   alignment: Alignment.center,
                                   width: 78.0,
@@ -235,14 +240,16 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: FlatButton(
+                              child: TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Color(ColorConstants.getPrimaryColor()),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(48.0),
+                                  ),
+                                ),
                                 onPressed: () {
                                   pageState.onAddToDeposit(100);
                                 },
-                                color: Color(ColorConstants.getPrimaryColor()),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(48.0),
-                                ),
                                 child: Container(
                                   alignment: Alignment.center,
                                   width: 78.0,
@@ -283,7 +290,8 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
@@ -298,7 +306,8 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                                 ),
                               ),
                             ),
-                            FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                               onPressed: () {
                                 pageState.onSaveDepositChange();
                                 VibrateUtil.vibrateHeavy();

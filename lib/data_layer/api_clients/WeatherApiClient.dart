@@ -16,7 +16,7 @@ class WeatherApiClient {
 
   Future<CurrentWeather> fetchCurrentWeather(double lat, double lon) async {
     final url = '$_baseUrl/current?access_key=' + WEATHER_ACCESS_KEY +  '&query=' + lat.toString() + ',' + lon.toString() + '&units=f';
-    final response = await this.httpClient.get(url);
+    final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       throw new Exception('error getting quotes');
@@ -36,7 +36,7 @@ class WeatherApiClient {
         + '&forecast_days=7'
         + '&hourly=1'
         + '&interval=1';
-    final response = await this.httpClient.get(url);
+    final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       throw new Exception('error getting quotes');

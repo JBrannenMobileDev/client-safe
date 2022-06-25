@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
@@ -17,6 +16,7 @@ import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -53,11 +53,13 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
           title: new Text('Are you sure?'),
           content: new Text('This invoice will be gone forever!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteSelected(invoice);
                 Navigator.of(context).pop(true);
@@ -70,11 +72,13 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
           title: new Text('Are you sure?'),
           content: new Text('This invoice will be gone forever!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteSelected(invoice);
                 Navigator.of(context).pop(true);
@@ -320,7 +324,8 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                         Row(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: <Widget>[
-                            FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },

@@ -42,8 +42,8 @@ class SembastDb {
     // Path with the form: /platform-specific-directory/demo.db
     final dbPath = join(appDocumentDir.path, 'dandylight.db');
 
-    final database = await databaseFactoryIo.openDatabase(dbPath);
+    _database = await databaseFactoryIo.openDatabase(dbPath);
     // Any code awaiting the Completer's future will now start executing
-    _dbOpenCompleter.complete(database);
+    _dbOpenCompleter.complete(_database);
   }
 }

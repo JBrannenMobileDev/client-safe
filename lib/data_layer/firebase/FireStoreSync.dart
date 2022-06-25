@@ -28,46 +28,65 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class FireStoreSync {
     
-    Future<void> dandyLightAppInitializationSync() async {
+    Future<void> dandyLightAppInitializationSync(String uid) async {
         List<Profile> users = await ProfileDao.getAll();
         if(users.length > 0) {
-            Profile userLocalDb = users.elementAt(0);
-            Profile userFireStoreDb = await UserCollection().getUser(UidUtil().getUid());
-            if(userLocalDb != null && userFireStoreDb != null) {
-                await _syncClients(userLocalDb, userFireStoreDb);
-                await _syncInvoices(userLocalDb, userFireStoreDb);
-                await _syncJobs(userLocalDb, userFireStoreDb);
-                await _syncLocations(userLocalDb, userFireStoreDb);
-                await _syncMileageExpenses(userLocalDb, userFireStoreDb);
-                await _syncPriceProfiles(userLocalDb, userFireStoreDb);
-                await _syncRecurringExpenses(userLocalDb, userFireStoreDb);
-                await _syncSingleExpenses(userLocalDb, userFireStoreDb);
-                await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
-                await _syncProfile(userLocalDb, userFireStoreDb);
-                await _syncReminders(userLocalDb, userFireStoreDb);
-                await _syncJobReminders(userLocalDb, userFireStoreDb);
-            }
+                Profile userLocalDb = users.elementAt(0);
+                Profile userFireStoreDb = await UserCollection().getUser(UidUtil().getUid());
+                if(userLocalDb != null && userFireStoreDb != null) {
+                    await _syncClients(userLocalDb, userFireStoreDb);
+                    await _syncInvoices(userLocalDb, userFireStoreDb);
+                    await _syncJobs(userLocalDb, userFireStoreDb);
+                    await _syncLocations(userLocalDb, userFireStoreDb);
+                    await _syncMileageExpenses(userLocalDb, userFireStoreDb);
+                    await _syncPriceProfiles(userLocalDb, userFireStoreDb);
+                    await _syncRecurringExpenses(userLocalDb, userFireStoreDb);
+                    await _syncSingleExpenses(userLocalDb, userFireStoreDb);
+                    await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
+                    await _syncProfile(userLocalDb, userFireStoreDb);
+                    await _syncReminders(userLocalDb, userFireStoreDb);
+                    await _syncJobReminders(userLocalDb, userFireStoreDb);
+                }
         }
         setupFireStoreListeners();
+    }
+
+    Profile getMatchingProfile(List<Profile> profiles, String uid) {
+        Profile result = null;
+        for(Profile profile in profiles) {
+            if(profile.uid == uid) {
+                result = profile;
+            }
+        }
+        return result;
     }
 
     Future<void> setupFireStoreListeners () async {
         NextInvoiceNumberDao.getStreamFromFireStore()
             .listen((documentSnapshot) async {
-                NextInvoiceNumber nextNumber = NextInvoiceNumber.fromMap(documentSnapshot.data);
-                NextInvoiceNumber nextNumberLocal = await NextInvoiceNumberDao.getNextNumber();
-                nextNumber.id = 1;
-                if(nextNumberLocal != null) {
-                    NextInvoiceNumberDao.updateLocalOnly(nextNumber);
-                }else {
-                    NextInvoiceNumberDao.insertLocalOnly(nextNumber);
+                bool exists = (await NextInvoiceNumberDao.getAllSorted()).length > 0;
+                if(exists) {
+                    Map<String, dynamic> map = documentSnapshot.data();
+                    NextInvoiceNumber nextNumber;
+                    if(map != null) {
+                        nextNumber = NextInvoiceNumber.fromMap(map);
+                    } else {
+                        nextNumber = NextInvoiceNumber();
+                    }
+                    NextInvoiceNumber nextNumberLocal = await NextInvoiceNumberDao.getNextNumber();
+                    nextNumber.id = 1;
+                    if(nextNumberLocal != null) {
+                        NextInvoiceNumberDao.updateLocalOnly(nextNumber);
+                    }else {
+                        NextInvoiceNumberDao.insertLocalOnly(nextNumber);
+                    }
                 }
         });
 
         ClientDao.getClientsStreamFromFireStore()
             .listen((snapshots) async {
-                for(DocumentChange snapshot in snapshots.documentChanges) {
-                    Client client = Client.fromMap(snapshot.document.data);
+                for(DocumentChange snapshot in snapshots.docChanges) {
+                    Client client = Client.fromMap(snapshot.doc.data());
                     Client clientFromLocal = await ClientDao.getClientById(client.documentId);
                     if(clientFromLocal != null) {
                         ClientDao.updateLocalOnly(client);
@@ -79,8 +98,8 @@ class FireStoreSync {
 
         PriceProfileDao.getPriceProfilesStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                PriceProfile priceProfile = PriceProfile.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                PriceProfile priceProfile = PriceProfile.fromMap(snapshot.doc.data());
                 PriceProfile priceProfileFromLocal = await PriceProfileDao.getById(priceProfile.documentId);
                 if(priceProfileFromLocal != null) {
                     PriceProfileDao.updateLocalOnly(priceProfile);
@@ -92,8 +111,8 @@ class FireStoreSync {
 
         LocationDao.getLocationsStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                Location location = Location.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Location location = Location.fromMap(snapshot.doc.data());
                 Location locationFromLocal = await LocationDao.getById(location.documentId);
                 if(locationFromLocal != null) {
                     LocationDao.updateLocalOnly(location);
@@ -105,8 +124,8 @@ class FireStoreSync {
 
         JobDao.getJobsStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                Job job = Job.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Job job = Job.fromMap(snapshot.doc.data());
                 Job jobFromLocal = await JobDao.getJobById(job.documentId);
                 if(jobFromLocal != null) {
                     JobDao.updateLocalOnly(job);
@@ -118,8 +137,8 @@ class FireStoreSync {
 
         InvoiceDao.getInvoicesStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                Invoice invoice = Invoice.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Invoice invoice = Invoice.fromMap(snapshot.doc.data());
                 Invoice invoiceFromLocal = await InvoiceDao.getInvoiceById(invoice.documentId);
                 if(invoiceFromLocal != null) {
                     InvoiceDao.updateLocalOnly(invoice);
@@ -131,8 +150,8 @@ class FireStoreSync {
 
         MileageExpenseDao.getMileageExpensesStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                MileageExpense expense = MileageExpense.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                MileageExpense expense = MileageExpense.fromMap(snapshot.doc.data());
                 MileageExpense expenseFromLocal = await MileageExpenseDao.getMileageExpenseById(expense.documentId);
                 if(expenseFromLocal != null) {
                     MileageExpenseDao.updateLocalOnly(expense);
@@ -144,8 +163,8 @@ class FireStoreSync {
 
         RecurringExpenseDao.getRecurringExpensesStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                RecurringExpense expense = RecurringExpense.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                RecurringExpense expense = RecurringExpense.fromMap(snapshot.doc.data());
                 RecurringExpense expenseFromLocal = await RecurringExpenseDao.getRecurringExpenseById(expense.documentId);
                 if(expenseFromLocal != null) {
                     RecurringExpenseDao.updateLocalOnly(expense);
@@ -157,8 +176,8 @@ class FireStoreSync {
 
         SingleExpenseDao.getSingleExpensesStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                SingleExpense expense = SingleExpense.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                SingleExpense expense = SingleExpense.fromMap(snapshot.doc.data());
                 SingleExpense expenseFromLocal = await SingleExpenseDao.getSingleExpenseById(expense.documentId);
                 if(expenseFromLocal != null) {
                     SingleExpenseDao.updateLocalOnly(expense);
@@ -170,8 +189,8 @@ class FireStoreSync {
 
         ReminderDao.getReminderStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                Reminder reminder = Reminder.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Reminder reminder = Reminder.fromMap(snapshot.doc.data());
                 Reminder reminderFromLocal = await ReminderDao.getReminderById(reminder.documentId);
                 if(reminderFromLocal != null) {
                     ReminderDao.updateLocalOnly(reminder);
@@ -183,8 +202,8 @@ class FireStoreSync {
 
         JobReminderDao.getReminderStreamFromFireStore()
             .listen((snapshots) async {
-            for(DocumentChange snapshot in snapshots.documentChanges) {
-                JobReminder reminder = JobReminder.fromMap(snapshot.document.data);
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                JobReminder reminder = JobReminder.fromMap(snapshot.doc.data());
                 JobReminder reminderFromLocal = await JobReminderDao.getReminderById(reminder.documentId);
                 if(reminderFromLocal != null) {
                     JobReminderDao.updateLocalOnly(reminder);
@@ -192,15 +211,6 @@ class FireStoreSync {
                     JobReminderDao.insertLocalOnly(reminder);
                 }
             }
-        });
-
-        ProfileDao.getProfileStreamFromFireStore()
-            .listen((snapshot) async {
-                Profile profile = Profile.fromMap(snapshot.data);
-                Profile profileFromLocal = (await ProfileDao.getAll()).elementAt(0);
-                if(profileFromLocal != null) {
-                    ProfileDao.updateLocalOnly(profile);
-                }
         });
     }
 

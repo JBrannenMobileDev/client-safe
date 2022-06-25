@@ -4,13 +4,14 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class MainSettingsPage extends StatefulWidget {
   @override
@@ -67,7 +68,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               ),
                               child: Column(
                                 children: <Widget>[
-                                  FlatButton(
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
                                     onPressed: () {
                                       NavigationUtil.onEditProfileSelected(context, pageState.profile);
                                     },
@@ -110,7 +112,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       ),
                                 ),
                               ),
-                              FlatButton(
+                              TextButton(
+                                style: Styles.getButtonStyle(),
                                 onPressed: () {
                                   Share.share('Hey you should try this app, i love it!'
                                       '\n\nDandyLight: Photography Business Management'
@@ -166,7 +169,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   ),
                                 ),
                               ),
-                              FlatButton(
+                              TextButton(
+                                style: Styles.getButtonStyle(),
                                 onPressed: () {
                                   NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
                                 },
@@ -214,7 +218,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   ),
                                 ),
                               ),
-                              FlatButton(
+                              TextButton(
+                                style: Styles.getButtonStyle(),
                                 onPressed: () {},
                                 child: SizedBox(
                                   height: 48.0,
@@ -260,7 +265,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   ),
                                 ),
                               ),
-                              FlatButton(
+                              TextButton(
+                                style: Styles.getButtonStyle(),
                                 onPressed: () {},
                                 child: SizedBox(
                                   height: 48.0,
@@ -427,7 +433,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                             ),
                             child: Column(
                               children: <Widget>[
-                                FlatButton(
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
                                   onPressed: () {
 
                                   },
@@ -470,7 +477,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                     ),
                                   ),
                                 ),
-                                FlatButton(
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
                                   onPressed: () {},
                                   child: SizedBox(
                                     height: 48.0,
@@ -523,7 +531,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               ],
                             ),
                           ),
-                          FlatButton(
+                          TextButton(
+                            style: Styles.getButtonStyle(),
                             onPressed: () {
                               pageState.onSignOutSelected();
                               FirebaseAuthentication().signOut();

@@ -1,27 +1,18 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
-import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
-import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
-import '../../utils/ColorConstants.dart';
-import '../../utils/Shadows.dart';
-import '../../utils/Shadows.dart';
-import '../../utils/Shadows.dart';
 import '../../utils/Shadows.dart';
 
 class MapLocationSelectionWidget extends StatefulWidget {
@@ -74,7 +65,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
       converter: (Store<AppState> store) => MapLocationSelectionWidgetState.fromStore(store),
       builder: (BuildContext context, MapLocationSelectionWidgetState pageState) =>
           Scaffold(
-            resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomInset: false,
             backgroundColor: Color(ColorConstants.getBlueDark()),
             body: Stack(
               alignment: Alignment.topCenter,
@@ -215,7 +206,8 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                     physics: ClampingScrollPhysics(),
                     itemCount: pageState.locationResults.length,
                     itemBuilder: (context, index) {
-                      return FlatButton(
+                      return TextButton(
+                        style: Styles.getButtonStyle(),
                         onPressed: () {
                           pageState.onSearchLocationSelected(pageState.locationResults.elementAt(index));
                           _searchFocus.unfocus();

@@ -231,7 +231,7 @@ class NewJobPageState {
         pricingProfiles: List(),
         locations: List(),
         currentJobStage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT, value: 2),
-        selectedDate: null,
+        selectedDate: DateTime.now(),
         selectedTime: null,
         sunsetDateTime: null,
         selectedJobStages: selectedStagesInitial,

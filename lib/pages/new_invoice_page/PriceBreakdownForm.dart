@@ -173,7 +173,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
             removeOverlay();
         });
       },
-      onDidChange: (pageState) {
+      onDidChange: (prev, pageState) {
         switch(pageState.filterType){
           case RateTypeSelection.SELECTOR_TYPE_FLAT_RATE:
             selectorIndex = 0;

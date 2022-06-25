@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sembast/sembast.dart';
 
 class ProfileDao extends Equatable{
@@ -123,10 +124,9 @@ class ProfileDao extends Equatable{
     if (userProfiles.isNotEmpty) {
       Profile fireStoreProfile = await UserCollection().getUser(uid);
       DateTime now = DateTime.now();
-      if(now.millisecondsSinceEpoch > fireStoreProfile.lastSignIn.millisecondsSinceEpoch) {
+      if(now.millisecondsSinceEpoch > (fireStoreProfile.lastSignIn ?? DateTime.utc(1971)).millisecondsSinceEpoch) {
         Profile updatedProfile = userProfiles.elementAt(0).copyWith(
           uid: uid,
-          signedIn: true,
           lastSignIn: now,
           clientsLastChangeDate: fireStoreProfile.clientsLastChangeDate,
           invoicesLastChangeDate: fireStoreProfile.invoicesLastChangeDate,
@@ -160,8 +160,26 @@ class ProfileDao extends Equatable{
   // TODO: implement props
   List<Object> get props => [];
 
-  static signOut() async {
-    Profile profile = (await getAll()).elementAt(0);
-    await update(profile.copyWith(signedIn: false));
+  static void deleteAllProfilesLocal() async {
+    List<Profile> profiles = await getAll();
+
+    for(Profile profile in profiles) {
+        final finder = Finder(filter: Filter.equals('uid', profile.uid));
+        await _profileStore.delete(
+          await _db,
+          finder: finder,
+        );
+    }
+  }
+
+  static Future<Profile> getMatchingProfile(String uid) async {
+    List<Profile> profiles = await getAll();
+    Profile result = null;
+    for(Profile profile in profiles) {
+      if(profile.uid == uid) {
+        result = profile;
+      }
+    }
+    return result;
   }
 }

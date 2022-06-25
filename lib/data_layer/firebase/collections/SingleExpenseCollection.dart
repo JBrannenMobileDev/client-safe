@@ -4,25 +4,25 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class SingleExpenseCollection {
   Future<void> createSingleExpense(SingleExpense expense) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('singleExpenses')
-        .document(expense.documentId)
-        .setData(expense.toMap()).catchError((error) {
+        .doc(expense.documentId)
+        .set(expense.toMap()).catchError((error) {
           print(error);
         });
   }
 
   Future<void> deleteSingleExpense(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('singleExpenses')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -30,35 +30,35 @@ class SingleExpenseCollection {
   }
 
   Stream<QuerySnapshot> getExpensesStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('singleExpenses')
         .snapshots();
   }
 
   Future<SingleExpense> getSingleExpense(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('singleExpenses')
-        .document(documentId)
+        .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data);
-          expense.documentId = expenseSnapshot.documentID;
+          SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data());
+          expense.documentId = expenseSnapshot.id;
           return expense;
         });
   }
 
   Future<List<SingleExpense>> getAll(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('singleExpenses')
-        .getDocuments()
+        .get()
         .then((singleExpenses) => _buildSingleExpensesList(singleExpenses));
   }
 
@@ -66,13 +66,13 @@ class SingleExpenseCollection {
 
   Future<void> updateSingleExpense(SingleExpense expense) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('singleExpenses')
-          .document(expense.documentId)
-          .updateData(expense.toMap());
+          .doc(expense.documentId)
+          .update(expense.toMap());
     } catch (e) {
       print(e.toString());
     }
@@ -80,9 +80,9 @@ class SingleExpenseCollection {
 
   List<SingleExpense> _buildSingleExpensesList(QuerySnapshot jobs) {
     List<SingleExpense> expensesList = List();
-    for(DocumentSnapshot expenseSnapshot in jobs.documents){
-      SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data);
-      expense.documentId = expenseSnapshot.documentID;
+    for(DocumentSnapshot expenseSnapshot in jobs.docs){
+      SingleExpense expense = SingleExpense.fromMap(expenseSnapshot.data());
+      expense.documentId = expenseSnapshot.id;
       expensesList.add(expense);
     }
     return expensesList;

@@ -1,3 +1,4 @@
+import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
@@ -32,7 +33,6 @@ class NavigationUtil {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MapLocationSelectionWidget(onLocationSaved, lat, lng)));
   }
   static onSignOutSelected(BuildContext context) async {
-    await ProfileDao.signOut();
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => LoginPage()));
   }
   static onMainSettingsSelected(BuildContext context) {

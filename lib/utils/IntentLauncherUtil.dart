@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:android_intent/android_intent.dart';
+import 'package:android_intent_plus/android_intent.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:share_extend/share_extend.dart';

@@ -13,7 +13,7 @@ class PdfUtil {
   static savePdfFile(int invoiceNumber, Document pdf) async {
     final String dir = (await getApplicationDocumentsDirectory()).path;
     final String path = '$dir/invoice_' + invoiceNumber.toString() + '.pdf';
-    await File(path).writeAsBytes(pdf.save());
+    await File(path).writeAsBytes(List.from(await pdf.save()));
   }
 
   static Future<String> getInvoiceFilePath(int invoiceNumber) async {

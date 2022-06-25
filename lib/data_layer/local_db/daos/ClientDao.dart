@@ -125,14 +125,19 @@ class ClientDao extends Equatable{
   }
 
   static Future<Client> getClientById(String clientDocumentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', clientDocumentId));
-    final recordSnapshots = await _clientStore.find(await _db, finder: finder);
-    // Making a List<Client> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
-      final client = Client.fromMap(snapshot.value);
-      client.id = snapshot.key;
-      return client;
-    }).toList().elementAt(0);
+    if((await getAll()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', clientDocumentId));
+      final recordSnapshots = await _clientStore.find(await _db, finder: finder);
+      // Making a List<Client> out of List<RecordSnapshot>
+      return recordSnapshots.map((snapshot) {
+        final client = Client.fromMap(snapshot.value);
+        client.id = snapshot.key;
+        return client;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
+
   }
   
   static Future<void> syncAllFromFireStore() async {
@@ -200,6 +205,7 @@ class ClientDao extends Equatable{
       List<Client> matchingLocalClients = allLocalClients.where((localClient) => localClient.documentId == fireStoreClient.documentId).toList();
       if(matchingLocalClients != null && matchingLocalClients.length > 0) {
         //do nothing. Client already synced.
+        //TODO even though client already exists, we still need to update it.
       } else {
         //add to local. does not exist in local and has not been synced yet.
         fireStoreClient.id = null;
@@ -211,4 +217,9 @@ class ClientDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static void deleteAllLocal() async {
+    List<Client> clients = await getAll();
+    _deleteAllLocalClients(clients);
+  }
 }

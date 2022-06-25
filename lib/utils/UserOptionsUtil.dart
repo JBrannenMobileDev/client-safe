@@ -77,11 +77,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobReminderDialog(BuildContext context){
+  static void showNewJobReminderDialog(BuildContext context, Job job){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewJobReminderPage();
+        return NewJobReminderPage(job);
       },
     );
   }
@@ -194,7 +194,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showAccountCreatedDialog(BuildContext context, FirebaseUser user) {
+  static void showAccountCreatedDialog(BuildContext context, User user) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

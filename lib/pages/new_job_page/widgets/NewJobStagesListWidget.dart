@@ -3,6 +3,7 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -17,9 +18,11 @@ class NewJobStagesListWidget extends StatelessWidget {
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
-          new FlatButton(
-            shape: RoundedRectangleBorder(
+          TextButton(
+            style: Styles.getButtonStyle(
+              shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(18.0),
+              ),
             ),
         onPressed: () {
               if(index != 0){

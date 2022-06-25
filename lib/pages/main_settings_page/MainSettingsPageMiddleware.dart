@@ -35,9 +35,11 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
         for(RecordSnapshot profileSnapshot in snapshots) {
           profiles.add(Profile.fromMap(profileSnapshot.value));
         }
-        store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profiles.elementAt(0).pushNotificationsEnabled ?? false));
-        store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profiles.elementAt(0).calendarEnabled ?? false));
-        store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profiles.elementAt(0)));
+        if(profiles.length > 0) {
+          store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profiles.elementAt(0)?.pushNotificationsEnabled ?? false));
+          store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profiles.elementAt(0).calendarEnabled ?? false));
+          store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profiles.elementAt(0)));
+        }
       });
   }
 
@@ -55,9 +57,12 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void removeDeviceToken(Store<AppState> store, RemoveDeviceTokenAction action, NextDispatcher next) async{
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
-    profile.removeDeviceToken(await PushNotificationsManager().getToken());
-    await ProfileDao.update(profile);
+    List<Profile> profiles = await ProfileDao.getAll();
+    if(profiles != null && profiles.isNotEmpty) {
+      Profile profile = profiles.elementAt(0);
+      profile.removeDeviceToken(await PushNotificationsManager().getToken());
+      await ProfileDao.update(profile);
+    }
   }
 
   void saveCalendarSetting(Store<AppState> store, SaveCalendarSettingAction action, NextDispatcher next) async{

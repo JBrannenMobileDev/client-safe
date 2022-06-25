@@ -21,12 +21,11 @@ class DateForm extends StatefulWidget {
 
 class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   AnimationController _animationController;
-  CalendarController _calendarController;
+  Map<DateTime,List<Event>> _events;
 
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
 
     _animationController = AnimationController(
       vsync: this,
@@ -39,8 +38,12 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
   @override
   void dispose() {
     _animationController.dispose();
-    _calendarController.dispose();
     super.dispose();
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return _events[day] ?? [];
   }
 
   void _onDaySelected(DateTime day, List events, NewJobPageState pageState) {
@@ -83,56 +86,46 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
 
   // More advanced TableCalendar configuration (using Builders & Styles)
   Widget _buildTableCalendarWithBuilders(NewJobPageState pageState) {
+    _events = pageState.eventMap;
     return TableCalendar(
       locale: 'en_US',
-      calendarController: _calendarController,
-      events: pageState.eventMap,
-      initialCalendarFormat: CalendarFormat.month,
-      formatAnimation: FormatAnimation.slide,
+      eventLoader: _getEventsForDay,
+      calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
       availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
-      initialSelectedDay: pageState.selectedDate,
+      focusedDay: pageState.selectedDate,
+      firstDay: DateTime.utc(2010, 10, 16),
+      lastDay: DateTime.utc(2100, 3, 14),
+      selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
           calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
-        outsideWeekendStyle: TextStyle().copyWith(
+        outsideTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark),
           fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,
         ),
-        selectedStyle: TextStyle().copyWith(
+        selectedTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        unavailableStyle: TextStyle().copyWith(
+        disabledTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        todayStyle: TextStyle().copyWith(
+        todayTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        outsideHolidayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
-        outsideStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
-        weekendStyle: TextStyle().copyWith(
+        weekendTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_black), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
-        holidayStyle: TextStyle().copyWith(
+        holidayTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_black), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
@@ -149,15 +142,15 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
           fontWeight: FontWeight.w600,),
       ),
       headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
+        titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_black), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
       ),
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
+      calendarBuilders: CalendarBuilders(
+        selectedBuilder: (context, date, _) {
           return FadeTransition(
             opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
             child: Container(
@@ -176,7 +169,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
             ),
           );
         },
-        todayDayBuilder: (context, date, _) {
+        todayBuilder: (context, date, _) {
           return Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4.0),
@@ -192,24 +185,22 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
             ),
           );
         },
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
+        markerBuilder: (context, date, events) {
 
           if (events.isNotEmpty) {
-            children.add(
-              Positioned(
+
+              return Positioned(
                 bottom: 1,
                 child: _buildEventsMarker(date, events),
-              ),
-            );
+              );
           }
 
-          return children;
+          return SizedBox.shrink();
         },
       ),
       onDaySelected: (date, events) {
         pageState.onDateSelected(date);
-        _onDaySelected(date, events, pageState);
+        _onDaySelected(date, _getEventsForDay(date), pageState);
         _animationController.forward(from: 0.0);
       },
     );

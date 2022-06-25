@@ -2,8 +2,8 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 
+import '../../../utils/styles/Styles.dart';
 import 'LeadItem.dart';
 
 class LeadsHomeCard extends StatelessWidget{
@@ -44,7 +44,8 @@ class LeadsHomeCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      FlatButton(
+                      TextButton(
+                        style: Styles.getButtonStyle(),
                         onPressed: () {
                           pageState.onViewAllHideLeadsSelected();
                         },

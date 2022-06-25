@@ -5,6 +5,8 @@ import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
+import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:dandylight/AppState.dart';
@@ -13,9 +15,11 @@ import 'package:dandylight/data_layer/repositories/WeatherRepository.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
-import 'package:sunrise_sunset/sunrise_sunset.dart';
+
+import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
 class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -55,8 +59,9 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     LatLng latLng = store.state.sunsetWeatherPageState.currentMapLatLng;
     if(latLng != null) {
 
-      List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(latLng.latitude, latLng.longitude);
-      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
+      final coordinatesEnd = Coordinates(latLng.latitude, latLng.longitude);
+      var address = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
+      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
 
       final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: latLng.latitude, longitude: latLng.longitude);
       store.dispatch(
@@ -98,12 +103,17 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowPosition action) async {
-    Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
+    if(!status.isGranted) {
+      await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
+    }
+    Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     if(positionLastKnown != null) {
       store.dispatch(SetInitialMapLatLng(store.state.sunsetWeatherPageState, positionLastKnown.latitude, positionLastKnown.longitude));
-      List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(positionLastKnown.latitude, positionLastKnown.longitude);
 
-      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
+      final coordinatesEnd = Coordinates(positionLastKnown.latitude, positionLastKnown.longitude);
+      var address = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
+      store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
 
       (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
         List<Location> locations = List();
@@ -135,7 +145,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchForSelectedDate(Store<AppState> store, NextDispatcher next, FetchDataForSelectedDateAction action) async{
-    Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     if(positionLastKnown != null) {
 
       store.dispatch(SetSelectedDateAction(store.state.sunsetWeatherPageState, action.selectedDate));

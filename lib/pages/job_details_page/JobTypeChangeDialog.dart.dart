@@ -5,6 +5,7 @@ import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -70,7 +71,8 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -85,7 +87,8 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                             ),
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             pageState.onJobTypeSaveSelected();
                             VibrateUtil.vibrateHeavy();
@@ -117,13 +120,15 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
-          FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(32.0),
+          TextButton(
+            style: Styles.getButtonStyle(
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(32.0),
+              ),
+              color: pageState.jobTypeIcon != null &&
+                  getIconPosition(pageState, jobTypeIcons) == index ? Color(
+                  ColorConstants.getBlueDark()) : Colors.transparent,
             ),
-            color: pageState.jobTypeIcon != null &&
-                getIconPosition(pageState, jobTypeIcons) == index ? Color(
-                ColorConstants.getBlueDark()) : Colors.transparent,
             onPressed: () {
               pageState.onJobTypeSelected(
                   jobTypeIcons.elementAt(index));

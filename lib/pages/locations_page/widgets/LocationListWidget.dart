@@ -176,11 +176,11 @@ class LocationListWidget extends StatelessWidget {
    }
 
   Future getDeviceImage(LocationsPageState pageState) async {
-    File image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    XFile image = await ImagePicker().pickImage(source: ImageSource.gallery);
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     String key = UniqueKey().toString();
-    await image.copy('$path/' + key);
+    await File(image.path).copy('$path/' + key);
     pageState.saveImagePath(key, pageState.locations.elementAt(locationIndex));
   }
 

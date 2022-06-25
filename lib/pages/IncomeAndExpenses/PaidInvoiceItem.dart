@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class PaidInvoiceItem extends StatelessWidget{
   final Invoice invoice;
   final Function onSendInvoiceSelected;
@@ -16,7 +18,8 @@ class PaidInvoiceItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
+      style: Styles.getButtonStyle(),
       onPressed: () async {
         UserOptionsUtil.showViewInvoiceDialog(context, invoice, await JobDao.getJobById(invoice.jobDocumentId), onSendInvoiceSelected);
       },

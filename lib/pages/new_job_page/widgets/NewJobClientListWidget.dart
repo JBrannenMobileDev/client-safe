@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -14,11 +15,13 @@ class NewJobClientListWidget extends StatelessWidget {
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
-          new FlatButton(
-            shape: RoundedRectangleBorder(
+          TextButton(
+            style: Styles.getButtonStyle(
+              shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
+              ),
+              color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
             ),
-            color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
         onPressed: () {
           pageState.onClientSelected(pageState.filteredClients.elementAt(clientIndex));
         },

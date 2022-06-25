@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class RecurringExpenseItem extends StatelessWidget{
   final RecurringExpense recurringExpense;
   final IncomeAndExpensesPageState pageState;
@@ -22,7 +24,8 @@ class RecurringExpenseItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       height: 74.0,
-      child: FlatButton(
+      child: TextButton(
+        style: Styles.getButtonStyle(),
         onPressed: () async {
           NavigationUtil.onRecurringChargeSelected(context, recurringExpense);
         },

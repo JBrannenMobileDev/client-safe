@@ -7,7 +7,6 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sider_bar/sider_bar.dart';
 
 class ClientsPage extends StatefulWidget {
   static const String FILTER_TYPE_CLIENTS = "Clients";
@@ -149,13 +148,6 @@ class _ClientsPageState extends State<ClientsPage> {
                       ),
                     ],
                   ),
-                  SideBar(
-                      list: alphabetList,
-                      textColor: Color(ColorConstants.getPrimaryColor()),
-                      color: Color(ColorConstants.getPrimaryColor()).withOpacity(0.2),
-                      valueChanged: (value) {
-                        _controller.jumpTo(alphabetList.indexOf(value) * 44.0);
-                      })
                 ],
           ),
         ),

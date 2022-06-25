@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
@@ -16,7 +15,8 @@ import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
-import 'package:sunrise_sunset/sunrise_sunset.dart';
+
+import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
 class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 

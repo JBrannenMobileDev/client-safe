@@ -1,14 +1,12 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../utils/styles/Styles.dart';
 
 class TipChangePage extends StatefulWidget {
   @override
@@ -67,14 +65,16 @@ class _TipChangePageState extends State<TipChangePage>
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(left: 0.0),
-                            child: FlatButton(
+                            child: TextButton(
+                              style: Styles.getButtonStyle(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(48.0),
+                                ),
+                                color: Color(ColorConstants.getPrimaryColor()),
+                              ),
                               onPressed: () {
                                 pageState.onAddToTip(1);
                               },
-                              color: Color(ColorConstants.getPrimaryColor()),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(48.0),
-                              ),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: 78.0,
@@ -109,14 +109,16 @@ class _TipChangePageState extends State<TipChangePage>
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 8.0),
-                            child: FlatButton(
+                            child: TextButton(
+                              style: Styles.getButtonStyle(
+                                color: Color(ColorConstants.getPrimaryColor()),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(48.0),
+                                ),
+                              ),
                               onPressed: () {
                                 pageState.onAddToTip(5);
                               },
-                              color: Color(ColorConstants.getPrimaryColor()),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(48.0),
-                              ),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: 78.0,
@@ -158,14 +160,16 @@ class _TipChangePageState extends State<TipChangePage>
                           children: <Widget>[
                             Padding(
                               padding: EdgeInsets.only(left: 0.0),
-                              child: FlatButton(
+                              child: TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Color(ColorConstants.getPrimaryColor()),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(48.0),
+                                  ),
+                                ),
                                 onPressed: () {
                                   pageState.onAddToTip(25);
                                 },
-                                color: Color(ColorConstants.getPrimaryColor()),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(48.0),
-                                ),
                                 child: Container(
                                   alignment: Alignment.center,
                                   width: 78.0,
@@ -200,14 +204,16 @@ class _TipChangePageState extends State<TipChangePage>
                             ),
                             Padding(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: FlatButton(
+                              child: TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Color(ColorConstants.getPrimaryColor()),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: new BorderRadius.circular(48.0),
+                                  ),
+                                ),
                                 onPressed: () {
                                   pageState.onAddToTip(100);
                                 },
-                                color: Color(ColorConstants.getPrimaryColor()),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: new BorderRadius.circular(48.0),
-                                ),
                                 child: Container(
                                   alignment: Alignment.center,
                                   width: 78.0,

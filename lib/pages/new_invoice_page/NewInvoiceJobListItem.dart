@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -14,11 +15,14 @@ class NewInvoiceJobListItem extends StatelessWidget {
     return StoreConnector<AppState, NewInvoicePageState>(
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
-          new FlatButton(
-            shape: RoundedRectangleBorder(
+          TextButton(
+            style: Styles.getButtonStyle(
+              shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
+              ),
+              color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
             ),
-            color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
+
         onPressed: () {
           pageState.onJobSelected(pageState.filteredJobs.elementAt(index));
         },

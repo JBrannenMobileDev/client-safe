@@ -4,23 +4,23 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class LocationCollection {
   Future<void> createLocation(Location location) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('locations')
-        .document(location.documentId)
-        .setData(location.toMap());
+        .doc(location.documentId)
+        .set(location.toMap());
   }
 
   Future<void> deleteJob(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('locations')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -28,35 +28,35 @@ class LocationCollection {
   }
 
   Stream<QuerySnapshot> getLocationsStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('locations')
         .snapshots();
   }
 
   Future<Location> getLocation(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('locations')
-        .document(documentId)
+        .doc(documentId)
         .get()
         .then((locationSnapshot) {
-          Location result = Location.fromMap(locationSnapshot.data);
-          result.documentId = locationSnapshot.documentID;
+          Location result = Location.fromMap(locationSnapshot.data());
+          result.documentId = locationSnapshot.id;
           return result;
         });
   }
 
   Future<List<Location>> getAll(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('locations')
-        .getDocuments()
+        .get()
         .then((jobs) => _buildLocationsList(jobs));
   }
 
@@ -64,13 +64,13 @@ class LocationCollection {
 
   Future<void> updateLocation(Location location) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('locations')
-          .document(location.documentId)
-          .updateData(location.toMap());
+          .doc(location.documentId)
+          .update(location.toMap());
     } catch (e) {
       print(e.toString());
     }
@@ -78,9 +78,9 @@ class LocationCollection {
 
   List<Location> _buildLocationsList(QuerySnapshot locations) {
     List<Location> locationsList = List();
-    for(DocumentSnapshot locationSnapshot in locations.documents){
-      Location result = Location.fromMap(locationSnapshot.data);
-      result.documentId = locationSnapshot.documentID;
+    for(DocumentSnapshot locationSnapshot in locations.docs){
+      Location result = Location.fromMap(locationSnapshot.data());
+      result.documentId = locationSnapshot.id;
       locationsList.add(result);
     }
     return locationsList;

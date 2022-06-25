@@ -124,4 +124,19 @@ class NextInvoiceNumberDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static Future<void> _deleteAllLocal(List<NextInvoiceNumber> all) async {
+    for(NextInvoiceNumber expense in all) {
+      final finder = Finder(filter: Filter.equals('id', expense.id));
+      await _nextInvoiceNumberStore.delete(
+        await _db,
+        finder: finder,
+      );
+    }
+  }
+
+  static void deleteAllLocal() async {
+    List<NextInvoiceNumber> numbers = await getAllSorted();
+    _deleteAllLocal(numbers);
+  }
 }

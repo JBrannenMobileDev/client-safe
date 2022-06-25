@@ -2,12 +2,11 @@ import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseItem.dart';
 import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/LeadItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
+
+import '../../utils/styles/Styles.dart';
 
 
 class SingleExpenseCard extends StatelessWidget{
@@ -47,7 +46,8 @@ class SingleExpenseCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      pageState.singleExpensesForSelectedYear != null && pageState.singleExpensesForSelectedYear.length > 3 ? FlatButton(
+                      pageState.singleExpensesForSelectedYear != null && pageState.singleExpensesForSelectedYear.length > 3 ? TextButton(
+                        style: Styles.getButtonStyle(),
                         onPressed: () {
                           pageState.onViewAllExpensesSelected(1);
                           Navigator.of(context).push(

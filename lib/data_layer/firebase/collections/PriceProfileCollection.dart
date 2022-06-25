@@ -4,23 +4,23 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class PriceProfileCollection {
   Future<void> createPriceProfile(PriceProfile priceProfile) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('priceProfiles')
-        .document(priceProfile.documentId)
-        .setData(priceProfile.toMap());
+        .doc(priceProfile.documentId)
+        .set(priceProfile.toMap());
   }
 
   Future<void> deletePriceProfile(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('priceProfiles')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -28,35 +28,35 @@ class PriceProfileCollection {
   }
 
   Stream<QuerySnapshot> getPriceProfilesStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('priceProfiles')
         .snapshots();
   }
 
   Future<PriceProfile> getPriceProfile(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('priceProfiles')
-        .document(documentId)
+        .doc(documentId)
         .get()
         .then((priceProfileSnapshot) {
-            PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data);
-            profile.documentId = priceProfileSnapshot.documentID;
+            PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data());
+            profile.documentId = priceProfileSnapshot.id;
             return profile;
         });
   }
 
   Future<List<PriceProfile>> getAll(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('priceProfiles')
-        .getDocuments()
+        .get()
         .then((priceProfiles) => _buildPriceProfilesList(priceProfiles));
   }
 
@@ -64,13 +64,13 @@ class PriceProfileCollection {
 
   Future<void> updatePriceProfile(PriceProfile priceProfile) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('priceProfiles')
-          .document(priceProfile.documentId)
-          .updateData(priceProfile.toMap());
+          .doc(priceProfile.documentId)
+          .update(priceProfile.toMap());
     } catch (e) {
       print(e.toString());
     }
@@ -78,9 +78,9 @@ class PriceProfileCollection {
 
   List<PriceProfile> _buildPriceProfilesList(QuerySnapshot jobs) {
     List<PriceProfile> priceProfilesList = List();
-    for(DocumentSnapshot priceProfileSnapshot in jobs.documents){
-      PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data);
-      profile.documentId = priceProfileSnapshot.documentID;
+    for(DocumentSnapshot priceProfileSnapshot in jobs.docs){
+      PriceProfile profile = PriceProfile.fromMap(priceProfileSnapshot.data());
+      profile.documentId = priceProfileSnapshot.id;
       priceProfilesList.add(profile);
     }
     return priceProfilesList;

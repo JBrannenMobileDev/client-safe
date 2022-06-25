@@ -185,7 +185,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     final Document pdf = Document();
 
     pdf.addPage(MultiPage(
-        theme: Theme.withFont(
+        theme: ThemeData.withFont(
           base: Font.ttf(await rootBundle.load('assets/fonts/Raleway-Regular.ttf')),
           bold: Font.ttf(await rootBundle.load('assets/fonts/Raleway-Bold.ttf')),
           italic: Font.ttf(await rootBundle.load('assets/fonts/simplicity.ttf')),
@@ -202,9 +202,8 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               alignment: Alignment.centerRight,
               margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
-              decoration: const BoxDecoration(
-                  border: BoxBorder(
-                      bottom: true, width: 0.5, color: PdfColors.grey)),
+              decoration: BoxDecoration(
+                  border: Border.all()),
               child: Text('Vintage Vibes Photography Invoice',
                   style: Theme.of(context)
                       .defaultTextStyle

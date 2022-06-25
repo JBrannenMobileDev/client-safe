@@ -7,6 +7,17 @@ import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.da
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../data_layer/local_db/daos/ClientDao.dart';
+import '../../data_layer/local_db/daos/InvoiceDao.dart';
+import '../../data_layer/local_db/daos/JobDao.dart';
+import '../../data_layer/local_db/daos/LocationDao.dart';
+import '../../data_layer/local_db/daos/MileageExpenseDao.dart';
+import '../../data_layer/local_db/daos/NextInvoiceNumberDao.dart';
+import '../../data_layer/local_db/daos/PriceProfileDao.dart';
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../data_layer/local_db/daos/RecurringExpenseDao.dart';
+import '../../data_layer/local_db/daos/ReminderDao.dart';
+import '../../data_layer/local_db/daos/SingleExpenseDao.dart';
 
 class MainSettingsPageState{
   final bool pushNotificationsEnabled;
@@ -99,6 +110,17 @@ class MainSettingsPageState{
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, false));
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
+        ProfileDao.deleteAllProfilesLocal();
+        ClientDao.deleteAllLocal();
+        InvoiceDao.deleteAllLocal();
+        JobDao.deleteAllLocal();
+        LocationDao.deleteAllLocal();
+        MileageExpenseDao.deleteAllLocal();
+        PriceProfileDao.deleteAllLocal();
+        RecurringExpenseDao.deleteAllLocal();
+        SingleExpenseDao.deleteAllLocal();
+        NextInvoiceNumberDao.deleteAllLocal();
+        ReminderDao.deleteAllLocal();
       },
       onPushNotificationsChanged: (enabled) => store.dispatch(SavePushNotificationSettingAction(store.state.mainSettingsPageState, enabled)),
       onCalendarChanged: (enabled) => store.dispatch(SaveCalendarSettingAction(store.state.mainSettingsPageState, enabled)),

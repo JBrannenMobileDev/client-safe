@@ -1,11 +1,12 @@
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/PaidInvoiceItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../utils/styles/Styles.dart';
 
 
 class PaidInvoiceCard extends StatelessWidget{
@@ -46,7 +47,8 @@ class PaidInvoiceCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      pageState.paidInvoices != null && pageState.paidInvoices.length > 3 ? FlatButton(
+                      pageState.paidInvoices != null && pageState.paidInvoices.length > 3 ? TextButton(
+                        style: Styles.getButtonStyle(),
                         onPressed: () {
                           pageState.onViewAllSelected(false);
                           Navigator.of(context).push(

@@ -5,6 +5,7 @@ import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -56,7 +57,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
           NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
           Scaffold(
-            resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomInset: false,
             backgroundColor: Color(ColorConstants.getBlueDark()),
             body: Stack(
               alignment: Alignment.topCenter,
@@ -194,7 +195,8 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                       physics: ClampingScrollPhysics(),
                       itemCount: pageState.locationsResults.length,
                       itemBuilder: (context, index) {
-                        return FlatButton(
+                        return TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             pageState.onSearchLocationSelected(pageState.locationsResults.elementAt(index));
                             _searchFocus.unfocus();

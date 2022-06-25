@@ -8,6 +8,7 @@ import 'package:dandylight/pages/locations_page/widgets/LocationListWidget.dart'
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -23,8 +24,7 @@ class LocationsPage extends StatelessWidget {
         onInit: (store)  async {
           store.dispatch(FetchLocationsAction(store.state.locationsPageState));
           PermissionStatus locationStatus = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
-          if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.denied
-              || locationStatus == PermissionStatus.undetermined){
+          if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.denied){
             _checkPermissions(context, store.state.locationsPageState);
           }
         },
@@ -128,11 +128,13 @@ class LocationsPage extends StatelessWidget {
           title: new Text('Request Location Permission'),
           content: new Text('This permission will be used for saving session locations.'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () async {
                 await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
                 Navigator.of(context).pop(true);
@@ -144,11 +146,13 @@ class LocationsPage extends StatelessWidget {
           title: new Text('Request Location Permission'),
           content: new Text('This permission will be used for saving session locations.'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () async{
                 await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
                 Navigator.of(context).pop(true);

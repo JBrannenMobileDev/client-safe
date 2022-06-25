@@ -11,7 +11,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class LocationsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -35,7 +35,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsSelected action)async{
-    Position position = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     IntentLauncherUtil.launchDrivingDirections(
         position.latitude.toString(),
         position.longitude.toString(),

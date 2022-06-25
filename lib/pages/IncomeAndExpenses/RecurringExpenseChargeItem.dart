@@ -14,6 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class RecurringExpenseChargeItem extends StatelessWidget{
   final Charge charge;
   final RecurringExpense selectedExpense;
@@ -24,7 +26,8 @@ class RecurringExpenseChargeItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       height: 74.0,
-      child: FlatButton(
+      child: TextButton(
+        style: Styles.getButtonStyle(),
         onPressed: () {
 
         },

@@ -24,12 +24,12 @@ class TwoWeekCalendarPage extends StatefulWidget {
 class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
     with TickerProviderStateMixin {
   AnimationController _animationController;
-  CalendarController _calendarController;
+  Map<DateTime,List<Event>> _events;
+
 
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
 
     _animationController = AnimationController(
       vsync: this,
@@ -42,7 +42,6 @@ class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
   @override
   void dispose() {
     _animationController.dispose();
-    _calendarController.dispose();
     super.dispose();
   }
 
@@ -50,6 +49,11 @@ class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
     setState(() {
       _buildEventList(_getEventListForSelectedDate(pageState), pageState);
     });
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return _events[day] ?? [];
   }
 
   @override
@@ -114,26 +118,25 @@ class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
 
   // More advanced TableCalendar configuration (using Builders & Styles)
   Widget _buildTableCalendarWithBuilders(CalendarPageState pageState) {
+    _events = pageState.eventMap;
     return TableCalendar(
       locale: 'en_US',
-      calendarController: _calendarController,
-      events: pageState.eventMap,
-      initialCalendarFormat: CalendarFormat.twoWeeks,
-      formatAnimation: FormatAnimation.slide,
+      eventLoader: _getEventsForDay,
+      calendarFormat: CalendarFormat.twoWeeks,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.horizontalSwipe,
-      initialSelectedDay: pageState.selectedDate,
+      selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
-        outsideWeekendStyle: TextStyle()
+        // outsideWeekendStyle: TextStyle()
+        //     .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
+        // outsideHolidayStyle: TextStyle()
+        //     .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
+        outsideTextStyle: TextStyle()
             .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        outsideHolidayStyle: TextStyle()
-            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        outsideStyle: TextStyle()
-            .copyWith(color: Color(ColorConstants.primary_bg_grey_dark)),
-        weekendStyle:
+        weekendTextStyle:
             TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
-        holidayStyle:
+        holidayTextStyle:
             TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
@@ -141,11 +144,11 @@ class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
             TextStyle().copyWith(color: Color(ColorConstants.primary_black)),
       ),
       headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
+        titleCentered: true,
         formatButtonVisible: false,
       ),
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
+      calendarBuilders: CalendarBuilders(
+        selectedBuilder: (context, date, _) {
           return FadeTransition(
             opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
             child: Container(
@@ -164,7 +167,7 @@ class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
             ),
           );
         },
-        todayDayBuilder: (context, date, _) {
+        todayBuilder: (context, date, _) {
           return Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4.0),
@@ -180,24 +183,22 @@ class _TwoWeekCalendarPageState extends State<TwoWeekCalendarPage>
             ),
           );
         },
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
+        markerBuilder: (context, date, events) {
 
           if (events.isNotEmpty) {
-            children.add(
-              Positioned(
+
+              return Positioned(
                 bottom: 1,
                 child: _buildEventsMarker(date, events),
-              ),
-            );
+              );
           }
 
-          return children;
+          return SizedBox.shrink();
         },
       ),
       onDaySelected: (date, events) {
         pageState.onDateSelected(date);
-        _onDaySelected(date, events, pageState);
+        _onDaySelected(date, _getEventsForDay(date), pageState);
         _animationController.forward(from: 0.0);
       },
     );

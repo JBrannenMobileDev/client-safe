@@ -10,6 +10,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class MileageExpensesCard extends StatelessWidget {
   MileageExpensesCard({this.pageState});
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -46,7 +48,8 @@ class MileageExpensesCard extends StatelessWidget {
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      pageState.mileageExpensesForSelectedYear != null && pageState.mileageExpensesForSelectedYear.length > 3 ? FlatButton(
+                      pageState.mileageExpensesForSelectedYear != null && pageState.mileageExpensesForSelectedYear.length > 3 ? TextButton(
+                        style: Styles.getButtonStyle(),
                         onPressed: () {
                           pageState.onViewAllExpensesSelected(0);
                           Navigator.of(context).push(

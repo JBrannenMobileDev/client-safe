@@ -1,11 +1,9 @@
-import 'package:dandylight/models/Event.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +17,8 @@ class JobDetailsCalendarItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
+      style: Styles.getButtonStyle(),
       onPressed: () {
         pageState.onJobClicked(job);
         NavigationUtil.onJobTapped(context);

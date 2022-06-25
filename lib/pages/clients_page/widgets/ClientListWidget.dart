@@ -8,6 +8,8 @@ import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../../utils/styles/Styles.dart';
+
 class ClientListWidget extends StatelessWidget {
   final int clientIndex;
 
@@ -18,7 +20,8 @@ class ClientListWidget extends StatelessWidget {
     return StoreConnector<AppState, ClientsPageState>(
       converter: (store) => ClientsPageState.fromStore(store),
       builder: (BuildContext context, ClientsPageState pageState) =>
-          new FlatButton(
+          new TextButton(
+            style: Styles.getButtonStyle(),
         onPressed: () {
           _onClientTapped(
               getClient(clientIndex, pageState), pageState, context);

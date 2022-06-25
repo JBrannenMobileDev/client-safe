@@ -24,6 +24,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class AddTipDialog extends StatefulWidget {
 
   @override
@@ -94,7 +96,8 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                               onPressed: () {
                                 onBackPressed(pageState);
                               },
@@ -109,7 +112,8 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                                 ),
                               ),
                             ),
-                            FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                               onPressed: () {
                                 onNextPressed(pageState);
                               },

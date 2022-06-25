@@ -42,7 +42,7 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
       onInit: (store) {
         locationNameTextController.text = store.state.newLocationPageState.locationName;
       },
-      onDidChange: (pageState) {
+      onDidChange: (prev, pageState) {
         animateTo(pageState.newLocationLatitude, pageState.newLocationLongitude);
       },
       converter: (store) => NewLocationPageState.fromStore(store),

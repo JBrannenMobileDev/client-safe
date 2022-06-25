@@ -12,6 +12,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 import 'package:path_provider/path_provider.dart';
@@ -52,11 +53,13 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void loadExistingMileageExpense(Store<AppState> store, NextDispatcher next, LoadExistingMileageExpenseAction action) async {
     store.dispatch(SetExistingMileageExpenseAction(store.state.newMileageExpensePageState, action.mileageExpense));
-    List<Placemark> placeMarkStart = await Geolocator().placemarkFromCoordinates(action.mileageExpense.startLat, action.mileageExpense.startLng);
-    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng), placeMarkStart.elementAt(0).thoroughfare + ', ' + placeMarkStart.elementAt(0).locality));
+    final coordinatesStart = Coordinates(action.mileageExpense.startLat, action.mileageExpense.startLng);
+    var addressesStart = await Geocoder.local.findAddressesFromCoordinates(coordinatesStart);
+    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng), addressesStart.elementAt(0).thoroughfare + ', ' + addressesStart.elementAt(0).locality));
 
-    List<Placemark> placeMarkEnd = await Geolocator().placemarkFromCoordinates(action.mileageExpense.endLat, action.mileageExpense.endLng);
-    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng), placeMarkEnd.elementAt(0).thoroughfare + ', ' + placeMarkEnd.elementAt(0).locality));
+    final coordinatesEnd = Coordinates(action.mileageExpense.startLat, action.mileageExpense.startLng);
+    var addressesEnd = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
+    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng), addressesEnd.elementAt(0).thoroughfare + ', ' + addressesEnd.elementAt(0).locality));
 
     LatLng startLatLngToUse = LatLng(action.mileageExpense.startLat, action.mileageExpense.startLng);
     LatLng endLatLngToUse = LatLng(action.mileageExpense.endLat, action.mileageExpense.endLng);
@@ -80,9 +83,11 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateEndLocation(Store<AppState> store, UpdateEndLocationAction action, NextDispatcher next) async{
-    List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(action.endLocation.latitude, action.endLocation.longitude);
-    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, action.endLocation, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
-    LatLng startLatLngToUse;
+    final coordinatesEnd = Coordinates(action.endLocation.latitude, action.endLocation.longitude);
+    var addressesEnd = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
+    store.dispatch(SetEndLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.endLocation.latitude, action.endLocation.longitude), addressesEnd.elementAt(0).thoroughfare + ', ' + addressesEnd.elementAt(0).locality));
+
+   LatLng startLatLngToUse;
     if(store.state.newMileageExpensePageState.startLocation == null) {
       if(store.state.newMileageExpensePageState.profile.hasDefaultHome()){
         startLatLngToUse = LatLng(store.state.newMileageExpensePageState.profile.latDefaultHome, store.state.newMileageExpensePageState.profile.lngDefaultHome);
@@ -98,8 +103,10 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateStartLocation(Store<AppState> store, UpdateStartLocationAction action, NextDispatcher next) async{
-    List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(action.startLocation.latitude, action.startLocation.longitude);
-    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, action.startLocation, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
+    final coordinatesEnd = Coordinates(action.startLocation.latitude, action.startLocation.longitude);
+    var addressesStart = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
+    store.dispatch(SetStartLocationNameAction(store.state.newMileageExpensePageState, LatLng(action.startLocation.latitude, action.startLocation.longitude), addressesStart.elementAt(0).thoroughfare + ', ' + addressesStart.elementAt(0).locality));
+
     LatLng endLatLngToUse;
     if(store.state.newMileageExpensePageState.endLocation == null) {
       endLatLngToUse = null;
@@ -133,11 +140,12 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(profile != null) {
       store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
       if(profile.hasDefaultHome()){
-        List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(profile.latDefaultHome, profile.lngDefaultHome);
-        store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
+        final coordinatesEnd = Coordinates(profile.latDefaultHome, profile.lngDefaultHome);
+        var addressesStart = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
+        store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, addressesStart.elementAt(0).thoroughfare + ', ' + addressesStart.elementAt(0).locality));
       }
     }
-    Position positionLastKnown = await Geolocator().getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+    Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     if(positionLastKnown != null) {
       store.dispatch(SetInitialMapLatLng(store.state.newMileageExpensePageState, positionLastKnown.latitude, positionLastKnown.longitude));
     }
@@ -152,8 +160,9 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
-    List<Placemark> placeMark = await Geolocator().placemarkFromCoordinates(action.homeLocation.latitude, action.homeLocation.longitude);
-    store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, placeMark.elementAt(0).thoroughfare + ', ' + placeMark.elementAt(0).locality));
+    final coordinatesEnd = Coordinates(action.homeLocation.latitude, action.homeLocation.longitude);
+    var address = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
+    store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
     Profile profile = store.state.newMileageExpensePageState.profile;
     profile.latDefaultHome = action.homeLocation.latitude;
     profile.lngDefaultHome = action.homeLocation.longitude;

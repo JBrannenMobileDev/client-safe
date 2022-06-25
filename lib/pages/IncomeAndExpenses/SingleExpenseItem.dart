@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class SingleExpenseItem extends StatelessWidget{
   final SingleExpense singleExpense;
   final IncomeAndExpensesPageState pageState;
@@ -20,7 +22,8 @@ class SingleExpenseItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return Container(
       height: 74.0,
-      child: FlatButton(
+      child: TextButton(
+        style: Styles.getButtonStyle(),
         onPressed: () async {
           pageState.onSingleExpenseItemSelected(singleExpense);
           UserOptionsUtil.showNewSingleExpenseDialog(context);

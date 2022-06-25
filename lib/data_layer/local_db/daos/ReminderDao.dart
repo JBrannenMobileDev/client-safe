@@ -99,13 +99,17 @@ class ReminderDao extends Equatable{
   }
 
   static Future<Reminder> getReminderById(String documentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
-    final recordSnapshots = await _reminderStore.find(await _db, finder: finder);
-    return recordSnapshots.map((snapshot) {
-      final reminder = Reminder.fromMap(snapshot.value);
-      reminder.id = snapshot.key;
-      return reminder;
-    }).toList().elementAt(0);
+    if((await getAll()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final recordSnapshots = await _reminderStore.find(await _db, finder: finder);
+      return recordSnapshots.map((snapshot) {
+        final reminder = Reminder.fromMap(snapshot.value);
+        reminder.id = snapshot.key;
+        return reminder;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
   }
 
   static Future<Stream<List<RecordSnapshot>>> getReminderStream() async {
@@ -193,4 +197,9 @@ class ReminderDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static void deleteAllLocal() async {
+    List<Reminder> reminders = await getAll();
+    _deleteAllLocalReminders(reminders);
+  }
 }

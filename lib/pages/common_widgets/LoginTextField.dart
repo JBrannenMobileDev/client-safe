@@ -44,7 +44,7 @@ class LoginTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0),
+          padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
           margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 8.0, bottom: 8.0),
           height: 64,
           decoration: BoxDecoration(
@@ -52,6 +52,7 @@ class LoginTextField extends StatelessWidget {
             borderRadius: BorderRadius.circular(32.0),
           ),
           child: TextFormField(
+
             obscureText: obscureText,
             cursorColor: Color(ColorConstants.getPrimaryColor()),
             enabled: enabled,
@@ -78,6 +79,7 @@ class LoginTextField extends StatelessWidget {
                 fontSize: 22.0,
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.getPrimaryBlack())),
+            textAlignVertical: TextAlignVertical.center,
           )
     );
   }

@@ -68,7 +68,7 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                        onSendInvoiceSelected();
+                        onSendInvoiceSelected != null ? onSendInvoiceSelected() : DoNothingAction();
                         IntentLauncherUtil.shareInvoiceById(invoiceId);
                         Navigator.of(context).pop();
                         },

@@ -77,7 +77,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   onPhoneAction,
                   TextCapitalization.none,
                   <TextInputFormatter>[
-                    WhitelistingTextInputFormatter.digitsOnly,
+                    FilteringTextInputFormatter.digitsOnly,
                     _mobileFormatter,
                   ],
                   true),

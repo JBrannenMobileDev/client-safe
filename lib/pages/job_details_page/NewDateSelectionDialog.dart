@@ -1,16 +1,15 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Event.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/calendar_page/JobCalendarItem.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsCalendarItem.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class NewDateSelectionDialog extends StatefulWidget {
@@ -22,13 +21,12 @@ class NewDateSelectionDialog extends StatefulWidget {
 
 class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   AnimationController _animationController;
-  CalendarController _calendarController;
   DateTime selectedDateTime;
+  Map<DateTime,List<Event>> _events;
 
   @override
   void initState() {
     super.initState();
-    _calendarController = CalendarController();
 
     _animationController = AnimationController(
       vsync: this,
@@ -41,8 +39,12 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
   @override
   void dispose() {
     _animationController.dispose();
-    _calendarController.dispose();
     super.dispose();
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return _events[day] ?? [];
   }
 
   void _onDaySelected(DateTime day, List events, JobDetailsPageState pageState) {
@@ -93,7 +95,8 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    FlatButton(
+                    TextButton(
+                      style: Styles.getButtonStyle(),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -108,7 +111,8 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                         ),
                       ),
                     ),
-                    FlatButton(
+                    TextButton(
+                      style: Styles.getButtonStyle(),
                       onPressed: () {
                         pageState.onNewDateSelected(selectedDateTime);
                         VibrateUtil.vibrateHeavy();
@@ -137,56 +141,43 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
 
   // More advanced TableCalendar configuration (using Builders & Styles)
   Widget _buildTableCalendarWithBuilders(JobDetailsPageState pageState) {
+    _events = pageState.eventMap;
     return TableCalendar(
       locale: 'en_US',
-      calendarController: _calendarController,
-      events: pageState.eventMap,
-      initialCalendarFormat: CalendarFormat.month,
-      formatAnimation: FormatAnimation.slide,
+      eventLoader: _getEventsForDay,
+      calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
       availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
-      initialSelectedDay: pageState.job.selectedDate,
+      selectedDayPredicate: (day) => isSameDay(pageState.job.selectedDate, day),
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
-        outsideWeekendStyle: TextStyle().copyWith(
+        outsideTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark),
           fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,
         ),
-        selectedStyle: TextStyle().copyWith(
+        selectedTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        unavailableStyle: TextStyle().copyWith(
+        disabledTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        todayStyle: TextStyle().copyWith(
+        todayTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        outsideHolidayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
-        outsideStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
-        weekendStyle: TextStyle().copyWith(
+        weekendTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_black), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
-        weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
-        holidayStyle: TextStyle().copyWith(
+        holidayTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_black), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
@@ -202,15 +193,15 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
           fontWeight: FontWeight.w600,),
       ),
       headerStyle: HeaderStyle(
-        centerHeaderTitle: true,
+        titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_black), fontSize: 20.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
       ),
-      builders: CalendarBuilders(
-        selectedDayBuilder: (context, date, _) {
+      calendarBuilders: CalendarBuilders(
+        selectedBuilder: (context, date, _) {
           return FadeTransition(
             opacity: Tween(begin: 0.0, end: 1.0).animate(_animationController),
             child: Container(
@@ -229,7 +220,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
             ),
           );
         },
-        todayDayBuilder: (context, date, _) {
+        todayBuilder: (context, date, _) {
           return Container(
             alignment: Alignment.center,
             margin: const EdgeInsets.all(4.0),
@@ -245,24 +236,21 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
             ),
           );
         },
-        markersBuilder: (context, date, events, holidays) {
-          final children = <Widget>[];
+        markerBuilder: (context, date, events) {
 
           if (events.isNotEmpty) {
-            children.add(
-              Positioned(
+              return Positioned(
                 bottom: 1,
                 child: _buildEventsMarker(date, events),
-              ),
-            );
+              );
           }
 
-          return children;
+          return SizedBox.shrink();
         },
       ),
       onDaySelected: (date, events) {
         selectedDateTime = date;
-        _onDaySelected(date, events, pageState);
+        _onDaySelected(date, _getEventsForDay(date), pageState);
         _animationController.forward(from: 0.0);
       },
     );

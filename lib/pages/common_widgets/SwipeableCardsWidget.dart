@@ -3,6 +3,8 @@ import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class SwipeableCardsWidget extends StatefulWidget {
   final double width;
 
@@ -62,7 +64,8 @@ class _SwipeableCardsWidgetState extends State<SwipeableCardsWidget> with Ticker
               child: Container(
                 alignment: Alignment.center,
                 height: 78,
-                child: FlatButton(
+                child: TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
 
                   },
@@ -149,7 +152,8 @@ class _SwipeableCardsWidgetState extends State<SwipeableCardsWidget> with Ticker
               child: Container(
                 alignment: Alignment.center,
                 height: 78,
-                child: FlatButton(
+                child: TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
 
                   },

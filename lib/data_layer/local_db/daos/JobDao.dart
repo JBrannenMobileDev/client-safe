@@ -103,14 +103,18 @@ class JobDao extends Equatable{
   List<Object> get props => [];
 
   static Future<Job> getJobById(String jobDocumentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', jobDocumentId));
-    final recordSnapshots = await _jobStore.find(await _db, finder: finder);
-    // Making a List<Client> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
-      final job = Job.fromMap(snapshot.value);
-      job.id = snapshot.key;
-      return job;
-    }).toList().elementAt(0);
+    if((await getAllJobs()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', jobDocumentId));
+      final recordSnapshots = await _jobStore.find(await _db, finder: finder);
+      // Making a List<Client> out of List<RecordSnapshot>
+      return recordSnapshots.map((snapshot) {
+        final job = Job.fromMap(snapshot.value);
+        job.id = snapshot.key;
+        return job;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
   }
 
   static Future<Stream<List<RecordSnapshot>>> getJobsStream() async {
@@ -133,7 +137,7 @@ class JobDao extends Equatable{
         await _syncFireStoreToLocal(allLocalJobs, allFireStoreJobs);
       } else {
         //all Jobs have been deleted in the cloud. Delete all local Jobs also.
-        deleteAllLocalJobs(allLocalJobs);
+        _deleteAllLocalJobs(allLocalJobs);
       }
     } else {
       if(allFireStoreJobs != null && allFireStoreJobs.length > 0){
@@ -145,7 +149,7 @@ class JobDao extends Equatable{
     }
   }
 
-  static Future<void> deleteAllLocalJobs(List<Job> allLocalJobs) async {
+  static Future<void> _deleteAllLocalJobs(List<Job> allLocalJobs) async {
     for(Job job in allLocalJobs) {
       final finder = Finder(filter: Filter.equals('documentId', job.documentId));
       await _jobStore.delete(
@@ -193,5 +197,10 @@ class JobDao extends Equatable{
         await _jobStore.add(await _db, fireStoreJob.toMap());
       }
     }
+  }
+
+  static void deleteAllLocal() async {
+    List<Job> jobs = await getAllJobs();
+    _deleteAllLocalJobs(jobs);
   }
 }

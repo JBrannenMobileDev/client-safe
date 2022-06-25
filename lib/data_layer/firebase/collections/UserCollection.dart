@@ -4,19 +4,19 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class UserCollection {
   Future<void> createUser(Profile user) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference.collection('users')
-        .document(user.uid)
-        .setData(user.toMap())
+        .doc(user.uid)
+        .set(user.toMap())
         .catchError((error) => print(error));
   }
 
   Future<void> deleteUser(String uid) async{
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(uid)
+          .doc(uid)
           .delete()
           .catchError((error) => print(error));
     } catch (e) {
@@ -25,21 +25,21 @@ class UserCollection {
   }
 
   Stream<DocumentSnapshot> getProfileStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .snapshots();
   }
 
   Future<Profile> getUser(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(uid)
+        .doc(uid)
         .get()
         .then((userProfile) {
-          Profile profile = Profile.fromMap(userProfile.data);
-          profile.uid = userProfile.documentID;
+          Profile profile = Profile.fromMap(userProfile.data());
+          profile.uid = userProfile.id;
           return profile;
         })
         .catchError((error) => print(error));
@@ -47,11 +47,11 @@ class UserCollection {
 
   Future<void> updateUser(Profile profile) async{
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(profile.uid)
-          .updateData(profile.toMap())
+          .doc(profile.uid)
+          .update(profile.toMap())
           .catchError((error) => print(error));
     } catch (e) {
       print(e.toString());

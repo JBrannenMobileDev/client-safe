@@ -111,9 +111,7 @@ class _DashboardPageState extends State<DashboardPage>
             Scaffold(
               backgroundColor: Color(ColorConstants.getBlueLight()),
           floatingActionButton: SpeedDial(
-            // both default to 16
-            marginRight: 18,
-            marginBottom: 20,
+            childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
             child: getFabIcon(),
             visible: dialVisible,
             // If true user is forced to close dial manually
@@ -241,7 +239,7 @@ class _DashboardPageState extends State<DashboardPage>
                           position: offsetAnimationDown,
                           child: GestureDetector(
                             onTap: () {
-                              PushNotificationsManager().sendAndRetrieveMessage();
+//                              PushNotificationsManager().sendNotification();
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 16.0),

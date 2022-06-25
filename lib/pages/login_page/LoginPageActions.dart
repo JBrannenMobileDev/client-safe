@@ -95,7 +95,7 @@ class SetCreateAccountErrorMessageAction{
 class SetShowAccountCreatedDialogAction{
   final LoginPageState pageState;
   final bool showAccountCreatedDialog;
-  final FirebaseUser user;
+  final User user;
   SetShowAccountCreatedDialogAction(this.pageState, this.showAccountCreatedDialog, this.user);
 }
 

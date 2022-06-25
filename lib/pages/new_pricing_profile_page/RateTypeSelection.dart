@@ -116,7 +116,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
             removeOverlay();
         });
       },
-      onDidChange: (pageState) {
+      onDidChange: (prev, pageState) {
         if(pageState.flatRate == 0) flatRateTextController.text = '\$';
         if(pageState.hourlyRate == 0) hourlyRateTextController.text = '\$';
         if(pageState.itemRate == 0) quantityRateTextController.text = '\$';
@@ -222,7 +222,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   }
 
   void showInSnackBar(String value) {
-    scaffoldKey.currentState.showSnackBar(new SnackBar(content: new Text(value)));
+    ScaffoldMessenger.of(context).showSnackBar(new SnackBar(content: new Text(value)));
   }
 
   void vibrate() async {

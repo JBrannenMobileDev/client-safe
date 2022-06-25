@@ -6,6 +6,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../utils/styles/Styles.dart';
+
 class BaseHomeCardInProgress extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
@@ -41,7 +43,8 @@ class BaseHomeCardInProgress extends StatelessWidget{
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),
-                  FlatButton(
+                  TextButton(
+                    style: Styles.getButtonStyle(),
                     onPressed: () {
                       pageState.onViewAllHideSelected();
                     },

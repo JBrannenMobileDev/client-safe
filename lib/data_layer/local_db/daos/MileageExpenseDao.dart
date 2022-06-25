@@ -99,13 +99,17 @@ class MileageExpenseDao extends Equatable{
   }
 
   static Future<MileageExpense> getMileageExpenseById(String documentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
-    final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
-    return recordSnapshots.map((snapshot) {
-      final expense = MileageExpense.fromMap(snapshot.value);
-      expense.id = snapshot.key;
-      return expense;
-    }).toList().elementAt(0);
+    if((await getAll()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
+      return recordSnapshots.map((snapshot) {
+        final expense = MileageExpense.fromMap(snapshot.value);
+        expense.id = snapshot.key;
+        return expense;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
   }
 
   static Future<Stream<List<RecordSnapshot>>> getMileageExpenseStream() async {
@@ -193,4 +197,9 @@ class MileageExpenseDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static void deleteAllLocal() async {
+    List<MileageExpense> expenses = await getAll();
+    _deleteAllLocalMileageExpenses(expenses);
+  }
 }

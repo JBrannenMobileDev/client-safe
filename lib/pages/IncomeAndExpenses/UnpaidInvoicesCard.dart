@@ -3,6 +3,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -44,7 +45,8 @@ class UnpaidInvoicesCard extends StatelessWidget{
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                      pageState.unpaidInvoices != null && pageState.unpaidInvoices.length > 3 ? FlatButton(
+                      pageState.unpaidInvoices != null && pageState.unpaidInvoices.length > 3 ? TextButton(
+                        style: Styles.getButtonStyle(),
                         onPressed: () {
                           pageState.onViewAllSelected(true);
                           Navigator.of(context).push(

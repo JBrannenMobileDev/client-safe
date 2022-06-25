@@ -17,6 +17,7 @@ import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -56,11 +57,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           title: new Text('Are you sure?'),
           content: new Text('All data for this job will be gone forever!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteSelected();
                 Navigator.of(context).pop(true);
@@ -72,11 +75,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           title: new Text('Are you sure?'),
           content: new Text('All data for this job will be gone forever!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteSelected();
                 Navigator.of(context).pop(true);
@@ -98,7 +103,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
         },
-        onDidChange: (pageState) {
+        onDidChange: (prev, pageState) {
           pageStateLocal = pageState;
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {
@@ -118,8 +123,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
               return pageState.job != null ? Scaffold(
                 floatingActionButton: SpeedDial(
                   // both default to 16
-                  marginRight: 18,
-                  marginBottom: 20,
+                  childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
                   // this is ignored if animatedIcon is non null
                    child: getFabIcon(),
                   visible: dialVisible,
@@ -255,7 +259,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewJobReminderDialog(context);
+                        UserOptionsUtil.showNewJobReminderDialog(context, pageState.job);
                       },
                     ),
                     SpeedDialChild(

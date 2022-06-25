@@ -6,6 +6,7 @@ import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -57,7 +58,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
       converter: (Store<AppState> store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
           Scaffold(
-            resizeToAvoidBottomPadding: false,
+            resizeToAvoidBottomInset: false,
             backgroundColor: Color(ColorConstants.getBlueDark()),
             body: Stack(
               alignment: Alignment.topCenter,
@@ -199,7 +200,8 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                     physics: ClampingScrollPhysics(),
                     itemCount: pageState.locationsResults.length,
                     itemBuilder: (context, index) {
-                      return FlatButton(
+                      return TextButton(
+                        style: Styles.getButtonStyle(),
                         onPressed: () {
                           pageState.onSearchLocationSelected(pageState.locationsResults.elementAt(index));
                           _searchFocus.unfocus();

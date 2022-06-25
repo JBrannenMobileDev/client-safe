@@ -3,21 +3,12 @@ import 'dart:ui';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-import 'package:dandylight/widgets/bouncing_loading_animation/BouncingLoadingAnimatedIcon.dart';
-import 'package:dandylight/widgets/bouncing_loading_animation/LoginLoadingWidget.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/services.dart';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
-import 'package:dandylight/pages/login_page/LoginPageActions.dart';
-import 'package:dandylight/pages/login_page/LoginPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/widgets/login_animations/TranslationImage.dart';
-import 'package:dandylight/widgets/login_animations/TranslationWidget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
@@ -67,7 +58,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
       builder: (BuildContext context, MainSettingsPageState pageState) =>
           Scaffold(
             extendBodyBehindAppBar: true,
-        resizeToAvoidBottomPadding: false,
+        resizeToAvoidBottomInset: false,
         backgroundColor: Color(ColorConstants.getBlueLight()),
         body: Stack(
           alignment: Alignment.topCenter,
@@ -331,7 +322,8 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ],
                                   ),
                                 ),
-                                FlatButton(
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
                                   onPressed: () {
 
                                   },
@@ -349,7 +341,8 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ),
                                   ),
                                 ),
-                                FlatButton(
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
                                   onPressed: () {
 
                                   },
@@ -403,7 +396,8 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    FlatButton(
+                                    TextButton(
+                                      style: Styles.getButtonStyle(),
                                       onPressed: () {
 
                                       },
@@ -421,7 +415,8 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         ),
                                       ),
                                     ),
-                                    FlatButton(
+                                    TextButton(
+                                      style: Styles.getButtonStyle(),
                                       onPressed: () {
 
                                       },

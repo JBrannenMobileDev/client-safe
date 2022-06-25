@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -29,7 +30,8 @@ class DepositRowWidget extends StatelessWidget{
                   ),
                   width: 100.0,
                   height: 28.0,
-                  child: FlatButton(
+                  child: TextButton(
+                    style: Styles.getButtonStyle(),
                     onPressed: () {
                       pageState.onDepositActionPressed();
                     },

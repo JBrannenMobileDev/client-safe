@@ -9,6 +9,7 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherLocationListWi
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -98,14 +99,19 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    FlatButton(
-                      color: Colors.white,
-                      textColor: Color(ColorConstants.primary_black),
-                      disabledColor: Colors.white,
-                      disabledTextColor:
-                      Color(ColorConstants.primary_bg_grey),
-                      padding: EdgeInsets.all(8.0),
-                      splashColor: Color(ColorConstants.getPrimaryColor()),
+                    TextButton(
+                      style: Styles.getButtonStyle(
+                        color: Colors.white,
+                        textColor: Color(ColorConstants.primary_black),
+                        left: 8.0,
+                        top: 8.0,
+                        right: 8.0,
+                        bottom: 8.0,
+                      ),
+                      // disabledColor: Colors.white,
+                      // disabledTextColor:
+                      // Color(ColorConstants.primary_bg_grey),
+                      // splashColor: Color(ColorConstants.getPrimaryColor()),
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
@@ -120,14 +126,19 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                         ),
                       ),
                     ),
-                    FlatButton(
-                      color: Colors.white,
-                      textColor: Color(ColorConstants.primary_black),
-                      disabledColor: Colors.white,
-                      disabledTextColor:
-                      Color(ColorConstants.primary_bg_grey),
-                      padding: EdgeInsets.all(8.0),
-                      splashColor: Color(ColorConstants.getPrimaryColor()),
+                    TextButton(
+                      style: Styles.getButtonStyle(
+                        color: Colors.white,
+                        textColor: Color(ColorConstants.primary_black),
+                        left: 8.0,
+                        top: 8.0,
+                        right: 8.0,
+                        bottom: 8.0,
+                      ),
+                      // disabledColor: Colors.white,
+                      // disabledTextColor:
+                      // Color(ColorConstants.primary_bg_grey),
+                      // splashColor: Color(ColorConstants.getPrimaryColor()),
                       onPressed: () {
                         pageState.onLocationSaved();
                         Navigator.of(context).pop();
@@ -179,14 +190,16 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   ),
                 ),
               ),
-              FlatButton(
+              TextButton(
+                style: Styles.getButtonStyle(
+                  color: Color(ColorConstants.getPrimaryColor()),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(24.0),
+                  ),
+                ),
                 onPressed: () {
                   UserOptionsUtil.showNewLocationDialog(context);
                 },
-                color: Color(ColorConstants.getPrimaryColor()),
-                shape: RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(24.0),
-                ),
                 child: Container(
                   width: 150.0,
                   child: Row(

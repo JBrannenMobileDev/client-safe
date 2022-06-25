@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class JobCalendarItem extends StatelessWidget{
   final Job job;
   final double paddingLeft;
@@ -17,7 +19,8 @@ class JobCalendarItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
+      style: Styles.getButtonStyle(),
       onPressed: () {
         pageState.onJobClicked(job);
         NavigationUtil.onJobTapped(context);

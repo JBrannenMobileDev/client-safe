@@ -12,11 +12,11 @@ class UserPermissionsUtil {
 
   static Future<PermissionStatus> getPermissionStatus(Permission permission) async {
     var status = await permission.status;
-    if (status.isUndetermined) {
+    if (status.isPermanentlyDenied) {
       // We didn't ask for permission yet.
     }
 
-// You can can also directly ask the permission about its status.
+    // You can can also directly ask the permission about its status.
     if (await Permission.location.isRestricted) {
       // The OS restricts access, for example because of parental controls.
     }

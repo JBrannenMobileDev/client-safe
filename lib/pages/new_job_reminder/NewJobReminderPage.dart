@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/new_job_page/ClientSelectionForm.dart';
 import 'package:dandylight/pages/new_job_page/DateForm.dart';
 import 'package:dandylight/pages/new_job_page/DepositSelectionForm.dart';
@@ -16,6 +17,7 @@ import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_job_reminder/ReminderSelectionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,18 +25,25 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class NewJobReminderPage extends StatefulWidget {
+  final Job job;
+
+  NewJobReminderPage(this.job);
+
   @override
   _NewJobReminderPageState createState() {
-    return _NewJobReminderPageState();
+    return _NewJobReminderPageState(job);
   }
 }
 
 class _NewJobReminderPageState extends State<NewJobReminderPage> {
+  final Job job;
   final int pageCount = 1;
   final controller = PageController(
     initialPage: 0,
   );
   int currentPageIndex = 0;
+
+  _NewJobReminderPageState(this.job);
 
   @override
   void initState() {
@@ -49,11 +58,13 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
             title: new Text('Are you sure?'),
             content: new Text('All unsaved information entered will be lost.'),
             actions: <Widget>[
-              new FlatButton(
+              TextButton(
+                style: Styles.getButtonStyle(),
                 onPressed: () => Navigator.of(context).pop(false),
                 child: new Text('No'),
               ),
-              new FlatButton(
+              TextButton(
+                style: Styles.getButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
@@ -145,14 +156,19 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          FlatButton(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
-                            disabledColor: Colors.white,
-                            disabledTextColor:
-                                Color(ColorConstants.primary_bg_grey),
-                            padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.getPrimaryColor()),
+                          TextButton(
+                            style: Styles.getButtonStyle(
+                              color: Colors.white,
+                              textColor: Color(ColorConstants.primary_black),
+                              left: 8.0,
+                              top: 8.0,
+                              right: 8.0,
+                              bottom: 8.0,
+                            ),
+                            // disabledColor: Colors.white,
+                            // disabledTextColor:
+                            //     Color(ColorConstants.primary_bg_grey),
+                            // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onBackPressed(pageState);
                             },
@@ -167,15 +183,19 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                               ),
                             ),
                           ),
-                          FlatButton(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
-                            disabledColor: Colors.white,
-
-                            disabledTextColor:
-                                Color(ColorConstants.primary_bg_grey),
-                            padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.getPrimaryColor()),
+                          TextButton(
+                            style: Styles.getButtonStyle(
+                              color: Colors.white,
+                              textColor: Color(ColorConstants.primary_black),
+                              left: 8.0,
+                              top: 8.0,
+                              right: 8.0,
+                              bottom: 8.0,
+                            ),
+                            // disabledColor: Colors.white,
+                            // disabledTextColor:
+                            //     Color(ColorConstants.primary_bg_grey),
+                            // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onNextPressed(pageState);
                             },
@@ -222,7 +242,7 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
       }
     }
     if (pageState.pageViewIndex == pageCount) {
-      pageState.onSavePressed();
+      pageState.onSavePressed(job);
       showDialog(
         context: context,
         builder: (BuildContext context) {

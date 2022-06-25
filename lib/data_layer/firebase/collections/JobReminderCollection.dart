@@ -1,30 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/JobReminder.dart';
-import 'package:dandylight/models/Reminder.dart';
-import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 class JobReminderCollection {
   Future<void> createReminder(JobReminder reminder) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobReminders')
-        .document(reminder.documentId)
-        .setData(reminder.toMap()).catchError((error) {
+        .doc(reminder.documentId)
+        .set(reminder.toMap()).catchError((error) {
           print(error);
         });
   }
 
   Future<void> deleteReminder(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('jobReminders')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -32,35 +30,35 @@ class JobReminderCollection {
   }
 
   Stream<QuerySnapshot> getReminderStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobReminders')
         .snapshots();
   }
 
   Future<JobReminder> getReminder(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobReminders')
-        .document(documentId)
+        .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          JobReminder reminder = JobReminder.fromMap(expenseSnapshot.data);
-          reminder.documentId = expenseSnapshot.documentID;
+          JobReminder reminder = JobReminder.fromMap(expenseSnapshot.data());
+          reminder.documentId = expenseSnapshot.id;
           return reminder;
         });
   }
 
   Future<List<JobReminder>> getAll(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobReminders')
-        .getDocuments()
+        .get()
         .then((reminders) => _buildRemindersList(reminders));
   }
 
@@ -68,23 +66,23 @@ class JobReminderCollection {
 
   Future<void> updateReminder(JobReminder reminder) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('jobReminders')
-          .document(reminder.documentId)
-          .updateData(reminder.toMap());
+          .doc(reminder.documentId)
+          .update(reminder.toMap());
     } catch (e) {
       print(e.toString());
     }
   }
 
   List<JobReminder> _buildRemindersList(QuerySnapshot reminders) {
-    List<JobReminder> remindersList = List();
-    for(DocumentSnapshot reminderSnapshot in reminders.documents){
-      JobReminder reminder = JobReminder.fromMap(reminderSnapshot.data);
-      reminder.documentId = reminderSnapshot.documentID;
+    List<JobReminder> remindersList = [];
+    for(DocumentSnapshot reminderSnapshot in reminders.docs){
+      JobReminder reminder = JobReminder.fromMap(reminderSnapshot.data());
+      reminder.documentId = reminderSnapshot.id;
       remindersList.add(reminder);
     }
     return remindersList;

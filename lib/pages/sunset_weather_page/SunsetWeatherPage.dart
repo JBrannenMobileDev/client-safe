@@ -1,14 +1,14 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:dandylight/widgets/bouncing_loading_animation/BouncingLoadingAnimatedIcon.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
@@ -32,7 +32,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
         onInit: (store) async {
           store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState));
         },
-      onDidChange: (pageState) {
+      onDidChange: (prev, pageState) {
         final DateTime now = DateTime.now();
         final DateTime today = DateTime(now.year, now.month, now.day);
         final DateTime selectedDate = DateTime(pageState.selectedDate.year, pageState.selectedDate.month, pageState.selectedDate.day);
@@ -225,11 +225,11 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                 ),
                               ],
                             ),
-                                FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                                   onPressed: () {
                                     UserOptionsUtil.showSelectLocationDialog(context);
                                   },
-                                  padding: EdgeInsets.all(0.0),
                                   child: Container(
                                     width: MediaQuery.of(context).size.width/4 + 200,
                                     padding: EdgeInsets.symmetric(horizontal: 16.0),
@@ -268,7 +268,8 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                 Container(
                                   margin: EdgeInsets.only(bottom: 32.0),
                                   padding: EdgeInsets.only(top: 8.0),
-                                  child: FlatButton(
+                                  child: TextButton(
+                                    style: Styles.getButtonStyle(),
                                     onPressed: () {
                                       DatePicker.showDatePicker(
                                           context,
@@ -279,7 +280,6 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                           }
                                       );
                                     },
-                                    padding: EdgeInsets.all(0.0),
                                     child: Container(
                                       width: MediaQuery.of(context).size.width/4 + 200,
                                       padding: EdgeInsets.symmetric(horizontal: 16.0),

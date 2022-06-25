@@ -4,6 +4,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -84,7 +85,8 @@ class DocumentsCard extends StatelessWidget {
   Widget _buildItem(BuildContext context, int index) {
     final item = pageState.documents.elementAt(index);
 
-    return FlatButton(
+    return TextButton(
+      style: Styles.getButtonStyle(),
       onPressed: () async {
         UserOptionsUtil.showViewInvoiceDialog(context, pageState.invoice, await JobDao.getJobById(pageState.invoice.jobDocumentId), onSendInvoiceSelected);
       },
@@ -137,11 +139,13 @@ class DocumentsCard extends StatelessWidget {
           title: new Text('Are you sure?'),
           content: new Text('This invoice will be gone forever!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteInvoiceSelected(pageState.invoice);
                 Navigator.of(context).pop(true);
@@ -153,11 +157,13 @@ class DocumentsCard extends StatelessWidget {
           title: new Text('Are you sure?'),
           content: new Text('This invoice will be gone forever!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteInvoiceSelected(pageState.invoice);
                 Navigator.of(context).pop(true);

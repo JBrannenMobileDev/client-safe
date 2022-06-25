@@ -1,6 +1,7 @@
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,14 +17,16 @@ class PriceProfileListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
+        style: Styles.getButtonStyle(
+          color: backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(32.0),
+          ),
+        ),
         onPressed: () {
           onProfileSelected(priceProfile, pageState, context);
         },
-        color: backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(32.0),
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

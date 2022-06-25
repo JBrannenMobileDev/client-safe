@@ -1,20 +1,13 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/InvoiceItem.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/MileageExpenseItem.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/PaidInvoiceItem.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseItem.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseItem.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
-import 'package:dandylight/pages/clients_page/ClientsPageState.dart';
-import 'package:dandylight/pages/clients_page/widgets/ClientListWidget.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sider_bar/sider_bar.dart';
 
 class AllExpensesPage extends StatefulWidget {
   static const String FILTER_TYPE_MILEAGE_EXPENSES = "Mileage";

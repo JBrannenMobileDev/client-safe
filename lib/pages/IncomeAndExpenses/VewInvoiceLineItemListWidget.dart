@@ -4,6 +4,7 @@ import 'package:dandylight/pages/new_invoice_page/LineItemWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -54,7 +55,8 @@ class VewInvoiceLineItemListWidget extends StatelessWidget{
           ),
           width: 150.0,
           height: 28.0,
-          child: FlatButton(
+          child: TextButton(
+            style: Styles.getButtonStyle(),
             onPressed: () {
               UserOptionsUtil.showNewLineItemDialog(context);
             },

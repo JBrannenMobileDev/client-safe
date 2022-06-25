@@ -351,7 +351,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             }
           }
         },
-        onDidChange: (pageState) {
+        onDidChange: (prev, pageState) {
           if(pageState.navigateToHome) {
             _onStartAnimationForGoingToHomePage();
           }
@@ -374,7 +374,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         },
         converter: (Store<AppState> store) => LoginPageState.fromStore(store),
         builder: (BuildContext context, LoginPageState pageState) => Scaffold(
-          resizeToAvoidBottomPadding: false,
+          resizeToAvoidBottomInset: false,
           backgroundColor: Color(ColorConstants.getBlueLight()),
           body: Stack(
             alignment: Alignment.topCenter,
@@ -420,100 +420,100 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   height: MediaQuery.of(context).size.height,
-                  margin: EdgeInsets.only(bottom: 32.0),
+                  margin: EdgeInsets.only(bottom: 48.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                    SlideTransition(
-                    position: hideMainButtonsStep,
-                    child: GestureDetector(
-                        onTap: () {
-                          DandyToastUtil.showToast('Sign in with Facebook is not ready yet.', Color(ColorConstants.getPrimaryColor()));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 24.0),
-                          alignment: Alignment.centerLeft,
-                          height: 64.0,
-                          width: 300.0,
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(36.0)),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 42.0,
-                                width: 42.0,
-                                child: Image.asset(
-                                    'assets/images/icons/facebook_icon_black.png'),
-                              ),
-                              Text(
-                                'Sign in with Facebook',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  SlideTransition(
-                    position: hideMainButtonsStep,
-                    child: GestureDetector(
-                        onTap: () {
-                          DandyToastUtil.showToast('Sign in with Google is not ready yet.', Color(ColorConstants.getPrimaryColor()));
-//                          _controller.reverse();
-//                          Timer(const Duration(milliseconds: 500), () {
-//                            setState(() {
-//                              selectedButton = SIGN_IN_WITH_GOOGLE;
-//                            });
-//                          });
-//                          Timer(const Duration(milliseconds: 250), () {
-//                            _controllerCreateAccount.forward();
-//                          });
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(top: 16.0),
-                          padding: EdgeInsets.only(left: 24.0),
-                          alignment: Alignment.centerLeft,
-                          height: 64.0,
-                          width: 300.0,
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                              borderRadius: BorderRadius.circular(36.0)),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 42.0,
-                                width: 42.0,
-                                child: Image.asset(
-                                    'assets/images/icons/gmail_icon_black.png'),
-                              ),
-                              Text(
-                                'Sign in with Google',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                  ),
+//                     SlideTransition(
+//                     position: hideMainButtonsStep,
+//                     child: GestureDetector(
+//                         onTap: () {
+//                           DandyToastUtil.showToast('Sign in with Facebook is not ready yet.', Color(ColorConstants.getPrimaryColor()));
+//                         },
+//                         child: Container(
+//                           padding: EdgeInsets.only(left: 24.0),
+//                           alignment: Alignment.centerLeft,
+//                           height: 64.0,
+//                           width: 300.0,
+//                           decoration: BoxDecoration(
+//                               color: Color(ColorConstants.getPrimaryWhite()),
+//                               borderRadius: BorderRadius.circular(36.0)),
+//                           child: Row(
+//                             mainAxisSize: MainAxisSize.min,
+//                             mainAxisAlignment: MainAxisAlignment.start,
+//                             children: <Widget>[
+//                               Container(
+//                                 margin: EdgeInsets.only(right: 16.0),
+//                                 height: 42.0,
+//                                 width: 42.0,
+//                                 child: Image.asset(
+//                                     'assets/images/icons/facebook_icon_black.png'),
+//                               ),
+//                               Text(
+//                                 'Sign in with Facebook',
+//                                 textAlign: TextAlign.center,
+//                                 style: TextStyle(
+//                                   fontSize: 22.0,
+//                                   fontFamily: 'simple',
+//                                   fontWeight: FontWeight.w600,
+//                                   color: Color(ColorConstants.getPrimaryBlack()),
+//                                 ),
+//                               )
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   SlideTransition(
+//                     position: hideMainButtonsStep,
+//                     child: GestureDetector(
+//                         onTap: () {
+//                           DandyToastUtil.showToast('Sign in with Google is not ready yet.', Color(ColorConstants.getPrimaryColor()));
+// //                          _controller.reverse();
+// //                          Timer(const Duration(milliseconds: 500), () {
+// //                            setState(() {
+// //                              selectedButton = SIGN_IN_WITH_GOOGLE;
+// //                            });
+// //                          });
+// //                          Timer(const Duration(milliseconds: 250), () {
+// //                            _controllerCreateAccount.forward();
+// //                          });
+//                         },
+//                         child: Container(
+//                           margin: EdgeInsets.only(top: 16.0),
+//                           padding: EdgeInsets.only(left: 24.0),
+//                           alignment: Alignment.centerLeft,
+//                           height: 64.0,
+//                           width: 300.0,
+//                           decoration: BoxDecoration(
+//                               color: Color(ColorConstants.getPrimaryWhite()),
+//                               borderRadius: BorderRadius.circular(36.0)),
+//                           child: Row(
+//                             mainAxisSize: MainAxisSize.min,
+//                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                             children: <Widget>[
+//                               Container(
+//                                 margin: EdgeInsets.only(right: 16.0),
+//                                 height: 42.0,
+//                                 width: 42.0,
+//                                 child: Image.asset(
+//                                     'assets/images/icons/gmail_icon_black.png'),
+//                               ),
+//                               Text(
+//                                 'Sign in with Google',
+//                                 textAlign: TextAlign.center,
+//                                 style: TextStyle(
+//                                   fontSize: 22.0,
+//                                   fontFamily: 'simple',
+//                                   fontWeight: FontWeight.w600,
+//                                   color: Color(ColorConstants.getPrimaryBlack()),
+//                                 ),
+//                               )
+//                             ],
+//                           ),
+//                         ),
+//                       ),
+//                   ),
                   SlideTransition(
                     position: hideMainButtonsStep,
                     child: GestureDetector(
@@ -579,7 +579,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             child:Container(
                 height: MediaQuery.of(context).size.height,
                       alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(bottom: 316.0),
+                      margin: EdgeInsets.only(bottom: 332.0),
                       child: ScaleTransition(
                         scale: Tween(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -641,7 +641,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   height: MediaQuery.of(context).size.height,
-                  margin: EdgeInsets.only(bottom: 74.0),
+                  margin: EdgeInsets.only(bottom: 90.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -721,7 +721,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
                                 Text(
-                                  'Loading',
+                                  'Signing In',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 24.0,

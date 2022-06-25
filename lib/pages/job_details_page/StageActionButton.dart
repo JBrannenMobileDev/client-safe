@@ -1,4 +1,5 @@
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -34,14 +35,16 @@ class StageActionButton extends StatelessWidget{
       child: SizedBox(
         width: width,
         height: height,
-        child: FlatButton(
-          padding: EdgeInsets.all(0.0),
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(8.0),
-              side: BorderSide(color: Colors.white)),
+        child: TextButton(
+          style: Styles.getButtonStyle(
+            shape: new RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(8.0),
+                side: BorderSide(color: Colors.white)),
+            color: Colors.white,
+            textColor: Color(ColorConstants.getPrimaryColor()),
+          ),
+
           onPressed: () => urlText.length > 0 ? onPressed(urlText) : onPressed(),
-          color: Colors.white,
-          textColor: Color(ColorConstants.getPrimaryColor()),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

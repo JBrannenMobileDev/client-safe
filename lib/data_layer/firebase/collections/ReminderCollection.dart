@@ -5,25 +5,25 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class ReminderCollection {
   Future<void> createReminder(Reminder reminder) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('reminders')
-        .document(reminder.documentId)
-        .setData(reminder.toMap()).catchError((error) {
+        .doc(reminder.documentId)
+        .set(reminder.toMap()).catchError((error) {
           print(error);
         });
   }
 
   Future<void> deleteReminder(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('reminders')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -31,35 +31,35 @@ class ReminderCollection {
   }
 
   Stream<QuerySnapshot> getReminderStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('reminders')
         .snapshots();
   }
 
   Future<Reminder> getReminder(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('reminders')
-        .document(documentId)
+        .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          Reminder reminder = Reminder.fromMap(expenseSnapshot.data);
-          reminder.documentId = expenseSnapshot.documentID;
+          Reminder reminder = Reminder.fromMap(expenseSnapshot.data());
+          reminder.documentId = expenseSnapshot.id;
           return reminder;
         });
   }
 
   Future<List<Reminder>> getAll(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('reminders')
-        .getDocuments()
+        .get()
         .then((reminders) => _buildRemindersList(reminders));
   }
 
@@ -67,23 +67,23 @@ class ReminderCollection {
 
   Future<void> updateReminder(Reminder reminder) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('reminders')
-          .document(reminder.documentId)
-          .updateData(reminder.toMap());
+          .doc(reminder.documentId)
+          .update(reminder.toMap());
     } catch (e) {
       print(e.toString());
     }
   }
 
   List<Reminder> _buildRemindersList(QuerySnapshot reminders) {
-    List<Reminder> remindersList = List();
-    for(DocumentSnapshot reminderSnapshot in reminders.documents){
-      Reminder reminder = Reminder.fromMap(reminderSnapshot.data);
-      reminder.documentId = reminderSnapshot.documentID;
+    List<Reminder> remindersList = [];
+    for(DocumentSnapshot reminderSnapshot in reminders.docs){
+      Reminder reminder = Reminder.fromMap(reminderSnapshot.data());
+      reminder.documentId = reminderSnapshot.id;
       remindersList.add(reminder);
     }
     return remindersList;

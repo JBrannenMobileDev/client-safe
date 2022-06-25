@@ -15,6 +15,7 @@ import 'package:dandylight/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +53,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
         if(appState.state.newInvoicePageState.shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
       },
-      onDidChange: (pageState) {
+      onDidChange: (prev, pageState) {
         if(!pageState.shouldClear && !hasJumpToBeenCalled) {
           controller.jumpToPage(1);
           hasJumpToBeenCalled = true;
@@ -134,7 +135,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                               onPressed: () {
                                 onBackPressed(pageState);
                               },
@@ -149,7 +151,8 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 ),
                               ),
                             ),
-                            FlatButton(
+                            TextButton(
+                              style: Styles.getButtonStyle(),
                               onPressed: () {
                                 onNextPressed(pageState);
                               },

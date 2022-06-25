@@ -1,7 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
@@ -17,11 +17,13 @@ class NewContactDeviceContactListWidget extends StatelessWidget {
     return StoreConnector<AppState, NewContactPageState>(
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
-          new FlatButton(
-            shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(18.0),
-            ),
-            color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryColor()) : Colors.transparent,
+      TextButton(
+        style: Styles.getButtonStyle(
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(18.0),
+          ),
+          color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Color(ColorConstants.getPrimaryColor()) : Colors.transparent,
+        ),
         onPressed: () {
           pageState.onDeviceContactSelected(pageState.filteredDeviceContacts.elementAt(clientIndex));
         },

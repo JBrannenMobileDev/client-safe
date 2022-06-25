@@ -5,6 +5,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -12,7 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:intl/intl.dart';
-import 'package:share/share.dart';
+import 'package:share_plus/share_plus.dart';
 
 class JobInfoCard extends StatelessWidget {
   JobInfoCard({this.pageState});
@@ -52,7 +53,8 @@ class JobInfoCard extends StatelessWidget {
                         ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     UserOptionsUtil.showNameChangeDialog(context);
                   },
@@ -107,7 +109,8 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     UserOptionsUtil.showJobTypeChangeDialog(context);
                   },
@@ -162,7 +165,8 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     UserOptionsUtil.showDateSelectionCalendarDialog(context);
                   },
@@ -218,7 +222,8 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     UserOptionsUtil.showLocationSelectionDialog(context);
                   },
@@ -285,7 +290,8 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     showModalBottomSheet(
                         context: context,
@@ -313,7 +319,8 @@ class JobInfoCard extends StatelessWidget {
                                 Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                                     children: <Widget>[
-                                      FlatButton(
+                                      TextButton(
+                                        style: Styles.getButtonStyle(),
                                         onPressed: () {
                                           Navigator.of(context).pop();
                                         },
@@ -360,7 +367,8 @@ class JobInfoCard extends StatelessWidget {
                                           ),
                                         ],
                                       ),
-                                      FlatButton(
+                                      TextButton(
+                                        style: Styles.getButtonStyle(),
                                         onPressed: () {
                                           pageState.onNewTimeSelected(newDateTimeHolder);
                                           VibrateUtil.vibrateHeavy();
@@ -464,7 +472,8 @@ class JobInfoCard extends StatelessWidget {
                   ),
                 ),
 
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     UserOptionsUtil.showPricePackageChangeDialog(context);
                   },
@@ -519,7 +528,8 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     UserOptionsUtil.showDepositChangeDialog(context);
                   },
@@ -571,7 +581,8 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                FlatButton(
+                TextButton(
+                  style: Styles.getButtonStyle(),
                   onPressed: () {
                     UserOptionsUtil.showTipChangeDialog(context);
                   },

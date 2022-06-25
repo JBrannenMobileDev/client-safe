@@ -4,6 +4,7 @@ import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -67,7 +68,8 @@ class _NotesChangeDialogState extends State<NotesChangeDialog>
                   Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
@@ -82,7 +84,8 @@ class _NotesChangeDialogState extends State<NotesChangeDialog>
                             ),
                           ),
                         ),
-                        FlatButton(
+                        TextButton(
+                          style: Styles.getButtonStyle(),
                           onPressed: () {
                             pageState.onNameChangeSaved();
                             VibrateUtil.vibrateHeavy();

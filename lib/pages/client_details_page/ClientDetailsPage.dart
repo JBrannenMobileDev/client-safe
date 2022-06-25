@@ -15,6 +15,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class ClientDetailsPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -284,11 +286,13 @@ Future<void> _ackAlert(BuildContext context, ClientDetailsPageState pageState) {
         title: new Text('Are you sure?'),
         content: new Text('This contact will be gone for good!'),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
+            style: Styles.getButtonStyle(),
             onPressed: () => Navigator.of(context).pop(false),
             child: new Text('No'),
           ),
-          new FlatButton(
+          new TextButton(
+            style: Styles.getButtonStyle(),
             onPressed: () {
               pageState.onDeleteClientClicked();
               Navigator.of(context).pop(true);
@@ -300,11 +304,13 @@ Future<void> _ackAlert(BuildContext context, ClientDetailsPageState pageState) {
         title: new Text('Are you sure?'),
         content: new Text('This contact will be gone for good!'),
         actions: <Widget>[
-          new FlatButton(
+          new TextButton(
+            style: Styles.getButtonStyle(),
             onPressed: () => Navigator.of(context).pop(false),
             child: new Text('No'),
           ),
-          new FlatButton(
+          new TextButton(
+            style: Styles.getButtonStyle(),
             onPressed: () {
               pageState.onDeleteClientClicked();
               Navigator.of(context).pop(true);

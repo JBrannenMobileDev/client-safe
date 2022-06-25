@@ -4,23 +4,23 @@ import 'package:dandylight/utils/UidUtil.dart';
 
 class JobCollection {
   Future<void> createJob(Job job) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobs')
-        .document(job.documentId)
-        .setData(job.toMap());
+        .doc(job.documentId)
+        .set(job.toMap());
   }
 
   Future<void> deleteJob(String documentId) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('jobs')
-          .document(documentId)
+          .doc(documentId)
           .delete();
     } catch (e) {
       print(e.toString());
@@ -28,35 +28,35 @@ class JobCollection {
   }
 
   Stream<QuerySnapshot> getJobsStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobs')
         .snapshots();
   }
 
   Future<Job> getJob(String documentId) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobs')
-        .document(documentId)
+        .doc(documentId)
         .get()
         .then((jobSnapshot) {
-          Job result = Job.fromMap(jobSnapshot.data);
-          result.documentId = jobSnapshot.documentID;
+          Job result = Job.fromMap(jobSnapshot.data());
+          result.documentId = jobSnapshot.id;
           return result;
         });
   }
 
   Future<List<Job>> getAll(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('jobs')
-        .getDocuments()
+        .get()
         .then((jobs) => _buildJobsList(jobs));
   }
 
@@ -64,13 +64,13 @@ class JobCollection {
 
   Future<void> updateJob(Job job) async {
     try {
-      final databaseReference = Firestore.instance;
+      final databaseReference = FirebaseFirestore.instance;
       await databaseReference
           .collection('users')
-          .document(UidUtil().getUid())
+          .doc(UidUtil().getUid())
           .collection('jobs')
-          .document(job.documentId)
-          .updateData(job.toMap());
+          .doc(job.documentId)
+          .update(job.toMap());
     } catch (e) {
       print(e.toString());
     }
@@ -78,9 +78,9 @@ class JobCollection {
 
   List<Job> _buildJobsList(QuerySnapshot jobs) {
     List<Job> jobsList = List();
-    for(DocumentSnapshot jobSnapshot in jobs.documents){
-      Job result = Job.fromMap(jobSnapshot.data);
-      result.documentId = jobSnapshot.documentID;
+    for(DocumentSnapshot jobSnapshot in jobs.docs){
+      Job result = Job.fromMap(jobSnapshot.data());
+      result.documentId = jobSnapshot.id;
       jobsList.add(result);
     }
     return jobsList;

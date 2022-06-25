@@ -11,7 +11,6 @@ class Profile{
   String businessName;
   double latDefaultHome;
   double lngDefaultHome;
-  bool signedIn;
   bool pushNotificationsEnabled;
   bool calendarEnabled;
   DateTime lastSignIn;
@@ -40,7 +39,6 @@ class Profile{
     this.phone,
     this.latDefaultHome,
     this.lngDefaultHome,
-    this.signedIn,
     this.pushNotificationsEnabled,
     this.calendarEnabled,
     this.lastSignIn,
@@ -70,7 +68,6 @@ class Profile{
     String phone,
     double latDefaultHome,
     double lngDefaultHome,
-    bool signedIn,
     bool pushNotificationsEnabled,
     bool calendarEnabled,
     DateTime lastSignIn,
@@ -99,7 +96,6 @@ class Profile{
       phone: phone ?? this.phone,
       latDefaultHome: latDefaultHome ?? this.latDefaultHome,
       lngDefaultHome: lngDefaultHome ?? this.lngDefaultHome,
-      signedIn: signedIn ?? this.signedIn,
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
       calendarEnabled: calendarEnabled ?? this.calendarEnabled,
       lastSignIn: lastSignIn ?? this.lastSignIn,
@@ -132,7 +128,6 @@ class Profile{
       'businessName' : businessName,
       'latDefaultHome' : latDefaultHome,
       'lngDefaultHome' : lngDefaultHome,
-      'signedIn' : signedIn,
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -163,7 +158,6 @@ class Profile{
       businessName: map['businessName'],
       latDefaultHome: map['latDefaultHome'],
       lngDefaultHome: map['lngDefaultHome'],
-      signedIn: map['signedIn'],
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
       calendarEnabled: map['calendarEnabled'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,

@@ -153,14 +153,19 @@ class InvoiceDao extends Equatable{
   List<Object> get props => [];
 
   static Future<Invoice> getInvoiceById(String documentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
-    final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
-    // Making a List<Client> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
-      final invoice = Invoice.fromMap(snapshot.value);
-      invoice.id = snapshot.key;
-      return invoice;
-    }).toList().elementAt(0);
+    if((await getAllSortedByDueDate()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
+      // Making a List<Client> out of List<RecordSnapshot>
+      return recordSnapshots.map((snapshot) {
+        final invoice = Invoice.fromMap(snapshot.value);
+        invoice.id = snapshot.key;
+        return invoice;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
+
   }
 
   static Future<Stream<List<RecordSnapshot>>> getInvoiceStream() async {
@@ -243,5 +248,10 @@ class InvoiceDao extends Equatable{
         await _invoiceStore.add(await _db, fireStoreInvoice.toMap());
       }
     }
+  }
+
+  static void deleteAllLocal() async {
+    List<Invoice> invoices = await getAllSortedByDueDate();
+    _deleteAllLocalInvoices(invoices);
   }
 }

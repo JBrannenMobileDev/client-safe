@@ -6,6 +6,8 @@ import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../utils/styles/Styles.dart';
+
 class LeadItem extends StatelessWidget{
   final Client client;
   final DashboardPageState pageState;
@@ -13,7 +15,8 @@ class LeadItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
+      style: Styles.getButtonStyle(),
       onPressed: () {
         pageState.onLeadClicked(client);
         NavigationUtil.onClientTapped(context);

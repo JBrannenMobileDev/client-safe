@@ -3,6 +3,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -18,14 +19,16 @@ class NewReminderListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
+        style: Styles.getButtonStyle(
+          color: pageState.selectedReminder == reminder ? Color(ColorConstants.getBlueLight()) : backgroundColor,
+          shape: RoundedRectangleBorder(
+            borderRadius: new BorderRadius.circular(32.0),
+          ),
+        ),
         onPressed: () {
           onReminderSelected(reminder);
         },
-        color: pageState.selectedReminder == reminder ? Color(ColorConstants.getBlueLight()) : backgroundColor,
-        shape: RoundedRectangleBorder(
-          borderRadius: new BorderRadius.circular(32.0),
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,

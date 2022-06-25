@@ -5,6 +5,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class AddTipJobListItem extends StatelessWidget {
   final int index;
 
@@ -15,12 +17,14 @@ class AddTipJobListItem extends StatelessWidget {
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
       converter: (store) => IncomeAndExpensesPageState.fromStore(store),
       builder: (BuildContext context, IncomeAndExpensesPageState pageState) =>
-          new FlatButton(
-            shape: RoundedRectangleBorder(
+          TextButton(
+            style: Styles.getButtonStyle(
+              shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
+              ),
+              color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
             ),
-            color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
-        onPressed: () {
+            onPressed: () {
           pageState.onJobSelected(pageState.filteredJobs.elementAt(index));
         },
         child: Row(

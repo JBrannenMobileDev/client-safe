@@ -55,14 +55,18 @@ class LocationDao extends Equatable{
   }
 
   static Future<Location> getById(String locationDocumentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', locationDocumentId));
-    final recordSnapshots = await _locationStore.find(await _db, finder: finder);
-    // Making a List<profileId> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
-      final location = Location.fromMap(snapshot.value);
-      location.id = snapshot.key;
-      return location;
-    }).toList().elementAt(0);
+    if((await getAllSortedMostFrequent()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', locationDocumentId));
+      final recordSnapshots = await _locationStore.find(await _db, finder: finder);
+      // Making a List<profileId> out of List<RecordSnapshot>
+      return recordSnapshots.map((snapshot) {
+        final location = Location.fromMap(snapshot.value);
+        location.id = snapshot.key;
+        return location;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
   }
 
   static Future<Stream<List<RecordSnapshot>>> getLocationsStream() async {
@@ -201,4 +205,9 @@ class LocationDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static void deleteAllLocal() async {
+    List<Location> locations = await getAllSortedMostFrequent();
+    _deleteAllLocalLocations(locations);
+  }
 }

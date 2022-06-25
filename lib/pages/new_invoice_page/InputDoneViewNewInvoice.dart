@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -17,8 +18,10 @@ class InputDoneViewNewInvoice extends StatelessWidget {
         color: Colors.transparent,
         child: Align(
           alignment: Alignment.topRight,
-          child: FlatButton(
-            padding: EdgeInsets.only(right: 0.0, top: 8.0, bottom: 0.0),
+          child: TextButton(
+            style: Styles.getButtonStyle(
+              top: 8.0,
+            ),
             onPressed: () {
               FocusScope.of(context).requestFocus(new FocusNode());
             },

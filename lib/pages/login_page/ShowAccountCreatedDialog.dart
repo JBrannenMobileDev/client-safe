@@ -16,7 +16,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class ShowAccountCreatedDialog extends StatelessWidget {
-  final FirebaseUser user;
+  final User user;
 
   ShowAccountCreatedDialog(this.user,);
 

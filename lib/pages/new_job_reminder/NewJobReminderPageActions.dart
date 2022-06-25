@@ -1,4 +1,5 @@
 
+import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 
@@ -15,7 +16,8 @@ class FetchAllRemindersAction{
 
 class SaveNewJobReminderAction{
   final NewJobReminderPageState pageState;
-  SaveNewJobReminderAction(this.pageState);
+  final Job job;
+  SaveNewJobReminderAction(this.pageState, this.job);
 }
 
 class ClearNewJobReminderStateAction{

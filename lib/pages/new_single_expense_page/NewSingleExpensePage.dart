@@ -14,6 +14,7 @@ import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageSta
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,11 +52,13 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
             title: new Text('Are you sure?'),
             content: new Text('All unsaved information entered will be lost.'),
             actions: <Widget>[
-              new FlatButton(
+              TextButton(
+                style: Styles.getButtonStyle(),
                 onPressed: () => Navigator.of(context).pop(false),
                 child: new Text('No'),
               ),
-              new FlatButton(
+              TextButton(
+                style: Styles.getButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).pop(true);
                 },
@@ -155,14 +158,19 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          FlatButton(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
-                            disabledColor: Colors.white,
-                            disabledTextColor:
-                                Color(ColorConstants.primary_bg_grey),
-                            padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.getPrimaryColor()),
+                          TextButton(
+                            style: Styles.getButtonStyle(
+                              color: Colors.white,
+                              textColor: Color(ColorConstants.primary_black),
+                              left: 8.0,
+                              top: 8.0,
+                              right: 8.0,
+                              bottom: 8.0,
+                            ),
+                            // disabledColor: Colors.white,
+                            // disabledTextColor:
+                            //     Color(ColorConstants.primary_bg_grey),
+                            // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onBackPressed(pageState);
                             },
@@ -177,14 +185,19 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                               ),
                             ),
                           ),
-                          FlatButton(
-                            color: Colors.white,
-                            textColor: Color(ColorConstants.primary_black),
-                            disabledColor: Colors.white,
-                            disabledTextColor:
-                                Color(ColorConstants.primary_bg_grey),
-                            padding: EdgeInsets.all(8.0),
-                            splashColor: Color(ColorConstants.getPrimaryColor()),
+                          TextButton(
+                            style: Styles.getButtonStyle(
+                              color: Colors.white,
+                              textColor: Color(ColorConstants.primary_black),
+                              left: 8.0,
+                              top: 8.0,
+                              right: 8.0,
+                              bottom: 8.0,
+                            ),
+                            // disabledColor: Colors.white,
+                            // disabledTextColor:
+                            //     Color(ColorConstants.primary_bg_grey),
+                            // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onNextPressed(pageState);
                             },
@@ -262,11 +275,13 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
           title: new Text('Are you sure?'),
           content: new Text('This price package will be gone for good!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteSingleExpenseSelected();
                 Navigator.of(context).pop(true);
@@ -278,11 +293,13 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
           title: new Text('Are you sure?'),
           content: new Text('This price package will be gone for good!'),
           actions: <Widget>[
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () => Navigator.of(context).pop(false),
               child: new Text('No'),
             ),
-            new FlatButton(
+            TextButton(
+              style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteSingleExpenseSelected();
                 Navigator.of(context).pop(true);

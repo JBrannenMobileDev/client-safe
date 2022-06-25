@@ -97,13 +97,17 @@ class RecurringExpenseDao extends Equatable{
   }
 
   static Future<RecurringExpense> getRecurringExpenseById(String documentId) async{
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
-    final recordSnapshots = await _recurringExpenseStore.find(await _db, finder: finder);
-    return recordSnapshots.map((snapshot) {
-      final expense = RecurringExpense.fromMap(snapshot.value);
-      expense.id = snapshot.key;
-      return expense;
-    }).toList().elementAt(0);
+    if((await getAll()).length > 0) {
+      final finder = Finder(filter: Filter.equals('documentId', documentId));
+      final recordSnapshots = await _recurringExpenseStore.find(await _db, finder: finder);
+      return recordSnapshots.map((snapshot) {
+        final expense = RecurringExpense.fromMap(snapshot.value);
+        expense.id = snapshot.key;
+        return expense;
+      }).toList().elementAt(0);
+    } else {
+      return null;
+    }
   }
 
   static Future<Stream<List<RecordSnapshot>>> getRecurringExpenseStream() async {
@@ -191,4 +195,9 @@ class RecurringExpenseDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static void deleteAllLocal() async {
+    List<RecurringExpense> expenses = await getAll();
+    _deleteAllLocalRecurringExpenses(expenses);
+  }
 }

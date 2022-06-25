@@ -18,51 +18,51 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  firebase_core: ^0.4.5
-  firebase_analytics: ^5.0.15
-  firebase_auth: ^0.16.1
-  cloud_firestore: ^0.13.6
-  cupertino_icons: ^0.1.2
-  flutter_redux: "^0.6.0"
-  redux_epics: "^0.14.0"
-  flutter_parallax: "^0.1.2"
-  intl: "0.16.1"
-  shared_preferences: "^0.4.2"
-  flutter_datetime_picker: "^1.2.6"
-  flare_flutter: "^1.5.4"
-  sembast: "^2.1.0"
-  equatable: ^1.0.3
-  path_provider: ^1.4.0
-  flutter_device_type: ^0.2.0
-  sider_bar: ^0.1.1
-  url_launcher: ^5.2.3
+  firebase_core: ^1.17.1
+  firebase_analytics: ^9.1.9
+  firebase_auth: ^3.3.19
+  cloud_firestore: ^3.1.17
+  cupertino_icons: ^1.0.4
+  flutter_redux: ^0.10.0
+  redux_epics: ^0.15.1
+  flutter_parallax: ^0.1.2
+  intl: ^0.17.0
+  shared_preferences: ^2.0.15
+  flutter_datetime_picker: ^1.5.1
+  flare_flutter: ^3.0.2
+  sembast: ^3.2.0
+  equatable: ^2.0.3
+  path_provider: ^2.0.10
+  flutter_device_type: ^0.4.0
+  url_launcher: ^6.0.5
   sms: ^0.2.4
-  flutter_launcher_icons: "^0.7.3"
-  contacts_service: ^0.4.6
-#  flutter_contact: ^0.4.14
-  permission_handler: ^5.0.1
-  image_picker: ^0.6.2
-  google_maps_flutter: ^0.5.21
-  android_intent: ^0.3.4
-  share: ^0.6.3
-  table_calendar: ^2.2.1
-  flutter_rounded_date_picker: ^0.3.0
-  sunrise_sunset: ^1.0.3
+  flutter_launcher_icons: ^0.9.2
+  contacts_service: ^0.6.3
+  permission_handler: ^9.2.0
+  image_picker: ^0.8.5+3
+  google_maps_flutter: ^2.0.10
+  android_intent_plus: ^3.1.1
+  share_plus: ^4.0.6
+  table_calendar: ^3.0.5
+  flutter_rounded_date_picker: ^3.0.1
   flutter_circular_text: ^0.3.0
-  flutter_cupertino_date_picker: ^1.0.12
-  keyboard_actions: ^3.2.0
+  flutter_cupertino_datetime_picker: ^3.0.0
+  keyboard_actions: ^4.0.0
   keyboard_visibility: ^0.5.6
-  geolocator: ^5.3.1
-  flutter_speed_dial: ^1.2.5
-  pdf: ^1.6.1
+  geolocator: ^8.2.1
+  flutter_speed_dial: ^6.0.0
+  pdf: ^3.8.1
   flutter_full_pdf_viewer: ^1.0.6
-  share_extend: ^1.1.5
-  http: ^0.12.1
-  flutter_google_places: ^0.2.5
-  fluttertoast: ^4.0.1
+  share_extend: ^2.0.0
+  http: ^0.13.4
+  flutter_google_places: ^0.3.0
+  fluttertoast: ^8.0.9
   flutter_masked_text: ^0.8.0
-  firebase_messaging: ^6.0.16
-  uuid: ^2.1.0
+  firebase_messaging: ^11.4.1
+  uuid: ^3.0.6
+  flutter_local_notifications: ^9.5.3+1
+  rxdart: ^0.26.0
+  geocoder: ^0.2.1
 
 flutter_icons:
   android: true

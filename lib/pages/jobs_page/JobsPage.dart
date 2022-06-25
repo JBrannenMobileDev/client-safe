@@ -1,6 +1,5 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobCompletedItem.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/JobInProgressItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/pages/jobs_page/widgets/JobsPageInProgressItem.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -8,7 +7,6 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:sider_bar/sider_bar.dart';
 
 class JobsPage extends StatefulWidget {
   static const String FILTER_TYPE_IN_PROGRESS = "In Progress";

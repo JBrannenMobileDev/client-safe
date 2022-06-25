@@ -17,10 +17,10 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
-import 'package:sunrise_sunset/sunrise_sunset.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 

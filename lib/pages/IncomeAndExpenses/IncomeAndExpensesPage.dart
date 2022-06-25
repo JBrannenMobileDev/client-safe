@@ -1,5 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeGraphCard.dart';
@@ -16,10 +15,11 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:intl/intl.dart';
+
+import '../../utils/styles/Styles.dart';
 
 class IncomeAndExpensesPage extends StatefulWidget {
   static const String FILTER_TYPE_INCOME = "Income";
@@ -190,7 +190,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                   color: Color(ColorConstants.getPrimaryWhite())
                                                 ),
                                               ),
-                                              child: FlatButton(
+                                              child: TextButton(
+                                                style: Styles.getButtonStyle(),
                                                 onPressed: () {
                                                   DatePicker.showDatePicker(
                                                     context,
@@ -248,8 +249,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
               ),
                 floatingActionButton: SpeedDial(
                   // both default to 16
-                  marginRight: 18,
-                  marginBottom: 20,
+                  childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
                   child: getFabIcon(),
                   visible: dialVisible,
                   // If true user is forced to close dial manually

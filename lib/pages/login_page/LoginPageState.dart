@@ -19,7 +19,7 @@ class LoginPageState {
   final bool showLoginLoadingAnimation;
   final bool showLoginErrorAnimation;
   final bool isUserVerified;
-  final FirebaseUser user;
+  final User user;
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
   final Function(String) onBusinessNameChanged;
@@ -85,7 +85,7 @@ class LoginPageState {
     bool navigateToHome,
     bool shouldShowAccountCreatedDialog,
     bool showLoginErrorAnimation,
-    FirebaseUser user,
+    User user,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -207,7 +207,7 @@ class LoginPageState {
     showCreateAccountLoadingAnimation: false,
     showLoginLoadingAnimation: false,
     onLoginSelected: null,
-    user: null,
+    user: FirebaseAuth.instance.currentUser,
     resetShouldShowSuccessDialog: null,
     onForgotPasswordSelected: null,
     onResendEmailVerificationSelected: null,

@@ -4,6 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -68,13 +69,15 @@ class _JobTypeSelection extends State<JobTypeSelection>
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
-          FlatButton(
-            shape: RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(32.0),
+      TextButton(
+            style: Styles.getButtonStyle(
+              shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(32.0),
+              ),
+              color: pageState.jobTypeIcon != null &&
+                  getIconPosition(pageState, jobTypeIcons) == index ? Color(
+                  ColorConstants.getBlueDark()) : Colors.transparent,
             ),
-            color: pageState.jobTypeIcon != null &&
-                getIconPosition(pageState, jobTypeIcons) == index ? Color(
-                ColorConstants.getBlueDark()) : Colors.transparent,
             onPressed: () {
               pageState.onJobTypeSelected(
                   jobTypeIcons.elementAt(index));

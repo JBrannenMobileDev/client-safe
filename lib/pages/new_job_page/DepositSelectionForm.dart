@@ -2,6 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -66,14 +67,16 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 0.0),
-                      child: FlatButton(
+                      child: TextButton(
+                        style: Styles.getButtonStyle(
+                          color: Color(ColorConstants.getPrimaryColor()),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(48.0),
+                          ),
+                        ),
                         onPressed: () {
                           pageState.onAddToDeposit(1);
                         },
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(48.0),
-                        ),
                         child: Container(
                           alignment: Alignment.center,
                           width: 78.0,
@@ -108,14 +111,16 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 8.0),
-                      child: FlatButton(
+                      child: TextButton(
+                        style: Styles.getButtonStyle(
+                          color: Color(ColorConstants.getPrimaryColor()),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(48.0),
+                          ),
+                        ),
                         onPressed: () {
                           pageState.onAddToDeposit(5);
                         },
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: new BorderRadius.circular(48.0),
-                        ),
                         child: Container(
                           alignment: Alignment.center,
                           width: 78.0,
@@ -157,14 +162,16 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(left: 0.0),
-                        child: FlatButton(
+                        child: TextButton(
+                          style: Styles.getButtonStyle(
+                            color: Color(ColorConstants.getPrimaryColor()),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(48.0),
+                            ),
+                          ),
                           onPressed: () {
                             pageState.onAddToDeposit(25);
                           },
-                          color: Color(ColorConstants.getPrimaryColor()),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: new BorderRadius.circular(48.0),
-                          ),
                           child: Container(
                             alignment: Alignment.center,
                             width: 78.0,
@@ -199,14 +206,16 @@ class _DepositSelectionFormState extends State<DepositSelectionForm>
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: 8.0),
-                        child: FlatButton(
+                        child: TextButton(
+                          style: Styles.getButtonStyle(
+                            color: Color(ColorConstants.getPrimaryColor()),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: new BorderRadius.circular(48.0),
+                            ),
+                          ),
                               onPressed: () {
                                 pageState.onAddToDeposit(100);
                               },
-                              color: Color(ColorConstants.getPrimaryColor()),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: new BorderRadius.circular(48.0),
-                              ),
                               child: Container(
                                 alignment: Alignment.center,
                                 width: 78.0,

@@ -1,4 +1,5 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
@@ -15,7 +16,7 @@ class NewJobReminderPageState {
   final Reminder selectedReminder;
   final DateTime selectedTime;
   final List<Reminder> allReminders;
-  final Function() onSavePressed;
+  final Function(Job) onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
   final Function() onBackPressed;
@@ -104,7 +105,7 @@ class NewJobReminderPageState {
       comingFromJobDetails: store.state.newJobReminderPageState.comingFromJobDetails,
       allReminders: store.state.newJobReminderPageState.allReminders,
       selectedReminder: store.state.newJobReminderPageState.selectedReminder,
-      onSavePressed: () => store.dispatch(SaveNewJobReminderAction(store.state.newJobReminderPageState)),
+      onSavePressed: (job) => store.dispatch(SaveNewJobReminderAction(store.state.newJobReminderPageState, job)),
       onCancelPressed: () => store.dispatch(ClearNewJobReminderStateAction(store.state.newJobReminderPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobReminderPageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newJobReminderPageState)),

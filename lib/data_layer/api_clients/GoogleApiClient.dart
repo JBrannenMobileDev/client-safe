@@ -21,7 +21,7 @@ class GoogleApiClient {
   Future<List<PlacesLocation>> getLocationResults(String input) async {
     String sessionToken = Uuid().generateV4();
     final url = '$_baseUrl/place/autocomplete/json?input=$input&key=$PLACES_API_KEY&type=(regions)&sessiontoken=$sessionToken';
-    final http.Response response = await this.httpClient.get(url);
+    final http.Response response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       throw new Exception('error getting quotes');
@@ -39,7 +39,7 @@ class GoogleApiClient {
 
   Future<Location> getLocationDetails(String place_id, String description) async {
     final url = '$_baseUrl/place/details/json?key=$PLACES_API_KEY&place_id=$place_id';
-    final http.Response response = await this.httpClient.get(url);
+    final http.Response response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       throw new Exception('error getting quotes');
@@ -58,7 +58,7 @@ class GoogleApiClient {
     double endLat = endLocation.latitude;
     double endLng = endLocation.longitude;
     final url = '$_baseUrl/distancematrix/json?units=imperial&key=$DISTANCE_MATRIX_API_KEY&origins=$startLat,$startLng&destinations=$endLat,$endLng';
-    final http.Response response = await this.httpClient.get(url);
+    final http.Response response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
       throw new Exception('error getting quotes');

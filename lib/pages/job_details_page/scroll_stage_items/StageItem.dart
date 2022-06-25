@@ -215,7 +215,7 @@ class _StageItemState extends State<StageItem>
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
-        onDidChange: (pageState) => {
+        onDidChange: (prev, pageState) => {
           setState(() {
             _setStageStatus(job, index);
             if(isCurrentStage){

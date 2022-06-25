@@ -1,12 +1,13 @@
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+
+import '../../../utils/styles/Styles.dart';
 
 class JobInProgressItem extends StatelessWidget{
   final Job job;
@@ -15,7 +16,8 @@ class JobInProgressItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
+      style: Styles.getButtonStyle(),
       onPressed: () {
         pageState.onJobClicked(job);
         NavigationUtil.onJobTapped(context);
@@ -50,7 +52,7 @@ class JobInProgressItem extends StatelessWidget{
                           Padding(
                             padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
                             child: Text(
-                              job.jobTitle,
+                              job.clientName.split(' ').first + " - " + job.jobTitle,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 20.0,

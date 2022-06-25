@@ -5,6 +5,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
@@ -50,7 +51,8 @@ class ClientDetailsCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    FlatButton(
+                    TextButton(
+                      style: Styles.getButtonStyle(),
                       onPressed: () {
                         pageState.onClientClicked(pageState.client);
                         Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));

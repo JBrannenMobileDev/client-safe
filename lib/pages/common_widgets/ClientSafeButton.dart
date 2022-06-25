@@ -2,6 +2,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../utils/styles/Styles.dart';
+
 class ClientSafeButton extends StatelessWidget{
   final double height;
   final double width;
@@ -35,14 +37,15 @@ class ClientSafeButton extends StatelessWidget{
       child: SizedBox(
         width: width,
         height: height,
-        child: FlatButton(
-          padding: EdgeInsets.all(0.0),
-          shape: new RoundedRectangleBorder(
-              borderRadius: new BorderRadius.circular(32.0),
-              side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
+        child: TextButton(
+          style: Styles.getButtonStyle(
+            shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(32.0),
+                  side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
+            color: Color(ColorConstants.getPrimaryColor()),
+            textColor: Colors.white,
+          ),
           onPressed: () => urlText.length > 0 ? onPressed(urlText) : onPressed(),
-          color: Color(ColorConstants.getPrimaryColor()),
-          textColor: Colors.white,
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,

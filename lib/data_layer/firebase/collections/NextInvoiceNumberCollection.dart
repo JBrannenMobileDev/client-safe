@@ -6,40 +6,40 @@ import 'package:dandylight/utils/UidUtil.dart';
 class NextInvoiceNumberCollection {
   static const String singletonItemId = 'singletonItem';
   Future<void> updateNextInvoiceNumber(NextInvoiceNumber number) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference.collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('nextInvoiceNumber')
-        .document(singletonItemId)
-        .setData(number.toMap());
+        .doc(singletonItemId)
+        .set(number.toMap());
   }
 
   Stream<DocumentSnapshot> getStream() {
-    return Firestore.instance
+    return FirebaseFirestore.instance
         .collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('nextInvoiceNumber')
-        .document(singletonItemId)
+        .doc(singletonItemId)
         .snapshots();
   }
 
   Future<void> setStartingValue(int startingValue) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     await databaseReference.collection('users')
-        .document(UidUtil().getUid())
+        .doc(UidUtil().getUid())
         .collection('nextInvoiceNumber')
-        .document(singletonItemId)
-        .setData(NextInvoiceNumber(highestInvoiceNumber: startingValue).toMap());
+        .doc(singletonItemId)
+        .set(NextInvoiceNumber(highestInvoiceNumber: startingValue).toMap());
   }
 
   Future<NextInvoiceNumber> getNextInvoiceNumber(String uid) async {
-    final databaseReference = Firestore.instance;
+    final databaseReference = FirebaseFirestore.instance;
     return await  databaseReference
         .collection('users')
-        .document(uid)
+        .doc(uid)
         .collection('nextInvoiceNumber')
-        .document(singletonItemId)
+        .doc(singletonItemId)
         .get()
-        .then((nextInvoiceNUmber) => NextInvoiceNumber.fromMap(nextInvoiceNUmber.data));
+        .then((nextInvoiceNUmber) => NextInvoiceNumber.fromMap(nextInvoiceNUmber.data()));
   }
 }
