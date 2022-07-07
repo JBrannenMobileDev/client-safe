@@ -9,13 +9,16 @@ final loginPageReducer = combineReducers<LoginPageState>([
   TypedReducer<LoginPageState, UpdateEmailAddressAction>(_updateEmailAddress),
   TypedReducer<LoginPageState, UpdatePasswordAction>(_updatePassword),
   TypedReducer<LoginPageState, UpdateMainButtonsVisibleAction>(_updateMainButtonVisibility),
+  TypedReducer<LoginPageState, UpdateForgotPasswordVisibleAction>(_updateForgotPasswordVisibility),
   TypedReducer<LoginPageState, UpdateShowResendMessageAction>(_updateShowResendMessage),
   TypedReducer<LoginPageState, UpdateNavigateToHomeAction>(_updateNavigateToHome),
   TypedReducer<LoginPageState, SetSignInErrorMessageAction>(_setSignInError),
   TypedReducer<LoginPageState, SetCreateAccountErrorMessageAction>(_setCreateAccountError),
   TypedReducer<LoginPageState, ClearErrorMessagesAction>(_clearErrorMessages),
   TypedReducer<LoginPageState, SetShowAccountCreatedDialogAction>(_setShowAccountCreatedDialogAction),
+  TypedReducer<LoginPageState, SetResetPasswordSentDialogAction>(_setShowResetPasswordSentDialogAction),
   TypedReducer<LoginPageState, ClearShowAccountCreatedDialogFlagAction>(_resetShowAccountCreatedDialogFlag),
+  TypedReducer<LoginPageState, ClearShowResetPasswordSentDialogFlagAction>(_resetShowResetPasswordSentDialogFlag),
   TypedReducer<LoginPageState, UpdateShowCreateAccountAnimation>(_updateShowCreateAccountAnimation),
   TypedReducer<LoginPageState, UpdateShowLoginAnimation>(_updateShowLoginAnimation),
   TypedReducer<LoginPageState, UpdateLoginEmailAction>(_updateLoginEmail),
@@ -74,12 +77,24 @@ LoginPageState _resetShowAccountCreatedDialogFlag(LoginPageState previousState, 
   );
 }
 
+LoginPageState _resetShowResetPasswordSentDialogFlag(LoginPageState previousState, ClearShowResetPasswordSentDialogFlagAction action) {
+  return previousState.copyWith(
+    shouldShowResetPasswordSentDialog: false,
+  );
+}
+
 LoginPageState _setShowAccountCreatedDialogAction(LoginPageState previousState, SetShowAccountCreatedDialogAction action) {
   return previousState.copyWith(
     shouldShowAccountCreatedDialog: action.showAccountCreatedDialog,
     user: action.user,
     showCreateAccountLoadingAnimation: false,
     showResendMessage: false,
+  );
+}
+
+LoginPageState _setShowResetPasswordSentDialogAction(LoginPageState previousState, SetResetPasswordSentDialogAction action) {
+  return previousState.copyWith(
+    shouldShowResetPasswordSentDialog: action.showResetPasswordSentDialog,
   );
 }
 
@@ -111,6 +126,12 @@ LoginPageState _updateNavigateToHome(LoginPageState previousState, UpdateNavigat
 LoginPageState _updateMainButtonVisibility(LoginPageState previousState, UpdateMainButtonsVisibleAction action) {
   return previousState.copyWith(
     mainButtonsVisible: action.mainButtonsVisible,
+  );
+}
+
+LoginPageState _updateForgotPasswordVisibility(LoginPageState previousState, UpdateForgotPasswordVisibleAction action) {
+  return previousState.copyWith(
+    isForgotPasswordViewVisible: action.forgotPasswordViewVisible,
   );
 }
 

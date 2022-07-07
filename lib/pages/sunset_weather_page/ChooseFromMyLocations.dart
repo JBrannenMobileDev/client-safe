@@ -180,7 +180,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
               Padding(
                 padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
                 child: Text(
-                  "You do ot have any locations saved to your collection. Select the + Location button to create a new location.",
+                  "You do not have any locations saved to your collection. Select the + Location button to create a new location.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,

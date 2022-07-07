@@ -1,37 +1,44 @@
 class Location {
-  final String name;
-  final String country;
-  final String region;
-  final String lat;
-  final String lon;
-  final String timezone_id;
-  final String localtime; //Format = 2019-09-07 08:14
-  final int localtime_epoch; //format = 1567844040,
-  final String utc_offset;
+  String name;
+  String region;
+  String country;
+  double lat;
+  double lon;
+  String tzId;
+  int localtimeEpoch;
+  String localtime;
 
-  const Location({
-    this.name,
-    this.country,
-    this.region,
-    this.lat,
-    this.lon,
-    this.timezone_id,
-    this.localtime,
-    this.localtime_epoch,
-    this.utc_offset,
-  });
+  Location(
+      {this.name,
+        this.region,
+        this.country,
+        this.lat,
+        this.lon,
+        this.tzId,
+        this.localtimeEpoch,
+        this.localtime});
 
-  static Location fromJson(dynamic json) {
-    return Location(
-      name: json['name'],
-      country: json['country'],
-      region: json['region'],
-      lat: json['lat'],
-      lon: json['lon'],
-      timezone_id: json['timezone_id'],
-      localtime: json['localtime'],
-      localtime_epoch: json['localtime_epoch'],
-      utc_offset: json['utc_offset'],
-    );
+  Location.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    region = json['region'];
+    country = json['country'];
+    lat = json['lat'];
+    lon = json['lon'];
+    tzId = json['tz_id'];
+    localtimeEpoch = json['localtime_epoch'];
+    localtime = json['localtime'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['name'] = this.name;
+    data['region'] = this.region;
+    data['country'] = this.country;
+    data['lat'] = this.lat;
+    data['lon'] = this.lon;
+    data['tz_id'] = this.tzId;
+    data['localtime_epoch'] = this.localtimeEpoch;
+    data['localtime'] = this.localtime;
+    return data;
   }
 }

@@ -9,6 +9,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_picker.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
@@ -57,6 +58,14 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                         backgroundColor: Colors.white,
                         pinned: true,
                         centerTitle: true,
+                        leading: IconButton(
+                          icon: Icon(Device.get().isIos ? Icons.arrow_back_ios : Icons.arrow_back),
+                          color: Color(ColorConstants.getPrimaryColor()),
+                          tooltip: 'Close',
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                        ),
                         title: Container(
                           child: Text(
                             "Sunset & Weather",
@@ -362,7 +371,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                 shrinkWrap: true,
                                 itemCount: pageState.hoursForecast.length,
                                 scrollDirection: Axis.horizontal,
-                                itemBuilder: _buildItem,
+                                itemBuilder: _buildSingleDayForecastItem,
                               ),
                             ),
                             Container(
@@ -659,7 +668,7 @@ void vibrate() async {
   HapticFeedback.mediumImpact();
 }
 
-Widget _buildItem(BuildContext context, int index) {
+Widget _buildSingleDayForecastItem(BuildContext context, int index) {
   return StoreConnector<AppState, SunsetWeatherPageState>(
     converter: (store) => SunsetWeatherPageState.fromStore(store),
     builder: (BuildContext context, SunsetWeatherPageState pageState) =>
@@ -691,10 +700,10 @@ Widget _buildItem(BuildContext context, int index) {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                   ),
-                  child: Image(image: getWeatherIcon(pageState.hoursForecast.elementAt(index).weather_code, pageState.hoursForecast.elementAt(index).weather_descriptions.elementAt(0))),
+                  child: Image(image: getWeatherIcon(pageState.hoursForecast.elementAt(index).condition.code, pageState.hoursForecast.elementAt(index).condition.text)),
                 ),
                 Text(
-                  pageState.hoursForecast.elementAt(index).temperature.toString() + '°',
+                  pageState.hoursForecast.elementAt(index).tempF.toInt().toString() + '°',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 20.0,
@@ -711,77 +720,78 @@ Widget _buildItem(BuildContext context, int index) {
 }
 
 String _getHourText(String time) {
-    switch(time){
-      case '0':
+  DateTime dateTime = DateTime.parse(time);
+    switch(dateTime.hour){
+      case 0:
         return '12am';
         break;
-      case '100':
+      case 1:
         return '1am';
         break;
-      case '200':
+      case 2:
         return '2am';
         break;
-      case '300':
+      case 3:
         return '3am';
         break;
-      case '400':
+      case 4:
         return '4am';
         break;
-      case '500':
+      case 5:
         return '5am';
         break;
-      case '600':
+      case 6:
         return '6am';
         break;
-      case '700':
+      case 7:
         return '7am';
         break;
-      case '800':
+      case 8:
         return '8am';
         break;
-      case '900':
+      case 9:
         return '9am';
         break;
-      case '1000':
+      case 10:
         return '10am';
         break;
-      case '1100':
+      case 11:
         return '11am';
         break;
-      case '1200':
+      case 12:
         return '12pm';
         break;
-      case '1300':
+      case 13:
         return '1pm';
         break;
-      case '1400':
+      case 14:
         return '2pm';
         break;
-      case '1500':
+      case 15:
         return '3pm';
         break;
-      case '1600':
+      case 16:
         return '4pm';
         break;
-      case '1700':
+      case 17:
         return '5pm';
         break;
-      case '1800':
+      case 18:
         return '6pm';
         break;
-      case '1900':
+      case 19:
         return '7pm';
         break;
-      case '2000':
+      case 20:
         return '8pm';
         break;
-      case '2100':
+      case 21:
         return '9pm';
         break;
-      case '2200':
+      case 22:
         return '10pm';
         break;
-      case '2300':
+      case 23:
         return '11pm';
         break;
     }
@@ -791,51 +801,51 @@ String _getHourText(String time) {
 AssetImage getWeatherIcon(int weatherCode, String weatherDescription){
   AssetImage icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
   switch(weatherCode){
-    case 113:
+    case 1000:
       if(weatherDescription.contains('Clear')){
         icon = AssetImage('assets/images/icons/night_icon.png');
       }else{
         icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
       }
       break;
-    case 116:
+    case 1003:
       icon = AssetImage('assets/images/icons/partly_cloudy_icon.png');
       break;
-    case 119:
-    case 248:
-    case 260:
+    case 1006:
+    case 1135:
+    case 1147:
       icon = AssetImage('assets/images/icons/cloudy_icon.png');
       break;
-    case 122:
-    case 143:
+    case 1009:
+    case 1030:
       icon = AssetImage('assets/images/icons/very_cloudy_icon.png');
       break;
-    case 176:
-    case 263:
-    case 266:
-    case 293:
-    case 296:
+    case 1063:
+    case 1150:
+    case 1153:
+    case 1180:
+    case 1183:
       icon = AssetImage('assets/images/icons/sunny_rainy_icon.png');
       break;
-    case 179:
-    case 185:
-    case 227:
-    case 230:
+    case 1066:
+    case 1072:
+    case 1114:
+    case 1117:
       icon = AssetImage('assets/images/icons/snowing_icon.png');
       break;
-    case 182:
-    case 281:
-    case 284:
-    case 311:
+    case 1069:
+    case 1168:
+    case 1171:
+    case 1198:
       icon = AssetImage('assets/images/icons/hail_icon.png');
       break;
-    case 200:
+    case 1087:
       icon = AssetImage('assets/images/icons/lightning_rain_icon.png');
       break;
-    case 299:
-    case 302:
-    case 305:
-    case 308:
+    case 1186:
+    case 1189:
+    case 1192:
+    case 1195:
       icon = AssetImage('assets/images/icons/rainy_icon.png');
       break;
   }

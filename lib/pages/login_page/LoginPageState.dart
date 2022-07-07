@@ -12,9 +12,11 @@ class LoginPageState {
   final String loginErrorMessage;
   final String createAccountErrorMessage;
   final bool mainButtonsVisible;
+  final bool isForgotPasswordViewVisible;
   final bool showResendMessage;
   final bool navigateToHome;
   final bool shouldShowAccountCreatedDialog;
+  final bool shouldShowResetPasswordSentDialog;
   final bool showCreateAccountLoadingAnimation;
   final bool showLoginLoadingAnimation;
   final bool showLoginErrorAnimation;
@@ -28,11 +30,14 @@ class LoginPageState {
   final Function() onCreateAccountSubmitted;
   final Function() onContinueWithGoogleSubmitted;
   final Function() onLoginSelected;
+  final Function() onResetPasswordSelected;
   final Function() onForgotPasswordSelected;
   final Function() onResendEmailVerificationSelected;
   final Function(bool) updateMainButtonVisible;
+  final Function(bool) updateForgotPasswordVisible;
   final Function() onClearErrorMessages;
   final Function() resetShouldShowSuccessDialog;
+  final Function() resetShouldShowResetPasswordSentDialog;
   final Function(String) onLoginPasswordChanged;
   final Function(String) onLoginEmailChanged;
   final Function() onClearLoginErrorShake;
@@ -51,18 +56,23 @@ class LoginPageState {
     this.onCreateAccountSubmitted,
     this.onContinueWithGoogleSubmitted,
     this.onLoginSelected,
+    this.onResetPasswordSelected,
     this.onForgotPasswordSelected,
     this.onResendEmailVerificationSelected,
     this.mainButtonsVisible,
+    this.isForgotPasswordViewVisible,
     this.showResendMessage,
     this.updateMainButtonVisible,
+    this.updateForgotPasswordVisible,
     this.navigateToHome,
     this.loginErrorMessage,
     this.createAccountErrorMessage,
     this.onClearErrorMessages,
     this.shouldShowAccountCreatedDialog,
+    this.shouldShowResetPasswordSentDialog,
     this.user,
     this.resetShouldShowSuccessDialog,
+    this.resetShouldShowResetPasswordSentDialog,
     this.showCreateAccountLoadingAnimation,
     this.showLoginLoadingAnimation,
     this.onLoginEmailChanged,
@@ -81,9 +91,11 @@ class LoginPageState {
     String loginErrorMessage,
     String createAccountErrorMessage,
     bool mainButtonsVisible,
+    bool isForgotPasswordViewVisible,
     bool showResendMessage,
     bool navigateToHome,
     bool shouldShowAccountCreatedDialog,
+    bool shouldShowResetPasswordSentDialog,
     bool showLoginErrorAnimation,
     User user,
     Function(String) onFirstNameChanged,
@@ -94,11 +106,14 @@ class LoginPageState {
     Function() onCreateAccountSubmitted,
     Function() onContinueWithGoogleSubmitted,
     Function() onLoginSelected,
+    Function() onResetPasswordSelected,
     Function() onForgotPasswordSelected,
     Function() onResendEmailVerificationSelected,
     Function(bool) updateMainButtonVisible,
+    Function(bool) updateForgotPasswordVisible,
     Function() onClearErrorMessages,
     Function() resetShouldShowSuccessDialog,
+    Function() resetShouldShowResetPasswordSentDialog,
     bool showCreateAccountLoadingAnimation,
     bool showLoginLoadingAnimation,
     Function(String) onLoginEmailChanged,
@@ -123,15 +138,19 @@ class LoginPageState {
       onForgotPasswordSelected: onForgotPasswordSelected ?? this.onForgotPasswordSelected,
       onResendEmailVerificationSelected: onResendEmailVerificationSelected ?? this.onResendEmailVerificationSelected,
       mainButtonsVisible: mainButtonsVisible ?? this.mainButtonsVisible,
+      isForgotPasswordViewVisible: isForgotPasswordViewVisible ?? this.isForgotPasswordViewVisible,
       showResendMessage: showResendMessage ?? this.showResendMessage,
       updateMainButtonVisible: updateMainButtonVisible ?? this.updateMainButtonVisible,
+      updateForgotPasswordVisible: updateForgotPasswordVisible ?? this.updateForgotPasswordVisible,
       navigateToHome: navigateToHome ?? this.navigateToHome,
       loginErrorMessage: loginErrorMessage ?? this.loginErrorMessage,
       createAccountErrorMessage: createAccountErrorMessage ?? this.createAccountErrorMessage,
       onClearErrorMessages: onClearErrorMessages ?? this.onClearErrorMessages,
       shouldShowAccountCreatedDialog: shouldShowAccountCreatedDialog ?? this.shouldShowAccountCreatedDialog,
+      shouldShowResetPasswordSentDialog: shouldShowResetPasswordSentDialog ?? this.shouldShowResetPasswordSentDialog,
       user: user ?? this.user,
       resetShouldShowSuccessDialog: resetShouldShowSuccessDialog ?? this.resetShouldShowSuccessDialog,
+      resetShouldShowResetPasswordSentDialog: resetShouldShowResetPasswordSentDialog ?? this.resetShouldShowResetPasswordSentDialog,
       showCreateAccountLoadingAnimation: showCreateAccountLoadingAnimation ?? this.showCreateAccountLoadingAnimation,
       showLoginLoadingAnimation: showLoginLoadingAnimation ?? this.showLoginLoadingAnimation,
       onLoginEmailChanged: onLoginPasswordChanged ?? this.onLoginEmailChanged,
@@ -139,6 +158,7 @@ class LoginPageState {
       showLoginErrorAnimation: showLoginErrorAnimation ?? this.showLoginErrorAnimation,
       onClearLoginErrorShake: onClearLoginErrorShake ?? this.onClearLoginErrorShake,
       isUserVerified: isUserVerified ?? this.isUserVerified,
+      onResetPasswordSelected: onResetPasswordSelected ?? this.onResetPasswordSelected,
     );
   }
 
@@ -150,11 +170,13 @@ class LoginPageState {
       emailAddress: store.state.loginPageState.emailAddress,
       password: store.state.loginPageState.password,
       mainButtonsVisible: store.state.loginPageState.mainButtonsVisible,
+      isForgotPasswordViewVisible: store.state.loginPageState.isForgotPasswordViewVisible,
       showResendMessage: store.state.loginPageState.showResendMessage,
       navigateToHome: store.state.loginPageState.navigateToHome,
       loginErrorMessage: store.state.loginPageState.loginErrorMessage,
       createAccountErrorMessage: store.state.loginPageState.createAccountErrorMessage,
       shouldShowAccountCreatedDialog: store.state.loginPageState.shouldShowAccountCreatedDialog,
+      shouldShowResetPasswordSentDialog: store.state.loginPageState.shouldShowResetPasswordSentDialog,
       user: store.state.loginPageState.user,
       showCreateAccountLoadingAnimation: store.state.loginPageState.showCreateAccountLoadingAnimation,
       showLoginLoadingAnimation: store.state.loginPageState.showLoginLoadingAnimation,
@@ -168,14 +190,17 @@ class LoginPageState {
       onCreateAccountSubmitted: () => store.dispatch(CreateAccountAction(store.state.loginPageState)),
       onContinueWithGoogleSubmitted: () => store.dispatch(ContinueWithGoogleAction(store.state.loginPageState)),
       onLoginSelected: () => store.dispatch(LoginAction(store.state.loginPageState)),
+      onResetPasswordSelected: () => store.dispatch(ResetPasswordAction(store.state.loginPageState)),
       onForgotPasswordSelected: () => store.dispatch(ForgotPasswordSelectedAction(store.state.loginPageState)),
       onResendEmailVerificationSelected: () {
         store.dispatch(ResendEmailVerificationAction(store.state.loginPageState));
         store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
       },
+      updateForgotPasswordVisible: (visible) => store.dispatch(UpdateForgotPasswordVisibleAction(store.state.loginPageState, visible)),
       updateMainButtonVisible: (visible) => store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, visible)),
       onClearErrorMessages: () => store.dispatch(ClearErrorMessagesAction(store.state.loginPageState)),
       resetShouldShowSuccessDialog: () => store.dispatch((ClearShowAccountCreatedDialogFlagAction(store.state.loginPageState))),
+      resetShouldShowResetPasswordSentDialog: () => store.dispatch((ClearShowResetPasswordSentDialogFlagAction(store.state.loginPageState))),
       onLoginEmailChanged: (email) => store.dispatch(UpdateLoginEmailAction(store.state.loginPageState, email)),
       onLoginPasswordChanged: (password) => store.dispatch(UpdateLoginPasswordAction(store.state.loginPageState, password)),
       onClearLoginErrorShake: () => store.dispatch(ClearLoginErrorShake(store.state.loginPageState)),
@@ -194,6 +219,7 @@ class LoginPageState {
     onLoginPasswordChanged: null,
     navigateToHome: false,
     mainButtonsVisible: true,
+    isForgotPasswordViewVisible: false,
     showResendMessage: false,
     onClearLoginErrorShake: null,
     onFirstNameChanged: null,
@@ -202,6 +228,7 @@ class LoginPageState {
     onEmailAddressNameChanged: null,
     onPasswordChanged: null,
     shouldShowAccountCreatedDialog: false,
+    shouldShowResetPasswordSentDialog: false,
     onCreateAccountSubmitted: null,
     onContinueWithGoogleSubmitted: null,
     showCreateAccountLoadingAnimation: false,
@@ -212,6 +239,7 @@ class LoginPageState {
     onForgotPasswordSelected: null,
     onResendEmailVerificationSelected: null,
     updateMainButtonVisible: null,
+    updateForgotPasswordVisible: null,
     loginErrorMessage:'',
     createAccountErrorMessage: '',
     onClearErrorMessages: null,
@@ -225,13 +253,16 @@ class LoginPageState {
       onLoginEmailChanged.hashCode ^
       businessName.hashCode ^
       showLoginErrorAnimation.hashCode ^
+      shouldShowResetPasswordSentDialog.hashCode ^
       emailAddress.hashCode ^
       password.hashCode ^
       onClearErrorMessages.hashCode ^
       mainButtonsVisible.hashCode ^
+      isForgotPasswordViewVisible.hashCode ^
       isUserVerified.hashCode ^
       showResendMessage.hashCode ^
       updateMainButtonVisible.hashCode ^
+      updateForgotPasswordVisible.hashCode ^
       onFirstNameChanged.hashCode ^
       onClearLoginErrorShake.hashCode ^
       showCreateAccountLoadingAnimation.hashCode ^
@@ -268,6 +299,7 @@ class LoginPageState {
               onLoginPasswordChanged == other.onLoginPasswordChanged &&
               onLoginEmailChanged == other.onLoginEmailChanged &&
               mainButtonsVisible == other.mainButtonsVisible &&
+              isForgotPasswordViewVisible == other.isForgotPasswordViewVisible &&
               showResendMessage == other.showResendMessage &&
               onResendEmailVerificationSelected == other.onResendEmailVerificationSelected &&
               onFirstNameChanged == other.onFirstNameChanged &&
@@ -286,6 +318,7 @@ class LoginPageState {
               loginErrorMessage == other.loginErrorMessage &&
               createAccountErrorMessage == other.createAccountErrorMessage &&
               updateMainButtonVisible == other.updateMainButtonVisible &&
+              updateForgotPasswordVisible == other.updateForgotPasswordVisible &&
               onClearErrorMessages == other.onClearErrorMessages &&
               onForgotPasswordSelected == other.onForgotPasswordSelected;
 }

@@ -37,6 +37,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
+import '../pages/login_page/ShowResetPasswordSentDialog.dart';
 import 'ColorConstants.dart';
 
 class UserOptionsUtil {
@@ -199,6 +200,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return ShowAccountCreatedDialog(user);
+      },
+    );
+  }
+
+  static void showResetPasswordEmailSentDialog(BuildContext context, User user) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ShowResetPasswordSentDialog(user);
       },
     );
   }

@@ -120,7 +120,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                     decoration: BoxDecoration(
                         boxShadow: ElevationToShadow[2],
                         borderRadius: BorderRadius.circular(26.0),
-                        color: Color(ColorConstants.getPrimaryColor())),
+                        color: Color(ColorConstants.getPeachDark())),
                     child: Text(
                       'Save',
                       style: TextStyle(
@@ -138,7 +138,7 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
               child: Container(
                 alignment: Alignment.topCenter,
                 child: Container(
-                  width: 250.0,
+                  margin: EdgeInsets.only(left: 64.0, right: 16.0),
                   height: 50.0,
                   alignment: Alignment.centerLeft,
                   padding: EdgeInsets.only(left: 16.0),
@@ -240,8 +240,8 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                   child: Container(
                     alignment: Alignment.topLeft,
                     child: Container(
+                      padding: EdgeInsets.only(left: 8.0),
                       margin: EdgeInsets.only(left: 8.0),
-                      alignment: Alignment.topLeft,
                       height: 50.0,
                       width: 50.0,
                       decoration: BoxDecoration(

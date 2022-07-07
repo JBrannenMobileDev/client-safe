@@ -40,6 +40,33 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     if(action is ResendEmailVerificationAction){
       _resendEmailVerification(store, action, next);
     }
+    if(action is ResetPasswordAction) {
+      _resetPassword(store, action, next);
+    }
+  }
+  
+  void _resetPassword(Store<AppState> store, ResetPasswordAction action, next) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    _auth.sendPasswordResetEmail(email: store.state.loginPageState.emailAddress).then((authResult) async {
+      await store.dispatch(SetResetPasswordSentDialogAction(store.state.loginPageState, true));
+    }).catchError((error) {
+      if(error is FirebaseAuthException) {
+        FirebaseAuthException exception = error;
+        String errorMessage = '';
+        switch (exception.code) {
+          case 'invalid-email':
+            errorMessage = "That is not a valid email address.";
+            break;
+          default:
+            errorMessage = 'Are you sure that was the correct email address? Something went wrong.';
+            break;
+        }
+        store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, errorMessage));
+      } else {
+        store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, "Something went wrong."));
+      }
+      VibrateUtil.vibrateHeavy();
+    });
   }
 
   void _signIn(Store<AppState> store, LoginAction action, next) async {
@@ -121,7 +148,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(
               UpdateShowLoginAnimation(store.state.loginPageState, false));
         } else {
-          store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, error.toString()));
+          store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, 'Something went wrong.'));
           VibrateUtil.vibrateHeavy();
           store.dispatch(
               UpdateShowLoginAnimation(store.state.loginPageState, false));
@@ -190,25 +217,27 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         if(profile != null) {
           store.dispatch(UpdateEmailAddressAction(store.state.loginPageState, profile.email));
         }
+        store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
+        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+        store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+        UidUtil().setUid(user.uid);
+        await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) {
+          _syncFinished = true;
+          if(_animationFinished) {
+            ProfileDao.updateUserLoginTime(user.uid);
+            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          }
+        });
+        await Future.delayed(const Duration(milliseconds: 2500), () {
+          _animationFinished = true;
+          if(_syncFinished) {
+            ProfileDao.updateUserLoginTime(user.uid);
+            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          }
+        });
+      } else {
+        _auth.signOut();
       }
-      store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
-      store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
-      store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-      UidUtil().setUid(user.uid);
-      await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) {
-        _syncFinished = true;
-        if(_animationFinished) {
-          ProfileDao.updateUserLoginTime(user.uid);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-        }
-      });
-      await Future.delayed(const Duration(milliseconds: 2500), () {
-        _animationFinished = true;
-        if(_syncFinished) {
-          ProfileDao.updateUserLoginTime(user.uid);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-        }
-      });
     }else if(user != null && !user.emailVerified){
       store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
       store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));

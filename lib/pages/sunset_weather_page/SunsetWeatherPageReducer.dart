@@ -1,3 +1,4 @@
+import 'package:dandylight/models/rest_models/Hour.dart';
 import 'package:dandylight/models/rest_models/OneDayForecast.dart';
 import 'package:dandylight/models/rest_models/OneHourForecast.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/rest_models/Day.dart';
+import '../../models/rest_models/ForecastDay.dart';
 import 'SunsetWeatherPageState.dart';
 
 final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
@@ -77,33 +80,31 @@ SunsetWeatherPageState _setDocumentPath(SunsetWeatherPageState previousState, Se
 }
 
 SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetForecastAction action){
-  Map<dynamic, dynamic> forecastDays = action.forecast7days.forecast;
-  List<String> dayStringDates = forecastDays.keys.toList();
-  OneDayForecast oneDayForecast;
-  for(String dayDate in dayStringDates){
-    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == dayDate) {
-      oneDayForecast = OneDayForecast.fromMap(forecastDays.remove(dayDate));
+  Forecastday matchingDay;
+  for(Forecastday forecastDay in action.forecast7days.forecast.forecastday){
+    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == forecastDay.date) {
+      matchingDay = forecastDay;
       break;
     }
   }
 
-  return oneDayForecast != null ? previousState.copyWith(
+  return matchingDay != null ? previousState.copyWith(
     showFartherThan7DaysError: false,
-    weatherDescription: getWeatherDescription(oneDayForecast.hourly),
-    tempHigh: oneDayForecast.maxtemp.toString(),
-    tempLow: oneDayForecast.mintemp.toString(),
-    chanceOfRain: getAvgChanceOfRain(oneDayForecast.hourly),
-    cloudCoverage: getAvgCloudCoverage(oneDayForecast.hourly),
-    weatherIcon: _getMostAccurateWeatherCode(oneDayForecast.hourly),
+    weatherDescription: getWeatherDescription(matchingDay.hour),
+    tempHigh: matchingDay.day.maxtempF.toInt().toString(),
+    tempLow: matchingDay.day.mintempF.toInt().toString(),
+    chanceOfRain: getAvgChanceOfRain(matchingDay.hour),
+    cloudCoverage: getAvgCloudCoverage(matchingDay.hour),
+    weatherIcon: _getMostAccurateWeatherCode(matchingDay.hour),
     isWeatherDataLoading: false,
-    hoursForecast: oneDayForecast.hourly,
+    hoursForecast: matchingDay.hour,
     locations: action.locations,
   ) : previousState.copyWith(
     showFartherThan7DaysError: true,
   );
 }
 
-String getWeatherDescription(List<OneHourForecast> hourly) {
+String getWeatherDescription(List<Hour> hourly) {
   int containsSunny = 0;
   int containsRainy = 0;
   int containsSnowy = 0;
@@ -111,45 +112,73 @@ String getWeatherDescription(List<OneHourForecast> hourly) {
   int containsCloudy = 0;
   int containsHail = 0;
   int containsLightning = 0;
-  for(OneHourForecast oneHour in hourly){
-    switch(oneHour.weather_code){
-      case 113:
+  for(Hour oneHour in hourly){
+    switch(oneHour.condition.code){
+      case 1000:
         containsSunny = containsSunny + 1;
         break;
-      case 116:
+      case 1003:
         containsPartlyCloudy = containsPartlyCloudy + 1;
         break;
-      case 119:
-      case 248:
-      case 260:
-      case 122:
-      case 143:
+      case 1006:
+      case 1135:
+      case 1147:
+      case 1009:
+      case 1030:
         containsCloudy = containsCloudy + 1;
         break;
-      case 176:
-      case 263:
-      case 266:
-      case 293:
-      case 296:
-      case 299:
-      case 302:
-      case 305:
-      case 308:
+      case 1063:
+      case 1150:
+      case 1153:
+      case 1180:
+      case 1183:
+      case 1087:
+      case 1273:
+      case 1276:
+      case 1279:
+      case 1282:
+      case 1186:
+      case 1189:
+      case 1192:
+      case 1195:
+      case 1201:
+      case 1240:
+      case 1243:
+      case 1246:
         containsRainy = containsRainy + 1;
         break;
-      case 179:
-      case 185:
-      case 227:
-      case 230:
+      case 1066:
+      case 1072:
+      case 1114:
+      case 1117:
+      case 1210:
+      case 1213:
+      case 1216:
+      case 1219:
+      case 1222:
+      case 1225:
+      case 1255:
+      case 1258:
         containsSnowy = containsSnowy + 1;
         break;
-      case 182:
-      case 281:
-      case 284:
-      case 311:
+      case 1069:
+      case 1168:
+      case 1171:
+      case 1198:
+      case 1204:
+      case 1207:
+      case 1237:
+      case 1249:
+      case 1252:
+      case 1261:
+      case 1264:
         containsHail = containsHail + 1;
         break;
-      case 200:
+      case 1087:
+      case 1273:
+      case 1276:
+      case 1279:
+      case 1282:
         containsLightning = containsLightning + 1;
         break;
     }
@@ -175,23 +204,23 @@ String getWeatherDescription(List<OneHourForecast> hourly) {
   }
 }
 
-String getAvgCloudCoverage(List<OneHourForecast> hourly) {
+String getAvgCloudCoverage(List<Hour> hourly) {
   int totalCloudCover = 0;
-  for(OneHourForecast oneHour in hourly){
-    totalCloudCover = totalCloudCover + oneHour.cloudcover;
+  for(Hour oneHour in hourly){
+    totalCloudCover = totalCloudCover + oneHour.cloud;
   }
   return (totalCloudCover~/24).toInt().toString();
 }
 
-String getAvgChanceOfRain(List<OneHourForecast> hourly) {
+String getAvgChanceOfRain(List<Hour> hourly) {
   int totalChanceOfRain = 0;
-  for(OneHourForecast oneHour in hourly){
-    totalChanceOfRain = totalChanceOfRain + oneHour.chanceofrain;
+  for(Hour oneHour in hourly){
+    totalChanceOfRain = totalChanceOfRain + oneHour.chanceOfRain;
   }
   return (totalChanceOfRain~/24).toInt().toString();
 }
 
-AssetImage _getMostAccurateWeatherCode(List<OneHourForecast> hourly) {
+AssetImage _getMostAccurateWeatherCode(List<Hour> hourly) {
   int containsSunny = 0;
   int containsRainy = 0;
   int containsSnowy = 0;
@@ -199,45 +228,73 @@ AssetImage _getMostAccurateWeatherCode(List<OneHourForecast> hourly) {
   int containsCloudy = 0;
   int containsHail = 0;
   int containsLightning = 0;
-  for(OneHourForecast oneHour in hourly){
-    switch(oneHour.weather_code){
-      case 113:
+  for(Hour oneHour in hourly){
+    switch(oneHour.condition.code){
+      case 1000:
         containsSunny = containsSunny + 1;
         break;
-      case 116:
+      case 1003:
         containsPartlyCloudy = containsPartlyCloudy + 1;
         break;
-      case 119:
-      case 248:
-      case 260:
-      case 122:
-      case 143:
+      case 1006:
+      case 1135:
+      case 1147:
+      case 1009:
+      case 1030:
         containsCloudy = containsCloudy + 1;
-      break;
-      case 176:
-      case 263:
-      case 266:
-      case 293:
-      case 296:
-      case 299:
-      case 302:
-      case 305:
-      case 308:
+        break;
+      case 1063:
+      case 1150:
+      case 1153:
+      case 1180:
+      case 1183:
+      case 1087:
+      case 1273:
+      case 1276:
+      case 1279:
+      case 1282:
+      case 1186:
+      case 1189:
+      case 1192:
+      case 1195:
+      case 1201:
+      case 1240:
+      case 1243:
+      case 1246:
         containsRainy = containsRainy + 1;
         break;
-      case 179:
-      case 185:
-      case 227:
-      case 230:
+      case 1066:
+      case 1072:
+      case 1114:
+      case 1117:
+      case 1210:
+      case 1213:
+      case 1216:
+      case 1219:
+      case 1222:
+      case 1225:
+      case 1255:
+      case 1258:
         containsSnowy = containsSnowy + 1;
         break;
-      case 182:
-      case 281:
-      case 284:
-      case 311:
+      case 1069:
+      case 1168:
+      case 1171:
+      case 1198:
+      case 1204:
+      case 1207:
+      case 1237:
+      case 1249:
+      case 1252:
+      case 1261:
+      case 1264:
         containsHail = containsHail + 1;
         break;
-      case 200:
+      case 1087:
+      case 1273:
+      case 1276:
+      case 1279:
+      case 1282:
         containsLightning = containsLightning + 1;
         break;
     }

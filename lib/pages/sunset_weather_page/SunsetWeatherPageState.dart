@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/rest_models/Hour.dart';
 import 'SunsetWeatherPageActions.dart';
 
 class SunsetWeatherPageState {
@@ -32,7 +33,7 @@ class SunsetWeatherPageState {
   final bool showFartherThan7DaysError;
   final bool isWeatherDataLoading;
   final bool isSunsetDataLoading;
-  final List<OneHourForecast> hoursForecast;
+  final List<Hour> hoursForecast;
   final int pageViewIndex;
   final Function() onNextPressed;
   final Function() onSaveLocationSelected;
@@ -125,7 +126,7 @@ class SunsetWeatherPageState {
     bool showFartherThan7DaysError,
     bool isWeatherDataLoading,
     bool isSunsetDataLoading,
-    List<OneHourForecast> hoursForecast,
+    List<Hour> hoursForecast,
     int pageViewIndex,
     Function() onNextPressed,
     Function() onSaveLocationSelected,

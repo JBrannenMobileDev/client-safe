@@ -47,6 +47,11 @@ class LoginAction{
   LoginAction(this.pageState);
 }
 
+class ResetPasswordAction{
+  final LoginPageState pageState;
+  ResetPasswordAction(this.pageState);
+}
+
 class ForgotPasswordSelectedAction{
   final LoginPageState pageState;
   ForgotPasswordSelectedAction(this.pageState);
@@ -66,6 +71,12 @@ class UpdateMainButtonsVisibleAction{
   final LoginPageState pageState;
   final bool mainButtonsVisible;
   UpdateMainButtonsVisibleAction(this.pageState, this.mainButtonsVisible);
+}
+
+class UpdateForgotPasswordVisibleAction{
+  final LoginPageState pageState;
+  final bool forgotPasswordViewVisible;
+  UpdateForgotPasswordVisibleAction(this.pageState, this.forgotPasswordViewVisible);
 }
 
 class UpdateShowResendMessageAction{
@@ -99,6 +110,12 @@ class SetShowAccountCreatedDialogAction{
   SetShowAccountCreatedDialogAction(this.pageState, this.showAccountCreatedDialog, this.user);
 }
 
+class SetResetPasswordSentDialogAction{
+  final LoginPageState pageState;
+  final bool showResetPasswordSentDialog;
+  SetResetPasswordSentDialogAction(this.pageState, this.showResetPasswordSentDialog);
+}
+
 class ClearErrorMessagesAction{
   final LoginPageState pageState;
   ClearErrorMessagesAction(this.pageState);
@@ -107,6 +124,11 @@ class ClearErrorMessagesAction{
 class ClearShowAccountCreatedDialogFlagAction{
   final LoginPageState pageState;
   ClearShowAccountCreatedDialogFlagAction(this.pageState);
+}
+
+class ClearShowResetPasswordSentDialogFlagAction{
+  final LoginPageState pageState;
+  ClearShowResetPasswordSentDialogFlagAction(this.pageState);
 }
 
 class UpdateShowCreateAccountAnimation{

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
 
 class WeatherApiClient {
-  final _baseUrl = 'https://api.weatherstack.com';
+  final _baseUrl = 'https://api.weatherapi.com/v1';
 
   final http.Client httpClient;
   WeatherApiClient({
@@ -27,15 +27,14 @@ class WeatherApiClient {
   }
 
   Future<Forecast7Days> fetch7DayWeatherForecast(double lat, double lon) async {
-    final url = '$_baseUrl/forecast?access_key='
+    final url = '$_baseUrl/forecast.json?key='
         + WEATHER_ACCESS_KEY
-        + '&query='
+        + '&q='
         + lat.toString()
         + ',' + lon.toString()
-        + '&units=f'
-        + '&forecast_days=7'
-        + '&hourly=1'
-        + '&interval=1';
+        + '&days=7'
+        + '&aqi=no'
+        + '&alerts=no';
     final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {

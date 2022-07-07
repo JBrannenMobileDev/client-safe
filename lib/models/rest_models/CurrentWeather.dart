@@ -1,7 +1,6 @@
 import 'package:dandylight/models/rest_models/Current.dart';
 import 'package:dandylight/models/rest_models/Location.dart';
 import 'package:dandylight/models/rest_models/Request.dart';
-import 'package:flutter/cupertino.dart';
 
 class CurrentWeather {
   final Request request;

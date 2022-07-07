@@ -3,71 +3,111 @@ import 'package:dandylight/models/rest_models/Location.dart';
 import 'package:dandylight/models/rest_models/Request.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'Forecast.dart';
+
 class Forecast7Days {
-  final Request request;
-  final Location location;
-  final Current current;
-  final Map<dynamic, dynamic> forecast;
+  Location location;
+  Current current;
+  Forecast forecast;
 
-  const Forecast7Days({this.request, this.location, this.current, this.forecast});
+  Forecast7Days({this.location, this.current, this.forecast});
 
-  static Forecast7Days fromJson(dynamic json) {
-    return Forecast7Days(
-      request: Request.fromJson(json['request']),
-      location: Location.fromJson(json['location']),
-      current: Current.fromJson(json['current']),
-      forecast: json['forecast'],
-    );
+  Forecast7Days.fromJson(Map<String, dynamic> json) {
+    location = json['location'] != null
+        ? new Location.fromJson(json['location'])
+        : null;
+    current =
+    json['current'] != null ? new Current.fromJson(json['current']) : null;
+    forecast = json['forecast'] != null
+        ? new Forecast.fromJson(json['forecast'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.location != null) {
+      data['location'] = this.location.toJson();
+    }
+    if (this.current != null) {
+      data['current'] = this.current.toJson();
+    }
+    if (this.forecast != null) {
+      data['forecast'] = this.forecast.toJson();
+    }
+    return data;
   }
 
   AssetImage getCurrentWeatherIcon(DateTime sunsetTime){
     AssetImage icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
-    switch(current.weather_code){
-      case 113:
-        if(location.localtime_epoch > sunsetTime.millisecondsSinceEpoch){
+    switch(current.condition.code){
+      case 1000:
+        if(location.localtimeEpoch > sunsetTime.millisecondsSinceEpoch){
           icon = AssetImage('assets/images/icons/night_icon_gold.png');
         }else{
           icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
         }
         break;
-      case 116:
+      case 1003:
         icon = AssetImage('assets/images/icons/partly_cloudy_icon.png');
         break;
-      case 119:
-      case 248:
-      case 260:
+      case 1006:
+      case 1135:
+      case 1147:
         icon = AssetImage('assets/images/icons/cloudy_icon.png');
         break;
-      case 122:
-      case 143:
+      case 1009:
+      case 1030:
         icon = AssetImage('assets/images/icons/very_cloudy_icon.png');
         break;
-      case 176:
-      case 263:
-      case 266:
-      case 293:
-      case 296:
+      case 1063:
+      case 1150:
+      case 1153:
+      case 1180:
+      case 1183:
         icon = AssetImage('assets/images/icons/sunny_rainy_icon.png');
         break;
-      case 179:
-      case 185:
-      case 227:
-      case 230:
+      case 1066:
+      case 1072:
+      case 1114:
+      case 1117:
+      case 1210:
+      case 1213:
+      case 1216:
+      case 1219:
+      case 1222:
+      case 1225:
+      case 1255:
+      case 1258:
         icon = AssetImage('assets/images/icons/snowing_icon.png');
         break;
-      case 182:
-      case 281:
-      case 284:
-      case 311:
+      case 1069:
+      case 1168:
+      case 1171:
+      case 1198:
+      case 1204:
+      case 1207:
+      case 1237:
+      case 1249:
+      case 1252:
+      case 1261:
+      case 1264:
         icon = AssetImage('assets/images/icons/hail_icon.png');
         break;
-      case 200:
+      case 1087:
+      case 1273:
+      case 1276:
+      case 1279:
+      case 1282:
         icon = AssetImage('assets/images/icons/lightning_rain_icon.png');
         break;
-      case 299:
-      case 302:
-      case 305:
-      case 308:
+      case 1186:
+      case 1189:
+      case 1192:
+      case 1195:
+      case 1201:
+      case 1240:
+      case 1243:
+      case 1246:
         icon = AssetImage('assets/images/icons/rainy_icon.png');
         break;
     }

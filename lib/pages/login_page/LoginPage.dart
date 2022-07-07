@@ -9,7 +9,6 @@ import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
 import 'package:dandylight/pages/login_page/LoginPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -364,6 +363,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             pageState.resetShouldShowSuccessDialog();
             _onBackPressed(pageState);
           }
+          if(pageState.shouldShowResetPasswordSentDialog) {
+            UserOptionsUtil.showResetPasswordEmailSentDialog(context, pageState.user);
+            pageState.resetShouldShowResetPasswordSentDialog();
+            _onBackPressed(pageState);
+          }
           if(pageState.showLoginErrorAnimation){
             _controllerLoginErrorShake.reset();
             _controllerLoginErrorShake.forward();
@@ -555,12 +559,33 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           onTap: () {
                             if(pageState.mainButtonsVisible){
                               pageState.updateMainButtonVisible(false);
+                            }else if(pageState.isForgotPasswordViewVisible){
+                              pageState.updateForgotPasswordVisible(false);
                             }else {
                               pageState.updateMainButtonVisible(true);
                             }
+                            pageState.onClearErrorMessages();
                           },
                           child: Text(
-                            pageState.mainButtonsVisible ? 'Sign in' : 'Create account',
+                            pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Create account'),
+                            style: TextStyle(
+                              fontSize: 22.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                        ),
+                      ),
+                      (pageState.isForgotPasswordViewVisible || pageState.mainButtonsVisible) ? SizedBox(height: 42.0,) : Container(
+                        margin: EdgeInsets.only(top: 16.0),
+                        child: GestureDetector(
+                          onTap: () {
+                            pageState.updateForgotPasswordVisible(true);
+                            pageState.onClearErrorMessages();
+                          },
+                          child: Text(
+                            'Forgot password ?',
                             style: TextStyle(
                               fontSize: 22.0,
                               fontFamily: 'simple',
@@ -654,7 +679,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             fontSize: 18.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                            color: Color(ColorConstants.error_red),
                           ),
                         ),
                       ),
@@ -680,7 +705,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           obscureText: false,
                         ),
                       ) : SizedBox(),
-                      !pageState.showLoginLoadingAnimation ? SlideTransition(
+                      pageState.showLoginLoadingAnimation || pageState.isForgotPasswordViewVisible ? SizedBox() : SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
                           controller: loginPasswordTextController,
@@ -701,15 +726,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           enabled: true,
                           obscureText: true,
                         ),
-                      ) : SizedBox(),
+                      ),
                       SlideTransition(
                         position: showLoginButtonsStep,
                         child: GestureDetector(
                           onTap: () {
-                            pageState.onLoginSelected();
+                            if(!pageState.showLoginLoadingAnimation && !pageState.isForgotPasswordViewVisible) {
+                              pageState.onLoginSelected();
+                            } else if(pageState.isForgotPasswordViewVisible) {
+                              pageState.onResetPasswordSelected();
+                              pageState.updateForgotPasswordVisible(false);
+                            }
                           },
                           child: Container(
-                            margin: EdgeInsets.only(top: 16.0),
+                            margin: EdgeInsets.only(top: 16.0, bottom: 48.0),
                             alignment: Alignment.center,
                             height: 64.0,
                             width: 300.0,
@@ -735,6 +765,15 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   child: BouncingLoadingAnimatedIcon(),
                                 )
                               ],
+                            ) : pageState.isForgotPasswordViewVisible ? Text(
+                              'Reset Password',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
                             ) : Text(
                               'Sign in',
                               textAlign: TextAlign.center,

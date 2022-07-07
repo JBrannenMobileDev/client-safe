@@ -31,8 +31,12 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Contacts will be used for loading device contacts to DandyLight</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location will be used for selecting a session location to save to a job.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Location will be used for sunset and weather feature of the app.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location will be used for sunset and weather feature of the app.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Location will be used for sunset and weather feature of the app.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library will be uses to select an image to represent this location.</string>
 	<key>UIBackgroundModes</key>
 	<array>

@@ -22,7 +22,7 @@ apply plugin: 'com.android.application'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 32
 
     lintOptions {
         disable 'InvalidPackage'
@@ -31,7 +31,7 @@ android {
     defaultConfig {
         applicationId "com.dandylight.flutter"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 32
         multiDexEnabled true
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
