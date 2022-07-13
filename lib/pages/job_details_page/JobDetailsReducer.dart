@@ -100,22 +100,14 @@ JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetN
 }
 
 JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapAction action) {
-  Map<DateTime, List<Event>> eventMap = Map();
+  List<Event> events = [];
   for(Job job in action.upcomingJobs) {
     if(job.selectedDate != null) {
-      if (eventMap.containsKey(job.selectedDate)) {
-        List<Event> eventList = eventMap.remove(job.selectedDate);
-        eventList.add(Event.fromJob(job));
-        eventMap.putIfAbsent(job.selectedDate, () => eventList);
-      } else {
-        List<Event> newEventList = List();
-        newEventList.add(Event.fromJob(job));
-        eventMap.putIfAbsent(job.selectedDate, () => newEventList);
-      }
+      events.add(Event.fromJob(job));
     }
   }
   return previousState.copyWith(
-    eventMap: eventMap,
+    eventList: events,
     jobs: action.upcomingJobs,
   );
 }

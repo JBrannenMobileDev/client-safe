@@ -33,7 +33,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-                "Select a time for this job.",
+                "Select a time for this job reminder.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.0,

@@ -10,22 +10,12 @@ final calendarPageReducer = combineReducers<CalendarPageState>([
 ]);
 
 CalendarPageState _setAllJobs(CalendarPageState previousState, SetJobsCalendarStateAction action) {
-  Map<DateTime, List<Event>> eventMap = Map();
+  List<Event> eventList = [];
   for(Job job in action.allJobs) {
-    if(job.selectedDate != null){
-      if(eventMap.containsKey(job.selectedDate)){
-        List<Event> eventList = eventMap.remove(job.selectedDate);
-        eventList.add(Event.fromJob(job));
-        eventMap.putIfAbsent(job.selectedDate, () => eventList);
-      }else{
-        List<Event> newEventList = List();
-        newEventList.add(Event.fromJob(job));
-        eventMap.putIfAbsent(job.selectedDate, () => newEventList);
-      }
-    }
+    eventList.add(Event.fromJob(job));
   }
   return previousState.copyWith(
-      eventMap: eventMap,
+      eventList: eventList,
       jobs: action.allJobs,
   );
 }

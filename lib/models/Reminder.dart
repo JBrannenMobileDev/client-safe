@@ -5,6 +5,8 @@ class Reminder {
   String when;
   String daysWeeksMonths;
   int amount;
+  bool isDefault;
+  DateTime time;
 
   Reminder({
     this.id,
@@ -13,6 +15,8 @@ class Reminder {
     this.when,
     this.daysWeeksMonths,
     this.amount,
+    this.isDefault,
+    this.time
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +26,8 @@ class Reminder {
       'when' : when,
       'daysWeeksMonths' : daysWeeksMonths,
       'amount' : amount,
+      'isDefault' : isDefault,
+      'time' : time.toString(),
     };
   }
 
@@ -32,6 +38,8 @@ class Reminder {
       when: map['when'],
       daysWeeksMonths: map['daysWeeksMonths'],
       amount: map['amount'],
+      isDefault: map['isDefault'],
+      time: DateTime.parse(map['time']),
     );
   }
 }

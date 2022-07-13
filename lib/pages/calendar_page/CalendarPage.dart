@@ -22,7 +22,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMixin {
   AnimationController _animationController;
-  Map<DateTime,List<Event>> _events;
+  List<Event> _events;
 
   @override
   void initState() {
@@ -40,11 +40,6 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   void dispose() {
     _animationController.dispose();
     super.dispose();
-  }
-
-  List<Event> _getEventsForDay(DateTime day) {
-    // Implementation example
-    return _events[day] ?? [];
   }
 
   void _onDaySelected(DateTime day, List events, CalendarPageState pageState) {
@@ -127,10 +122,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
 
   // More advanced TableCalendar configuration (using Builders & Styles)
   Widget _buildTableCalendarWithBuilders(CalendarPageState pageState) {
-    _events = pageState.eventMap;
+    _events = pageState.eventList;
     return TableCalendar(
       locale: 'en_US',
-      eventLoader: _getEventsForDay,
+      eventLoader: (day) => _events.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT
       calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.horizontalSwipe,
@@ -139,45 +134,49 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         CalendarFormat.week: '',
       },
       focusedDay: pageState.selectedDate,
-      firstDay: DateTime.utc(2010, 10, 16),
-      lastDay: DateTime.utc(2100, 3, 14),
+      firstDay: DateTime.utc(2010, 10, 16).toLocal(),
+      lastDay: DateTime.utc(2100, 3, 14).toLocal(),
       selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark),
-          fontSize: 20.0,
+          fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,
         ),
+        defaultTextStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
         selectedTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         disabledTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         todayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
       ),
@@ -204,7 +203,11 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               height: 100,
               child: Text(
                 '${date.day}',
-                style: TextStyle().copyWith(fontSize: 16.0),
+                style: TextStyle().copyWith(
+                    fontSize: 16.0,
+                  fontFamily: 'simple',
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           );
@@ -221,12 +224,15 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             height: 100,
             child: Text(
               '${date.day}',
-              style: TextStyle().copyWith(fontSize: 16.0),
+              style: TextStyle().copyWith(
+                  fontSize: 16.0,
+                fontFamily: 'simple',
+                fontWeight: FontWeight.w600,
+              ),
             ),
           );
         },
         markerBuilder: (context, date, events) {
-          final item = Positioned;
 
           if (events.isNotEmpty) {
 
@@ -241,7 +247,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       ),
       onDaySelected: (date, time) {
         pageState.onDateSelected(date);
-        _onDaySelected(date, _getEventsForDay(date), pageState);
+        _onDaySelected(date, _events.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
         _animationController.forward(from: 0.0);
       },
     );
@@ -303,24 +309,27 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   List<Job> _getEventListForSelectedDate(CalendarPageState pageState) {
+    List<Event> matchingEvents = [];
     if (pageState.selectedDate != null) {
-      for (List<Event> events in pageState.eventMap.values) {
-        for (Event event in events) {
-          if(event.selectedDate != null){
-            if (event.selectedDate.year == pageState.selectedDate.year &&
-                event.selectedDate.month == pageState.selectedDate.month &&
-                event.selectedDate.day == pageState.selectedDate.day) {
-              return _getListOfJobsFromEvents(events, pageState.jobs);
-            }
+      for (Event event in pageState.eventList) {
+        if(event.selectedDate != null){
+          if (event.selectedDate.year == pageState.selectedDate.year &&
+              event.selectedDate.month == pageState.selectedDate.month &&
+              event.selectedDate.day == pageState.selectedDate.day) {
+            matchingEvents.add(event);
           }
         }
       }
     }
-    return List();
+    if(matchingEvents.length > 0) {
+      return _getListOfJobsFromEvents(matchingEvents, pageState.jobs);
+    } else {
+      return [];
+    }
   }
 
   List<Job> _getListOfJobsFromEvents(List<Event> events, List<Job> allJobs) {
-    List<Job> jobs = List();
+    List<Job> jobs = [];
     for(Event event in events){
       for(Job job in allJobs){
         if(job.documentId == event.jobDocumentId) jobs.add(job);

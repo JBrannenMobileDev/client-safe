@@ -7,6 +7,7 @@ import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPage.dart';
+import 'package:dandylight/pages/new_reminder_page/TimeSelectionWidget.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -52,13 +53,13 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
     DateTime exactDateAndTime = job.selectedDate;
     int resultMilliseconds = exactDateAndTime.millisecondsSinceEpoch;
     switch(pageState.selectedReminder.when){
-      case NewReminderPage.BEFORE:
+      case TimeSelectionWidget.BEFORE:
         resultMilliseconds = resultMilliseconds - getMillisecondsOffset(pageState);
         break;
-      case NewReminderPage.ON:
+      case TimeSelectionWidget.ON:
         //do nothing
         break;
-      case NewReminderPage.AFTER:
+      case TimeSelectionWidget.AFTER:
         resultMilliseconds = resultMilliseconds + getMillisecondsOffset(pageState);
         break;
     }
@@ -68,13 +69,13 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
   int getMillisecondsOffset(NewJobReminderPageState pageState) {
     int offset = 0;
     switch(pageState.selectedReminder.daysWeeksMonths) {
-      case NewReminderPage.DAYS:
+      case TimeSelectionWidget.DAYS:
         offset = Duration.millisecondsPerDay * pageState.selectedReminder.amount;
         break;
-      case NewReminderPage.WEEKS:
+      case TimeSelectionWidget.WEEKS:
         offset = Duration.millisecondsPerDay * 7 * pageState.selectedReminder.amount;
         break;
-      case NewReminderPage.MONTHS:
+      case TimeSelectionWidget.MONTHS:
         offset = Duration.millisecondsPerDay * 30 * pageState.selectedReminder.amount;
         break;
     }

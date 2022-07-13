@@ -4,6 +4,7 @@ import 'package:dandylight/pages/locations_page/LocationsPage.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPage.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -57,7 +58,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     child: GridView.builder(
                         shrinkWrap: true,
                         physics: ClampingScrollPhysics(),
-                        itemCount: 10,
+                        itemCount: 6,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -107,7 +108,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
   void onCollectionSelected(int index){
     switch(index){
       case 0:
-
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
+        );
         break;
       case 1:
         Navigator.of(context).push(
@@ -120,30 +123,13 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 3:
-        Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
-        );
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachDark()));
         break;
-      case 3:
-
+      case 4:
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
         break;
-      case 3:
-
-        break;
-      case 3:
-
-        break;
-      case 3:
-
-        break;
-      case 3:
-
-        break;
-      case 3:
-
-        break;
-      case 3:
-
+      case 5:
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryColor()));
         break;
     }
   }
@@ -152,7 +138,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
     Color color = Color(ColorConstants.getPeachDark());
     switch(index) {
       case 0:
-        color = Color(ColorConstants.getPeachDark());
+        color = Color(ColorConstants.getPrimaryColor());
         break;
       case 1:
         color = Color(ColorConstants.getBlueDark());
@@ -161,13 +147,13 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 3:
-        color = Color(ColorConstants.getPrimaryColor());
+        color = Color(ColorConstants.getPeachDark());
         break;
       case 4:
         color = Color(ColorConstants.getPeachLight());
         break;
       case 5:
-        color = Color(ColorConstants.getPeachDark());
+        color = Color(ColorConstants.getPrimaryColor());
         break;
       case 6:
         color = Color(ColorConstants.getBlueDark());
@@ -176,7 +162,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 8:
-        color = Color(ColorConstants.getPrimaryColor());
+        color = Color(ColorConstants.getPeachDark());
         break;
       case 9:
         color = Color(ColorConstants.getPeachLight());

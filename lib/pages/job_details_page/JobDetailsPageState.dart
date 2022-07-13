@@ -19,7 +19,7 @@ class JobDetailsPageState {
   final DateTime sunsetTime;
   final int newStagAnimationIndex;
   final double stageScrollOffset;
-  final Map<DateTime, List<Event>> eventMap;
+  final List<Event> eventList;
   final List<Job> jobs;
   final String jobTitleText;
   final int unsavedDepositAmount;
@@ -68,7 +68,7 @@ class JobDetailsPageState {
     @required this.job,
     @required this.client,
     @required this.sunsetTime,
-    @required this.eventMap,
+    @required this.eventList,
     @required this.jobs,
     @required this.documentPath,
     @required this.jobTitleText,
@@ -121,7 +121,7 @@ class JobDetailsPageState {
     Client client,
     int newStagAnimationIndex,
     double stageScrollOffset,
-    Map<DateTime, List<Event>> eventMap,
+    List<Event> eventList,
     List<Job> jobs,
     String jobTitleText,
     List<Location> locations,
@@ -175,7 +175,7 @@ class JobDetailsPageState {
       onClearUnsavedTip: onClearUnsavedTip ?? this.onClearUnsavedTip,
       sunsetTime: sunsetTime ?? this.sunsetTime,
       stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
-      eventMap: eventMap ?? this.eventMap,
+      eventList: eventList ?? this.eventList,
       jobs: jobs ?? this.jobs,
       documentPath: documentPath ?? this.documentPath,
       jobTitleText: jobTitleText ?? this.jobTitleText,
@@ -226,7 +226,7 @@ class JobDetailsPageState {
       client: store.state.jobDetailsPageState.client,
       sunsetTime: store.state.jobDetailsPageState.sunsetTime,
       stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
-      eventMap: store.state.jobDetailsPageState.eventMap,
+      eventList: store.state.jobDetailsPageState.eventList,
       jobs: store.state.jobDetailsPageState.jobs,
       jobTitleText: store.state.jobDetailsPageState.jobTitleText,
       locations: store.state.jobDetailsPageState.locations,
@@ -283,17 +283,17 @@ class JobDetailsPageState {
     sunsetTime: null,
     stageScrollOffset: 200.0,
     newStagAnimationIndex: 2,
-    eventMap: Map(),
-    jobs: List(),
+    eventList: [],
+    jobs: [],
     jobTitleText: "",
     onDeleteInvoiceSelected: null,
-    documents: List(),
+    documents: [],
     onLocationSaveSelected: null,
     setNewIndexForStageAnimation: null,
-    locations: List(),
+    locations: [],
     onInvoiceSent: null,
     selectedLocation: null,
-    expandedIndexes: List(),
+    expandedIndexes: [],
     onStageCompleted: null,
     onStageUndo: null,
     addExpandedIndex: null,
@@ -313,7 +313,7 @@ class JobDetailsPageState {
     onJobTypeSelected: null,
     onJobTypeSaveSelected: null,
     selectedPriceProfile: null,
-    priceProfiles: List(),
+    priceProfiles: [],
     onPriceProfileSelected: null,
     onSaveUpdatedPriceProfileSelected: null,
     unsavedDepositAmount: 0,
@@ -342,7 +342,7 @@ class JobDetailsPageState {
       client.hashCode ^
       sunsetTime.hashCode ^
       stageScrollOffset.hashCode ^
-      eventMap.hashCode ^
+      eventList.hashCode ^
       jobs.hashCode ^
       invoice.hashCode ^
       onAddInvoiceSelected.hashCode ^
@@ -391,7 +391,7 @@ class JobDetailsPageState {
               client == other.client &&
               sunsetTime == other.sunsetTime &&
               stageScrollOffset == other.stageScrollOffset &&
-              eventMap == other.eventMap &&
+              eventList == other.eventList &&
               jobs == other.jobs &&
               invoice == other.invoice &&
               jobTitleText == other.jobTitleText &&

@@ -109,35 +109,39 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,
         ),
+        defaultTextStyle: TextStyle().copyWith(
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w600,),
         selectedTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         disabledTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         todayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 20.0,
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
 
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
       ),
@@ -145,7 +149,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
+          color: Color(ColorConstants.primary_black), fontSize: 18.0,
           fontFamily: 'simple',
           fontWeight: FontWeight.w600,),
       ),
@@ -164,7 +168,10 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
               height: 100,
               child: Text(
                 '${date.day}',
-                style: TextStyle().copyWith(fontSize: 16.0),
+                style: TextStyle().copyWith(
+                    fontSize: 16.0,
+                  fontFamily: 'simple',
+                  fontWeight: FontWeight.w600,),
               ),
             ),
           );
@@ -181,7 +188,11 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
             height: 100,
             child: Text(
               '${date.day}',
-              style: TextStyle().copyWith(fontSize: 16.0),
+              style: TextStyle().copyWith(
+                  fontSize: 16.0,
+                fontFamily: 'simple',
+                fontWeight: FontWeight.w600,
+              ),
             ),
           );
         },

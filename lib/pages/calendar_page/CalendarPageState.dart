@@ -9,7 +9,7 @@ import '../../AppState.dart';
 
 class CalendarPageState{
   final bool shouldClear;
-  final Map<DateTime, List<Event>> eventMap;
+  final List<Event> eventList;
   final List<Job> jobs;
   final Function(DateTime) onDateSelected;
   final Function() onAddNewJobSelected;
@@ -18,7 +18,7 @@ class CalendarPageState{
 
   CalendarPageState({
     @required this.shouldClear,
-    @required this.eventMap,
+    @required this.eventList,
     @required this.onDateSelected,
     @required this.selectedDate,
     @required this.onAddNewJobSelected,
@@ -28,7 +28,7 @@ class CalendarPageState{
 
   CalendarPageState copyWith({
     bool shouldClear,
-    Map<DateTime, List<Event>> eventMap,
+    List<Event> eventList,
     Function(DateTime) onDateSelected,
     DateTime selectedDate,
     List<Job> jobs,
@@ -37,7 +37,7 @@ class CalendarPageState{
   }){
     return CalendarPageState(
       shouldClear: shouldClear?? this.shouldClear,
-      eventMap: eventMap?? this.eventMap,
+      eventList: eventList?? this.eventList,
       onDateSelected: onDateSelected?? this.onDateSelected,
       selectedDate: selectedDate?? this.selectedDate,
       jobs: jobs ?? this.jobs,
@@ -48,10 +48,10 @@ class CalendarPageState{
 
   factory CalendarPageState.initial() => CalendarPageState(
     shouldClear: true,
-    eventMap: Map(),
-    jobs: List(),
+    eventList: [],
+    jobs: [],
     onDateSelected: null,
-    selectedDate: null,
+    selectedDate: DateTime.now(),
     onAddNewJobSelected: null,
     onJobClicked: null,
   );
@@ -59,7 +59,7 @@ class CalendarPageState{
   factory CalendarPageState.fromStore(Store<AppState> store) {
     return CalendarPageState(
       shouldClear: store.state.calendarPageState.shouldClear,
-      eventMap: store.state.calendarPageState.eventMap,
+      eventList: store.state.calendarPageState.eventList,
       selectedDate: store.state.calendarPageState.selectedDate,
       jobs: store.state.calendarPageState.jobs,
       onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState, store.state.calendarPageState.selectedDate)),
@@ -71,7 +71,7 @@ class CalendarPageState{
   @override
   int get hashCode =>
       shouldClear.hashCode ^
-      eventMap.hashCode ^
+      eventList.hashCode ^
       jobs.hashCode ^
       onDateSelected.hashCode ^
       selectedDate.hashCode ^
@@ -82,7 +82,7 @@ class CalendarPageState{
       identical(this, other) ||
           other is CalendarPageState &&
               shouldClear == other.shouldClear &&
-              eventMap == other.eventMap &&
+              eventList == other.eventList &&
               jobs == other.jobs &&
               onDateSelected == other.onDateSelected &&
               selectedDate == other.selectedDate &&

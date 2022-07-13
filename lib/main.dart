@@ -18,5 +18,5 @@ main() async {
       initialState: AppState.initial(),
       middleware: createAppMiddleware());
 
-  initializeDateFormatting("ENG").then((_) => runApp(new ClientSafeApp(store)));
+  initializeDateFormatting().then((_) => runApp(new ClientSafeApp(store)));
 }

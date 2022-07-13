@@ -179,7 +179,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           Container(
                                             margin: EdgeInsets.only(left: 8.0),
                                             child: Text(
-                                              '(save \$40)',
+                                              '(save \$20)',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 22.0,
@@ -197,16 +197,13 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         children: <Widget>[
                                           Row(
                                             children: <Widget>[
-                                              Text(
-                                                '\$199',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 28.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
-                                                  color:
-                                                  Color(_radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                                ),
+                                              DandyLightTextWidget(
+                                                amount: 99.99,
+                                                textSize: 28.0,
+                                                textColor: Color(_radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
+                                                fontWeight: FontWeight.w600,
+                                                decimalPlaces: 2,
+                                                isCurrency: true,
                                               ),
                                               Text(
                                                 '/yr',
@@ -235,7 +232,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 ),
                                               ),
                                               DandyLightTextWidget(
-                                                amount: 16.58,
+                                                amount: 8.33,
                                                 textSize: 16.0,
                                                 textColor: Color(_radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                                 fontWeight: FontWeight.w600,
@@ -299,7 +296,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                       Row(
                                         children: <Widget>[
                                           DandyLightTextWidget(
-                                            amount: 19.99,
+                                            amount: 9.99,
                                             textSize: 28.0,
                                             textColor: Color(_radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             fontWeight: FontWeight.w600,

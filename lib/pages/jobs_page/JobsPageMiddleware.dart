@@ -15,14 +15,19 @@ class JobsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchJobs(Store<AppState> store, NextDispatcher next) async{
-      store.dispatch(SetJobsDataAction(store.state.jobsPageState, await JobDao.getAllJobs()));
+    List<Job> allJobs = await JobDao.getAllJobs();
+    if(allJobs.length > 0) {
+      store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
+    }
 
       (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-        List<Job> jobs = List();
+        List<Job> jobs = [];
         for(RecordSnapshot clientSnapshot in jobSnapshots) {
           jobs.add(Job.fromMap(clientSnapshot.value));
         }
-        store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
+        if(jobs.length > 0) {
+          store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
+        }
       });
   }
 }

@@ -856,6 +856,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
+                              Container(
+                                  width: 175.0,
+                                  margin: EdgeInsets.only(top: 225.0),
+                                  child: Text(
+                                    'Capture the moment We\'ll do the rest',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontSize: 22.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(
+                                          ColorConstants.getPrimaryWhite()),
+                                    ),
+                                  )
+                              ),
                             ],
                           ),
                         ),

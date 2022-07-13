@@ -20,16 +20,20 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _loadAllJobs(Store<AppState> store, action, NextDispatcher next) async {
     List<Job> allJobs = await JobDao.getAllJobs();
-    store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
-    store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs));
+    if(allJobs.length > 0) {
+      store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
+      store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs));
+    }
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> jobs = List();
+      List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
-      store.dispatch(SetJobToStateAction(store.state.dashboardPageState, jobs));
+      if(jobs.length > 0) {
+        store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
+        store.dispatch(SetJobToStateAction(store.state.dashboardPageState, jobs));
+      }
     });
   }
 

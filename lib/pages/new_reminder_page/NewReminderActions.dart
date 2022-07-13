@@ -48,6 +48,18 @@ class UpdateDaysWeeksMonthsAmountAction{
   UpdateDaysWeeksMonthsAmountAction(this.pageState, this.amount);
 }
 
+class SetSelectedTimeAction{
+  final NewReminderPageState pageState;
+  final DateTime time;
+  SetSelectedTimeAction(this.pageState, this.time);
+}
+
+class SetIsDefaultAction{
+  final NewReminderPageState pageState;
+  final bool isDefault;
+  SetIsDefaultAction(this.pageState, this.isDefault);
+}
+
 
 
 

@@ -20,7 +20,7 @@ class JobReminder {
       'documentId' : documentId,
       'jobDocumentId' : jobDocumentId,
       'reminder': reminder.toMap(),
-      'exactDateAndTime' : exactDateAndTime?.millisecondsSinceEpoch ?? null,
+      'exactDateAndTime' : exactDateAndTime?.toString() ?? "",
     };
   }
 
@@ -29,7 +29,7 @@ class JobReminder {
       documentId: map['documentId'],
       jobDocumentId: map['jobDocumentId'],
       reminder: Reminder.fromMap(map['priceProfile']),
-      exactDateAndTime: map['exactDateAndTime'] != null? DateTime.fromMillisecondsSinceEpoch(map['exactDateAndTime']) : null,
+      exactDateAndTime: map['exactDateAndTime'] != "" ? DateTime.parse(map['exactDateAndTime']) : null,
     );
   }
 }
