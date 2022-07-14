@@ -7,7 +7,7 @@ import 'package:dandylight/models/Reminder.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPage.dart';
-import 'package:dandylight/pages/new_reminder_page/TimeSelectionWidget.dart';
+import 'package:dandylight/pages/new_reminder_page/WhenSelectionWidget.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -53,13 +53,13 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
     DateTime exactDateAndTime = job.selectedDate;
     int resultMilliseconds = exactDateAndTime.millisecondsSinceEpoch;
     switch(pageState.selectedReminder.when){
-      case TimeSelectionWidget.BEFORE:
+      case WhenSelectionWidget.BEFORE:
         resultMilliseconds = resultMilliseconds - getMillisecondsOffset(pageState);
         break;
-      case TimeSelectionWidget.ON:
+      case WhenSelectionWidget.ON:
         //do nothing
         break;
-      case TimeSelectionWidget.AFTER:
+      case WhenSelectionWidget.AFTER:
         resultMilliseconds = resultMilliseconds + getMillisecondsOffset(pageState);
         break;
     }
@@ -69,13 +69,13 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
   int getMillisecondsOffset(NewJobReminderPageState pageState) {
     int offset = 0;
     switch(pageState.selectedReminder.daysWeeksMonths) {
-      case TimeSelectionWidget.DAYS:
+      case WhenSelectionWidget.DAYS:
         offset = Duration.millisecondsPerDay * pageState.selectedReminder.amount;
         break;
-      case TimeSelectionWidget.WEEKS:
+      case WhenSelectionWidget.WEEKS:
         offset = Duration.millisecondsPerDay * 7 * pageState.selectedReminder.amount;
         break;
-      case TimeSelectionWidget.MONTHS:
+      case WhenSelectionWidget.MONTHS:
         offset = Duration.millisecondsPerDay * 30 * pageState.selectedReminder.amount;
         break;
     }

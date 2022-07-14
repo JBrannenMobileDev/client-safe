@@ -39,7 +39,7 @@ class Reminder {
       daysWeeksMonths: map['daysWeeksMonths'],
       amount: map['amount'],
       isDefault: map['isDefault'],
-      time: DateTime.parse(map['time']),
+      time: DateTime.parse((map['time'] != null ? map['time'] : DateTime.utc(1999).toString())),
     );
   }
 }

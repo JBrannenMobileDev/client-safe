@@ -34,23 +34,20 @@ class _MakeDefaultSelectionWidgetState extends State<MakeDefaultSelectionWidget>
           Scaffold(
             body: Padding(
               padding: EdgeInsets.only(left: 16.0, right: 16.0),
-              child: Dialog(
-                backgroundColor: Colors.transparent,
-                child: Container(
-                  height: 250.0,
+              child: Container(
+
                   padding: EdgeInsets.only(left: 32.0, right: 32.0),
                   decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
-
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Padding(
-                        padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
+                        padding: EdgeInsets.only(bottom: 32.0, top: 8.0),
                         child: Text(
-                          "Add reminder to all new jobs?",
+                          "Would you like to add this reminder to all new jobs?",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
@@ -61,38 +58,44 @@ class _MakeDefaultSelectionWidgetState extends State<MakeDefaultSelectionWidget>
                         ),
                       ),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "No?",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
+                          Container(
+                            margin: EdgeInsets.only(right: 24.0),
+                            child: Text(
+                              "NO",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
                             ),
                           ),
                           Device.get().isIos ?
-                              CupertinoSwitch(value: true, onChanged: (bool value) {
+                              CupertinoSwitch(value: pageState.isDefault, onChanged: (bool value) {
                                 pageState.onDefaultSelectionChanged(value);
                               }) :
-                              Switch(value: true, onChanged: (bool value) {
+                              Switch(value: pageState.isDefault, onChanged: (bool value) {
                                 pageState.onDefaultSelectionChanged(value);
                               }),
-                          Text(
-                            "Yes",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
+                          Container(
+                            margin: EdgeInsets.only(left: 24.0),
+                            child: Text(
+                              "YES",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black),
+                              ),
                             ),
                           ),
                         ],
                       )
                     ],
-                  ),
                 ),
               ),
             ),

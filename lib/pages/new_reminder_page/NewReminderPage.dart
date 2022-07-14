@@ -17,6 +17,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'MakeDefaultSelectionWidget.dart';
 import 'ReminderDescriptionWidget.dart';
 import 'TimeSelectionWidget.dart';
+import 'WhenSelectionWidget.dart';
 
 class NewReminderPage extends StatefulWidget {
   final Reminder reminder;
@@ -31,7 +32,7 @@ class NewReminderPage extends StatefulWidget {
 
 class _NewReminderPageState extends State<NewReminderPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount = 2;
+  final int pageCount = 3;
   final controller = PageController(
     initialPage: 0,
   );
@@ -74,7 +75,9 @@ class _NewReminderPageState extends State<NewReminderPage> {
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
+      setState(() {
+        currentPageIndex = controller.page.toInt();
+      });
     });
     return StoreConnector<AppState, NewReminderPageState>(
       onInit: (store) {
@@ -153,6 +156,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                       pageSnapping: true,
                       children: <Widget>[
                         ReminderDescriptionWidget(reminder),
+                        WhenSelectionWidget(reminder),
                         TimeSelectionWidget(reminder),
                         MakeDefaultSelectionWidget(reminder),
                       ],
@@ -180,7 +184,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                             onBackPressed(pageState);
                             },
                             child: Text(
-                              'Cancel',
+                              currentPageIndex == 0 ? 'Cancel' : 'Back',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -199,15 +203,11 @@ class _NewReminderPageState extends State<NewReminderPage> {
                             right: 8.0,
                             bottom: 8.0,
                           ),
-                            // disabledColor: Colors.white,
-                            // disabledTextColor:
-                            //     Color(ColorConstants.primary_bg_grey),
-                            // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onNextPressed(pageState);
                             },
                             child: Text(
-                              'Save',
+                              currentPageIndex == 3 ? 'Save' : 'Next',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -230,9 +230,23 @@ class _NewReminderPageState extends State<NewReminderPage> {
   }
 
   void onNextPressed(NewReminderPageState pageState) {
-    if(pageState.reminderDescription.isNotEmpty && pageState.when.isNotEmpty && pageState.daysWeeksMonthsAmount > 0 && pageState.daysWeeksMonths.isNotEmpty) {
-      showSuccessAnimation();
+    bool canProgress = true;
+    if (currentPageIndex != pageCount) {
+      switch (currentPageIndex) {
+        case 0:
+          canProgress = pageState.reminderDescription.isNotEmpty;
+          break;
+      }
+
+      if (canProgress) {
+        controller.animateToPage(currentPageIndex + 1,
+            duration: Duration(milliseconds: 150), curve: Curves.ease);
+        FocusScope.of(context).unfocus();
+      }
+    }
+    if (currentPageIndex == pageCount) {
       pageState.onSavePressed();
+      showSuccessAnimation();
     }
   }
 
@@ -306,21 +320,26 @@ class _NewReminderPageState extends State<NewReminderPage> {
   }
 
   void onBackPressed(NewReminderPageState pageState) {
-    pageState.onCancelPressed();
-    Navigator.of(context).pop();
+    if (currentPageIndex == 0) {
+      pageState.onCancelPressed();
+      Navigator.of(context).pop();
+    } else {
+      controller.animateToPage(currentPageIndex - 1,
+          duration: Duration(milliseconds: 150), curve: Curves.ease);
+    }
   }
 
   getDialogHeight(int currentPageIndex) {
     switch(currentPageIndex) {
+      case 0:
+        return 125.0;
       case 1:
-        return 300;
+        return 420.0;
       case 2:
-        return 500;
-        break;
+        return 250.0;
       case 3:
-        return 300;
-        break;
+        return 150.0;
     }
-    return 300;
+    return 300.0;
   }
 }

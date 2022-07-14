@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
 import 'NewReminderPage.dart';
-import 'TimeSelectionWidget.dart';
+import 'WhenSelectionWidget.dart';
 
 @immutable
 class NewReminderPageState {
@@ -103,7 +103,7 @@ class NewReminderPageState {
         saveButtonEnabled: false,
         shouldClear: true,
         reminderDescription: "",
-        daysWeeksMonths: TimeSelectionWidget.DAYS,
+        daysWeeksMonths: WhenSelectionWidget.DAYS,
         daysWeeksMonthsAmount: 1,
         onSavePressed: null,
         onCancelPressed: null,
@@ -112,7 +112,7 @@ class NewReminderPageState {
         onReminderDescriptionChanged: null,
         onDaysWeeksMonthsChanged: null,
         onDaysWeeksMonthsAmountChanged: null,
-        when: TimeSelectionWidget.BEFORE,
+        when: WhenSelectionWidget.BEFORE,
         onDefaultSelectionChanged: null,
         onTimeSelected: null,
         selectedTime: null,

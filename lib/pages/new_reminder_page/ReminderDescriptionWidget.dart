@@ -39,13 +39,14 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
             padding: EdgeInsets.only(left: 16.0, right: 16.0),
             child:
                 Container(
-                  width: MediaQuery.of(context).size.width - 95,
+                  color: Color(ColorConstants.white),
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
                         child: Text(
-                          'What do you want this reminder to say?',
+                          'What do you want to name this reminder?',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 20.0,
@@ -57,7 +58,7 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                       ),
                       DandyLightTextField(
                         controller: descriptionTextController,
-                        hintText: 'Reminder description',
+                        hintText: 'Reminder Name',
                         inputType: TextInputType.text,
                         focusNode: null,
                         onFocusAction: null,
