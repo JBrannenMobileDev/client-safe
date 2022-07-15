@@ -11,6 +11,8 @@ import 'package:dandylight/pages/new_reminder_page/WhenSelectionWidget.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../job_details_page/JobDetailsActions.dart';
+
 class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -29,7 +31,7 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, allReminders));
 
     (await ReminderDao.getReminderStream()).listen((snapshots) async {
-      List<Reminder> remindersToUpdate = List();
+      List<Reminder> remindersToUpdate = [];
       for(RecordSnapshot reminderSnapshot in snapshots) {
         remindersToUpdate.add(Reminder.fromMap(reminderSnapshot.value));
       }
@@ -47,6 +49,7 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
     );
     await JobReminderDao.insertOrUpdate(jobReminderToSave);
     store.dispatch(ClearNewJobReminderStateAction(store.state.newJobReminderPageState));
+    store.dispatch(FetchJobRemindersAction(store.state.jobDetailsPageState));
   }
 
   DateTime _generateExactDateAndTime(NewJobReminderPageState pageState, Job job) {

@@ -58,12 +58,25 @@ class NewInvoiceTextField extends StatelessWidget {
             onFieldSubmitted: (term) {
               onFocusAction();
             },
+            cursorColor: Color(ColorConstants.getPrimaryColor()),
             decoration: InputDecoration(
               alignLabelWithHint: true,
               labelText: labelText,
+              labelStyle: new TextStyle(
+                  fontFamily: 'simple',
+                  fontSize: 22.0,
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.getPrimaryBlack())),
               hintText: hintText,
               fillColor: Colors.white,
               enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: BorderSide(
+                  color: Color(ColorConstants.getPrimaryColor()),
+                  width: 1.0,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryColor()),

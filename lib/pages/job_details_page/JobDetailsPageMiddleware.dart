@@ -22,6 +22,11 @@ import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../data_layer/local_db/daos/JobReminderDao.dart';
+import '../../data_layer/local_db/daos/ReminderDao.dart';
+import '../../models/JobReminder.dart';
+import '../../models/Reminder.dart';
+
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -82,6 +87,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is InvoiceSentAction){
       updateInvoiceToSent(store, action, next);
+    }
+    if(action is FetchJobRemindersAction){
+      _fetchReminders(store, action, next);
+    }
+    if(action is DeleteReminderFromJobAction){
+      _deleteReminder(store, action, next);
     }
   }
 
@@ -335,4 +346,16 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     return containsNextStage;
   }
+
+  void _fetchReminders(Store<AppState> store, FetchJobRemindersAction action,NextDispatcher next) async{
+    List<JobReminder> reminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
+    next(SetRemindersAction(store.state.jobDetailsPageState, reminders));
+  }
+
+  void _deleteReminder(Store<AppState> store, DeleteReminderFromJobAction action, NextDispatcher next) async {
+    await JobReminderDao.delete(action.reminder.documentId);
+    store.dispatch(FetchJobRemindersAction(store.state.jobDetailsPageState));
+  }
+
+
 }

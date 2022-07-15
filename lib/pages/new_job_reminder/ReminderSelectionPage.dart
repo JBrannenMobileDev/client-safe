@@ -35,25 +35,28 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Select from your collection of reminders.",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
+                Container(
+                  margin: EdgeInsets.only(bottom: 16.0),
+                  child: Text(
+                    "Select from your collection of reminders.",
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.primary_black),
+                    ),
                   ),
                 ),
                 pageState.allReminders.length > 0
                     ? ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
-                          maxHeight: 300.0,
+                          maxHeight: 335.0,
                         ),
                         child: ListView.builder(
                           reverse: false,
-                          padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                          padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
                           shrinkWrap: true,
                           controller: _controller,
                           physics: ClampingScrollPhysics(),

@@ -102,6 +102,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
+          appState.dispatch(FetchJobRemindersAction(appState.state.jobDetailsPageState)),
         },
         onDidChange: (prev, pageState) {
           pageStateLocal = pageState;
@@ -178,62 +179,62 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         UserOptionsUtil.showTipChangeDialog(context);
                       },
                     ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Text(
-                            'Feedback',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-
-                      },
-                    ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Text(
-                            'Questionaire',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-
-                      },
-                    ),
+                    // SpeedDialChild(
+                    //   child: Icon(Icons.add),
+                    //   backgroundColor: Color(ColorConstants.getBlueLight()),
+                    //   labelWidget: Container(
+                    //     alignment: Alignment.center,
+                    //     height: 42.0,
+                    //     decoration: BoxDecoration(
+                    //       boxShadow: ElevationToShadow[4],
+                    //       color: Colors.white,
+                    //       borderRadius: BorderRadius.circular(21.0),
+                    //     ),
+                    //     child: Padding(
+                    //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    //       child: Text(
+                    //         'Feedback',
+                    //         style: TextStyle(
+                    //           fontFamily: 'simple',
+                    //           fontSize: 22.0,
+                    //           fontWeight: FontWeight.w600,
+                    //           color: Color(ColorConstants.getPrimaryBlack()),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   onTap: () {
+                    //
+                    //   },
+                    // ),
+                    // SpeedDialChild(
+                    //   child: Icon(Icons.add),
+                    //   backgroundColor: Color(ColorConstants.getBlueLight()),
+                    //   labelWidget: Container(
+                    //     alignment: Alignment.center,
+                    //     height: 42.0,
+                    //     decoration: BoxDecoration(
+                    //       boxShadow: ElevationToShadow[4],
+                    //       color: Colors.white,
+                    //       borderRadius: BorderRadius.circular(21.0),
+                    //     ),
+                    //     child: Padding(
+                    //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    //       child: Text(
+                    //         'Questionaire',
+                    //         style: TextStyle(
+                    //           fontFamily: 'simple',
+                    //           fontSize: 22.0,
+                    //           fontWeight: FontWeight.w600,
+                    //           color: Color(ColorConstants.getPrimaryBlack()),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   onTap: () {
+                    //
+                    //   },
+                    // ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
                       backgroundColor: Color(ColorConstants.getBlueLight()),
@@ -299,34 +300,34 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         }
                       },
                     ),
-                    SpeedDialChild(
-                      child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
-                      labelWidget: Container(
-                        alignment: Alignment.center,
-                        height: 42.0,
-                        decoration: BoxDecoration(
-                          boxShadow: ElevationToShadow[4],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(21.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Text(
-                            'Contract',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ),
-                      ),
-                      onTap: () {
-
-                      },
-                    ),
+                    // SpeedDialChild(
+                    //   child: Icon(Icons.add),
+                    //   backgroundColor: Color(ColorConstants.getBlueLight()),
+                    //   labelWidget: Container(
+                    //     alignment: Alignment.center,
+                    //     height: 42.0,
+                    //     decoration: BoxDecoration(
+                    //       boxShadow: ElevationToShadow[4],
+                    //       color: Colors.white,
+                    //       borderRadius: BorderRadius.circular(21.0),
+                    //     ),
+                    //     child: Padding(
+                    //       padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                    //       child: Text(
+                    //         'Contract',
+                    //         style: TextStyle(
+                    //           fontFamily: 'simple',
+                    //           fontSize: 22.0,
+                    //           fontWeight: FontWeight.w600,
+                    //           color: Color(ColorConstants.getPrimaryBlack()),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   ),
+                    //   onTap: () {
+                    //
+                    //   },
+                    // ),
                   ],
                 ),
                 body: Container(
@@ -336,11 +337,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     Container(
                       decoration: BoxDecoration(
                         color: Color(ColorConstants.getBlueLight()),
-                        image: DecorationImage(
-                          image: AssetImage(ImageUtil.JOB_DETAILS_BG),
-                          repeat: ImageRepeat.repeat,
-                          fit: BoxFit.contain,
-                        ),
                       ),
                     ),
                     CustomScrollView(
@@ -433,7 +429,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               JobInfoCard(pageState: pageState),
                               ClientDetailsCard(pageState: pageState),
                               DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected),
-                              RemindersCard(),
+                              RemindersCard(pageState: pageState),
                             ])),
                       ],
                     ),

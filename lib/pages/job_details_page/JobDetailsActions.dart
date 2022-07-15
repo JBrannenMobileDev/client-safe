@@ -4,13 +4,32 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+
+import '../../models/JobReminder.dart';
+import '../../models/Reminder.dart';
 
 class SetJobInfo{
   final JobDetailsPageState pageState;
   final Job job;
   SetJobInfo(this.pageState, this.job);
+}
+
+class SetRemindersAction{
+  final JobDetailsPageState pageState;
+  final List<JobReminder> reminders;
+  SetRemindersAction(this.pageState, this.reminders);
+}
+
+class FetchJobRemindersAction{
+  final JobDetailsPageState pageState;
+  FetchJobRemindersAction(this.pageState);
+}
+
+class DeleteReminderFromJobAction{
+  final JobDetailsPageState pageState;
+  final JobReminder reminder;
+  DeleteReminderFromJobAction(this.pageState, this.reminder);
 }
 
 class SetNewInvoice{

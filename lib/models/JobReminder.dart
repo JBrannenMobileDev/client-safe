@@ -28,7 +28,7 @@ class JobReminder {
     return JobReminder(
       documentId: map['documentId'],
       jobDocumentId: map['jobDocumentId'],
-      reminder: Reminder.fromMap(map['priceProfile']),
+      reminder: Reminder.fromMap(map['reminder']),
       exactDateAndTime: map['exactDateAndTime'] != "" ? DateTime.parse(map['exactDateAndTime']) : null,
     );
   }

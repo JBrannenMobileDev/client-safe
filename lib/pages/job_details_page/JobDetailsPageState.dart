@@ -2,6 +2,7 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Event.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
@@ -12,6 +13,7 @@ import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Reminder.dart';
 
 class JobDetailsPageState {
   final Job job;
@@ -21,6 +23,7 @@ class JobDetailsPageState {
   final double stageScrollOffset;
   final List<Event> eventList;
   final List<Job> jobs;
+  final List<JobReminder> reminders;
   final String jobTitleText;
   final int unsavedDepositAmount;
   final int unsavedTipAmount;
@@ -63,6 +66,7 @@ class JobDetailsPageState {
   final Function(Invoice) onDeleteInvoiceSelected;
   final Function(Invoice) onInvoiceSent;
   final Function() onBackPressed;
+  final Function(JobReminder) onDeleteReminderSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -114,6 +118,8 @@ class JobDetailsPageState {
     @required this.onSaveTipChange,
     @required this.onClearUnsavedTip,
     @required this.onBackPressed,
+    @required this.reminders,
+    @required this.onDeleteReminderSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -125,6 +131,7 @@ class JobDetailsPageState {
     List<Job> jobs,
     String jobTitleText,
     List<Location> locations,
+    List<JobReminder> reminders,
     Location selectedLocation,
     Function(Location) onLocationSelected,
     List<int> expandedIndexes,
@@ -166,6 +173,7 @@ class JobDetailsPageState {
     Function() onClearUnsavedTip,
     int unsavedTipAmount,
     Function() onBackPressed,
+    Function(JobReminder) onDeleteReminderSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -177,6 +185,7 @@ class JobDetailsPageState {
       stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
       eventList: eventList ?? this.eventList,
       jobs: jobs ?? this.jobs,
+      reminders: reminders ?? this.reminders,
       documentPath: documentPath ?? this.documentPath,
       jobTitleText: jobTitleText ?? this.jobTitleText,
       locations: locations ?? this.locations,
@@ -217,63 +226,66 @@ class JobDetailsPageState {
       invoice: invoice ?? this.invoice,
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
       onBackPressed: onBackPressed ?? this.onBackPressed,
+      onDeleteReminderSelected: onDeleteReminderSelected?? this.onDeleteReminderSelected,
     );
   }
 
   static JobDetailsPageState fromStore(Store<AppState> store) {
     return JobDetailsPageState(
-      job: store.state.jobDetailsPageState.job,
-      client: store.state.jobDetailsPageState.client,
-      sunsetTime: store.state.jobDetailsPageState.sunsetTime,
-      stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
-      eventList: store.state.jobDetailsPageState.eventList,
-      jobs: store.state.jobDetailsPageState.jobs,
-      jobTitleText: store.state.jobDetailsPageState.jobTitleText,
-      locations: store.state.jobDetailsPageState.locations,
-      selectedLocation: store.state.jobDetailsPageState.selectedLocation,
-      expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
-      newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
-      jobTypeIcon: store.state.jobDetailsPageState.jobTypeIcon,
-      selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
-      priceProfiles: store.state.jobDetailsPageState.priceProfiles,
-      unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
-      unsavedTipAmount: store.state.jobDetailsPageState.unsavedTipAmount,
-      documentPath: store.state.jobDetailsPageState.documentPath,
-      documents: store.state.jobDetailsPageState.documents,
-      invoice: store.state.jobDetailsPageState.invoice,
-      onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
-      onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
-      onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
-      onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
-      onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
-      setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
-      addExpandedIndex: (index) => store.dispatch(SetExpandedIndexAction(store.state.jobDetailsPageState, index)),
-      removeExpandedIndex: (index) => store.dispatch(RemoveExpandedIndexAction(store.state.jobDetailsPageState, index)),
-      onDeleteSelected: () => store.dispatch(DeleteJobAction(store.state.jobDetailsPageState)),
-      onInstagramSelected: () => store.dispatch(JobInstagramSelectedAction(store.state.jobDetailsPageState)),
-      onScrollOffsetChanged: (offset) => store.dispatch(UpdateScrollOffset(store.state.jobDetailsPageState, offset)),
-      onNewTimeSelected: (newTime) => store.dispatch(UpdateJobTimeAction(store.state.jobDetailsPageState, newTime)),
-      onNewDateSelected: (newDate) => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState, newDate)),
-      onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
-      onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
-      onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
-      onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
-      onNameChangeSaved: () => store.dispatch(SaveJobNameChangeAction(store.state.jobDetailsPageState)),
-      onJobTypeSelected: (jobType) => store.dispatch(UpdateSelectedJobTypeAction(store.state.jobDetailsPageState, jobType)),
-      onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
-      onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
-      onSaveUpdatedPriceProfileSelected: () => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState)),
-      onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAction(store.state.jobDetailsPageState, amountToAdd)),
-      onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
-      onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
-      onAddInvoiceSelected: () {
-        store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
-        store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
-      },
-      onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
-      onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
-      onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
+        job: store.state.jobDetailsPageState.job,
+        client: store.state.jobDetailsPageState.client,
+        sunsetTime: store.state.jobDetailsPageState.sunsetTime,
+        stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
+        eventList: store.state.jobDetailsPageState.eventList,
+        jobs: store.state.jobDetailsPageState.jobs,
+        jobTitleText: store.state.jobDetailsPageState.jobTitleText,
+        locations: store.state.jobDetailsPageState.locations,
+        selectedLocation: store.state.jobDetailsPageState.selectedLocation,
+        expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
+        newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
+        jobTypeIcon: store.state.jobDetailsPageState.jobTypeIcon,
+        selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
+        priceProfiles: store.state.jobDetailsPageState.priceProfiles,
+        unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
+        unsavedTipAmount: store.state.jobDetailsPageState.unsavedTipAmount,
+        documentPath: store.state.jobDetailsPageState.documentPath,
+        documents: store.state.jobDetailsPageState.documents,
+        invoice: store.state.jobDetailsPageState.invoice,
+        reminders: store.state.jobDetailsPageState.reminders,
+        onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
+        onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
+        onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
+        onStageUndo: (job, stageIndex) => store.dispatch(UndoStageAction(store.state.jobDetailsPageState, job, stageIndex)),
+        onStageCompleted: (job, stageIndex) => store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, stageIndex)),
+        setNewIndexForStageAnimation: (index) => store.dispatch(SetNewStagAnimationIndex(store.state.jobDetailsPageState, index)),
+        addExpandedIndex: (index) => store.dispatch(SetExpandedIndexAction(store.state.jobDetailsPageState, index)),
+        removeExpandedIndex: (index) => store.dispatch(RemoveExpandedIndexAction(store.state.jobDetailsPageState, index)),
+        onDeleteSelected: () => store.dispatch(DeleteJobAction(store.state.jobDetailsPageState)),
+        onInstagramSelected: () => store.dispatch(JobInstagramSelectedAction(store.state.jobDetailsPageState)),
+        onScrollOffsetChanged: (offset) => store.dispatch(UpdateScrollOffset(store.state.jobDetailsPageState, offset)),
+        onNewTimeSelected: (newTime) => store.dispatch(UpdateJobTimeAction(store.state.jobDetailsPageState, newTime)),
+        onNewDateSelected: (newDate) => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState, newDate)),
+        onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
+        onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+        onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
+        onLocationSaveSelected: (location) => store.dispatch(UpdateNewLocationAction(store.state.jobDetailsPageState, location)),
+        onJobTitleTextChanged: (newText) => store.dispatch(UpdateJobNameAction(store.state.jobDetailsPageState, newText)),
+        onNameChangeSaved: () => store.dispatch(SaveJobNameChangeAction(store.state.jobDetailsPageState)),
+        onJobTypeSelected: (jobType) => store.dispatch(UpdateSelectedJobTypeAction(store.state.jobDetailsPageState, jobType)),
+        onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
+        onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
+        onSaveUpdatedPriceProfileSelected: () => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState)),
+        onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAction(store.state.jobDetailsPageState, amountToAdd)),
+        onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
+        onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
+        onAddInvoiceSelected: () {
+          store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
+          store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
+        },
+        onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),
+        onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
+        onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
+        onDeleteReminderSelected: (reminder) => store.dispatch(DeleteReminderFromJobAction(store.state.jobDetailsPageState, reminder)),
     );
   }
 
@@ -326,6 +338,7 @@ class JobDetailsPageState {
     onAddToTip: null,
     onSaveTipChange: null,
     onClearUnsavedTip: null,
+    reminders: [],
   );
 
   @override
@@ -372,7 +385,8 @@ class JobDetailsPageState {
       selectedPriceProfile.hashCode ^
       onPriceProfileSelected.hashCode ^
       onSaveUpdatedPriceProfileSelected.hashCode ^
-      onClearUnsavedDeposit.hashCode ;
+      onClearUnsavedDeposit.hashCode ^
+      reminders.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -393,6 +407,7 @@ class JobDetailsPageState {
               stageScrollOffset == other.stageScrollOffset &&
               eventList == other.eventList &&
               jobs == other.jobs &&
+              reminders == other.reminders &&
               invoice == other.invoice &&
               jobTitleText == other.jobTitleText &&
               onNameChangeSaved == other.onNameChangeSaved &&

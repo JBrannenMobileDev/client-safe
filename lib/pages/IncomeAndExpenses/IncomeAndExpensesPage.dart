@@ -79,11 +79,6 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   Container(
                     decoration: BoxDecoration(
                       color: Color(selectedIndex == 0 ? ColorConstants.getBlueLight() : ColorConstants.getPeachLight()),
-                      image: DecorationImage(
-                        image: AssetImage(selectedIndex == 0 ? ImageUtil.JOB_DETAILS_BG : ImageUtil.EXPENSES_BG),
-                        repeat: ImageRepeat.repeat,
-                        fit: BoxFit.contain,
-                      ),
                     ),
                   ),
                   CustomScrollView(

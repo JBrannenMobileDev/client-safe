@@ -30,7 +30,14 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, ClearUnsavedTipAction>(_clearUnsavedTip),
   TypedReducer<JobDetailsPageState, SetDocumentPathAction>(_setDocumentPath),
   TypedReducer<JobDetailsPageState, SetNewInvoice>(_setInvoiceDocument),
+  TypedReducer<JobDetailsPageState, SetRemindersAction>(_setReminders),
 ]);
+
+JobDetailsPageState _setReminders(JobDetailsPageState previousState, SetRemindersAction action){
+  return previousState.copyWith(
+      reminders: action.reminders
+  );
+}
 
 JobDetailsPageState _setInvoiceDocument(JobDetailsPageState previousState, SetNewInvoice action) {
   List<DocumentItem> documents = previousState.documents;

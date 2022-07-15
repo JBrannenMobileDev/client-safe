@@ -37,7 +37,7 @@ class NewJobReminderPage extends StatefulWidget {
 
 class _NewJobReminderPageState extends State<NewJobReminderPage> {
   final Job job;
-  final int pageCount = 1;
+  final int pageCount = 0;
   final controller = PageController(
     initialPage: 0,
   );
@@ -147,7 +147,6 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                         pageSnapping: true,
                         children: <Widget>[
                           ReminderSelectionPage(),
-                          TimeSelectionForm(),
                         ],
                       ),
                     ),
@@ -170,10 +169,10 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                             //     Color(ColorConstants.primary_bg_grey),
                             // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
-                              onBackPressed(pageState);
+                              onCancelSelected(pageState);
                             },
                             child: Text(
-                              pageState.pageViewIndex == 1 ? 'Back' : 'Cancel',
+                              'Cancel',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -197,10 +196,10 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                             //     Color(ColorConstants.primary_bg_grey),
                             // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
-                              onNextPressed(pageState);
+                              onSaveSelected(pageState);
                             },
                             child: Text(
-                              pageState.pageViewIndex == 1 ? 'Save' : 'Next',
+                              'Save',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -222,26 +221,8 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
     );
   }
 
-  void onNextPressed(NewJobReminderPageState pageState) {
-    bool canProgress = false;
-    if (pageState.pageViewIndex != pageCount) {
-      switch (pageState.pageViewIndex) {
-        case 0:
-          canProgress = pageState.selectedReminder != null;
-          break;
-        case 1:
-          canProgress = pageState.selectedTime != null;
-          break;
-      }
-
-      if (canProgress) {
-        pageState.onNextPressed();
-        controller.animateToPage(currentPageIndex + 1,
-            duration: Duration(milliseconds: 150), curve: Curves.ease);
-        FocusScope.of(context).unfocus();
-      }
-    }
-    if (pageState.pageViewIndex == pageCount) {
+  void onSaveSelected(NewJobReminderPageState pageState) {
+    if (pageState.selectedReminder != null) {
       pageState.onSavePressed(job);
       showDialog(
         context: context,
@@ -266,14 +247,10 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
     Navigator.of(context).pop(true);
   }
 
-  void onBackPressed(NewJobReminderPageState pageState) {
+  void onCancelSelected(NewJobReminderPageState pageState) {
     if (pageState.pageViewIndex == 0) {
       pageState.onCancelPressed();
       Navigator.of(context).pop();
-    } else {
-      pageState.onBackPressed();
-      controller.animateToPage(currentPageIndex - 1,
-          duration: Duration(milliseconds: 150), curve: Curves.ease);
     }
   }
 
