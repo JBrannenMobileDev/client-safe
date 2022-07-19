@@ -3,9 +3,6 @@ import 'package:dandylight/models/Job.dart';
 import 'package:flutter/widgets.dart';
 
 class Client{
-  static const String GENDER_MALE = "Male";
-  static const String GENDER_FEMALE = "Female";
-
   static const String RELATIONSHIP_MARRIED = "Married";
   static const String RELATIONSHIP_ENGAGED = "Engaged";
   static const String RELATIONSHIP_SINGLE = "Single";
@@ -25,7 +22,6 @@ class Client{
   String lastName;
   String email;
   String phone;
-  String gender;
   String leadSource;
   String relationshipStatus;
   String spouseFirstName;
@@ -45,7 +41,6 @@ class Client{
     this.lastName,
     this.email,
     this.phone,
-    this.gender,
     this.leadSource,
     this.relationshipStatus,
     this.spouseFirstName,
@@ -66,7 +61,6 @@ class Client{
       'lastName' : lastName,
       'email' : email,
       'phone' : phone,
-      'gender' : gender,
       'leadSource' : leadSource,
       'relationshipStatus' : relationshipStatus,
       'spouseFirstName': spouseFirstName,
@@ -88,7 +82,6 @@ class Client{
       lastName: map['lastName'],
       email: map['email'],
       phone: map['phone'],
-      gender: map['gender'],
       leadSource: map['leadSource'],
       relationshipStatus: map['relationshipStatus'],
       spouseFirstName: map['spouseFirstName'],
@@ -104,7 +97,7 @@ class Client{
   }
 
   List<Map<String, dynamic>> convertImportantDatesToMaps(List<ImportantDate> importantDates){
-    List<Map<String, dynamic>> listOfMaps = List();
+    List<Map<String, dynamic>> listOfMaps = [];
     for(ImportantDate importantDate in importantDates){
       listOfMaps.add(importantDate.toMap());
     }
@@ -112,7 +105,7 @@ class Client{
   }
 
   static List<ImportantDate> convertMapsToImportantDates(List listOfMaps){
-    List<ImportantDate> listOfImportantDates = List();
+    List<ImportantDate> listOfImportantDates = [];
     for(Map map in listOfMaps){
       listOfImportantDates.add(ImportantDate.fromMap(map));
     }

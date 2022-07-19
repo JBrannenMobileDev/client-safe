@@ -54,7 +54,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: 16,
+                    itemCount: pageState.jobTypes.length,
                     itemBuilder: _buildItem,
                   ),
                 ),
@@ -65,7 +65,6 @@ class _JobTypeSelection extends State<JobTypeSelection>
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    List<String> jobTypeIcons = ImageUtil.jobIcons;
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
@@ -74,22 +73,28 @@ class _JobTypeSelection extends State<JobTypeSelection>
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
               ),
-              color: pageState.jobTypeIcon != null &&
-                  getIconPosition(pageState, jobTypeIcons) == index ? Color(
+              color: pageState.selectedJobType != null &&
+                  pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Color(
                   ColorConstants.getBlueDark()) : Colors.transparent,
             ),
             onPressed: () {
               pageState.onJobTypeSelected(
-                  jobTypeIcons.elementAt(index));
+                  pageState.jobTypes.elementAt(index));
             },
             child: Row(
               children: <Widget>[
-                pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Container(
+                pageState.selectedJobType != null &&
+                    pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Container(
                   margin: EdgeInsets.only(right: 16.0),
                   height: 28.0,
                   width: 28.0,
                   child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
-                ) : SizedBox(),
+                ) : Container(
+                  margin: EdgeInsets.only(right: 16.0),
+                  height: 28.0,
+                  width: 28.0,
+                  child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png'),
+                ),
                 Expanded(
                   child: Container(
                     height: 64.0,
@@ -100,14 +105,14 @@ class _JobTypeSelection extends State<JobTypeSelection>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            ImageUtil.getJobTypeText(jobTypeIcons.elementAt(
-                                index)),
+                            pageState.jobTypes.elementAt(index),
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Color(
+                              color: pageState.selectedJobType != null &&
+                                  pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Color(
                                   ColorConstants.getPrimaryWhite()) : Color(
                                   ColorConstants.getPeachDark()),
                             ),
@@ -128,6 +133,6 @@ class _JobTypeSelection extends State<JobTypeSelection>
   bool get wantKeepAlive => true;
 
   int getIconPosition(NewJobPageState pageState, List<String> jobTypeIcons) {
-    return jobTypeIcons.indexOf(pageState.jobTypeIcon);
+    return jobTypeIcons.indexOf(pageState.selectedJobType);
   }
 }

@@ -7,6 +7,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
+import '../../models/Reminder.dart';
 import 'NewJobPageState.dart';
 
 final newJobPageReducer = combineReducers<NewJobPageState>([
@@ -22,6 +23,9 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetSelectedLocation>(_setSelectedLocation),
   TypedReducer<NewJobPageState, SetSelectedDateAction>(_setSelectedDate),
   TypedReducer<NewJobPageState, SetSelectedJobStageAction>(_setJobStage),
+  TypedReducer<NewJobPageState, SetSelectedJobReminderAction>(_setReminder),
+  TypedReducer<NewJobPageState, SetAllRemindersAction>(_setAllReminders),
+  TypedReducer<NewJobPageState, SetDefaultRemindersAction>(_setDefaultReminders),
   TypedReducer<NewJobPageState, SetSelectedJobTypeAction>(_setJobType),
   TypedReducer<NewJobPageState, SetSunsetTimeAction>(_setSunsetTime),
   TypedReducer<NewJobPageState, SetSelectedTimeAction>(_setSelectedTime),
@@ -35,6 +39,16 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
 
 NewJobPageState _updateComingFromClientDetails(NewJobPageState previousState, UpdateComingFromClientDetails action) {
   return previousState.copyWith(comingFromClientDetails: action.isComingFromClientDetails);
+}
+
+NewJobPageState _setAllReminders(NewJobPageState previousState, SetAllRemindersAction action) {
+  List<Reminder> sortedReminders = action.reminders;
+  sortedReminders.sort((a, b) => (a.isDefault ? 0 : 1) < (b.isDefault ? 0 : 1) ? 0 : 1);
+  return previousState.copyWith(allReminders: sortedReminders);
+}
+
+NewJobPageState _setDefaultReminders(NewJobPageState previousState, SetDefaultRemindersAction action) {
+  return previousState.copyWith(selectedReminders: action.defaultReminders);
 }
 
 NewJobPageState _setDocumentPath(NewJobPageState previousState, SetDocumentPathAction action) {
@@ -79,7 +93,7 @@ NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeActio
 }
 
 NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageAction action) {
-  List<JobStage> selectedJobStagesUpdated = List();
+  List<JobStage> selectedJobStagesUpdated = [];
   bool shouldKeep = true;
   for(JobStage stageFromList in previousState.selectedJobStages){
     if(stageFromList.stage == action.jobStage.stage){
@@ -94,10 +108,27 @@ NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageA
   return previousState.copyWith(currentJobStage: currentJobStage, selectedJobStages: selectedJobStagesUpdated);
 }
 
+NewJobPageState _setReminder(NewJobPageState previousState, SetSelectedJobReminderAction action) {
+  List<Reminder> selectedJobReminderUpdated = [];
+  bool shouldKeep = true;
+  for(Reminder selectedReminder in previousState.selectedReminders){
+    if(selectedReminder.description == action.reminder.description){
+      shouldKeep = false;
+    }else{
+      selectedJobReminderUpdated.add(selectedReminder);
+    }
+  }
+  if(shouldKeep) selectedJobReminderUpdated.add(action.reminder);
+  selectedJobReminderUpdated.sort((a, b) => a.description.compareTo(b.description));
+  return previousState.copyWith(
+      selectedReminders: selectedJobReminderUpdated
+  );
+}
+
 NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedJobTypeAction action) {
   return previousState.copyWith(
-      jobType: ImageUtil.getJobTypeText(action.jobType),
-      jobTypeIcon: action.jobType);
+      jobType: action.jobType,
+      selectedJobType: action.jobType);
 }
 
 NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {

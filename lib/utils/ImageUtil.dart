@@ -43,6 +43,7 @@ class ImageUtil{
     'assets/images/job_types/anniversary.png',
     'assets/images/job_types/real_estate_architecture.png',
     'assets/images/job_types/birthday.png',
+    'assets/images/job_types/boudoir.png',
     'assets/images/job_types/breastfeeding.png',
     'assets/images/job_types/engagement.png',
     'assets/images/job_types/event.png',
@@ -149,6 +150,7 @@ class ImageUtil{
   ];
 
   static String locationPin = 'assets/images/collection_icons/location_pin_blue.png';
+  static String reminderIcon = 'assets/images/collection_icons/reminder_icon_white.png';
 
   static List<String> pricingProfileIcons = [
     'assets/images/collection_icons/pricing_profile_icons/money_stacks_icon_gold.png',
@@ -225,6 +227,9 @@ class ImageUtil{
         break;
       case 'assets/images/job_types/birthday.png':
         return 'Birthday';
+        break;
+      case 'assets/images/job_types/Boudoir.png':
+        return 'Boudoir';
         break;
       case 'assets/images/job_types/breastfeeding.png':
         return 'Breastfeeding';
@@ -313,12 +318,8 @@ class ImageUtil{
     return AssetImage(jobIcons[Random().nextInt(15)]);
   }
 
-  static AssetImage getRandomPersonIcon(bool isFemale) {
-    if(isFemale){
-      return AssetImage(femaleIcons[Random().nextInt(8)]);
-    }else{
-      return AssetImage(maleIcons[Random().nextInt(8)]);
-    }
+  static AssetImage getRandomPersonIcon() {
+    return AssetImage(femaleIcons[Random().nextInt(8)]);
   }
 
   static AssetImage getDefaultPricingProfileIcon() {

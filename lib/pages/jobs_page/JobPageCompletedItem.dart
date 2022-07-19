@@ -56,7 +56,7 @@ class JobPageCompletedItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                      job.clientName + ' · ' + job.getJobType(),
+                      job.clientName + ' · ' + job.type,
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.0,

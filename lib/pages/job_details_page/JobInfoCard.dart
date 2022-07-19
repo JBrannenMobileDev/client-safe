@@ -141,7 +141,7 @@ class JobInfoCard extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                pageState.job.getJobType(),
+                                pageState.job.type,
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,

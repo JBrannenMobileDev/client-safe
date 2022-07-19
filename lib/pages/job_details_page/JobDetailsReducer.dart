@@ -146,7 +146,7 @@ JobDetailsPageState _updateScrollOffset(JobDetailsPageState previousState, Updat
 }
 
 JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction action){
-  List<DocumentItem> documents = List();
+  List<DocumentItem> documents = [];
   if(action.job.invoice != null) {
     documents.add(InvoiceDocument());
   }
@@ -157,6 +157,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     selectedLocation: newLocation,
     documents: documents,
     invoice: action.job.invoice,
+    jobTypeIcon: action.job.type,
   );
 }
 

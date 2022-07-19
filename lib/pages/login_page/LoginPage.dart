@@ -856,7 +856,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              Container(
+                              pageState.mainButtonsVisible && selectedButton != CREATE_ACCOUNT ? Container(
                                   width: 175.0,
                                   margin: EdgeInsets.only(top: 225.0),
                                   child: Text(
@@ -870,7 +870,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                           ColorConstants.getPrimaryWhite()),
                                     ),
                                   )
-                              ),
+                              ) : SizedBox(),
                             ],
                           ),
                         ),
@@ -893,7 +893,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
               ) : SizedBox(),
-              _getLoginTextFieldWidgets(selectedButton, pageState),
+              _getCreateAccountTextFieldWidgets(selectedButton, pageState),
               selectedButton == CREATE_ACCOUNT ? SafeArea(
                 child: Container(
                   alignment: Alignment.bottomCenter,
@@ -987,7 +987,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     });
   }
 
-  Widget _getLoginTextFieldWidgets(String selectedButton, LoginPageState pageState) {
+  Widget _getCreateAccountTextFieldWidgets(String selectedButton, LoginPageState pageState) {
     if(selectedButton != null) {
       return SafeArea(
         child: Container(

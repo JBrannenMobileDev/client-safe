@@ -75,13 +75,13 @@ class NewJobReminderPageState {
   }
 
   factory NewJobReminderPageState.initial() {
-    List<JobStage> selectedStagesInitial = List();
+    List<JobStage> selectedStagesInitial = [];
     selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
     return NewJobReminderPageState(
         id: null,
         documentId: '',
         pageViewIndex: 0,
-        allReminders: List(),
+        allReminders: [],
         isFinishedFetchingReminders: false,
         selectedReminder: null,
         selectedTime: null,

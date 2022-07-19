@@ -28,15 +28,32 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     List<Reminder> allReminders = await ReminderDao.getAll();
-    store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, allReminders));
+    store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(allReminders, store)));
 
     (await ReminderDao.getReminderStream()).listen((snapshots) async {
       List<Reminder> remindersToUpdate = [];
       for(RecordSnapshot reminderSnapshot in snapshots) {
         remindersToUpdate.add(Reminder.fromMap(reminderSnapshot.value));
       }
-      store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, remindersToUpdate));
+      store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(remindersToUpdate, store)));
     });
+  }
+
+  List<Reminder> _getFilteredReminders(List<Reminder> reminders, Store<AppState> store) {
+    List<Reminder> filteredReminders = [];
+    List<JobReminder> jobReminders = store.state.jobDetailsPageState.reminders;
+    for(Reminder reminder in reminders) {
+      bool alreadyAdded = false;
+      for(JobReminder jobReminder in jobReminders) {
+        if(reminder.description == jobReminder.reminder.description) {
+          alreadyAdded = true;
+        }
+      }
+      if(!alreadyAdded) {
+        filteredReminders.add(reminder);
+      }
+    }
+    return filteredReminders;
   }
 
   void _saveNewJobReminder(Store<AppState> store, SaveNewJobReminderAction action, NextDispatcher next) async {
@@ -45,43 +62,10 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
       documentId: store.state.newJobReminderPageState.documentId,
       jobDocumentId: action.job.documentId,
       reminder: store.state.newJobReminderPageState.selectedReminder,
-      exactDateAndTime: _generateExactDateAndTime(store.state.newJobReminderPageState, action.job),
     );
     await JobReminderDao.insertOrUpdate(jobReminderToSave);
-    store.dispatch(ClearNewJobReminderStateAction(store.state.newJobReminderPageState));
+    store.dispatch(
+        ClearNewJobReminderStateAction(store.state.newJobReminderPageState));
     store.dispatch(FetchJobRemindersAction(store.state.jobDetailsPageState));
-  }
-
-  DateTime _generateExactDateAndTime(NewJobReminderPageState pageState, Job job) {
-    DateTime exactDateAndTime = job.selectedDate;
-    int resultMilliseconds = exactDateAndTime.millisecondsSinceEpoch;
-    switch(pageState.selectedReminder.when){
-      case WhenSelectionWidget.BEFORE:
-        resultMilliseconds = resultMilliseconds - getMillisecondsOffset(pageState);
-        break;
-      case WhenSelectionWidget.ON:
-        //do nothing
-        break;
-      case WhenSelectionWidget.AFTER:
-        resultMilliseconds = resultMilliseconds + getMillisecondsOffset(pageState);
-        break;
-    }
-    return DateTime.fromMillisecondsSinceEpoch(resultMilliseconds);
-  }
-
-  int getMillisecondsOffset(NewJobReminderPageState pageState) {
-    int offset = 0;
-    switch(pageState.selectedReminder.daysWeeksMonths) {
-      case WhenSelectionWidget.DAYS:
-        offset = Duration.millisecondsPerDay * pageState.selectedReminder.amount;
-        break;
-      case WhenSelectionWidget.WEEKS:
-        offset = Duration.millisecondsPerDay * 7 * pageState.selectedReminder.amount;
-        break;
-      case WhenSelectionWidget.MONTHS:
-        offset = Duration.millisecondsPerDay * 30 * pageState.selectedReminder.amount;
-        break;
-    }
-    return offset;
   }
 }

@@ -25,6 +25,12 @@ class JobReminderDao extends Equatable{
   // singleton instance of an opened database.
   static Future<Database> get _db async => await SembastDb.instance.database;
 
+  static Future insertAll(List<JobReminder> reminders) async {
+    for(JobReminder reminder in reminders) {
+      await insert(reminder);
+    }
+  }
+
   static Future insert(JobReminder reminder) async {
     reminder.documentId = Uuid().v1();
     reminder.id = await _jobReminderStore.add(await _db, reminder.toMap());
@@ -118,11 +124,16 @@ class JobReminderDao extends Equatable{
     if((await getAll()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', documentId));
       final recordSnapshots = await _jobReminderStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<JobReminder> reminders = recordSnapshots.map((snapshot) {
         final reminder = JobReminder.fromMap(snapshot.value);
         reminder.id = snapshot.key;
         return reminder;
-      }).toList().elementAt(0);
+      }).toList();
+
+      if(reminders != null && reminders.isNotEmpty) {
+        return reminders.elementAt(0);
+      }
+      return null;
     } else {
       return null;
     }

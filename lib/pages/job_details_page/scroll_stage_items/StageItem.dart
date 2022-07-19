@@ -405,6 +405,7 @@ class _StageItemState extends State<StageItem>
                               case 0:
                                 break;
                               case 1:
+                                onSMSPressed(pageState.client.phone);
                                 break;
                               case 2:
                               //TODO add code to send contract
@@ -499,6 +500,10 @@ class _StageItemState extends State<StageItem>
     return pageState.expandedIndexes.contains(index);
   }
 
+  void onSMSPressed(String sms){
+    if(sms.isNotEmpty) IntentLauncherUtil.sendSMS(sms);
+  }
+
   void _setStageStatus(Job job, int index) {
     switch(index){
       case 0:
@@ -524,7 +529,8 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_3_PROPOSAL_SENT);
         stageTitle = isStageCompleted ? 'Contract sent!' : 'Contract sent?';
         stageSubtitle = '';
-        actionButtonText = 'Send';
+        // actionButtonText = 'Send';
+        actionButtonText = '';
         actionIcon = Icons.email;
         break;
       case 3:
@@ -533,7 +539,8 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_4_PROPOSAL_SIGNED);
         stageTitle = isStageCompleted ? 'Contract signed!' : 'Contract signed?';
         stageSubtitle = '';
-        actionButtonText = 'Resend';
+        // actionButtonText = 'Resend';
+        actionButtonText = '';
         actionIcon = Icons.email;
         break;
       case 4:
@@ -550,7 +557,8 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_6_PLANNING_COMPLETE);
         stageTitle = isStageCompleted ? 'Planning complete' : 'Planning complete?';
         stageSubtitle = '';
-        actionButtonText = 'Checklist';
+        // actionButtonText = 'Checklist';
+        actionButtonText = '';
         actionIcon = Icons.format_list_bulleted;
         break;
       case 6:
@@ -601,7 +609,8 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_12_FEEDBACK_REQUESTED);
         stageTitle = isStageCompleted ? 'Feedback requested!' : 'Feedback requested?';
         stageSubtitle = '';
-        actionButtonText = 'Send';
+        // actionButtonText = 'Send';
+        actionButtonText = '';
         actionIcon = Icons.feedback;
         break;
       case 12:
@@ -610,7 +619,8 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_13_FEEDBACK_RECEIVED);
         stageTitle = isStageCompleted ? 'Feedback received!' : 'Feedback received?';
         stageSubtitle = '';
-        actionButtonText = 'Resend';
+        // actionButtonText = 'Resend';
+        actionButtonText = '';
         actionIcon = Icons.feedback;
         break;
       case 13:

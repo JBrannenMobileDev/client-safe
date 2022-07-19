@@ -34,10 +34,9 @@ class _LocationSelectionFormState
         child: pageState.locations.length > 0
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: 16.0),
+                    padding: EdgeInsets.only(bottom: 0.0),
                     child: Text(
                       "Select a location for this job.",
                       textAlign: TextAlign.center,
@@ -50,7 +49,7 @@ class _LocationSelectionFormState
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
+                    padding: EdgeInsets.only(bottom: 0.0),
                     child: Text(
                       pageState.selectedLocation != null
                           ? pageState.selectedLocation.locationName
@@ -67,18 +66,22 @@ class _LocationSelectionFormState
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: 65.0,
-                      maxHeight: 400.0,
+                      maxHeight: 435.0,
                     ),
-                    child: ListView.builder(
-                      reverse: false,
-                      padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
-                      shrinkWrap: true,
-                      controller: _controller,
-                      physics: ClampingScrollPhysics(),
-                      key: _listKey,
-                      itemCount: pageState.locations.length,
-                      itemBuilder: _buildItem,
-                    ),
+                    child: GridView.builder(
+                            padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
+                            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 200,
+                                childAspectRatio: 3 / 2,
+                                crossAxisSpacing: 20,
+                                mainAxisSpacing: 64),
+                            itemCount: pageState.locations.length,
+                            controller: _controller,
+                            physics: ClampingScrollPhysics(),
+                            key: _listKey,
+                            shrinkWrap: true,
+                            reverse: false,
+                            itemBuilder: _buildItem)
                   ),
                 ],
               )
@@ -159,7 +162,7 @@ class _LocationSelectionFormState
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
-        margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+        margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
         child: JobLocationListWidget(index),
       ),
     );

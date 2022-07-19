@@ -19,7 +19,6 @@ class NewContactPageState {
   final String documentId;
   final int pageViewIndex;
   final bool saveButtonEnabled;
-  final bool isFemale;
   final bool shouldClear;
   final String newContactFirstName;
   final String newContactLastName;
@@ -44,7 +43,6 @@ class NewContactPageState {
   final Function() onCancelPressed;
   final Function() onNextPressed;
   final Function() onBackPressed;
-  final Function(int) onGenderSelected;
   final Function(String) onClientFirstNameChanged;
   final Function(String) onClientLastNameChanged;
   final Function(String) onPhoneTextChanged;
@@ -70,7 +68,6 @@ class NewContactPageState {
     @required this.documentId,
     @required this.pageViewIndex,
     @required this.saveButtonEnabled,
-    @required this.isFemale,
     @required this.shouldClear,
     @required this.newContactFirstName,
     @required this.newContactLastName,
@@ -95,7 +92,6 @@ class NewContactPageState {
     @required this.onCancelPressed,
     @required this.onNextPressed,
     @required this.onBackPressed,
-    @required this.onGenderSelected,
     @required this.onClientFirstNameChanged,
     @required this.onClientLastNameChanged,
     @required this.onPhoneTextChanged,
@@ -122,7 +118,6 @@ class NewContactPageState {
     String documentId,
     int pageViewIndex,
     saveButtonEnabled,
-    bool isFemale,
     bool shouldClear,
     String newContactFirstName,
     String newContactLastName,
@@ -147,7 +142,6 @@ class NewContactPageState {
     Function() onCancelPressed,
     Function() onNextPressed,
     Function() onBackPressed,
-    Function(int) onGenderSelected,
     Function(String) onClientFirstNameChanged,
     Function(String) onClientLastNameChanged,
     Function(String) onPhoneTextChanged,
@@ -173,7 +167,6 @@ class NewContactPageState {
       documentId: documentId?? this.documentId,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
-      isFemale: isFemale?? this.isFemale,
       shouldClear: shouldClear?? this.shouldClear,
       newContactFirstName: newContactFirstName?? this.newContactFirstName,
       newContactLastName: newContactLastName?? this.newContactLastName,
@@ -198,7 +191,6 @@ class NewContactPageState {
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
       onBackPressed: onBackPressed?? this.onBackPressed,
-      onGenderSelected: onGenderSelected?? this.onGenderSelected,
       onClientFirstNameChanged: onClientFirstNameChanged?? this.onClientFirstNameChanged,
       onClientLastNameChanged: onClientLastNameChanged?? this.onClientLastNameChanged,
       onPhoneTextChanged: onPhoneTextChanged?? this.onPhoneTextChanged,
@@ -226,7 +218,6 @@ class NewContactPageState {
         documentId: null,
         pageViewIndex: 0,
         saveButtonEnabled: false,
-        isFemale: true,
         shouldClear: true,
         newContactFirstName: "",
         newContactLastName: "",
@@ -237,9 +228,9 @@ class NewContactPageState {
         spouseFirstName: "",
         spouseLastName: "",
         numberOfChildren: 0,
-        importantDates: List(),
-        deviceContacts: List(),
-        filteredDeviceContacts: List(),
+        importantDates: [],
+        deviceContacts: [],
+        filteredDeviceContacts: [],
         selectedDeviceContact: null,
         searchText: '',
         notes: "",
@@ -251,7 +242,6 @@ class NewContactPageState {
         onCancelPressed: null,
         onNextPressed: null,
         onBackPressed: null,
-        onGenderSelected: null,
         onRelationshipStatusChanged: null,
         onClientFirstNameChanged: null,
         onClientLastNameChanged: null,
@@ -279,7 +269,6 @@ class NewContactPageState {
       documentId: store.state.newContactPageState.documentId,
       pageViewIndex: store.state.newContactPageState.pageViewIndex,
       saveButtonEnabled: store.state.newContactPageState.saveButtonEnabled,
-      isFemale: store.state.newContactPageState.isFemale,
       shouldClear: store.state.newContactPageState.shouldClear,
       newContactFirstName: store.state.newContactPageState.newContactFirstName,
       newContactLastName: store.state.newContactPageState.newContactLastName,
@@ -304,7 +293,6 @@ class NewContactPageState {
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newContactPageState)),
-      onGenderSelected: (genderIndex) => store.dispatch(UpdateGenderSelectionAction(store.state.newContactPageState, genderIndex)),
       onClientFirstNameChanged: (firstName) => store.dispatch(UpdateNewContactFirstNameAction(store.state.newContactPageState, firstName)),
       onClientLastNameChanged: (lastName) => store.dispatch(UpdateNewContactLastNameAction(store.state.newContactPageState, lastName)),
       onPhoneTextChanged: (phoneNum) => store.dispatch(UpdatePhoneNumAction(store.state.newContactPageState, phoneNum)),
@@ -335,7 +323,6 @@ class NewContactPageState {
       onStartNewJobSelected.hashCode ^
       pageViewIndex.hashCode ^
       saveButtonEnabled.hashCode ^
-      isFemale.hashCode ^
       shouldClear.hashCode ^
       newContactFirstName.hashCode ^
       newContactLastName.hashCode ^
@@ -359,7 +346,6 @@ class NewContactPageState {
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
       onBackPressed.hashCode ^
-      onGenderSelected.hashCode ^
       onClientFirstNameChanged.hashCode ^
       onClientLastNameChanged.hashCode ^
       onPhoneTextChanged.hashCode ^
@@ -386,7 +372,6 @@ class NewContactPageState {
           documentId == other.documentId &&
           pageViewIndex == other.pageViewIndex &&
           saveButtonEnabled == other.saveButtonEnabled &&
-          isFemale == other.isFemale &&
           shouldClear == other.shouldClear &&
           newContactFirstName == other.newContactFirstName &&
           newContactLastName == other.newContactLastName &&
@@ -412,7 +397,6 @@ class NewContactPageState {
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&
-          onGenderSelected == other.onGenderSelected &&
           onClientFirstNameChanged == other.onClientFirstNameChanged &&
           onClientLastNameChanged == other.onClientLastNameChanged &&
           onPhoneTextChanged == other.onPhoneTextChanged &&

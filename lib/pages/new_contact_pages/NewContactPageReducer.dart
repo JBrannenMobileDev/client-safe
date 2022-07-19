@@ -12,7 +12,6 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
   TypedReducer<NewContactPageState, UpdateNewContactFirstNameAction>(_updateNewContactFirstName),
   TypedReducer<NewContactPageState, UpdateNewContactLastNameAction>(_updateNewContactLastName),
-  TypedReducer<NewContactPageState, UpdateGenderSelectionAction>(_updateGender),
   TypedReducer<NewContactPageState, UpdatePhoneNumAction>(_updatePhoneNum),
   TypedReducer<NewContactPageState, UpdateEmailAction>(_updateEmail),
   TypedReducer<NewContactPageState, UpdateInstagramUrlAction>(_updateInstaUrl),
@@ -64,7 +63,6 @@ NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingC
     shouldClear: false,
     newContactFirstName: action.client.firstName,
     newContactLastName: action.client.lastName,
-    isFemale: action.client.gender == Client.GENDER_FEMALE,
     newContactPhone: action.client.phone,
     newContactEmail: action.client.email,
     newContactInstagramUrl: action.client.instagramProfileUrl,
@@ -229,14 +227,6 @@ NewContactPageState _updateNewContactFirstName(NewContactPageState previousState
 NewContactPageState _updateNewContactLastName(NewContactPageState previousState, UpdateNewContactLastNameAction action) {
   return previousState.copyWith(
       newContactLastName: action.lastName
-  );
-}
-
-NewContactPageState _updateGender(NewContactPageState previousState, UpdateGenderSelectionAction action) {
-  bool isFemale = action.genderIndex == 1;
-  return previousState.copyWith(
-      isFemale: isFemale,
-      clientIcon: null,
   );
 }
 

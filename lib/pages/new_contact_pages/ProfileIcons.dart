@@ -23,8 +23,7 @@ class _ProfileIcons extends State<ProfileIcons>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<String> femaleIcons = ImageUtil.femaleIcons;
-    List<String> maleIcons = ImageUtil.maleIcons;
+    List<String> profileIcons = ImageUtil.femaleIcons + ImageUtil.maleIcons;
     return StoreConnector<AppState, NewContactPageState>(
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
@@ -51,15 +50,14 @@ class _ProfileIcons extends State<ProfileIcons>
             ),
             GridView.builder(
                 shrinkWrap: true,
-                itemCount: 8,
+                itemCount: profileIcons.length,
+                physics: ClampingScrollPhysics(),
                 gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 4),
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () {
-                      pageState.onClientIconSelected(pageState.isFemale
-                          ? femaleIcons.elementAt(index)
-                          : maleIcons.elementAt(index));
+                      pageState.onClientIconSelected(profileIcons.elementAt(index));
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -67,13 +65,11 @@ class _ProfileIcons extends State<ProfileIcons>
                       width: 32.0,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(pageState.isFemale
-                              ? femaleIcons.elementAt(index)
-                              : maleIcons.elementAt(index)),
+                          image: AssetImage(profileIcons.elementAt(index)),
                           fit: BoxFit.contain,
                         ),
                       ),
-                      child: pageState.clientIcon != null && getIconPosition(pageState, femaleIcons, maleIcons) != index ? new Container(
+                      child: pageState.clientIcon != null && profileIcons.indexOf(pageState.clientIcon) != index ? new Container(
                         decoration: new BoxDecoration(
                             color: Colors.white.withOpacity(0.5)),
                       ) : SizedBox(),
@@ -88,12 +84,4 @@ class _ProfileIcons extends State<ProfileIcons>
 
   @override
   bool get wantKeepAlive => true;
-
-  int getIconPosition(NewContactPageState pageState, List<String> femaleIcons, List<String> maleIcons) {
-    if(pageState.isFemale){
-      return femaleIcons.indexOf(pageState.clientIcon);
-    }else{
-      return maleIcons.indexOf(pageState.clientIcon);
-    }
-  }
 }

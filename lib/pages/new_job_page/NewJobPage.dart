@@ -21,6 +21,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'JobReminderSelectionForm.dart';
+
 class NewJobPage extends StatefulWidget {
   @override
   _NewJobPageState createState() {
@@ -29,7 +31,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage> {
-  final int pageCount = 8;
+  final int pageCount = 9;
   final controller = PageController(
     initialPage: 0,
   );
@@ -75,7 +77,10 @@ class _NewJobPageState extends State<NewJobPage> {
       });
     });
     return StoreConnector<AppState, NewJobPageState>(
-      onInit: (store) => store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null,
+      onInit: (store) {
+        store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
+        store.dispatch(FetchAllRemindersAction(store.state.newJobPageState));
+      },
       onDidChange: (prev, pageState) {
         if(pageState.comingFromClientDetails && !hasJumpToBeenCalled) {
           controller.jumpToPage(1);
@@ -162,7 +167,7 @@ class _NewJobPageState extends State<NewJobPage> {
                           TimeSelectionForm(),
                           JobTypeSelection(),
                           JobStageSelectionForm(),
-//                          JobNotesForm(),
+                          JobReminderSelectionForm(),
                         ],
                       ),
                     ),
@@ -267,6 +272,9 @@ class _NewJobPageState extends State<NewJobPage> {
         case 7:
           canProgress = true;
           break;
+        case 8:
+          canProgress = true;
+          break;
       }
 
       if (canProgress) {
@@ -340,6 +348,9 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 450.0;
         break;
       case 8:
+        height = 500.0;
+        break;
+      case 9:
         height = 500.0;
         break;
     }

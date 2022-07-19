@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/StringUtils.dart';
+
 class JobTypeChangeDialog extends StatefulWidget {
   @override
   _JobTypeChangeDialogState createState() {
@@ -62,7 +64,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: 16,
+                      itemCount: StringUtils.getJobTypesList().length,
                       itemBuilder: _buildItem,
                     ),
                   ),
@@ -116,7 +118,6 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    List<String> jobTypeIcons = ImageUtil.jobIcons;
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
@@ -125,22 +126,27 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
               ),
-              color: pageState.jobTypeIcon != null &&
-                  getIconPosition(pageState, jobTypeIcons) == index ? Color(
+              color: pageState.jobTypeIcon ==  StringUtils.getJobTypesList().elementAt(index) ? Color(
                   ColorConstants.getBlueDark()) : Colors.transparent,
             ),
             onPressed: () {
               pageState.onJobTypeSelected(
-                  jobTypeIcons.elementAt(index));
+                  StringUtils.getJobTypesList().elementAt(index)
+              );
             },
             child: Row(
               children: <Widget>[
-                pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Container(
+                pageState.jobTypeIcon == StringUtils.getJobTypesList().elementAt(index) ? Container(
                   margin: EdgeInsets.only(right: 16.0),
                   height: 28.0,
                   width: 28.0,
                   child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
-                ) : SizedBox(),
+                ) : Container(
+                  margin: EdgeInsets.only(right: 16.0),
+                  height: 28.0,
+                  width: 28.0,
+                  child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png'),
+                ),
                 Expanded(
                   child: Container(
                     height: 64.0,
@@ -150,15 +156,13 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            ImageUtil.getJobTypeText(jobTypeIcons.elementAt(
-                                index)),
+                          Text(StringUtils.getJobTypesList().elementAt(index),
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: pageState.jobTypeIcon != null && getIconPosition(pageState, jobTypeIcons) == index ? Color(
+                              color: pageState.jobTypeIcon ==  StringUtils.getJobTypesList().elementAt(index) ? Color(
                                   ColorConstants.getPrimaryWhite()) : Color(
                                   ColorConstants.getPeachDark()),
                             ),

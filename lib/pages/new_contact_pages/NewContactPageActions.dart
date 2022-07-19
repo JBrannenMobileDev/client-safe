@@ -94,12 +94,6 @@ class UpdateNewContactLastNameAction{
   UpdateNewContactLastNameAction(this.pageState, this.lastName);
 }
 
-class UpdateGenderSelectionAction{
-  final NewContactPageState pageState;
-  final int genderIndex;
-  UpdateGenderSelectionAction(this.pageState, this.genderIndex);
-}
-
 class UpdatePhoneNumAction{
   final NewContactPageState pageState;
   final String phone;

@@ -52,11 +52,29 @@ class NewJobTextField extends StatelessWidget {
             onFieldSubmitted: (term) {
               onFocusAction();
             },
+            cursorColor: Color(ColorConstants.getPrimaryColor()),
             decoration: InputDecoration(
               alignLabelWithHint: true,
               labelText: hintText,
+              labelStyle: TextStyle(
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.primary_black)),
               hintText: hintText,
+              hintStyle: TextStyle(
+                  fontSize: 20.0,
+                  fontFamily: 'simple',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.primary_black)),
               fillColor: Colors.white,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                borderSide: BorderSide(
+                  color: Color(ColorConstants.getPrimaryColor()),
+                  width: 1.0,
+                ),
+              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(

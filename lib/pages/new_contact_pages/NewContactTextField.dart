@@ -38,6 +38,7 @@ class NewContactTextField extends StatelessWidget {
                 textInputAction: keyboardAction,
                 maxLines: 24,
                 controller: controller,
+                cursorColor: Color(ColorConstants.getPrimaryColor()),
                 onChanged: (text) {
                   onTextInputChanged(text);
                   pageState.onErrorStateChanged(NewContactPageState.NO_ERROR);
@@ -48,8 +49,25 @@ class NewContactTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
                   labelText: hintText,
+                  labelStyle: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.getPrimaryBlack())
+                  ),
                   hintText: hintText,
                   fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: pageState.errorState !=
+                          NewContactPageState.NO_ERROR &&
+                          inputTypeError == pageState.errorState
+                          ? Colors.red
+                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      width: 1.0,
+                    ),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(

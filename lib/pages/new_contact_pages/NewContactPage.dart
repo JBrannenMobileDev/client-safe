@@ -39,13 +39,11 @@ class _NewContactPageState extends State<NewContactPage> {
   final controller = PageController(
     initialPage: 0,
   );
-  int currentPageIndex = 0;
   String clientDocumentId;
 
   @override
   void initState() {
     super.initState();
-    currentPageIndex = 0;
   }
 
   Future<bool> _onWillPop() {
@@ -75,9 +73,6 @@ class _NewContactPageState extends State<NewContactPage> {
 
   @override
   Widget build(BuildContext context) {
-    controller.addListener(() {
-      currentPageIndex = controller.page.toInt();
-    });
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) async{
         store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
@@ -154,7 +149,7 @@ class _NewContactPageState extends State<NewContactPage> {
                       ),
                     ),
                     Container(
-                      height: currentPageIndex == 0 && pageState.deviceContacts.length > 0 ? 350.0 : 256.0,
+                      height: pageState.pageViewIndex == 0 && pageState.deviceContacts.length > 0 ? 350.0 : _getWidgetHeight(pageState.pageViewIndex),
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,
@@ -240,6 +235,26 @@ class _NewContactPageState extends State<NewContactPage> {
     );
   }
 
+  double _getWidgetHeight(int index) {
+    switch(index) {
+      case 1:
+        return 256.0;
+      case 2:
+        return 256.0;
+      case 3:
+        return 256.0;
+      case 4:
+        return 256.0;
+      case 5:
+        return 256.0;
+      case 6:
+        return 400.0;
+      case 7:
+        return 256.0;
+    }
+    return 256.0;
+  }
+
   Future<void> _checkPermissions(BuildContext context, NewContactPageState pageState){
     return showDialog<void>(
       context: context,
@@ -247,7 +262,7 @@ class _NewContactPageState extends State<NewContactPage> {
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Request Contacts Permission'),
-          content: new Text('These permissions will be used to save clients you add to your device contacts app.'),
+          content: new Text('This will be needed for syncing DandyLight contacts to your device.'),
           actions: <Widget>[
             TextButton(
             style: Styles.getButtonStyle(),
@@ -265,7 +280,7 @@ class _NewContactPageState extends State<NewContactPage> {
           ],
         ) : AlertDialog(
           title: new Text('Request Contacts Permission'),
-          content: new Text('These permissions will be used to save clients you add to your device contacts app.'),
+          content: new Text('This will be needed for syncing DandyLight contacts to your device.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -346,7 +361,7 @@ class _NewContactPageState extends State<NewContactPage> {
 
       if (canProgress) {
         pageState.onNextPressed();
-        controller.animateToPage(currentPageIndex + 1,
+        controller.animateToPage(pageState.pageViewIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         FocusScope.of(context).unfocus();
       }
@@ -392,7 +407,7 @@ class _NewContactPageState extends State<NewContactPage> {
       Navigator.of(context).pop();
     } else {
       pageState.onBackPressed();
-      controller.animateToPage(currentPageIndex - 1,
+      controller.animateToPage(pageState.pageViewIndex - 1,
           duration: Duration(milliseconds: 150), curve: Curves.ease);
     }
   }

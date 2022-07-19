@@ -32,7 +32,7 @@ class JobLocationListWidget extends StatelessWidget {
             children: <Widget>[
               Container(
                 height: _getItemWidthHeight(context),
-                margin: EdgeInsets.only(left: 64.0, top: 8.0, right: 64.0),
+                margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
@@ -50,7 +50,7 @@ class JobLocationListWidget extends StatelessWidget {
                   ),
                   child: Container(
                     width: double.maxFinite,
-                    margin: EdgeInsets.only(top: 32.0, left: 64.0, right: 64.0),
+                    margin: EdgeInsets.only(top: 32.0, left: 4.0, right: 4.0),
                   ),
                 ),
               ),
@@ -58,7 +58,7 @@ class JobLocationListWidget extends StatelessWidget {
                   ? Container(
                       height: _getItemWidthHeight(context),
                       margin:
-                          EdgeInsets.only(left: 64.0, top: 8.0, right: 64.0),
+                          EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.primary_black),
                           borderRadius: new BorderRadius.circular(16.0),
@@ -77,7 +77,7 @@ class JobLocationListWidget extends StatelessWidget {
                   : Container(
                       height: _getItemWidthHeight(context),
                       margin:
-                          EdgeInsets.only(left: 64.0, top: 8.0, right: 64.0),
+                          EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.primary_black),
                           borderRadius: new BorderRadius.circular(16.0),
@@ -128,7 +128,8 @@ class JobLocationListWidget extends StatelessWidget {
   }
 
   double _getItemWidthHeight(BuildContext context) {
-    return (MediaQuery.of(context).size.width - 110) / 2.0;
+    // return (MediaQuery.of(context).size.width - 110) / 3.0;
+    return 125;
   }
 
   FileImage getSavedImage(NewJobPageState pageState) {

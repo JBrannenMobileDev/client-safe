@@ -53,7 +53,7 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware
 import 'package:redux/redux.dart';
 
 List<Middleware<AppState>> createAppMiddleware() {
-  List<Middleware<AppState>> middlewareList = new List<Middleware<AppState>>();
+  List<Middleware<AppState>> middlewareList = [];
   middlewareList.add(TypedMiddleware<AppState, FetchClientData>(ClientsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewContactAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InitializeClientDetailsAction>(ClientDetailsPageMiddleware()));
@@ -158,5 +158,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchAllRemindersAction>(NewJobReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobRemindersAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobReminderAction>(NewJobReminderPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllRemindersAction>(NewJobPageMiddleware()));
   return middlewareList;
 }

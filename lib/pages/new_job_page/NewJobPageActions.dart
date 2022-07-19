@@ -6,6 +6,8 @@ import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 
+import '../../models/Reminder.dart';
+
 class UpdateErrorStateAction{
   final NewJobPageState pageState;
   final String errorCode;
@@ -45,6 +47,29 @@ class SetSelectedJobStageAction{
   final NewJobPageState pageState;
   final JobStage jobStage;
   SetSelectedJobStageAction(this.pageState, this.jobStage);
+}
+
+class SetSelectedJobReminderAction{
+  final NewJobPageState pageState;
+  final Reminder reminder;
+  SetSelectedJobReminderAction(this.pageState, this.reminder);
+}
+
+class SetAllRemindersAction{
+  final NewJobPageState pageState;
+  final List<Reminder> reminders;
+  SetAllRemindersAction(this.pageState, this.reminders);
+}
+
+class SetDefaultRemindersAction{
+  final NewJobPageState pageState;
+  final List<Reminder> defaultReminders;
+  SetDefaultRemindersAction(this.pageState, this.defaultReminders);
+}
+
+class FetchAllRemindersAction{
+  final NewJobPageState pageState;
+  FetchAllRemindersAction(this.pageState);
 }
 
 class SetSelectedJobTypeAction{

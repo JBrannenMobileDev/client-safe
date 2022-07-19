@@ -56,11 +56,24 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                           onChanged: (text) {
                             pageState.onClientSearchTextChanged(text);
                           },
+                          cursorColor: Color(ColorConstants.getPrimaryColor()),
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: "Name",
+                            hintStyle: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black)),
                             fillColor: Colors.white,
                             contentPadding: EdgeInsets.all(10.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Color(ColorConstants.getPrimaryColor()),
+                                width: 1.0,
+                              ),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(

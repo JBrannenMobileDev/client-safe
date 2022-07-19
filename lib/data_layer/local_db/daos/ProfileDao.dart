@@ -26,15 +26,18 @@ class ProfileDao extends Equatable{
   }
 
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
-    profile.profileLastChangeDate = DateTime.now();
-    final finder = Finder(filter: Filter.equals('uid', profile.uid));
-    await _profileStore.update(
-      await _db,
-      profile.toMap(),
-      finder: finder,
-    );
-    await UserCollection().updateUser(profile);
+    List<Profile> profiles = await ProfileDao.getAll();
+    if(profiles != null && profiles.isNotEmpty) {
+      Profile profile = profiles.elementAt(0);
+      profile.profileLastChangeDate = DateTime.now();
+      final finder = Finder(filter: Filter.equals('uid', profile.uid));
+      await _profileStore.update(
+        await _db,
+        profile.toMap(),
+        finder: finder,
+      );
+      await UserCollection().updateUser(profile);
+    }
   }
 
   static Future insertLocal(Profile profile) async {

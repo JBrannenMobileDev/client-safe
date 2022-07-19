@@ -32,26 +32,6 @@ class _NameAndGenderState extends State<NameAndGender>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    genders = <int, Widget>{
-      0: Text(Client.GENDER_MALE,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      1: Text(Client.GENDER_FEMALE,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-    };
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) {
         firstNameTextController.value = firstNameTextController.value.copyWith(text:store.state.newContactPageState.newContactFirstName);
@@ -104,6 +84,7 @@ class _NameAndGenderState extends State<NameAndGender>
                           textInputAction: TextInputAction.go,
                           maxLines: 1,
                           autofocus: true,
+                          cursorColor: Color(ColorConstants.getPrimaryColor()),
                           controller: searchTextController,
                           onChanged: (text) {
                             pageState.onContactSearchTextChanged(text);
@@ -111,8 +92,20 @@ class _NameAndGenderState extends State<NameAndGender>
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: "Name",
+                            labelStyle: TextStyle(
+                                fontSize: 20.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: Color(ColorConstants.primary_black)),
                             fillColor: Colors.white,
                             contentPadding: EdgeInsets.all(10.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Color(ColorConstants.getPrimaryColor()),
+                                width: 1.0,
+                              ),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
@@ -142,21 +135,6 @@ class _NameAndGenderState extends State<NameAndGender>
               ],
             ) : Column(
               children: <Widget>[
-                Container(
-                  width: 250.0,
-                  child: CupertinoSlidingSegmentedControl<int>(
-                    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                    thumbColor: Color(ColorConstants.getPrimaryColor()),
-                    children: genders,
-                    onValueChanged: (int genderIndex) {
-                      setState(() {
-                        selectorIndex = genderIndex;
-                      });
-                      pageState.onGenderSelected(genderIndex);
-                    },
-                    groupValue: selectorIndex,
-                  ),
-                ),
                 InkWell(
                   onTap: () => {
                     pageState.onGetDeviceContactsSelected()

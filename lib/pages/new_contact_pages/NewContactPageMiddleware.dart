@@ -35,7 +35,6 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       documentId: action.pageState.client?.documentId,
       firstName: action.pageState.newContactFirstName,
       lastName: action.pageState.newContactLastName,
-      gender: action.pageState.isFemale ? Client.GENDER_FEMALE : Client.GENDER_MALE,
       email: action.pageState.newContactEmail,
       phone: action.pageState.newContactPhone,
       instagramProfileUrl: action.pageState.newContactInstagramUrl,
@@ -46,7 +45,7 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       importantDates: action.pageState.importantDates,
       notes: action.pageState.notes,
       leadSource: action.pageState.leadSource,
-      iconUrl: action.pageState.clientIcon.length > 0 ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon(action.pageState.isFemale).assetName,
+      iconUrl: action.pageState.clientIcon.length > 0 ? action.pageState.clientIcon : ImageUtil.getRandomPersonIcon().assetName,
     );
     await ClientDao.insertOrUpdate(client);
     DeviceContactsDao.addOrUpdateContact(client);
