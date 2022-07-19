@@ -7,12 +7,12 @@ import 'package:flutter/services.dart';
 
 class DeviceContactsDao {
   static Future<Iterable<Contact>> getDeviceContacts() async {
-    return await ContactsService.getContacts();
+    return await ContactsService.getContacts(withThumbnails: false, photoHighResolution: false);
   }
 
   static Future<List<Contact>> getNonClientDeviceContacts(List<Client> clients) async {
     Iterable<Contact> allContacts = await getDeviceContacts();
-    List<Contact> result = List();
+    List<Contact> result = [];
     for (Contact contact in allContacts) {
       if (contact.phones != null && contact.phones.isNotEmpty && contact.displayName != null && contact.displayName.isNotEmpty){
         if(!contactAlreadyExists(clients, contact)){
@@ -55,7 +55,10 @@ class DeviceContactsDao {
     Iterable<Contact> allContacts = await getDeviceContacts();
     bool contactAlreadyExists = false;
     for (Contact contact in allContacts) {
-      if (contact.phones.contains(client.phone)) contactAlreadyExists = true;
+      Iterable<Item> phoneNumbers = contact.phones.toList();
+      for(Item phone in phoneNumbers) {
+        if(phone.value == client.phone) contactAlreadyExists = true;
+      }
     }
     if (contactAlreadyExists) {
       updateContact(client);
