@@ -4,7 +4,7 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/widgets.dart';
 
-class Event{
+class EventDandyLight{
   DateTime selectedDate;
   DateTime selectedTime;
   bool isPersonalEvent;
@@ -14,13 +14,13 @@ class Event{
   String jobDocumentId;
 
 
-  Event({
+  EventDandyLight({
     this.selectedDate, this.selectedTime, this.isPersonalEvent,
     this.eventTitle, this.icon, this.nextStageText, this.jobDocumentId
   });
 
-  static Event fromJob(Job job) {
-    return Event(
+  static EventDandyLight fromJob(Job job) {
+    return EventDandyLight(
       selectedDate: job.selectedDate,
       selectedTime: job.selectedTime,
       isPersonalEvent: false,

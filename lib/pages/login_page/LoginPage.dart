@@ -604,7 +604,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             child:Container(
                 height: MediaQuery.of(context).size.height,
                       alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(bottom: 332.0),
+                      margin: EdgeInsets.only(bottom: 380.0),
                       child: ScaleTransition(
                         scale: Tween(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -639,7 +639,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 margin: EdgeInsets.only(left: 8.0),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPeachDark()),
+                                    color: Color(ColorConstants.getPrimaryColor()),
                                     borderRadius: BorderRadius.circular(24.0)),
                                 child: Text(
                                   'Resend',

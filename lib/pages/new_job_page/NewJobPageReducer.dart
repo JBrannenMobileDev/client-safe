@@ -1,5 +1,5 @@
 import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
@@ -168,16 +168,16 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
 }
 
 NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateAction action) {
-  Map<DateTime, List<Event>> eventMap = Map();
+  Map<DateTime, List<EventDandyLight>> eventMap = Map();
   for(Job job in action.upcomingJobs) {
     if(job.selectedDate != null) {
       if (eventMap.containsKey(job.selectedDate)) {
-        List<Event> eventList = eventMap.remove(job.selectedDate);
-        eventList.add(Event.fromJob(job));
+        List<EventDandyLight> eventList = eventMap.remove(job.selectedDate);
+        eventList.add(EventDandyLight.fromJob(job));
         eventMap.putIfAbsent(job.selectedDate, () => eventList);
       } else {
-        List<Event> newEventList = List();
-        newEventList.add(Event.fromJob(job));
+        List<EventDandyLight> newEventList = List();
+        newEventList.add(EventDandyLight.fromJob(job));
         eventMap.putIfAbsent(job.selectedDate, () => newEventList);
       }
     }

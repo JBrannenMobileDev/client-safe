@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsCalendarItem.dart';
@@ -22,7 +22,7 @@ class NewDateSelectionDialog extends StatefulWidget {
 class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   AnimationController _animationController;
   DateTime selectedDateTime;
-  List<Event> _events;
+  List<EventDandyLight> _events;
 
   @override
   void initState() {
@@ -328,9 +328,9 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
   bool get wantKeepAlive => true;
 
   List<Job> _getEventListForSelectedDate(JobDetailsPageState pageState) {
-    List<Event> events = [];
+    List<EventDandyLight> events = [];
     if(pageState.job.selectedDate != null){
-      for(Event event in _events){
+      for(EventDandyLight event in _events){
         if(event.selectedDate != null) {
           if (event.selectedDate.year == selectedDateTime.year &&
               event.selectedDate.month == selectedDateTime.month &&
@@ -347,9 +347,9 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
     }
   }
 
-  List<Job> _getListOfJobsFromEvents(List<Event> events, List<Job> allJobs) {
+  List<Job> _getListOfJobsFromEvents(List<EventDandyLight> events, List<Job> allJobs) {
     List<Job> jobs = [];
-    for(Event event in events){
+    for(EventDandyLight event in events){
       for(Job job in allJobs){
         if(job.documentId == event.jobDocumentId) jobs.add(job);
       }

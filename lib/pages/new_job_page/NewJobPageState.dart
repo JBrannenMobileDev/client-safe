@@ -1,6 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
@@ -47,7 +47,7 @@ class NewJobPageState {
   final List<Client> filteredClients;
   final List<PriceProfile> pricingProfiles;
   final List<Location> locations;
-  final Map<DateTime, List<Event>> eventMap;
+  final Map<DateTime, List<EventDandyLight>> eventMap;
   final List<Job> jobs;
   final List<String> jobTypes;
   final Function() onSavePressed;
@@ -152,7 +152,7 @@ class NewJobPageState {
     int depositAmount,
     JobStage currentJobStage,
     List<Job> upcomingJobs,
-    Map<DateTime, List<Event>> eventMap,
+    Map<DateTime, List<EventDandyLight>> eventMap,
     List<Job> jobs,
     List<String> jobTypes,
     Function() onSavePressed,

@@ -37,6 +37,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
+import '../pages/calendar_page/SelectDeviceCalendarDialog.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
 import 'ColorConstants.dart';
 
@@ -47,6 +48,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewContactPage();
+      },
+    );
+  }
+
+  static void showSelectCalendarDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SelectDeviceCalendarDialog();
       },
     );
   }

@@ -1,5 +1,5 @@
 import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -21,7 +21,7 @@ class JobDetailsPageState {
   final DateTime sunsetTime;
   final int newStagAnimationIndex;
   final double stageScrollOffset;
-  final List<Event> eventList;
+  final List<EventDandyLight> eventList;
   final List<Job> jobs;
   final List<JobReminder> reminders;
   final String jobTitleText;
@@ -127,7 +127,7 @@ class JobDetailsPageState {
     Client client,
     int newStagAnimationIndex,
     double stageScrollOffset,
-    List<Event> eventList,
+    List<EventDandyLight> eventList,
     List<Job> jobs,
     String jobTitleText,
     List<Location> locations,

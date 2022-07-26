@@ -1,4 +1,4 @@
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';

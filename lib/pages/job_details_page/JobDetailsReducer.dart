@@ -1,4 +1,4 @@
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -107,10 +107,10 @@ JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetN
 }
 
 JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapAction action) {
-  List<Event> events = [];
+  List<EventDandyLight> events = [];
   for(Job job in action.upcomingJobs) {
     if(job.selectedDate != null) {
-      events.add(Event.fromJob(job));
+      events.add(EventDandyLight.fromJob(job));
     }
   }
   return previousState.copyWith(

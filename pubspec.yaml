@@ -64,6 +64,7 @@ dependencies:
   rxdart: ^0.26.0
   geocoder: ^0.2.1
   app_settings: ^4.1.8
+  device_calendar: ^4.2.0
 
 flutter_icons:
   android: true

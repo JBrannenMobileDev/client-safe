@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
@@ -11,7 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
+
+import '../../utils/UserPermissionsUtil.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -22,7 +25,7 @@ class CalendarPage extends StatefulWidget {
 
 class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMixin {
   AnimationController _animationController;
-  List<Event> _events;
+  List<EventDandyLight> _events;
 
   @override
   void initState() {
@@ -51,7 +54,20 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, CalendarPageState>(
-      onInit: (store) => store.dispatch(FetchAllJobsAction(store.state.calendarPageState)),
+      onInit: (store) async {
+        store.dispatch(FetchAllJobsAction(store.state.calendarPageState));
+        store.dispatch(FetchDeviceCalendars(store.state.calendarPageState));
+
+        PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
+        if(readContactsStatus == PermissionStatus.denied || readContactsStatus == PermissionStatus.permanentlyDenied){
+          await UserPermissionsUtil.requestPermission(Permission.calendar);
+        }
+      },
+      onDidChange: (previousState, newState) {
+        if(newState.deviceCalendars.isNotEmpty && newState.selectedDeviceCalendar == null) {
+          UserOptionsUtil.showSelectCalendarDialog(context);
+        }
+      },
       converter: (store) => CalendarPageState.fromStore(store),
       builder: (BuildContext context, CalendarPageState pageState) => Scaffold(
         backgroundColor: Color(ColorConstants.getPrimaryWhite()),
@@ -309,9 +325,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
   }
 
   List<Job> _getEventListForSelectedDate(CalendarPageState pageState) {
-    List<Event> matchingEvents = [];
+    List<EventDandyLight> matchingEvents = [];
     if (pageState.selectedDate != null) {
-      for (Event event in pageState.eventList) {
+      for (EventDandyLight event in pageState.eventList) {
         if(event.selectedDate != null){
           if (event.selectedDate.year == pageState.selectedDate.year &&
               event.selectedDate.month == pageState.selectedDate.month &&
@@ -328,9 +344,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     }
   }
 
-  List<Job> _getListOfJobsFromEvents(List<Event> events, List<Job> allJobs) {
+  List<Job> _getListOfJobsFromEvents(List<EventDandyLight> events, List<Job> allJobs) {
     List<Job> jobs = [];
-    for(Event event in events){
+    for(EventDandyLight event in events){
       for(Job job in allJobs){
         if(job.documentId == event.jobDocumentId) jobs.add(job);
       }

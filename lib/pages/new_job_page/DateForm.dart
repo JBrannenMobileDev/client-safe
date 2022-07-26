@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Event.dart';
+import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/calendar_page/JobCalendarItem.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
@@ -21,7 +21,7 @@ class DateForm extends StatefulWidget {
 
 class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   AnimationController _animationController;
-  Map<DateTime,List<Event>> _events;
+  Map<DateTime,List<EventDandyLight>> _events;
 
   @override
   void initState() {
@@ -41,7 +41,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     super.dispose();
   }
 
-  List<Event> _getEventsForDay(DateTime day) {
+  List<EventDandyLight> _getEventsForDay(DateTime day) {
     // Implementation example
     return _events[day] ?? [];
   }
@@ -280,8 +280,8 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
 
   List<Job> _getEventListForSelectedDate(NewJobPageState pageState) {
     if(pageState.selectedDate != null){
-      for(List<Event> events in pageState.eventMap.values){
-        for(Event event in events){
+      for(List<EventDandyLight> events in pageState.eventMap.values){
+        for(EventDandyLight event in events){
           if(event.selectedDate != null) {
             if (event.selectedDate.year == pageState.selectedDate.year &&
                 event.selectedDate.month == pageState.selectedDate.month &&
@@ -295,9 +295,9 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     return List();
   }
 
-  List<Job> _getListOfJobsFromEvents(List<Event> events, List<Job> allJobs) {
+  List<Job> _getListOfJobsFromEvents(List<EventDandyLight> events, List<Job> allJobs) {
     List<Job> jobs = List();
-    for(Event event in events){
+    for(EventDandyLight event in events){
       for(Job job in allJobs){
         if(job.documentId == event.jobDocumentId) jobs.add(job);
       }

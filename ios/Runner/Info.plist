@@ -72,7 +72,7 @@
     <key>kTCCServiceMediaLibrary</key>
     <string>media</string>
     <key>NSCalendarsUsageDescription</key>
-    <string>Calendars</string>
+    <string>This permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>microphone</string>
     <key>NSSpeechRecognitionUsageDescription</key>

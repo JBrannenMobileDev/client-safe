@@ -79,6 +79,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllJobsAction>(CalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchDeviceCalendars>(CalendarPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedDateAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedLocation>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveStageCompleted>(JobDetailsPageMiddleware()));
