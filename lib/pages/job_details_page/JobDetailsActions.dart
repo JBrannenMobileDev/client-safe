@@ -5,6 +5,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
+import 'package:device_calendar/device_calendar.dart';
 
 import '../../models/JobReminder.dart';
 import '../../models/Reminder.dart';
@@ -13,6 +14,24 @@ class SetJobInfo{
   final JobDetailsPageState pageState;
   final Job job;
   SetJobInfo(this.pageState, this.job);
+}
+
+class FetchJobDetailsDeviceEvents{
+  final JobDetailsPageState calendarPageState;
+  final DateTime month;
+  FetchJobDetailsDeviceEvents(this.calendarPageState, this.month);
+}
+
+class SetJobDetailsSelectedDateAction{
+  final JobDetailsPageState pageState;
+  final DateTime selectedDate;
+  SetJobDetailsSelectedDateAction(this.pageState, this.selectedDate);
+}
+
+class SetDeviceEventsAction {
+  final JobDetailsPageState pageState;
+  final List<Event> deviceEvents;
+  SetDeviceEventsAction(this.pageState, this.deviceEvents);
 }
 
 class SetRemindersAction{
@@ -111,8 +130,7 @@ class UpdateJobTimeAction{
 
 class UpdateJobDateAction{
   final JobDetailsPageState pageState;
-  final DateTime newDate;
-  UpdateJobDateAction(this.pageState, this.newDate);
+  UpdateJobDateAction(this.pageState);
 }
 
 class SaveUpdatedJobAction{

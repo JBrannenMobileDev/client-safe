@@ -5,6 +5,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/job_details_page/document_items/InvoiceDocument.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
 
 final jobDetailsReducer = combineReducers<JobDetailsPageState>([
@@ -31,7 +32,29 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetDocumentPathAction>(_setDocumentPath),
   TypedReducer<JobDetailsPageState, SetNewInvoice>(_setInvoiceDocument),
   TypedReducer<JobDetailsPageState, SetRemindersAction>(_setReminders),
+  TypedReducer<JobDetailsPageState, SetDeviceEventsAction>(_setDeviceEvents),
+  TypedReducer<JobDetailsPageState, SetJobDetailsSelectedDateAction>(_setSelectedDate),
 ]);
+
+JobDetailsPageState _setSelectedDate(JobDetailsPageState previousState, SetJobDetailsSelectedDateAction action) {
+  return previousState.copyWith(
+    selectedDate: action.selectedDate,
+  );
+}
+
+JobDetailsPageState _setDeviceEvents(JobDetailsPageState previousState, SetDeviceEventsAction action) {
+  List<EventDandyLight> eventList = [];
+  for(Job job in previousState.jobs) {
+    eventList.add(EventDandyLight.fromJob(job));
+  }
+  for(Event event in action.deviceEvents) {
+    eventList.add(EventDandyLight.fromDeviceEvent(event));
+  }
+  return previousState.copyWith(
+    eventList: eventList,
+    deviceEvents: action.deviceEvents,
+  );
+}
 
 JobDetailsPageState _setReminders(JobDetailsPageState previousState, SetRemindersAction action){
   return previousState.copyWith(
@@ -107,14 +130,15 @@ JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetN
 }
 
 JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapAction action) {
-  List<EventDandyLight> events = [];
+  List<EventDandyLight> eventList = [];
   for(Job job in action.upcomingJobs) {
-    if(job.selectedDate != null) {
-      events.add(EventDandyLight.fromJob(job));
-    }
+    eventList.add(EventDandyLight.fromJob(job));
+  }
+  for(Event event in previousState.deviceEvents) {
+    eventList.add(EventDandyLight.fromDeviceEvent(event));
   }
   return previousState.copyWith(
-    eventList: events,
+    eventList: eventList,
     jobs: action.upcomingJobs,
   );
 }
@@ -158,6 +182,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     documents: documents,
     invoice: action.job.invoice,
     jobTypeIcon: action.job.type,
+    selectedDate: action.job.selectedDate,
   );
 }
 

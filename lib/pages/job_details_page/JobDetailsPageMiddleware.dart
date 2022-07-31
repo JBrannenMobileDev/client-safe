@@ -18,14 +18,19 @@ import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
+import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
 import '../../models/JobReminder.dart';
+import '../../models/Profile.dart';
 import '../../models/Reminder.dart';
+import '../../utils/CalendarSyncUtil.dart';
+import '../../utils/UidUtil.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -94,6 +99,28 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteReminderFromJobAction){
       _deleteReminder(store, action, next);
     }
+    if(action is FetchJobDetailsDeviceEvents) {
+      _fetchDeviceEventsForMonth(store, action, next);
+    }
+  }
+
+  void _fetchDeviceEventsForMonth(Store<AppState> store, FetchJobDetailsDeviceEvents action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    DateTime monthToUse = null;
+    if(action != null) {
+      monthToUse = action.month;
+    } else {
+      monthToUse = store.state.jobDetailsPageState.selectedDate;
+    }
+
+    if(profile.calendarEnabled) {
+      DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
+      DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
+
+      List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
+      store.dispatch(SetDeviceEventsAction(store.state.jobDetailsPageState, deviceEvents));
+    }
+    store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, monthToUse));
   }
 
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
@@ -215,7 +242,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobWithNewDate(Store<AppState> store, UpdateJobDateAction action, NextDispatcher next) async{
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      selectedDate: action.newDate,
+      selectedDate: store.state.jobDetailsPageState.selectedDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
@@ -239,6 +266,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
     Client client = await ClientDao.getClientById(action.job.clientDocumentId);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
+    _fetchDeviceEventsForMonth(store, null, next);
   }
 
   void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{

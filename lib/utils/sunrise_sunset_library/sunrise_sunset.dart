@@ -13,7 +13,7 @@ class SunriseSunset {
   }) async {
     try {
       Uri uri = Uri(
-        scheme: 'https',
+        scheme: 'http',
         host: 'api.sunrise-sunset.org',
         path: '/json',
         queryParameters: {

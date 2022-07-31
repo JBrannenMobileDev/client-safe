@@ -411,7 +411,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 Container(
                                   padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
                                   child: Text(
-                                    'Enable DandyLight to display your ' + (Device.get().isIos ? 'iPhone' : 'Andriod') + ' Calendar events within the app.',
+                                    'Enable DandyLight to sync your jobs with your personal device calendars.',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 18.0,

@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 
 class EventDandyLight{
   DateTime selectedDate;
   DateTime selectedTime;
+  DateTime start;
+  DateTime end;
   bool isPersonalEvent;
   String eventTitle;
   AssetImage icon;
@@ -15,7 +18,7 @@ class EventDandyLight{
 
 
   EventDandyLight({
-    this.selectedDate, this.selectedTime, this.isPersonalEvent,
+    this.selectedDate, this.selectedTime, this.start, this.end, this.isPersonalEvent,
     this.eventTitle, this.icon, this.nextStageText, this.jobDocumentId
   });
 
@@ -28,6 +31,20 @@ class EventDandyLight{
       icon: job.stage.getNextStageImage(),
       nextStageText: 'Next: ' + JobStage.getNextStageNameStatic(JobStage.getStageValue(job.stage.stage)),
       jobDocumentId: job.documentId,
+    );
+  }
+
+  static EventDandyLight fromDeviceEvent(Event event) {
+    return EventDandyLight(
+      selectedDate: event.start,
+      selectedTime: event.start,
+      start: event.start,
+      end: event.end,
+      isPersonalEvent: true,
+      eventTitle: event.title,
+      icon: AssetImage('assets/images/icons/calendar_bold_white.png'),
+      nextStageText: '',
+      jobDocumentId: '',
     );
   }
 }

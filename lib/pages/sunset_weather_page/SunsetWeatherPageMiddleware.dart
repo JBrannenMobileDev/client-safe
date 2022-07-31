@@ -116,12 +116,15 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetLocationNameAction(store.state.sunsetWeatherPageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
 
       (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-        List<Location> locations = List();
+        List<Location> locations = [];
         for(RecordSnapshot locationSnapshot in locationSnapshots) {
           locations.add(Location.fromMap(locationSnapshot.value));
         }
         store.dispatch(SetLocationsAction(store.state.sunsetWeatherPageState, locations));
       });
+
+      Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
 
       final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: positionLastKnown.latitude, longitude: positionLastKnown.longitude);
       store.dispatch(
@@ -135,12 +138,10 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
             response.data.nauticalTwilightEnd.toLocal(),
           )
       );
-      Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
 
-      Directory appDocDir = await getApplicationDocumentsDirectory();
-      String path = appDocDir.path;
-      store.dispatch(SetSunsetWeatherDocumentPathAction(store.state.sunsetWeatherPageState, path));
+      // Directory appDocDir = await getApplicationDocumentsDirectory();
+      // String path = appDocDir.path;
+      // store.dispatch(SetSunsetWeatherDocumentPathAction(store.state.sunsetWeatherPageState, path));
     }
   }
 

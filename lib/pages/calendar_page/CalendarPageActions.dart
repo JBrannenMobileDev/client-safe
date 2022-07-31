@@ -14,10 +14,10 @@ class SetJobsCalendarStateAction{
   SetJobsCalendarStateAction(this.pageState, this.allJobs);
 }
 
-class SetDeviceCalendarsAction {
+class SetDeviceEventsAction {
   final CalendarPageState pageState;
-  final List<Calendar> deviceCalendars;
-  SetDeviceCalendarsAction(this.pageState, this.deviceCalendars);
+  final List<Event> deviceEvents;
+  SetDeviceEventsAction(this.pageState, this.deviceEvents);
 }
 
 class FetchAllJobsAction{
@@ -25,7 +25,8 @@ class FetchAllJobsAction{
   FetchAllJobsAction(this.calendarPageState);
 }
 
-class FetchDeviceCalendars{
+class FetchDeviceEvents{
   final CalendarPageState calendarPageState;
-  FetchDeviceCalendars(this.calendarPageState);
+  final DateTime month;
+  FetchDeviceEvents(this.calendarPageState, this.month);
 }

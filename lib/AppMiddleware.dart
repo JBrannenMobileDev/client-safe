@@ -79,7 +79,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllJobsAction>(CalendarPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchDeviceCalendars>(CalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchDeviceEvents>(CalendarPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedDateAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedLocation>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveStageCompleted>(JobDetailsPageMiddleware()));
@@ -154,6 +154,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderFromJobAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchJobDetailsDeviceEvents>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.FetchRemindersAction>(RemindersPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.DeleteReminderAction>(RemindersPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllRemindersAction>(NewJobReminderPageMiddleware()));

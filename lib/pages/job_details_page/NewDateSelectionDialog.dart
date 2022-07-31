@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../utils/CalendarUtil.dart';
+
 class NewDateSelectionDialog extends StatefulWidget {
   @override
   _NewDateSelectionDialogState createState() {
@@ -21,7 +23,6 @@ class NewDateSelectionDialog extends StatefulWidget {
 
 class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   AnimationController _animationController;
-  DateTime selectedDateTime;
   List<EventDandyLight> _events;
 
   @override
@@ -44,7 +45,15 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
 
   void _onDaySelected(DateTime day, List events, JobDetailsPageState pageState) {
     setState(() {
-      _buildEventList(_getEventListForSelectedDate(pageState), pageState);
+      CalendarUtil.buildEventList(
+        pageState.job.selectedDate,
+        pageState.eventList,
+        pageState.job.selectedDate.year,
+        pageState.job.selectedDate.month,
+        pageState.job.selectedDate.day,
+        pageState.jobs,
+        pageState.onJobClicked,
+      );
     });
   }
 
@@ -55,11 +64,10 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       converter: (store) => JobDetailsPageState.fromStore(store),
       onInit: (appState) => {
         appState.dispatch(FetchJobsForDateSelection(appState.state.jobDetailsPageState)),
-        selectedDateTime = appState.state.jobDetailsPageState.job.selectedDate,
       },
-      builder: (BuildContext context, JobDetailsPageState pageState) => Dialog(
+      builder: (BuildContext context, JobDetailsPageState pageState) => Scaffold(
         backgroundColor: Colors.transparent,
-        child: Container(
+        body: Container(
 
           padding: EdgeInsets.only(left: 8.0, right: 8.0),
           decoration: BoxDecoration(
@@ -70,7 +78,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 16.0, bottom: 4.0),
+                padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
                 child: Text(
                   "Select a new date for this job.",
                   textAlign: TextAlign.center,
@@ -84,7 +92,16 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
               ),
               _buildTableCalendarWithBuilders(pageState),
               const SizedBox(height: .0),
-              Expanded(child: _buildEventList(_getEventListForSelectedDate(pageState), pageState)),
+              Expanded(child: CalendarUtil.buildEventList(
+                  pageState.selectedDate,
+                  pageState.eventList,
+                  pageState.selectedDate.year,
+                  pageState.selectedDate.month,
+                  pageState.selectedDate.day,
+                  pageState.jobs,
+                  pageState.onJobClicked,
+                ),
+              ),
               Padding(
                 padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 24.0),
                 child: Row(
@@ -109,7 +126,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                     TextButton(
                       style: Styles.getButtonStyle(),
                       onPressed: () {
-                        pageState.onNewDateSelected(selectedDateTime);
+                        pageState.onSaveSelectedDate();
                         VibrateUtil.vibrateHeavy();
                         Navigator.of(context).pop();
                       },
@@ -145,12 +162,15 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
       availableGestures: AvailableGestures.all,
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2100, 3, 14),
-      focusedDay: selectedDateTime,
+      focusedDay: pageState.selectedDate,
       availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
       },
-      selectedDayPredicate: (day) => isSameDay(selectedDateTime, day),
+      onPageChanged: (focusedDay) {
+        pageState.onMonthChanged(focusedDay);
+      },
+      selectedDayPredicate: (day) => isSameDay(pageState.selectedDate, day),
       calendarStyle: CalendarStyle(
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(
@@ -259,7 +279,7 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
         },
       ),
       onDaySelected: (date, events) {
-        selectedDateTime = date;
+        pageState.onNewDateSelected(date);
         _onDaySelected(date, _events.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
         _animationController.forward(from: 0.0);
       },
@@ -277,83 +297,54 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
     if (events.length > 3) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
+          blackEventDot(events.elementAt(2)),
+          blackEventDot(events.elementAt(3)),
         ],
       );
     } else if(events.length == 3) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
+          blackEventDot(events.elementAt(2)),
         ],
       );
     } else if(events.length == 2) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
         ],
       );
     } else if(events.length == 1) {
-      return blackEventDot();
+      return blackEventDot(events.elementAt(0));
     } else {
       return SizedBox();
     }
   }
 
-  Widget blackEventDot() {
-    return Container(
-      width: 8.0,
-      height: 8.0,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(ColorConstants.primary_black)
-      ),
-    );
-  }
-
-  Widget _buildEventList(List<Job> eventsForSelectedDay, JobDetailsPageState pageState) {
-    return ListView(
-      children: eventsForSelectedDay
-          .map((job) => JobDetailsCalendarItem(job: job, paddingRight: 0.0, paddingLeft: 4.0, pageState: pageState,))
-          .toList(),
+  Widget blackEventDot(EventDandyLight event) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: 8.0,
+          height: 8.0,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: Color(ColorConstants.primary_black)),
+        ),
+        Container(
+          width: 5.0,
+          height: 5.0,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryWhite() : ColorConstants.primary_black)),
+        )
+      ],
     );
   }
 
   @override
   bool get wantKeepAlive => true;
-
-  List<Job> _getEventListForSelectedDate(JobDetailsPageState pageState) {
-    List<EventDandyLight> events = [];
-    if(pageState.job.selectedDate != null){
-      for(EventDandyLight event in _events){
-        if(event.selectedDate != null) {
-          if (event.selectedDate.year == selectedDateTime.year &&
-              event.selectedDate.month == selectedDateTime.month &&
-              event.selectedDate.day == selectedDateTime.day) {
-            events.add(event);
-          }
-        }
-      }
-    }
-    if(events.length > 0) {
-      return _getListOfJobsFromEvents(events, pageState.jobs);
-    } else {
-      return [];
-    }
-  }
-
-  List<Job> _getListOfJobsFromEvents(List<EventDandyLight> events, List<Job> allJobs) {
-    List<Job> jobs = [];
-    for(EventDandyLight event in events){
-      for(Job job in allJobs){
-        if(job.documentId == event.jobDocumentId) jobs.add(job);
-      }
-    }
-    return jobs;
-  }
 }

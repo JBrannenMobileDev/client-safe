@@ -12,18 +12,21 @@ import '../../utils/styles/Styles.dart';
 
 class JobCalendarItem extends StatelessWidget{
   final Job job;
+  final EventDandyLight eventDandyLight;
   final double paddingLeft;
   final double paddingRight;
-  final CalendarPageState pageState;
-  JobCalendarItem({this.job, this.paddingLeft, this.paddingRight, this.pageState});
+  final Function(Job) onJobClicked;
+  JobCalendarItem({this.job, this.eventDandyLight, this.paddingLeft, this.paddingRight, this.onJobClicked});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
       style: Styles.getButtonStyle(),
       onPressed: () {
-        pageState.onJobClicked(job);
-        NavigationUtil.onJobTapped(context);
+        if(job != null) {
+          onJobClicked(job);
+          NavigationUtil.onJobTapped(context);
+        }
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),
@@ -40,7 +43,7 @@ class JobCalendarItem extends StatelessWidget{
                   width: 38.0,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: job.stage.getStageImage(),
+                      image: job != null ? job.stage.getStageImage() : AssetImage('assets/images/icons/schedule_grey_dark.png'),
                       fit: BoxFit.contain,
                     ),
                   ),
@@ -55,17 +58,17 @@ class JobCalendarItem extends StatelessWidget{
                           Padding(
                             padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
                             child: Text(
-                              job.jobTitle,
+                              job != null ? job.jobTitle : eventDandyLight.eventTitle,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
+                                color: Color(job != null ? ColorConstants.primary_black : ColorConstants.primary_bg_grey_dark),
                               ),
                             ),
                           ),
-                          job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                          job != null ? (job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
                               ? SizedBox() : Container(
                             margin: EdgeInsets.only(left: 8.0),
                             height: 20.0,
@@ -73,10 +76,10 @@ class JobCalendarItem extends StatelessWidget{
                             child: Image(
                               image: AssetImage('assets/images/alert.png'),
                             ),
-                          ),
+                          )) : SizedBox(),
                         ],
                       ),
-                      Text(
+                      job != null ? Text(
                         'Stage: ' + JobStage.getStageTextFromValue(JobStage.getStageValue(job.stage.stage)),
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -85,8 +88,8 @@ class JobCalendarItem extends StatelessWidget{
                           fontWeight: FontWeight.w400,
                           color: Color(ColorConstants.primary_black),
                         ),
-                      ),
-                      Text(
+                      ) : SizedBox(),
+                      job != null ? Text(
                         _getSubtext(job),
                         textAlign: TextAlign.start,
                         style: TextStyle(
@@ -97,18 +100,27 @@ class JobCalendarItem extends StatelessWidget{
                           color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
                               ? Color(ColorConstants.primary_black) : Color(ColorConstants.getPeachDark()),
                         ),
+                      ) : Text(
+                        DateFormat('EEE, MMM d').format(eventDandyLight.start) + ' · ' + DateFormat('h:mm a').format(eventDandyLight.start) + ' - ' + DateFormat('h:mm a').format(eventDandyLight.end),
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w400,
+                          color: Color(ColorConstants.primary_bg_grey_dark),
+                        ),
                       ),
                     ],
                   ),
                 ),
               ],
             ),
-            Container(
+            job != null ? Container(
               child: Icon(
                 Icons.chevron_right,
                 color: Color(ColorConstants.getPrimaryBackgroundGrey()),
               ),
-            )
+            ) : SizedBox(),
           ],
         ),
       ),

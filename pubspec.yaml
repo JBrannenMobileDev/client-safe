@@ -84,6 +84,7 @@ flutter:
   uses-material-design: true
 
   assets:
+
     - assets/images/dandy_light_app_icon.png
     - assets/images/dandy_light_logo_icon.png
 
@@ -128,6 +129,7 @@ flutter:
     - assets/images/icons/location_icon_white.png
     - assets/images/icons/calendar_icon_peach.png
     - assets/images/icons/calendar_icon_white.png
+    - assets/images/icons/schedule_grey_dark.png
     - assets/images/icons/clock_icon_peach.png
     - assets/images/icons/price_package_icon.png
     - assets/images/icons/deposit_icon_peach.png

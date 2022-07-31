@@ -75,7 +75,6 @@ SunsetWeatherPageState _setSelectedLocation(SunsetWeatherPageState previousState
 SunsetWeatherPageState _setDocumentPath(SunsetWeatherPageState previousState, SetSunsetWeatherDocumentPathAction action){
   return previousState.copyWith(
     documentPath: action.path,
-
   );
 }
 

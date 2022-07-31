@@ -12,12 +12,12 @@ class CalendarPageState{
   final bool shouldClear;
   final List<EventDandyLight> eventList;
   final List<Job> jobs;
-  final List<Calendar> deviceCalendars;
+  final List<Event> deviceEvents;
   final Function(DateTime) onDateSelected;
   final Function() onAddNewJobSelected;
   final DateTime selectedDate;
-  final Calendar selectedDeviceCalendar;
   final Function(Job) onJobClicked;
+  final Function(DateTime) onMonthChanged;
 
   CalendarPageState({
     @required this.shouldClear,
@@ -27,8 +27,8 @@ class CalendarPageState{
     @required this.onAddNewJobSelected,
     @required this.onJobClicked,
     @required this.jobs,
-    @required this.deviceCalendars,
-    @required this.selectedDeviceCalendar,
+    @required this.deviceEvents,
+    @required this.onMonthChanged,
   });
 
   CalendarPageState copyWith({
@@ -37,10 +37,10 @@ class CalendarPageState{
     Function(DateTime) onDateSelected,
     DateTime selectedDate,
     List<Job> jobs,
-    List<Calendar> deviceCalendars,
-    Calendar selectedCalendar,
+    List<Event> deviceEvents,
     Function() onAddNewJobSelected,
     Function(Job) onJobClicked,
+    Function(DateTime) onMonthChanged,
   }){
     return CalendarPageState(
       shouldClear: shouldClear?? this.shouldClear,
@@ -50,8 +50,8 @@ class CalendarPageState{
       jobs: jobs ?? this.jobs,
       onAddNewJobSelected: onAddNewJobSelected?? this.onAddNewJobSelected,
       onJobClicked: onJobClicked ?? this.onJobClicked,
-      deviceCalendars: deviceCalendars ?? this.deviceCalendars,
-      selectedDeviceCalendar: selectedDeviceCalendar ?? this.selectedDeviceCalendar,
+      deviceEvents: deviceEvents ?? this.deviceEvents,
+      onMonthChanged: onMonthChanged ?? this.onMonthChanged,
     );
   }
 
@@ -63,8 +63,8 @@ class CalendarPageState{
     selectedDate: DateTime.now(),
     onAddNewJobSelected: null,
     onJobClicked: null,
-    deviceCalendars: [],
-    selectedDeviceCalendar: null,
+    deviceEvents: [],
+    onMonthChanged: null,
   );
 
   factory CalendarPageState.fromStore(Store<AppState> store) {
@@ -73,11 +73,11 @@ class CalendarPageState{
       eventList: store.state.calendarPageState.eventList,
       selectedDate: store.state.calendarPageState.selectedDate,
       jobs: store.state.calendarPageState.jobs,
-      deviceCalendars: store.state.calendarPageState.deviceCalendars,
-      selectedDeviceCalendar: store.state.calendarPageState.selectedDeviceCalendar,
+      deviceEvents: store.state.calendarPageState.deviceEvents,
       onAddNewJobSelected: () => store.dispatch(newJobActions.InitNewJobPageWithDateAction(store.state.newJobPageState, store.state.calendarPageState.selectedDate)),
       onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.calendarPageState, selectedDate)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+      onMonthChanged: (month) => store.dispatch(FetchDeviceEvents(store.state.calendarPageState, month)),
     );
   }
 
@@ -88,9 +88,9 @@ class CalendarPageState{
       jobs.hashCode ^
       onDateSelected.hashCode ^
       selectedDate.hashCode ^
-      deviceCalendars.hashCode ^
-      selectedDeviceCalendar.hashCode ^
-      onJobClicked.hashCode;
+      deviceEvents.hashCode ^
+      onJobClicked.hashCode ^
+      onMonthChanged.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -101,7 +101,7 @@ class CalendarPageState{
               jobs == other.jobs &&
               onDateSelected == other.onDateSelected &&
               selectedDate == other.selectedDate &&
-              deviceCalendars == other.deviceCalendars &&
-              selectedDeviceCalendar == other.selectedDeviceCalendar &&
+              deviceEvents == other.deviceEvents &&
+              onMonthChanged == other.onMonthChanged &&
               onJobClicked == other.onJobClicked;
 }

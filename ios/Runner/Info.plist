@@ -81,5 +81,7 @@
     <string>motion</string>
     <key>NSRemindersUsageDescription</key>
     <string>reminders</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>

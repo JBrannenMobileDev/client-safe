@@ -10,6 +10,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -19,9 +20,11 @@ class JobDetailsPageState {
   final Job job;
   final Client client;
   final DateTime sunsetTime;
+  final DateTime selectedDate;
   final int newStagAnimationIndex;
   final double stageScrollOffset;
   final List<EventDandyLight> eventList;
+  final List<Event> deviceEvents;
   final List<Job> jobs;
   final List<JobReminder> reminders;
   final String jobTitleText;
@@ -49,7 +52,7 @@ class JobDetailsPageState {
   final Function() onInstagramSelected;
   final Function(double) onScrollOffsetChanged;
   final Function(DateTime) onNewTimeSelected;
-  final Function(DateTime) onNewDateSelected;
+  final Function() onSaveSelectedDate;
   final Function(Client) onClientClicked;
   final Function(Job) onJobClicked;
   final Function(Location) onLocationSaveSelected;
@@ -67,12 +70,16 @@ class JobDetailsPageState {
   final Function(Invoice) onInvoiceSent;
   final Function() onBackPressed;
   final Function(JobReminder) onDeleteReminderSelected;
+  final Function(DateTime) onMonthChanged;
+  final Function(DateTime) onNewDateSelected;
 
   JobDetailsPageState({
     @required this.job,
+    @required this.selectedDate,
     @required this.client,
     @required this.sunsetTime,
     @required this.eventList,
+    @required this.deviceEvents,
     @required this.jobs,
     @required this.documentPath,
     @required this.jobTitleText,
@@ -92,7 +99,7 @@ class JobDetailsPageState {
     @required this.onInstagramSelected,
     @required this.onScrollOffsetChanged,
     @required this.onNewTimeSelected,
-    @required this.onNewDateSelected,
+    @required this.onSaveSelectedDate,
     @required this.onClientClicked,
     @required this.onJobClicked,
     @required this.onLocationSaveSelected,
@@ -120,14 +127,18 @@ class JobDetailsPageState {
     @required this.onBackPressed,
     @required this.reminders,
     @required this.onDeleteReminderSelected,
+    @required this.onMonthChanged,
+    @required this.onNewDateSelected
   });
 
   JobDetailsPageState copyWith({
     Job job,
     Client client,
+    DateTime selectedDate,
     int newStagAnimationIndex,
     double stageScrollOffset,
     List<EventDandyLight> eventList,
+    List<Event> deviceEvents,
     List<Job> jobs,
     String jobTitleText,
     List<Location> locations,
@@ -153,7 +164,7 @@ class JobDetailsPageState {
     DateTime sunsetTime,
     Function(double) onScrollOffsetChanged,
     Function(DateTime) onNewTimeSelected,
-    Function(DateTime) onNewDateSelected,
+    Function() onSaveSelectedDate,
     Function(Client) onClientClicked,
     Function(Job) onJobClicked,
     Function(Location) onLocationSaveSelected,
@@ -174,6 +185,8 @@ class JobDetailsPageState {
     int unsavedTipAmount,
     Function() onBackPressed,
     Function(JobReminder) onDeleteReminderSelected,
+    Function(DateTime) onMonthChanged,
+    Function(DateTime) onNewDateSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -184,6 +197,7 @@ class JobDetailsPageState {
       sunsetTime: sunsetTime ?? this.sunsetTime,
       stageScrollOffset: stageScrollOffset ?? this.stageScrollOffset,
       eventList: eventList ?? this.eventList,
+      deviceEvents: deviceEvents ?? this.deviceEvents,
       jobs: jobs ?? this.jobs,
       reminders: reminders ?? this.reminders,
       documentPath: documentPath ?? this.documentPath,
@@ -202,7 +216,7 @@ class JobDetailsPageState {
       onInstagramSelected: onInstagramSelected ?? this.onInstagramSelected,
       onScrollOffsetChanged: onScrollOffsetChanged ?? this.onScrollOffsetChanged,
       onNewTimeSelected: onNewTimeSelected ?? this.onNewTimeSelected,
-      onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
+      onSaveSelectedDate: onSaveSelectedDate ?? this.onSaveSelectedDate,
       onClientClicked: onClientClicked ?? this.onClientClicked,
       onJobClicked: onJobClicked ?? this.onJobClicked,
       onLocationSaveSelected: onLocationSaveSelected ?? this.onLocationSaveSelected,
@@ -227,16 +241,21 @@ class JobDetailsPageState {
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
       onBackPressed: onBackPressed ?? this.onBackPressed,
       onDeleteReminderSelected: onDeleteReminderSelected?? this.onDeleteReminderSelected,
+      selectedDate: selectedDate ?? this.selectedDate,
+      onMonthChanged: onMonthChanged ?? this.onMonthChanged,
+      onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
     );
   }
 
   static JobDetailsPageState fromStore(Store<AppState> store) {
     return JobDetailsPageState(
         job: store.state.jobDetailsPageState.job,
+        selectedDate: store.state.jobDetailsPageState.selectedDate,
         client: store.state.jobDetailsPageState.client,
         sunsetTime: store.state.jobDetailsPageState.sunsetTime,
         stageScrollOffset: store.state.jobDetailsPageState.stageScrollOffset,
         eventList: store.state.jobDetailsPageState.eventList,
+        deviceEvents: store.state.jobDetailsPageState.deviceEvents,
         jobs: store.state.jobDetailsPageState.jobs,
         jobTitleText: store.state.jobDetailsPageState.jobTitleText,
         locations: store.state.jobDetailsPageState.locations,
@@ -264,7 +283,7 @@ class JobDetailsPageState {
         onInstagramSelected: () => store.dispatch(JobInstagramSelectedAction(store.state.jobDetailsPageState)),
         onScrollOffsetChanged: (offset) => store.dispatch(UpdateScrollOffset(store.state.jobDetailsPageState, offset)),
         onNewTimeSelected: (newTime) => store.dispatch(UpdateJobTimeAction(store.state.jobDetailsPageState, newTime)),
-        onNewDateSelected: (newDate) => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState, newDate)),
+        onSaveSelectedDate: () => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState)),
         onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
         onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
         onLocationSelected: (location) => store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, location)),
@@ -286,16 +305,23 @@ class JobDetailsPageState {
         onInvoiceSent: (invoice) => store.dispatch(InvoiceSentAction(store.state.jobDetailsPageState, invoice)),
         onBackPressed: () => store.dispatch(FetchJobsAction(store.state.jobsPageState)),
         onDeleteReminderSelected: (reminder) => store.dispatch(DeleteReminderFromJobAction(store.state.jobDetailsPageState, reminder)),
+        onMonthChanged: (month) => store.dispatch(FetchJobDetailsDeviceEvents(store.state.jobDetailsPageState, month)),
+        onNewDateSelected: (selectedDate) => store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, selectedDate)),
     );
   }
 
   factory JobDetailsPageState.initial() => JobDetailsPageState(
     job: null,
     client: null,
+    onBackPressed: null,
+    onDeleteReminderSelected: null,
+    selectedDate: null,
+    onMonthChanged: null,
     sunsetTime: null,
     stageScrollOffset: 200.0,
     newStagAnimationIndex: 2,
     eventList: [],
+    deviceEvents: [],
     jobs: [],
     jobTitleText: "",
     onDeleteInvoiceSelected: null,
@@ -314,7 +340,7 @@ class JobDetailsPageState {
     onInstagramSelected: null,
     onScrollOffsetChanged: null,
     onNewTimeSelected: null,
-    onNewDateSelected: null,
+    onSaveSelectedDate: null,
     onClientClicked: null,
     onJobClicked: null,
     onLocationSelected: null,
@@ -345,6 +371,10 @@ class JobDetailsPageState {
   int get hashCode =>
       unsavedTipAmount.hashCode ^
       onAddToTip.hashCode ^
+      onBackPressed.hashCode ^
+      onDeleteReminderSelected.hashCode ^
+      selectedDate.hashCode ^
+      deviceEvents.hashCode ^
       onSaveTipChange.hashCode ^
       onClearUnsavedTip.hashCode ^
       unsavedDepositAmount.hashCode ^
@@ -358,6 +388,7 @@ class JobDetailsPageState {
       eventList.hashCode ^
       jobs.hashCode ^
       invoice.hashCode ^
+      onMonthChanged.hashCode ^
       onAddInvoiceSelected.hashCode ^
       jobTitleText.hashCode ^
       onNameChangeSaved.hashCode ^
@@ -374,7 +405,7 @@ class JobDetailsPageState {
       onInstagramSelected.hashCode ^
       onScrollOffsetChanged.hashCode ^
       onNewTimeSelected.hashCode ^
-      onNewDateSelected.hashCode ^
+      onSaveSelectedDate.hashCode ^
       onClientClicked.hashCode ^
       onJobClicked.hashCode ^
       onJobTitleTextChanged.hashCode ^
@@ -397,6 +428,8 @@ class JobDetailsPageState {
               onAddInvoiceSelected == other.onAddInvoiceSelected &&
               onSaveDepositChange == other.onSaveDepositChange &&
               job == other.job &&
+              selectedDate == other.selectedDate &&
+              deviceEvents == other.deviceEvents &&
               unsavedTipAmount == other.unsavedTipAmount &&
               onAddToTip == other.onAddToTip &&
               onSaveTipChange == other.onSaveTipChange &&
@@ -407,6 +440,7 @@ class JobDetailsPageState {
               stageScrollOffset == other.stageScrollOffset &&
               eventList == other.eventList &&
               jobs == other.jobs &&
+              onMonthChanged == other.onMonthChanged &&
               reminders == other.reminders &&
               invoice == other.invoice &&
               jobTitleText == other.jobTitleText &&
@@ -424,7 +458,7 @@ class JobDetailsPageState {
               onInstagramSelected == other.onInstagramSelected &&
               onScrollOffsetChanged == other.onScrollOffsetChanged &&
               onNewTimeSelected == other.onNewTimeSelected &&
-              onNewDateSelected == other.onNewDateSelected &&
+              onSaveSelectedDate == other.onSaveSelectedDate &&
               onClientClicked == other.onClientClicked &&
               onJobClicked == other.onJobClicked &&
               onJobTitleTextChanged == other.onJobTitleTextChanged &&

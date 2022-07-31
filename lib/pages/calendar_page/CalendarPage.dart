@@ -14,6 +14,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../utils/CalendarUtil.dart';
 import '../../utils/UserPermissionsUtil.dart';
 
 class CalendarPage extends StatefulWidget {
@@ -47,26 +48,25 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
 
   void _onDaySelected(DateTime day, List events, CalendarPageState pageState) {
     setState(() {
-      _buildEventList(_getEventListForSelectedDate(pageState), pageState);
+      CalendarUtil.buildEventList(
+        pageState.selectedDate,
+        pageState.eventList,
+        pageState.selectedDate.year,
+        pageState.selectedDate.month,
+        pageState.selectedDate.day,
+        pageState.jobs,
+        pageState.onJobClicked,
+      );
     });
   }
 
   @override
   Widget build(BuildContext context) {
+
     return StoreConnector<AppState, CalendarPageState>(
       onInit: (store) async {
         store.dispatch(FetchAllJobsAction(store.state.calendarPageState));
-        store.dispatch(FetchDeviceCalendars(store.state.calendarPageState));
-
-        PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
-        if(readContactsStatus == PermissionStatus.denied || readContactsStatus == PermissionStatus.permanentlyDenied){
-          await UserPermissionsUtil.requestPermission(Permission.calendar);
-        }
-      },
-      onDidChange: (previousState, newState) {
-        if(newState.deviceCalendars.isNotEmpty && newState.selectedDeviceCalendar == null) {
-          UserOptionsUtil.showSelectCalendarDialog(context);
-        }
+        store.dispatch(FetchDeviceEvents(store.state.calendarPageState, DateTime.now()));
       },
       converter: (store) => CalendarPageState.fromStore(store),
       builder: (BuildContext context, CalendarPageState pageState) => Scaffold(
@@ -87,7 +87,16 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
                     _buildTableCalendarWithBuilders(pageState),
                     const SizedBox(height: 8.0),
                     Expanded(
-                        child: _buildEventList(_getEventListForSelectedDate(pageState), pageState)),
+                        child: CalendarUtil.buildEventList(
+                            pageState.selectedDate,
+                            pageState.eventList,
+                            pageState.selectedDate.year,
+                            pageState.selectedDate.month,
+                            pageState.selectedDate.day,
+                            pageState.jobs,
+                            pageState.onJobClicked,
+                        ),
+                    ),
                   ],
                 ),
               ),
@@ -148,6 +157,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
+      },
+      onPageChanged: (focusedDay) {
+        pageState.onMonthChanged(focusedDay);
       },
       focusedDay: pageState.selectedDate,
       firstDay: DateTime.utc(2010, 10, 16).toLocal(),
@@ -279,78 +291,51 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     if (events.length > 3) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
+          blackEventDot(events.elementAt(2)),
+          blackEventDot(events.elementAt(3)),
         ],
       );
     } else if (events.length == 3) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
+          blackEventDot(events.elementAt(2)),
         ],
       );
     } else if (events.length == 2) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
         ],
       );
     } else if (events.length == 1) {
-      return blackEventDot();
+      return blackEventDot(events.elementAt(0));
     } else {
       return SizedBox();
     }
   }
 
-  Widget blackEventDot() {
-    return Container(
-      width: 8.0,
-      height: 8.0,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle, color: Color(ColorConstants.primary_black)),
+  Widget blackEventDot(EventDandyLight event) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: 8.0,
+          height: 8.0,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: Color(ColorConstants.primary_black)),
+        ),
+        Container(
+          width: 5.0,
+          height: 5.0,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryWhite() : ColorConstants.primary_black)),
+        )
+      ],
     );
-  }
-
-  Widget _buildEventList(List<Job> eventsForSelectedDay, CalendarPageState pageState) {
-    return ListView(
-      children: eventsForSelectedDay
-          .map((job) => JobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, pageState: pageState,))
-          .toList(),
-    );
-  }
-
-  List<Job> _getEventListForSelectedDate(CalendarPageState pageState) {
-    List<EventDandyLight> matchingEvents = [];
-    if (pageState.selectedDate != null) {
-      for (EventDandyLight event in pageState.eventList) {
-        if(event.selectedDate != null){
-          if (event.selectedDate.year == pageState.selectedDate.year &&
-              event.selectedDate.month == pageState.selectedDate.month &&
-              event.selectedDate.day == pageState.selectedDate.day) {
-            matchingEvents.add(event);
-          }
-        }
-      }
-    }
-    if(matchingEvents.length > 0) {
-      return _getListOfJobsFromEvents(matchingEvents, pageState.jobs);
-    } else {
-      return [];
-    }
-  }
-
-  List<Job> _getListOfJobsFromEvents(List<EventDandyLight> events, List<Job> allJobs) {
-    List<Job> jobs = [];
-    for(EventDandyLight event in events){
-      for(Job job in allJobs){
-        if(job.documentId == event.jobDocumentId) jobs.add(job);
-      }
-    }
-    return jobs;
   }
 }
