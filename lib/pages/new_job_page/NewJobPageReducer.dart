@@ -6,8 +6,9 @@ import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 import 'NewJobPageState.dart';
 
 final newJobPageReducer = combineReducers<NewJobPageState>([
@@ -35,14 +36,29 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, ClearDepositAction>(_clearDeposit),
   TypedReducer<NewJobPageState, SetDocumentPathAction>(_setDocumentPath),
   TypedReducer<NewJobPageState, UpdateComingFromClientDetails>(_updateComingFromClientDetails),
+  TypedReducer<NewJobPageState, SetNewJobDeviceEventsAction>(_setNewJobDeviceEvents)
 ]);
 
 NewJobPageState _updateComingFromClientDetails(NewJobPageState previousState, UpdateComingFromClientDetails action) {
   return previousState.copyWith(comingFromClientDetails: action.isComingFromClientDetails);
 }
 
+NewJobPageState _setNewJobDeviceEvents(NewJobPageState previousState, SetNewJobDeviceEventsAction action) {
+  List<EventDandyLight> eventList = [];
+  for(Job job in previousState.jobs) {
+    eventList.add(EventDandyLight.fromJob(job));
+  }
+  for(Event event in action.deviceEvents) {
+    eventList.add(EventDandyLight.fromDeviceEvent(event));
+  }
+  return previousState.copyWith(
+    eventList: eventList,
+    deviceEvents: action.deviceEvents,
+  );
+}
+
 NewJobPageState _setAllReminders(NewJobPageState previousState, SetAllRemindersAction action) {
-  List<Reminder> sortedReminders = action.reminders;
+  List<ReminderDandyLight> sortedReminders = action.reminders;
   sortedReminders.sort((a, b) => (a.isDefault ? 0 : 1) < (b.isDefault ? 0 : 1) ? 0 : 1);
   return previousState.copyWith(allReminders: sortedReminders);
 }
@@ -109,9 +125,9 @@ NewJobPageState _setJobStage(NewJobPageState previousState, SetSelectedJobStageA
 }
 
 NewJobPageState _setReminder(NewJobPageState previousState, SetSelectedJobReminderAction action) {
-  List<Reminder> selectedJobReminderUpdated = [];
+  List<ReminderDandyLight> selectedJobReminderUpdated = [];
   bool shouldKeep = true;
-  for(Reminder selectedReminder in previousState.selectedReminders){
+  for(ReminderDandyLight selectedReminder in previousState.selectedReminders){
     if(selectedReminder.description == action.reminder.description){
       shouldKeep = false;
     }else{
@@ -168,20 +184,6 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
 }
 
 NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateAction action) {
-  Map<DateTime, List<EventDandyLight>> eventMap = Map();
-  for(Job job in action.upcomingJobs) {
-    if(job.selectedDate != null) {
-      if (eventMap.containsKey(job.selectedDate)) {
-        List<EventDandyLight> eventList = eventMap.remove(job.selectedDate);
-        eventList.add(EventDandyLight.fromJob(job));
-        eventMap.putIfAbsent(job.selectedDate, () => eventList);
-      } else {
-        List<EventDandyLight> newEventList = List();
-        newEventList.add(EventDandyLight.fromJob(job));
-        eventMap.putIfAbsent(job.selectedDate, () => newEventList);
-      }
-    }
-  }
   return previousState.copyWith(
     allClients: action.allClients,
     filteredClients: action.allClients,
@@ -189,7 +191,6 @@ NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateActio
     locations: action.allLocations,
     upcomingJobs: action.upcomingJobs,
     isFinishedFetchingClients: true,
-    eventMap: eventMap,
     jobs: action.upcomingJobs,
     selectedPriceProfile: action.allPriceProfiles.length > 0 ? action.allPriceProfiles.elementAt(0) : null,
   );

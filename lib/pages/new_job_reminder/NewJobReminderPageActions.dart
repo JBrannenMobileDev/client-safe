@@ -1,6 +1,6 @@
 
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 
 class SetSelectedTimeAction{
@@ -37,13 +37,13 @@ class DecrementPageViewIndex{
 
 class ReminderSelectedAction{
   final NewJobReminderPageState pageState;
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
   ReminderSelectedAction(this.pageState, this.reminder);
 }
 
 class SetAllRemindersAction{
   final NewJobReminderPageState pageState;
-  final List<Reminder> allReminders;
+  final List<ReminderDandyLight> allReminders;
   SetAllRemindersAction(this.pageState, this.allReminders);
 }
 

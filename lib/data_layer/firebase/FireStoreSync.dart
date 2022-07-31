@@ -22,7 +22,7 @@ import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
@@ -190,8 +190,8 @@ class FireStoreSync {
         ReminderDao.getReminderStreamFromFireStore()
             .listen((snapshots) async {
             for(DocumentChange snapshot in snapshots.docChanges) {
-                Reminder reminder = Reminder.fromMap(snapshot.doc.data());
-                Reminder reminderFromLocal = await ReminderDao.getReminderById(reminder.documentId);
+                ReminderDandyLight reminder = ReminderDandyLight.fromMap(snapshot.doc.data());
+                ReminderDandyLight reminderFromLocal = await ReminderDao.getReminderById(reminder.documentId);
                 if(reminderFromLocal != null) {
                     ReminderDao.updateLocalOnly(reminder);
                 }else {

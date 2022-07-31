@@ -6,7 +6,7 @@ import 'package:dandylight/data_layer/firebase/collections/SingleExpenseCollecti
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
@@ -23,14 +23,14 @@ class ReminderDao extends Equatable{
   // singleton instance of an opened database.
   static Future<Database> get _db async => await SembastDb.instance.database;
 
-  static Future insert(Reminder reminder) async {
+  static Future insert(ReminderDandyLight reminder) async {
     reminder.documentId = Uuid().v1();
     reminder.id = await _reminderStore.add(await _db, reminder.toMap());
     await ReminderCollection().createReminder(reminder);
     _updateLastChangedTime();
   }
 
-  static Future insertLocalOnly(Reminder reminder) async {
+  static Future insertLocalOnly(ReminderDandyLight reminder) async {
     await _reminderStore.add(await _db, reminder.toMap());
   }
 
@@ -40,10 +40,10 @@ class ReminderDao extends Equatable{
     ProfileDao.update(profile);
   }
 
-  static Future insertOrUpdate(Reminder newReminder) async {
-    List<Reminder> reminderList = await getAll();
+  static Future insertOrUpdate(ReminderDandyLight newReminder) async {
+    List<ReminderDandyLight> reminderList = await getAll();
     bool alreadyExists = false;
-    for(Reminder reminder in reminderList){
+    for(ReminderDandyLight reminder in reminderList){
       if(newReminder.documentId == reminder.documentId){
         alreadyExists = true;
       }
@@ -55,7 +55,7 @@ class ReminderDao extends Equatable{
     }
   }
 
-  static Future update(Reminder reminder) async {
+  static Future update(ReminderDandyLight reminder) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.equals('documentId', reminder.documentId));
@@ -68,7 +68,7 @@ class ReminderDao extends Equatable{
     _updateLastChangedTime();
   }
 
-  static Future updateLocalOnly(Reminder reminder) async {
+  static Future updateLocalOnly(ReminderDandyLight reminder) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.equals('documentId', reminder.documentId));
@@ -89,21 +89,21 @@ class ReminderDao extends Equatable{
     _updateLastChangedTime();
   }
 
-  static Future<List<Reminder>> getAll() async {
+  static Future<List<ReminderDandyLight>> getAll() async {
     final recordSnapshots = await _reminderStore.find(await _db);
     return recordSnapshots.map((snapshot) {
-      final reminder = Reminder.fromMap(snapshot.value);
+      final reminder = ReminderDandyLight.fromMap(snapshot.value);
       reminder.id = snapshot.key;
       return reminder;
     }).toList();
   }
 
-  static Future<Reminder> getReminderById(String documentId) async{
+  static Future<ReminderDandyLight> getReminderById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', documentId));
       final recordSnapshots = await _reminderStore.find(await _db, finder: finder);
       return recordSnapshots.map((snapshot) {
-        final reminder = Reminder.fromMap(snapshot.value);
+        final reminder = ReminderDandyLight.fromMap(snapshot.value);
         reminder.id = snapshot.key;
         return reminder;
       }).toList().elementAt(0);
@@ -122,8 +122,8 @@ class ReminderDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    List<Reminder> allLocalReminders = await getAll();
-    List<Reminder> allFireStoreReminder = await ReminderCollection().getAll(UidUtil().getUid());
+    List<ReminderDandyLight> allLocalReminders = await getAll();
+    List<ReminderDandyLight> allFireStoreReminder = await ReminderCollection().getAll(UidUtil().getUid());
 
     if(allLocalReminders != null && allLocalReminders.length > 0) {
       if(allFireStoreReminder != null && allFireStoreReminder.length > 0) {
@@ -144,8 +144,8 @@ class ReminderDao extends Equatable{
     }
   }
 
-  static Future<void> _deleteAllLocalReminders(List<Reminder> allLocalReminders) async {
-    for(Reminder reminder in allLocalReminders) {
+  static Future<void> _deleteAllLocalReminders(List<ReminderDandyLight> allLocalReminders) async {
+    for(ReminderDandyLight reminder in allLocalReminders) {
       final finder = Finder(filter: Filter.equals('documentId', reminder.documentId));
       await _reminderStore.delete(
         await _db,
@@ -154,18 +154,18 @@ class ReminderDao extends Equatable{
     }
   }
 
-  static Future<void> _copyAllFireStoreRemindersToLocal(List<Reminder> allFireStoreReminders) async {
-    for (Reminder reminderToSave in allFireStoreReminders) {
+  static Future<void> _copyAllFireStoreRemindersToLocal(List<ReminderDandyLight> allFireStoreReminders) async {
+    for (ReminderDandyLight reminderToSave in allFireStoreReminders) {
       await _reminderStore.add(await _db, reminderToSave.toMap());
     }
   }
 
-  static Future<void> _syncFireStoreToLocal(List<Reminder> allLocalReminders, List<Reminder> allFireStoreReminders) async {
-    for(Reminder localReminder in allLocalReminders) {
+  static Future<void> _syncFireStoreToLocal(List<ReminderDandyLight> allLocalReminders, List<ReminderDandyLight> allFireStoreReminders) async {
+    for(ReminderDandyLight localReminder in allLocalReminders) {
       //should only be 1 matching
-      List<Reminder> matchingFireStoreReminders = allFireStoreReminders.where((fireStoreReminder) => localReminder.documentId == fireStoreReminder.documentId).toList();
+      List<ReminderDandyLight> matchingFireStoreReminders = allFireStoreReminders.where((fireStoreReminder) => localReminder.documentId == fireStoreReminder.documentId).toList();
       if(matchingFireStoreReminders !=  null && matchingFireStoreReminders.length > 0) {
-        Reminder fireStoreReminder = matchingFireStoreReminders.elementAt(0);
+        ReminderDandyLight fireStoreReminder = matchingFireStoreReminders.elementAt(0);
         final finder = Finder(filter: Filter.equals('documentId', fireStoreReminder.documentId));
         await _reminderStore.update(
           await _db,
@@ -182,8 +182,8 @@ class ReminderDao extends Equatable{
       }
     }
 
-    for(Reminder fireStoreReminder in allFireStoreReminders) {
-      List<Reminder> matchingLocalReminders = allLocalReminders.where((localReminders) => localReminders.documentId == fireStoreReminder.documentId).toList();
+    for(ReminderDandyLight fireStoreReminder in allFireStoreReminders) {
+      List<ReminderDandyLight> matchingLocalReminders = allLocalReminders.where((localReminders) => localReminders.documentId == fireStoreReminder.documentId).toList();
       if(matchingLocalReminders != null && matchingLocalReminders.length > 0) {
         //do nothing. SingleExpense already synced.
       } else {
@@ -199,7 +199,7 @@ class ReminderDao extends Equatable{
   List<Object> get props => [];
 
   static void deleteAllLocal() async {
-    List<Reminder> reminders = await getAll();
+    List<ReminderDandyLight> reminders = await getAll();
     _deleteAllLocalReminders(reminders);
   }
 }

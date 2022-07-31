@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../common_widgets/ClientSafeButton.dart';
 

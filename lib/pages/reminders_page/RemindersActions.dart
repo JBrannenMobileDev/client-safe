@@ -1,4 +1,4 @@
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 
 class FetchRemindersAction{
@@ -8,13 +8,13 @@ class FetchRemindersAction{
 
 class SetRemindersAction{
   final RemindersPageState pageState;
-  final List<Reminder> reminders;
+  final List<ReminderDandyLight> reminders;
   SetRemindersAction(this.pageState, this.reminders);
 }
 
 class DeleteReminderAction{
   final RemindersPageState pageState;
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
   DeleteReminderAction(this.pageState, this.reminder);
 }
 

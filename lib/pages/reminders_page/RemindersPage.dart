@@ -1,6 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
@@ -122,7 +122,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
     );
   }
 
-  onReminderSelected(Reminder reminder, RemindersPageState pageState,  BuildContext context) {
+  onReminderSelected(ReminderDandyLight reminder, RemindersPageState pageState,  BuildContext context) {
     pageState.onReminderSelected(reminder);
     UserOptionsUtil.showNewReminderDialog(context, reminder);
   }

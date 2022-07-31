@@ -1,7 +1,7 @@
 
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipDialog.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceDialog.dart';
 import 'package:dandylight/pages/job_details_page/DepositChangeDialog.dart';
@@ -69,7 +69,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewReminderDialog(BuildContext context, Reminder reminder){
+  static void showNewReminderDialog(BuildContext context, ReminderDandyLight reminder){
     showDialog(
       context: context,
       builder: (BuildContext context) {

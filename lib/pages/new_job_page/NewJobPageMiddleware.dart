@@ -16,11 +16,16 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
-import '../../models/Reminder.dart';
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../models/Profile.dart';
+import '../../models/ReminderDandyLight.dart';
+import '../../utils/CalendarSyncUtil.dart';
+import '../../utils/UidUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
 class NewJobPageMiddleware extends MiddlewareClass<AppState> {
@@ -45,6 +50,28 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchAllRemindersAction) {
       _fetchAllReminders(store, action, next);
     }
+    if(action is FetchNewJobDeviceEvents) {
+      _fetchDeviceEventsForMonth(store, action, next);
+    }
+  }
+
+  void _fetchDeviceEventsForMonth(Store<AppState> store, FetchNewJobDeviceEvents action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    DateTime monthToUse = null;
+    if(action != null) {
+      monthToUse = action.month;
+    } else {
+      monthToUse = store.state.jobDetailsPageState.selectedDate;
+    }
+
+    if(profile.calendarEnabled) {
+      DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
+      DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
+
+      List<Event> deviceEvents = await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate);
+      store.dispatch(SetNewJobDeviceEventsAction(store.state.newJobPageState, deviceEvents));
+    }
+    store.dispatch(SetSelectedDateAction(store.state.newJobPageState, monthToUse));
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
@@ -116,9 +143,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchAllReminders(Store<AppState> store, FetchAllRemindersAction action, NextDispatcher next) async {
-    List<Reminder> allReminders = await ReminderDao.getAll();
-    List<Reminder> defaultReminders = [];
-    for(Reminder reminder in allReminders) {
+    List<ReminderDandyLight> allReminders = await ReminderDao.getAll();
+    List<ReminderDandyLight> defaultReminders = [];
+    for(ReminderDandyLight reminder in allReminders) {
       if(reminder.isDefault) defaultReminders.add(reminder);
     }
     store.dispatch(SetAllRemindersAction(store.state.newJobPageState, allReminders));
@@ -141,7 +168,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
-    for (Reminder reminder in store.state.newJobPageState.selectedReminders) {
+    for (ReminderDandyLight reminder in store.state.newJobPageState.selectedReminders) {
       jobReminders.add(JobReminder(
         jobDocumentId: thisJob.documentId,
         reminder: reminder,

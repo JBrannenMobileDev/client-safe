@@ -12,6 +12,9 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
+import '../../utils/CalendarUtil.dart';
+import 'NewJobPageActions.dart';
+
 class DateForm extends StatefulWidget {
   @override
   _DateFormState createState() {
@@ -21,7 +24,7 @@ class DateForm extends StatefulWidget {
 
 class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin, TickerProviderStateMixin {
   AnimationController _animationController;
-  Map<DateTime,List<EventDandyLight>> _events;
+  List<EventDandyLight> _events;
 
   @override
   void initState() {
@@ -41,14 +44,17 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     super.dispose();
   }
 
-  List<EventDandyLight> _getEventsForDay(DateTime day) {
-    // Implementation example
-    return _events[day] ?? [];
-  }
-
   void _onDaySelected(DateTime day, List events, NewJobPageState pageState) {
     setState(() {
-      _buildEventList(_getEventListForSelectedDate(pageState), pageState);
+      CalendarUtil.buildEventList(
+        pageState.selectedDate,
+        pageState.eventList,
+        pageState.selectedDate.year,
+        pageState.selectedDate.month,
+        pageState.selectedDate.day,
+        pageState.jobs,
+        pageState.onJobClicked,
+      );
     });
   }
 
@@ -56,6 +62,9 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
+      onInit: (appState) => {
+        appState.dispatch(FetchNewJobDeviceEvents(appState.state.newJobPageState, DateTime.now())),
+      },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
         margin: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -77,7 +86,16 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
             ),
             _buildTableCalendarWithBuilders(pageState),
             const SizedBox(height: .0),
-            Expanded(child: _buildEventList(_getEventListForSelectedDate(pageState), pageState)),
+            Expanded(child: CalendarUtil.buildEventList(
+                pageState.selectedDate,
+                pageState.eventList,
+                pageState.selectedDate.year,
+                pageState.selectedDate.month,
+                pageState.selectedDate.day,
+                pageState.jobs,
+                pageState.onJobClicked,
+              ),
+            ),
           ],
         ),
       ),
@@ -86,16 +104,19 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
 
   // More advanced TableCalendar configuration (using Builders & Styles)
   Widget _buildTableCalendarWithBuilders(NewJobPageState pageState) {
-    _events = pageState.eventMap;
+    _events = pageState.eventList;
     return TableCalendar(
       locale: 'en_US',
-      eventLoader: _getEventsForDay,
+      eventLoader: (day) => _events.where((event) => isSameDay(event.selectedDate,day)).toList(), //THIS IS IMPORTANT,
       calendarFormat: CalendarFormat.month,
       startingDayOfWeek: StartingDayOfWeek.sunday,
       availableGestures: AvailableGestures.all,
       availableCalendarFormats: const {
         CalendarFormat.month: '',
         CalendarFormat.week: '',
+      },
+      onPageChanged: (focusedDay) {
+        pageState.onMonthChanged(focusedDay);
       },
       focusedDay: pageState.selectedDate,
       firstDay: DateTime.utc(2010, 10, 16),
@@ -211,7 +232,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       ),
       onDaySelected: (date, events) {
         pageState.onDateSelected(date);
-        _onDaySelected(date, _getEventsForDay(date), pageState);
+        _onDaySelected(date,  _events.where((event) => isSameDay(event.selectedDate,date)).toList(), pageState);
         _animationController.forward(from: 0.0);
       },
     );
@@ -228,80 +249,54 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     if (events.length > 3) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
+          blackEventDot(events.elementAt(2)),
+          blackEventDot(events.elementAt(3)),
         ],
       );
     } else if(events.length == 3) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(0)),
+          blackEventDot(events.elementAt(1)),
+          blackEventDot(events.elementAt(2)),
         ],
       );
     } else if(events.length == 2) {
       return Row(
         children: <Widget>[
-          blackEventDot(),
-          blackEventDot(),
+          blackEventDot(events.elementAt(1)),
+          blackEventDot(events.elementAt(0)),
         ],
       );
     } else if(events.length == 1) {
-      return blackEventDot();
+      return blackEventDot(events.elementAt(0));
     } else {
       return SizedBox();
     }
   }
 
-  Widget blackEventDot() {
-    return Container(
-      width: 8.0,
-      height: 8.0,
-      decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Color(ColorConstants.primary_black)
-      ),
-    );
-  }
-
-  Widget _buildEventList(List<Job> eventsForSelectedDay, NewJobPageState pageState) {
-    return ListView(
-      children: eventsForSelectedDay
-          .map((job) => NewJobCalendarItem(job: job, paddingRight: 24.0, paddingLeft: 24.0, pageState: pageState,))
-          .toList(),
+  Widget blackEventDot(EventDandyLight event) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: 8.0,
+          height: 8.0,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: Color(ColorConstants.primary_black)),
+        ),
+        Container(
+          width: 5.0,
+          height: 5.0,
+          decoration: BoxDecoration(
+              shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryWhite() : ColorConstants.primary_black)),
+        )
+      ],
     );
   }
 
   @override
   bool get wantKeepAlive => true;
-
-  List<Job> _getEventListForSelectedDate(NewJobPageState pageState) {
-    if(pageState.selectedDate != null){
-      for(List<EventDandyLight> events in pageState.eventMap.values){
-        for(EventDandyLight event in events){
-          if(event.selectedDate != null) {
-            if (event.selectedDate.year == pageState.selectedDate.year &&
-                event.selectedDate.month == pageState.selectedDate.month &&
-                event.selectedDate.day == pageState.selectedDate.day) {
-              return _getListOfJobsFromEvents(events, pageState.jobs);
-            }
-          }
-        }
-      }
-    }
-    return List();
-  }
-
-  List<Job> _getListOfJobsFromEvents(List<EventDandyLight> events, List<Job> allJobs) {
-    List<Job> jobs = List();
-    for(EventDandyLight event in events){
-      for(Job job in allJobs){
-        if(job.documentId == event.jobDocumentId) jobs.add(job);
-      }
-    }
-    return jobs;
-  }
 }

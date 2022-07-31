@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 class ReminderCollection {
-  Future<void> createReminder(Reminder reminder) async {
+  Future<void> createReminder(ReminderDandyLight reminder) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
         .collection('users')
@@ -38,7 +38,7 @@ class ReminderCollection {
         .snapshots();
   }
 
-  Future<Reminder> getReminder(String documentId) async {
+  Future<ReminderDandyLight> getReminder(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
@@ -47,13 +47,13 @@ class ReminderCollection {
         .doc(documentId)
         .get()
         .then((expenseSnapshot) {
-          Reminder reminder = Reminder.fromMap(expenseSnapshot.data());
+          ReminderDandyLight reminder = ReminderDandyLight.fromMap(expenseSnapshot.data());
           reminder.documentId = expenseSnapshot.id;
           return reminder;
         });
   }
 
-  Future<List<Reminder>> getAll(String uid) async {
+  Future<List<ReminderDandyLight>> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
         .collection('users')
@@ -65,7 +65,7 @@ class ReminderCollection {
 
 
 
-  Future<void> updateReminder(Reminder reminder) async {
+  Future<void> updateReminder(ReminderDandyLight reminder) async {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
@@ -79,10 +79,10 @@ class ReminderCollection {
     }
   }
 
-  List<Reminder> _buildRemindersList(QuerySnapshot reminders) {
-    List<Reminder> remindersList = [];
+  List<ReminderDandyLight> _buildRemindersList(QuerySnapshot reminders) {
+    List<ReminderDandyLight> remindersList = [];
     for(DocumentSnapshot reminderSnapshot in reminders.docs){
-      Reminder reminder = Reminder.fromMap(reminderSnapshot.data());
+      ReminderDandyLight reminder = ReminderDandyLight.fromMap(reminderSnapshot.data());
       reminder.documentId = reminderSnapshot.id;
       remindersList.add(reminder);
     }

@@ -1,4 +1,4 @@
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminder;
 
@@ -8,9 +8,9 @@ import '../../AppState.dart';
 
 class RemindersPageState{
 
-  final List<Reminder> reminders;
-  final Function(Reminder) onReminderSelected;
-  final Function(Reminder) onDeleteReminderSelected;
+  final List<ReminderDandyLight> reminders;
+  final Function(ReminderDandyLight) onReminderSelected;
+  final Function(ReminderDandyLight) onDeleteReminderSelected;
 
   RemindersPageState({
     @required this.reminders,
@@ -19,9 +19,9 @@ class RemindersPageState{
   });
 
   RemindersPageState copyWith({
-    List<Reminder> reminders,
-    Function(Reminder) onReminderSelected,
-    Function(Reminder) onDeleteReminderSelected,
+    List<ReminderDandyLight> reminders,
+    Function(ReminderDandyLight) onReminderSelected,
+    Function(ReminderDandyLight) onDeleteReminderSelected,
   }){
     return RemindersPageState(
       reminders: reminders?? this.reminders,

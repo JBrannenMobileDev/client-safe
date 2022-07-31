@@ -1,10 +1,10 @@
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 
 class JobReminder {
   int id;
   String documentId;
   String jobDocumentId;
-  Reminder reminder;
+  ReminderDandyLight reminder;
 
   JobReminder({
     this.id,
@@ -25,7 +25,7 @@ class JobReminder {
     return JobReminder(
       documentId: map['documentId'],
       jobDocumentId: map['jobDocumentId'],
-      reminder: Reminder.fromMap(map['reminder']),
+      reminder: ReminderDandyLight.fromMap(map['reminder']),
     );
   }
 }

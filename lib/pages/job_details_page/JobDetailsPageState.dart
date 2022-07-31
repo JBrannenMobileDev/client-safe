@@ -14,7 +14,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 
 class JobDetailsPageState {
   final Job job;

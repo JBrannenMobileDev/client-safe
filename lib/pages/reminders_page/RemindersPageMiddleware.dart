@@ -1,6 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
@@ -19,13 +19,13 @@ class RemindersPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchReminders(Store<AppState> store, NextDispatcher next) async{
-      List<Reminder> reminders = await ReminderDao.getAll();
+      List<ReminderDandyLight> reminders = await ReminderDao.getAll();
       next(SetRemindersAction(store.state.remindersPageState, reminders));
 
       (await ReminderDao.getReminderStream()).listen((snapshots) async {
-        List<Reminder> remindersToUpdate = List();
+        List<ReminderDandyLight> remindersToUpdate = List();
         for(RecordSnapshot reminderSnapshot in snapshots) {
-          remindersToUpdate.add(Reminder.fromMap(reminderSnapshot.value));
+          remindersToUpdate.add(ReminderDandyLight.fromMap(reminderSnapshot.value));
         }
         store.dispatch(SetRemindersAction(store.state.remindersPageState, remindersToUpdate));
       });

@@ -30,7 +30,6 @@ class CalendarSyncUtil {
       }
 
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-
       return _getAllEvents(calendarsResult, _deviceCalendarPlugin, startDate, endDate);
     } catch (e) {
       print(e);
@@ -45,7 +44,12 @@ class CalendarSyncUtil {
       DateTime endDate) async {
 
     List<Event> events = [];
-    List<Calendar> calendars = calendarsResult.data.toList(growable: false);
+    List<Calendar> allCalendars = calendarsResult.data.toList(growable: false);
+    List<Calendar> calendars = [];
+
+    for(Calendar calendar in allCalendars) {
+      if(calendar.accountType != 'Birthdays') calendars.add(calendar);
+    }
 
     for(Calendar calendar in calendars) {
       RetrieveEventsParams params = RetrieveEventsParams(startDate: startDate, endDate: endDate);

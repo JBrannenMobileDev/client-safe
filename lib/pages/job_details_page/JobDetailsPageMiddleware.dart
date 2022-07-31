@@ -28,7 +28,7 @@ import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Profile.dart';
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/UidUtil.dart';
 

@@ -5,13 +5,20 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
+import 'package:device_calendar/device_calendar.dart';
 
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 
 class UpdateErrorStateAction{
   final NewJobPageState pageState;
   final String errorCode;
   UpdateErrorStateAction(this.pageState, this.errorCode);
+}
+
+class FetchNewJobDeviceEvents{
+  final NewJobPageState calendarPageState;
+  final DateTime month;
+  FetchNewJobDeviceEvents(this.calendarPageState, this.month);
 }
 
 class InitializeNewContactPageAction{
@@ -43,6 +50,12 @@ class SetSelectedDateAction{
   SetSelectedDateAction(this.pageState, this.selectedDate);
 }
 
+class SetNewJobDeviceEventsAction {
+  final NewJobPageState pageState;
+  final List<Event> deviceEvents;
+  SetNewJobDeviceEventsAction(this.pageState, this.deviceEvents);
+}
+
 class SetSelectedJobStageAction{
   final NewJobPageState pageState;
   final JobStage jobStage;
@@ -51,19 +64,19 @@ class SetSelectedJobStageAction{
 
 class SetSelectedJobReminderAction{
   final NewJobPageState pageState;
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
   SetSelectedJobReminderAction(this.pageState, this.reminder);
 }
 
 class SetAllRemindersAction{
   final NewJobPageState pageState;
-  final List<Reminder> reminders;
+  final List<ReminderDandyLight> reminders;
   SetAllRemindersAction(this.pageState, this.reminders);
 }
 
 class SetDefaultRemindersAction{
   final NewJobPageState pageState;
-  final List<Reminder> defaultReminders;
+  final List<ReminderDandyLight> defaultReminders;
   SetDefaultRemindersAction(this.pageState, this.defaultReminders);
 }
 
@@ -130,6 +143,12 @@ class ClearSearchInputActon{
 class FetchAllClientsAction{
   final NewJobPageState pageState;
   FetchAllClientsAction(this.pageState);
+}
+
+class SetEventListAction {
+  final NewJobPageState pageState;
+  final List<Event> deviceEvents;
+  SetEventListAction(this.pageState, this.deviceEvents);
 }
 
 class SetAllToStateAction{

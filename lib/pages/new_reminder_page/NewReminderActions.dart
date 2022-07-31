@@ -1,11 +1,11 @@
 
 
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 
 class LoadExistingReminderData{
   final NewReminderPageState pageState;
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
   LoadExistingReminderData(this.pageState, this.reminder);
 }
 

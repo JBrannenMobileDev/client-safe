@@ -1,4 +1,4 @@
-class Reminder {
+class ReminderDandyLight {
   int id;
   String documentId;
   String description;
@@ -8,7 +8,7 @@ class Reminder {
   bool isDefault;
   DateTime time;
 
-  Reminder({
+  ReminderDandyLight({
     this.id,
     this.documentId,
     this.description,
@@ -31,8 +31,8 @@ class Reminder {
     };
   }
 
-  static Reminder fromMap(Map<String, dynamic> map) {
-    return Reminder(
+  static ReminderDandyLight fromMap(Map<String, dynamic> map) {
+    return ReminderDandyLight(
       documentId: map['documentId'],
       description: map['description'],
       when: map['when'],

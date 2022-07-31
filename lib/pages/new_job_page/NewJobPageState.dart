@@ -7,10 +7,11 @@ import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
+import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 import '../../utils/StringUtils.dart';
 
 @immutable
@@ -36,8 +37,8 @@ class NewJobPageState {
   final DateTime selectedTime;
   final DateTime sunsetDateTime;
   final List<JobStage> selectedJobStages;
-  final List<Reminder> allReminders;
-  final List<Reminder> selectedReminders;
+  final List<ReminderDandyLight> allReminders;
+  final List<ReminderDandyLight> selectedReminders;
   final JobStage currentJobStage;
   final String jobType;
   final String selectedJobType;
@@ -47,7 +48,8 @@ class NewJobPageState {
   final List<Client> filteredClients;
   final List<PriceProfile> pricingProfiles;
   final List<Location> locations;
-  final Map<DateTime, List<EventDandyLight>> eventMap;
+  final List<EventDandyLight> eventList;
+  final List<Event> deviceEvents;
   final List<Job> jobs;
   final List<String> jobTypes;
   final Function() onSavePressed;
@@ -62,12 +64,13 @@ class NewJobPageState {
   final Function(Location) onLocationSelected;
   final Function(DateTime) onDateSelected;
   final Function(JobStage) onJobStageSelected;
-  final Function(Reminder) onReminderSelected;
+  final Function(ReminderDandyLight) onReminderSelected;
   final Function(String) onJobTypeSelected;
   final Function(DateTime) onTimeSelected;
   final Function(Job) onJobClicked;
   final Function(int) onAddToDeposit;
   final Function() clearDepositAmount;
+  final Function(DateTime) onMonthChanged;
 
   NewJobPageState({
     @required this.id,
@@ -104,7 +107,7 @@ class NewJobPageState {
     @required this.pricingProfiles,
     @required this.onPriceProfileSelected,
     @required this.locations,
-    @required this.eventMap,
+    @required this.eventList,
     @required this.jobs,
     @required this.onLocationSelected,
     @required this.onDateSelected,
@@ -120,6 +123,8 @@ class NewJobPageState {
     @required this.selectedReminders,
     @required this.onReminderSelected,
     @required this.jobTypes,
+    @required this.onMonthChanged,
+    @required this.deviceEvents,
   });
 
   NewJobPageState copyWith({
@@ -145,14 +150,15 @@ class NewJobPageState {
     DateTime selectedTime,
     DateTime sunsetDateTime,
     List<JobStage> selectedJobStages,
-    List<Reminder> allReminders,
-    List<Reminder> selectedReminders,
+    List<ReminderDandyLight> allReminders,
+    List<ReminderDandyLight> selectedReminders,
     String jobType,
     String selectedJobType,
     int depositAmount,
     JobStage currentJobStage,
     List<Job> upcomingJobs,
-    Map<DateTime, List<EventDandyLight>> eventMap,
+    List<EventDandyLight> eventList,
+    List<Event> deviceEvents,
     List<Job> jobs,
     List<String> jobTypes,
     Function() onSavePressed,
@@ -172,7 +178,8 @@ class NewJobPageState {
     Function(Job) onJobClicked,
     Function(int) onAddToDeposit,
     Function() clearDepositAmount,
-    Function(Reminder) onReminderSelected,
+    Function(ReminderDandyLight) onReminderSelected,
+    Function(DateTime) onMonthChanged,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -199,7 +206,7 @@ class NewJobPageState {
       selectedJobType: selectedJobType?? this.selectedJobType,
       currentJobStage: currentJobStage?? this.currentJobStage,
       upcomingJobs: upcomingJobs?? this.upcomingJobs,
-      eventMap: eventMap?? this.eventMap,
+      eventList: eventList?? this.eventList,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -225,6 +232,8 @@ class NewJobPageState {
       selectedReminders: selectedReminders ?? this.selectedReminders,
       onReminderSelected: onReminderSelected ?? this.onReminderSelected,
       jobTypes: jobTypes ?? this.jobTypes,
+      onMonthChanged: onMonthChanged ?? this.onMonthChanged,
+      deviceEvents: deviceEvents ?? this.deviceEvents,
     );
   }
 
@@ -251,13 +260,14 @@ class NewJobPageState {
         locations: [],
         currentJobStage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT, value: 2),
         selectedDate: DateTime.now(),
+        deviceEvents: [],
         selectedTime: null,
         sunsetDateTime: null,
         selectedJobStages: selectedStagesInitial,
         jobType: Job.JOB_TYPE_OTHER,
         selectedJobType: 'assets/images/job_types/other.png',
         upcomingJobs: [],
-        eventMap: Map(),
+        eventList: [],
         jobs: [],
         jobTypes: StringUtils.getJobTypesList(),
         depositAmount: 0,
@@ -282,6 +292,7 @@ class NewJobPageState {
         allReminders: [],
         selectedReminders: [],
         onReminderSelected: null,
+        onMonthChanged: null,
       );
   }
 
@@ -301,6 +312,7 @@ class NewJobPageState {
       selectedPriceProfile: store.state.newJobPageState.selectedPriceProfile,
       selectedLocation: store.state.newJobPageState.selectedLocation,
       allClients: store.state.newJobPageState.allClients,
+      deviceEvents: store.state.newJobPageState.deviceEvents,
       filteredClients: store.state.newJobPageState.filteredClients,
       pricingProfiles: store.state.newJobPageState.pricingProfiles,
       locations: store.state.newJobPageState.locations,
@@ -312,7 +324,7 @@ class NewJobPageState {
       selectedJobType: store.state.newJobPageState.selectedJobType,
       currentJobStage: store.state.newJobPageState.currentJobStage,
       upcomingJobs: store.state.newJobPageState.upcomingJobs,
-      eventMap: store.state.newJobPageState.eventMap,
+      eventList: store.state.newJobPageState.eventList,
       jobs: store.state.newJobPageState.jobs,
       depositAmount: store.state.newJobPageState.depositAmount,
       allReminders: store.state.newJobPageState.allReminders,
@@ -337,6 +349,7 @@ class NewJobPageState {
       onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAmountAction(store.state.newJobPageState, amountToAdd)),
       clearDepositAmount: () => store.dispatch(ClearDepositAction(store.state.newJobPageState)),
       onReminderSelected: (reminder) => store.dispatch(SetSelectedJobReminderAction(store.state.newJobPageState, reminder)),
+      onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
     );
   }
 
@@ -353,6 +366,7 @@ class NewJobPageState {
       selectedClient.hashCode ^
       clientSearchText.hashCode ^
       allClients.hashCode ^
+      deviceEvents.hashCode ^
       selectedPriceProfile.hashCode ^
       selectedLocation.hashCode ^
       filteredClients.hashCode ^
@@ -376,7 +390,7 @@ class NewJobPageState {
       onLocationSelected.hashCode ^
       onDateSelected.hashCode ^
       onJobStageSelected.hashCode ^
-      eventMap.hashCode ^
+      eventList.hashCode ^
       jobs.hashCode ^
       onTimeSelected.hashCode ^
       onJobClicked.hashCode ^
@@ -410,6 +424,7 @@ class NewJobPageState {
           sunsetDateTime == other.sunsetDateTime &&
           selectedJobStages == other.selectedJobStages &&
           jobType == other.jobType &&
+          deviceEvents == other.deviceEvents &&
           selectedJobType == other.selectedJobType &&
           currentJobStage == other.currentJobStage &&
           upcomingJobs == other.upcomingJobs &&
@@ -422,7 +437,7 @@ class NewJobPageState {
           onClearInputSelected == other.onClearInputSelected &&
           onDateSelected == other.onDateSelected &&
           onJobStageSelected == other.onJobStageSelected &&
-          eventMap == other.eventMap &&
+          eventList == other.eventList &&
           jobs == other.jobs &&
           onTimeSelected == other.onTimeSelected &&
           onJobClicked == other.onJobClicked &&

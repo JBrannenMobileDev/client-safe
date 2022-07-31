@@ -8,7 +8,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
 
 import '../../models/JobReminder.dart';
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 
 class SetJobInfo{
   final JobDetailsPageState pageState;

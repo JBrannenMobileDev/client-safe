@@ -3,7 +3,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPage.dart';
@@ -27,22 +27,22 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
-    List<Reminder> allReminders = await ReminderDao.getAll();
+    List<ReminderDandyLight> allReminders = await ReminderDao.getAll();
     store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(allReminders, store)));
 
     (await ReminderDao.getReminderStream()).listen((snapshots) async {
-      List<Reminder> remindersToUpdate = [];
+      List<ReminderDandyLight> remindersToUpdate = [];
       for(RecordSnapshot reminderSnapshot in snapshots) {
-        remindersToUpdate.add(Reminder.fromMap(reminderSnapshot.value));
+        remindersToUpdate.add(ReminderDandyLight.fromMap(reminderSnapshot.value));
       }
       store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(remindersToUpdate, store)));
     });
   }
 
-  List<Reminder> _getFilteredReminders(List<Reminder> reminders, Store<AppState> store) {
-    List<Reminder> filteredReminders = [];
+  List<ReminderDandyLight> _getFilteredReminders(List<ReminderDandyLight> reminders, Store<AppState> store) {
+    List<ReminderDandyLight> filteredReminders = [];
     List<JobReminder> jobReminders = store.state.jobDetailsPageState.reminders;
-    for(Reminder reminder in reminders) {
+    for(ReminderDandyLight reminder in reminders) {
       bool alreadyAdded = false;
       for(JobReminder jobReminder in jobReminders) {
         if(reminder.description == jobReminder.reminder.description) {

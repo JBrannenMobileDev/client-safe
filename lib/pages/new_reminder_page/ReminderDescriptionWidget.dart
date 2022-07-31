@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 import '../../utils/ColorConstants.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 import 'NewReminderActions.dart';
 import 'NewReminderPageState.dart';
 
 class ReminderDescriptionWidget extends StatefulWidget{
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
 
   ReminderDescriptionWidget(this.reminder);
 
@@ -21,7 +21,7 @@ class ReminderDescriptionWidget extends StatefulWidget{
 
 class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
   final descriptionTextController = TextEditingController();
 
   _ReminderDescriptionWidgetState(this.reminder);

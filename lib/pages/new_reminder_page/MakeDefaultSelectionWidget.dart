@@ -4,12 +4,12 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 import '../../utils/ColorConstants.dart';
 import 'NewReminderPageState.dart';
 
 class MakeDefaultSelectionWidget extends StatefulWidget{
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
 
   MakeDefaultSelectionWidget(this.reminder);
 
@@ -21,7 +21,7 @@ class MakeDefaultSelectionWidget extends StatefulWidget{
 
 class _MakeDefaultSelectionWidgetState extends State<MakeDefaultSelectionWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
   final descriptionTextController = TextEditingController();
 
   _MakeDefaultSelectionWidgetState(this.reminder);

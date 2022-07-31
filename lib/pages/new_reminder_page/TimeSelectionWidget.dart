@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
-import '../../models/Reminder.dart';
+import '../../models/ReminderDandyLight.dart';
 import '../../utils/ColorConstants.dart';
 import 'NewReminderPage.dart';
 import 'NewReminderPageState.dart';
@@ -17,7 +17,7 @@ class TimeSelectionWidget extends StatefulWidget {
   static const String DAYS = "Days";
   static const String WEEKS = "Weeks";
   static const String MONTHS = "Months";
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
 
   TimeSelectionWidget(this.reminder);
 
@@ -29,7 +29,7 @@ class TimeSelectionWidget extends StatefulWidget {
 
 class _TimeSelectionWidgetState extends State<TimeSelectionWidget> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
 
   _TimeSelectionWidgetState(this.reminder);
 

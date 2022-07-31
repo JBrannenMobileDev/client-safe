@@ -1,7 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -13,14 +13,14 @@ class NewJobReminderPageState {
   final int pageViewIndex;
   final bool comingFromJobDetails;
   final bool isFinishedFetchingReminders;
-  final Reminder selectedReminder;
+  final ReminderDandyLight selectedReminder;
   final DateTime selectedTime;
-  final List<Reminder> allReminders;
+  final List<ReminderDandyLight> allReminders;
   final Function(Job) onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
   final Function() onBackPressed;
-  final Function(Reminder) onReminderSelected;
+  final Function(ReminderDandyLight) onReminderSelected;
   final Function(DateTime) onTimeSelected;
 
   NewJobReminderPageState({
@@ -46,14 +46,14 @@ class NewJobReminderPageState {
     int pageViewIndex,
     bool comingFromJobDetails,
     bool isFinishedFetchingReminders,
-    Reminder selectedReminder,
+    ReminderDandyLight selectedReminder,
     DateTime selectedTime,
-    List<Reminder> allReminders,
+    List<ReminderDandyLight> allReminders,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
     Function() onBackPressed,
-    Function(Reminder) onReminderSelected,
+    Function(ReminderDandyLight) onReminderSelected,
     Function(DateTime) onTimeSelected,
   }){
     return NewJobReminderPageState(

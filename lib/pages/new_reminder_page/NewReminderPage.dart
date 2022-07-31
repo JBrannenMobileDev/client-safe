@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_reminder_page/DandyLightTextField.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
@@ -20,7 +20,7 @@ import 'TimeSelectionWidget.dart';
 import 'WhenSelectionWidget.dart';
 
 class NewReminderPage extends StatefulWidget {
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
 
   NewReminderPage(this.reminder);
 
@@ -37,7 +37,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
     initialPage: 0,
   );
   int currentPageIndex = 0;
-  final Reminder reminder;
+  final ReminderDandyLight reminder;
 
   _NewReminderPageState(this.reminder);
 

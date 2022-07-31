@@ -1,6 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
-import 'package:dandylight/models/Reminder.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminders;
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
@@ -19,7 +19,7 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveReminder(Store<AppState> store, SaveNewReminderAction action, NextDispatcher next) async{
-    Reminder reminder = Reminder(
+    ReminderDandyLight reminder = ReminderDandyLight(
       id: store.state.newReminderPageState.id,
       documentId: store.state.newReminderPageState.documentId,
       description: store.state.newReminderPageState.reminderDescription,
