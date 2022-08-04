@@ -1,10 +1,12 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../utils/CalendarUtil.dart';
 import 'MainSettingsPageActions.dart';
 
 class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
@@ -70,7 +72,11 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     profile.calendarEnabled = action.enabled;
     await ProfileDao.update(profile);
     store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled ?? false));
-    //TODO CalendarSyncUtil.syncDeviceToApp()
+    if(action.enabled) {
+      CalendarSyncUtil.syncJobsToDeviceCalendars();
+    } else {
+      CalendarSyncUtil.removeJobsFromDeviceCalendars();
+    }
   }
 
   void saveUpdatedUserProfile(Store<AppState> store, SaveUpdatedUserProfileAction action, NextDispatcher next) async{

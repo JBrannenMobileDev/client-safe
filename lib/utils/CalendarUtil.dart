@@ -1,3 +1,4 @@
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -97,6 +98,7 @@ class CalendarUtil {
     for(EventDandyLight event in events){
       if(event.isPersonalEvent) {
         eventsResult.add(event);
+
       }
     }
     return eventsResult;

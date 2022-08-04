@@ -74,9 +74,14 @@ class _MakeDefaultSelectionWidgetState extends State<MakeDefaultSelectionWidget>
                             ),
                           ),
                           Device.get().isIos ?
-                              CupertinoSwitch(value: pageState.isDefault, onChanged: (bool value) {
-                                pageState.onDefaultSelectionChanged(value);
-                              }) :
+                              CupertinoSwitch(
+                                  value: pageState.isDefault,
+                                  trackColor: Color(ColorConstants.getBlueLight()),
+                                  activeColor: Color(ColorConstants.getBlueDark()),
+                                  onChanged: (bool value) {
+                                    pageState.onDefaultSelectionChanged(value);
+                                  }
+                              ) :
                               Switch(value: pageState.isDefault, onChanged: (bool value) {
                                 pageState.onDefaultSelectionChanged(value);
                               }),

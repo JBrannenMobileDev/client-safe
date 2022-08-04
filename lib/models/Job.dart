@@ -29,6 +29,7 @@ class Job {
   int id;
   String documentId;
   String clientDocumentId;
+  String deviceEventId;
   String clientName;
   String jobTitle;
   PriceProfile priceProfile;
@@ -37,6 +38,7 @@ class Job {
   String professionalUserId;
   DateTime selectedDate;
   DateTime selectedTime;
+  DateTime selectedEndTime;
   DateTime createdDate;
   String type;
   JobStage stage;
@@ -49,12 +51,14 @@ class Job {
     this.id,
     this.documentId,
     this.clientDocumentId,
+    this.deviceEventId,
     this.clientName,
     this.jobTitle,
     this.notes,
     this.professionalUserId,
     this.selectedDate,
     this.selectedTime,
+    this.selectedEndTime,
     this.type,
     this.stage,
     this.completedStages,
@@ -70,6 +74,7 @@ class Job {
     int id,
     String documentId,
     int clientId,
+    String deviceEventId,
     String clientName,
     String jobTitle,
     PriceProfile priceProfile,
@@ -78,6 +83,7 @@ class Job {
     String professionalUserId,
     DateTime selectedDate,
     DateTime selectedTime,
+    DateTime selectedEndTime,
     String type,
     JobStage stage,
     Invoice invoice,
@@ -90,6 +96,7 @@ class Job {
       id: id?? this.id,
       documentId: documentId ?? this.documentId,
       clientDocumentId: clientId ?? this.clientDocumentId,
+      deviceEventId: deviceEventId ?? this.deviceEventId,
       clientName: clientName ?? this.clientName,
       jobTitle: jobTitle ?? this.jobTitle,
       priceProfile: priceProfile ?? this.priceProfile,
@@ -98,6 +105,7 @@ class Job {
       professionalUserId: professionalUserId ?? this.professionalUserId,
       selectedDate: selectedDate ?? this.selectedDate,
       selectedTime: selectedTime ?? this.selectedTime,
+      selectedEndTime: selectedEndTime ?? this.selectedEndTime,
       type: type ?? this.type,
       stage: stage ?? this.stage,
       invoice: invoice ?? this.invoice,
@@ -112,12 +120,14 @@ class Job {
     return {
       'documentId' : documentId,
       'clientDocumentId': clientDocumentId,
+      'deviceEventId' : deviceEventId,
       'clientName' : clientName,
       'jobTitle' : jobTitle,
       'notes' : notes,
       'professionalUserId' : professionalUserId,
       'selectedDate' : selectedDate?.toString() ?? "",
       'selectedTime' : selectedTime?.toString() ?? "",
+      'selectedEndTime' : selectedEndTime?.toString() ?? "",
       'createdDate' : createdDate?.toString() ?? "",
       'type' : type,
       'stage' : stage?.toMap() ?? null,
@@ -134,6 +144,7 @@ class Job {
     return Job(
       documentId: map['documentId'],
       clientDocumentId: map['clientDocumentId'],
+      deviceEventId: map['deviceEventId'],
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
@@ -141,6 +152,7 @@ class Job {
       selectedDate: map['selectedDate'] != ""? DateTime.parse(map['selectedDate']) : null,
       selectedTime: map['selectedTime'] != "" ? DateTime.parse(map['selectedTime']) : null,
       createdDate: map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
+      selectedEndTime: map['selectedEndTime'] != null && map['selectedEndTime'] != "" ? DateTime.parse(map['selectedEndTime']) : null,
       type: map['type'],
       stage: JobStage.fromMap(map['stage']),
       location: map['location'] != null ? Location.fromMap(map['location']) : null,

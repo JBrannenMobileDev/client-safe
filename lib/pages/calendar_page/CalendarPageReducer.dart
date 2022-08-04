@@ -16,7 +16,10 @@ CalendarPageState _setDeviceEvents(CalendarPageState previousState, SetDeviceEve
   for(Job job in previousState.jobs) {
     eventList.add(EventDandyLight.fromJob(job));
   }
+
+
   for(Event event in action.deviceEvents) {
+
     eventList.add(EventDandyLight.fromDeviceEvent(event));
   }
   return previousState.copyWith(

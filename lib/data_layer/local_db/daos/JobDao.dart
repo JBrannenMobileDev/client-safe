@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
@@ -27,6 +28,7 @@ class JobDao extends Equatable{
     job.id = jobId;
     await JobCollection().createJob(job);
     _updateLastChangedTime();
+    CalendarSyncUtil.insertJobEvent(job);
   }
 
   static Future<void> _updateLastChangedTime() async {
@@ -66,6 +68,7 @@ class JobDao extends Equatable{
     );
     await JobCollection().updateJob(job);
     _updateLastChangedTime();
+    CalendarSyncUtil.updateJobEvent(job);
   }
 
   static Future updateLocalOnly(Job job) async {
@@ -87,6 +90,7 @@ class JobDao extends Equatable{
     );
     await JobCollection().deleteJob(job.documentId);
     _updateLastChangedTime();
+    CalendarSyncUtil.deleteJobEvent(job);
   }
 
    static Future<List<Job>> getAllJobs() async {
@@ -106,12 +110,16 @@ class JobDao extends Equatable{
     if((await getAllJobs()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', jobDocumentId));
       final recordSnapshots = await _jobStore.find(await _db, finder: finder);
-      // Making a List<Client> out of List<RecordSnapshot>
-      return recordSnapshots.map((snapshot) {
+      List<Job> jobs = recordSnapshots.map((snapshot) {
         final job = Job.fromMap(snapshot.value);
         job.id = snapshot.key;
         return job;
-      }).toList().elementAt(0);
+      }).toList();
+      if(jobs.isNotEmpty) {
+        return jobs.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

@@ -278,22 +278,11 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
   }
 
   Widget blackEventDot(EventDandyLight event) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: 8.0,
-          height: 8.0,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: Color(ColorConstants.primary_black)),
-        ),
-        Container(
-          width: 5.0,
-          height: 5.0,
-          decoration: BoxDecoration(
-              shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.getPrimaryWhite() : ColorConstants.primary_black)),
-        )
-      ],
+    return Container(
+      width: 8.0,
+      height: 8.0,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle, color: Color(!event.isPersonalEvent ? ColorConstants.primary_black : ColorConstants.getPrimaryBackgroundGrey())),
     );
   }
 
