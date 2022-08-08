@@ -8,20 +8,28 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'JobsPageActions.dart';
+
 class JobsPage extends StatefulWidget {
+  const JobsPage({Key key, this.comingFromMainNavigation}) : super(key: key);
+  final bool comingFromMainNavigation;
+
   static const String FILTER_TYPE_IN_PROGRESS = "In Progress";
   static const String FILTER_TYPE_COMPETED = "Completed";
   static const String FILTER_TYPE_UPCOMING = "Upcoming";
 
   @override
   State<StatefulWidget> createState() {
-    return _JobsPageState();
+    return _JobsPageState(comingFromMainNavigation);
   }
 }
 
 class _JobsPageState extends State<JobsPage> {
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   ScrollController _controller = ScrollController();
+  bool comingFromMainNavigation;
+
+  _JobsPageState(this.comingFromMainNavigation);
 
   int selectorIndex = 0;
   Map<int, Widget> jobTypes;
@@ -59,6 +67,11 @@ class _JobsPageState extends State<JobsPage> {
     };
     return StoreConnector<AppState, JobsPageState>(
         converter: (store) => JobsPageState.fromStore(store),
+        onInit: (store) async {
+          if(comingFromMainNavigation) {
+            store.dispatch(FilterChangedAction(store.state.jobsPageState, JobsPage.FILTER_TYPE_UPCOMING));
+          }
+        },
         builder: (BuildContext context, JobsPageState pageState) => Scaffold(
           backgroundColor: Colors.white,
           body: Stack(

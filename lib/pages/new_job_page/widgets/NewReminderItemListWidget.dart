@@ -24,9 +24,7 @@ class JobReminderItemListWidget extends StatelessWidget {
               ),
             ),
         onPressed: () {
-              if(index != 0){
-                pageState.onReminderSelected(pageState.allReminders.elementAt(index));
-              }
+            pageState.onReminderSelected(pageState.allReminders.elementAt(index));
         },
         child: Row(
           children: <Widget>[

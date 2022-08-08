@@ -27,15 +27,10 @@ class CalendarPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchDeviceEventsForMonth(Store<AppState> store, FetchDeviceEvents action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-
-    if(profile.calendarEnabled) {
-      DateTime startDate = DateTime(action.month.year, action.month.month - 1, 1);
-      DateTime endDate = DateTime(action.month.year, action.month.month + 1, 1);
-
-      List<Event> deviceEvents = await removeDandylightJobsFromDeviceEventList(await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate));
-      store.dispatch(SetDeviceEventsAction(store.state.calendarPageState, deviceEvents));
-    }
+    DateTime startDate = DateTime(action.month.year, action.month.month - 1, 1);
+    DateTime endDate = DateTime(action.month.year, action.month.month + 1, 1);
+    List<Event> deviceEvents = await removeDandylightJobsFromDeviceEventList(await CalendarSyncUtil.getDeviceEventsForDateRange(startDate, endDate));
+    store.dispatch(SetDeviceEventsAction(store.state.calendarPageState, deviceEvents));
     store.dispatch(SetSelectedDateAction(store.state.calendarPageState, action.month));
   }
 

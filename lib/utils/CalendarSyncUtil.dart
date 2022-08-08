@@ -22,6 +22,10 @@ class CalendarSyncUtil {
         permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
         if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
           return events;
+        } else {
+          Profile profile = (await ProfileDao.getAll()).elementAt(0);
+          profile.calendarEnabled = true;
+          await ProfileDao.update(profile);
         }
       }
 
@@ -79,6 +83,10 @@ class CalendarSyncUtil {
         permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
         if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
           //do nothing. no permission granted.
+        } else {
+          Profile profile = (await ProfileDao.getAll()).elementAt(0);
+          profile.calendarEnabled = true;
+          await ProfileDao.update(profile);
         }
       }
 
@@ -113,6 +121,10 @@ class CalendarSyncUtil {
         permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
         if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
           //do nothing. no permission granted.
+        } else {
+          Profile profile = (await ProfileDao.getAll()).elementAt(0);
+          profile.calendarEnabled = true;
+          await ProfileDao.update(profile);
         }
       }
 
@@ -175,6 +187,10 @@ class CalendarSyncUtil {
         permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
         if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
           //do nothing. no permission granted.
+        } else {
+          Profile profile = (await ProfileDao.getAll()).elementAt(0);
+          profile.calendarEnabled = true;
+          await ProfileDao.update(profile);
         }
       }
 
@@ -209,6 +225,10 @@ class CalendarSyncUtil {
         permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
         if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
           //do nothing. no permission granted.
+        } else {
+          Profile profile = (await ProfileDao.getAll()).elementAt(0);
+          profile.calendarEnabled = true;
+          await ProfileDao.update(profile);
         }
       }
 
@@ -239,6 +259,10 @@ class CalendarSyncUtil {
         permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
         if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
           //do nothing. no permission granted.
+        } else {
+          Profile profile = (await ProfileDao.getAll()).elementAt(0);
+          profile.calendarEnabled = true;
+          await ProfileDao.update(profile);
         }
       }
 

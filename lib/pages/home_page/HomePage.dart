@@ -98,12 +98,15 @@ class _HomeState extends State<HomePage> {
   }
 
   void onTabTapped(int index) {
+    if(index == 3) {
+
+    }
     setState(() {
       _children = [
         ClientsPage(),
         IncomeAndExpensesPage(),
         DashboardPage(comingFromLogin: false),
-        JobsPage(),
+        JobsPage(comingFromMainNavigation: true),
         CollectionsPage(),
       ];
       _currentIndex = index;

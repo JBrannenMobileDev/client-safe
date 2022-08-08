@@ -25,9 +25,7 @@ class JobsPageMiddleware extends MiddlewareClass<AppState> {
         for(RecordSnapshot clientSnapshot in jobSnapshots) {
           jobs.add(Job.fromMap(clientSnapshot.value));
         }
-        if(jobs.length > 0) {
-          store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
-        }
+        store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
       });
   }
 }

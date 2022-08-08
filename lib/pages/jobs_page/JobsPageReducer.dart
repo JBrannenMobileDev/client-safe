@@ -15,7 +15,6 @@ JobsPageState _setJobData(JobsPageState previousState, SetJobsDataAction action)
       jobsInProgress: JobUtil.getJobsInProgress(action.jobs),
       jobsCompleted: JobUtil.getJobsCompleted(action.jobs),
       jobsUpcoming: JobUtil.getUpComingJobs(action.jobs),
-      filterType: JobsPage.FILTER_TYPE_UPCOMING,
   );
 }
 

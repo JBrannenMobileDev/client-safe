@@ -1,5 +1,4 @@
 import 'package:dandylight/data_layer/local_db/shared_preferences/JobEventIdMap.dart';
-import 'package:device_calendar/src/models/event.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DandylightSharedPrefs {
@@ -12,7 +11,11 @@ class DandylightSharedPrefs {
 
   static Future<List<JobEventIdMap>> getListOfKnowJobEventsOnDeviceCalendars() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return JobEventIdMap.decode(prefs.getString(EVENT_ID_MAP_KEY));
+    String mapString = prefs.getString(EVENT_ID_MAP_KEY);
+    if(mapString != null) {
+      return JobEventIdMap.decode(mapString);
+    }
+      return [];
   }
 
   static void saveEventId(String eventId, String calendarId, String jobId) async {

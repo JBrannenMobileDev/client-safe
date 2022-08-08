@@ -271,6 +271,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{
     await JobDao.delete(store.state.jobDetailsPageState.job);
+    store.dispatch(FetchJobsAction(store.state.jobsPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 

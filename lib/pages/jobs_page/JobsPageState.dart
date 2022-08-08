@@ -53,12 +53,12 @@ class JobsPageState {
   factory JobsPageState.initial() => JobsPageState(
     filterType: JobsPage.FILTER_TYPE_UPCOMING,
     selectedJob: null,
-    leads: List(),
-    jobsInProgress: List(),
-    jobsCompleted: List(),
+    leads: [],
+    jobsInProgress: [],
+    jobsCompleted: [],
     onFilterChanged: null,
     onJobClicked: null,
-    jobsUpcoming: List(),
+    jobsUpcoming: [],
   );
 
   factory JobsPageState.fromStore(Store<AppState> store) {
