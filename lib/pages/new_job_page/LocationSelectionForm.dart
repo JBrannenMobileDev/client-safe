@@ -135,7 +135,7 @@ class _LocationSelectionFormState
                             color: Color(ColorConstants.white),
                             tooltip: 'Add',
                             onPressed: () {
-                              UserOptionsUtil.showNewPriceProfileDialog(context);
+                              UserOptionsUtil.showNewLocationDialog(context);
                             },
                           ),
                           Text(

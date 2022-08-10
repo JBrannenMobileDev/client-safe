@@ -98,16 +98,20 @@ class Client{
 
   List<Map<String, dynamic>> convertImportantDatesToMaps(List<ImportantDate> importantDates){
     List<Map<String, dynamic>> listOfMaps = [];
-    for(ImportantDate importantDate in importantDates){
-      listOfMaps.add(importantDate.toMap());
+    if(importantDates != null) {
+      for (ImportantDate importantDate in importantDates) {
+        listOfMaps.add(importantDate.toMap());
+      }
     }
     return listOfMaps;
   }
 
   static List<ImportantDate> convertMapsToImportantDates(List listOfMaps){
     List<ImportantDate> listOfImportantDates = [];
-    for(Map map in listOfMaps){
-      listOfImportantDates.add(ImportantDate.fromMap(map));
+    if(listOfMaps != null) {
+      for(Map map in listOfMaps){
+        listOfImportantDates.add(ImportantDate.fromMap(map));
+      }
     }
     return listOfImportantDates;
   }
@@ -157,5 +161,13 @@ class Client{
         break;
     }
     return '';
+  }
+
+  @override
+  bool operator == (Object other) {
+    return identical(this, other) ||
+          other is Client &&
+              firstName == other.firstName &&
+              lastName == other.lastName;
   }
 }

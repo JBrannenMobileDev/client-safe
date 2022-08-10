@@ -21,6 +21,18 @@ class FetchNewJobDeviceEvents{
   FetchNewJobDeviceEvents(this.calendarPageState, this.month);
 }
 
+class SetClientFirstNameAction{
+  final NewJobPageState pageState;
+  final String firstName;
+  SetClientFirstNameAction(this.pageState, this.firstName);
+}
+
+class SetClientLastNameAction{
+  final NewJobPageState pageState;
+  final String lastName;
+  SetClientLastNameAction(this.pageState, this.lastName);
+}
+
 class InitializeNewContactPageAction{
   final NewJobPageState pageState;
   final Client client;
@@ -127,12 +139,6 @@ class DecrementPageViewIndex{
 class SaveNewJobAction{
   final NewJobPageState pageState;
   SaveNewJobAction(this.pageState);
-}
-
-class FilterClientList{
-  final NewJobPageState pageState;
-  final String textInput;
-  FilterClientList(this.pageState, this.textInput);
 }
 
 class ClearSearchInputActon{

@@ -5,7 +5,6 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
 import '../../models/ReminderDandyLight.dart';
@@ -18,7 +17,6 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, UpdateErrorStateAction>(_updateErrorState),
   TypedReducer<NewJobPageState, SetAllToStateAction>(_setAllClients),
   TypedReducer<NewJobPageState, ClientSelectedAction>(_setSelectedClient),
-  TypedReducer<NewJobPageState, FilterClientList>(_filterClients),
   TypedReducer<NewJobPageState, SetJobTitleAction>(_setJobTitle),
   TypedReducer<NewJobPageState, SetSelectedPriceProfile>(_setSelectedPriceProfile),
   TypedReducer<NewJobPageState, SetSelectedLocation>(_setSelectedLocation),
@@ -36,7 +34,9 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, ClearDepositAction>(_clearDeposit),
   TypedReducer<NewJobPageState, SetDocumentPathAction>(_setDocumentPath),
   TypedReducer<NewJobPageState, UpdateComingFromClientDetails>(_updateComingFromClientDetails),
-  TypedReducer<NewJobPageState, SetNewJobDeviceEventsAction>(_setNewJobDeviceEvents)
+  TypedReducer<NewJobPageState, SetNewJobDeviceEventsAction>(_setNewJobDeviceEvents),
+  TypedReducer<NewJobPageState, SetClientFirstNameAction>(_setClientFirstName),
+  TypedReducer<NewJobPageState, SetClientLastNameAction>(_setClientLastName),
 ]);
 
 NewJobPageState _updateComingFromClientDetails(NewJobPageState previousState, UpdateComingFromClientDetails action) {
@@ -186,7 +186,6 @@ NewJobPageState _clearState(NewJobPageState previousState, ClearStateAction acti
 NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateAction action) {
   return previousState.copyWith(
     allClients: action.allClients,
-    filteredClients: action.allClients,
     pricingProfiles: action.allPriceProfiles,
     locations: action.allLocations,
     upcomingJobs: action.upcomingJobs,
@@ -197,23 +196,59 @@ NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateActio
 }
 
 NewJobPageState _setSelectedClient(NewJobPageState previousState, ClientSelectedAction action) {
-  Client selectedClient =
-      previousState.selectedClient == action.client ? null : action.client;
+  Client selectedClient = previousState.selectedClient == action.client ? null : action.client;
   return previousState.copyWith(
     selectedClient: selectedClient,
+    clientFirstName: selectedClient.firstName,
+    clientLastName: selectedClient.lastName,
   );
 }
 
-NewJobPageState _filterClients(NewJobPageState previousState, FilterClientList action) {
-  List<Client> filteredClients = action.textInput.length > 0
+NewJobPageState _setClientFirstName(NewJobPageState previousState, SetClientFirstNameAction action) {
+  List<Client> filteredClients = _filterClients(previousState, action.firstName, previousState.clientLastName);
+  return previousState.copyWith(
+    selectedClient: null,
+    clientFirstName: action.firstName,
+    filteredClients: filteredClients,
+  );
+}
+
+NewJobPageState _setClientLastName(NewJobPageState previousState, SetClientLastNameAction action) {
+  List<Client> filteredClients = _filterClients(previousState, previousState.clientFirstName, action.lastName);
+  return previousState.copyWith(
+    selectedClient: null,
+    clientLastName: action.lastName,
+    filteredClients: filteredClients,
+  );
+}
+
+List<Client> _filterClients(NewJobPageState previousState, String firstName, String lastName) {
+  List<Client> filteredClientsByFirstName = firstName.isNotEmpty
       ? previousState.allClients
           .where((client) => client
               .getClientFullName()
               .toLowerCase()
-              .contains(action.textInput.toLowerCase()))
-          .toList()
-      : previousState.allClients;
-  return previousState.copyWith(
-    filteredClients: filteredClients,
-  );
+              .contains(firstName.toLowerCase())
+          ).toList()
+      : [];
+
+  List<Client> filteredClientsByLastName = lastName.isNotEmpty
+      ? previousState.allClients
+      .where((client) => client
+      .getClientFullName()
+      .toLowerCase()
+      .contains(lastName.toLowerCase())
+  ).toList()
+      : [];
+
+  List<Client> result = [];
+
+  for(Client clientByFirst in filteredClientsByFirstName) {
+    if(!filteredClientsByLastName.contains(clientByFirst)) {
+      result.add(clientByFirst);
+    }
+  }
+  result.addAll(filteredClientsByLastName);
+
+  return result;
 }

@@ -22,9 +22,11 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../models/JobStage.dart';
 import '../../models/Profile.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
+import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
@@ -119,24 +121,36 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
+    Client resultClient = store.state.newJobPageState.selectedClient;
+    if(store.state.newJobPageState.selectedClient == null) {
+      String clientId = await ClientDao.insert(
+        Client(
+          firstName: store.state.newJobPageState.clientFirstName,
+          lastName: store.state.newJobPageState.clientLastName,
+          iconUrl: ImageUtil.getRandomPersonIcon().assetName
+        )
+      );
+      resultClient = await ClientDao.getClientById(clientId);
+    }
+
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
       documentId: store.state.newJobPageState.documentId,
-      clientDocumentId: store.state.newJobPageState.selectedClient.documentId,
-      clientName: store.state.newJobPageState.selectedClient.getClientFullName(),
+      clientDocumentId: resultClient.documentId,
+      clientName: resultClient.getClientFullName(),
       jobTitle: store.state.newJobPageState.jobTitle,
       selectedDate: store.state.newJobPageState.selectedDate,
       selectedTime: store.state.newJobPageState.selectedTime,
       type: store.state.newJobPageState.jobType,
-      stage: store.state.newJobPageState.currentJobStage,
-      completedStages: store.state.newJobPageState.selectedJobStages,
+      stage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT, value: 2),
+      completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile,
       depositAmount: store.state.newJobPageState.depositAmount,
       createdDate: DateTime.now(),
       );
     await JobDao.insertOrUpdate(jobToSave);
-    await _createJobReminders(store);
+    await _createJobReminders(store, resultClient);
     store.dispatch(ClearStateAction(store.state.newJobPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.clientDetailsPageState.client));
@@ -152,12 +166,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetDefaultRemindersAction(store.state.newJobPageState, defaultReminders));
   }
 
-  void _createJobReminders(Store<AppState> store) async {
+  void _createJobReminders(Store<AppState> store, Client jobClient) async {
     List<JobReminder> jobReminders = [];
     List<Job> jobs = await JobDao.getAllJobs();
     Job thisJob = null;
-    String clientName = store.state.newJobPageState.selectedClient.firstName +
-        " " + store.state.newJobPageState.selectedClient.lastName;
+    String clientName = jobClient.firstName +
+        " " + jobClient.lastName;
     String jobTitle = store.state.newJobPageState.jobTitle;
     DateTime selectedDate = store.state.newJobPageState.selectedDate;
 

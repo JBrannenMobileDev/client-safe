@@ -21,12 +21,13 @@ class ClientDao extends Equatable{
   // singleton instance of an opened database.
   static Future<Database> get _db async => await SembastDb.instance.database;
 
-  static Future insert(Client client) async {
+  static Future<String> insert(Client client) async {
     client.documentId = Uuid().v1();
     int savedClientId = await _clientStore.add(await _db, client.toMap());
     client.id = savedClientId;
     await ClientCollection().createClient(client);
     _updateLastChangedTime();
+    return client.documentId;
   }
 
   static Future insertLocalOnly(Client client) async {

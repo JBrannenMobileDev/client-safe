@@ -4,12 +4,15 @@ import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobClientListWidget.dart';
+import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import '../new_contact_pages/NewContactPageState.dart';
 
 class ClientSelectionForm extends StatefulWidget {
   @override
@@ -21,7 +24,11 @@ class ClientSelectionForm extends StatefulWidget {
 class _ClientSelectionFormState extends State<ClientSelectionForm>
     with AutomaticKeepAliveClientMixin {
   bool searchHasFocus = false;
-  final searchTextController = TextEditingController();
+  final firstNameTextController = TextEditingController();
+  final lastNameTextController = TextEditingController();
+  final FocusNode _firstNameFocus = FocusNode();
+  final FocusNode _lastNameFocus = FocusNode();
+
   ScrollController _controller = ScrollController();
 
   @override
@@ -30,7 +37,20 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.dispatch(FetchAllClientsAction(store.state.newJobPageState));
-        searchTextController.text = store.state.newJobPageState.clientSearchText;
+        firstNameTextController.text = store.state.newJobPageState.clientFirstName;
+        lastNameTextController.text = store.state.newJobPageState.clientLastName;
+      },
+      onDidChange: (previous, current) {
+        if(current.selectedClient != null && previous.selectedClient == null) {
+          firstNameTextController.value = firstNameTextController.value.copyWith(
+            text: current.clientFirstName,
+            selection: TextSelection.collapsed(offset: current.clientFirstName.length),
+          );
+          lastNameTextController.value = lastNameTextController.value.copyWith(
+            text: current.clientLastName,
+            selection: TextSelection.collapsed(offset: current.clientLastName.length),
+          );
+        }
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
@@ -39,149 +59,68 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    searchHasFocus
-                        ? Container(
-                        margin: EdgeInsets.only(top: 8.0),
-                        alignment: Alignment.center,
-                        width: 259.0,
-                        height: 45.0,
-                        child: TextField(
-                          textInputAction: TextInputAction.go,
-                          maxLines: 1,
-                          autofocus: true,
-                          controller: searchTextController,
-                          onChanged: (text) {
-                            pageState.onClientSearchTextChanged(text);
-                          },
-                          cursorColor: Color(ColorConstants.getPrimaryColor()),
-                          decoration: InputDecoration(
-                            alignLabelWithHint: true,
-                            hintText: "Name",
-                            hintStyle: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black)),
-                            fillColor: Colors.white,
-                            contentPadding: EdgeInsets.all(10.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                color: Color(ColorConstants.getPrimaryColor()),
-                                width: 1.0,
-                              ),
-                            ),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(25.0),
-                              borderSide: BorderSide(
-                                color: Color(ColorConstants.getPrimaryColor()),
-                                width: 1.0,
-                              ),
-                            ),
-                          ),
-                          keyboardType: TextInputType.text,
-                          textCapitalization: TextCapitalization.words,
-                          style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black)),
-                        ))
-                        : Text(
-                      "What client is this job for?",
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
-                    ),
-                    searchHasFocus
-                        ? Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: IconButton(
-                        icon: const Icon(Icons.close),
-                        tooltip: 'Close',
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        onPressed: () {
-                          setState(() {
-                            searchHasFocus = false;
-                            searchTextController.text = "";
-                          });
-                          pageState.onClientSearchTextChanged("");
-                        },
-                      ),
-                    )
-                        : Padding(
-                      padding: EdgeInsets.only(left: 16.0),
-                      child: IconButton(
-                        icon: const Icon(Icons.search),
-                        tooltip: 'Search',
-                        color: Color(ColorConstants.getPrimaryColor()),
-                        onPressed: () {
-                          setState(() {
-                            searchHasFocus = true;
-                          });
-                        },
-                      ),
-                    ),
-                  ],
+                Text(
+                  "Who is this job for?",
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.primary_black),
+                  ),
                 ),
-                pageState.filteredClients.length > 0 && pageState.isFinishedFetchingClients
-                    ? ConstrainedBox(
+                NewJobTextField(
+                  controller: firstNameTextController,
+                  hintText: "First Name",
+                  inputType: TextInputType.text,
+                  height: 64.0,
+                  onTextInputChanged: pageState.onClientFirstNameTextChanged,
+                  keyboardAction: TextInputAction.next,
+                  capitalization: TextCapitalization.words,
+                  focusNode: _firstNameFocus,
+                  onFocusAction: onFirstNameAction,
+                  inputTypeError: NewContactPageState.ERROR_FIRST_NAME_MISSING,
+                ),
+                NewJobTextField(
+                    controller: lastNameTextController,
+                    hintText: "Last Name",
+                    inputType: TextInputType.text,
+                    height: 64.0,
+                    onTextInputChanged: pageState.onClientLastNameTextChanged,
+                    keyboardAction: TextInputAction.next,
+                    capitalization: TextCapitalization.words,
+                    focusNode: _lastNameFocus,
+                    onFocusAction: onLastNameAction,
+                    inputTypeError: NewContactPageState.NO_ERROR
+                ),
+                ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
-                          maxHeight: 300.0,
+                          maxHeight: 317.0,
                         ),
                         child: ListView.builder(
                           reverse: false,
-                          padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
+                          padding: new EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 64.0),
                           shrinkWrap: true,
                           controller: _controller,
                           physics: ClampingScrollPhysics(),
                           itemCount: pageState.filteredClients.length,
                           itemBuilder: _buildItem,
                         ),
-                ) : Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
-                      child: Text(
-                        pageState.allClients.length > 0
-                            ? "There are no matching clients for the name entered."
-                            : "You have not added any clients yet.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
-                      ),
-                    ),
-                    ClientSafeButton(
-                      height: 50.0,
-                      width: 200.0,
-                      text: "Add New Client",
-                      marginLeft: 0.0,
-                      marginRight: 0.0,
-                      marginBottom: 0.0,
-                      marginTop: 32.0,
-                      onPressed: onAddNewContactPressed,
-                      urlText: "",
-                    ),
-                  ],
                 ),
               ],
             ),
           ),
     );
+  }
+
+  void onFirstNameAction(){
+    _firstNameFocus.unfocus();
+    FocusScope.of(context).requestFocus(_lastNameFocus);
+  }
+
+  void onLastNameAction(){
+    _lastNameFocus.unfocus();
   }
 
   void onAddNewContactPressed() {

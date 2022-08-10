@@ -28,6 +28,8 @@ class NewJobPageState {
   final bool isFinishedFetchingClients;
   final String errorState;
   final Client selectedClient;
+  final String clientFirstName;
+  final String clientLastName;
   final String clientSearchText;
   final String jobTitle;
   final String documentPath;
@@ -57,7 +59,8 @@ class NewJobPageState {
   final Function() onNextPressed;
   final Function() onBackPressed;
   final Function(Client) onClientSelected;
-  final Function(String) onClientSearchTextChanged;
+  final Function(String) onClientFirstNameTextChanged;
+  final Function(String) onClientLastNameTextChanged;
   final Function() onClearInputSelected;
   final Function(String) onJobTitleTextChanged;
   final Function(PriceProfile) onPriceProfileSelected;
@@ -99,7 +102,6 @@ class NewJobPageState {
     @required this.onBackPressed,
     @required this.selectedClient,
     @required this.onClientSelected,
-    @required this.onClientSearchTextChanged,
     @required this.onClearInputSelected,
     @required this.allClients,
     @required this.filteredClients,
@@ -125,6 +127,10 @@ class NewJobPageState {
     @required this.jobTypes,
     @required this.onMonthChanged,
     @required this.deviceEvents,
+    @required this.clientFirstName,
+    @required this.clientLastName,
+    @required this.onClientFirstNameTextChanged,
+    @required this.onClientLastNameTextChanged,
   });
 
   NewJobPageState copyWith({
@@ -138,6 +144,8 @@ class NewJobPageState {
     bool isFinishedFetchingClients,
     String errorState,
     Client selectedClient,
+    String clientFirstName,
+    String clientLastName,
     String clientSearchText,
     String jobTitle,
     PriceProfile selectedPriceProfile,
@@ -166,7 +174,6 @@ class NewJobPageState {
     Function() onNextPressed,
     Function() onBackPressed,
     Function(Client) onClientSelected,
-    Function(String) onClientSearchTextChanged,
     Function() onClearInputSelected,
     Function(String) onJobTitleTextChanged,
     Function(PriceProfile) onPriceProfileSelected,
@@ -180,16 +187,22 @@ class NewJobPageState {
     Function() clearDepositAmount,
     Function(ReminderDandyLight) onReminderSelected,
     Function(DateTime) onMonthChanged,
+    Function(String) onClientFirstNameTextChanged,
+    Function(String) onClientLastNameTextChanged,
   }){
     return NewJobPageState(
       id: id?? this.id,
       documentPath: documentPath ?? this.documentPath,
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
+      clientFirstName: clientFirstName?? this.clientFirstName,
+      clientLastName: clientLastName?? this.clientLastName,
+      onClientFirstNameTextChanged: onClientFirstNameTextChanged?? this.onClientFirstNameTextChanged,
+      onClientLastNameTextChanged: onClientLastNameTextChanged?? this.onClientLastNameTextChanged,
       shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
       errorState: errorState?? this.errorState,
-      selectedClient: selectedClient?? this.selectedClient,
+      selectedClient: selectedClient,
       clientSearchText: clientSearchText?? this.clientSearchText,
       jobTitle: jobTitle?? this.jobTitle,
       selectedPriceProfile: selectedPriceProfile?? this.selectedPriceProfile,
@@ -212,7 +225,6 @@ class NewJobPageState {
       onNextPressed: onNextPressed?? this.onNextPressed,
       onBackPressed: onBackPressed?? this.onBackPressed,
       onClientSelected:  onClientSelected?? this.onClientSelected,
-      onClientSearchTextChanged: onClientSearchTextChanged?? this.onClientSearchTextChanged,
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
       onJobTitleTextChanged: onJobTitleTextChanged?? this.onJobTitleTextChanged,
       onPriceProfileSelected: onPriceProfileSelected?? this.onPriceProfileSelected,
@@ -245,6 +257,8 @@ class NewJobPageState {
         documentId: '',
         documentPath: '',
         pageViewIndex: 0,
+        clientFirstName: '',
+        clientLastName: '',
         saveButtonEnabled: false,
         shouldClear: true,
         isFinishedFetchingClients: false,
@@ -265,7 +279,7 @@ class NewJobPageState {
         sunsetDateTime: null,
         selectedJobStages: selectedStagesInitial,
         jobType: Job.JOB_TYPE_OTHER,
-        selectedJobType: 'assets/images/job_types/other.png',
+        selectedJobType: null,
         upcomingJobs: [],
         eventList: [],
         jobs: [],
@@ -276,7 +290,6 @@ class NewJobPageState {
         onNextPressed: null,
         onBackPressed: null,
         onClientSelected: null,
-        onClientSearchTextChanged: null,
         onClearInputSelected: null,
         onJobTitleTextChanged: null,
         onPriceProfileSelected: null,
@@ -293,6 +306,8 @@ class NewJobPageState {
         selectedReminders: [],
         onReminderSelected: null,
         onMonthChanged: null,
+        onClientFirstNameTextChanged: null,
+        onClientLastNameTextChanged: null,
       );
   }
 
@@ -331,12 +346,13 @@ class NewJobPageState {
       selectedReminders: store.state.newJobPageState.selectedReminders,
       comingFromClientDetails: store.state.newJobPageState.comingFromClientDetails,
       jobTypes: store.state.newJobPageState.jobTypes,
+      clientFirstName: store.state.newJobPageState.clientFirstName,
+      clientLastName: store.state.newJobPageState.clientLastName,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newJobPageState)),
       onClientSelected: (client) => store.dispatch(ClientSelectedAction(store.state.newJobPageState, client)),
-      onClientSearchTextChanged: (text) => store.dispatch(FilterClientList(store.state.newJobPageState, text)),
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newJobPageState)),
       onJobTitleTextChanged: (jobTitle) => store.dispatch(SetJobTitleAction(store.state.newJobPageState, jobTitle)),
       onPriceProfileSelected: (priceProfile) => store.dispatch(SetSelectedPriceProfile(store.state.newJobPageState, priceProfile)),
@@ -350,6 +366,8 @@ class NewJobPageState {
       clearDepositAmount: () => store.dispatch(ClearDepositAction(store.state.newJobPageState)),
       onReminderSelected: (reminder) => store.dispatch(SetSelectedJobReminderAction(store.state.newJobPageState, reminder)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
+      onClientLastNameTextChanged: (lastName) => store.dispatch(SetClientLastNameAction(store.state.newJobPageState, lastName)),
+      onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
     );
   }
 
@@ -385,7 +403,6 @@ class NewJobPageState {
       onNextPressed.hashCode ^
       onBackPressed.hashCode ^
       onClientSelected.hashCode ^
-      onClientSearchTextChanged.hashCode ^
       onClearInputSelected.hashCode ^
       onLocationSelected.hashCode ^
       onDateSelected.hashCode ^
@@ -397,6 +414,10 @@ class NewJobPageState {
       depositAmount.hashCode ^
       onAddToDeposit.hashCode ^
       jobTypes.hashCode ^
+      clientFirstName.hashCode ^
+      clientLastName.hashCode ^
+      onClientLastNameTextChanged.hashCode ^
+      onClientFirstNameTextChanged.hashCode ^
       clearDepositAmount.hashCode;
 
   @override
@@ -411,6 +432,10 @@ class NewJobPageState {
           shouldClear == other.shouldClear &&
           isFinishedFetchingClients == other.isFinishedFetchingClients &&
           errorState == other.errorState &&
+          clientFirstName == other.clientFirstName &&
+          clientLastName == other.clientLastName &&
+          onClientFirstNameTextChanged == other.onClientFirstNameTextChanged &&
+          onClientLastNameTextChanged == other.onClientLastNameTextChanged &&
           selectedClient == other.selectedClient &&
           clientSearchText == other.clientSearchText &&
           allClients == other.allClients &&
@@ -433,7 +458,6 @@ class NewJobPageState {
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&
           onClientSelected == other.onClientSelected &&
-          onClientSearchTextChanged == other.onClientSearchTextChanged &&
           onClearInputSelected == other.onClearInputSelected &&
           onDateSelected == other.onDateSelected &&
           onJobStageSelected == other.onJobStageSelected &&

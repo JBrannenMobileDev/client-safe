@@ -315,28 +315,11 @@ class _NewContactPageState extends State<NewContactPage> {
           }
           break;
         case 1:
-          if ((pageState.newContactPhone.isNotEmpty ||
-                  pageState.newContactEmail.isNotEmpty ||
-                  pageState.newContactInstagramUrl.isNotEmpty) &&
-              (InputValidatorUtil.isEmailValid(pageState.newContactEmail) &&
-                  InputValidatorUtil.isPhoneNumberValid(
-                      pageState.newContactPhone) &&
-                  InputValidatorUtil.isInstagramUrlValid(
-                      pageState.newContactInstagramUrl))) {
-            canProgress = true;
-          } else {
-            if (pageState.newContactPhone.isEmpty &&
-                pageState.newContactEmail.isEmpty &&
-                pageState.newContactInstagramUrl.isEmpty) {
-              pageState.onErrorStateChanged(
-                  NewContactPageState.ERROR_MISSING_CONTACT_INFO);
-              HapticFeedback.heavyImpact();
-            }
-
             if (!InputValidatorUtil.isEmailValid(pageState.newContactEmail)) {
               pageState.onErrorStateChanged(
                   NewContactPageState.ERROR_EMAIL_NAME_INVALID);
               HapticFeedback.heavyImpact();
+              break;
             }
 
             if (!InputValidatorUtil.isPhoneNumberValid(
@@ -344,6 +327,7 @@ class _NewContactPageState extends State<NewContactPage> {
               pageState
                   .onErrorStateChanged(NewContactPageState.ERROR_PHONE_INVALID);
               HapticFeedback.heavyImpact();
+              break;
             }
 
             if (!InputValidatorUtil.isInstagramUrlValid(
@@ -351,8 +335,9 @@ class _NewContactPageState extends State<NewContactPage> {
               pageState.onErrorStateChanged(
                   NewContactPageState.ERROR_INSTAGRAM_URL_INVALID);
               HapticFeedback.heavyImpact();
+              break;
             }
-          }
+            canProgress = true;
           break;
         default:
           canProgress = true;

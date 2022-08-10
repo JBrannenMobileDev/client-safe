@@ -31,7 +31,7 @@ class NewJobPage extends StatefulWidget {
 }
 
 class _NewJobPageState extends State<NewJobPage> {
-  final int pageCount = 9;
+  final int pageCount = 5;
   final controller = PageController(
     initialPage: 0,
   );
@@ -160,14 +160,10 @@ class _NewJobPageState extends State<NewJobPage> {
                         children: <Widget>[
                           ClientSelectionForm(),
                           JobNameForm(),
-                          PricingProfileSelectionForm(),
-                          DepositSelectionForm(),
+                          JobTypeSelection(),
                           LocationSelectionForm(),
                           DateForm(),
                           TimeSelectionForm(),
-                          JobTypeSelection(),
-                          JobStageSelectionForm(),
-                          JobReminderSelectionForm(),
                         ],
                       ),
                     ),
@@ -185,10 +181,6 @@ class _NewJobPageState extends State<NewJobPage> {
                               right: 8.0,
                               bottom: 8.0,
                             ),
-                            // disabledColor: Colors.white,
-                            // disabledTextColor:
-                            //     Color(ColorConstants.primary_bg_grey),
-                            // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onBackPressed(pageState);
                             },
@@ -212,17 +204,12 @@ class _NewJobPageState extends State<NewJobPage> {
                               right: 8.0,
                               bottom: 8.0,
                             ),
-                            // disabledColor: Colors.white,
-                            // disabledTextColor:
-                            //     Color(ColorConstants.primary_bg_grey),
-                            // splashColor: Color(ColorConstants.getPrimaryColor()),
                             onPressed: () {
                               onNextPressed(pageState);
                             },
                             child: Text(
                               pageState.pageViewIndex == pageCount
-                                  ? "Save"
-                                  : "Next",
+                                  ? "Save" : getNextBtText(pageState),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -249,13 +236,13 @@ class _NewJobPageState extends State<NewJobPage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          canProgress = pageState.selectedClient != null;
+          canProgress = pageState.selectedClient != null || pageState.clientFirstName.isNotEmpty;
           break;
         case 1:
           canProgress = pageState.jobTitle.length > 0;
           break;
         case 2:
-          canProgress = true;
+          canProgress = pageState.selectedJobType != null;
           break;
         case 3:
           canProgress = true;
@@ -264,15 +251,6 @@ class _NewJobPageState extends State<NewJobPage> {
           canProgress = true;
           break;
         case 5:
-          canProgress = true;
-          break;
-        case 6:
-          canProgress = true;
-          break;
-        case 7:
-          canProgress = true;
-          break;
-        case 8:
           canProgress = true;
           break;
       }
@@ -324,34 +302,22 @@ class _NewJobPageState extends State<NewJobPage> {
     double height = 380.0;
     switch(currentPageIndex){
       case 0:
-        height = 380.0;
+        height = 500.0;
         break;
       case 1:
         height = 200.0;
         break;
       case 2:
-        height = 414.0;
-        break;
-      case 3:
-        height = 324.0;
-        break;
-      case 4:
-        height = 500.0;
-        break;
-      case 5:
-        height = 600.0;
-        break;
-      case 6:
-        height = 325.0;
-        break;
-      case 7:
         height = 450.0;
         break;
-      case 8:
+      case 3:
         height = 500.0;
         break;
-      case 9:
-        height = 500.0;
+      case 4:
+        height = 600.0;
+        break;
+      case 5:
+        height = 325.0;
         break;
     }
     return height;
@@ -378,13 +344,24 @@ class _NewJobPageState extends State<NewJobPage> {
       case 5:
         width = 450.0;
         break;
-      case 5:
-        width = 450.0;
-        break;
-      case 6:
-        width = 450.0;
-        break;
     }
     return width;
+  }
+
+  getNextBtText(NewJobPageState pageState) {
+    String btText = 'Next';
+    switch(pageState.pageViewIndex) {
+      case 3:
+        if(pageState.selectedLocation == null) btText = 'Skip';
+        break;
+      case 4:
+        DateTime today = DateTime.now();
+        if(pageState.selectedDate.year == today.year && pageState.selectedDate.month == today.month && pageState.selectedDate.day == today.day) btText = 'Skip';
+        break;
+      case 5:
+        if(pageState.selectedTime == null) btText = 'Skip';
+        break;
+    }
+    return btText;
   }
 }
