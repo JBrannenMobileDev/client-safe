@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
@@ -163,7 +165,8 @@ class SetAllToStateAction{
   final List<PriceProfile> allPriceProfiles;
   final List<Location> allLocations;
   final List<Job> upcomingJobs;
-  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs);
+  final List<File> imageFiles;
+  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs, this.imageFiles);
 }
 
 class ClientSelectedAction{

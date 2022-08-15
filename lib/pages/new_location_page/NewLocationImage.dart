@@ -96,20 +96,14 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
 
   Future getDeviceImage(NewLocationPageState pageState) async {
     XFile image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String path = appDocDir.path;
-    String key = UniqueKey().toString();
-    await File(image.path).copy('$path/' + key);
-    pageState.saveImagePath(key);
+    final filePath = "${image.path}";
+    pageState.saveImagePath(filePath);
   }
 
   Future getCameraImage(NewLocationPageState pageState) async {
     XFile image = await ImagePicker().pickImage(source: ImageSource.camera);
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String path = appDocDir.path;
-    String key = UniqueKey().toString();
-    await File(image.path).copy('$path/' + key);
-    pageState.saveImagePath(key);
+    final filePath = "${image.path}";
+    pageState.saveImagePath(filePath);
   }
 
   @override

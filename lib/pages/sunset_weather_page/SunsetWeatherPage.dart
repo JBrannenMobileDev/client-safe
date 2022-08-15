@@ -280,6 +280,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                       TextButton(
                         style: Styles.getButtonStyle(),
                         onPressed: () {
+                          pageState.chooseLocationSelected();
                           UserOptionsUtil.showSelectLocationDialog(context);
                         },
                         child: Container(

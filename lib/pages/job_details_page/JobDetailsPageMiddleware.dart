@@ -26,6 +26,7 @@ import 'package:sembast/sembast.dart';
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
+import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Profile.dart';
 import '../../models/ReminderDandyLight.dart';
@@ -199,17 +200,25 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
-    store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations));
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String path = appDocDir.path;
-    store.dispatch(SetDocumentPathAction(store.state.jobDetailsPageState, path));
+    List<File> imageFiles = [];
 
-    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-      List<Location> locations = List();
+    for(Location location in locations) {
+      imageFiles.add(await FileStorage.getImageFile(location));
+    }
+
+    store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
+
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
+      List<Location> locations = [];
+      List<File> imageFiles = [];
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
         locations.add(Location.fromMap(locationSnapshot.value));
       }
-      store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations));
+
+      for(Location location in locations) {
+        imageFiles.add(await FileStorage.getImageFile(location));
+      }
+      store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
     });
   }
 

@@ -18,6 +18,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
 class LocationsPage extends StatelessWidget {
+  final ScrollController _controller = ScrollController();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, LocationsPageState>(
@@ -75,12 +77,20 @@ class LocationsPage extends StatelessWidget {
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
                           child: Container(
                             height: (MediaQuery.of(context).size.height),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              physics: AlwaysScrollableScrollPhysics(),
+                            child: GridView.builder(
+                              padding: new EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 64.0),
+                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent: 200,
+                              childAspectRatio: 3 / 2,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 64),
                               itemCount: pageState.locations.length,
-                              itemBuilder: _buildItem,
-                            ),
+                              controller: _controller,
+                              physics: AlwaysScrollableScrollPhysics(),
+                              key: _listKey,
+                              shrinkWrap: true,
+                              reverse: false,
+                              itemBuilder: _buildItem),
                           ),
                         ) :
                         Padding(
@@ -109,14 +119,9 @@ class LocationsPage extends StatelessWidget {
       converter: (store) => LocationsPageState.fromStore(store),
       builder: (BuildContext context, LocationsPageState pageState) =>
       Container(
-            margin: EdgeInsets.only(bottom: pageState.locations.length == (index + 1) ? 256.0 : 32.0),
             child: LocationListWidget(index),
           ),
     );
-  }
-
-  double _getItemWidthHeight(BuildContext context){
-    return (MediaQuery.of(context).size.width - 94) / 2.0;
   }
 
   Future<void> _checkPermissions(BuildContext context, LocationsPageState pageState){

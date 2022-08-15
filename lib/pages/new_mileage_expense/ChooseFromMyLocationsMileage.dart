@@ -37,17 +37,15 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
     super.build(context);
     return StoreConnector<AppState, NewMileageExpensePageState>(
       converter: (store) => NewMileageExpensePageState.fromStore(store),
-      builder: (BuildContext context, NewMileageExpensePageState pageState) => Dialog(
-        insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
+      builder: (BuildContext context, NewMileageExpensePageState pageState) => Scaffold(
         backgroundColor: Colors.transparent,
-        child: Container(
-          height: pageState.locations.length == 0 ? 300.0 : pageState.locations.length == 1 ? 400.0 : pageState.locations.length == 2 ? 600.0 : MediaQuery.of(context).size.height,
+        body: Container(
+          padding: EdgeInsets.only(left: 8.0, right: 8.0),
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.circular(16.0),
           ),
           alignment: Alignment.center,
-          margin: EdgeInsets.only(left: 16.0, right: 16.0),
           child: pageState.locations.length > 0
               ? Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -81,21 +79,22 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                   ),
                 ),
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: 65.0,
-                  maxHeight: MediaQuery.of(context).size.height - 208,
-                ),
-                child: ListView.builder(
-                  reverse: false,
-                  padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
-                  shrinkWrap: true,
-                  controller: _controller,
-                  physics: ClampingScrollPhysics(),
-                  key: _listKey,
-                  itemCount: pageState.locations.length,
-                  itemBuilder: _buildItem,
-                ),
+              Container(
+                height: (MediaQuery.of(context).size.height) - 208,
+                child: GridView.builder(
+                    padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 3 / 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 64),
+                    itemCount: pageState.locations.length,
+                    controller: _controller,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    key: _listKey,
+                    shrinkWrap: true,
+                    reverse: false,
+                    itemBuilder: _buildItem),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 26.0, right: 26.0),

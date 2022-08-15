@@ -20,6 +20,8 @@ import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:sembast/sembast.dart';
 
+import '../../data_layer/repositories/FileStorage.dart';
+
 
 class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -126,12 +128,23 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void loadLocations(Store<AppState> store, NextDispatcher next, LoadNewMileageLocationsAction action) async {
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
-    store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations));
+    List<File> imageFiles = [];
+
+    for(Location location in locations) {
+      imageFiles.add(await FileStorage.getImageFile(location));
+    }
+
+    store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
   }
 
   void getLocationData(Store<AppState> store, NextDispatcher next, FetchLastKnowPosition action) async {
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
-    store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations));
+    List<File> imageFiles = [];
+
+    for(Location location in locations) {
+      imageFiles.add(await FileStorage.getImageFile(location));
+    }
+    store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(MileageDocumentPathAction(store.state.newMileageExpensePageState, path));
@@ -150,12 +163,17 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetInitialMapLatLng(store.state.newMileageExpensePageState, positionLastKnown.latitude, positionLastKnown.longitude));
     }
 
-    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-      List<Location> locations = List();
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
+      List<Location> locations = [];
+      List<File> imageFiles = [];
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
         locations.add(Location.fromMap(locationSnapshot.value));
       }
-      store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations));
+
+      for(Location location in locations) {
+        imageFiles.add(await FileStorage.getImageFile(location));
+      }
+      store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
     });
   }
 

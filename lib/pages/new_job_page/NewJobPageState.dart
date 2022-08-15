@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
@@ -50,6 +52,7 @@ class NewJobPageState {
   final List<Client> filteredClients;
   final List<PriceProfile> pricingProfiles;
   final List<Location> locations;
+  final List<File> imageFiles;
   final List<EventDandyLight> eventList;
   final List<Event> deviceEvents;
   final List<Job> jobs;
@@ -131,6 +134,7 @@ class NewJobPageState {
     @required this.clientLastName,
     @required this.onClientFirstNameTextChanged,
     @required this.onClientLastNameTextChanged,
+    @required this.imageFiles,
   });
 
   NewJobPageState copyWith({
@@ -154,6 +158,7 @@ class NewJobPageState {
     List<Client> filteredClients,
     List<PriceProfile> pricingProfiles,
     List<Location> locations,
+    List<File> imageFiles,
     DateTime selectedDate,
     DateTime selectedTime,
     DateTime sunsetDateTime,
@@ -246,6 +251,7 @@ class NewJobPageState {
       jobTypes: jobTypes ?? this.jobTypes,
       onMonthChanged: onMonthChanged ?? this.onMonthChanged,
       deviceEvents: deviceEvents ?? this.deviceEvents,
+      imageFiles: imageFiles ?? this.imageFiles,
     );
   }
 
@@ -308,6 +314,7 @@ class NewJobPageState {
         onMonthChanged: null,
         onClientFirstNameTextChanged: null,
         onClientLastNameTextChanged: null,
+        imageFiles: [],
       );
   }
 
@@ -348,6 +355,7 @@ class NewJobPageState {
       jobTypes: store.state.newJobPageState.jobTypes,
       clientFirstName: store.state.newJobPageState.clientFirstName,
       clientLastName: store.state.newJobPageState.clientLastName,
+      imageFiles: store.state.newJobPageState.imageFiles,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -418,6 +426,7 @@ class NewJobPageState {
       clientLastName.hashCode ^
       onClientLastNameTextChanged.hashCode ^
       onClientFirstNameTextChanged.hashCode ^
+      imageFiles.hashCode ^
       clearDepositAmount.hashCode;
 
   @override
@@ -468,5 +477,6 @@ class NewJobPageState {
           depositAmount == other.depositAmount &&
           onAddToDeposit == other.onAddToDeposit &&
           jobTypes == other.jobTypes &&
+          imageFiles == other.imageFiles &&
           clearDepositAmount == other.clearDepositAmount;
 }

@@ -9,6 +9,6 @@ final locationsReducer = combineReducers<LocationsPageState>([
 LocationsPageState _setLocations(LocationsPageState previousState, SetLocationsAction action){
   return previousState.copyWith(
       locations: action.locations,
-      documentFilePath: action.path,
+      locationImages: action.imageFiles,
   );
 }

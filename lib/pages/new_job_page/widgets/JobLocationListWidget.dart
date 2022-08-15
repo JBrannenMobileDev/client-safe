@@ -31,34 +31,24 @@ class JobLocationListWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: <Widget>[
               Container(
-                height: _getItemWidthHeight(context),
-                margin: EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
+                height: _getItemWidthHeight(context) - 72,
+                margin: EdgeInsets.only(top: 8.0),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: pageState.locations
-                                  .elementAt(locationIndex)
-                                  .imagePath !=
-                              null
-                          ? getSavedImage(pageState)
-                          : AssetImage(
-                              "assets/images/backgrounds/image_background.png"),
-                    ),
-                    color: Color(ColorConstants.primary_black),
-                    borderRadius: new BorderRadius.circular(16.0),
+                      image: pageState.imageFiles.isNotEmpty
+                          ? FileImage(pageState.imageFiles.elementAt(locationIndex))
+                          : AssetImage("assets/images/backgrounds/image_background.png")
                   ),
-                  child: Container(
-                    width: double.maxFinite,
-                    margin: EdgeInsets.only(top: 32.0, left: 4.0, right: 4.0),
-                  ),
+                  color: Color(ColorConstants.primary_black),
+                  borderRadius: new BorderRadius.circular(16.0),
                 ),
               ),
               pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
                   ? Container(
-                      height: _getItemWidthHeight(context),
+                height: _getItemWidthHeight(context) - 72,
                       margin:
-                          EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
+                          EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.primary_black),
                           borderRadius: new BorderRadius.circular(16.0),
@@ -75,9 +65,9 @@ class JobLocationListWidget extends StatelessWidget {
                               ])),
                     )
                   : Container(
-                      height: _getItemWidthHeight(context),
+                height: _getItemWidthHeight(context) - 72,
                       margin:
-                          EdgeInsets.only(left: 4.0, top: 8.0, right: 4.0),
+                          EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.primary_black),
                           borderRadius: new BorderRadius.circular(16.0),
@@ -94,7 +84,7 @@ class JobLocationListWidget extends StatelessWidget {
                               ])),
                     ),
               Container(
-                height: _getItemWidthHeight(context),
+                height: _getItemWidthHeight(context) - 72,
                 width: double.maxFinite,
                 child: GestureDetector(
                   onTap: () async {
@@ -127,13 +117,7 @@ class JobLocationListWidget extends StatelessWidget {
     );
   }
 
-  double _getItemWidthHeight(BuildContext context) {
-    // return (MediaQuery.of(context).size.width - 110) / 3.0;
-    return 125;
-  }
-
-  FileImage getSavedImage(NewJobPageState pageState) {
-    FileImage localImage = FileImage(File(pageState.documentPath + '/' + pageState.locations.elementAt(locationIndex).imagePath));
-    return localImage;
+  double _getItemWidthHeight(BuildContext context){
+    return (MediaQuery.of(context).size.width/2);
   }
 }

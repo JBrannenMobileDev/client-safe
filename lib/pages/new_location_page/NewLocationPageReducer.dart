@@ -1,9 +1,8 @@
+import 'dart:io';
+
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:redux/redux.dart';
-
-import 'NewLocationActions.dart';
-import 'NewLocationPageState.dart';
 
 final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, SetLocationsAction>(_setLocations),
@@ -14,7 +13,6 @@ final locationReducer = combineReducers<NewLocationPageState>([
   TypedReducer<NewLocationPageState, LoadExistingLocationData>(_loadLocationData),
   TypedReducer<NewLocationPageState, IncrementPageViewIndex>(_incrementPageViewIndex),
   TypedReducer<NewLocationPageState, DecrementPageViewIndex>(_decrementPageViewIndex),
-  TypedReducer<NewLocationPageState, SetDocumentPathAction>(_setDocumentPath),
   TypedReducer<NewLocationPageState, SaveImagePathNewAction>(_setImagePath),
   TypedReducer<NewLocationPageState, SetLocationResultsAction>(_setLocationResults),
   TypedReducer<NewLocationPageState, SetSelectedSearchLocation>(_setSelectedSearchLocation),
@@ -39,7 +37,7 @@ NewLocationPageState _setSelectedSearchLocation(NewLocationPageState previousSta
     selectedSearchLocation: action.selectedSearchLocation,
     newLocationLatitude: action.selectedSearchLocation.latitude,
     newLocationLongitude: action.selectedSearchLocation.longitude,
-    locationsResults: List(),
+    locationsResults: [],
   );
 }
 
@@ -52,12 +50,6 @@ NewLocationPageState _setLocationResults(NewLocationPageState previousState, Set
 NewLocationPageState _setImagePath(NewLocationPageState previousState, SaveImagePathNewAction action) {
   return previousState.copyWith(
     imagePath: action.imagePath,
-  );
-}
-
-NewLocationPageState _setDocumentPath(NewLocationPageState previousState, SetDocumentPathAction action) {
-  return previousState.copyWith(
-      documentFilePath: action.documentPath,
   );
 }
 
@@ -128,7 +120,6 @@ NewLocationPageState _loadLocationData(NewLocationPageState previousState, LoadE
     locationName: action.location.locationName,
     newLocationLatitude: action.location.latitude,
     newLocationLongitude: action.location.longitude,
-    imagePath: action.location.imagePath,
     pageViewIndex: 0,
   );
 }

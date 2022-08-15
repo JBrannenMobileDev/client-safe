@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
@@ -153,7 +155,8 @@ class FetchJobDetailsLocationsAction{
 class SetLocationsAction{
   final JobDetailsPageState pageState;
   final List<Location> locations;
-  SetLocationsAction(this.pageState, this.locations);
+  final List<File> imageFiles;
+  SetLocationsAction(this.pageState, this.locations, this.imageFiles);
 }
 
 class FetchJobsForDateSelection{

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/LocationCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -21,11 +22,12 @@ class LocationDao extends Equatable{
   // singleton instance of an opened database.
   static Future<Database> get _db async => await SembastDb.instance.database;
 
-  static Future insert(Location location) async {
+  static Future<Location> insert(Location location) async {
     location.documentId = Uuid().v1();
     location.id = await _locationStore.add(await _db, location.toMap());
     await LocationCollection().createLocation(location);
     _updateLastChangedTime();
+    return location;
   }
 
   static Future insertLocalOnly(Location location) async {
@@ -39,7 +41,7 @@ class LocationDao extends Equatable{
     ProfileDao.update(profile);
   }
 
-  static Future insertOrUpdate(Location location) async {
+  static Future<Location> insertOrUpdate(Location location) async {
     List<Location> locationList = await getAllSortedMostFrequent();
     bool alreadyExists = false;
     for(Location singleLocation in locationList){
@@ -48,9 +50,9 @@ class LocationDao extends Equatable{
       }
     }
     if(alreadyExists){
-      await update(location);
+      return await update(location);
     }else{
-      await insert(location);
+      return await insert(location);
     }
   }
 
@@ -59,11 +61,16 @@ class LocationDao extends Equatable{
       final finder = Finder(filter: Filter.equals('documentId', locationDocumentId));
       final recordSnapshots = await _locationStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
-      return recordSnapshots.map((snapshot) {
+      List<Location> locations = recordSnapshots.map((snapshot) {
         final location = Location.fromMap(snapshot.value);
         location.id = snapshot.key;
         return location;
-      }).toList().elementAt(0);
+      }).toList();
+      if(locations.isNotEmpty) {
+        return locations.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
@@ -78,7 +85,7 @@ class LocationDao extends Equatable{
     return LocationCollection().getLocationsStream();
   }
 
-  static Future update(Location location) async {
+  static Future<Location> update(Location location) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.equals('documentId', location.documentId));
@@ -89,6 +96,7 @@ class LocationDao extends Equatable{
     );
     await LocationCollection().updateLocation(location);
     _updateLastChangedTime();
+    return location;
   }
 
   static Future updateLocalOnly(Location location) async {
@@ -103,8 +111,9 @@ class LocationDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
+    await FileStorage.deleteFileImage(await getById(documentId));
     final finder = Finder(filter: Filter.equals('documentId', documentId));
-    await _locationStore.delete(
+    int countOfUpdatedItems = await _locationStore.delete(
       await _db,
       finder: finder,
     );

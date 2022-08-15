@@ -54,7 +54,6 @@ class _NewLocationPageState extends State<NewLocationPage> {
           showMapIcon = true;
           Directory appDocDir = await getApplicationDocumentsDirectory();
           String path = appDocDir.path;
-          store.dispatch(SetDocumentPathAction(store.state.newLocationPageState, path));
           Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
           store.dispatch(SetLatLongAction(store.state.newLocationPageState, positionLastKnown.latitude, positionLastKnown.longitude));
         }
@@ -128,7 +127,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                           ],
                         ),
                       ),
-                      pageState.pageViewIndex == 2 && pageState.imagePath.isNotEmpty ? Container(
+                      pageState.pageViewIndex == 2 && pageState.imagePath != null ? Container(
                         decoration: BoxDecoration(
                           color: Color(ColorConstants.getPrimaryWhite()),
                           borderRadius: new BorderRadius.circular(16.0),
@@ -136,7 +135,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
                         height: 150.0,
                         width: 200.0,
 
-                        child: pageState.imagePath.length > 0 ? Container(
+                        child: pageState.imagePath!= null ? Container(
                             decoration: BoxDecoration(
                               borderRadius: new BorderRadius.circular(16.0),
                               image: DecorationImage(
@@ -216,7 +215,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
   }
 
   FileImage getSavedImage(NewLocationPageState pageState) {
-    FileImage localImage = FileImage(File(pageState.documentFilePath + '/' + pageState.imagePath));
+    FileImage localImage = FileImage(File(pageState.imagePath));
     return localImage;
   }
 

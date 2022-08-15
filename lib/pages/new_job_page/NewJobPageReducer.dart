@@ -192,6 +192,7 @@ NewJobPageState _setAllClients(NewJobPageState previousState, SetAllToStateActio
     isFinishedFetchingClients: true,
     jobs: action.upcomingJobs,
     selectedPriceProfile: action.allPriceProfiles.length > 0 ? action.allPriceProfiles.elementAt(0) : null,
+    imageFiles: action.imageFiles,
   );
 }
 

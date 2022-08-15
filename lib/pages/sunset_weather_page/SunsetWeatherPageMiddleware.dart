@@ -19,6 +19,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
 class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
@@ -43,6 +44,19 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchSearchLocationDetails){
       fetchLocationDetails(store, next, action);
     }
+    if(action is LoadLocationImageFilesAction) {
+      loadLocationImageFiles(store, next, action);
+    }
+  }
+
+  void loadLocationImageFiles(Store<AppState> store, NextDispatcher next, LoadLocationImageFilesAction action) async {
+    List<File> imageFiles = [];
+
+    for(Location location in store.state.sunsetWeatherPageState.locations) {
+      imageFiles.add(await FileStorage.getImageFile(location));
+    }
+
+    store.dispatch(SetLocationImageFilesAction(store.state.sunsetWeatherPageState, imageFiles));
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {

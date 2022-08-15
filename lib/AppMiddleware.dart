@@ -66,7 +66,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, prefix1.DeletePriceProfileAction>(PricingProfilesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteLocationAction>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchLocationsAction>(LocationsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveImagePathAction>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.SaveLocationAction>(NewLocationPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.FetchGoogleLocationsAction>(NewLocationPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix2.FetchSearchLocationDetails>(NewLocationPageMiddleware()));
@@ -126,6 +125,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveCurrentMapLatLngAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchGoogleLocationsAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchSearchLocationDetails>(SunsetWeatherPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadLocationImageFilesAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSingleExpenseProfileAction>(NewSingleExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSingleExpenseAction>(NewSingleExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveRecurringExpenseProfileAction>(NewRecurringExpensePageMiddleware()));

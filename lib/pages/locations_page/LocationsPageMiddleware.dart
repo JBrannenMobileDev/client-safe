@@ -13,18 +13,17 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../data_layer/repositories/FileStorage.dart';
+
 class LocationsPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
     if(action is FetchLocationsAction){
-      fetchProfiles(store, next);
+      fetchLocations(store, next);
     }
     if(action is DeleteLocationAction){
       _deleteLocation(store, action, next);
-    }
-    if(action is SaveImagePathAction){
-      _saveImagePath(store, action);
     }
     if(action is DrivingDirectionsSelected){
       _launchDrivingDirections(store, action);
@@ -47,31 +46,34 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
     Share.share('Here are the driving directions. \nLocation: ${action.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${action.location.latitude},${action.location.longitude}');
   }
 
-  void fetchProfiles(Store<AppState> store, NextDispatcher next) async{
+  void fetchLocations(Store<AppState> store, NextDispatcher next) async{
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
-    Directory appDocDir = await getApplicationDocumentsDirectory();
-    String path = appDocDir.path;
-    next(SetLocationsAction(store.state.locationsPageState, locations, path));
-    store.dispatch(newLocation.SetDocumentPathAction(store.state.newLocationPageState, path));
+    List<File> imageFiles = [];
 
-    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-      List<Location> locations = List();
+    for(Location location in locations) {
+      imageFiles.add(await FileStorage.getImageFile(location));
+    }
+
+    next(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
+
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
+      List<Location> locations = [];
+      List<File> imageFiles = [];
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
         locations.add(Location.fromMap(locationSnapshot.value));
       }
-      store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, path));
+      for(Location location in locations) {
+        imageFiles.add(await FileStorage.getImageFile(location));
+      }
+      store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
     });
+
+
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocationAction action, NextDispatcher next) async{
     await LocationDao.delete(action.location.documentId);
     store.dispatch(FetchLocationsAction(store.state.locationsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
-  }
-
-  void _saveImagePath(Store<AppState> store, SaveImagePathAction action) async{
-    action.location.imagePath = action.imagePath;
-    await LocationDao.insertOrUpdate(action.location);
-    store.dispatch(FetchLocationsAction(store.state.locationsPageState));
   }
 }

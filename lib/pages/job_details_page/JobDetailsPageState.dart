@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
@@ -31,6 +33,7 @@ class JobDetailsPageState {
   final int unsavedDepositAmount;
   final int unsavedTipAmount;
   final List<Location> locations;
+  final List<File> imageFiles;
   final Location selectedLocation;
   final Function(Location) onLocationSelected;
   final List<int> expandedIndexes;
@@ -128,7 +131,8 @@ class JobDetailsPageState {
     @required this.reminders,
     @required this.onDeleteReminderSelected,
     @required this.onMonthChanged,
-    @required this.onNewDateSelected
+    @required this.onNewDateSelected,
+    @required this.imageFiles,
   });
 
   JobDetailsPageState copyWith({
@@ -142,6 +146,7 @@ class JobDetailsPageState {
     List<Job> jobs,
     String jobTitleText,
     List<Location> locations,
+    List<File> imageFiles,
     List<JobReminder> reminders,
     Location selectedLocation,
     Function(Location) onLocationSelected,
@@ -244,6 +249,7 @@ class JobDetailsPageState {
       selectedDate: selectedDate ?? this.selectedDate,
       onMonthChanged: onMonthChanged ?? this.onMonthChanged,
       onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
+      imageFiles: imageFiles ?? this.imageFiles,
     );
   }
 
@@ -271,6 +277,7 @@ class JobDetailsPageState {
         documents: store.state.jobDetailsPageState.documents,
         invoice: store.state.jobDetailsPageState.invoice,
         reminders: store.state.jobDetailsPageState.reminders,
+        imageFiles: store.state.jobDetailsPageState.imageFiles,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -365,6 +372,7 @@ class JobDetailsPageState {
     onSaveTipChange: null,
     onClearUnsavedTip: null,
     reminders: [],
+    imageFiles: [],
   );
 
   @override
@@ -417,6 +425,7 @@ class JobDetailsPageState {
       onPriceProfileSelected.hashCode ^
       onSaveUpdatedPriceProfileSelected.hashCode ^
       onClearUnsavedDeposit.hashCode ^
+      imageFiles.hashCode ^
       reminders.hashCode;
 
   @override
@@ -469,5 +478,6 @@ class JobDetailsPageState {
               priceProfiles == other.priceProfiles &&
               onPriceProfileSelected == other.onPriceProfileSelected &&
               onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
+              imageFiles == other.imageFiles &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }

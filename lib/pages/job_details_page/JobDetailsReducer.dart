@@ -154,6 +154,7 @@ JobDetailsPageState _setLocations(JobDetailsPageState previousState, SetLocation
   return previousState.copyWith(
     locations: action.locations,
     selectedLocation: null,
+    imageFiles: action.imageFiles,
   );
 }
 

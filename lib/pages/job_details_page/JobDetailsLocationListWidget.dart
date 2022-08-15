@@ -32,34 +32,28 @@ class JobDetailsLocationListWidget extends StatelessWidget {
             alignment: Alignment.bottomCenter,
             children: <Widget>[
               Container(
-                height: _getItemWidthHeight(context),
-                margin: EdgeInsets.only(left: 64.0, top: 8.0, right: 64.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: pageState.locations
-                                  .elementAt(locationIndex)
-                                  .imagePath !=
-                              null
-                          ? getSavedImage(pageState)
-                          : AssetImage(
-                              "assets/images/backgrounds/image_background.png"),
-                    ),
-                    color: Color(ColorConstants.primary_black),
-                    borderRadius: new BorderRadius.circular(16.0),
-                  ),
-                  child: Container(
-                    width: double.maxFinite,
-                    margin: EdgeInsets.only(top: 32.0, left: 64.0, right: 64.0),
-                  ),
-                ),
+                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
+                margin: EdgeInsets.only(top: 8.0),
+                child: pageState.locations.elementAt(locationIndex) != null ?
+                Container(
+                    height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
+                    decoration: BoxDecoration(
+                      borderRadius: new BorderRadius.circular(16.0),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: pageState.imageFiles.isNotEmpty
+                            ? FileImage(pageState.imageFiles.elementAt(locationIndex))
+                            : AssetImage("assets/images/backgrounds/image_background.png"),
+                      ),
+                    )
+                )
+                    : SizedBox(),
               ),
               pageState.selectedLocation.documentId != pageState.locations.elementAt(locationIndex).documentId
                   ? Container(
-                      height: _getItemWidthHeight(context),
+                      height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
                       margin:
-                          EdgeInsets.only(left: 64.0, top: 8.0, right: 64.0),
+                          EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.primary_black),
                           borderRadius: new BorderRadius.circular(16.0),
@@ -76,9 +70,9 @@ class JobDetailsLocationListWidget extends StatelessWidget {
                               ])),
                     )
                   : Container(
-                      height: _getItemWidthHeight(context),
+                      height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
                       margin:
-                          EdgeInsets.only(left: 64.0, top: 8.0, right: 64.0),
+                          EdgeInsets.only(top: 8.0),
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.primary_black),
                           borderRadius: new BorderRadius.circular(16.0),
@@ -95,7 +89,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
                               ])),
                     ),
               Container(
-                height: _getItemWidthHeight(context),
+                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
                 width: double.maxFinite,
                 child: GestureDetector(
                   onTap: () async {
@@ -128,12 +122,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
     );
   }
 
-  double _getItemWidthHeight(BuildContext context) {
-    return (MediaQuery.of(context).size.width - 110) / 2.0;
-  }
-
-  FileImage getSavedImage(JobDetailsPageState pageState) {
-    FileImage localImage = FileImage(File(pageState.documentPath + '/' + pageState.locations.elementAt(locationIndex).imagePath));
-    return localImage;
+  double _getItemWidthHeight(BuildContext context){
+    return (MediaQuery.of(context).size.width/2);
   }
 }

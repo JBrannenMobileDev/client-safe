@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
@@ -40,6 +42,7 @@ class SunsetWeatherPageState {
   final Function() onCanceledSelected;
   final Function() onBackPressed;
   final List<Location> locations;
+  final List<File> locationImages;
   final Location selectedLocation;
   final Function(Location) onLocationSelected;
   final Function() onLocationSaved;
@@ -55,6 +58,7 @@ class SunsetWeatherPageState {
   final List<PlacesLocation> locationsResults;
   final Function(PlacesLocation) onSearchLocationSelected;
   final Location selectedSearchLocation;
+  final Function() chooseLocationSelected;
 
   SunsetWeatherPageState({
     @required this.selectedFilterIndex,
@@ -101,6 +105,8 @@ class SunsetWeatherPageState {
     @required this.onSearchLocationSelected,
     @required this.selectedSearchLocation,
     @required this.onThrottleGetLocations,
+    @required this.chooseLocationSelected,
+    @required this.locationImages,
   });
 
   SunsetWeatherPageState copyWith({
@@ -133,6 +139,7 @@ class SunsetWeatherPageState {
     Function() onCanceledSelected,
     Function() onBackPressed,
     List<Location> locations,
+    List<File> locationImages,
     Location selectedLocation,
     Function(Location) onLocationSelected,
     String documentPath,
@@ -148,6 +155,7 @@ class SunsetWeatherPageState {
     Function(PlacesLocation) onSearchLocationSelected,
     Location selectedSearchLocation,
     Function(String) onThrottleGetLocations,
+    Function() chooseLocationSelected,
   }){
     return SunsetWeatherPageState(
       selectedFilterIndex: selectedFilterIndex ?? this.selectedFilterIndex,
@@ -194,6 +202,8 @@ class SunsetWeatherPageState {
       onSearchLocationSelected: onSearchLocationSelected ?? this.onSearchLocationSelected,
       selectedSearchLocation: selectedSearchLocation ?? this.selectedSearchLocation,
       onThrottleGetLocations: onThrottleGetLocations ?? this.onThrottleGetLocations,
+      chooseLocationSelected: chooseLocationSelected ?? this.chooseLocationSelected,
+      locationImages: locationImages ?? this.locationImages,
     );
   }
 
@@ -220,7 +230,7 @@ class SunsetWeatherPageState {
     showFartherThan7DaysError: false,
     isWeatherDataLoading: true,
     isSunsetDataLoading: true,
-    hoursForecast: List(),
+    hoursForecast: [],
     pageViewIndex: 0,
     onNextPressed: null,
     onSaveLocationSelected: null,
@@ -238,10 +248,12 @@ class SunsetWeatherPageState {
     lng: 0.0,
     onSearchInputChanged: null,
     searchText: '',
-    locationsResults: List(),
+    locationsResults: [],
     onSearchLocationSelected: null,
     selectedSearchLocation: null,
     onThrottleGetLocations: null,
+    chooseLocationSelected: null,
+    locationImages: [],
   );
 
   factory SunsetWeatherPageState.fromStore(Store<AppState> store) {
@@ -280,6 +292,7 @@ class SunsetWeatherPageState {
       searchText: store.state.sunsetWeatherPageState.searchText,
       locationsResults: store.state.sunsetWeatherPageState.locationsResults,
       selectedSearchLocation: store.state.sunsetWeatherPageState.selectedSearchLocation,
+      locationImages: store.state.sunsetWeatherPageState.locationImages,
       onSelectorChanged: (index) => store.dispatch(FilterSelectorChangedAction(store.state.sunsetWeatherPageState, index)),
       onFetchCurrentLocation: () => store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState)),
       onDateSelected: (newDate) => store.dispatch(FetchDataForSelectedDateAction(store.state.sunsetWeatherPageState, newDate)),
@@ -293,6 +306,7 @@ class SunsetWeatherPageState {
         store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, searchLocation.description));
       },
       onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.sunsetWeatherPageState, input)),
+      chooseLocationSelected: () => store.dispatch(LoadLocationImageFilesAction(store.state.sunsetWeatherPageState)),
     );
   }
 
@@ -338,6 +352,8 @@ class SunsetWeatherPageState {
     lat.hashCode ^
     lng.hashCode ^
     searchText.hashCode ^
+    chooseLocationSelected.hashCode ^
+    locationImages.hashCode ^
     onSelectorChanged.hashCode
    ;
 
@@ -385,5 +401,7 @@ class SunsetWeatherPageState {
           currentMapLatLng == other.currentMapLatLng &&
           onMapLocationSaved == other.onMapLocationSaved &&
           onMapLocationChanged == other.onMapLocationChanged &&
+          chooseLocationSelected == other.chooseLocationSelected &&
+          locationImages == other.locationImages &&
           onSelectorChanged == other.onSelectorChanged;
 }

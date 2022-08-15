@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 
@@ -9,21 +11,14 @@ class FetchLocationsAction{
 class SetLocationsAction{
   final LocationsPageState pageState;
   final List<Location> locations;
-  final String path;
-  SetLocationsAction(this.pageState, this.locations, this.path);
+  final List<File> imageFiles;
+  SetLocationsAction(this.pageState, this.locations, this.imageFiles);
 }
 
 class DeleteLocationAction{
   final LocationsPageState pageState;
   final Location location;
   DeleteLocationAction(this.pageState, this.location);
-}
-
-class SaveImagePathAction{
-  final LocationsPageState pageState;
-  final String imagePath;
-  final Location location;
-  SaveImagePathAction(this.pageState, this.imagePath, this.location);
 }
 
 class DrivingDirectionsSelected{

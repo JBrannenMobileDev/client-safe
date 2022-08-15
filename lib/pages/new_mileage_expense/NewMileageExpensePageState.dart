@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
@@ -48,6 +50,7 @@ class NewMileageExpensePageState {
   final Function(String) onFilterChanged;
   final Location selectedLocation;
   final List<Location> locations;
+  final List<File> imageFiles;
   final Function(Location) onLocationSelected;
   final String documentPath;
 
@@ -88,6 +91,7 @@ class NewMileageExpensePageState {
     @required this.locations,
     @required this.onLocationSelected,
     @required this.documentPath,
+    @required this.imageFiles,
   });
 
   NewMileageExpensePageState copyWith({
@@ -126,6 +130,7 @@ class NewMileageExpensePageState {
     Function(String) onFilterChanged,
     Location selectedLocation,
     List<Location> locations,
+    List<File> imageFiles,
     Function(Location) onLocationSelected,
     String documentPath,
   }){
@@ -166,6 +171,7 @@ class NewMileageExpensePageState {
       locations: locations ?? this.locations,
       onLocationSelected: onLocationSelected ?? this.onLocationSelected,
       documentPath: documentPath ?? this.documentPath,
+      imageFiles: imageFiles ?? this.imageFiles,
     );
   }
 
@@ -203,7 +209,8 @@ class NewMileageExpensePageState {
     filterType: SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP,
     onFilterChanged: null,
     selectedLocation: null,
-    locations: List(),
+    locations: [],
+    imageFiles: [],
     onLocationSelected: null,
     documentPath: '',
   );
@@ -235,6 +242,7 @@ class NewMileageExpensePageState {
       locations: store.state.newMileageExpensePageState.locations,
       documentPath: store.state.newMileageExpensePageState.documentPath,
       documentId: store.state.newMileageExpensePageState.documentId,
+      imageFiles: store.state.newMileageExpensePageState.imageFiles,
       onSavePressed: () => store.dispatch(SaveMileageExpenseProfileAction(store.state.newMileageExpensePageState)),
       onCancelPressed: () => store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newMileageExpensePageState)),
@@ -289,6 +297,7 @@ class NewMileageExpensePageState {
       selectedLocation.hashCode ^
       locations.hashCode ^
       onLocationSelected.hashCode ^
+      imageFiles.hashCode ^
       onExpenseDateSelected.hashCode;
 
   @override
@@ -329,5 +338,6 @@ class NewMileageExpensePageState {
           lng == other.lng &&
           profile == other.profile &&
           onMapLocationSaved == other.onMapLocationSaved &&
+          imageFiles == other.imageFiles &&
           onExpenseDateSelected == other.onExpenseDateSelected;
 }

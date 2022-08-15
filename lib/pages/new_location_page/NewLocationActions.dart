@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
@@ -72,12 +74,6 @@ class IncrementPageViewIndex{
 class DecrementPageViewIndex{
   final NewLocationPageState pageState;
   DecrementPageViewIndex(this.pageState);
-}
-
-class SetDocumentPathAction{
-  final NewLocationPageState pageState;
-  final String documentPath;
-  SetDocumentPathAction(this.pageState, this.documentPath);
 }
 
 class SaveImagePathNewAction{

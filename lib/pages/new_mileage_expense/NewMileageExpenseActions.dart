@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
@@ -126,7 +128,8 @@ class SetSelectedLocationAction{
 class SetMileageLocationsAction{
   final NewMileageExpensePageState pageState;
   final List<Location> locations;
-  SetMileageLocationsAction(this.pageState, this.locations);
+  final List<File> imageFiles;
+  SetMileageLocationsAction(this.pageState, this.locations, this.imageFiles);
 }
 
 class MileageDocumentPathAction{

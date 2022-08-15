@@ -47,6 +47,7 @@ NewMileageExpensePageState _setSelectedLocation(NewMileageExpensePageState previ
 NewMileageExpensePageState _setLocations(NewMileageExpensePageState previousState, SetMileageLocationsAction action){
   return previousState.copyWith(
     locations: action.locations,
+    imageFiles: action.imageFiles,
   );
 }
 

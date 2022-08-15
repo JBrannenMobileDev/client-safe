@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/CurrentWeather.dart';
@@ -105,6 +107,17 @@ class FetchGoogleLocationsAction{
   final SunsetWeatherPageState pageState;
   final String input;
   FetchGoogleLocationsAction(this.pageState, this.input);
+}
+
+class LoadLocationImageFilesAction{
+  final SunsetWeatherPageState pageState;
+  LoadLocationImageFilesAction(this.pageState);
+}
+
+class SetLocationImageFilesAction {
+  final SunsetWeatherPageState pageState;
+  final List<File> imageFiles;
+  SetLocationImageFilesAction(this.pageState, this.imageFiles);
 }
 
 class SetLocationResultsAction{

@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import 'package:sembast/sembast.dart';
 
 
+import '../../data_layer/repositories/FileStorage.dart';
 import 'NewLocationActions.dart';
 
 class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
@@ -73,8 +74,11 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     location.locationName = action.pageState.locationName;
     location.latitude = action.pageState.newLocationLatitude;
     location.longitude = action.pageState.newLocationLongitude;
-    location.imagePath = action.pageState.imagePath;
-    await LocationDao.insertOrUpdate(location);
+
+    Location locationWithId = await LocationDao.insertOrUpdate(location);
+
+
+    await FileStorage.saveImageFile(action.pageState.imagePath, locationWithId);
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     store.dispatch(jobs.FetchAllClientsAction(store.state.newJobPageState));
@@ -83,6 +87,10 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
     await LocationDao.delete(action.pageState.documentId);
+    Location location = await LocationDao.getById(action.pageState.documentId);
+    if(location != null) {
+      await LocationDao.delete(action.pageState.documentId);
+    }
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

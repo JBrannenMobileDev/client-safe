@@ -6,10 +6,7 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
-
-import '../../models/rest_models/Day.dart';
 import '../../models/rest_models/ForecastDay.dart';
-import 'SunsetWeatherPageState.dart';
 
 final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, FilterSelectorChangedAction>(_updateSelectorIndex),
@@ -25,7 +22,14 @@ final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, SetSelectedSearchLocation>(_setSelectedSearchLocation),
   TypedReducer<SunsetWeatherPageState, SetSearchTextAction>(_setSearchText),
   TypedReducer<SunsetWeatherPageState, SetLocationsAction>(_setLocations),
+  TypedReducer<SunsetWeatherPageState, SetLocationImageFilesAction>(_setLocationImages),
 ]);
+
+SunsetWeatherPageState _setLocationImages(SunsetWeatherPageState previousState, SetLocationImageFilesAction action){
+  return previousState.copyWith(
+    locationImages: action.imageFiles,
+  );
+}
 
 SunsetWeatherPageState _setLocations(SunsetWeatherPageState previousState, SetLocationsAction action){
   return previousState.copyWith(

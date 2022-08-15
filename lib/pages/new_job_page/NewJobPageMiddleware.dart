@@ -22,6 +22,7 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/JobStage.dart';
 import '../../models/Profile.dart';
 import '../../models/ReminderDandyLight.dart';
@@ -90,25 +91,39 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     List<Location> allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();
-    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs));
+    List<File> imageFiles = [];
+
+    for(Location location in allLocations) {
+      imageFiles.add(await FileStorage.getImageFile(location));
+    }
+
+
+    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs, imageFiles));
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(SetDocumentPathAction(store.state.newJobPageState, path));
 
     (await PriceProfileDao.getPriceProfilesStream()).listen((snapshots) async {
-      List<PriceProfile> priceProfilesToUpdate = List();
+      List<PriceProfile> priceProfilesToUpdate = [];
       for(RecordSnapshot clientSnapshot in snapshots) {
         priceProfilesToUpdate.add(PriceProfile.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, priceProfilesToUpdate, allLocations, upcomingJobs));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, priceProfilesToUpdate, allLocations, upcomingJobs, imageFiles));
     });
 
-    (await LocationDao.getLocationsStream()).listen((locationSnapshots) {
-      List<Location> locations = List();
+    (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
+      List<Location> locations = [];
+      List<File> imageFiles = [];
+
       for(RecordSnapshot locationSnapshot in locationSnapshots) {
         locations.add(Location.fromMap(locationSnapshot.value));
       }
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs));
+
+      for(Location location in locations) {
+        imageFiles.add(await FileStorage.getImageFile(location));
+      }
+
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs, imageFiles));
     });
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
@@ -116,7 +131,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, jobs));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, jobs, imageFiles));
     });
   }
 

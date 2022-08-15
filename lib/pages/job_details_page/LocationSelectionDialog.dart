@@ -28,11 +28,10 @@ class _LocationSelectionDialogState
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
-          Dialog(
+          Scaffold(
             backgroundColor: Colors.transparent,
-            child: Container(
+            body: Container(
               padding: EdgeInsets.only(left: 8.0, right: 8.0),
-              height: 550.0,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
@@ -45,12 +44,12 @@ class _LocationSelectionDialogState
                   Padding(
                     padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
                     child: Text(
-                      "Select a location for this job.",
+                      "Select a location for this job",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 22.0,
                         fontFamily: 'simple',
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
                       ),
                     ),
@@ -71,17 +70,21 @@ class _LocationSelectionDialogState
                     ),
                   ),
                   Container(
-                    height: 400.0,
-                    child: ListView.builder(
-                      reverse: false,
-                      padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
-                      shrinkWrap: true,
-                      controller: _controller,
-                      physics: ClampingScrollPhysics(),
-                      key: _listKey,
-                      itemCount: pageState.locations.length,
-                      itemBuilder: _buildItem,
-                    ),
+                    height: (MediaQuery.of(context).size.height) - 221,
+                    child: GridView.builder(
+                        padding: new EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 64.0),
+                        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                            maxCrossAxisExtent: 200,
+                            childAspectRatio: 3 / 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 64),
+                        itemCount: pageState.locations.length,
+                        controller: _controller,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        key: _listKey,
+                        shrinkWrap: true,
+                        reverse: false,
+                        itemBuilder: _buildItem),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 0.0),

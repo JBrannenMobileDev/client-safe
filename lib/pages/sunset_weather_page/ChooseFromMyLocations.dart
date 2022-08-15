@@ -36,7 +36,7 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
     return StoreConnector<AppState, SunsetWeatherPageState>(
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) => Dialog(
-        insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
+        insetPadding: EdgeInsets.only(left: 0.0, right: 0.0),
         backgroundColor: Colors.transparent,
         child: Container(
           decoration: BoxDecoration(
@@ -44,7 +44,6 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
             borderRadius: BorderRadius.circular(16.0),
           ),
           alignment: Alignment.topCenter,
-          margin: EdgeInsets.only(left: 16.0, right: 16.0),
           child: pageState.locations.length > 0
               ? Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -78,21 +77,22 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                   ),
                 ),
               ),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: 65.0,
-                  maxHeight: MediaQuery.of(context).size.height - 208,
-                ),
-                child: ListView.builder(
-                  reverse: false,
-                  padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
-                  shrinkWrap: true,
-                  controller: _controller,
-                  physics: ClampingScrollPhysics(),
-                  key: _listKey,
-                  itemCount: pageState.locations.length,
-                  itemBuilder: _buildItem,
-                ),
+              Container(
+                height: (MediaQuery.of(context).size.height) - 202,
+                child: GridView.builder(
+                    padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 64.0),
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 3 / 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 64),
+                    itemCount: pageState.locations.length,
+                    controller: _controller,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    key: _listKey,
+                    shrinkWrap: true,
+                    reverse: false,
+                    itemBuilder: _buildItem),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 26.0, right: 26.0),
