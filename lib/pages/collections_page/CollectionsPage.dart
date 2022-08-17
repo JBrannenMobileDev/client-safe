@@ -57,15 +57,17 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     padding: EdgeInsets.only(left: 32.0, right: 32.0),
                     child: GridView.builder(
                         shrinkWrap: true,
-                        physics: ClampingScrollPhysics(),
-                        itemCount: 6,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        itemCount: 8,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
                               onCollectionSelected(index);
                             },
-                            child: Column(
+                            child: Opacity(
+                            opacity: index > 3 ? 0.25 : 1.0,
+                            child:Column(
                               children: <Widget>[
                                 Container(
                                   padding: EdgeInsets.all(24.0),
@@ -92,6 +94,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                   ),
                                 ),
                               ],
+                            ),
                             ),
                           );
                         }),
@@ -130,6 +133,12 @@ class _CollectionsPageState extends State<CollectionsPage> {
         break;
       case 5:
         DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryColor()));
+        break;
+      case 6:
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueDark()));
+        break;
+      case 7:
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
         break;
     }
   }

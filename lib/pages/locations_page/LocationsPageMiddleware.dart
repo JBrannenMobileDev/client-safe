@@ -49,6 +49,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   void fetchLocations(Store<AppState> store, NextDispatcher next) async{
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
+    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
 
     for(Location location in locations) {
       imageFiles.add(await FileStorage.getImageFile(location));

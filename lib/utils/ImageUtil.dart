@@ -140,10 +140,11 @@ class ImageUtil{
   }
 
   static List<String> collectionIcons = [
-    // 'assets/images/collection_icons/poses_icon_white.png',
     'assets/images/collection_icons/packages_icon_white.png',
     'assets/images/collection_icons/location_icon_white.png',
     'assets/images/collection_icons/reminder_icon_white.png',
+    'assets/images/icons/briefcase_icon_white.png',
+    'assets/images/collection_icons/poses_icon_white.png',
     'assets/images/collection_icons/contract_icon_white.png',
     'assets/images/collection_icons/checklist_icon_white.png',
     'assets/images/collection_icons/questionaire_icon_white.png',
@@ -283,6 +284,9 @@ class ImageUtil{
   static String getCollectionIconName(String fileLocation){
     String iconName = '';
     switch(fileLocation){
+      case 'assets/images/icons/briefcase_icon_white.png':
+        iconName = 'Job Types';
+        break;
       case 'assets/images/collection_icons/poses_icon_white.png':
         iconName = 'Poses';
         break;
