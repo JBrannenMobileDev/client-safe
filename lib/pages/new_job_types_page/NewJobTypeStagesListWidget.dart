@@ -34,7 +34,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
           Row(
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
+              margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 38.0,
               width: 38.0,
               decoration: BoxDecoration(
@@ -69,7 +69,7 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
+              margin: EdgeInsets.only(left: 8.0, right: 8.0, top: 2.0, bottom: 2.0),
               child: Checkbox(
                   checkColor: Colors.white,
                   fillColor: MaterialStateProperty.resolveWith(getColor),

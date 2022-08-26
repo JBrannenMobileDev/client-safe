@@ -58,7 +58,7 @@ class JobType {
     return JobType(
       documentId: map['documentId'],
       title: map['title'],
-      createdDate: map['createdDate'],
+      createdDate: map['createdDate'], parse DateTime correctly.
       flatRate: map['flatRate'],
       stages: convertMapsToJobStages(map['stages']),
       reminders: convertMapsToReminders(map['reminders']),

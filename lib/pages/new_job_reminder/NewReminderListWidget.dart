@@ -1,5 +1,3 @@
-import 'package:dandylight/models/Invoice.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';

@@ -15,6 +15,7 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'JobTypeNameSelectionWidget.dart';
 import 'PriceSelection.dart';
+import 'ReminderSelectionWidget.dart';
 
 class NewJobTypePage extends StatefulWidget {
   final JobType jobType;
@@ -107,7 +108,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                         alignment: Alignment.center,
                         children: <Widget>[
                           Text(
-                            pageState.shouldClear ? "New JobType" : "Edit JobType",
+                            pageState.shouldClear ? "New Job Type" : "Edit Job Type",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 26.0,
@@ -156,7 +157,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                         JobTypeNameSelectionWidget(jobType),
                         PriceSelection(),
                         JobStageSelectionForm(),
-                        // RemindersSelectionWidget(reminder),
+                        ReminderSelectionWidget(),
                       ],
                     ),
                   ),
@@ -341,7 +342,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
       case 2:
         return 550.0;
       case 3:
-        return 150.0;
+        return 550.0;
     }
     return 300.0;
   }
