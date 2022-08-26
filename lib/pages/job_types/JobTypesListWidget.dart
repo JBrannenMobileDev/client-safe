@@ -1,19 +1,19 @@
-import 'package:dandylight/models/Invoice.dart';
-import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-class PriceProfileListWidget extends StatelessWidget {
-  final PriceProfile priceProfile;
-  var pageState;
-  final Function onProfileSelected;
+import '../../models/JobType.dart';
+import '../../models/PriceProfile.dart';
+
+class JobTypesListWidget extends StatelessWidget {
+  final JobType jobType;
+  final pageState;
+  final Function onJobTypeSelected;
   final Color backgroundColor;
   final Color textColor;
 
-  PriceProfileListWidget(this.priceProfile, this.pageState, this.onProfileSelected, this.backgroundColor, this.textColor);
+  JobTypesListWidget(this.jobType, this.pageState, this.onJobTypeSelected, this.backgroundColor, this.textColor);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class PriceProfileListWidget extends StatelessWidget {
           ),
         ),
         onPressed: () {
-          onProfileSelected(priceProfile, pageState, context);
+          onJobTypeSelected(jobType, pageState, context);
         },
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,7 +47,7 @@ class PriceProfileListWidget extends StatelessWidget {
                         width: 36.0,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage(priceProfile.icon),
+                            image: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png').image,
                             fit: BoxFit.contain,
                           ),
                           color: Colors.transparent,
@@ -58,7 +58,7 @@ class PriceProfileListWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            priceProfile.profileName,
+                            jobType.title,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 22.0,
@@ -69,10 +69,10 @@ class PriceProfileListWidget extends StatelessWidget {
                           ),
                           Container(
                             child: Text(
-                              priceProfile.rateType + ' - ' + PriceProfile.getRate(priceProfile),
+                              'Flat Rate - ' + '\$' + pageState.flatRate.toInt().toString(),
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w400,
                                 color: textColor,

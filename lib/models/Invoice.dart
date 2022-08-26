@@ -4,7 +4,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 class Invoice {
   static const String RATE_TYPE_FLAT_RATE = "Flat rate";
   static const String RATE_TYPE_HOURLY = "Hourly";
-  static const String RATE_TYPE_QUANTITY = "Quantity";
+  static const String RATE_TYPE_QUANTITY = "Quantity"; // needs to be removed
   static const String DISCOUNT_TYPE_FIXED_AMOUNT = "Fixed amount";
   static const String DISCOUNT_TYPE_PERCENTAGE = "Percentage";
 

@@ -2,17 +2,6 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/new_job_page/ClientSelectionForm.dart';
-import 'package:dandylight/pages/new_job_page/DateForm.dart';
-import 'package:dandylight/pages/new_job_page/DepositSelectionForm.dart';
-import 'package:dandylight/pages/new_job_page/JobNameForm.dart';
-import 'package:dandylight/pages/new_job_page/JobStageSelectionForm.dart';
-import 'package:dandylight/pages/new_job_page/JobTypeSelection.dart';
-import 'package:dandylight/pages/new_job_page/LocationSelectionForm.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/PricingProfileSelectionForm.dart';
-import 'package:dandylight/pages/new_job_page/TimeSelectionForm.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_job_reminder/ReminderSelectionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';

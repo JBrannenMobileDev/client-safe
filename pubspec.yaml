@@ -167,6 +167,7 @@ flutter:
     - assets/images/icons/trash_icon_gold.png
     - assets/images/icons/trash_icon_blue.png
     - assets/images/icons/invoices_icon_white.png
+    - assets/images/icons/drag_item_icon.png
     - assets/images/icons/pdf_icon_white.png
     - assets/images/icons/invoices_icon_peach.png
     - assets/images/icons/sunny_icon_gold.png

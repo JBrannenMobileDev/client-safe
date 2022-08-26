@@ -178,6 +178,9 @@ class NewPricingProfilePageState {
       rateType.hashCode ^
       flatRate.hashCode ^
       hourlyRate.hashCode ^
+      onFilterChanged.hashCode ^
+      onFlatRateTextChanged.hashCode ^
+      onHourlyRateTextChanged.hashCode ^
       itemRate.hashCode ;
 
   @override

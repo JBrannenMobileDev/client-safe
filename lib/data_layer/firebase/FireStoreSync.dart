@@ -26,6 +26,9 @@ import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
+import '../../models/JobType.dart';
+import '../local_db/daos/JobTypeDao.dart';
+
 class FireStoreSync {
     
     Future<void> dandyLightAppInitializationSync(String uid) async {
@@ -46,6 +49,7 @@ class FireStoreSync {
                     await _syncProfile(userLocalDb, userFireStoreDb);
                     await _syncReminders(userLocalDb, userFireStoreDb);
                     await _syncJobReminders(userLocalDb, userFireStoreDb);
+                    await _syncJobTypes(userLocalDb, userFireStoreDb);
                 }
         }
         setupFireStoreListeners();
@@ -212,6 +216,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        JobTypeDao.getJobTypeStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                JobType jobType = JobType.fromMap(snapshot.doc.data());
+                JobType jobTypeFromLocal = await JobTypeDao.getJobTypeById(jobType.documentId);
+                if(jobTypeFromLocal != null) {
+                    JobTypeDao.updateLocalOnly(jobType);
+                }else {
+                    JobTypeDao.insertLocalOnly(jobType);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -341,6 +358,18 @@ class FireStoreSync {
             if(userLocalDb.jobReminderLastChangeDate != null && userFireStoreDb.jobReminderLastChangeDate != null){
                 if(userLocalDb.jobReminderLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobReminderLastChangeDate.millisecondsSinceEpoch) {
                     await JobReminderDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncJobTypes(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.jobTypesLastChangeDate != userFireStoreDb.jobTypesLastChangeDate) || (userLocalDb.jobTypesLastChangeDate == null && userFireStoreDb.jobTypesLastChangeDate != null)) {
+            if(userLocalDb.jobTypesLastChangeDate != null && userFireStoreDb.jobTypesLastChangeDate != null){
+                if(userLocalDb.jobTypesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobTypesLastChangeDate.millisecondsSinceEpoch) {
+                    await JobTypeDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }

@@ -213,13 +213,13 @@ class ImageUtil{
       case 'assets/images/job_progress/feedback_requested.png':
         return 'Feedback requested';
       case 'assets/images/job_progress/feedback_received.png':
-        return 'Job Complete';
+        return 'Feedback Received';
       case 'assets/images/job_progress/payment_received.png':
         return 'Payment received';
       case 'assets/images/job_progress/deposit_received.png':
         return 'Deposit received';
       case 'assets/images/job_progress/job_complete.png':
-        return 'Job complete';
+        return 'Job Complete';
     }
     return'';
   }

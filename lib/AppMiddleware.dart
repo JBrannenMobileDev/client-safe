@@ -30,6 +30,8 @@ import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as newJobP
 import 'package:dandylight/pages/new_job_page/NewJobPageMiddleware.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageMiddleware.dart';
+import 'package:dandylight/pages/new_job_types_page/NewJobTypeActions.dart';
+import 'package:dandylight/pages/new_job_types_page/NewJobTypePageMiddleware.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart' as prefix2;
 import 'package:dandylight/pages/new_location_page/NewLocationPageMiddleware.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageMiddleware.dart';
@@ -162,5 +164,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobReminderAction>(NewJobReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllRemindersAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchNewJobDeviceEvents>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNewJobTypeAction>(NewJobTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewJobTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewJobTypePageMiddleware()));
   return middlewareList;
 }

@@ -26,6 +26,7 @@ class Profile{
   DateTime profileLastChangeDate;
   DateTime remindersLastChangeDate;
   DateTime jobReminderLastChangeDate;
+  DateTime jobTypesLastChangeDate;
 
   Profile({
     this.id,
@@ -54,6 +55,7 @@ class Profile{
     this.profileLastChangeDate,
     this.remindersLastChangeDate,
     this.jobReminderLastChangeDate,
+    this.jobTypesLastChangeDate,
   });
 
   Profile copyWith({
@@ -83,6 +85,7 @@ class Profile{
     DateTime profileLastChangeDate,
     DateTime remindersLastChangeDate,
     DateTime jobReminderLastChangeDate,
+    DateTime jobTypesLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -111,6 +114,7 @@ class Profile{
       profileLastChangeDate: profileLastChangeDate ?? this.profileLastChangeDate,
       remindersLastChangeDate: remindersLastChangeDate ?? this.remindersLastChangeDate,
       jobReminderLastChangeDate: jobReminderLastChangeDate ?? this.jobReminderLastChangeDate,
+      jobTypesLastChangeDate: jobTypesLastChangeDate ?? this.jobTypesLastChangeDate,
     );
   }
 
@@ -173,6 +177,7 @@ class Profile{
       profileLastChangeDate: map['profileLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['profileLastChangeDate']) : null,
       remindersLastChangeDate: map['remindersLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['remindersLastChangeDate']) : null,
       jobReminderLastChangeDate: map['jobReminderLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['jobReminderLastChangeDate']) : null,
+      jobTypesLastChangeDate: map['jobTypesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['jobTypesLastChangeDate']) : null,
     );
   }
 
@@ -187,7 +192,7 @@ class Profile{
 
   bool addUniqueDeviceToken(String deviceToken) {
     bool alreadyExists = false;
-    if(deviceTokens == null) deviceTokens = List();
+    if(deviceTokens == null) deviceTokens = [];
     deviceTokens = deviceTokens.toList();
     for(String listToken in deviceTokens) {
       if(listToken == deviceToken) alreadyExists = true;

@@ -45,7 +45,6 @@ class DandyLightTextField extends StatelessWidget {
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           height: height,
           child: TextFormField(
-            cursorColor: Color(ColorConstants.getPrimaryColor()),
             enabled: enabled,
             focusNode: focusNode,
             textInputAction: keyboardAction,
@@ -62,13 +61,6 @@ class DandyLightTextField extends StatelessWidget {
               labelText: labelText,
               hintText: hintText,
               fillColor: Colors.white,
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
-                borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
-                  width: 1.0,
-                ),
-              ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
@@ -97,7 +89,7 @@ class DandyLightTextField extends StatelessWidget {
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
                 fontFamily: 'simple',
-                fontSize: 24.0,
+                fontSize: 20.0,
                 fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.getPrimaryBlack())),
           )

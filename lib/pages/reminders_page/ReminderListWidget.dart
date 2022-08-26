@@ -43,9 +43,9 @@ class ReminderListWidget extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 16.0),
-                        height: 48.0,
-                        width: 48.0,
+                        margin: EdgeInsets.only(right: 16.0, left: 4.0),
+                        height: 36.0,
+                        width: 36.0,
                         decoration: BoxDecoration(
                           image: DecorationImage(
                             image: Image.asset('assets/images/icons/reminder_icon_blue_light.png').image,

@@ -14,7 +14,7 @@ class JobStage {
   static const String STAGE_11_GALLERY_SENT = "Gallery Sent";
   static const String STAGE_12_FEEDBACK_REQUESTED = "Feedback Requested";
   static const String STAGE_13_FEEDBACK_RECEIVED = "Feedback Received";
-  static const String STAGE_14_JOB_COMPLETE = "Job complete";
+  static const String STAGE_14_JOB_COMPLETE = "Job Complete";
   static const String STAGE_COMPLETED_CHECK = "Completed";
 
   Map<String, dynamic> toMap() {
@@ -22,6 +22,7 @@ class JobStage {
       'id' : id,
       'stage' : stage,
       'value' : value,
+      'imageLocation' : imageLocation,
     };
   }
 
@@ -30,14 +31,16 @@ class JobStage {
       id: map['id'],
       stage: map['stage'],
       value: map['value'],
+      imageLocation: map['imageLocation'],
     );
   }
 
-  JobStage({this.id, this.stage, this.value});
+  JobStage({this.id, this.stage, this.value, this.imageLocation});
 
   int id;
   String stage;
   int value;
+  String imageLocation;
 
   AssetImage getStageImage() {
     String imageLocation = 'assets/images/job_progress/inquiry_received.png';
@@ -193,6 +196,55 @@ class JobStage {
         break;
     }
     return AssetImage(imageLocation);
+  }
+
+  static String getImageLocation(String stage) {
+    String imageLocation = 'assets/images/job_progress/inquiry_received.png';
+    switch(stage) {
+      case STAGE_1_INQUIRY_RECEIVED:
+        imageLocation = 'assets/images/job_progress/inquiry_received.png';
+        break;
+      case STAGE_2_FOLLOWUP_SENT:
+        imageLocation = 'assets/images/job_progress/followup_sent.png';
+        break;
+      case STAGE_3_PROPOSAL_SENT:
+        imageLocation = 'assets/images/job_progress/proposal_sent.png';
+        break;
+      case STAGE_4_PROPOSAL_SIGNED:
+        imageLocation = 'assets/images/job_progress/proposal_signed.png';
+        break;
+      case STAGE_5_DEPOSIT_RECEIVED:
+        imageLocation = 'assets/images/job_progress/deposit_received.png';
+        break;
+      case STAGE_6_PLANNING_COMPLETE:
+        imageLocation = 'assets/images/job_progress/planning_complete.png';
+        break;
+      case STAGE_7_SESSION_COMPLETE:
+        imageLocation = 'assets/images/job_progress/session_complete.png';
+        break;
+      case STAGE_8_PAYMENT_REQUESTED:
+        imageLocation = 'assets/images/job_progress/payment_requested.png';
+        break;
+      case STAGE_9_PAYMENT_RECEIVED:
+        imageLocation = 'assets/images/job_progress/payment_received.png';
+        break;
+      case STAGE_10_EDITING_COMPLETE:
+        imageLocation = 'assets/images/job_progress/editing_complete.png';
+        break;
+      case STAGE_11_GALLERY_SENT:
+        imageLocation = 'assets/images/job_progress/gallery_sent.png';
+        break;
+      case STAGE_12_FEEDBACK_REQUESTED:
+        imageLocation = 'assets/images/job_progress/feedback_requested.png';
+        break;
+      case STAGE_13_FEEDBACK_RECEIVED:
+        imageLocation = 'assets/images/job_progress/feedback_received.png';
+        break;
+      case STAGE_14_JOB_COMPLETE:
+        imageLocation = 'assets/images/job_progress/job_complete.png';
+        break;
+    }
+    return imageLocation;
   }
 
   static int getStageValue(String stage){
@@ -368,8 +420,6 @@ class JobStage {
         return 'Receive feedback';
       case 14:
         return 'Job complete';
-      case 15:
-        return 'Job complete';
     }
     return '';
   }
@@ -476,5 +526,24 @@ class JobStage {
         break;
     }
     return JobStage(stage: STAGE_1_INQUIRY_RECEIVED, value: JobStage.getStageValue(STAGE_1_INQUIRY_RECEIVED));
+  }
+
+  static List<JobStage> AllStages() {
+    List<JobStage> allStages = [];
+    allStages.add(JobStage(id: 1, stage: STAGE_1_INQUIRY_RECEIVED, value: 1, imageLocation: getImageLocation(STAGE_1_INQUIRY_RECEIVED)));
+    allStages.add(JobStage(id: 2, stage: STAGE_2_FOLLOWUP_SENT, value: 2, imageLocation: getImageLocation(STAGE_2_FOLLOWUP_SENT)));
+    allStages.add(JobStage(id: 3, stage: STAGE_3_PROPOSAL_SENT, value: 3, imageLocation: getImageLocation(STAGE_3_PROPOSAL_SENT)));
+    allStages.add(JobStage(id: 4, stage: STAGE_4_PROPOSAL_SIGNED, value: 4, imageLocation: getImageLocation(STAGE_4_PROPOSAL_SIGNED)));
+    allStages.add(JobStage(id: 5, stage: STAGE_5_DEPOSIT_RECEIVED, value: 5, imageLocation: getImageLocation(STAGE_5_DEPOSIT_RECEIVED)));
+    allStages.add(JobStage(id: 6, stage: STAGE_6_PLANNING_COMPLETE, value: 6, imageLocation: getImageLocation(STAGE_6_PLANNING_COMPLETE)));
+    allStages.add(JobStage(id: 7, stage: STAGE_7_SESSION_COMPLETE, value: 7, imageLocation: getImageLocation(STAGE_7_SESSION_COMPLETE)));
+    allStages.add(JobStage(id: 8, stage: STAGE_8_PAYMENT_REQUESTED, value: 8, imageLocation: getImageLocation(STAGE_8_PAYMENT_REQUESTED)));
+    allStages.add(JobStage(id: 9, stage: STAGE_9_PAYMENT_RECEIVED, value: 9, imageLocation: getImageLocation(STAGE_9_PAYMENT_RECEIVED)));
+    allStages.add(JobStage(id: 10, stage: STAGE_10_EDITING_COMPLETE, value: 10, imageLocation: getImageLocation(STAGE_10_EDITING_COMPLETE)));
+    allStages.add(JobStage(id: 11, stage: STAGE_11_GALLERY_SENT, value: 11, imageLocation: getImageLocation(STAGE_11_GALLERY_SENT)));
+    allStages.add(JobStage(id: 12, stage: STAGE_12_FEEDBACK_REQUESTED, value: 12, imageLocation: getImageLocation(STAGE_12_FEEDBACK_REQUESTED)));
+    allStages.add(JobStage(id: 13, stage: STAGE_13_FEEDBACK_RECEIVED, value: 13, imageLocation: getImageLocation(STAGE_13_FEEDBACK_RECEIVED)));
+    allStages.add(JobStage(id: 14, stage: STAGE_14_JOB_COMPLETE, value: 14, imageLocation: getImageLocation(STAGE_14_JOB_COMPLETE)));
+    return allStages;
   }
 }

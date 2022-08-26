@@ -37,7 +37,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
+import '../models/JobType.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
+import '../pages/new_job_types_page/NewJobTypePage.dart';
 import 'ColorConstants.dart';
 
 class UserOptionsUtil {
@@ -74,6 +76,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewReminderPage(reminder);
+      },
+    );
+  }
+
+  static void showNewJobTypePage(BuildContext context, JobType jobType){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewJobTypePage(jobType);
       },
     );
   }

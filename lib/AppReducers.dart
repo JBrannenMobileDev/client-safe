@@ -16,6 +16,7 @@ import 'package:dandylight/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageReducer.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageReducer.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobRemnderPageReducer.dart';
+import 'package:dandylight/pages/new_job_types_page/NewJobTypePageReducer.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageReducer.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageReducer.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
@@ -24,6 +25,7 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderPageReducer.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
+import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
 import 'package:dandylight/pages/search_page/SearchPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 
@@ -56,4 +58,6 @@ AppState appReducers(AppState state, dynamic action) =>
         remindersPageState: remindersReducer(state.remindersPageState, action),
         newReminderPageState: newReminderPageReducer(state.newReminderPageState, action),
         newJobReminderPageState: newJobReminderPageReducer(state.newJobReminderPageState, action),
+        jobTypesPageState: jobTypesPageReducer(state.jobTypesPageState, action),
+        newJobTypePageState: newJobTypePageReducer(state.newJobTypePageState, action),
     );

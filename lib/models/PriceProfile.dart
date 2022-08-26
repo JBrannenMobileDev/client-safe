@@ -44,4 +44,20 @@ class PriceProfile{
       icon: map['icon'],
     );
   }
+
+  static String getRate(PriceProfile priceProfile) {
+    String rateString = '';
+    switch(priceProfile.rateType){
+      case Invoice.RATE_TYPE_FLAT_RATE:
+        rateString = '\$' + priceProfile.flatRate.toInt().toString();
+        break;
+      case Invoice.RATE_TYPE_HOURLY:
+        rateString = '\$' + priceProfile.hourlyRate.toInt().toString() + '/hr';
+        break;
+      case Invoice.RATE_TYPE_QUANTITY:
+        rateString = '\$' + priceProfile.itemRate.toInt().toString() + '/item';
+        break;
+    }
+    return rateString;
+  }
 }
