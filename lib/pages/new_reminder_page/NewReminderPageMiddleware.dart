@@ -28,7 +28,6 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
       daysWeeksMonths: store.state.newReminderPageState.daysWeeksMonths,
       when: store.state.newReminderPageState.when,
       amount: store.state.newReminderPageState.daysWeeksMonthsAmount,
-      isDefault: store.state.newReminderPageState.isDefault,
       time: store.state.newReminderPageState.selectedTime,
     );
     await ReminderDao.insertOrUpdate(reminder);

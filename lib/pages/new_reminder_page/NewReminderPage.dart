@@ -14,7 +14,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'MakeDefaultSelectionWidget.dart';
 import 'ReminderDescriptionWidget.dart';
 import 'TimeSelectionWidget.dart';
 import 'WhenSelectionWidget.dart';
@@ -32,7 +31,7 @@ class NewReminderPage extends StatefulWidget {
 
 class _NewReminderPageState extends State<NewReminderPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount = 3;
+  final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
@@ -158,7 +157,6 @@ class _NewReminderPageState extends State<NewReminderPage> {
                         ReminderDescriptionWidget(reminder),
                         WhenSelectionWidget(reminder),
                         TimeSelectionWidget(reminder),
-                        MakeDefaultSelectionWidget(reminder),
                       ],
                     ),
                   ),
@@ -207,7 +205,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
                               onNextPressed(pageState);
                             },
                             child: Text(
-                              currentPageIndex == 3 ? 'Save' : 'Next',
+                              currentPageIndex == 2 ? 'Save' : 'Next',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,

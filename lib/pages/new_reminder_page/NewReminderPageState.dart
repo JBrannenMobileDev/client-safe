@@ -20,7 +20,6 @@ class NewReminderPageState {
   final String daysWeeksMonths;
   final int daysWeeksMonthsAmount;
   final DateTime selectedTime;
-  final bool isDefault;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onDeleteReminderSelected;
@@ -28,7 +27,6 @@ class NewReminderPageState {
   final Function(String) onReminderDescriptionChanged;
   final Function(String) onDaysWeeksMonthsChanged;
   final Function(int) onDaysWeeksMonthsAmountChanged;
-  final Function(bool) onDefaultSelectionChanged;
   final Function(DateTime) onTimeSelected;
 
   NewReminderPageState({
@@ -47,10 +45,8 @@ class NewReminderPageState {
     @required this.onReminderDescriptionChanged,
     @required this.onDaysWeeksMonthsChanged,
     @required this.onDaysWeeksMonthsAmountChanged,
-    @required this.onDefaultSelectionChanged,
     @required this.onTimeSelected,
     @required this.selectedTime,
-    @required this.isDefault,
 });
 
   NewReminderPageState copyWith({
@@ -63,7 +59,6 @@ class NewReminderPageState {
     String daysWeeksMonths,
     int daysWeeksMonthsAmount,
     DateTime selectedTime,
-    bool isDefault,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onDeleteReminderSelected,
@@ -71,7 +66,6 @@ class NewReminderPageState {
     Function(String) onReminderDescriptionChanged,
     Function(String) onDaysWeeksMonthsChanged,
     Function(int) onDaysWeeksMonthsAmountChanged,
-    Function(bool) onDefaultSelectionChanged,
     Function(DateTime) onTimeSelected,
   }){
     return NewReminderPageState(
@@ -90,10 +84,8 @@ class NewReminderPageState {
       onReminderDescriptionChanged: onReminderDescriptionChanged ?? this.onReminderDescriptionChanged,
       onDaysWeeksMonthsChanged: onDaysWeeksMonthsChanged ?? this.onDaysWeeksMonthsChanged,
       onDaysWeeksMonthsAmountChanged: onDaysWeeksMonthsAmountChanged ?? this.onDaysWeeksMonthsAmountChanged,
-      onDefaultSelectionChanged: onDefaultSelectionChanged ?? this.onDefaultSelectionChanged,
       onTimeSelected: onTimeSelected ?? this.onTimeSelected,
       selectedTime: selectedTime ?? this.selectedTime,
-      isDefault: isDefault ?? this.isDefault,
     );
   }
 
@@ -113,10 +105,8 @@ class NewReminderPageState {
         onDaysWeeksMonthsChanged: null,
         onDaysWeeksMonthsAmountChanged: null,
         when: WhenSelectionWidget.BEFORE,
-        onDefaultSelectionChanged: null,
         onTimeSelected: null,
         selectedTime: null,
-        isDefault: false,
       );
 
   factory NewReminderPageState.fromStore(Store<AppState> store) {
@@ -130,7 +120,6 @@ class NewReminderPageState {
       daysWeeksMonths: store.state.newReminderPageState.daysWeeksMonths,
       daysWeeksMonthsAmount: store.state.newReminderPageState.daysWeeksMonthsAmount,
       selectedTime: store.state.newReminderPageState.selectedTime,
-      isDefault: store.state.newReminderPageState.isDefault,
       onSavePressed: () => store.dispatch(SaveNewReminderAction(store.state.newReminderPageState)),
       onCancelPressed: () => store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState)),
       onDeleteReminderSelected: () => store.dispatch(DeleteReminderAction(store.state.newReminderPageState)),
@@ -138,7 +127,6 @@ class NewReminderPageState {
       onReminderDescriptionChanged: (description) => store.dispatch(UpdateDescription(store.state.newReminderPageState, description)),
       onDaysWeeksMonthsChanged: (selection) => store.dispatch(UpdateDaysWeeksMonthsAction(store.state.newReminderPageState, selection)),
       onDaysWeeksMonthsAmountChanged: (amount) => store.dispatch(UpdateDaysWeeksMonthsAmountAction(store.state.newReminderPageState, amount)),
-      onDefaultSelectionChanged: (isDefault) => store.dispatch(SetIsDefaultAction(store.state.newReminderPageState, isDefault)),
       onTimeSelected: (dateTime) => store.dispatch(SetSelectedTimeAction(store.state.newReminderPageState, dateTime)),
     );
   }
@@ -160,10 +148,8 @@ class NewReminderPageState {
       onDaysWeeksMonthsAmountChanged.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
-      onDefaultSelectionChanged.hashCode ^
       onTimeSelected.hashCode ^
-      selectedTime.hashCode ^
-      isDefault.hashCode;
+      selectedTime.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -184,8 +170,6 @@ class NewReminderPageState {
           onDaysWeeksMonthsChanged == other.onDaysWeeksMonthsChanged &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
-          onDefaultSelectionChanged == other.onDefaultSelectionChanged &&
           onTimeSelected == other.onTimeSelected &&
-          selectedTime == other.selectedTime &&
-          isDefault == other.isDefault;
+          selectedTime == other.selectedTime;
 }

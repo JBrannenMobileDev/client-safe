@@ -10,14 +10,7 @@ final newReminderPageReducer = combineReducers<NewReminderPageState>([
   TypedReducer<NewReminderPageState, UpdateDaysWeeksMonthsAmountAction>(_updateDaysWeeksMonthsAmount),
   TypedReducer<NewReminderPageState, LoadExistingReminderData>(_loadExistingReminder),
   TypedReducer<NewReminderPageState, SetSelectedTimeAction>(_setSelectedTime),
-  TypedReducer<NewReminderPageState, SetIsDefaultAction>(_setIsDefault),
 ]);
-
-NewReminderPageState _setIsDefault(NewReminderPageState previousState, SetIsDefaultAction action) {
-  return previousState.copyWith(
-    isDefault: action.isDefault,
-  );
-}
 
 NewReminderPageState _setSelectedTime(NewReminderPageState previousState, SetSelectedTimeAction action) {
   return previousState.copyWith(

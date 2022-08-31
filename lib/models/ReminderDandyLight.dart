@@ -5,7 +5,6 @@ class ReminderDandyLight {
   String when;
   String daysWeeksMonths;
   int amount;
-  bool isDefault;
   DateTime time;
 
 
@@ -37,7 +36,6 @@ class ReminderDandyLight {
     this.when,
     this.daysWeeksMonths,
     this.amount,
-    this.isDefault,
     this.time
   });
 
@@ -48,7 +46,6 @@ class ReminderDandyLight {
       'when' : when,
       'daysWeeksMonths' : daysWeeksMonths,
       'amount' : amount,
-      'isDefault' : isDefault,
       'time' : time.toString(),
     };
   }
@@ -60,7 +57,6 @@ class ReminderDandyLight {
       when: map['when'],
       daysWeeksMonths: map['daysWeeksMonths'],
       amount: map['amount'],
-      isDefault: map['isDefault'],
       time: DateTime.parse((map['time'] != null ? map['time'] : DateTime.utc(1999).toString())),
     );
   }
