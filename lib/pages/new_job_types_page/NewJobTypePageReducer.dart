@@ -11,29 +11,29 @@ final newJobTypePageReducer = combineReducers<NewJobTypePageState>([
   TypedReducer<NewJobTypePageState, UpdateSelectedReminderListAction>(_setSelectedReminder),
   TypedReducer<NewJobTypePageState, SetSelectedStagesAction>(_setStageList),
   TypedReducer<NewJobTypePageState, SetAllAction>(_setAll),
-  TypedReducer<NewJobTypePageState, UpdateFlatRateTextAction>(_setFlatRate),
-  TypedReducer<NewJobTypePageState, UpdateCheckAllAction>(_setCheckAllChecked),
+  TypedReducer<NewJobTypePageState, UpdateCheckAllTypesAction>(_setCheckAllTypesChecked),
+  TypedReducer<NewJobTypePageState, UpdateCheckAllRemindersAction>(_setCheckAllRemindersChecked),
 ]);
 
-NewJobTypePageState _setFlatRate(NewJobTypePageState previousState, UpdateFlatRateTextAction action) {
-  String resultCost = action.flatRateText.replaceAll('\$', '');
-  resultCost = resultCost.replaceAll(',', '');
-  resultCost = resultCost.replaceAll(' ', '');
-  double doubleCost = double.parse(resultCost);
-  doubleCost = doubleCost * 10;
-  return previousState.copyWith(
-    flatRate: doubleCost,
-  );
-}
-
-NewJobTypePageState _setCheckAllChecked(NewJobTypePageState previousState, UpdateCheckAllAction action) {
+NewJobTypePageState _setCheckAllTypesChecked(NewJobTypePageState previousState, UpdateCheckAllTypesAction action) {
   List<JobStage> selectedJobStagesNew = [];
   if(action.isChecked) {
     selectedJobStagesNew.addAll(previousState.allJobStages);
   }
   return previousState.copyWith(
-    checkAll: action.isChecked,
+    checkAllTypes: action.isChecked,
     selectedJobStages: selectedJobStagesNew,
+  );
+}
+
+NewJobTypePageState _setCheckAllRemindersChecked(NewJobTypePageState previousState, UpdateCheckAllRemindersAction action) {
+  List<ReminderDandyLight> selectedRemindersNew = [];
+  if(action.isChecked) {
+    selectedRemindersNew.addAll(previousState.allDandyLightReminders);
+  }
+  return previousState.copyWith(
+    checkAllReminders: action.isChecked,
+    selectedReminders: selectedRemindersNew,
   );
 }
 
@@ -56,23 +56,26 @@ NewJobTypePageState _setStageList(NewJobTypePageState previousState, SetSelected
 }
 
 NewJobTypePageState _setSelectedReminder(NewJobTypePageState previousState, UpdateSelectedReminderListAction action) {
-  List<ReminderDandyLight> reminders = previousState.selectedReminders;
-  if(!reminders.contains(action.selectedReminder)) {
-    reminders.add(action.selectedReminder);
+  if(action.isChecked) {
+    previousState.selectedReminders.add(previousState.allDandyLightReminders.elementAt(action.reminderStageIndex));
+  } else {
+    previousState.selectedReminders.removeWhere((reminder) => reminder.documentId == previousState.allDandyLightReminders.elementAt(action.reminderStageIndex).documentId);
   }
+
   return previousState.copyWith(
-    selectedReminders: reminders,
+    selectedReminders: previousState.selectedReminders,
   );
 }
 
 NewJobTypePageState _loadExistingJobType(NewJobTypePageState previousState, LoadExistingJobTypeData action){
+
   return previousState.copyWith(
     id: action.jobType.id,
     documentId: action.jobType.documentId,
     title: action.jobType.title,
-    flatRate: action.jobType.flatRate.toDouble(),
     selectedJobStages: action.jobType.stages,
     selectedReminders: action.jobType.reminders,
+    shouldClear: false,
   );
 }
 

@@ -24,6 +24,7 @@ class NewJobClientListWidget extends StatelessWidget {
             ),
         onPressed: () {
           pageState.onClientSelected(pageState.filteredClients.elementAt(clientIndex));
+          FocusManager.instance.primaryFocus?.unfocus();
         },
         child: Row(
           children: <Widget>[

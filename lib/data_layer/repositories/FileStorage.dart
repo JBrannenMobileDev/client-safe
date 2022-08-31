@@ -37,8 +37,10 @@ class FileStorage {
   }
 
   static _deleteFromCloud(Location location) async {
-    final storageRef = FirebaseStorage.instance.ref();
-    await storageRef.child(_buildImagePath(location)).delete();
+    if(location != null) {
+      final storageRef = FirebaseStorage.instance.ref();
+      await storageRef.child(_buildImagePath(location)).delete();
+    }
   }
 
   static _uploadImageFile(String imagePath, Location location) async {

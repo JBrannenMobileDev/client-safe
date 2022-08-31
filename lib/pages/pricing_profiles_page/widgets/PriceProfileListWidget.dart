@@ -5,6 +5,7 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class PriceProfileListWidget extends StatelessWidget {
   final PriceProfile priceProfile;
@@ -69,7 +70,7 @@ class PriceProfileListWidget extends StatelessWidget {
                           ),
                           Container(
                             child: Text(
-                              priceProfile.rateType + ' - ' + PriceProfile.getRate(priceProfile),
+                              'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.flatRate),
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 20.0,

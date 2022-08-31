@@ -62,7 +62,7 @@ class _JobTypeNameSelectionWidgetState extends State<JobTypeNameSelectionWidget>
                         inputType: TextInputType.text,
                         focusNode: null,
                         onFocusAction: null,
-                        height: 64.0,
+                        height: 66.0,
                         onTextInputChanged: pageState.onTitleChanged,
                         keyboardAction: TextInputAction.done,
                         capitalization: TextCapitalization.words,

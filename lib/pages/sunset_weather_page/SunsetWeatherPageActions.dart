@@ -2,17 +2,10 @@ import 'dart:io';
 
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
-import 'package:dandylight/models/rest_models/CurrentWeather.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'SunsetWeatherPageState.dart';
-import 'SunsetWeatherPageState.dart';
-import 'SunsetWeatherPageState.dart';
-import 'SunsetWeatherPageState.dart';
-import 'SunsetWeatherPageState.dart';
-import 'SunsetWeatherPageState.dart';
 
 class FilterSelectorChangedAction{
   final SunsetWeatherPageState pageState;
@@ -20,9 +13,22 @@ class FilterSelectorChangedAction{
   FilterSelectorChangedAction(this.pageState, this.filterIndex);
 }
 
+class LoadInitialLocationAndDateComingFromNewJobAction{
+  final SunsetWeatherPageState pageState;
+  final Location location;
+  final DateTime date;
+  LoadInitialLocationAndDateComingFromNewJobAction(this.pageState, this.location, this.date);
+}
+
 class SetLastKnowPosition{
   final SunsetWeatherPageState pageState;
   SetLastKnowPosition(this.pageState);
+}
+
+class SetComingFromNewJobAction{
+  final SunsetWeatherPageState pageState;
+  final bool isComingFromNewJob;
+  SetComingFromNewJobAction(this.pageState, this.isComingFromNewJob);
 }
 
 class SetLocationNameAction{
@@ -142,6 +148,11 @@ class SetSearchTextAction{
   final SunsetWeatherPageState pageState;
   final String input;
   SetSearchTextAction(this.pageState, this.input);
+}
+
+class ClearPageStateAction{
+  final SunsetWeatherPageState pageState;
+  ClearPageStateAction(this.pageState);
 }
 
 class SetLocationsAction{

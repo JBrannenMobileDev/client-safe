@@ -182,7 +182,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     selectedLocation: newLocation,
     documents: documents,
     invoice: action.job.invoice,
-    jobTypeIcon: action.job.type,
+    // jobTypeIcon: action.job.type,
     selectedDate: action.job.selectedDate,
   );
 }

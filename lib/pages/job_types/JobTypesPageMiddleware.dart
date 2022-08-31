@@ -11,11 +11,11 @@ class JobTypesPageMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
     if(action is FetchJobTypesAction){
-      fetchReminders(store, next);
+      fetchJobTypes(store, next);
     }
   }
 
-  void fetchReminders(Store<AppState> store, NextDispatcher next) async{
+  void fetchJobTypes(Store<AppState> store, NextDispatcher next) async{
       List<JobType> jobTypes = await JobTypeDao.getAll();
       next(SetJobTypesAction(store.state.jobTypesPageState, jobTypes));
 

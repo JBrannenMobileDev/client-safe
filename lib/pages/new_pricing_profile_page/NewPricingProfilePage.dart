@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileIconSelection.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewProfileName.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/InputDoneView.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -17,7 +15,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 class NewPricingProfilePage extends StatefulWidget {
   @override
@@ -28,7 +25,7 @@ class NewPricingProfilePage extends StatefulWidget {
 
 class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount = 2;
+  final int pageCount = 1;
   final controller = PageController(
     initialPage: 0,
   );
@@ -144,7 +141,6 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                         children: <Widget>[
                           NewProfileName(),
                           RateTypeSelection(scaffoldKey),
-                          NewPricingProfileIconSelection(),
                         ],
                       ),
                     ),
@@ -233,7 +229,11 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
           }
           break;
         case 1:
-          canProgress = true;
+          if (pageState.flatRate > 0) {
+            canProgress = true;
+          } else {
+            HapticFeedback.heavyImpact();
+          }
           break;
         default:
           canProgress = true;

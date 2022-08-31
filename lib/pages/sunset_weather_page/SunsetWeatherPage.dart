@@ -69,6 +69,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                     color: Color(ColorConstants.getPrimaryColor()),
                     tooltip: 'Close',
                     onPressed: () {
+                      pageState.clearPageState();
                       Navigator.of(context).pop();
                     },
                   ),

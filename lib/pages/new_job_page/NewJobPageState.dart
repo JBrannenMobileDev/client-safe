@@ -5,6 +5,7 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -13,8 +14,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
-import '../../models/ReminderDandyLight.dart';
-import '../../utils/StringUtils.dart';
+import '../sunset_weather_page/SunsetWeatherPageActions.dart' as sunsetPageActions;
 
 @immutable
 class NewJobPageState {
@@ -33,21 +33,15 @@ class NewJobPageState {
   final String clientFirstName;
   final String clientLastName;
   final String clientSearchText;
-  final String jobTitle;
   final String documentPath;
   final PriceProfile selectedPriceProfile;
   final Location selectedLocation;
   final DateTime selectedDate;
   final DateTime selectedTime;
   final DateTime sunsetDateTime;
-  final List<JobStage> selectedJobStages;
-  final List<ReminderDandyLight> allReminders;
-  final List<ReminderDandyLight> selectedReminders;
   final JobStage currentJobStage;
-  final String jobType;
-  final String selectedJobType;
-  final int depositAmount;
-  final List<Job> upcomingJobs;
+  final JobType jobType;
+  final JobType selectedJobType;
   final List<Client> allClients;
   final List<Client> filteredClients;
   final List<PriceProfile> pricingProfiles;
@@ -56,7 +50,7 @@ class NewJobPageState {
   final List<EventDandyLight> eventList;
   final List<Event> deviceEvents;
   final List<Job> jobs;
-  final List<String> jobTypes;
+  final List<JobType> jobTypes;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -65,18 +59,14 @@ class NewJobPageState {
   final Function(String) onClientFirstNameTextChanged;
   final Function(String) onClientLastNameTextChanged;
   final Function() onClearInputSelected;
-  final Function(String) onJobTitleTextChanged;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(Location) onLocationSelected;
   final Function(DateTime) onDateSelected;
-  final Function(JobStage) onJobStageSelected;
-  final Function(ReminderDandyLight) onReminderSelected;
-  final Function(String) onJobTypeSelected;
+  final Function(JobType) onJobTypeSelected;
   final Function(DateTime) onTimeSelected;
   final Function(Job) onJobClicked;
-  final Function(int) onAddToDeposit;
-  final Function() clearDepositAmount;
   final Function(DateTime) onMonthChanged;
+  final Function() onSunsetWeatherSelected;
 
   NewJobPageState({
     @required this.id,
@@ -89,16 +79,13 @@ class NewJobPageState {
     @required this.isFinishedFetchingClients,
     @required this.errorState,
     @required this.clientSearchText,
-    @required this.jobTitle,
     @required this.selectedPriceProfile,
     @required this.selectedLocation,
     @required this.selectedDate,
     @required this.selectedTime,
     @required this.sunsetDateTime,
-    @required this.selectedJobStages,
     @required this.jobType,
     @required this.selectedJobType,
-    @required this.upcomingJobs,
     @required this.onSavePressed,
     @required this.onCancelPressed,
     @required this.onNextPressed,
@@ -108,7 +95,6 @@ class NewJobPageState {
     @required this.onClearInputSelected,
     @required this.allClients,
     @required this.filteredClients,
-    @required this.onJobTitleTextChanged,
     @required this.pricingProfiles,
     @required this.onPriceProfileSelected,
     @required this.locations,
@@ -116,17 +102,10 @@ class NewJobPageState {
     @required this.jobs,
     @required this.onLocationSelected,
     @required this.onDateSelected,
-    @required this.onJobStageSelected,
     @required this.onJobTypeSelected,
     @required this.currentJobStage,
     @required this.onTimeSelected,
     @required this.onJobClicked,
-    @required this.depositAmount,
-    @required this.onAddToDeposit,
-    @required this.clearDepositAmount,
-    @required this.allReminders,
-    @required this.selectedReminders,
-    @required this.onReminderSelected,
     @required this.jobTypes,
     @required this.onMonthChanged,
     @required this.deviceEvents,
@@ -135,6 +114,7 @@ class NewJobPageState {
     @required this.onClientFirstNameTextChanged,
     @required this.onClientLastNameTextChanged,
     @required this.imageFiles,
+    @required this.onSunsetWeatherSelected,
   });
 
   NewJobPageState copyWith({
@@ -151,7 +131,6 @@ class NewJobPageState {
     String clientFirstName,
     String clientLastName,
     String clientSearchText,
-    String jobTitle,
     PriceProfile selectedPriceProfile,
     Location selectedLocation,
     List<Client> allClients,
@@ -162,38 +141,28 @@ class NewJobPageState {
     DateTime selectedDate,
     DateTime selectedTime,
     DateTime sunsetDateTime,
-    List<JobStage> selectedJobStages,
-    List<ReminderDandyLight> allReminders,
-    List<ReminderDandyLight> selectedReminders,
-    String jobType,
-    String selectedJobType,
-    int depositAmount,
-    JobStage currentJobStage,
-    List<Job> upcomingJobs,
+    JobType jobType,
+    JobType selectedJobType,
     List<EventDandyLight> eventList,
     List<Event> deviceEvents,
     List<Job> jobs,
-    List<String> jobTypes,
+    List<JobType> jobTypes,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
     Function() onBackPressed,
     Function(Client) onClientSelected,
     Function() onClearInputSelected,
-    Function(String) onJobTitleTextChanged,
     Function(PriceProfile) onPriceProfileSelected,
     Function(Location) onLocationSelected,
     Function(DateTime) onDateSelected,
-    Function(String) onJobStageSelected,
-    Function(String) onJobTypeSelected,
+    Function(JobType) onJobTypeSelected,
     Function(DateTime) onTimeSelected,
     Function(Job) onJobClicked,
-    Function(int) onAddToDeposit,
-    Function() clearDepositAmount,
-    Function(ReminderDandyLight) onReminderSelected,
     Function(DateTime) onMonthChanged,
     Function(String) onClientFirstNameTextChanged,
     Function(String) onClientLastNameTextChanged,
+    Function() onSunsetWeatherSelected,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -207,9 +176,8 @@ class NewJobPageState {
       shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
       errorState: errorState?? this.errorState,
-      selectedClient: selectedClient,
+      selectedClient: selectedClient ?? this.selectedClient,
       clientSearchText: clientSearchText?? this.clientSearchText,
-      jobTitle: jobTitle?? this.jobTitle,
       selectedPriceProfile: selectedPriceProfile?? this.selectedPriceProfile,
       allClients: allClients?? this.allClients,
       filteredClients: filteredClients?? this.filteredClients,
@@ -219,11 +187,9 @@ class NewJobPageState {
       selectedDate: selectedDate?? this.selectedDate,
       selectedTime: selectedTime?? this.selectedTime,
       sunsetDateTime: sunsetDateTime?? this.sunsetDateTime,
-      selectedJobStages: selectedJobStages?? this.selectedJobStages,
       jobType: jobType?? this.jobType,
       selectedJobType: selectedJobType?? this.selectedJobType,
       currentJobStage: currentJobStage?? this.currentJobStage,
-      upcomingJobs: upcomingJobs?? this.upcomingJobs,
       eventList: eventList?? this.eventList,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
@@ -231,27 +197,20 @@ class NewJobPageState {
       onBackPressed: onBackPressed?? this.onBackPressed,
       onClientSelected:  onClientSelected?? this.onClientSelected,
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
-      onJobTitleTextChanged: onJobTitleTextChanged?? this.onJobTitleTextChanged,
       onPriceProfileSelected: onPriceProfileSelected?? this.onPriceProfileSelected,
       onLocationSelected: onLocationSelected?? this.onLocationSelected,
       onDateSelected: onDateSelected?? this.onDateSelected,
-      onJobStageSelected: onJobStageSelected?? this.onJobStageSelected,
       onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
       onTimeSelected: onTimeSelected?? this.onTimeSelected,
       jobs: jobs ?? this.jobs,
       onJobClicked: onJobClicked ?? this.onJobClicked,
-      depositAmount: depositAmount ?? this.depositAmount,
-      onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
-      clearDepositAmount: clearDepositAmount ?? this.clearDepositAmount,
       comingFromClientDetails: comingFromClientDetails ?? this.comingFromClientDetails,
       documentId: documentId ?? this.documentId,
-      allReminders: allReminders ?? this.allReminders,
-      selectedReminders: selectedReminders ?? this.selectedReminders,
-      onReminderSelected: onReminderSelected ?? this.onReminderSelected,
       jobTypes: jobTypes ?? this.jobTypes,
       onMonthChanged: onMonthChanged ?? this.onMonthChanged,
       deviceEvents: deviceEvents ?? this.deviceEvents,
       imageFiles: imageFiles ?? this.imageFiles,
+      onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
     );
   }
 
@@ -271,7 +230,6 @@ class NewJobPageState {
         errorState: NO_ERROR,
         selectedClient: null,
         clientSearchText: "",
-        jobTitle: "",
         selectedPriceProfile: null,
         selectedLocation: null,
         allClients: [],
@@ -283,38 +241,29 @@ class NewJobPageState {
         deviceEvents: [],
         selectedTime: null,
         sunsetDateTime: null,
-        selectedJobStages: selectedStagesInitial,
-        jobType: Job.JOB_TYPE_OTHER,
+        jobType: null,
         selectedJobType: null,
-        upcomingJobs: [],
         eventList: [],
         jobs: [],
-        jobTypes: StringUtils.getJobTypesList(),
-        depositAmount: 0,
+        jobTypes: [],
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
         onBackPressed: null,
         onClientSelected: null,
         onClearInputSelected: null,
-        onJobTitleTextChanged: null,
         onPriceProfileSelected: null,
         onLocationSelected: null,
         onDateSelected: null,
-        onJobStageSelected: null,
         onJobTypeSelected: null,
         onTimeSelected: null,
         onJobClicked: null,
-        onAddToDeposit: null,
-        clearDepositAmount: null,
         comingFromClientDetails: false,
-        allReminders: [],
-        selectedReminders: [],
-        onReminderSelected: null,
         onMonthChanged: null,
         onClientFirstNameTextChanged: null,
         onClientLastNameTextChanged: null,
         imageFiles: [],
+        onSunsetWeatherSelected: null,
       );
   }
 
@@ -330,7 +279,6 @@ class NewJobPageState {
       errorState: store.state.newJobPageState.errorState,
       selectedClient: store.state.newJobPageState.selectedClient,
       clientSearchText: store.state.newJobPageState.clientSearchText,
-      jobTitle: store.state.newJobPageState.jobTitle,
       selectedPriceProfile: store.state.newJobPageState.selectedPriceProfile,
       selectedLocation: store.state.newJobPageState.selectedLocation,
       allClients: store.state.newJobPageState.allClients,
@@ -341,16 +289,11 @@ class NewJobPageState {
       selectedDate: store.state.newJobPageState.selectedDate,
       selectedTime: store.state.newJobPageState.selectedTime,
       sunsetDateTime: store.state.newJobPageState.sunsetDateTime,
-      selectedJobStages: store.state.newJobPageState.selectedJobStages,
       jobType: store.state.newJobPageState.jobType,
       selectedJobType: store.state.newJobPageState.selectedJobType,
       currentJobStage: store.state.newJobPageState.currentJobStage,
-      upcomingJobs: store.state.newJobPageState.upcomingJobs,
       eventList: store.state.newJobPageState.eventList,
       jobs: store.state.newJobPageState.jobs,
-      depositAmount: store.state.newJobPageState.depositAmount,
-      allReminders: store.state.newJobPageState.allReminders,
-      selectedReminders: store.state.newJobPageState.selectedReminders,
       comingFromClientDetails: store.state.newJobPageState.comingFromClientDetails,
       jobTypes: store.state.newJobPageState.jobTypes,
       clientFirstName: store.state.newJobPageState.clientFirstName,
@@ -362,20 +305,16 @@ class NewJobPageState {
       onBackPressed: () => store.dispatch(DecrementPageViewIndex(store.state.newJobPageState)),
       onClientSelected: (client) => store.dispatch(ClientSelectedAction(store.state.newJobPageState, client)),
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newJobPageState)),
-      onJobTitleTextChanged: (jobTitle) => store.dispatch(SetJobTitleAction(store.state.newJobPageState, jobTitle)),
       onPriceProfileSelected: (priceProfile) => store.dispatch(SetSelectedPriceProfile(store.state.newJobPageState, priceProfile)),
       onLocationSelected: (location) => store.dispatch(SetSelectedLocation(store.state.newJobPageState, location)),
       onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.newJobPageState, selectedDate)),
-      onJobStageSelected: (jobStage) => store.dispatch(SetSelectedJobStageAction(store.state.newJobPageState, jobStage)),
       onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
       onTimeSelected: (time) => store.dispatch(SetSelectedTimeAction(store.state.newJobPageState, time)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
-      onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAmountAction(store.state.newJobPageState, amountToAdd)),
-      clearDepositAmount: () => store.dispatch(ClearDepositAction(store.state.newJobPageState)),
-      onReminderSelected: (reminder) => store.dispatch(SetSelectedJobReminderAction(store.state.newJobPageState, reminder)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
       onClientLastNameTextChanged: (lastName) => store.dispatch(SetClientLastNameAction(store.state.newJobPageState, lastName)),
       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
+      onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate))
     );
   }
 
@@ -401,11 +340,9 @@ class NewJobPageState {
       selectedDate.hashCode ^
       selectedTime.hashCode ^
       sunsetDateTime.hashCode ^
-      selectedJobStages.hashCode ^
       jobType.hashCode ^
       selectedJobType.hashCode ^
       currentJobStage.hashCode ^
-      upcomingJobs.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
       onNextPressed.hashCode ^
@@ -414,20 +351,17 @@ class NewJobPageState {
       onClearInputSelected.hashCode ^
       onLocationSelected.hashCode ^
       onDateSelected.hashCode ^
-      onJobStageSelected.hashCode ^
       eventList.hashCode ^
       jobs.hashCode ^
       onTimeSelected.hashCode ^
       onJobClicked.hashCode ^
-      depositAmount.hashCode ^
-      onAddToDeposit.hashCode ^
       jobTypes.hashCode ^
       clientFirstName.hashCode ^
       clientLastName.hashCode ^
       onClientLastNameTextChanged.hashCode ^
       onClientFirstNameTextChanged.hashCode ^
-      imageFiles.hashCode ^
-      clearDepositAmount.hashCode;
+      onSunsetWeatherSelected.hashCode ^
+      imageFiles.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -456,12 +390,10 @@ class NewJobPageState {
           selectedDate == other.selectedDate &&
           selectedTime == other.selectedTime &&
           sunsetDateTime == other.sunsetDateTime &&
-          selectedJobStages == other.selectedJobStages &&
           jobType == other.jobType &&
           deviceEvents == other.deviceEvents &&
           selectedJobType == other.selectedJobType &&
           currentJobStage == other.currentJobStage &&
-          upcomingJobs == other.upcomingJobs &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
@@ -469,14 +401,11 @@ class NewJobPageState {
           onClientSelected == other.onClientSelected &&
           onClearInputSelected == other.onClearInputSelected &&
           onDateSelected == other.onDateSelected &&
-          onJobStageSelected == other.onJobStageSelected &&
           eventList == other.eventList &&
           jobs == other.jobs &&
           onTimeSelected == other.onTimeSelected &&
           onJobClicked == other.onJobClicked &&
-          depositAmount == other.depositAmount &&
-          onAddToDeposit == other.onAddToDeposit &&
           jobTypes == other.jobTypes &&
-          imageFiles == other.imageFiles &&
-          clearDepositAmount == other.clearDepositAmount;
+          onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
+          imageFiles == other.imageFiles;
 }

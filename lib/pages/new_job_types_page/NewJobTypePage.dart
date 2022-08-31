@@ -13,8 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import '../../utils/UserOptionsUtil.dart';
 import 'JobTypeNameSelectionWidget.dart';
-import 'PriceSelection.dart';
 import 'ReminderSelectionWidget.dart';
 
 class NewJobTypePage extends StatefulWidget {
@@ -30,7 +30,7 @@ class NewJobTypePage extends StatefulWidget {
 
 class _NewJobTypePageState extends State<NewJobTypePage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount = 3;
+  final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
@@ -81,6 +81,8 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
       onInit: (store) {
         if(jobType == null) {
           store.dispatch(ClearNewJobTypeStateAction(store.state.newJobTypePageState));
+        }else {
+          store.dispatch(LoadExistingJobTypeData(store.state.newJobTypePageState, jobType));
         }
         store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newJobTypePageState));
       },
@@ -127,21 +129,35 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               height: 24.0,
                               width: 375.0,
                               child: Image.asset(
-                                  'assets/images/icons/trash_icon_gold.png'),
+                                  'assets/images/icons/trash_icon_peach.png'),
                             ),
                           ) : SizedBox(),
-                          !pageState.shouldClear ? Container(
+                          !pageState.shouldClear && currentPageIndex != 2 ? Container(
                             margin: EdgeInsets.only(left: 300.0),
                             child: IconButton(
                               icon: const Icon(Icons.save),
                               tooltip: 'Save',
-                              color: Color(ColorConstants.getPrimaryColor()),
+                              color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
                                 showSuccessAnimation();
                                 pageState.onSavePressed();
                               },
                             ),
                           ) : SizedBox(),
+                          currentPageIndex == 2 ? GestureDetector(
+                            onTap: () {
+                              UserOptionsUtil.showNewReminderDialog(context, null);
+                            },
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              margin: EdgeInsets.only(right: 24.0),
+                              height: 28.0,
+                              child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                            ),
+                          ) : SizedBox(
+                            height: 28.0,
+                            width: 52.0,
+                          ),
                         ],
                       ),
                   ),
@@ -155,7 +171,6 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                       pageSnapping: true,
                       children: <Widget>[
                         JobTypeNameSelectionWidget(jobType),
-                        PriceSelection(),
                         JobStageSelectionForm(),
                         ReminderSelectionWidget(),
                       ],
@@ -202,7 +217,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               onNextPressed(pageState);
                             },
                             child: Text(
-                              currentPageIndex == 3 ? 'Save' : 'Next',
+                              currentPageIndex == 2 ? 'Save' : 'Next',
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 22.0,
@@ -232,12 +247,9 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
           canProgress = pageState.title.isNotEmpty;
           break;
         case 1:
-          canProgress = pageState.flatRate != null;
-          break;
-        case 2:
           canProgress = pageState.selectedJobStages.isNotEmpty;
           break;
-        case 3:
+        case 2:
           canProgress = pageState.selectedReminders.isNotEmpty;
           break;
       }
@@ -336,12 +348,10 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
   getDialogHeight(int currentPageIndex) {
     switch(currentPageIndex) {
       case 0:
-        return 142.0;
+        return 144.0;
       case 1:
-        return 142.0;
+        return 564.0;
       case 2:
-        return 550.0;
-      case 3:
         return 550.0;
     }
     return 300.0;

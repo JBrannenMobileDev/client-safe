@@ -17,10 +17,7 @@ class NewPricingProfilePageState {
   final bool shouldClear;
   final String profileName;
   final String profileIcon;
-  final String rateType;
-  final double flatRate;
-  final double hourlyRate;
-  final double itemRate;
+  final int flatRate;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -30,8 +27,6 @@ class NewPricingProfilePageState {
   final Function(String) onProfileIconSelected;
   final Function(String) onFilterChanged;
   final Function(String) onFlatRateTextChanged;
-  final Function(String) onHourlyRateTextChanged;
-  final Function(String) onItemRateTextChanged;
 
   NewPricingProfilePageState({
     @required this.id,
@@ -48,14 +43,9 @@ class NewPricingProfilePageState {
     @required this.onDeleteProfileSelected,
     @required this.onProfileNameChanged,
     @required this.onProfileIconSelected,
-    @required this.rateType,
     @required this.flatRate,
-    @required this.hourlyRate,
-    @required this.itemRate,
     @required this.onFilterChanged,
     @required this.onFlatRateTextChanged,
-    @required this.onHourlyRateTextChanged,
-    @required this.onItemRateTextChanged,
   });
 
   NewPricingProfilePageState copyWith({
@@ -67,9 +57,7 @@ class NewPricingProfilePageState {
     String profileName,
     String profileIcon,
     String rateType,
-    double flatRate,
-    double hourlyRate,
-    double itemRate,
+    int flatRate,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -79,8 +67,6 @@ class NewPricingProfilePageState {
     Function(String) onProfileIconSelected,
     Function(String) onFilterChanged,
     Function(String) onFlatRateTextChanged,
-    Function(String) onHourlyRateTextChanged,
-    Function(String) onItemRateTextChanged,
   }){
     return NewPricingProfilePageState(
       id: id?? this.id,
@@ -89,10 +75,7 @@ class NewPricingProfilePageState {
       shouldClear: shouldClear?? this.shouldClear,
       profileName: profileName?? this.profileName,
       profileIcon: profileIcon?? this.profileIcon,
-      rateType: rateType ?? this.rateType,
       flatRate: flatRate ?? this.flatRate,
-      hourlyRate: hourlyRate ?? this.hourlyRate,
-      itemRate: itemRate ?? this.itemRate,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onNextPressed: onNextPressed?? this.onNextPressed,
@@ -102,8 +85,6 @@ class NewPricingProfilePageState {
       onProfileIconSelected: onProfileIconSelected?? this.onProfileIconSelected,
       onFilterChanged: onFilterChanged ?? this.onFilterChanged,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
-      onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
-      onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
       documentId: documentId ?? this.documentId,
     );
   }
@@ -116,10 +97,7 @@ class NewPricingProfilePageState {
         shouldClear: true,
         profileName: "",
         profileIcon: 'assets/images/collection_icons/pricing_profile_icons/piggy_bank_icon_gold.png',
-        rateType: Invoice.RATE_TYPE_FLAT_RATE,
         flatRate: 0,
-        hourlyRate: 0,
-        itemRate: 0,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -129,22 +107,17 @@ class NewPricingProfilePageState {
         onProfileIconSelected: null,
         onFilterChanged: null,
         onFlatRateTextChanged: null,
-        onHourlyRateTextChanged: null,
-        onItemRateTextChanged: null,
       );
 
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {
     return NewPricingProfilePageState(
-      itemRate: store.state.pricingProfilePageState.itemRate,
       id: store.state.pricingProfilePageState.id,
       pageViewIndex: store.state.pricingProfilePageState.pageViewIndex,
       saveButtonEnabled: store.state.pricingProfilePageState.saveButtonEnabled,
       shouldClear: store.state.pricingProfilePageState.shouldClear,
       profileName: store.state.pricingProfilePageState.profileName,
       profileIcon: store.state.pricingProfilePageState.profileIcon,
-      rateType: store.state.pricingProfilePageState.rateType,
       flatRate: store.state.pricingProfilePageState.flatRate,
-      hourlyRate: store.state.pricingProfilePageState.hourlyRate,
       documentId: store.state.pricingProfilePageState.documentId,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
@@ -155,8 +128,6 @@ class NewPricingProfilePageState {
       onProfileIconSelected: (fileLocation) => store.dispatch(SetProfileIconAction(store.state.pricingProfilePageState, fileLocation)),
       onFilterChanged: (rateType) => store.dispatch(SaveSelectedRateTypeAction(store.state.pricingProfilePageState, rateType)),
       onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.pricingProfilePageState, flatRateText)),
-      onHourlyRateTextChanged: (hourlyRateText) => store.dispatch(UpdateHourlyRateTextAction(store.state.pricingProfilePageState, hourlyRateText)),
-      onItemRateTextChanged: (itemRateText) => store.dispatch(UpdateItemRateTextAction(store.state.pricingProfilePageState, itemRateText)),
     );
   }
 
@@ -175,13 +146,9 @@ class NewPricingProfilePageState {
       onBackPressed.hashCode ^
       onProfileNameChanged.hashCode ^
       onProfileIconSelected.hashCode ^
-      rateType.hashCode ^
       flatRate.hashCode ^
-      hourlyRate.hashCode ^
       onFilterChanged.hashCode ^
-      onFlatRateTextChanged.hashCode ^
-      onHourlyRateTextChanged.hashCode ^
-      itemRate.hashCode ;
+      onFlatRateTextChanged.hashCode ;
 
   @override
   bool operator ==(Object other) =>
@@ -200,8 +167,5 @@ class NewPricingProfilePageState {
           onBackPressed == other.onBackPressed &&
           onProfileNameChanged == other.onProfileNameChanged &&
           onProfileIconSelected == other.onProfileIconSelected &&
-          rateType == other.rateType &&
-          hourlyRate == other.hourlyRate &&
-          itemRate == other.itemRate &&
           flatRate == other.flatRate ;
 }

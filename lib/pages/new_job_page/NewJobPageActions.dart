@@ -9,6 +9,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
 
+import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
 
 class UpdateErrorStateAction{
@@ -70,45 +71,10 @@ class SetNewJobDeviceEventsAction {
   SetNewJobDeviceEventsAction(this.pageState, this.deviceEvents);
 }
 
-class SetSelectedJobStageAction{
-  final NewJobPageState pageState;
-  final JobStage jobStage;
-  SetSelectedJobStageAction(this.pageState, this.jobStage);
-}
-
-class SetSelectedJobReminderAction{
-  final NewJobPageState pageState;
-  final ReminderDandyLight reminder;
-  SetSelectedJobReminderAction(this.pageState, this.reminder);
-}
-
-class SetAllRemindersAction{
-  final NewJobPageState pageState;
-  final List<ReminderDandyLight> reminders;
-  SetAllRemindersAction(this.pageState, this.reminders);
-}
-
-class SetDefaultRemindersAction{
-  final NewJobPageState pageState;
-  final List<ReminderDandyLight> defaultReminders;
-  SetDefaultRemindersAction(this.pageState, this.defaultReminders);
-}
-
-class FetchAllRemindersAction{
-  final NewJobPageState pageState;
-  FetchAllRemindersAction(this.pageState);
-}
-
 class SetSelectedJobTypeAction{
   final NewJobPageState pageState;
-  final String jobType;
+  final JobType jobType;
   SetSelectedJobTypeAction(this.pageState, this.jobType);
-}
-
-class SetJobTitleAction{
-  final NewJobPageState pageState;
-  final String jobTitle;
-  SetJobTitleAction(this.pageState, this.jobTitle);
 }
 
 class SetSelectedPriceProfile{
@@ -148,9 +114,9 @@ class ClearSearchInputActon{
   ClearSearchInputActon(this.pageState);
 }
 
-class FetchAllClientsAction{
+class FetchAllAction{
   final NewJobPageState pageState;
-  FetchAllClientsAction(this.pageState);
+  FetchAllAction(this.pageState);
 }
 
 class SetEventListAction {
@@ -166,7 +132,8 @@ class SetAllToStateAction{
   final List<Location> allLocations;
   final List<Job> upcomingJobs;
   final List<File> imageFiles;
-  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs, this.imageFiles);
+  final List<JobType> jobTypes;
+  SetAllToStateAction(this.pageState, this.allClients, this.allPriceProfiles, this.allLocations, this.upcomingJobs, this.imageFiles, this.jobTypes);
 }
 
 class ClientSelectedAction{
@@ -175,21 +142,10 @@ class ClientSelectedAction{
   ClientSelectedAction(this.pageState, this.client);
 }
 
-class InitNewJobPageWithDateAction{
+class InitNewJobPageWithDateAction {
   final NewJobPageState pageState;
   final DateTime selectedDate;
   InitNewJobPageWithDateAction(this.pageState, this.selectedDate);
-}
-
-class AddToDepositAmountAction{
-  final NewJobPageState pageState;
-  final int amountToAdd;
-  AddToDepositAmountAction(this.pageState, this.amountToAdd);
-}
-
-class ClearDepositAction{
-  final NewJobPageState pageState;
-  ClearDepositAction(this.pageState);
 }
 
 class SetDocumentPathAction{

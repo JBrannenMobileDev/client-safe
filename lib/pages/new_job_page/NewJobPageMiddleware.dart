@@ -4,18 +4,19 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
+import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
@@ -35,7 +36,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is FetchAllClientsAction) {
+    if(action is FetchAllAction) {
       _loadAll(store, action, next);
     }
 
@@ -49,9 +50,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetSelectedDateAction || action is SetSelectedLocation){
       next(action);
       _fetchSunsetTime(store, action, next);
-    }
-    if(action is FetchAllRemindersAction) {
-      _fetchAllReminders(store, action, next);
     }
     if(action is FetchNewJobDeviceEvents) {
       _fetchDeviceEventsForMonth(store, action, next);
@@ -91,6 +89,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     List<Location> allLocations = await LocationDao.getAllSortedMostFrequent();
     List<Job> upcomingJobs = await JobDao.getAllJobs();
+    List<JobType> jobTypes = await JobTypeDao.getAll();
     List<File> imageFiles = [];
 
     for(Location location in allLocations) {
@@ -98,7 +97,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     }
 
 
-    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs, imageFiles));
+    store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, upcomingJobs, imageFiles, jobTypes));
     Directory appDocDir = await getApplicationDocumentsDirectory();
     String path = appDocDir.path;
     store.dispatch(SetDocumentPathAction(store.state.newJobPageState, path));
@@ -108,7 +107,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in snapshots) {
         priceProfilesToUpdate.add(PriceProfile.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, priceProfilesToUpdate, allLocations, upcomingJobs, imageFiles));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, priceProfilesToUpdate, allLocations, upcomingJobs, imageFiles, jobTypes));
     });
 
     (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
@@ -123,7 +122,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
         imageFiles.add(await FileStorage.getImageFile(location));
       }
 
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs, imageFiles));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs, imageFiles, jobTypes));
     });
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
@@ -131,7 +130,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, jobs, imageFiles));
+      store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, allLocations, jobs, imageFiles, jobTypes));
     });
   }
 
@@ -148,12 +147,19 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       resultClient = await ClientDao.getClientById(clientId);
     }
 
+    String jobTitle = '';
+    if(store.state.newJobPageState.selectedJobType != null) {
+      jobTitle = store.state.newJobPageState.selectedClient.firstName + ' - ' + store.state.newJobPageState.selectedJobType.title;
+    } else {
+      jobTitle = store.state.newJobPageState.selectedClient.firstName + ' - Job';
+    }
+
     Job jobToSave = Job(
       id: store.state.newJobPageState.id,
       documentId: store.state.newJobPageState.documentId,
       clientDocumentId: resultClient.documentId,
       clientName: resultClient.getClientFullName(),
-      jobTitle: store.state.newJobPageState.jobTitle,
+      jobTitle: jobTitle,
       selectedDate: store.state.newJobPageState.selectedDate,
       selectedTime: store.state.newJobPageState.selectedTime,
       type: store.state.newJobPageState.jobType,
@@ -161,33 +167,25 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile,
-      depositAmount: store.state.newJobPageState.depositAmount,
       createdDate: DateTime.now(),
       );
     await JobDao.insertOrUpdate(jobToSave);
     await _createJobReminders(store, resultClient);
-    store.dispatch(ClearStateAction(store.state.newJobPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.clientDetailsPageState.client));
-  }
-
-  void _fetchAllReminders(Store<AppState> store, FetchAllRemindersAction action, NextDispatcher next) async {
-    List<ReminderDandyLight> allReminders = await ReminderDao.getAll();
-    List<ReminderDandyLight> defaultReminders = [];
-    for(ReminderDandyLight reminder in allReminders) {
-      if(reminder.isDefault) defaultReminders.add(reminder);
-    }
-    store.dispatch(SetAllRemindersAction(store.state.newJobPageState, allReminders));
-    store.dispatch(SetDefaultRemindersAction(store.state.newJobPageState, defaultReminders));
   }
 
   void _createJobReminders(Store<AppState> store, Client jobClient) async {
     List<JobReminder> jobReminders = [];
     List<Job> jobs = await JobDao.getAllJobs();
     Job thisJob = null;
-    String clientName = jobClient.firstName +
-        " " + jobClient.lastName;
-    String jobTitle = store.state.newJobPageState.jobTitle;
+    String clientName = jobClient.firstName + " " + jobClient.lastName;
+    String jobTitle = '';
+    if(store.state.newJobPageState.selectedJobType != null) {
+      jobTitle = store.state.newJobPageState.selectedClient.firstName + ' - ' + store.state.newJobPageState.selectedJobType.title;
+    } else {
+      jobTitle = store.state.newJobPageState.selectedClient.firstName + ' - Job';
+    }
     DateTime selectedDate = store.state.newJobPageState.selectedDate;
 
     for (Job job in jobs) {
@@ -197,7 +195,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
-    for (ReminderDandyLight reminder in store.state.newJobPageState.selectedReminders) {
+    for (ReminderDandyLight reminder in store.state.newJobPageState.selectedJobType.reminders) {
       jobReminders.add(JobReminder(
         jobDocumentId: thisJob.documentId,
         reminder: reminder,

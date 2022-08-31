@@ -25,6 +25,19 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    Color getColor(Set<MaterialState> states) {
+      const Set<MaterialState> interactiveStates = <MaterialState>{
+        MaterialState.pressed,
+        MaterialState.hovered,
+        MaterialState.focused,
+      };
+      if (states.any(interactiveStates.contains)) {
+        return Color(ColorConstants.getPrimaryBlack());
+      }
+      return Color(ColorConstants.getPeachDark());
+    }
+
     return StoreConnector<AppState, NewJobTypePageState>(
       onInit: (store) {
         store.dispatch(FetchAllRemindersAction(store.state.newJobReminderPageState));
@@ -37,7 +50,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.only(bottom: 16.0, left: 8.0),
+                  margin: EdgeInsets.only(bottom: 0.0, left: 8.0),
                   child: Text(
                     "Select what reminders you want for this job type.",
                     textAlign: TextAlign.start,
@@ -48,6 +61,35 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Text(
+                        'Check All',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.getPrimaryBlack()),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(right: 8.0),
+                      child: Checkbox(
+                        checkColor: Colors.white,
+                        fillColor: MaterialStateProperty.resolveWith(getColor),
+                        value: pageState.checkAllReminders,
+                        onChanged: (bool isChecked) {
+                          pageState.checkAllRemindersChecked(isChecked);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
                 pageState.allDandyLightReminders.length > 0
                     ? ConstrainedBox(

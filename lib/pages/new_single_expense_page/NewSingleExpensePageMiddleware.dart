@@ -36,6 +36,10 @@ class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteSingleExpense(Store<AppState> store, DeleteSingleExpenseAction action, NextDispatcher next) async{
     await SingleExpenseDao.delete(store.state.newSingleExpensePageState.documentId);
+    SingleExpense expense = await SingleExpenseDao.getSingleExpenseById(action.pageState.documentId);
+    if(expense != null) {
+      await SingleExpenseDao.delete(action.pageState.documentId);
+    }
     store.dispatch(FetchSingleExpenses(store.state.incomeAndExpensesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

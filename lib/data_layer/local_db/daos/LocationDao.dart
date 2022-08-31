@@ -119,6 +119,7 @@ class LocationDao extends Equatable{
     );
     await LocationCollection().deleteJob(documentId);
     _updateLastChangedTime();
+
   }
 
   static Future<List<Location>> getAllSortedMostFrequent() async {

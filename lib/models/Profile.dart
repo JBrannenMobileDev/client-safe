@@ -147,6 +147,7 @@ class Profile{
       'profileLastChangeDate' : profileLastChangeDate?.millisecondsSinceEpoch ?? null,
       'remindersLastChangeDate' : remindersLastChangeDate?.millisecondsSinceEpoch ?? null,
       'jobReminderLastChangeDate' : jobReminderLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'jobTypesLastChangeDate' : jobTypesLastChangeDate?.millisecondsSinceEpoch ?? null,
     };
   }
 

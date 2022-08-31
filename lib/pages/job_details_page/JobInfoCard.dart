@@ -141,7 +141,7 @@ class JobInfoCard extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                pageState.job.type,
+                                pageState.job.type.title,
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -553,7 +553,7 @@ class JobInfoCard extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                pageState.job.depositAmount == null ? 'Not selected' :
+                                pageState.job.depositAmount == null ? 'Not selected (deposit)' :
                                 '\$' + (pageState.job.depositAmount != null ? pageState.job.depositAmount.toInt().toString() : '0') + ' (deposit)',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,

@@ -13,6 +13,8 @@ class JobType {
   List<JobStage> stages;
   List<ReminderDandyLight> reminders;
 
+
+
   JobType({
     this.id,
     this.documentId,
@@ -58,7 +60,7 @@ class JobType {
     return JobType(
       documentId: map['documentId'],
       title: map['title'],
-      createdDate: map['createdDate'], parse DateTime correctly.
+      createdDate: map['createdDate'] != ""? DateTime.parse(map['createdDate']) : null,
       flatRate: map['flatRate'],
       stages: convertMapsToJobStages(map['stages']),
       reminders: convertMapsToReminders(map['reminders']),

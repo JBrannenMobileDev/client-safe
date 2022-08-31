@@ -156,6 +156,11 @@ class ImageUtil{
   static String locationPin = 'assets/images/collection_icons/location_pin_blue.png';
   static String reminderIcon = 'assets/images/collection_icons/reminder_icon_white.png';
 
+  static String getRandomPriceProfileIcon() {
+    var intValue = Random().nextInt(7);
+    return pricingProfileIcons[intValue];
+  }
+
   static List<String> pricingProfileIcons = [
     'assets/images/collection_icons/pricing_profile_icons/money_stacks_icon_gold.png',
     'assets/images/collection_icons/pricing_profile_icons/coins_icon_gold.png',

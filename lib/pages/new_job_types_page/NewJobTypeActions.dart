@@ -1,7 +1,5 @@
 
 
-import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import '../../models/JobType.dart';
 import 'NewJobTypePageState.dart';
@@ -46,8 +44,9 @@ class UpdateJobTypeTitleAction{
 
 class UpdateSelectedReminderListAction{
   final NewJobTypePageState pageState;
-  final ReminderDandyLight selectedReminder;
-  UpdateSelectedReminderListAction(this.pageState, this.selectedReminder);
+  final int reminderStageIndex;
+  final bool isChecked;
+  UpdateSelectedReminderListAction(this.pageState, this.reminderStageIndex, this.isChecked);
 }
 
 class SetSelectedStagesAction{
@@ -57,22 +56,22 @@ class SetSelectedStagesAction{
   SetSelectedStagesAction(this.pageState, this.jobStageIndex, this.isChecked);
 }
 
-class UpdateCheckAllAction {
+class UpdateCheckAllTypesAction {
   final NewJobTypePageState pageState;
   final bool isChecked;
-  UpdateCheckAllAction(this.pageState, this.isChecked);
+  UpdateCheckAllTypesAction(this.pageState, this.isChecked);
+}
+
+class UpdateCheckAllRemindersAction {
+  final NewJobTypePageState pageState;
+  final bool isChecked;
+  UpdateCheckAllRemindersAction(this.pageState, this.isChecked);
 }
 
 class SaveSelectedRateTypeAction{
   final NewJobTypePageState pageState;
   final String rateType;
   SaveSelectedRateTypeAction(this.pageState, this.rateType);
-}
-
-class UpdateFlatRateTextAction{
-  final NewJobTypePageState pageState;
-  final String flatRateText;
-  UpdateFlatRateTextAction(this.pageState, this.flatRateText);
 }
 
 

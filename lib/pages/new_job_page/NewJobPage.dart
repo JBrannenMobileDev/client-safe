@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/ClientSelectionForm.dart';
 import 'package:dandylight/pages/new_job_page/DateForm.dart';
-import 'package:dandylight/pages/new_job_page/JobNameForm.dart';
 import 'package:dandylight/pages/new_job_page/JobTypeSelection.dart';
 import 'package:dandylight/pages/new_job_page/LocationSelectionForm.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
@@ -18,7 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import 'JobReminderSelectionForm.dart';
+import 'PricingProfileSelectionForm.dart';
 
 class NewJobPage extends StatefulWidget {
   @override
@@ -76,7 +75,6 @@ class _NewJobPageState extends State<NewJobPage> {
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
-        store.dispatch(FetchAllRemindersAction(store.state.newJobPageState));
       },
       onDidChange: (prev, pageState) {
         if(pageState.comingFromClientDetails && !hasJumpToBeenCalled) {
@@ -129,16 +127,17 @@ class _NewJobPageState extends State<NewJobPage> {
                             ),
                           ),
                         ),
-                        pageState.pageViewIndex == 2 || pageState.pageViewIndex == 4 ? GestureDetector(
+                        pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3 ? GestureDetector(
                           onTap: () {
+                            if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
                             if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
-                            if(pageState.pageViewIndex == 4) UserOptionsUtil.showNewLocationDialog(context);
+                            if(pageState.pageViewIndex == 3) UserOptionsUtil.showNewLocationDialog(context);
                           },
                           child: Container(
                             margin: EdgeInsets.only(right: 24.0),
                             height: 28.0,
                             width: 28.0,
-                            child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                            child: Image.asset('assets/images/icons/plus_icon_peach.png', color: Color(ColorConstants.getPrimaryColor()),),
                           ),
                         ) : SizedBox(
                           height: 28.0,
@@ -156,8 +155,8 @@ class _NewJobPageState extends State<NewJobPage> {
                         pageSnapping: true,
                         children: <Widget>[
                           ClientSelectionForm(),
-                          JobNameForm(),
                           JobTypeSelection(),
+                          PricingProfileSelectionForm(),
                           LocationSelectionForm(),
                           DateForm(),
                           TimeSelectionForm(),
@@ -236,10 +235,10 @@ class _NewJobPageState extends State<NewJobPage> {
           canProgress = pageState.selectedClient != null || pageState.clientFirstName.isNotEmpty;
           break;
         case 1:
-          canProgress = pageState.jobTitle.length > 0;
+          canProgress = true;
           break;
         case 2:
-          canProgress = pageState.selectedJobType != null;
+          canProgress = true;
           break;
         case 3:
           canProgress = true;
@@ -302,7 +301,7 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 500.0;
         break;
       case 1:
-        height = 200.0;
+        height = 450.0;
         break;
       case 2:
         height = 450.0;
@@ -348,6 +347,12 @@ class _NewJobPageState extends State<NewJobPage> {
   getNextBtText(NewJobPageState pageState) {
     String btText = 'Next';
     switch(pageState.pageViewIndex) {
+      case 1:
+        if(pageState.selectedJobType == null) btText = 'Skip';
+        break;
+      case 2:
+        if(pageState.selectedPriceProfile == null) btText = 'Skip';
+        break;
       case 3:
         if(pageState.selectedLocation == null) btText = 'Skip';
         break;

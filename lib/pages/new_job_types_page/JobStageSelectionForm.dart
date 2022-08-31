@@ -45,7 +45,7 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                 Padding(
                   padding: EdgeInsets.only(top: 6.0, bottom: 8.0, left: 16.0, right: 16.0),
                   child: Text(
-                    'Please select job type stages.',
+                    'Please select stages for this job type that you would like to track.',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 22.0,
@@ -76,9 +76,9 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                       child: Checkbox(
                         checkColor: Colors.white,
                         fillColor: MaterialStateProperty.resolveWith(getColor),
-                        value: pageState.checkAll,
+                        value: pageState.checkAllTypes,
                         onChanged: (bool isChecked) {
-                          pageState.checkAllChecked(isChecked);
+                          pageState.checkAllTypesChecked(isChecked);
                         },
                       ),
                     ),

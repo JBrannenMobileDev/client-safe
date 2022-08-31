@@ -17,6 +17,18 @@ class JobStage {
   static const String STAGE_14_JOB_COMPLETE = "Job Complete";
   static const String STAGE_COMPLETED_CHECK = "Completed";
 
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is JobStage &&
+          runtimeType == other.runtimeType &&
+          stage == other.stage &&
+          value == other.value;
+
+  @override
+  int get hashCode => stage.hashCode ^ value.hashCode;
+
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
@@ -544,6 +556,23 @@ class JobStage {
     allStages.add(JobStage(id: 12, stage: STAGE_12_FEEDBACK_REQUESTED, value: 12, imageLocation: getImageLocation(STAGE_12_FEEDBACK_REQUESTED)));
     allStages.add(JobStage(id: 13, stage: STAGE_13_FEEDBACK_RECEIVED, value: 13, imageLocation: getImageLocation(STAGE_13_FEEDBACK_RECEIVED)));
     allStages.add(JobStage(id: 14, stage: STAGE_14_JOB_COMPLETE, value: 14, imageLocation: getImageLocation(STAGE_14_JOB_COMPLETE)));
+    return allStages;
+  }
+
+  static List<JobStage> AllStagesForNewJobTypeSelection() {
+    List<JobStage> allStages = [];
+    allStages.add(JobStage(id: 2, stage: STAGE_2_FOLLOWUP_SENT, value: 2, imageLocation: getImageLocation(STAGE_2_FOLLOWUP_SENT)));
+    allStages.add(JobStage(id: 3, stage: STAGE_3_PROPOSAL_SENT, value: 3, imageLocation: getImageLocation(STAGE_3_PROPOSAL_SENT)));
+    allStages.add(JobStage(id: 4, stage: STAGE_4_PROPOSAL_SIGNED, value: 4, imageLocation: getImageLocation(STAGE_4_PROPOSAL_SIGNED)));
+    allStages.add(JobStage(id: 5, stage: STAGE_5_DEPOSIT_RECEIVED, value: 5, imageLocation: getImageLocation(STAGE_5_DEPOSIT_RECEIVED)));
+    allStages.add(JobStage(id: 6, stage: STAGE_6_PLANNING_COMPLETE, value: 6, imageLocation: getImageLocation(STAGE_6_PLANNING_COMPLETE)));
+    allStages.add(JobStage(id: 7, stage: STAGE_7_SESSION_COMPLETE, value: 7, imageLocation: getImageLocation(STAGE_7_SESSION_COMPLETE)));
+    allStages.add(JobStage(id: 8, stage: STAGE_8_PAYMENT_REQUESTED, value: 8, imageLocation: getImageLocation(STAGE_8_PAYMENT_REQUESTED)));
+    allStages.add(JobStage(id: 9, stage: STAGE_9_PAYMENT_RECEIVED, value: 9, imageLocation: getImageLocation(STAGE_9_PAYMENT_RECEIVED)));
+    allStages.add(JobStage(id: 10, stage: STAGE_10_EDITING_COMPLETE, value: 10, imageLocation: getImageLocation(STAGE_10_EDITING_COMPLETE)));
+    allStages.add(JobStage(id: 11, stage: STAGE_11_GALLERY_SENT, value: 11, imageLocation: getImageLocation(STAGE_11_GALLERY_SENT)));
+    allStages.add(JobStage(id: 12, stage: STAGE_12_FEEDBACK_REQUESTED, value: 12, imageLocation: getImageLocation(STAGE_12_FEEDBACK_REQUESTED)));
+    allStages.add(JobStage(id: 13, stage: STAGE_13_FEEDBACK_RECEIVED, value: 13, imageLocation: getImageLocation(STAGE_13_FEEDBACK_RECEIVED)));
     return allStages;
   }
 }

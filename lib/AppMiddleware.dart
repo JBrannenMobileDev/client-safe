@@ -12,6 +12,8 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageMiddleware.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageMiddleware.dart';
+import 'package:dandylight/pages/job_types/JobTypesActions.dart';
+import 'package:dandylight/pages/job_types/JobTypesPageMiddleware.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageMiddleware.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
@@ -61,7 +63,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, InitializeClientDetailsAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteClientAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InstagramSelectedAction>(ClientDetailsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllClientsAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePricingProfileAction>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPricingProfilesAction>(PricingProfilesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix0.DeletePriceProfileAction>(NewPricingProfilePageMiddleware()));
@@ -128,6 +130,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchGoogleLocationsAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchSearchLocationDetails>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadLocationImageFilesAction>(SunsetWeatherPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadInitialLocationAndDateComingFromNewJobAction>(SunsetWeatherPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSingleExpenseProfileAction>(NewSingleExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSingleExpenseAction>(NewSingleExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveRecurringExpenseProfileAction>(NewRecurringExpensePageMiddleware()));
@@ -162,10 +165,10 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchAllRemindersAction>(NewJobReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobRemindersAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobReminderAction>(NewJobReminderPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllRemindersAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchNewJobDeviceEvents>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobTypeAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewJobTypePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(JobTypesPageMiddleware()));
   return middlewareList;
 }

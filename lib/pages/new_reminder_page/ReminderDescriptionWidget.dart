@@ -46,7 +46,7 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                       Container(
                         alignment: Alignment.center,
                         child: Text(
-                          'What do you want to name this reminder?',
+                          'What would you like to say in this reminder?',
                           textAlign: TextAlign.start,
                           style: TextStyle(
                             fontSize: 20.0,
@@ -58,11 +58,11 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                       ),
                       DandyLightTextField(
                         controller: descriptionTextController,
-                        hintText: 'Reminder Name',
+                        hintText: 'Reminder',
                         inputType: TextInputType.text,
                         focusNode: null,
                         onFocusAction: null,
-                        height: 64.0,
+                        height: 66.0,
                         onTextInputChanged: pageState.onReminderDescriptionChanged,
                         keyboardAction: TextInputAction.done,
                         capitalization: TextCapitalization.words,

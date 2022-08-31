@@ -26,17 +26,12 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       id: store.state.pricingProfilePageState.id,
       documentId: store.state.pricingProfilePageState.documentId,
       profileName: store.state.pricingProfilePageState.profileName,
-      rateType: store.state.pricingProfilePageState.rateType,
-      flatRate: store.state.pricingProfilePageState.flatRate,
-      hourlyRate: store.state.pricingProfilePageState.hourlyRate,
-      itemRate: store.state.pricingProfilePageState.itemRate,
-      icon: store.state.pricingProfilePageState.profileIcon != null
-          ? store.state.pricingProfilePageState.profileIcon : ImageUtil.getDefaultPricingProfileIcon(),
+      flatRate: store.state.pricingProfilePageState.flatRate.toDouble(),
+      icon: ImageUtil.getRandomPriceProfileIcon(),
     );
     await PriceProfileDao.insertOrUpdate(priceProfile);
-    store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
-    store.dispatch(prefix0.FetchAllClientsAction(store.state.newJobPageState));
+    store.dispatch(prefix0.FetchAllAction(store.state.newJobPageState));
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{

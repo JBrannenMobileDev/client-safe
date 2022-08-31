@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -30,7 +29,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
           Container(
             margin: EdgeInsets.only(left: 26.0, right: 26.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 Container(
@@ -46,11 +45,8 @@ class _JobTypeSelection extends State<JobTypeSelection>
                     ),
                   ),
                 ),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    minHeight: 65.0,
-                    maxHeight: 400.0,
-                  ),
+                Container(
+                  height: 411.0,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
@@ -85,15 +81,15 @@ class _JobTypeSelection extends State<JobTypeSelection>
               children: <Widget>[
                 pageState.selectedJobType != null &&
                     pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Container(
-                  margin: EdgeInsets.only(right: 16.0),
-                  height: 28.0,
-                  width: 28.0,
+                  margin: EdgeInsets.only(left: 4.0, right: 16.0),
+                  height: 32.0,
+                  width: 32.0,
                   child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
                 ) : Container(
-                  margin: EdgeInsets.only(right: 16.0),
-                  height: 28.0,
-                  width: 28.0,
-                  child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png'),
+                  margin: EdgeInsets.only(left: 4.0, right: 16.0),
+                  height: 32.0,
+                  width: 32.0,
+                  child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png', color: Color(ColorConstants.getBlueDark())),
                 ),
                 Expanded(
                   child: Container(
@@ -105,7 +101,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            pageState.jobTypes.elementAt(index),
+                            pageState.jobTypes.elementAt(index).title,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20.0,
@@ -114,7 +110,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                               color: pageState.selectedJobType != null &&
                                   pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Color(
                                   ColorConstants.getPrimaryWhite()) : Color(
-                                  ColorConstants.getPeachDark()),
+                                  ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],
@@ -131,8 +127,4 @@ class _JobTypeSelection extends State<JobTypeSelection>
 
     @override
   bool get wantKeepAlive => true;
-
-  int getIconPosition(NewJobPageState pageState, List<String> jobTypeIcons) {
-    return jobTypeIcons.indexOf(pageState.selectedJobType);
-  }
 }

@@ -8,6 +8,28 @@ class ReminderDandyLight {
   bool isDefault;
   DateTime time;
 
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is ReminderDandyLight &&
+          runtimeType == other.runtimeType &&
+          documentId == other.documentId &&
+          description == other.description &&
+          when == other.when &&
+          daysWeeksMonths == other.daysWeeksMonths &&
+          amount == other.amount &&
+          time == other.time;
+
+  @override
+  int get hashCode =>
+      documentId.hashCode ^
+      description.hashCode ^
+      when.hashCode ^
+      daysWeeksMonths.hashCode ^
+      amount.hashCode ^
+      time.hashCode;
+
   ReminderDandyLight({
     this.id,
     this.documentId,

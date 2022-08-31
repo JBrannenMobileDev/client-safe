@@ -36,7 +36,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
-        store.dispatch(FetchAllClientsAction(store.state.newJobPageState));
+        store.dispatch(FetchAllAction(store.state.newJobPageState));
         firstNameTextController.text = store.state.newJobPageState.clientFirstName;
         lastNameTextController.text = store.state.newJobPageState.clientLastName;
       },
@@ -100,6 +100,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                         ),
                         child: ListView.builder(
                           reverse: false,
+                          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
                           padding: new EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 64.0),
                           shrinkWrap: true,
                           controller: _controller,

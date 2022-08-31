@@ -1,7 +1,6 @@
 import 'dart:ffi';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
@@ -19,8 +18,8 @@ class NewJobTypePageState {
   final bool saveButtonEnabled;
   final bool shouldClear;
   final String title;
-  final double flatRate;
-  final bool checkAll;
+  final bool checkAllTypes;
+  final bool checkAllReminders;
   final List<ReminderDandyLight> selectedReminders;
   final List<ReminderDandyLight> allDandyLightReminders;
   final List<JobStage> selectedJobStages;
@@ -29,10 +28,10 @@ class NewJobTypePageState {
   final Function() onCancelPressed;
   final Function() onDeleteJobTypeSelected;
   final Function(String) onTitleChanged;
-  final Function(ReminderDandyLight) onReminderSelected;
+  final Function(int, bool) onReminderSelected;
   final Function(int, bool) onJobStageSelected;
-  final Function(String) onFlatRateTextChanged;
-  final Function(bool) checkAllChecked;
+  final Function(bool) checkAllTypesChecked;
+  final Function(bool) checkAllRemindersChecked;
 
   NewJobTypePageState({
     @required this.id,
@@ -49,11 +48,11 @@ class NewJobTypePageState {
     @required this.onReminderSelected,
     @required this.onJobStageSelected,
     @required this.allDandyLightReminders,
-    @required this.flatRate,
-    @required this.onFlatRateTextChanged,
     @required this.allJobStages,
-    @required this.checkAll,
-    @required this.checkAllChecked,
+    @required this.checkAllTypes,
+    @required this.checkAllTypesChecked,
+    @required this.checkAllReminders,
+    @required this.checkAllRemindersChecked,
 });
 
   NewJobTypePageState copyWith({
@@ -62,7 +61,6 @@ class NewJobTypePageState {
     bool saveButtonEnabled,
     bool shouldClear,
     String title,
-    double flatRate,
     List<ReminderDandyLight> selectedReminders,
     List<JobStage> selectedJobStages,
     List<JobStage> allJobStages,
@@ -71,11 +69,12 @@ class NewJobTypePageState {
     Function() onCancelPressed,
     Function() onDeleteJobTypeSelected,
     Function(String) onTitleChanged,
-    Function(ReminderDandyLight) onReminderSelected,
+    Function(int, bool) onReminderSelected,
     Function(int, bool) onJobStageSelected,
-    Function(String) onFlatRateTextChanged,
-    bool checkAll,
-    Function(bool) checkAllChecked,
+    bool checkAllTypes,
+    bool checkAllReminders,
+    Function(bool) checkAllTypesChecked,
+    Function(bool) checkAllRemindersChecked,
   }){
     return NewJobTypePageState(
       id: id?? this.id,
@@ -83,7 +82,6 @@ class NewJobTypePageState {
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       shouldClear: shouldClear?? this.shouldClear,
       title: title ?? this.title,
-      flatRate: flatRate ?? this.flatRate,
       onSavePressed: onSavePressed?? this.onSavePressed,
       onCancelPressed: onCancelPressed?? this.onCancelPressed,
       onDeleteJobTypeSelected: onDeleteJobTypeSelected ?? this.onDeleteJobTypeSelected,
@@ -93,10 +91,11 @@ class NewJobTypePageState {
       selectedReminders: selectedReminders ?? this.selectedReminders,
       selectedJobStages: selectedJobStages ?? this.selectedJobStages,
       allDandyLightReminders: allDandyLightReminders ?? this.allDandyLightReminders,
-      onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
       allJobStages: allJobStages ?? this.allJobStages,
-      checkAll: checkAll ?? this.checkAll,
-      checkAllChecked: checkAllChecked ?? this.checkAllChecked,
+      checkAllTypes: checkAllTypes ?? this.checkAllTypes,
+      checkAllTypesChecked: checkAllTypesChecked ?? this.checkAllTypesChecked,
+      checkAllReminders: checkAllReminders ?? this.checkAllReminders,
+      checkAllRemindersChecked: checkAllRemindersChecked ?? this.checkAllRemindersChecked,
     );
   }
 
@@ -106,7 +105,6 @@ class NewJobTypePageState {
         saveButtonEnabled: false,
         shouldClear: true,
         title: '',
-        flatRate: 0,
         onSavePressed: null,
         onCancelPressed: null,
         onDeleteJobTypeSelected: null,
@@ -116,10 +114,11 @@ class NewJobTypePageState {
         selectedJobStages: [],
         selectedReminders: [],
         allDandyLightReminders: [],
-        onFlatRateTextChanged: null,
-        allJobStages: JobStage.AllStages(),
-        checkAll: false,
-        checkAllChecked: null,
+        allJobStages: JobStage.AllStagesForNewJobTypeSelection(),
+        checkAllTypes: false,
+        checkAllTypesChecked: null,
+        checkAllReminders: false,
+        checkAllRemindersChecked: null,
       );
 
   factory NewJobTypePageState.fromStore(Store<AppState> store) {
@@ -132,17 +131,17 @@ class NewJobTypePageState {
       selectedReminders: store.state.newJobTypePageState.selectedReminders,
       selectedJobStages: store.state.newJobTypePageState.selectedJobStages,
       allDandyLightReminders: store.state.newJobTypePageState.allDandyLightReminders,
-      flatRate: store.state.newJobTypePageState.flatRate,
       allJobStages: store.state.newJobTypePageState.allJobStages,
-      checkAll: store.state.newJobTypePageState.checkAll,
+      checkAllTypes: store.state.newJobTypePageState.checkAllTypes,
+      checkAllReminders: store.state.newJobTypePageState.checkAllReminders,
       onSavePressed: () => store.dispatch(SaveNewJobTypeAction(store.state.newJobTypePageState)),
       onCancelPressed: () => store.dispatch(ClearNewJobTypeStateAction(store.state.newJobTypePageState)),
       onDeleteJobTypeSelected: () => store.dispatch(DeleteJobTypeAction(store.state.newJobTypePageState)),
       onTitleChanged: (newTitle) => store.dispatch(UpdateJobTypeTitleAction(store.state.newJobTypePageState, newTitle)),
-      onReminderSelected: (selectedReminder) => store.dispatch(UpdateSelectedReminderListAction(store.state.newJobTypePageState, selectedReminder)),
+      onReminderSelected: (index, isChecked) => store.dispatch(UpdateSelectedReminderListAction(store.state.newJobTypePageState, index, isChecked)),
       onJobStageSelected: (index, isChecked) => store.dispatch(SetSelectedStagesAction(store.state.newJobTypePageState, index, isChecked)),
-      onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.newJobTypePageState, flatRateText)),
-      checkAllChecked: (isChecked) => store.dispatch(UpdateCheckAllAction(store.state.newJobTypePageState, isChecked)),
+      checkAllTypesChecked: (isChecked) => store.dispatch(UpdateCheckAllTypesAction(store.state.newJobTypePageState, isChecked)),
+      checkAllRemindersChecked: (isChecked) => store.dispatch(UpdateCheckAllRemindersAction(store.state.newJobTypePageState, isChecked)),
     );
   }
 
@@ -152,7 +151,6 @@ class NewJobTypePageState {
       documentId.hashCode ^
       saveButtonEnabled.hashCode ^
       title.hashCode ^
-      flatRate.hashCode ^
       shouldClear.hashCode ^
       onSavePressed.hashCode ^
       onDeleteJobTypeSelected.hashCode ^
@@ -163,9 +161,10 @@ class NewJobTypePageState {
       selectedReminders.hashCode ^
       selectedJobStages.hashCode ^
       allDandyLightReminders.hashCode ^
-      onFlatRateTextChanged.hashCode ^
-      checkAll.hashCode ^
-      checkAllChecked.hashCode ^
+      checkAllTypes.hashCode ^
+      checkAllTypesChecked.hashCode ^
+      checkAllReminders.hashCode ^
+      checkAllRemindersChecked.hashCode ^
       onCancelPressed.hashCode;
 
   @override
@@ -186,9 +185,9 @@ class NewJobTypePageState {
           selectedJobStages == other.selectedJobStages &&
           selectedReminders == other.selectedReminders &&
           allDandyLightReminders == other.allDandyLightReminders &&
-          onFlatRateTextChanged == other.onFlatRateTextChanged &&
-          flatRate == other.flatRate &&
-          checkAll == other.checkAll &&
-          checkAllChecked == other.checkAllChecked &&
+          checkAllTypes == other.checkAllTypes &&
+          checkAllTypesChecked == other.checkAllTypesChecked &&
+          checkAllReminders == other.checkAllReminders &&
+          checkAllRemindersChecked == other.checkAllRemindersChecked &&
           onCancelPressed == other.onCancelPressed;
 }

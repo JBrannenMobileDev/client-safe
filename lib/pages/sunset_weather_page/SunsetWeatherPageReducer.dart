@@ -23,7 +23,19 @@ final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, SetSearchTextAction>(_setSearchText),
   TypedReducer<SunsetWeatherPageState, SetLocationsAction>(_setLocations),
   TypedReducer<SunsetWeatherPageState, SetLocationImageFilesAction>(_setLocationImages),
+  TypedReducer<SunsetWeatherPageState, SetComingFromNewJobAction>(_setComingFromNewJob),
+  TypedReducer<SunsetWeatherPageState, ClearPageStateAction>(_clearPageState),
 ]);
+
+SunsetWeatherPageState _clearPageState(SunsetWeatherPageState previousState, ClearPageStateAction action){
+  return SunsetWeatherPageState.initial();
+}
+
+SunsetWeatherPageState _setComingFromNewJob(SunsetWeatherPageState previousState, SetComingFromNewJobAction action){
+  return previousState.copyWith(
+    comingFromNewJob: action.isComingFromNewJob,
+  );
+}
 
 SunsetWeatherPageState _setLocationImages(SunsetWeatherPageState previousState, SetLocationImageFilesAction action){
   return previousState.copyWith(

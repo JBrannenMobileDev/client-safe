@@ -89,7 +89,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                           Padding(
                             padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
                             child: Text(
-                              "This is where you can build the types of jobs that you offer. \n\nFor example: \"1hr Engagement\" or \"30min Family\".",
+                              "Create your own job types here to help save time managing your jobs.",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18.0,
@@ -114,14 +114,14 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
       builder: (BuildContext context, JobTypesPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-            child: JobTypesListWidget(pageState.jobTypes.elementAt(index), pageState, onJobTypeSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
+            child: JobTypesListWidget(pageState.jobTypes.elementAt(index), pageState, onJobTypeSelected, Colors.white, Color(ColorConstants.getPrimaryBlack()), index),
           ),
     );
   }
 
-  onJobTypeSelected(JobType reminder, JobTypesPageState pageState,  BuildContext context) {
-    pageState.onJobTypeSelected(reminder);
-    // UserOptionsUtil.showNewJobTypeDialog(context, reminder);
+  onJobTypeSelected(JobType jobType, JobTypesPageState pageState,  BuildContext context) {
+    pageState.onJobTypeSelected(jobType);
+    UserOptionsUtil.showNewJobTypePage(context, jobType);
   }
 
   bool get _isMinimized {

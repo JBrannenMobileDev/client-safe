@@ -52,7 +52,7 @@ class _NewSingleExpenseName extends State<NewSingleExpenseName> with AutomaticKe
                 hintText: "Single expense name",
                 inputType: TextInputType.text,
                 focusNode: null,
-                height: 64.0,
+                height: 66.0,
                 onTextInputChanged: pageState.onNameChanged,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,

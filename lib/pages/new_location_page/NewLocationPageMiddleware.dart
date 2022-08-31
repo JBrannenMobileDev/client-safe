@@ -81,7 +81,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     await FileStorage.saveImageFile(action.pageState.imagePath, locationWithId);
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
-    store.dispatch(jobs.FetchAllClientsAction(store.state.newJobPageState));
+    store.dispatch(jobs.FetchAllAction(store.state.newJobPageState));
     store.dispatch(LoadNewMileageLocationsAction(store.state.newMileageExpensePageState));
   }
 

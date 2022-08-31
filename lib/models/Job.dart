@@ -3,28 +3,9 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 
-class Job {
-  static const String JOB_TYPE_MATERNITY = 'Maternity';
-  static const String JOB_TYPE_ENGAGEMENT = 'Engagement';
-  static const String JOB_TYPE_FAMILY_PORTRAIT = 'Family';
-  static const String JOB_TYPE_NEWBORN = 'Newborn';
-  static const String JOB_TYPE_OTHER = 'Other';
-  static const String JOB_TYPE_WEDDING = 'Wedding';
-  static const String JOB_TYPE_PET = 'Pet';
-  static const String JOB_TYPE_COMMERCIAL_ADVERTISING = 'Advertising';
-  static const String JOB_TYPE_MODELING = 'Modeling';
-  static const String JOB_TYPE_HEAD_SHOTS = 'Headshots';
-  static const String JOB_TYPE_REAL_ESTATE_ARCHITECTURE = 'Architecture';
-  static const String JOB_TYPE_BREASTFEEDING = 'Breastfeeding';
-  static const String JOB_TYPE_EVENT = 'Event';
-  static const String JOB_TYPE_NATURE = 'Nature';
-  static const String JOB_TYPE_ANNIVERSARY = 'Anniversary';
-  static const String JOB_TYPE_BIRTHDAY = 'Birthday';
-  static const String JOB_TYPE_BOUDOIR = 'Boudoir';
+import 'JobType.dart';
 
-  static const String GENDER_FEMALE = "female";
-  static const String GENDER_MALE = "male";
-  static const String GENDER_NEUTRAL = "neutral";
+class Job {
 
   int id;
   String documentId;
@@ -35,12 +16,11 @@ class Job {
   PriceProfile priceProfile;
   Location location;
   String notes;
-  String professionalUserId;
   DateTime selectedDate;
   DateTime selectedTime;
   DateTime selectedEndTime;
   DateTime createdDate;
-  String type;
+  JobType type;
   JobStage stage;
   Invoice invoice;
   int depositAmount;
@@ -55,7 +35,6 @@ class Job {
     this.clientName,
     this.jobTitle,
     this.notes,
-    this.professionalUserId,
     this.selectedDate,
     this.selectedTime,
     this.selectedEndTime,
@@ -80,11 +59,10 @@ class Job {
     PriceProfile priceProfile,
     Location location,
     String notes,
-    String professionalUserId,
     DateTime selectedDate,
     DateTime selectedTime,
     DateTime selectedEndTime,
-    String type,
+    JobType type,
     JobStage stage,
     Invoice invoice,
     int depositAmount,
@@ -102,7 +80,6 @@ class Job {
       priceProfile: priceProfile ?? this.priceProfile,
       location: location ?? this.location,
       notes: notes ?? this.notes,
-      professionalUserId: professionalUserId ?? this.professionalUserId,
       selectedDate: selectedDate ?? this.selectedDate,
       selectedTime: selectedTime ?? this.selectedTime,
       selectedEndTime: selectedEndTime ?? this.selectedEndTime,
@@ -124,12 +101,11 @@ class Job {
       'clientName' : clientName,
       'jobTitle' : jobTitle,
       'notes' : notes,
-      'professionalUserId' : professionalUserId,
       'selectedDate' : selectedDate?.toString() ?? "",
       'selectedTime' : selectedTime?.toString() ?? "",
       'selectedEndTime' : selectedEndTime?.toString() ?? "",
       'createdDate' : createdDate?.toString() ?? "",
-      'type' : type,
+      'type' : type?.toMap() ?? null,
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
       'priceProfile' : priceProfile?.toMap() ?? null,
@@ -148,12 +124,11 @@ class Job {
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
-      professionalUserId: map['professionalUserId'],
       selectedDate: map['selectedDate'] != ""? DateTime.parse(map['selectedDate']) : null,
       selectedTime: map['selectedTime'] != "" ? DateTime.parse(map['selectedTime']) : null,
       createdDate: map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
       selectedEndTime: map['selectedEndTime'] != null && map['selectedEndTime'] != "" ? DateTime.parse(map['selectedEndTime']) : null,
-      type: map['type'],
+      type: JobType.fromMap(map['type']),
       stage: JobStage.fromMap(map['stage']),
       location: map['location'] != null ? Location.fromMap(map['location']) : null,
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,

@@ -51,7 +51,7 @@ class _NewRecurringExpenseName extends State<NewRecurringExpenseName> with Autom
                 hintText: "Recurring expense name",
                 inputType: TextInputType.text,
                 focusNode: null,
-                height: 64.0,
+                height: 66.0,
                 onTextInputChanged: pageState.onNameChanged,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,

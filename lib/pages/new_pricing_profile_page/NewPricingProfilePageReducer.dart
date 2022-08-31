@@ -11,8 +11,6 @@ final newPricingProfilePageReducer = combineReducers<NewPricingProfilePageState>
   TypedReducer<NewPricingProfilePageState, UpdateProfileNameAction>(_updateName),
   TypedReducer<NewPricingProfilePageState, SaveSelectedRateTypeAction>(_saveRateType),
   TypedReducer<NewPricingProfilePageState, UpdateFlatRateTextAction>(_updateFlatRate),
-  TypedReducer<NewPricingProfilePageState, UpdateHourlyRateTextAction>(_updateHourlyRate),
-  TypedReducer<NewPricingProfilePageState, UpdateItemRateTextAction>(_updateItemRate),
 ]);
 
 NewPricingProfilePageState _saveRateType(NewPricingProfilePageState previousState, SaveSelectedRateTypeAction action){
@@ -21,30 +19,13 @@ NewPricingProfilePageState _saveRateType(NewPricingProfilePageState previousStat
   );
 }
 
-NewPricingProfilePageState _updateItemRate(NewPricingProfilePageState previousState, UpdateItemRateTextAction action){
-  String itemRate = action.itemRateText.replaceFirst(r'$', '');
-  return previousState.copyWith(
-    itemRate: double.parse(itemRate),
-    hourlyRate: itemRate.length > 0 ? 0 : previousState.hourlyRate,
-    flatRate: itemRate.length > 0 ? 0 : previousState.flatRate,
-  );
-}
-
-NewPricingProfilePageState _updateHourlyRate(NewPricingProfilePageState previousState, UpdateHourlyRateTextAction action){
-  String hourlyRate = action.hourlyRateText.replaceFirst(r'$', '');
-  return previousState.copyWith(
-    hourlyRate: double.parse(hourlyRate),
-    itemRate: hourlyRate.length > 0 ? 0 : previousState.itemRate,
-    flatRate: hourlyRate.length > 0 ? 0 : previousState.flatRate,
-  );
-}
-
 NewPricingProfilePageState _updateFlatRate(NewPricingProfilePageState previousState, UpdateFlatRateTextAction action){
-  String flatRate = action.flatRateText.replaceFirst(r'$', '');
+  String resultCost = action.flatRateText.replaceAll('\$', '');
+  resultCost = resultCost.replaceAll(',', '');
+  resultCost = resultCost.replaceAll(' ', '');
+  double doubleCost = double.parse(resultCost);
   return previousState.copyWith(
-    flatRate: double.parse(flatRate),
-    itemRate: flatRate.length > 0 ? 0 : previousState.itemRate,
-    hourlyRate: flatRate.length > 0 ? 0 : previousState.hourlyRate,
+    flatRate: doubleCost.toInt(),
   );
 }
 
@@ -62,9 +43,7 @@ NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previous
     profileName: action.profile.profileName,
     profileIcon: action.profile.icon,
     rateType: action.profile.rateType,
-    flatRate: action.profile.flatRate,
-    hourlyRate: action.profile.hourlyRate,
-    itemRate: action.profile.itemRate,
+    flatRate: action.profile.flatRate.toInt(),
   );
 }
 

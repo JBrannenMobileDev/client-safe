@@ -90,7 +90,7 @@ class ReminderSelectionListWidget extends StatelessWidget {
                     fillColor: MaterialStateProperty.resolveWith(getColor),
                     value: pageState.selectedReminders.contains(pageState.allDandyLightReminders.elementAt(index)),
                     onChanged: (bool isChecked) {
-                      pageState.onJobStageSelected(index, isChecked);
+                      pageState.onReminderSelected(index, isChecked);
                     },
                   ),
                 ),

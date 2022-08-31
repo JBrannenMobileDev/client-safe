@@ -6,6 +6,8 @@ import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collec
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../new_job_types_page/NewJobTypeActions.dart';
+
 class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -32,10 +34,15 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
     await ReminderDao.insertOrUpdate(reminder);
     store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState));
     store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState));
+    store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newJobTypePageState));
   }
 
   void _deleteReminder(Store<AppState> store, DeleteReminderAction action, NextDispatcher next) async{
     await ReminderDao.delete(store.state.newReminderPageState.documentId);
+    ReminderDandyLight reminder = await ReminderDao.getReminderById(action.pageState.documentId);
+    if(reminder != null) {
+      await ReminderDao.delete(action.pageState.documentId);
+    }
     store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

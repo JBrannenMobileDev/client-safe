@@ -52,7 +52,7 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
                 inputType: TextInputType.text,
                 focusNode: null,
                 onFocusAction: null,
-                height: 64.0,
+                height: 66.0,
                 onTextInputChanged: pageState.onProfileNameChanged,
                 keyboardAction: TextInputAction.done,
                 capitalization: TextCapitalization.words,

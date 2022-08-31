@@ -10,6 +10,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/NavigationUtil.dart';
+import '../../utils/UserOptionsUtil.dart';
+import '../sunset_weather_page/SunsetWeatherPage.dart';
+
 class TimeSelectionForm extends StatefulWidget {
   @override
   _TimeSelectionFormState createState() {
@@ -33,7 +37,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-                "Select a time for this job reminder.",
+                "Select a time for this job.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 20.0,
@@ -47,12 +51,21 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Container(
-                    child: new Image.asset(
-                      'assets/images/icons/sunset_icon_peach.png',
-                      height: 48.0,
-                      fit: BoxFit.cover,
-                    ),
+                  GestureDetector(
+                    onTap: (){
+                      pageState.onSunsetWeatherSelected();
+                      Navigator.of(context).push(
+                        new MaterialPageRoute(
+                            builder: (context) => SunsetWeatherPage()),
+                      );
+                    },
+                    child: Container(
+                        child: Image.asset(
+                          'assets/images/icons/sunset_icon_peach.png',
+                          height: 48.0,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 8.0, right: 8.0),

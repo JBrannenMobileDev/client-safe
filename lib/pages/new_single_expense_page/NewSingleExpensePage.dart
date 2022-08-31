@@ -1,11 +1,6 @@
 import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileIconSelection.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewProfileName.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
 import 'package:dandylight/pages/new_single_expense_page/ExpenseDateSelection.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseCost.dart';
@@ -22,7 +17,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class NewSingleExpensePage extends StatefulWidget {
   @override

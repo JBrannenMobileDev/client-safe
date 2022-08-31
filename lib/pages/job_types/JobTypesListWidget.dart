@@ -2,6 +2,7 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../../models/JobType.dart';
 import '../../models/PriceProfile.dart';
@@ -12,8 +13,9 @@ class JobTypesListWidget extends StatelessWidget {
   final Function onJobTypeSelected;
   final Color backgroundColor;
   final Color textColor;
+  final int index;
 
-  JobTypesListWidget(this.jobType, this.pageState, this.onJobTypeSelected, this.backgroundColor, this.textColor);
+  JobTypesListWidget(this.jobType, this.pageState, this.onJobTypeSelected, this.backgroundColor, this.textColor, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -53,33 +55,17 @@ class JobTypesListWidget extends StatelessWidget {
                           color: Colors.transparent,
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            jobType.title,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: textColor,
-                            ),
+                      Container(
+                        child: Text(
+                          jobType.title,
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: textColor,
                           ),
-                          Container(
-                            child: Text(
-                              'Flat Rate - ' + '\$' + pageState.flatRate.toInt().toString(),
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w400,
-                                color: textColor,
-                              ),
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
                     ],
                   ),

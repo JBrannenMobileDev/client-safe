@@ -7,6 +7,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
@@ -28,59 +29,18 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   final GlobalKey<ScaffoldState> scaffoldKey;
   OverlayEntry overlayEntry;
   final FocusNode flatRateInputFocusNode = new FocusNode();
-  final FocusNode hourlyRateInputFocusNode = new FocusNode();
-  final FocusNode itemRateInputFocusNode = new FocusNode();
-  var flatRateTextController = TextEditingController(text: '\$');
-  var hourlyRateTextController = TextEditingController(text: '\$');
-  var hourlyQuantityTextController = TextEditingController(text: '0');
-  var quantityRateTextController = TextEditingController(text: '\$');
-  var quantityQuantityTextController = TextEditingController(text: '0');
+  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
   int selectorIndex = 0;
-  Map<int, Widget> rateTypes;
 
   _RateTypeSelection(this.scaffoldKey);
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    rateTypes = <int, Widget>{
-      0: Text(RateTypeSelection.SELECTOR_TYPE_FLAT_RATE,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      1: Text(RateTypeSelection.SELECTOR_TYPE_HOURLY,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      2: Text(RateTypeSelection.SELECTOR_TYPE_QUANTITY,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: selectorIndex == 2 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 2
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-    };
-    if(flatRateTextController.text.length == 0) flatRateTextController = TextEditingController(text: '\$');
-    if(hourlyQuantityTextController.text.length == 0) hourlyQuantityTextController = TextEditingController(text: '\$');
-    if(quantityRateTextController.text.length == 0) quantityRateTextController = TextEditingController(text: '\$');
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (appState) {
         flatRateTextController.text = '\$' + (appState.state.pricingProfilePageState.flatRate.toInt() > 0 ? appState.state.pricingProfilePageState.flatRate.toInt().toString() : '');
-        hourlyRateTextController.text = '\$' + (appState.state.pricingProfilePageState.hourlyRate.toInt() > 0 ? appState.state.pricingProfilePageState.hourlyRate.toInt().toString() : '');
-        quantityRateTextController.text = '\$' + (appState.state.pricingProfilePageState.itemRate.toInt() > 0 ? appState.state.pricingProfilePageState.itemRate.toInt().toString() : '');
-        KeyboardVisibilityNotification().addNewListener(
+       KeyboardVisibilityNotification().addNewListener(
             onShow: () {
               showOverlay(context);
             },
@@ -97,29 +57,9 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
           else
             removeOverlay();
         });
-
-        hourlyRateInputFocusNode.addListener(() {
-
-          bool hasFocus = hourlyRateInputFocusNode.hasFocus;
-          if (hasFocus)
-            showOverlay(context);
-          else
-            removeOverlay();
-        });
-
-        itemRateInputFocusNode.addListener(() {
-
-          bool hasFocus = itemRateInputFocusNode.hasFocus;
-          if (hasFocus)
-            showOverlay(context);
-          else
-            removeOverlay();
-        });
       },
       onDidChange: (prev, pageState) {
         if(pageState.flatRate == 0) flatRateTextController.text = '\$';
-        if(pageState.hourlyRate == 0) hourlyRateTextController.text = '\$';
-        if(pageState.itemRate == 0) quantityRateTextController.text = '\$';
       },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
@@ -130,90 +70,32 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
-                    'Price Breakdown',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
+                    child: Text(
+                      'How much do you want to charge for this price package?',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
                     ),
                   ),
                   Container(
-                    width: 300.0,
-                    margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
-                    child: CupertinoSlidingSegmentedControl<int>(
-                      backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                      thumbColor: Color(ColorConstants.getPrimaryColor()),
-                      children: rateTypes,
-                      onValueChanged: (int filterTypeIndex) {
-                        setState(() {
-                          selectorIndex = filterTypeIndex;
-                        });
-                        pageState.onFilterChanged(
-                            filterTypeIndex == 0 ? RateTypeSelection
-                                .SELECTOR_TYPE_FLAT_RATE : filterTypeIndex == 1
-                                ? RateTypeSelection.SELECTOR_TYPE_HOURLY
-                                : RateTypeSelection.SELECTOR_TYPE_QUANTITY);
-                      },
-                      groupValue: selectorIndex,
-                    ),
-                  ),
-                  selectorIndex == 0 ? Container(
-                    width: 300.0,
+                    padding: EdgeInsets.only(left: 24.0, right: 24.0),
                     child: DandyLightTextField(
                       controller: flatRateTextController,
                       hintText: "\$",
                       inputType: TextInputType.number,
                       focusNode: flatRateInputFocusNode,
-                      height: 64.0,
+                      height: 66.0,
                       onTextInputChanged: pageState.onFlatRateTextChanged,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
-                      labelText: 'Rate',
                     ),
-                  ) : selectorIndex == 1 ?
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 300.0,
-                          child: DandyLightTextField(
-                            controller: hourlyRateTextController,
-                            hintText: "\$",
-                            inputType: TextInputType.number,
-                            focusNode: hourlyRateInputFocusNode,
-                            height: 64.0,
-                            onTextInputChanged: pageState.onHourlyRateTextChanged,
-                            capitalization: TextCapitalization.none,
-                            keyboardAction: TextInputAction.done,
-                            labelText: 'Rate Per Hour',
-                          ),
-                        ),
-                      ],
-                    ) :
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          width: 300.0,
-                          child: DandyLightTextField(
-                            controller: quantityRateTextController,
-                            hintText: "\$",
-                            inputType: TextInputType.number,
-                            focusNode: itemRateInputFocusNode,
-                            height: 64.0,
-                            onTextInputChanged: pageState.onItemRateTextChanged,
-                            capitalization: TextCapitalization.none,
-                            keyboardAction: TextInputAction.done,
-                            labelText: 'Rate Per Item',
-                          ),
-                        ),
-                      ],
-                    ),
+                  ),
                 ],
               ),
             ],

@@ -13,6 +13,7 @@ import '../../models/rest_models/Hour.dart';
 import 'SunsetWeatherPageActions.dart';
 
 class SunsetWeatherPageState {
+  final bool comingFromNewJob;
   final int selectedFilterIndex;
   final Function(int) onSelectorChanged;
   final String locationName;
@@ -59,6 +60,7 @@ class SunsetWeatherPageState {
   final Function(PlacesLocation) onSearchLocationSelected;
   final Location selectedSearchLocation;
   final Function() chooseLocationSelected;
+  final Function() clearPageState;
 
   SunsetWeatherPageState({
     @required this.selectedFilterIndex,
@@ -107,9 +109,12 @@ class SunsetWeatherPageState {
     @required this.onThrottleGetLocations,
     @required this.chooseLocationSelected,
     @required this.locationImages,
+    @required this.comingFromNewJob,
+    @required this.clearPageState,
   });
 
   SunsetWeatherPageState copyWith({
+    bool comingFromNewJob,
     int selectedFilterIndex,
     Function(int) onSelectorChanged,
     String locationName,
@@ -156,6 +161,7 @@ class SunsetWeatherPageState {
     Location selectedSearchLocation,
     Function(String) onThrottleGetLocations,
     Function() chooseLocationSelected,
+    Function() clearPageState,
   }){
     return SunsetWeatherPageState(
       selectedFilterIndex: selectedFilterIndex ?? this.selectedFilterIndex,
@@ -204,10 +210,13 @@ class SunsetWeatherPageState {
       onThrottleGetLocations: onThrottleGetLocations ?? this.onThrottleGetLocations,
       chooseLocationSelected: chooseLocationSelected ?? this.chooseLocationSelected,
       locationImages: locationImages ?? this.locationImages,
+      comingFromNewJob: comingFromNewJob ?? this.comingFromNewJob,
+      clearPageState: clearPageState ?? this.clearPageState,
     );
   }
 
   factory SunsetWeatherPageState.initial() => SunsetWeatherPageState(
+    comingFromNewJob: false,
     selectedFilterIndex: 0,
     onSelectorChanged: null,
     locationName: 'Location',
@@ -254,10 +263,12 @@ class SunsetWeatherPageState {
     onThrottleGetLocations: null,
     chooseLocationSelected: null,
     locationImages: [],
+    clearPageState: null,
   );
 
   factory SunsetWeatherPageState.fromStore(Store<AppState> store) {
     return SunsetWeatherPageState(
+      comingFromNewJob: store.state.sunsetWeatherPageState.comingFromNewJob,
       selectedFilterIndex: store.state.sunsetWeatherPageState.selectedFilterIndex,
       locationName: store.state.sunsetWeatherPageState.locationName,
       morningBlueHour: store.state.sunsetWeatherPageState.morningBlueHour,
@@ -307,12 +318,14 @@ class SunsetWeatherPageState {
       },
       onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.sunsetWeatherPageState, input)),
       chooseLocationSelected: () => store.dispatch(LoadLocationImageFilesAction(store.state.sunsetWeatherPageState)),
+      clearPageState: () => store.dispatch(ClearPageStateAction(store.state.sunsetWeatherPageState)),
     );
   }
 
   @override
   int get hashCode =>
     selectedFilterIndex.hashCode ^
+    comingFromNewJob.hashCode ^
     onSearchLocationSelected.hashCode ^
     locationName.hashCode ^
     onFetchCurrentLocation.hashCode ^
@@ -339,6 +352,7 @@ class SunsetWeatherPageState {
     onSearchInputChanged.hashCode ^
     pageViewIndex.hashCode ^
     locationsResults.hashCode ^
+    clearPageState.hashCode ^
     onNextPressed.hashCode ^
     onSaveLocationSelected.hashCode ^
     onCanceledSelected.hashCode ^
@@ -371,6 +385,8 @@ class SunsetWeatherPageState {
           onSearchLocationSelected == other.onSearchLocationSelected &&
           selectedFilterIndex == other.selectedFilterIndex &&
           locationName == other.locationName &&
+          clearPageState == other.clearPageState &&
+          comingFromNewJob == other.comingFromNewJob &&
           onFetchCurrentLocation == other.onFetchCurrentLocation &&
           morningBlueHour == other.morningBlueHour &&
           sunrise == other.sunrise &&

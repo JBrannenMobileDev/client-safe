@@ -52,7 +52,7 @@ class JobInProgressItem extends StatelessWidget{
                           Padding(
                             padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
                             child: Text(
-                              job.clientName.split(' ').first + " - " + job.jobTitle,
+                              job.jobTitle,
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 20.0,

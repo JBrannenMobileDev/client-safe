@@ -172,12 +172,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
-    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      type: action.pageState.jobTypeIcon,
-    );
-    await JobDao.insertOrUpdate(jobToSave);
-    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
-    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    // Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
+    //   type: action.pageState.jobTypeIcon,
+    // );
+    // await JobDao.insertOrUpdate(jobToSave);
+    // store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    // store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateJobName(Store<AppState> store, SaveJobNameChangeAction action, NextDispatcher next) async{
@@ -280,6 +280,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteJob(Store<AppState> store, NextDispatcher next, DeleteJobAction action)async{
     await JobDao.delete(store.state.jobDetailsPageState.job);
+    Job job = await JobDao.getJobById(action.pageState.job.documentId);
+    if(job != null) {
+      await JobDao.delete(store.state.jobDetailsPageState.job);
+    }
+
     store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
