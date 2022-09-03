@@ -7,6 +7,7 @@ import 'package:dandylight/pages/job_types/JobTypesActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/JobStage.dart';
 import '../new_job_page/NewJobPageActions.dart';
 import 'NewJobTypeActions.dart';
 
@@ -31,12 +32,15 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveNewJobType(Store<AppState> store, SaveNewJobTypeAction action, NextDispatcher next) async{
+    List<JobStage> selectedStages = store.state.newJobTypePageState.selectedJobStages;
+    selectedStages.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
+    selectedStages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
     JobType newJobType = JobType(
       id: store.state.newJobTypePageState.id,
       documentId: store.state.newJobTypePageState.documentId,
       title: store.state.newJobTypePageState.title,
       createdDate: DateTime.now(),
-      stages: store.state.newJobTypePageState.selectedJobStages,
+      stages: selectedStages,
       reminders: store.state.newJobTypePageState.selectedReminders,
     );
 

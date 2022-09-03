@@ -10,6 +10,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
 
 import '../../models/JobReminder.dart';
+import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
 
 class SetJobInfo{
@@ -45,6 +46,17 @@ class SetRemindersAction{
 class FetchJobRemindersAction{
   final JobDetailsPageState pageState;
   FetchJobRemindersAction(this.pageState);
+}
+
+class FetchAllJobTypesAction{
+  final JobDetailsPageState pageState;
+  FetchAllJobTypesAction(this.pageState);
+}
+
+class SetAllJobTypesAction{
+  final JobDetailsPageState pageState;
+  final List<JobType> jobTypes;
+  SetAllJobTypesAction(this.pageState, this.jobTypes);
 }
 
 class DeleteReminderFromJobAction{
@@ -189,7 +201,7 @@ class SaveJobNameChangeAction{
 
 class UpdateSelectedJobTypeAction{
   final JobDetailsPageState pageState;
-  final String jobType;
+  final JobType jobType;
   UpdateSelectedJobTypeAction(this.pageState, this.jobType);
 }
 

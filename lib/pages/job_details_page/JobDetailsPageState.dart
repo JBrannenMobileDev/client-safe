@@ -16,6 +16,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
 
 class JobDetailsPageState {
@@ -28,6 +29,7 @@ class JobDetailsPageState {
   final List<EventDandyLight> eventList;
   final List<Event> deviceEvents;
   final List<Job> jobs;
+  final JobType jobType;
   final List<JobReminder> reminders;
   final String jobTitleText;
   final int unsavedDepositAmount;
@@ -37,15 +39,15 @@ class JobDetailsPageState {
   final Location selectedLocation;
   final Function(Location) onLocationSelected;
   final List<int> expandedIndexes;
-  final String jobTypeIcon;
   final String documentPath;
   final PriceProfile selectedPriceProfile;
   final List<PriceProfile> priceProfiles;
+  final List<JobType> jobTypes;
   final List<DocumentItem> documents;
   final Invoice invoice;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function() onSaveUpdatedPriceProfileSelected;
-  final Function(String) onJobTypeSelected;
+  final Function(JobType) onJobTypeSelected;
   final Function(Job, int) onStageCompleted;
   final Function(Job, int) onStageUndo;
   final Function(int) setNewIndexForStageAnimation;
@@ -108,7 +110,6 @@ class JobDetailsPageState {
     @required this.onLocationSaveSelected,
     @required this.onJobTitleTextChanged,
     @required this.onNameChangeSaved,
-    @required this.jobTypeIcon,
     @required this.onJobTypeSelected,
     @required this.onJobTypeSaveSelected,
     @required this.selectedPriceProfile,
@@ -133,6 +134,8 @@ class JobDetailsPageState {
     @required this.onMonthChanged,
     @required this.onNewDateSelected,
     @required this.imageFiles,
+    @required this.jobType,
+    @required this.jobTypes,
   });
 
   JobDetailsPageState copyWith({
@@ -144,6 +147,7 @@ class JobDetailsPageState {
     List<EventDandyLight> eventList,
     List<Event> deviceEvents,
     List<Job> jobs,
+    JobType jobType,
     String jobTitleText,
     List<Location> locations,
     List<File> imageFiles,
@@ -151,14 +155,14 @@ class JobDetailsPageState {
     Location selectedLocation,
     Function(Location) onLocationSelected,
     List<int> expandedIndexes,
-    String jobTypeIcon,
     String documentPath,
     Invoice invoice,
+    List<JobType> jobTypes,
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
     Function(PriceProfile) onPriceProfileSelected,
     Function() onSaveUpdatedPriceProfileSelected,
-    Function(String) onJobTypeSelected,
+    Function(JobType) onJobTypeSelected,
     Function(Job, int) onStageCompleted,
     Function(Job, int) onStageUndo,
     Function(int) setNewIndexForStageAnimation,
@@ -175,7 +179,7 @@ class JobDetailsPageState {
     Function(Location) onLocationSaveSelected,
     Function(String) onJobTitleTextChanged,
     Function() onNameChangeSaved,
-    Function() onJobTypeSaveSelected,
+    Function(JobType) onJobTypeSaveSelected,
     int unsavedDepositAmount,
     Function(int) onAddToDeposit,
     Function() onSaveDepositChange,
@@ -204,6 +208,7 @@ class JobDetailsPageState {
       eventList: eventList ?? this.eventList,
       deviceEvents: deviceEvents ?? this.deviceEvents,
       jobs: jobs ?? this.jobs,
+      jobType: jobType ?? this.jobType,
       reminders: reminders ?? this.reminders,
       documentPath: documentPath ?? this.documentPath,
       jobTitleText: jobTitleText ?? this.jobTitleText,
@@ -228,7 +233,6 @@ class JobDetailsPageState {
       onJobTitleTextChanged: onJobTitleTextChanged ?? this.onJobTitleTextChanged,
       onNameChangeSaved: onNameChangeSaved ?? this.onNameChangeSaved,
       onJobTypeSelected: onJobTypeSelected ?? this.onJobTypeSelected,
-      jobTypeIcon: jobTypeIcon ?? this.jobTypeIcon,
       onJobTypeSaveSelected: onJobTypeSaveSelected ?? this.onJobTypeSaveSelected,
       selectedPriceProfile: selectedPriceProfile ?? this.selectedPriceProfile,
       priceProfiles: priceProfiles ?? this.priceProfiles,
@@ -250,6 +254,7 @@ class JobDetailsPageState {
       onMonthChanged: onMonthChanged ?? this.onMonthChanged,
       onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
       imageFiles: imageFiles ?? this.imageFiles,
+      jobTypes: jobTypes ?? this.jobTypes,
     );
   }
 
@@ -268,7 +273,6 @@ class JobDetailsPageState {
         selectedLocation: store.state.jobDetailsPageState.selectedLocation,
         expandedIndexes: store.state.jobDetailsPageState.expandedIndexes,
         newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
-        jobTypeIcon: store.state.jobDetailsPageState.jobTypeIcon,
         selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
         priceProfiles: store.state.jobDetailsPageState.priceProfiles,
         unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
@@ -278,6 +282,8 @@ class JobDetailsPageState {
         invoice: store.state.jobDetailsPageState.invoice,
         reminders: store.state.jobDetailsPageState.reminders,
         imageFiles: store.state.jobDetailsPageState.imageFiles,
+        jobType: store.state.jobDetailsPageState.jobType,
+        jobTypes: store.state.jobDetailsPageState.jobTypes,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -333,6 +339,7 @@ class JobDetailsPageState {
     jobTitleText: "",
     onDeleteInvoiceSelected: null,
     documents: [],
+    jobType: null,
     onLocationSaveSelected: null,
     setNewIndexForStageAnimation: null,
     locations: [],
@@ -354,7 +361,6 @@ class JobDetailsPageState {
     onJobTitleTextChanged: null,
     onNameChangeSaved: null,
     documentPath: '',
-    jobTypeIcon: 'assets/images/job_types/other.png',
     onJobTypeSelected: null,
     onJobTypeSaveSelected: null,
     selectedPriceProfile: null,
@@ -373,6 +379,7 @@ class JobDetailsPageState {
     onClearUnsavedTip: null,
     reminders: [],
     imageFiles: [],
+    jobTypes: [],
   );
 
   @override
@@ -389,6 +396,8 @@ class JobDetailsPageState {
       onAddToDeposit.hashCode ^
       onSaveDepositChange.hashCode ^
       job.hashCode ^
+      jobTypes.hashCode ^
+      jobType.hashCode ^
       documentPath.hashCode ^
       client.hashCode ^
       sunsetTime.hashCode ^
@@ -417,7 +426,6 @@ class JobDetailsPageState {
       onClientClicked.hashCode ^
       onJobClicked.hashCode ^
       onJobTitleTextChanged.hashCode ^
-      jobTypeIcon.hashCode ^
       onJobTypeSelected.hashCode ^
       onJobTypeSaveSelected.hashCode ^
       priceProfiles.hashCode ^
@@ -437,10 +445,12 @@ class JobDetailsPageState {
               onAddInvoiceSelected == other.onAddInvoiceSelected &&
               onSaveDepositChange == other.onSaveDepositChange &&
               job == other.job &&
+              jobTypes == other.jobTypes &&
               selectedDate == other.selectedDate &&
               deviceEvents == other.deviceEvents &&
               unsavedTipAmount == other.unsavedTipAmount &&
               onAddToTip == other.onAddToTip &&
+              jobType == other.jobType &&
               onSaveTipChange == other.onSaveTipChange &&
               onClearUnsavedTip == other.onClearUnsavedTip &&
               documentPath == other.documentPath &&
@@ -471,7 +481,6 @@ class JobDetailsPageState {
               onClientClicked == other.onClientClicked &&
               onJobClicked == other.onJobClicked &&
               onJobTitleTextChanged == other.onJobTitleTextChanged &&
-              jobTypeIcon == other.jobTypeIcon &&
               onJobTypeSelected == other.onJobTypeSelected &&
               onJobTypeSaveSelected == other.onJobTypeSaveSelected &&
               selectedPriceProfile == other.selectedPriceProfile &&

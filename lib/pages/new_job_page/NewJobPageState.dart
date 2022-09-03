@@ -216,7 +216,7 @@ class NewJobPageState {
 
   factory NewJobPageState.initial() {
     List<JobStage> selectedStagesInitial = [];
-    selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
+    selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED));
     return NewJobPageState(
         id: null,
         documentId: '',
@@ -236,7 +236,7 @@ class NewJobPageState {
         filteredClients: [],
         pricingProfiles: [],
         locations: [],
-        currentJobStage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT, value: 2),
+        currentJobStage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT),
         selectedDate: DateTime.now(),
         deviceEvents: [],
         selectedTime: null,

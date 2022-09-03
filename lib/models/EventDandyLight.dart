@@ -29,7 +29,7 @@ class EventDandyLight{
       isPersonalEvent: false,
       eventTitle: job.jobTitle,
       icon: job.stage.getNextStageImage(),
-      nextStageText: 'Next: ' + JobStage.getNextStageNameStatic(JobStage.getStageValue(job.stage.stage)),
+      nextStageText: 'Stage: ' + JobStage.getStageText(job.stage),
       jobDocumentId: job.documentId,
     );
   }

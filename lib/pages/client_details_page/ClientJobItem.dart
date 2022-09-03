@@ -61,7 +61,7 @@ class ClientJobItem extends StatelessWidget{
                         ),
                       ),
                       Text(
-                        'Stage: ' + JobStage.getStageTextFromValue(JobStage.getStageValue(job.stage.stage)),
+                        'Stage: ' + job.stage.stage,
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 18.0,

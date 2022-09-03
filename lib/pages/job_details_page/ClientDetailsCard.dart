@@ -26,7 +26,7 @@ class ClientDetailsCard extends StatelessWidget {
             height: 224.0,
           ),
           Container(
-            height: 224.0,
+            height: 240.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             decoration: new BoxDecoration(
@@ -36,7 +36,7 @@ class ClientDetailsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
+                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 16.0),
                   child: Text(
                     pageState.client?.getClientFullName(),
                     textAlign: TextAlign.start,

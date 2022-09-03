@@ -60,7 +60,7 @@ class JobCompletedItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                      job.clientName + ' · ' + job.type.title,
+                      NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.priceProfile.flatRate),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 18.0,

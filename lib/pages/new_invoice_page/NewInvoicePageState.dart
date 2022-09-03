@@ -278,8 +278,8 @@ class NewInvoicePageState {
   }
 
   factory NewInvoicePageState.initial() {
-    List<JobStage> selectedStagesInitial = List();
-    selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1));
+    List<JobStage> selectedStagesInitial = [];
+    selectedStagesInitial.add(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED));
     return NewInvoicePageState(
         id: null,
         invoiceDocumentId: '',

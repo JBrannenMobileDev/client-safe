@@ -354,55 +354,6 @@ class ImageUtil{
     return AssetImage('assets/images/icons/trash_icon_peach.png');
   }
 
-  static AssetImage getJobStageImage(int index) {
-    String imageLocation = '';
-    switch(index){
-      case 0:
-        imageLocation = jobStageIcons[0];
-        break;
-      case 1:
-        imageLocation = jobStageIcons[1];
-        break;
-      case 2:
-        imageLocation = jobStageIcons[2];
-        break;
-      case 3:
-        imageLocation = jobStageIcons[3];
-        break;
-      case 4:
-        imageLocation = jobStageIcons[4];
-        break;
-      case 5:
-        imageLocation = jobStageIcons[5];
-        break;
-      case 6:
-        imageLocation = jobStageIcons[6];
-        break;
-      case 7:
-        imageLocation = jobStageIcons[7];
-        break;
-      case 8:
-        imageLocation = jobStageIcons[8];
-        break;
-      case 9:
-        imageLocation = jobStageIcons[9];
-        break;
-      case 10:
-        imageLocation = jobStageIcons[10];
-        break;
-      case 11:
-        imageLocation = jobStageIcons[11];
-        break;
-      case 12:
-        imageLocation = jobStageIcons[12];
-        break;
-      case 13:
-        imageLocation = jobStageIcons[13];
-        break;
-    }
-    return AssetImage(imageLocation);
-  }
-
   static AssetImage getJobStageImageFromStage(JobStage stage) {
     String imageLocation = '';
     switch(stage.stage){

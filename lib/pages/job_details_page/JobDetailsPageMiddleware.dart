@@ -4,11 +4,13 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
@@ -103,6 +105,22 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchJobDetailsDeviceEvents) {
       _fetchDeviceEventsForMonth(store, action, next);
     }
+    if(action is FetchAllJobTypesAction) {
+      _fetchJobTypes(store, action, next);
+    }
+  }
+
+  void _fetchJobTypes(Store<AppState> store, FetchAllJobTypesAction action, NextDispatcher next) async {
+    List<JobType> jobTypes = await JobTypeDao.getAll();
+    store.dispatch(SetAllJobTypesAction(store.state.jobDetailsPageState, jobTypes));
+
+    (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
+      List<JobType> jobTypes = [];
+      for(RecordSnapshot clientSnapshot in jobSnapshots) {
+        jobTypes.add(JobType.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetAllJobTypesAction(store.state.jobDetailsPageState, jobTypes));
+    });
   }
 
   void _fetchDeviceEventsForMonth(Store<AppState> store, FetchJobDetailsDeviceEvents action, NextDispatcher next) async {
@@ -133,7 +151,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
     await InvoiceDao.deleteByInvoice(action.invoice);
     List<JobStage> completedJobStages = store.state.jobDetailsPageState.job.completedStages.toList();
-    completedJobStages.remove(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED, value: 8));
+    completedJobStages.remove(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       completedStages: completedJobStages,
     );
@@ -172,12 +190,13 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
-    // Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-    //   type: action.pageState.jobTypeIcon,
-    // );
-    // await JobDao.insertOrUpdate(jobToSave);
-    // store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
-    // store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
+      type: store.state.jobDetailsPageState.jobType,
+      jobTitle: store.state.jobDetailsPageState.client.firstName + ' - ' + store.state.jobDetailsPageState.jobType.title,
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateJobName(Store<AppState> store, SaveJobNameChangeAction action, NextDispatcher next) async{
@@ -292,10 +311,10 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void updateJobInDb(Store<AppState> store, NextDispatcher next, SaveStageCompleted action) async{
     List<JobStage> completedJobStages = action.job.completedStages.toList();
-    JobStage stageToComplete = JobStage.getStageFromIndex(action.stageIndex);
+    JobStage stageToComplete = action.job.type.stages.elementAt(action.stageIndex);
     completedJobStages.add(stageToComplete);
     action.job.completedStages = completedJobStages;
-    action.job.stage = _getNextUncompletedStage(action.stageIndex, action.job.completedStages);
+    action.job.stage = _getNextUncompletedStage(action.stageIndex, action.job.completedStages, action.job);
     Job jobToSave = action.job.copyWith(
       completedStages: completedJobStages,
       depositAmount: store.state.jobDetailsPageState.job.depositAmount,
@@ -322,18 +341,18 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void undoStage(Store<AppState> store, NextDispatcher next, UndoStageAction action) async{
     List<JobStage> completedJobStages = action.job.completedStages.toList();
-    JobStage stageToRemove = JobStage.getStageFromIndex(action.stageIndex);
+    JobStage stageToRemove = action.job.type.stages.elementAt(action.stageIndex);
     completedJobStages = _removeStage(stageToRemove, completedJobStages);
     action.job.completedStages = completedJobStages;
     JobStage highestCompletedState;
     for(JobStage completedStage in completedJobStages){
       if(highestCompletedState == null) highestCompletedState = completedStage;
-      if(completedStage.value > highestCompletedState.value) highestCompletedState = completedStage;
+      if(getIndexOfStageInStages(completedStage, action.job.type.stages) > getIndexOfStageInStages(highestCompletedState, action.job.type.stages)) highestCompletedState = completedStage;
     }
     if(highestCompletedState != null){
       action.job.stage = JobStage.getNextStage(highestCompletedState);
     }else{
-      action.job.stage = JobStage.getStageFromIndex(1);
+      action.job.stage = action.job.type.stages.elementAt(1);
     }
     Job jobToSave = action.job.copyWith(
       completedStages: completedJobStages,
@@ -366,15 +385,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   List<JobStage> _removeStage(JobStage stageToRemove, List<JobStage> completedJobStages) {
-    List<JobStage> resultList = List();
+    List<JobStage> resultList = [];
     for(JobStage completedStage in completedJobStages){
-      if(completedStage.value != stageToRemove.value)resultList.add(completedStage);
+      if(completedStage.stage != stageToRemove.stage)resultList.add(completedStage);
     }
     return resultList;
   }
 
-  JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages) {
-    JobStage currentStage = JobStage.getStageFromIndex(stageIndex);
+  JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
+    JobStage currentStage = JobStage.getStageFromIndex(stageIndex, job.type.stages);
     JobStage nextStage = JobStage.getNextStage(currentStage);
     while(_completedStagesContainsNextStage(completedStages, nextStage)){
       nextStage = JobStage.getNextStage(nextStage);
@@ -386,7 +405,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(nextStage.stage == JobStage.STAGE_COMPLETED_CHECK) return false;
     bool containsNextStage = false;
     for(JobStage completedStage in completedStages){
-      if(completedStage.value == nextStage.value) return true;
+      if(completedStage.stage == nextStage.stage) return true;
     }
     return containsNextStage;
   }
@@ -399,6 +418,13 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _deleteReminder(Store<AppState> store, DeleteReminderFromJobAction action, NextDispatcher next) async {
     await JobReminderDao.delete(action.reminder.documentId);
     store.dispatch(FetchJobRemindersAction(store.state.jobDetailsPageState));
+  }
+
+  getIndexOfStageInStages(JobStage completedStage, List<JobStage> stages) {
+    for(int i=0 ; i <= stages.length; i++) {
+      if(stages.elementAt(i).stage == completedStage.stage) return i;
+    }
+    return 0;
   }
 
 

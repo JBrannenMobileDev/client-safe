@@ -26,7 +26,7 @@ class DocumentsCard extends StatelessWidget {
       padding: EdgeInsets.only(top: 26.0),
       child: Container(
         width: double.maxFinite,
-        height: pageState.documents.length == 0 ? 116.0 : 116.0,
+        height: 132.0,
         margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
@@ -39,7 +39,7 @@ class DocumentsCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.fromLTRB(26.0, 10.0, 26.0, 8.0),
+                    margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
                     child: Text(
                       'Documents',
                       textAlign: TextAlign.start,

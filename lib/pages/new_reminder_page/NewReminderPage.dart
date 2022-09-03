@@ -229,20 +229,24 @@ class _NewReminderPageState extends State<NewReminderPage> {
 
   void onNextPressed(NewReminderPageState pageState) {
     bool canProgress = true;
-    if (currentPageIndex != pageCount) {
       switch (currentPageIndex) {
         case 0:
           canProgress = pageState.reminderDescription.isNotEmpty;
           break;
+        case 1:
+          canProgress = true;
+          break;
+        case 2:
+          canProgress = pageState.selectedTime != null;
+          break;
       }
 
-      if (canProgress) {
+      if (currentPageIndex != pageCount && canProgress) {
         controller.animateToPage(currentPageIndex + 1,
             duration: Duration(milliseconds: 150), curve: Curves.ease);
         FocusScope.of(context).unfocus();
       }
-    }
-    if (currentPageIndex == pageCount) {
+    if (currentPageIndex == pageCount && canProgress) {
       pageState.onSavePressed();
       showSuccessAnimation();
     }

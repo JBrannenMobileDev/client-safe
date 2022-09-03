@@ -7,7 +7,6 @@ import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -163,11 +162,12 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       selectedDate: store.state.newJobPageState.selectedDate,
       selectedTime: store.state.newJobPageState.selectedTime,
       type: store.state.newJobPageState.jobType,
-      stage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT, value: 2),
-      completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED, value: 1)],
+      stage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT),
+      completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile,
       createdDate: DateTime.now(),
+      depositAmount: 0,
       );
     await JobDao.insertOrUpdate(jobToSave);
     await _createJobReminders(store, resultClient);

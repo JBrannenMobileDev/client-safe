@@ -75,7 +75,7 @@ class JobDetailsCalendarItem extends StatelessWidget{
                         ],
                       ),
                       Text(
-                        'Stage: ' + JobStage.getStageTextFromValue(JobStage.getStageValue(job.stage.stage)),
+                        'Stage: ' + JobStage.getStageText(job.stage),
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 18.0,

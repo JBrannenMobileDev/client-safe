@@ -34,7 +34,14 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetRemindersAction>(_setReminders),
   TypedReducer<JobDetailsPageState, SetDeviceEventsAction>(_setDeviceEvents),
   TypedReducer<JobDetailsPageState, SetJobDetailsSelectedDateAction>(_setSelectedDate),
+  TypedReducer<JobDetailsPageState, SetAllJobTypesAction>(_setJobTypes),
 ]);
+
+JobDetailsPageState _setJobTypes(JobDetailsPageState previousState, SetAllJobTypesAction action) {
+  return previousState.copyWith(
+    jobTypes: action.jobTypes,
+  );
+}
 
 JobDetailsPageState _setSelectedDate(JobDetailsPageState previousState, SetJobDetailsSelectedDateAction action) {
   return previousState.copyWith(
@@ -120,7 +127,7 @@ JobDetailsPageState _updateJobTitle(JobDetailsPageState previousState, UpdateJob
 }
 
 JobDetailsPageState _updateJobType(JobDetailsPageState previousState, UpdateSelectedJobTypeAction action) {
-  return previousState.copyWith(jobTypeIcon: action.jobType);
+  return previousState.copyWith(jobType: action.jobType);
 }
 
 JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetNewSelectedLocation action) {
@@ -175,7 +182,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
   if(action.job.invoice != null) {
     documents.add(InvoiceDocument());
   }
-  action.job.completedStages.sort((a, b) => a.value.compareTo(b.value));
+  action.job.completedStages.sort((a, b) => a.compareTo(b));
   Location newLocation = action.job.location != null ? action.job.location : Location(locationName: '');
   return previousState.copyWith(
     job: action.job,
@@ -184,6 +191,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     invoice: action.job.invoice,
     // jobTypeIcon: action.job.type,
     selectedDate: action.job.selectedDate,
+    jobType: action.job.type,
   );
 }
 

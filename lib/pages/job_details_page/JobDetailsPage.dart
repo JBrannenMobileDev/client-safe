@@ -103,6 +103,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
           appState.dispatch(FetchJobRemindersAction(appState.state.jobDetailsPageState)),
+          appState.dispatch(FetchAllJobTypesAction(appState.state.jobDetailsPageState)),
         },
         onDidChange: (prev, pageState) {
           pageStateLocal = pageState;
@@ -354,6 +355,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               fontSize: 26.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
+                              overflow: TextOverflow.visible,
                               color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
@@ -386,7 +388,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                       'Job Stages',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                        fontSize: 20.0,
+                                        fontSize: 22.0,
                                         fontFamily: 'simple',
                                         fontWeight: FontWeight.w800,
                                         color: Color(ColorConstants.getPrimaryWhite()),
@@ -411,7 +413,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                           physics:
                                               NeverScrollableScrollPhysics(),
                                           padding: const EdgeInsets.all(16.0),
-                                          itemCount: 14,
+                                          itemCount: pageState.job.type.stages.length,
                                           itemBuilder: _buildItem,
                                         ),
                                       ),
@@ -445,7 +447,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     pageStateLocal.onInvoiceSent(pageStateLocal.invoice);
     pageStateLocal.onStageCompleted(pageStateLocal.job, 7);
     pageStateLocal.removeExpandedIndex(7);
-    pageStateLocal.setNewIndexForStageAnimation((JobStage.getStageValue(pageStateLocal.job.stage.stage)));
+    pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
     VibrateUtil.vibrateHeavy();
   }
 
@@ -459,38 +461,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
 
   double _getScrollToOffset(JobDetailsPageState pageState) {
     if(pageState.job != null) {
-      switch (pageState.job.stage.stage) {
-        case JobStage.STAGE_1_INQUIRY_RECEIVED:
-          return 0;
-        case JobStage.STAGE_2_FOLLOWUP_SENT:
-          return 200.0;
-        case JobStage.STAGE_3_PROPOSAL_SENT:
-          return 400.0;
-        case JobStage.STAGE_4_PROPOSAL_SIGNED:
-          return 600.0;
-        case JobStage.STAGE_5_DEPOSIT_RECEIVED:
-          return 800.0;
-        case JobStage.STAGE_6_PLANNING_COMPLETE:
-          return 1000.0;
-        case JobStage.STAGE_7_SESSION_COMPLETE:
-          return 1200.0;
-        case JobStage.STAGE_8_PAYMENT_REQUESTED:
-          return 1400.0;
-        case JobStage.STAGE_9_PAYMENT_RECEIVED:
-          return 1600.0;
-        case JobStage.STAGE_10_EDITING_COMPLETE:
-          return 1800.0;
-        case JobStage.STAGE_11_GALLERY_SENT:
-          return 2000.0;
-        case JobStage.STAGE_12_FEEDBACK_REQUESTED:
-          return 2200.0;
-        case JobStage.STAGE_13_FEEDBACK_RECEIVED:
-          return 2400.0;
-        case JobStage.STAGE_14_JOB_COMPLETE:
-          return 2600.0;
-        case JobStage.STAGE_COMPLETED_CHECK:
-          return 2600.0;
-      }
+      int stageIndex = JobStage.getIndexOfCurrentStage(pageState.job.stage.stage, pageState.job.type.stages);
+
+      return (stageIndex * 200.0) - ((stageIndex == pageState.job.type.stages.length - 1) ? 150 : (stageIndex == pageState.job.type.stages.length ) ? 360 : 0);
     }
     return 0.0;
   }

@@ -5,6 +5,7 @@ import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 class JobPageCompletedItem extends StatelessWidget{
   final Job job;
@@ -56,7 +57,7 @@ class JobPageCompletedItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                      job.clientName + ' · ' + job.type.title,
+                      NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.priceProfile.flatRate),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 14.0,

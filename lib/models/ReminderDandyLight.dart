@@ -57,7 +57,8 @@ class ReminderDandyLight {
       when: map['when'],
       daysWeeksMonths: map['daysWeeksMonths'],
       amount: map['amount'],
-      time: DateTime.parse((map['time'] != null ? map['time'] : DateTime.utc(1999).toString())),
+      // createdDate: map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
+      time: DateTime.parse(map['time'] != null ? map['time'] : DateTime.utc(1999).toString()),
     );
   }
 }

@@ -41,7 +41,7 @@ class JobInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
+                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
                   child: Text(
                           'Job Info',
                           textAlign: TextAlign.start,

@@ -87,34 +87,34 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     Job selectedJob = store.state.newInvoicePageState.selectedJob;
     if(isDepositPaid) {
       List<JobStage> completedJobStages = selectedJob.completedStages.toList();
-      JobStage stageToRemove = JobStage.getStageFromIndex(4);
+      JobStage stageToRemove = JobStage.getStageFromIndex(4, selectedJob.type.stages);
       completedJobStages = _removeStage(stageToRemove, completedJobStages);
       selectedJob.completedStages = completedJobStages;
       JobStage highestCompletedState;
       for(JobStage completedStage in completedJobStages){
         if(highestCompletedState == null) highestCompletedState = completedStage;
-        if(completedStage.value > highestCompletedState.value) highestCompletedState = completedStage;
+        if(getIndexOfStageInStages(completedStage, selectedJob.type.stages) > getIndexOfStageInStages(highestCompletedState, selectedJob.type.stages)) highestCompletedState = completedStage;
       }
       if(highestCompletedState != null){
         selectedJob.stage = JobStage.getNextStage(highestCompletedState);
       }else{
-        selectedJob.stage = JobStage.getStageFromIndex(1);
+        selectedJob.stage = JobStage.getStageFromIndex(1, selectedJob.type.stages);
       }
       await JobDao.insertOrUpdate(selectedJob.copyWith());
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
     }else {
       List<JobStage> completedJobStages = selectedJob.completedStages.toList();
-      JobStage stageToComplete = JobStage.getStageFromIndex(4);
+      JobStage stageToComplete = JobStage.getStageFromIndex(4, selectedJob.type.stages);
       completedJobStages.add(stageToComplete);
       selectedJob.completedStages = completedJobStages;
-      selectedJob.stage = _getNextUncompletedStage(4, selectedJob.completedStages);
+      selectedJob.stage = _getNextUncompletedStage(4, selectedJob.completedStages, selectedJob);
       await JobDao.insertOrUpdate(selectedJob.copyWith());
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
     }
   }
 
-  JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages) {
-    JobStage currentStage = JobStage.getStageFromIndex(stageIndex);
+  JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
+    JobStage currentStage = JobStage.getStageFromIndex(stageIndex, job.type.stages);
     JobStage nextStage = JobStage.getNextStage(currentStage);
     while(_completedStagesContainsNextStage(completedStages, nextStage)){
       nextStage = JobStage.getNextStage(nextStage);
@@ -126,15 +126,15 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     if(nextStage.stage == JobStage.STAGE_COMPLETED_CHECK) return false;
     bool containsNextStage = false;
     for(JobStage completedStage in completedStages){
-      if(completedStage.value == nextStage.value) return true;
+      if(completedStage.stage == nextStage.stage) return true;
     }
     return containsNextStage;
   }
 
   List<JobStage> _removeStage(JobStage stageToRemove, List<JobStage> completedJobStages) {
-    List<JobStage> resultList = List();
+    List<JobStage> resultList = [];
     for(JobStage completedStage in completedJobStages){
-      if(completedStage.value != stageToRemove.value)resultList.add(completedStage);
+      if(completedStage.stage != stageToRemove.stage)resultList.add(completedStage);
     }
     return resultList;
   }
@@ -147,7 +147,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> jobs = List();
+      List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }
@@ -155,7 +155,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     });
 
     (await ClientDao.getClientsStream()).listen((clientSnapshots) async {
-      List<Client> clients = List();
+      List<Client> clients = [];
       for(RecordSnapshot clientSnapshot in clientSnapshots) {
         clients.add(Client.fromMap(clientSnapshot.value));
       }
@@ -602,6 +602,13 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
         ]));
 
     await PdfUtil.savePdfFile(store.state.newInvoicePageState.invoiceNumber, pdf);
+  }
+
+  getIndexOfStageInStages(JobStage completedStage, List<JobStage> stages) {
+    for(int i=0 ; i <= stages.length; i++) {
+      if(stages.elementAt(i).stage == completedStage.stage) return i;
+    }
+    return 0;
   }
 }
 

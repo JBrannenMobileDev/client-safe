@@ -1,9 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -59,12 +56,12 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: 65.0,
-                      maxHeight: 400.0,
+                      maxHeight: 550.0,
                     ),
                     child: ListView.builder(
                       shrinkWrap: true,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: StringUtils.getJobTypesList().length,
+                      itemCount: pageState.jobTypes.length,
                       itemBuilder: _buildItem,
                     ),
                   ),
@@ -126,17 +123,17 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
               ),
-              color: pageState.jobTypeIcon ==  StringUtils.getJobTypesList().elementAt(index) ? Color(
+              color: pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
                   ColorConstants.getBlueDark()) : Colors.transparent,
             ),
             onPressed: () {
               pageState.onJobTypeSelected(
-                  StringUtils.getJobTypesList().elementAt(index)
+                  pageState.jobTypes.elementAt(index)
               );
             },
             child: Row(
               children: <Widget>[
-                pageState.jobTypeIcon == StringUtils.getJobTypesList().elementAt(index) ? Container(
+                pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Container(
                   margin: EdgeInsets.only(right: 16.0),
                   height: 28.0,
                   width: 28.0,
@@ -156,13 +153,13 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(StringUtils.getJobTypesList().elementAt(index),
+                          Text(pageState.jobTypes.elementAt(index).title,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: pageState.jobTypeIcon ==  StringUtils.getJobTypesList().elementAt(index) ? Color(
+                              color: pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
                                   ColorConstants.getPrimaryWhite()) : Color(
                                   ColorConstants.getPeachDark()),
                             ),
@@ -180,8 +177,4 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
 
   @override
   bool get wantKeepAlive => true;
-
-  int getIconPosition(JobDetailsPageState pageState, List<String> jobTypeIcons) {
-    return jobTypeIcons.indexOf(pageState.jobTypeIcon);
-  }
 }
