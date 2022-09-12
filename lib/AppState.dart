@@ -2,6 +2,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.da
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
+import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
@@ -11,6 +12,7 @@ import 'package:dandylight/pages/login_page/LoginPageState.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
+import 'package:dandylight/pages/new_contract_page/NewContractPageState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
@@ -61,6 +63,8 @@ class AppState {
   final NewJobReminderPageState newJobReminderPageState;
   final JobTypesPageState jobTypesPageState;
   final NewJobTypePageState newJobTypePageState;
+  final ContractsPageState contractsPageState;
+  final NewContractPageState newContractPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -92,6 +96,8 @@ class AppState {
     @required this.newJobReminderPageState,
     @required this.jobTypesPageState,
     @required this.newJobTypePageState,
+    @required this.contractsPageState,
+    @required this.newContractPageState,
   });
 
   factory AppState.initial() {
@@ -125,6 +131,8 @@ class AppState {
       newJobReminderPageState: NewJobReminderPageState.initial(),
       jobTypesPageState: JobTypesPageState.initial(),
       newJobTypePageState: NewJobTypePageState.initial(),
+      contractsPageState: ContractsPageState.initial(),
+      newContractPageState: NewContractPageState.initial(),
     );
   }
 
@@ -158,6 +166,8 @@ class AppState {
     NewJobReminderPageState newJobReminderPageState,
     JobTypesPageState jobStagesPageState,
     NewJobTypePageState newJobTypePageState,
+    ContractsPageState contractsPageState,
+    NewContractPageState newContractPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -189,6 +199,8 @@ class AppState {
       newJobReminderPageState: newJobReminderPageState ?? this.newJobReminderPageState,
       jobTypesPageState: jobStagesPageState ?? this.jobTypesPageState,
       newJobTypePageState: newJobTypePageState ?? this.newJobTypePageState,
+      contractsPageState: contractsPageState ?? this.contractsPageState,
+      newContractPageState: newContractPageState ?? this.newContactPageState,
     );
   }
 
@@ -222,6 +234,8 @@ class AppState {
     newJobReminderPageState.hashCode ^
     jobTypesPageState.hashCode ^
     newJobTypePageState.hashCode ^
+    contractsPageState.hashCode ^
+    newContractPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -256,5 +270,7 @@ class AppState {
               newJobReminderPageState == other.newJobReminderPageState &&
               jobTypesPageState == other.jobTypesPageState &&
               newJobTypePageState == other.newJobTypePageState &&
+              contractsPageState == other.contractsPageState &&
+              newContractPageState == other.newContractPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

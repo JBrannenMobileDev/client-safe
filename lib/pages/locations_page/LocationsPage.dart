@@ -56,6 +56,22 @@ class LocationsPage extends StatelessWidget {
                       ),
                     ),
                     actions: <Widget>[
+                      // GestureDetector(
+                      //   onTap: () {
+                      //
+                      //   },
+                      //   child: Container(
+                      //     margin: EdgeInsets.only(right: 22.0),
+                      //     height: 24.0,
+                      //     width: 24.0,
+                      //     child: Icon(
+                      //       Device.get().isIos
+                      //           ? CupertinoIcons.share
+                      //           : Icons.share,
+                      //       size: 24.0,
+                      //     ),
+                      //   ),
+                      // ),
                       GestureDetector(
                         onTap: () {
                           UserOptionsUtil.showNewLocationDialog(context);
@@ -96,7 +112,8 @@ class LocationsPage extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
                           child: Text(
-                            "You have not saved any locations yet. To create a new location, select the plus icon.",
+                            "Save locations you regularly use here. This will help you save time sharing driving directions with your clients.",
+                            // \n\nYou can also share your saved locations with a client to help them decide what location they want.
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontSize: 22.0,

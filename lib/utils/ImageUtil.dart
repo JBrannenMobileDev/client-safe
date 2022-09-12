@@ -140,13 +140,12 @@ class ImageUtil{
   }
 
   static List<String> collectionIcons = [
+    'assets/images/collection_icons/reminder_icon_white.png',
+    'assets/images/collection_icons/poses_icon_white.png',
+    'assets/images/icons/briefcase_icon_white.png',
     'assets/images/collection_icons/packages_icon_white.png',
     'assets/images/collection_icons/location_icon_white.png',
-    'assets/images/collection_icons/reminder_icon_white.png',
-    'assets/images/icons/briefcase_icon_white.png',
-    'assets/images/collection_icons/poses_icon_white.png',
     'assets/images/collection_icons/contract_icon_white.png',
-    'assets/images/collection_icons/checklist_icon_white.png',
     'assets/images/collection_icons/questionaire_icon_white.png',
     // 'assets/images/collection_icons/workflow_icon_white.png',
     // 'assets/images/collection_icons/auto_responses_icon_white.png',
@@ -311,7 +310,7 @@ class ImageUtil{
         iconName = 'Checklists';
         break;
       case 'assets/images/collection_icons/questionaire_icon_white.png':
-        iconName = 'Questionaires';
+        iconName = 'Questionnaires';
         break;
       case 'assets/images/collection_icons/workflow_icon_white.png':
         iconName = 'Job Stages';

@@ -27,6 +27,7 @@ class Profile{
   DateTime remindersLastChangeDate;
   DateTime jobReminderLastChangeDate;
   DateTime jobTypesLastChangeDate;
+  DateTime contractsLastChangeDate;
 
   Profile({
     this.id,
@@ -56,6 +57,7 @@ class Profile{
     this.remindersLastChangeDate,
     this.jobReminderLastChangeDate,
     this.jobTypesLastChangeDate,
+    this.contractsLastChangeDate,
   });
 
   Profile copyWith({
@@ -86,6 +88,7 @@ class Profile{
     DateTime remindersLastChangeDate,
     DateTime jobReminderLastChangeDate,
     DateTime jobTypesLastChangeDate,
+    DateTime contractsLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -115,6 +118,7 @@ class Profile{
       remindersLastChangeDate: remindersLastChangeDate ?? this.remindersLastChangeDate,
       jobReminderLastChangeDate: jobReminderLastChangeDate ?? this.jobReminderLastChangeDate,
       jobTypesLastChangeDate: jobTypesLastChangeDate ?? this.jobTypesLastChangeDate,
+      contractsLastChangeDate: contractsLastChangeDate ?? this.contractsLastChangeDate,
     );
   }
 
@@ -148,6 +152,7 @@ class Profile{
       'remindersLastChangeDate' : remindersLastChangeDate?.millisecondsSinceEpoch ?? null,
       'jobReminderLastChangeDate' : jobReminderLastChangeDate?.millisecondsSinceEpoch ?? null,
       'jobTypesLastChangeDate' : jobTypesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'contractsLastChangeDate' : contractsLastChangeDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -179,6 +184,7 @@ class Profile{
       remindersLastChangeDate: map['remindersLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['remindersLastChangeDate']) : null,
       jobReminderLastChangeDate: map['jobReminderLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['jobReminderLastChangeDate']) : null,
       jobTypesLastChangeDate: map['jobTypesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['jobTypesLastChangeDate']) : null,
+      contractsLastChangeDate: map['contractsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['contractsLastChangeDate']) : null,
     );
   }
 

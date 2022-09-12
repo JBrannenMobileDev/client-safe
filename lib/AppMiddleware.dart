@@ -8,6 +8,8 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageMiddleware.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageMiddleware.dart';
+import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
+import 'package:dandylight/pages/contracts_page/ContractsPageMiddleware.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageMiddleware.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -26,6 +28,8 @@ import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelect
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart' as mapLocationSelection;
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageMiddleware.dart';
+import 'package:dandylight/pages/new_contract_page/NewContractActions.dart';
+import 'package:dandylight/pages/new_contract_page/NewContractPageMiddleware.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageMiddleware.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as newJobPageActions;
@@ -171,5 +175,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(JobTypesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchContractsAction>(ContractsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveContractAction>(NewContractPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteContract>(NewContractPageMiddleware()));
   return middlewareList;
 }

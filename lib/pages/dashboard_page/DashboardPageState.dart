@@ -4,9 +4,11 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Notifications.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/JobStage.dart';
 
 class DashboardPageState {
   final String jobsProfitTotal;
@@ -14,9 +16,12 @@ class DashboardPageState {
   final bool isLeadsMinimized;
   final List<Action> actionItems;
   final List<Client> recentLeads;
+  final List<JobStage> allUserStages;
   final List<Job> upcomingJobs;
   final List<Job> allJobs;
+  final List<Job> activeJobs;
   final List<Notifications> unseenNotifications;
+  final List<LineChartMonthData> lineChartMonthData;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
@@ -41,6 +46,9 @@ class DashboardPageState {
     this.onViewAllHideSelected,
     this.isLeadsMinimized,
     this.onViewAllHideLeadsSelected,
+    this.activeJobs,
+    this.allUserStages,
+    this.lineChartMonthData,
   });
 
   DashboardPageState copyWith({
@@ -51,7 +59,10 @@ class DashboardPageState {
     List<Client> recentLeads,
     List<Job> currentJobs,
     List<Job> allJobs,
+    List<Job> activeJobs,
+    List<JobStage> allUserStages,
     List<Notifications> unseenNotifications,
+    List<LineChartMonthData> lineChartMonthData,
     Function() onAddClicked,
     Function() onSearchClientsClicked,
     Function(Action) onActionItemClicked,
@@ -66,6 +77,7 @@ class DashboardPageState {
       actionItems: actionItems ?? this.actionItems,
       recentLeads: recentLeads ?? this.recentLeads,
       upcomingJobs: currentJobs ?? this.upcomingJobs,
+      activeJobs: activeJobs ?? this.activeJobs,
       unseenNotifications: unseenNotifications ?? this.unseenNotifications,
       onAddClicked: onAddClicked ?? this.onAddClicked,
       onSearchClientsClicked: onSearchClientsClicked ?? this.onSearchClientsClicked,
@@ -76,6 +88,8 @@ class DashboardPageState {
       allJobs: allJobs ?? this.allJobs,
       isLeadsMinimized: isLeadsMinimized ?? this.isLeadsMinimized,
       onViewAllHideLeadsSelected: onViewAllHideLeadsSelected ?? this.onViewAllHideLeadsSelected,
+      allUserStages: allUserStages ?? this.allUserStages,
+      lineChartMonthData: lineChartMonthData ?? this.lineChartMonthData,
     );
   }
 
@@ -91,7 +105,10 @@ class DashboardPageState {
       onActionItemClicked: store.state.dashboardPageState.onActionItemClicked,
       isMinimized: store.state.dashboardPageState.isMinimized,
       allJobs: store.state.dashboardPageState.allJobs,
+      activeJobs: store.state.dashboardPageState.activeJobs,
       isLeadsMinimized: store.state.dashboardPageState.isLeadsMinimized,
+      allUserStages: store.state.dashboardPageState.allUserStages,
+      lineChartMonthData: store.state.dashboardPageState.lineChartMonthData,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -101,17 +118,20 @@ class DashboardPageState {
 
   factory DashboardPageState.initial() => DashboardPageState(
     jobsProfitTotal: "",
-    actionItems: new List(),
-    recentLeads: new List(),
-    upcomingJobs: new List(),
-    unseenNotifications: new List(),
+    actionItems: [],
+    recentLeads: [],
+    upcomingJobs: [],
+    unseenNotifications: [],
+    activeJobs: [],
+    allUserStages: [],
     onAddClicked: null,
     onSearchClientsClicked: null,
     onActionItemClicked: null,
     onLeadClicked: null,
     onJobClicked: null,
     isMinimized: true,
-    allJobs: List(),
+    allJobs: [],
+    lineChartMonthData: List.filled(6, LineChartMonthData(income: 1)),
     onViewAllHideSelected: null,
     isLeadsMinimized: true,
     onViewAllHideLeadsSelected: null,
@@ -130,9 +150,12 @@ class DashboardPageState {
       onJobClicked.hashCode ^
       onAddClicked.hashCode ^
       allJobs.hashCode ^
+      activeJobs.hashCode ^
       onViewAllHideSelected.hashCode ^
       isLeadsMinimized.hashCode ^
       onViewAllHideLeadsSelected.hashCode ^
+      allUserStages.hashCode ^
+      lineChartMonthData.hashCode^
       isMinimized.hashCode;
 
   @override
@@ -152,6 +175,9 @@ class DashboardPageState {
               onLeadClicked == other.onLeadClicked &&
               onJobClicked == other.onJobClicked &&
               onAddClicked == other.onAddClicked &&
+              activeJobs == other.activeJobs &&
+              allUserStages == other.allUserStages &&
               onViewAllHideSelected == other.onViewAllHideSelected &&
+              lineChartMonthData == other.lineChartMonthData &&
               isMinimized == other.isMinimized;
 }

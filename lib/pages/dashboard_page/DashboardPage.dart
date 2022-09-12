@@ -3,8 +3,10 @@ import 'dart:ui';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/SwipeableCardsWidget.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/JobsHomeCard.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/LeadsHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/IncomeLineChart.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StatsHomeCard.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -215,7 +217,7 @@ class _DashboardPageState extends State<DashboardPage>
                         pinned: false,
                         floating: false,
                       forceElevated: false,
-                      expandedHeight: 315.0,
+                      expandedHeight: 175.0,
                       leading: SlideTransition(
                         position: offsetAnimationDown,
                         child: GestureDetector(
@@ -317,10 +319,6 @@ class _DashboardPageState extends State<DashboardPage>
                                 ],
                               ),
                             ),
-                            Container(
-                              margin: EdgeInsets.only(top: 238.0),
-                              child: SwipeableCardsWidget(MediaQuery.of(context).size.width),
-                            ),
                           ],
                         ),
                         ),
@@ -329,16 +327,13 @@ class _DashboardPageState extends State<DashboardPage>
                         delegate: new SliverChildListDelegate(<Widget>[
                       SlideTransition(
                           position: offsetAnimationUp,
-                          child: JobsHomeCard(pageState: pageState)),
+                          child: pageState.activeJobs.length > 0 ? ActiveJobsHomeCard(pageState: pageState) : StartAJobButton(pageState: pageState)),
                       SlideTransition(
                           position: offsetAnimationUp,
-                          child: LeadsHomeCard(
-                              cardTitle: 'Leads', pageState: pageState)),
+                          child: StageStatsHomeCard(pageState: pageState)),
                       SlideTransition(
                           position: offsetAnimationUp,
-                          child: StatsHomeCard(
-                              cardTitle: "Business Insights",
-                              pageState: pageState)),
+                          child: IncomeLineChart(pageState: pageState)),
                     ])),
                   ],
                   ),

@@ -235,7 +235,7 @@ class _NewJobPageState extends State<NewJobPage> {
           canProgress = pageState.selectedClient != null || pageState.clientFirstName.isNotEmpty;
           break;
         case 1:
-          canProgress = true;
+          canProgress = pageState.selectedJobType != null;
           break;
         case 2:
           canProgress = true;
@@ -347,9 +347,6 @@ class _NewJobPageState extends State<NewJobPage> {
   getNextBtText(NewJobPageState pageState) {
     String btText = 'Next';
     switch(pageState.pageViewIndex) {
-      case 1:
-        if(pageState.selectedJobType == null) btText = 'Skip';
-        break;
       case 2:
         if(pageState.selectedPriceProfile == null) btText = 'Skip';
         break;

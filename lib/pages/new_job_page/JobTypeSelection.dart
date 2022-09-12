@@ -45,13 +45,26 @@ class _JobTypeSelection extends State<JobTypeSelection>
                     ),
                   ),
                 ),
-                Container(
+                pageState.jobTypes.length > 0 ? Container(
                   height: 411.0,
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: pageState.jobTypes.length,
                     itemBuilder: _buildItem,
+                  ),
+                ) : Container(
+                  margin: EdgeInsets.only(top: 64.0),
+                  padding: EdgeInsets.only(left: 32.0, right: 32.0),
+                  child: Text(
+                    'You have not saved any job types. To create a new job type please select the plus icon. \n\n Job types will help simplify your job management.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.primary_black),
+                    ),
                   ),
                 ),
               ],

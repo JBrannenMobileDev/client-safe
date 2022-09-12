@@ -16,6 +16,7 @@ class Job {
   PriceProfile priceProfile;
   Location location;
   String notes;
+  DateTime paymentReceivedDate;
   DateTime selectedDate;
   DateTime selectedTime;
   DateTime selectedEndTime;
@@ -47,6 +48,7 @@ class Job {
     this.depositAmount,
     this.createdDate,
     this.tipAmount,
+    this.paymentReceivedDate,
   });
 
   Job copyWith({
@@ -69,6 +71,7 @@ class Job {
     int tipAmount,
     List<JobStage> completedStages,
     DateTime createdDate,
+    DateTime paymentReceivedDate,
   }){
     return Job(
       id: id?? this.id,
@@ -83,6 +86,7 @@ class Job {
       selectedDate: selectedDate ?? this.selectedDate,
       selectedTime: selectedTime ?? this.selectedTime,
       selectedEndTime: selectedEndTime ?? this.selectedEndTime,
+      paymentReceivedDate: paymentReceivedDate ?? this.paymentReceivedDate,
       type: type ?? this.type,
       stage: stage ?? this.stage,
       invoice: invoice ?? this.invoice,
@@ -105,6 +109,7 @@ class Job {
       'selectedTime' : selectedTime?.toString() ?? "",
       'selectedEndTime' : selectedEndTime?.toString() ?? "",
       'createdDate' : createdDate?.toString() ?? "",
+      'paymentReceivedDate' : paymentReceivedDate?.toString() ?? "",
       'type' : type?.toMap() ?? null,
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
@@ -128,6 +133,7 @@ class Job {
       selectedTime: map['selectedTime'] != "" ? DateTime.parse(map['selectedTime']) : null,
       createdDate: map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
       selectedEndTime: map['selectedEndTime'] != null && map['selectedEndTime'] != "" ? DateTime.parse(map['selectedEndTime']) : null,
+      paymentReceivedDate: map['paymentReceivedDate'] != null && map['paymentReceivedDate'] != "" ? DateTime.parse(map['paymentReceivedDate']) : null,
       type: JobType.fromMap(map['type']),
       stage: JobStage.fromMap(map['stage']),
       location: map['location'] != null ? Location.fromMap(map['location']) : null,
@@ -206,7 +212,7 @@ class Job {
 
   bool isPaymentReceived() {
     for(JobStage completedStage in completedStages){
-      if(completedStage.stage == JobStage.STAGE_9_PAYMENT_RECEIVED) return true;
+      if(completedStage.stage == JobStage.STAGE_9_PAYMENT_RECEIVED || completedStage.stage == JobStage.STAGE_14_JOB_COMPLETE || completedStage.stage == JobStage.STAGE_COMPLETED_CHECK) return true;
     }
     return false;
   }

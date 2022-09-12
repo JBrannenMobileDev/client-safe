@@ -410,8 +410,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                         child: ListView.builder(
                                           shrinkWrap: true,
                                           scrollDirection: Axis.horizontal,
-                                          physics:
-                                              NeverScrollableScrollPhysics(),
+                                          physics: NeverScrollableScrollPhysics(),
                                           padding: const EdgeInsets.all(16.0),
                                           itemCount: pageState.job.type.stages.length,
                                           itemBuilder: _buildItem,

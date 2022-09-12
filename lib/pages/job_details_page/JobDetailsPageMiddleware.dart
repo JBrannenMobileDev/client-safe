@@ -192,6 +192,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       type: store.state.jobDetailsPageState.jobType,
+      stage: store.state.jobDetailsPageState.jobType.stages.elementAt(1),
+      completedStages: [JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       jobTitle: store.state.jobDetailsPageState.client.firstName + ' - ' + store.state.jobDetailsPageState.jobType.title,
     );
     await JobDao.insertOrUpdate(jobToSave);
@@ -333,6 +335,12 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
         action.job.invoice.unpaidAmount = action.job.invoice.unpaidAmount - action.job.invoice.depositAmount;
         await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
+    }
+    if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
+      jobToSave.paymentReceivedDate = DateTime.now();
+    }
+    if(stageToComplete.stage == JobStage.STAGE_14_JOB_COMPLETE && jobToSave.paymentReceivedDate == null){
+      jobToSave.paymentReceivedDate = DateTime.now();
     }
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(FetchJobsAction(store.state.jobsPageState));

@@ -166,7 +166,16 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     } else if(store.state.loginPageState.lastName.isEmpty) {
       store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, 'Last name is required'));
       VibrateUtil.vibrateMultiple();
-    } else if(store.state.loginPageState.emailAddress.isNotEmpty && store.state.loginPageState.password.isNotEmpty && InputValidator.isValidPasswordStrong(store.state.loginPageState.password)){
+    } else if(store.state.loginPageState.emailAddress.isEmpty) {
+      store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, 'Email Address is required'));
+      VibrateUtil.vibrateMultiple();
+    } else if(store.state.loginPageState.password.isEmpty) {
+      store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, 'Password is required'));
+      VibrateUtil.vibrateMultiple();
+    } else if(!InputValidator.isValidPasswordMedium(store.state.loginPageState.password)) {
+      store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, InputValidator.login_invalid_password_error_msg));
+      VibrateUtil.vibrateMultiple();
+    } else {
       User user = await FirebaseAuthentication().registerFirebaseUser(store.state.loginPageState.emailAddress, store.state.loginPageState.password, _auth)
           .catchError((error) {
         store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, error.message));
@@ -190,17 +199,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           );
         ProfileDao.insertOrUpdate(newProfile);
       }
-    } else {
-      String errorMessage = '';
-      if(store.state.loginPageState.emailAddress.isEmpty) {
-        errorMessage = 'Email address is required.';
-      } else if(store.state.loginPageState.lastName.isEmpty) {
-        errorMessage = 'Password is required.';
-      } else if(InputValidator.isValidPasswordStrong(store.state.loginPageState.password)) {
-        errorMessage = InputValidator.login_invalid_password_error_msg;
-      }
-      store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, errorMessage));
-      VibrateUtil.vibrateMultiple();
     }
   }
 

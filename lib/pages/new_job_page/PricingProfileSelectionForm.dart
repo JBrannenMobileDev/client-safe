@@ -67,11 +67,11 @@ class _PricingProfileSelectionFormState
                 ],
               )
             : Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
+                    padding: EdgeInsets.only(bottom: 32.0, top: 8.0),
                     child: Text(
                       "Select a Price Package for this job",
                       textAlign: TextAlign.center,
@@ -84,10 +84,9 @@ class _PricingProfileSelectionFormState
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 32.0),
+                    padding: EdgeInsets.only(bottom: 64.0),
                     child: Text(
-                      "A pricing package includes information on price, length of session, "
-                      "and number of edits. You do not have any pricing packages setup. "
+                      "You do not have any pricing packages setup. "
                       "Select the button below to create a new pricing package.",
                       textAlign: TextAlign.center,
                       style: TextStyle(

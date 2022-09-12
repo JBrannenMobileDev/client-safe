@@ -92,7 +92,11 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     List<File> imageFiles = [];
 
     for(Location location in allLocations) {
-      imageFiles.add(await FileStorage.getImageFile(location));
+      try{
+        imageFiles.add(await FileStorage.getImageFile(location));
+      } on Exception {
+
+      }
     }
 
 
@@ -118,7 +122,11 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       }
 
       for(Location location in locations) {
-        imageFiles.add(await FileStorage.getImageFile(location));
+        try{
+          imageFiles.add(await FileStorage.getImageFile(location));
+        } on Exception {
+
+        }
       }
 
       store.dispatch(SetAllToStateAction(store.state.newJobPageState, allClients, allPriceProfiles, locations, upcomingJobs, imageFiles, jobTypes));

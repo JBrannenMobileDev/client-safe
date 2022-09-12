@@ -10,6 +10,8 @@ import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../contracts_page/ContractsPage.dart';
+
 class CollectionsPage extends StatefulWidget {
 
   @override
@@ -45,11 +47,6 @@ class _CollectionsPageState extends State<CollectionsPage> {
                   ),
                 ),
               ),
-              actions: <Widget>[
-                SizedBox(
-                  width: 56.0,
-                )
-              ],
             ),
             SliverList(
               delegate: new SliverChildListDelegate(
@@ -59,7 +56,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     child: GridView.builder(
                         shrinkWrap: true,
                         physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: 8,
+                        itemCount: 7,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -67,7 +64,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                               onCollectionSelected(index);
                             },
                             child: Opacity(
-                            opacity: index > 3 ? 0.25 : 1.0,
+                            opacity: index > 6 ? 0.25 : 1.0,
                             child:Column(
                               children: <Widget>[
                                 Container(
@@ -113,35 +110,38 @@ class _CollectionsPageState extends State<CollectionsPage> {
     switch(index){
       case 0:
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
-        );
-        break;
-      case 1:
-        Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => LocationsPage()),
-        );
-        break;
-      case 2:
-        Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => RemindersPage()),
         );
         break;
-      case 3:
+      case 1:
+        // Navigator.of(context).push(
+        //   new MaterialPageRoute(builder: (context) => PosesPage()),
+        // );
+        break;
+      case 2:
         Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => JobTypesPage()),
         );
         break;
+      case 3:
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
+        );
+        break;
       case 4:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => LocationsPage()),
+        );
         break;
       case 5:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryColor()));
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => ContractsPage()),
+        );
         break;
       case 6:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueDark()));
-        break;
-      case 7:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
+        // Navigator.of(context).push(
+        //   new MaterialPageRoute(builder: (context) => QuestionnairesPage()),
+        // );
         break;
     }
   }
@@ -150,25 +150,25 @@ class _CollectionsPageState extends State<CollectionsPage> {
     Color color = Color(ColorConstants.getPeachDark());
     switch(index) {
       case 0:
-        color = Color(ColorConstants.getPrimaryColor());
-        break;
-      case 1:
-        color = Color(ColorConstants.getBlueDark());
-        break;
-      case 2:
         color = Color(ColorConstants.getBlueLight());
         break;
-      case 3:
-        color = Color(ColorConstants.getPeachDark());
-        break;
-      case 4:
+      case 1:
         color = Color(ColorConstants.getPeachLight());
         break;
-      case 5:
+      case 2:
+        color = Color(ColorConstants.getPeachDark());
+        break;
+      case 3:
         color = Color(ColorConstants.getPrimaryColor());
         break;
-      case 6:
+      case 4:
         color = Color(ColorConstants.getBlueDark());
+        break;
+      case 5:
+        color = Color(ColorConstants.getBlueLight());
+        break;
+      case 6:
+        color = Color(ColorConstants.getPeachLight());
         break;
       case 7:
         color = Color(ColorConstants.getBlueLight());

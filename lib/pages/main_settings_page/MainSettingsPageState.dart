@@ -10,6 +10,7 @@ import '../../AppState.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/InvoiceDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
+import '../../data_layer/local_db/daos/JobTypeDao.dart';
 import '../../data_layer/local_db/daos/LocationDao.dart';
 import '../../data_layer/local_db/daos/MileageExpenseDao.dart';
 import '../../data_layer/local_db/daos/NextInvoiceNumberDao.dart';
@@ -121,6 +122,7 @@ class MainSettingsPageState{
         SingleExpenseDao.deleteAllLocal();
         NextInvoiceNumberDao.deleteAllLocal();
         ReminderDao.deleteAllLocal();
+        JobTypeDao.deleteAllLocal();
       },
       onPushNotificationsChanged: (enabled) => store.dispatch(SavePushNotificationSettingAction(store.state.mainSettingsPageState, enabled)),
       onCalendarChanged: (enabled) => store.dispatch(SaveCalendarSettingAction(store.state.mainSettingsPageState, enabled)),

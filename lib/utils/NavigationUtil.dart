@@ -5,6 +5,7 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/JobListPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/login_page/LoginPage.dart';
@@ -15,6 +16,9 @@ import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelect
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../models/Job.dart';
+import '../pages/dashboard_page/DashboardPageState.dart';
 
 class NavigationUtil {
   static onClientTapped(BuildContext context) {
@@ -43,6 +47,9 @@ class NavigationUtil {
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
+  }
+  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, List<Job> jobs, String title) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, jobs: jobs, pageTitle: title,)));
   }
 
   static void onSuccessfulLogin(BuildContext context) {

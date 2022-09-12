@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
@@ -13,6 +14,7 @@ import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -50,6 +52,7 @@ class FireStoreSync {
                     await _syncReminders(userLocalDb, userFireStoreDb);
                     await _syncJobReminders(userLocalDb, userFireStoreDb);
                     await _syncJobTypes(userLocalDb, userFireStoreDb);
+                    await _syncContracts(userLocalDb, userFireStoreDb);
                 }
         }
         setupFireStoreListeners();
@@ -229,6 +232,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        ContractDao.getContractsStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Contract contract = Contract.fromMap(snapshot.doc.data());
+                Contract contractFromLocal = await ContractDao.getById(contract.documentId);
+                if(contractFromLocal != null) {
+                    ContractDao.updateLocalOnly(contract);
+                }else {
+                    ContractDao.insertLocalOnly(contract);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -370,6 +386,18 @@ class FireStoreSync {
             if(userLocalDb.jobTypesLastChangeDate != null && userFireStoreDb.jobTypesLastChangeDate != null){
                 if(userLocalDb.jobTypesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.jobTypesLastChangeDate.millisecondsSinceEpoch) {
                     await JobTypeDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncContracts(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.contractsLastChangeDate != userFireStoreDb.contractsLastChangeDate) || (userLocalDb.contractsLastChangeDate == null && userFireStoreDb.contractsLastChangeDate != null)) {
+            if(userLocalDb.contractsLastChangeDate != null && userFireStoreDb.contractsLastChangeDate != null){
+                if(userLocalDb.contractsLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.contractsLastChangeDate.millisecondsSinceEpoch) {
+                    await ContractDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }

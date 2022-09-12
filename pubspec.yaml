@@ -68,6 +68,7 @@ dependencies:
   firebase_storage: ^10.3.4
   flutter_cache_manager: ^3.3.0
   loading_animation_widget: ^1.2.0+2
+  fl_chart: ^0.55.1
 
 flutter_icons:
   android: true

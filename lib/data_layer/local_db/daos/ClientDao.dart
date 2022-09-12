@@ -130,11 +130,12 @@ class ClientDao extends Equatable{
       final finder = Finder(filter: Filter.equals('documentId', clientDocumentId));
       final recordSnapshots = await _clientStore.find(await _db, finder: finder);
       // Making a List<Client> out of List<RecordSnapshot>
-      return recordSnapshots.map((snapshot) {
+      List<Client> clients = recordSnapshots.map((snapshot) {
         final client = Client.fromMap(snapshot.value);
         client.id = snapshot.key;
         return client;
-      }).toList().elementAt(0);
+      }).toList();
+      return clients.isNotEmpty ? clients.elementAt(0) : null;
     } else {
       return null;
     }

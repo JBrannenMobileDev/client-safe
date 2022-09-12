@@ -4,6 +4,7 @@ import 'package:dandylight/pages/calendar_page/CalendarPageReducer.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageReducer.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
+import 'package:dandylight/pages/contracts_page/ContractsPageReducer.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageReducer.dart';
 import 'package:dandylight/pages/home_page/HomePageReducer.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
@@ -60,4 +61,5 @@ AppState appReducers(AppState state, dynamic action) =>
         newJobReminderPageState: newJobReminderPageReducer(state.newJobReminderPageState, action),
         jobTypesPageState: jobTypesPageReducer(state.jobTypesPageState, action),
         newJobTypePageState: newJobTypePageReducer(state.newJobTypePageState, action),
+        contractsPageState: contractsReducer(state.contractsPageState, action),
     );
