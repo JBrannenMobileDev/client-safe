@@ -28,6 +28,8 @@ class Profile{
   DateTime jobReminderLastChangeDate;
   DateTime jobTypesLastChangeDate;
   DateTime contractsLastChangeDate;
+  DateTime posesLastChangeDate;
+  DateTime poseGroupsLastChangeDate;
 
   Profile({
     this.id,
@@ -58,6 +60,8 @@ class Profile{
     this.jobReminderLastChangeDate,
     this.jobTypesLastChangeDate,
     this.contractsLastChangeDate,
+    this.posesLastChangeDate,
+    this.poseGroupsLastChangeDate,
   });
 
   Profile copyWith({
@@ -89,6 +93,8 @@ class Profile{
     DateTime jobReminderLastChangeDate,
     DateTime jobTypesLastChangeDate,
     DateTime contractsLastChangeDate,
+    DateTime posesLastChangeDate,
+    DateTime poseGroupsLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -119,6 +125,8 @@ class Profile{
       jobReminderLastChangeDate: jobReminderLastChangeDate ?? this.jobReminderLastChangeDate,
       jobTypesLastChangeDate: jobTypesLastChangeDate ?? this.jobTypesLastChangeDate,
       contractsLastChangeDate: contractsLastChangeDate ?? this.contractsLastChangeDate,
+      posesLastChangeDate: posesLastChangeDate ?? this.posesLastChangeDate,
+      poseGroupsLastChangeDate: poseGroupsLastChangeDate ?? this.poseGroupsLastChangeDate,
     );
   }
 
@@ -153,6 +161,8 @@ class Profile{
       'jobReminderLastChangeDate' : jobReminderLastChangeDate?.millisecondsSinceEpoch ?? null,
       'jobTypesLastChangeDate' : jobTypesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'contractsLastChangeDate' : contractsLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'posesLastChangeDate' : posesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'poseGroupsLastChangeDate' : poseGroupsLastChangeDate?.millisecondsSinceEpoch ?? null,
     };
   }
 
@@ -185,6 +195,8 @@ class Profile{
       jobReminderLastChangeDate: map['jobReminderLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['jobReminderLastChangeDate']) : null,
       jobTypesLastChangeDate: map['jobTypesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['jobTypesLastChangeDate']) : null,
       contractsLastChangeDate: map['contractsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['contractsLastChangeDate']) : null,
+      posesLastChangeDate: map['posesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['posesLastChangeDate']) : null,
+      poseGroupsLastChangeDate: map['poseGroupsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseGroupsLastChangeDate']) : null,
     );
   }
 

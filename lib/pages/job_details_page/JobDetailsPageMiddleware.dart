@@ -224,7 +224,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     List<File> imageFiles = [];
 
     for(Location location in locations) {
-      imageFiles.add(await FileStorage.getImageFile(location));
+      imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
     store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
@@ -237,7 +237,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       }
 
       for(Location location in locations) {
-        imageFiles.add(await FileStorage.getImageFile(location));
+        imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
       store.dispatch(SetLocationsAction(store.state.jobDetailsPageState, locations, imageFiles));
     });

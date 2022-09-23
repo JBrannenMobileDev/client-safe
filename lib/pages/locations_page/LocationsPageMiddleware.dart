@@ -52,7 +52,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
 
     for(Location location in locations) {
-      imageFiles.add(await FileStorage.getImageFile(location));
+      imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
     next(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
@@ -64,7 +64,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
         locations.add(Location.fromMap(locationSnapshot.value));
       }
       for(Location location in locations) {
-        imageFiles.add(await FileStorage.getImageFile(location));
+        imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
       store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
     });

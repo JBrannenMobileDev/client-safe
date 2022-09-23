@@ -135,7 +135,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     List<File> imageFiles = [];
 
     for(Location location in locations) {
-      imageFiles.add(await FileStorage.getImageFile(location));
+      imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
     store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
@@ -146,7 +146,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
     List<File> imageFiles = [];
 
     for(Location location in locations) {
-      imageFiles.add(await FileStorage.getImageFile(location));
+      imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
     store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
     Directory appDocDir = await getApplicationDocumentsDirectory();
@@ -175,7 +175,7 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
       }
 
       for(Location location in locations) {
-        imageFiles.add(await FileStorage.getImageFile(location));
+        imageFiles.add(await FileStorage.getLocationImageFile(location));
       }
       store.dispatch(SetMileageLocationsAction(store.state.newMileageExpensePageState, locations, imageFiles));
     });

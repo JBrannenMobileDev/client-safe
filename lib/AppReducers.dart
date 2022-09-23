@@ -4,7 +4,6 @@ import 'package:dandylight/pages/calendar_page/CalendarPageReducer.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageReducer.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
-import 'package:dandylight/pages/contracts_page/ContractsPageReducer.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageReducer.dart';
 import 'package:dandylight/pages/home_page/HomePageReducer.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
@@ -20,10 +19,13 @@ import 'package:dandylight/pages/new_job_reminder/NewJobRemnderPageReducer.dart'
 import 'package:dandylight/pages/new_job_types_page/NewJobTypePageReducer.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageReducer.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageReducer.dart';
+import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageReducer.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageReducer.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageReducer.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageReducer.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
+import 'package:dandylight/pages/pose_group_page/PoseGroupPageReducer.dart';
+import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
@@ -61,5 +63,7 @@ AppState appReducers(AppState state, dynamic action) =>
         newJobReminderPageState: newJobReminderPageReducer(state.newJobReminderPageState, action),
         jobTypesPageState: jobTypesPageReducer(state.jobTypesPageState, action),
         newJobTypePageState: newJobTypePageReducer(state.newJobTypePageState, action),
-        contractsPageState: contractsReducer(state.contractsPageState, action),
+        posesPageState: posesReducer(state.posesPageState, action),
+        newPoseGroupPageState: newPoseGroupReducer(state.newPoseGroupPageState, action),
+        poseGroupPageState: poseGroupReducer(state.poseGroupPageState, action),
     );

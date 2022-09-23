@@ -93,7 +93,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     for(Location location in allLocations) {
       try{
-        imageFiles.add(await FileStorage.getImageFile(location));
+        imageFiles.add(await FileStorage.getLocationImageFile(location));
       } on Exception {
 
       }
@@ -123,7 +123,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
       for(Location location in locations) {
         try{
-          imageFiles.add(await FileStorage.getImageFile(location));
+          imageFiles.add(await FileStorage.getLocationImageFile(location));
         } on Exception {
 
         }

@@ -2,7 +2,6 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.da
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
-import 'package:dandylight/pages/contracts_page/ContractsPageState.dart';
 import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
@@ -12,17 +11,19 @@ import 'package:dandylight/pages/login_page/LoginPageState.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_contract_page/NewContractPageState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_job_types_page/NewJobTypePageState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
+import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
+import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/search_page/SearchPageState.dart';
@@ -63,8 +64,9 @@ class AppState {
   final NewJobReminderPageState newJobReminderPageState;
   final JobTypesPageState jobTypesPageState;
   final NewJobTypePageState newJobTypePageState;
-  final ContractsPageState contractsPageState;
-  final NewContractPageState newContractPageState;
+  final PosesPageState posesPageState;
+  final NewPoseGroupPageState newPoseGroupPageState;
+  final PoseGroupPageState poseGroupPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -96,8 +98,9 @@ class AppState {
     @required this.newJobReminderPageState,
     @required this.jobTypesPageState,
     @required this.newJobTypePageState,
-    @required this.contractsPageState,
-    @required this.newContractPageState,
+    @required this.posesPageState,
+    @required this.newPoseGroupPageState,
+    @required this.poseGroupPageState,
   });
 
   factory AppState.initial() {
@@ -131,8 +134,9 @@ class AppState {
       newJobReminderPageState: NewJobReminderPageState.initial(),
       jobTypesPageState: JobTypesPageState.initial(),
       newJobTypePageState: NewJobTypePageState.initial(),
-      contractsPageState: ContractsPageState.initial(),
-      newContractPageState: NewContractPageState.initial(),
+      posesPageState: PosesPageState.initial(),
+      newPoseGroupPageState: NewPoseGroupPageState.initial(),
+      poseGroupPageState: PoseGroupPageState.initial(),
     );
   }
 
@@ -166,8 +170,9 @@ class AppState {
     NewJobReminderPageState newJobReminderPageState,
     JobTypesPageState jobStagesPageState,
     NewJobTypePageState newJobTypePageState,
-    ContractsPageState contractsPageState,
-    NewContractPageState newContractPageState,
+    PosesPageState posesPageState,
+    NewPoseGroupPageState newPoseGroupPageState,
+    PoseGroupPageState poseGroupPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -199,8 +204,9 @@ class AppState {
       newJobReminderPageState: newJobReminderPageState ?? this.newJobReminderPageState,
       jobTypesPageState: jobStagesPageState ?? this.jobTypesPageState,
       newJobTypePageState: newJobTypePageState ?? this.newJobTypePageState,
-      contractsPageState: contractsPageState ?? this.contractsPageState,
-      newContractPageState: newContractPageState ?? this.newContactPageState,
+      posesPageState: posesPageState ?? this.posesPageState,
+      newPoseGroupPageState: newPoseGroupPageState ?? this.newPoseGroupPageState,
+      poseGroupPageState: poseGroupPageState ?? this.poseGroupPageState,
     );
   }
 
@@ -234,8 +240,9 @@ class AppState {
     newJobReminderPageState.hashCode ^
     jobTypesPageState.hashCode ^
     newJobTypePageState.hashCode ^
-    contractsPageState.hashCode ^
-    newContractPageState.hashCode ^
+    posesPageState.hashCode ^
+    newPoseGroupPageState.hashCode ^
+    poseGroupPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -270,7 +277,8 @@ class AppState {
               newJobReminderPageState == other.newJobReminderPageState &&
               jobTypesPageState == other.jobTypesPageState &&
               newJobTypePageState == other.newJobTypePageState &&
-              contractsPageState == other.contractsPageState &&
-              newContractPageState == other.newContractPageState &&
+              posesPageState == other.posesPageState &&
+              newPoseGroupPageState == other.newPoseGroupPageState &&
+              poseGroupPageState == other.poseGroupPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

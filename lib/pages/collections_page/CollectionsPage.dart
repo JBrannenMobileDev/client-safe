@@ -9,8 +9,7 @@ import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
-import '../contracts_page/ContractsPage.dart';
+import '../poses_page/PosesPage.dart';
 
 class CollectionsPage extends StatefulWidget {
 
@@ -56,7 +55,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     child: GridView.builder(
                         shrinkWrap: true,
                         physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: 7,
+                        itemCount: 6,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -114,9 +113,9 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 1:
-        // Navigator.of(context).push(
-        //   new MaterialPageRoute(builder: (context) => PosesPage()),
-        // );
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => PosesPage()),
+        );
         break;
       case 2:
         Navigator.of(context).push(
@@ -134,9 +133,10 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 5:
-        Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => ContractsPage()),
-        );
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
+        // Navigator.of(context).push(
+        //   new MaterialPageRoute(builder: (context) => CustomerContractsPage()),
+        // );
         break;
       case 6:
         // Navigator.of(context).push(

@@ -78,7 +78,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     Location locationWithId = await LocationDao.insertOrUpdate(location);
 
 
-    await FileStorage.saveImageFile(action.pageState.imagePath, locationWithId);
+    await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     store.dispatch(jobs.FetchAllAction(store.state.newJobPageState));

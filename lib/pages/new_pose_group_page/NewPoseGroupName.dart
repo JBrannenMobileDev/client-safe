@@ -1,34 +1,34 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationTextField.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
+import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'NewPoseGroupTextField.dart';
 
-class NewLocationName extends StatefulWidget {
+
+class NewPoseGroupName extends StatefulWidget {
   @override
-  _NewLocationName createState() {
-    return _NewLocationName();
+  _NewPoseGroupName createState() {
+    return _NewPoseGroupName();
   }
 }
 
-class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveClientMixin {
-  final locationNameTextController = TextEditingController();
+class _NewPoseGroupName extends State<NewPoseGroupName> with AutomaticKeepAliveClientMixin {
+  final contractNameTextController = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return StoreConnector<AppState, NewLocationPageState>(
+    return StoreConnector<AppState, NewPoseGroupPageState>(
       onInit: (store) {
-        locationNameTextController.text = store.state.newLocationPageState.locationName;
+        contractNameTextController.text = store.state.newPoseGroupPageState.groupName;
       },
-      converter: (store) => NewLocationPageState.fromStore(store),
-      builder: (BuildContext context, NewLocationPageState pageState) =>
+      converter: (store) => NewPoseGroupPageState.fromStore(store),
+      builder: (BuildContext context, NewPoseGroupPageState pageState) =>
           Container(
         margin: EdgeInsets.only(left: 26.0, right: 26.0),
         child: Column(
@@ -37,7 +37,7 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
               child: Text(
-                "Enter a simple and descriptive name for this location. ",
+                "Enter a simple and descriptive name for this pose collection. ",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 20.0,
@@ -47,13 +47,13 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
                 ),
               ),
             ),
-            NewLocationTextField(
-                locationNameTextController,
-                "Location Name",
+            NewPoseGroupTextField(
+                contractNameTextController,
+                "Collection Name",
                 TextInputType.text,
                 64.0,
-                pageState.onLocationNameChanged,
-                NewPricingProfilePageState.ERROR_PROFILE_NAME_MISSING,
+                pageState.onNameChanged,
+                'Collection name is required',
                 TextInputAction.done,
                 null,
                 null,

@@ -69,6 +69,8 @@ dependencies:
   flutter_cache_manager: ^3.3.0
   loading_animation_widget: ^1.2.0+2
   fl_chart: ^0.55.1
+  file_picker: ^5.1.0
+  flutter_pdfview: ^1.2.3
 
 flutter_icons:
   android: true
@@ -209,6 +211,12 @@ flutter:
     - assets/images/icons/provide_feedback_icon_black.png
     - assets/images/icons/suggestions_icon_black.png
     - assets/images/icons/reminder_icon_blue_light.png
+    - assets/images/icons/file_upload.png
+    - assets/images/icons/signature.png
+    - assets/images/icons/no_pictures.png
+    - assets/images/icons/add_photo.png
+    - assets/images/icons/trashcan.png
+    - assets/images/icons/plus.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

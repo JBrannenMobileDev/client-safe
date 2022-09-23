@@ -8,6 +8,8 @@ import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
@@ -21,6 +23,8 @@ import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
+import 'package:dandylight/models/Pose.dart';
+import 'package:dandylight/models/PoseGroup.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
@@ -53,6 +57,8 @@ class FireStoreSync {
                     await _syncJobReminders(userLocalDb, userFireStoreDb);
                     await _syncJobTypes(userLocalDb, userFireStoreDb);
                     await _syncContracts(userLocalDb, userFireStoreDb);
+                    await _syncPoses(userLocalDb, userFireStoreDb);
+                    await _syncPoseGroups(userLocalDb, userFireStoreDb);
                 }
         }
         setupFireStoreListeners();
@@ -245,6 +251,32 @@ class FireStoreSync {
                 }
             }
         });
+
+        PoseDao.getPosesStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Pose pose = Pose.fromMap(snapshot.doc.data());
+                Pose poseFromLocal = await PoseDao.getById(pose.documentId);
+                if(poseFromLocal != null) {
+                    PoseDao.updateLocalOnly(pose);
+                }else {
+                    PoseDao.insertLocalOnly(pose);
+                }
+            }
+        });
+
+        PoseGroupDao.getPoseGroupsStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                PoseGroup poseGroup = PoseGroup.fromMap(snapshot.doc.data());
+                PoseGroup poseGroupFromLocal = await PoseGroupDao.getById(poseGroup.documentId);
+                if(poseGroupFromLocal != null) {
+                    PoseGroupDao.updateLocalOnly(poseGroup);
+                }else {
+                    PoseGroupDao.insertLocalOnly(poseGroup);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -254,6 +286,34 @@ class FireStoreSync {
                     userFireStoreDb.clientsLastChangeDate
                         .millisecondsSinceEpoch) {
                     await ClientDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncPoses(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.posesLastChangeDate != userFireStoreDb.posesLastChangeDate) || (userLocalDb.posesLastChangeDate == null && userFireStoreDb.posesLastChangeDate != null)) {
+            if(userLocalDb.posesLastChangeDate != null && userFireStoreDb.posesLastChangeDate != null) {
+                if (userLocalDb.posesLastChangeDate.millisecondsSinceEpoch <
+                    userFireStoreDb.posesLastChangeDate
+                        .millisecondsSinceEpoch) {
+                    await PoseDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncPoseGroups(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.poseGroupsLastChangeDate != userFireStoreDb.poseGroupsLastChangeDate) || (userLocalDb.poseGroupsLastChangeDate == null && userFireStoreDb.poseGroupsLastChangeDate != null)) {
+            if(userLocalDb.poseGroupsLastChangeDate != null && userFireStoreDb.poseGroupsLastChangeDate != null) {
+                if (userLocalDb.poseGroupsLastChangeDate.millisecondsSinceEpoch <
+                    userFireStoreDb.poseGroupsLastChangeDate
+                        .millisecondsSinceEpoch) {
+                    await PoseGroupDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }

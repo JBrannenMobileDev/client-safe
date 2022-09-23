@@ -26,14 +26,13 @@ import 'package:dandylight/pages/new_location_page/NewLocationPage.dart';
 import 'package:dandylight/pages/new_mileage_expense/ChooseFromMyLocationsMileage.dart';
 import 'package:dandylight/pages/new_mileage_expense/LocationOptionsMileageExpenseDialog.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePage.dart';
+import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPage.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePage.dart';
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePage.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPage.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePage.dart';
 import 'package:dandylight/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
-import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -330,6 +329,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewDiscountDialog();
+      },
+    );
+  }
+
+  static void showNewPoseGroupDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewPoseGroupPage();
       },
     );
   }

@@ -20,8 +20,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'NewLocationActions.dart';
-
 class NewLocationPage extends StatefulWidget {
   @override
   _NewLocationPageState createState() {

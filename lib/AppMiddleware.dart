@@ -8,8 +8,6 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageMiddleware.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageMiddleware.dart';
-import 'package:dandylight/pages/contracts_page/ContractsActions.dart';
-import 'package:dandylight/pages/contracts_page/ContractsPageMiddleware.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageMiddleware.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -28,8 +26,6 @@ import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelect
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetActions.dart' as mapLocationSelection;
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageMiddleware.dart';
-import 'package:dandylight/pages/new_contract_page/NewContractActions.dart';
-import 'package:dandylight/pages/new_contract_page/NewContractPageMiddleware.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageMiddleware.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart' as newJobPageActions;
@@ -42,6 +38,8 @@ import 'package:dandylight/pages/new_location_page/NewLocationActions.dart' as p
 import 'package:dandylight/pages/new_location_page/NewLocationPageMiddleware.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageMiddleware.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart' as mileageActions;
+import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupActions.dart';
+import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageMiddleware.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart' as prefix0;
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageMiddleware.dart';
@@ -51,6 +49,11 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageMiddleware.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
+import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
+import 'package:dandylight/pages/pose_group_page/PoseGroupPageMiddleware.dart';
+import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
+import 'package:dandylight/pages/poses_page/PosesActions.dart';
+import 'package:dandylight/pages/poses_page/PosesPageMiddleware.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix1;
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
@@ -175,8 +178,13 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(JobTypesPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchContractsAction>(ContractsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveContractAction>(NewContractPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, DeleteContract>(NewContractPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchPoseGroupsAction>(PosesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveAction>(NewPoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeletePoseAction>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeletePoseGroupSelected>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SharePosesAction>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePosesToGroupAction>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadPoseImagesFromStorage>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteSelectedPoses>(PoseGroupPageMiddleware()));
   return middlewareList;
 }

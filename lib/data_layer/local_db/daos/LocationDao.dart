@@ -111,7 +111,7 @@ class LocationDao extends Equatable{
   }
 
   static Future delete(String documentId) async {
-    await FileStorage.deleteFileImage(await getById(documentId));
+    await FileStorage.deleteLocationFileImage(await getById(documentId));
     final finder = Finder(filter: Filter.equals('documentId', documentId));
     int countOfUpdatedItems = await _locationStore.delete(
       await _db,

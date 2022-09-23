@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../models/Location.dart';
+import '../../models/Pose.dart';
 import '../../utils/CacheManagerDandylight.dart';
 import '../../utils/UserPermissionsUtil.dart';
 
@@ -20,17 +21,27 @@ class FileStorage {
     return await UserPermissionsUtil.getPermissionStatus(Permission.storage).isGranted;
   }
 
-  static saveImageFile(String imagePath, Location location) async {
-    _uploadImageFile(imagePath, location);
+  static saveLocationImageFile(String imagePath, Location location) async {
+    _uploadLocationImageFile(imagePath, location);
+  }
+
+  static savePoseImageFile(String path, Pose pose) async {
+    _uploadPoseImageFile(path, pose);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
     _uploadContractFile(contractPath, contract);
   }
 
-  static void deleteFileImage(Location location) async {
+  static void deleteLocationFileImage(Location location) async {
     if(await _requestStoragePermission()) {
-      _deleteImageFileFromCloud(location);
+      _deleteLocationImageFileFromCloud(location);
+    }
+  }
+
+  static void deletePoseFileImage(Pose pose) async {
+    if(await _requestStoragePermission()) {
+      _deletePoseImageFileFromCloud(pose);
     }
   }
 
@@ -40,9 +51,16 @@ class FileStorage {
     }
   }
 
-  static Future<File> getImageFile(Location location) async {
+  static Future<File> getLocationImageFile(Location location) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildImagePath(location));
+    final cloudFilePath = storageRef.child(_buildLocationImagePath(location));
+    String imageUrl = await cloudFilePath.getDownloadURL();
+    return await DefaultCacheManager().getSingleFile(imageUrl);
+  }
+
+  static Future<File> getPoseImageFile(Pose pose) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
     String imageUrl = await cloudFilePath.getDownloadURL();
     return await DefaultCacheManager().getSingleFile(imageUrl);
   }
@@ -54,10 +72,17 @@ class FileStorage {
     return await DefaultCacheManager().getSingleFile(contractUrl);
   }
 
-  static _deleteImageFileFromCloud(Location location) async {
+  static _deleteLocationImageFileFromCloud(Location location) async {
     if(location != null) {
       final storageRef = FirebaseStorage.instance.ref();
-      await storageRef.child(_buildImagePath(location)).delete();
+      await storageRef.child(_buildLocationImagePath(location)).delete();
+    }
+  }
+
+  static _deletePoseImageFileFromCloud(Pose pose) async {
+    if(pose != null) {
+      final storageRef = FirebaseStorage.instance.ref();
+      await storageRef.child(_buildPoseImagePath(pose)).delete();
     }
   }
 
@@ -68,11 +93,41 @@ class FileStorage {
     }
   }
 
-  static _uploadImageFile(String imagePath, Location location) async {
+  static _uploadLocationImageFile(String imagePath, Location location) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     final uploadTask = storageRef
-        .child(_buildImagePath(location))
+        .child(_buildLocationImagePath(location))
+        .putFile(File(imagePath));
+
+    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+        // Handle successful uploads on complete
+        // ...
+          break;
+      }
+    });
+  }
+
+  static _uploadPoseImageFile(String imagePath, Pose pose) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final uploadTask = storageRef
+        .child(_buildPoseImagePath(pose))
         .putFile(File(imagePath));
 
     uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
@@ -128,8 +183,12 @@ class FileStorage {
     });
   }
 
-  static String _buildImagePath(Location location) {
+  static String _buildLocationImagePath(Location location) {
     return "/images/${UidUtil().getUid()}/locations/${location.documentId}.jpg";
+  }
+
+  static String _buildPoseImagePath(Pose pose) {
+    return "/images/${UidUtil().getUid()}/poses/${pose.documentId}.jpg";
   }
 
   static String _buildContractFilePath(Contract contract) {

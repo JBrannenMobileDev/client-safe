@@ -55,7 +55,7 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
     List<File> imageFiles = [];
 
     for(Location location in store.state.sunsetWeatherPageState.locations) {
-      imageFiles.add(await FileStorage.getImageFile(location));
+      imageFiles.add(await FileStorage.getLocationImageFile(location));
     }
 
     store.dispatch(SetLocationImageFilesAction(store.state.sunsetWeatherPageState, imageFiles));
