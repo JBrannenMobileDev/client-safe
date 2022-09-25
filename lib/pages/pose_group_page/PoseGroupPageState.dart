@@ -21,6 +21,7 @@ class PoseGroupPageState{
   final Function(bool) onSelectAllSelected;
   final Function(GroupImage) onImageChecked;
   final Function() onDeletePosesSelected;
+  final bool isLoadingNewImages;
 
 
   PoseGroupPageState({
@@ -29,12 +30,13 @@ class PoseGroupPageState{
     @required this.onDeletePoseSelected,
     @required this.onDeletePoseGroupSelected,
     @required this.onSharePosesSelected,
-    @required this.poseImages,
     @required this.onBackSelected,
+    @required this.poseImages,
     @required this.selectedImages,
     @required this.onSelectAllSelected,
     @required this.onImageChecked,
     @required this.onDeletePosesSelected,
+    @required this.isLoadingNewImages,
   });
 
   PoseGroupPageState copyWith({
@@ -43,12 +45,13 @@ class PoseGroupPageState{
     Function(GroupImage) onDeletePoseSelected,
     Function() onDeletePoseGroupSelected,
     Function() onSharePosesSelected,
-    List<GroupImage> poseImages,
     Function() onBackSelected,
+    List<GroupImage> poseImages,
     List<GroupImage> selectedImages,
     Function(bool) onSelectAllSelected,
     Function(GroupImage) onImageChecked,
     Function() onDeletePosesSelected,
+    bool isLoadingNewImages,
   }){
     return PoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -62,6 +65,7 @@ class PoseGroupPageState{
       onSelectAllSelected: onSelectAllSelected ?? this.onSelectAllSelected,
       onImageChecked: onImageChecked ?? this.onImageChecked,
       onDeletePosesSelected: onDeletePosesSelected ?? this.onDeletePosesSelected,
+      isLoadingNewImages: isLoadingNewImages ?? this.isLoadingNewImages,
     );
   }
 
@@ -77,6 +81,7 @@ class PoseGroupPageState{
     onSelectAllSelected: null,
     onImageChecked: null,
     onDeletePosesSelected: null,
+    isLoadingNewImages: false,
   );
 
   factory PoseGroupPageState.fromStore(Store<AppState> store) {
@@ -84,13 +89,17 @@ class PoseGroupPageState{
       poseGroup: store.state.poseGroupPageState.poseGroup,
       poseImages: store.state.poseGroupPageState.poseImages,
       selectedImages: store.state.poseGroupPageState.selectedImages,
+      isLoadingNewImages: store.state.poseGroupPageState.isLoadingNewImages,
       onSelectAllSelected: (checked) => store.dispatch(SetSelectAllState(store.state.poseGroupPageState, checked)),
       onImageChecked: (image) => store.dispatch(SetSinglePoseSelected(store.state.poseGroupPageState, image)),
       onDeletePosesSelected: () => store.dispatch(DeleteSelectedPoses(store.state.poseGroupPageState)),
       onDeletePoseSelected: (pose) => store.dispatch(DeletePoseAction(store.state.poseGroupPageState, pose)),
       onDeletePoseGroupSelected: () => store.dispatch(DeletePoseGroupSelected(store.state.poseGroupPageState)),
       onSharePosesSelected: () => store.dispatch(SharePosesAction(store.state.poseGroupPageState)),
-      onNewPoseImagesSelected: (poseImages) => store.dispatch(SavePosesToGroupAction(store.state.poseGroupPageState, poseImages)),
+      onNewPoseImagesSelected: (poseImages) => {
+        store.dispatch(SetLoadingNewImagesState(store.state.poseGroupPageState, true)),
+        store.dispatch(SavePosesToGroupAction(store.state.poseGroupPageState, poseImages)),
+      },
       onBackSelected: () => store.dispatch(ClearPoseGroupState(store.state.poseGroupPageState)),
     );
   }
@@ -107,6 +116,7 @@ class PoseGroupPageState{
       onSelectAllSelected.hashCode ^
       onImageChecked.hashCode ^
       onDeletePosesSelected.hashCode ^
+      isLoadingNewImages.hashCode ^
       onDeletePoseGroupSelected.hashCode;
 
   @override
@@ -123,5 +133,6 @@ class PoseGroupPageState{
               onSelectAllSelected == other.onSelectAllSelected &&
               onImageChecked == other.onImageChecked &&
               onDeletePosesSelected == other.onDeletePosesSelected &&
+              isLoadingNewImages == other.isLoadingNewImages &&
               poseGroup == other.poseGroup;
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
+import 'package:dandylight/pages/pose_group_page/SingleImageViewPager.dart';
 import 'package:dandylight/pages/pose_group_page/widgets/PoseListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -41,7 +42,9 @@ class _PoseGroupPageState extends State<PoseGroupPage>
 
   Future getDeviceImage(PoseGroupPageState pageState) async {
     List<XFile> images = await ImagePicker().pickMultiImage();
-    pageState.onNewPoseImagesSelected(images);
+    if(images.length > 0) {
+      pageState.onNewPoseImagesSelected(images);
+    }
   }
 
   Widget _buildItem(BuildContext context, int index) {
@@ -53,7 +56,14 @@ class _PoseGroupPageState extends State<PoseGroupPage>
               if(isBottomSheetVisible){
                 pageState.onImageChecked(pageState.poseImages.elementAt(index));
               } else {
-                //show full page view
+                Navigator.of(context).push(
+                  new MaterialPageRoute(builder: (context) => SingleImageViewPager(
+                      pageState.poseImages,
+                      index,
+                      pageState.onDeletePoseSelected,
+                      pageState.poseGroup.groupName,
+                  )),
+                );
               }
             },
             child: PoseListWidget(index),
@@ -128,12 +138,14 @@ class _PoseGroupPageState extends State<PoseGroupPage>
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
+                _controllerSlideUp.reverse();
                 pageState.onDeletePosesSelected();
-                Navigator.of(context).pop(true);
+                pageState.onSelectAllSelected(false);
                 setState(() {
                   isBottomSheetVisible = false;
                   selectAllChecked = false;
                 });
+                Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
             ),
@@ -152,7 +164,13 @@ class _PoseGroupPageState extends State<PoseGroupPage>
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
+                _controllerSlideUp.reverse();
                 pageState.onDeletePosesSelected();
+                pageState.onSelectAllSelected(false);
+                setState(() {
+                  isBottomSheetVisible = false;
+                  selectAllChecked = false;
+                });
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -194,8 +212,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PoseGroupPageState>(
       onInit: (store) async {
-        store.dispatch(LoadPoseImagesFromStorage(
-            store.state.poseGroupPageState, poseGroup));
+        store.dispatch(LoadPoseImagesFromStorage(store.state.poseGroupPageState, poseGroup));
       },
       converter: (Store<AppState> store) => PoseGroupPageState.fromStore(store),
       builder: (BuildContext context, PoseGroupPageState pageState) =>
@@ -311,7 +328,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                                 itemBuilder: _buildItem),
                           ),
                         )
-                            : poseGroup.poses.length == 0 ? Column(
+                            : poseGroup.poses.length == 0 && !pageState.isLoadingNewImages ? Column(
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
@@ -380,13 +397,13 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                               ),
                             ),
                           ],
-                        ) : Container(
+                        ) : !pageState.isLoadingNewImages ? Container(
                               margin: EdgeInsets.only(top: 250.0),
                               child: LoadingAnimationWidget.fourRotatingDots(
                                 color: Color(ColorConstants.getPeachLight()),
                                 size: 48,
                               ),
-                        ),
+                        ) : SizedBox(),
                       ],
                     ),
                   ),
@@ -474,6 +491,21 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                   ),
                 ),
               ),
+              pageState.isLoadingNewImages ? Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 64.0,
+                  width: 64.0,
+                  decoration: BoxDecoration(
+                    color: Color(ColorConstants.getPeachLight()),
+                    borderRadius: new BorderRadius.circular(16.0),
+                  ),
+                  child: LoadingAnimationWidget.fourRotatingDots(
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                    size: 32,
+                  ),
+                ),
+              ) : SizedBox(),
             ],
           ),
         ),

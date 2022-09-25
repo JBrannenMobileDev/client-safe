@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:redux/redux.dart';
-import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/PoseGroupDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
@@ -24,29 +23,12 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
 
     for(int index=0; index < groups.length; index++) {
-      if(groups.elementAt(index).poses.isNotEmpty){
-        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first));
+      if(groups.elementAt(index).poses.isNotEmpty && groups.elementAt(index).poses.first.imageUrl.isNotEmpty){
+        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index)));
         next(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
       } else {
         imageFiles.insert(index, File(''));
       }
     }
-
-    (await PoseGroupDao.getPoseGroupsStream()).listen((groupSnapshots) async {
-      List<PoseGroup> groups = await PoseGroupDao.getAllSortedMostFrequent();
-      List<File> imageFiles = [];
-      store.dispatch(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
-
-      for(int index=0; index < groups.length; index++) {
-        if(groups.elementAt(index).poses.isNotEmpty){
-          imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first));
-          next(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
-        } else {
-          imageFiles.insert(index, File(''));
-        }
-      }
-    });
-
-
   }
 }

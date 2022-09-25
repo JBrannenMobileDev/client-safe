@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -9,8 +10,10 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../models/Location.dart';
 import '../../models/Pose.dart';
+import '../../models/PoseGroup.dart';
 import '../../utils/CacheManagerDandylight.dart';
 import '../../utils/UserPermissionsUtil.dart';
+import '../local_db/daos/PoseDao.dart';
 
 class FileStorage {
   static Future<bool> _requestStoragePermission() async {
@@ -25,8 +28,8 @@ class FileStorage {
     _uploadLocationImageFile(imagePath, location);
   }
 
-  static savePoseImageFile(String path, Pose pose) async {
-    _uploadPoseImageFile(path, pose);
+  static savePoseImageFile(String path, Pose pose, PoseGroup group) async {
+    _uploadPoseImageFile(path, pose, group);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
@@ -58,11 +61,36 @@ class FileStorage {
     return await DefaultCacheManager().getSingleFile(imageUrl);
   }
 
-  static Future<File> getPoseImageFile(Pose pose) async {
-    final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
-    String imageUrl = await cloudFilePath.getDownloadURL();
+  static Future<File> getPoseImageFile(Pose pose, PoseGroup group) async {
+    String imageUrl = pose.imageUrl;
+    if(imageUrl == null || imageUrl.isEmpty) {
+      final storageRef = FirebaseStorage.instance.ref();
+      final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
+      imageUrl = await cloudFilePath.getDownloadURL();
+      _updatePoseImageUrl(pose, imageUrl, group);
+    }
     return await DefaultCacheManager().getSingleFile(imageUrl);
+  }
+
+  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group) {
+    poseToUpdate.imageUrl = imageUrl;
+    PoseDao.update(poseToUpdate);
+    for(Pose pose in group.poses) {
+      if(pose.documentId == poseToUpdate.documentId) {
+        pose.imageUrl = imageUrl;
+      }
+    }
+    PoseGroupDao.update(group);
+  }
+
+  static updatePosesImageUrl(PoseGroup poseGroup, List<Pose> newPoses) async {
+    for(Pose pose in newPoses) {
+      final storageRef = FirebaseStorage.instance.ref();
+      final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
+      String imageUrl = await cloudFilePath.getDownloadURL();
+      poseGroup.poses.firstWhere((groupPose) => groupPose.documentId == pose.documentId)?.imageUrl = imageUrl;
+    }
+    await PoseGroupDao.update(poseGroup);
   }
 
   static Future<File> getContractFile(Contract contract) async {
@@ -123,7 +151,7 @@ class FileStorage {
     });
   }
 
-  static _uploadPoseImageFile(String imagePath, Pose pose) async {
+  static _uploadPoseImageFile(String imagePath, Pose pose, PoseGroup group) async {
     final storageRef = FirebaseStorage.instance.ref();
 
     final uploadTask = storageRef
@@ -146,11 +174,16 @@ class FileStorage {
         // Handle unsuccessful uploads
           break;
         case TaskState.success:
-        // Handle successful uploads on complete
-        // ...
+          _fetchAndSaveDownloadUrl(pose, group);
           break;
       }
     });
+  }
+
+  static _fetchAndSaveDownloadUrl(Pose pose, PoseGroup group) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
+    _updatePoseImageUrl(pose, await cloudFilePath.getDownloadURL(), group);
   }
 
   static _uploadContractFile(String contractPath, Contract contract) async {

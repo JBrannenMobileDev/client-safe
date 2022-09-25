@@ -112,13 +112,14 @@ class PoseGroupDao extends Equatable{
 
   static Future delete(String documentId) async {
     final finder = Finder(filter: Filter.equals('documentId', documentId));
-    int countOfUpdatedItems = await _PoseGroupGroupStore.delete(
+    await _PoseGroupGroupStore.delete(
       await _db,
       finder: finder,
+    ).onError(
+            (error, stackTrace) => null
     );
     await PoseGroupCollection().deletePoseGroup(documentId);
     _updateLastChangedTime();
-
   }
 
   static Future<List<PoseGroup>> getAllSortedMostFrequent() async {

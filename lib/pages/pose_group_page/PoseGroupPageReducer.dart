@@ -1,6 +1,5 @@
 import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import 'GroupImage.dart';
@@ -11,11 +10,12 @@ final poseGroupReducer = combineReducers<PoseGroupPageState>([
   TypedReducer<PoseGroupPageState, ClearPoseGroupState>(_clearState),
   TypedReducer<PoseGroupPageState, SetSelectAllState>(_setSelectedImages),
   TypedReducer<PoseGroupPageState, SetSinglePoseSelected>(_setSelectedImage),
+  TypedReducer<PoseGroupPageState, SetLoadingNewImagesState>(_setLoadingState),
 ]);
 
 PoseGroupPageState _setSelectedImage(PoseGroupPageState previousState, SetSinglePoseSelected action){
   bool selectedImagesContainNewSelection = previousState.selectedImages.contains(action.selectedPose);
-  List<GroupImage> resultList = previousState.selectedImages;
+  List<GroupImage> resultList = List.from(previousState.selectedImages);
   if(selectedImagesContainNewSelection) {
     resultList.remove(action.selectedPose);
   } else {
@@ -23,6 +23,12 @@ PoseGroupPageState _setSelectedImage(PoseGroupPageState previousState, SetSingle
   }
   return previousState.copyWith(
     selectedImages: resultList,
+  );
+}
+
+PoseGroupPageState _setLoadingState(PoseGroupPageState previousState, SetLoadingNewImagesState action){
+  return previousState.copyWith(
+    isLoadingNewImages: action.isLoading,
   );
 }
 
@@ -45,5 +51,6 @@ PoseGroupPageState _setPoseGroup(PoseGroupPageState previousState, SetPoseGroupD
 PoseGroupPageState _setPoseImages(PoseGroupPageState previousState, SetPoseImagesToState action){
   return previousState.copyWith(
     poseImages: action.poseImages,
+    isLoadingNewImages: false,
   );
 }

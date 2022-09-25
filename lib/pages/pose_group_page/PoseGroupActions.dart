@@ -69,3 +69,9 @@ class SetSinglePoseSelected{
   SetSinglePoseSelected(this.pageState, this.selectedPose);
 }
 
+class SetLoadingNewImagesState{
+  final PoseGroupPageState pageState;
+  final bool isLoading;
+  SetLoadingNewImagesState(this.pageState, this.isLoading);
+}
+

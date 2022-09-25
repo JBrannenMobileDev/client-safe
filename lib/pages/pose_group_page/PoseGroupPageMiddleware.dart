@@ -12,6 +12,7 @@ import '../../data_layer/local_db/daos/PoseGroupDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
+import '../../utils/GlobalKeyUtil.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
@@ -46,10 +47,11 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       allPoses.remove(selectedImage.pose);
     }
     PoseGroup group = action.pageState.poseGroup;
-    group.poses = allPoses;
+    group.poses = allPoses;//delete selected image list
     await PoseGroupDao.update(group);
     store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, group));
     store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, allImages));
+    store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
   }
 
   void _createAndSavePoses(Store<AppState> store, SavePosesToGroupAction action) async {
@@ -57,10 +59,10 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     for(int i=0; i< action.poseImages.length; i++) {
       Pose newPose = await PoseDao.insertOrUpdate(Pose());
       newPoses.add(newPose);
-      await FileStorage.savePoseImageFile(action.poseImages.elementAt(i).path, newPose);
+      await FileStorage.savePoseImageFile(action.poseImages.elementAt(i).path, newPose, action.pageState.poseGroup);
     }
 
-    List<GroupImage> groupImages = [];
+    List<GroupImage> groupImages = action.pageState.poseImages;
     for(int index=0 ; index <  newPoses.length; index++){
       groupImages.add(GroupImage(
           file: action.poseImages.elementAt(index),
@@ -74,6 +76,7 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, poseGroup));
     store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, groupImages));
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
+    await FileStorage.updatePosesImageUrl(poseGroup, newPoses);
   }
 
   void _deletePoseFromGroup(Store<AppState> store, DeletePoseAction action) async{
@@ -87,11 +90,19 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     List<GroupImage> groupImages = action.pageState.poseImages;
     groupImages.remove(action.groupImage);
     store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, groupImages));
+    store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
   }
 
   void _deletePoseGroup(Store<AppState> store, DeletePoseGroupSelected action) async{
     await PoseGroupDao.delete(action.pageState.poseGroup.documentId);
+    PoseGroup groupToCheck = await PoseGroupDao.getById(action.pageState.poseGroup.documentId);
+    if(groupToCheck != null) {
+      await PoseGroupDao.delete(action.pageState.poseGroup.documentId);
+    }
+
     store.dispatch(ClearPoseGroupState(store.state.poseGroupPageState));
+    store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
+    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   void _loadPoseImages(Store<AppState> store, LoadPoseImagesFromStorage action) async{
@@ -102,7 +113,7 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   Future<List<GroupImage>> _getGroupImages(PoseGroup poseGroup) async {
     List<GroupImage> poseImages = [];
     for(Pose pose in poseGroup.poses) {
-      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose)).path), pose: pose));
+      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup)).path), pose: pose));
     }
     return poseImages;
   }
