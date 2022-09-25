@@ -278,11 +278,11 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 22.0),
-                          height: 24.0,
-                          width: 24.0,
+                          height: 28.0,
+                          width: 28.0,
                           child: Icon(
                             !isBottomSheetVisible ? (Device.get().isIos ? CupertinoIcons.share : Icons.share) : Device.get().isIos ? CupertinoIcons.clear : Icons.close,
-                            size: 24.0,
+                            size: 28.0,
                             color: Color(ColorConstants.getPeachDark()),
                           ),
                         ),
@@ -293,8 +293,8 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 26.0),
-                          height: 24.0,
-                          width: 24.0,
+                          height: 28.0,
+                          width: 28.0,
                           child: Image.asset(
                             'assets/images/icons/trashcan.png',
                             color: Color(ColorConstants.getPeachDark()),

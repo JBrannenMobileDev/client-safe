@@ -158,11 +158,11 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 22.0),
-                              height: 24.0,
-                              width: 24.0,
+                              height: 28.0,
+                              width: 28.0,
                               child: Icon(
                                 (Device.get().isIos ? CupertinoIcons.share : Icons.share),
-                                size: 24.0,
+                                size: 28.0,
                                 color: Color(ColorConstants.getPeachLight()),
                               ),
                             ),
@@ -173,8 +173,8 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 26.0),
-                              height: 24.0,
-                              width: 24.0,
+                              height: 28.0,
+                              width: 28.0,
                               child: Image.asset(
                                 'assets/images/icons/trashcan.png',
                                 color: Color(ColorConstants.getPeachLight()),
