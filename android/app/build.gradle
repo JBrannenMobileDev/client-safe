@@ -29,7 +29,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.dandylight.flutter"
+        applicationId "com.dandylight.mobile"
         minSdkVersion 16
         targetSdkVersion 32
         multiDexEnabled true

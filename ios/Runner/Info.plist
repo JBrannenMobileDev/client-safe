@@ -26,18 +26,32 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Music!</string>
+	<key>NSCalendarsUsageDescription</key>
+	<string>This permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera will be used to take a picture of this location.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Contacts will be used for loading device contacts to DandyLight</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location will be used for sunset and weather feature of the app.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Location will be used for sunset and weather feature of the app.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location will be used for sunset and weather feature of the app.</string>
-    <key>NSPhotoLibraryUsageDescription</key>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>microphone</string>
+	<key>NSMotionUsageDescription</key>
+	<string>motion</string>
+	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library will be uses to select an image to represent this location.</string>
+	<key>NSRemindersUsageDescription</key>
+	<string>reminders</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>speech</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
@@ -66,22 +80,7 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
-
-	<key>NSAppleMusicUsageDescription</key>
-    <string>Music!</string>
-    <key>kTCCServiceMediaLibrary</key>
-    <string>media</string>
-    <key>NSCalendarsUsageDescription</key>
-    <string>This permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
-    <key>NSMicrophoneUsageDescription</key>
-    <string>microphone</string>
-    <key>NSSpeechRecognitionUsageDescription</key>
-    <string>speech</string>
-    <key>NSMotionUsageDescription</key>
-    <string>motion</string>
-    <key>NSRemindersUsageDescription</key>
-    <string>reminders</string>
-	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
+	<key>kTCCServiceMediaLibrary</key>
+	<string>media</string>
 </dict>
 </plist>

@@ -18,13 +18,18 @@ import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
+import '../../utils/NotificationHelper.dart';
+
 class DashboardPage extends StatefulWidget {
-  const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
+  const DashboardPage({Key key, this.destination, this.comingFromLogin})
+      : super(key: key);
   final DashboardPage destination;
   final bool comingFromLogin;
 
@@ -44,11 +49,15 @@ class _DashboardPageState extends State<DashboardPage>
   _DashboardPageState(this.comingFromLogin);
 
   AnimationController controller;
+  AnimationController _animationController;
+
   Tween<Offset> offsetUpTween;
   Tween<Offset> offsetDownTween;
 
   initState() {
     super.initState();
+
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
 
     offsetUpTween = new Tween<Offset>(
       begin: const Offset(0.0, 1.0),
@@ -58,12 +67,21 @@ class _DashboardPageState extends State<DashboardPage>
       begin: const Offset(0.0, -1.0),
       end: Offset.zero,
     );
-    if(comingFromLogin) {
-      controller = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
+    if (comingFromLogin) {
+      controller = AnimationController(
+          duration: const Duration(milliseconds: 500), vsync: this);
       controller.forward();
-    }else {
-      controller = AnimationController(duration: const Duration(milliseconds: 0), vsync: this);
+    } else {
+      controller = AnimationController(
+          duration: const Duration(milliseconds: 0), vsync: this);
       controller.forward();
+    }
+  }
+
+  void _runAnimation() async {
+    for (int i = 0; i < 3; i++) {
+      await _animationController.forward();
+      await _animationController.reverse();
     }
   }
 
@@ -76,26 +94,26 @@ class _DashboardPageState extends State<DashboardPage>
   }
 
   Animation<Offset> get offsetAnimationUp => offsetUpTween.animate(
-    new CurvedAnimation(
-      parent: controller,
-      curve: new Interval(
-        0.0,
-        1.0,
-        curve: Curves.ease,
-      ),
-    ),
-  );
+        new CurvedAnimation(
+          parent: controller,
+          curve: new Interval(
+            0.0,
+            1.0,
+            curve: Curves.ease,
+          ),
+        ),
+      );
 
   Animation<Offset> get offsetAnimationDown => offsetDownTween.animate(
-    new CurvedAnimation(
-      parent: controller,
-      curve: new Interval(
-        0.0,
-        1.0,
-        curve: Curves.ease,
-      ),
-    ),
-  );
+        new CurvedAnimation(
+          parent: controller,
+          curve: new Interval(
+            0.0,
+            1.0,
+            curve: Curves.ease,
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) =>
@@ -104,6 +122,10 @@ class _DashboardPageState extends State<DashboardPage>
           store.dispatch(
               new InitDashboardPageAction(store.state.dashboardPageState));
           store.dispatch(new LoadJobsAction(store.state.dashboardPageState));
+          _runAnimation();
+          FlutterAppBadger.updateBadgeCount(3);
+          DateTime now = DateTime(2022, 10, 4, 11, 43);
+          NotificationHelper().scheduleNotification(0, 'Samantha Maternity', 'Charge camera batteries.', now);
         },
         onDispose: (store) => store.dispatch(
             new DisposeDataListenersActions(store.state.homePageState)),
@@ -111,7 +133,7 @@ class _DashboardPageState extends State<DashboardPage>
             DashboardPageState.fromStore(store),
         builder: (BuildContext context, DashboardPageState pageState) =>
             Scaffold(
-              backgroundColor: Color(ColorConstants.getBlueLight()),
+          backgroundColor: Color(ColorConstants.getBlueLight()),
           floatingActionButton: SpeedDial(
             childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
             child: getFabIcon(),
@@ -194,28 +216,27 @@ class _DashboardPageState extends State<DashboardPage>
             ],
           ),
           body: Container(
-              child: Stack(
-                alignment: Alignment.topCenter,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Color(ColorConstants.getBlueLight()),
-                    ),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: <Widget>[
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color(ColorConstants.getBlueLight()),
                   ),
-                  CustomScrollView(
-                    physics: new ClampingScrollPhysics(),
-                    controller: _scrollController,
-                    slivers: <Widget>[
-                      SliverAppBar(
-                        iconTheme: IconThemeData(
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
-                        brightness: Brightness.light,
-
-                        backgroundColor: Colors.transparent,
-                        elevation: 0.0,
-                        pinned: false,
-                        floating: false,
+                ),
+                CustomScrollView(
+                  physics: new ClampingScrollPhysics(),
+                  controller: _scrollController,
+                  slivers: <Widget>[
+                    SliverAppBar(
+                      iconTheme: IconThemeData(
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                      brightness: Brightness.light,
+                      backgroundColor: Colors.transparent,
+                      elevation: 0.0,
+                      pinned: false,
+                      floating: false,
                       forceElevated: false,
                       expandedHeight: 175.0,
                       leading: SlideTransition(
@@ -240,16 +261,28 @@ class _DashboardPageState extends State<DashboardPage>
                         SlideTransition(
                           position: offsetAnimationDown,
                           child: GestureDetector(
-                            onTap: () {
+                              onTap: () {
 //                              PushNotificationsManager().sendNotification();
-                            },
-                            child: Container(
-                              margin: EdgeInsets.only(right: 16.0),
-                              height: 28.0,
-                              width: 28.0,
-                              child: Image.asset(ImageUtil.collectionIcons.elementAt(2)),
-                            ),
-                          ),
+                              },
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    RotationTransition(
+                                        turns: Tween(begin: 0.0, end: -.05)
+                                            .chain(CurveTween(
+                                                curve: Curves.elasticIn))
+                                            .animate(_animationController),
+                                        child: Container(
+                                          margin: EdgeInsets.only(right: 16.0),
+                                          height: 32.0,
+                                          width: 32.0,
+                                          child: Image.asset(
+                                              'assets/images/collection_icons/reminder_icon_white.png'),
+                                        )),
+                                  ],
+                                ),
+                              )),
                         ),
                         SlideTransition(
                           position: offsetAnimationDown,
@@ -259,8 +292,8 @@ class _DashboardPageState extends State<DashboardPage>
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 16.0),
-                              height: 28.0,
-                              width: 28.0,
+                              height: 32.0,
+                              width: 32.0,
                               child: Image.asset(
                                   'assets/images/icons/calendar_bold_white.png'),
                             ),
@@ -274,8 +307,8 @@ class _DashboardPageState extends State<DashboardPage>
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 16.0),
-                              height: 28.0,
-                              width: 28.0,
+                              height: 32.0,
+                              width: 32.0,
                               child: Image.asset(
                                   'assets/images/icons/settings_icon_white.png'),
                             ),
@@ -288,18 +321,18 @@ class _DashboardPageState extends State<DashboardPage>
                           children: <Widget>[
                             SafeArea(
                               child: Stack(
-                                  alignment: Alignment.topCenter,
-                                  children: [
-                                    Container(
-                                      margin: EdgeInsets.only(top: 64.0),
-                                      child: Text(
-                                        'DandyLight',
-                                        style: TextStyle(
-                                          fontSize: 56.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(
-                                              ColorConstants.getPrimaryWhite()),
+                                alignment: Alignment.topCenter,
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.only(top: 64.0),
+                                    child: Text(
+                                      'DandyLight',
+                                      style: TextStyle(
+                                        fontSize: 56.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(
+                                            ColorConstants.getPrimaryWhite()),
                                       ),
                                     ),
                                   ),
@@ -308,12 +341,12 @@ class _DashboardPageState extends State<DashboardPage>
                                         EdgeInsets.only(left: 89.0, top: 37.0),
                                     height: 116.0,
                                     decoration: BoxDecoration(
-                                        color: Colors.transparent,
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              ImageUtil.LOGIN_BG_LOGO_FLOWER),
-                                          fit: BoxFit.fitHeight,
-                                        ),
+                                      color: Colors.transparent,
+                                      image: DecorationImage(
+                                        image: AssetImage(
+                                            ImageUtil.LOGIN_BG_LOGO_FLOWER),
+                                        fit: BoxFit.fitHeight,
+                                      ),
                                     ),
                                   )
                                 ],
@@ -321,13 +354,15 @@ class _DashboardPageState extends State<DashboardPage>
                             ),
                           ],
                         ),
-                        ),
                       ),
-                      new SliverList(
+                    ),
+                    new SliverList(
                         delegate: new SliverChildListDelegate(<Widget>[
                       SlideTransition(
                           position: offsetAnimationUp,
-                          child: pageState.activeJobs.length > 0 ? ActiveJobsHomeCard(pageState: pageState) : StartAJobButton(pageState: pageState)),
+                          child: pageState.activeJobs.length > 0
+                              ? ActiveJobsHomeCard(pageState: pageState)
+                              : StartAJobButton(pageState: pageState)),
                       SlideTransition(
                           position: offsetAnimationUp,
                           child: StageStatsHomeCard(pageState: pageState)),
@@ -336,8 +371,8 @@ class _DashboardPageState extends State<DashboardPage>
                           child: IncomeLineChart(pageState: pageState)),
                     ])),
                   ],
-                  ),
-                ],
+                ),
+              ],
             ),
           ),
         ),

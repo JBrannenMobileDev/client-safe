@@ -81,7 +81,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       }
       ProfileDao.updateUserLoginTime(user.uid);
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-      profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+      // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
       await ProfileDao.update(profile);
     } else {
       store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
@@ -119,7 +119,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
           store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
           profile = await ProfileDao.getMatchingProfile(authResult.user.uid);
-          profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+          // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
           await ProfileDao.update(profile);
         } else if (authResult.user != null && !authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));

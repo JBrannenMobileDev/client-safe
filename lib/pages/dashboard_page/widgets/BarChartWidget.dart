@@ -40,10 +40,19 @@ class BarChartState extends State<BarChartWidget> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   noData ? Container(
+                    margin: EdgeInsets.only(top: 24.0, bottom: 18.0),
+                    height: 72.0,
+                    width: 72.0,
+                    child: Image.asset(
+                      'assets/images/icons/bar_chart_icon.png',
+                      color: Color(ColorConstants.getPeachDark()).withOpacity(0.5),
+                    ),
+                  ) : SizedBox(),
+                  noData ? Container(
                     margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
                     height: 65.0,
                     child: Text(
-                      'No income data available. Receive payment for a job to see income stats.',
+                      'No income data available. Receive payment to see income stats.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,
@@ -54,14 +63,14 @@ class BarChartState extends State<BarChartWidget> {
                     ),
                   ) : SizedBox(),
                   Container(
-                    margin: EdgeInsets.only(top: noData ? 69.0 : 0),
+                    margin: EdgeInsets.only(top: 0.0),
                     height: noData ? 50.0 : 175.0,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: BarChart(
+                      child: !noData ? BarChart(
                         mainBarData(),
                         swapAnimationDuration: animDuration,
-                      ),
+                      ) : SizedBox(),
                     ),
                   ),
                 ],

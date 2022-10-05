@@ -4,14 +4,12 @@ import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter_cache_manager/flutter_cache_manager.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../models/Location.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
-import '../../utils/CacheManagerDandylight.dart';
+import '../../utils/DandylightCacheManager.dart';
 import '../../utils/UserPermissionsUtil.dart';
 import '../local_db/daos/PoseDao.dart';
 
@@ -58,7 +56,7 @@ class FileStorage {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildLocationImagePath(location));
     String imageUrl = await cloudFilePath.getDownloadURL();
-    return await DefaultCacheManager().getSingleFile(imageUrl);
+    return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
 
   static Future<File> getPoseImageFile(Pose pose, PoseGroup group) async {
@@ -69,7 +67,7 @@ class FileStorage {
       imageUrl = await cloudFilePath.getDownloadURL();
       _updatePoseImageUrl(pose, imageUrl, group);
     }
-    return await DefaultCacheManager().getSingleFile(imageUrl);
+    return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
 
   static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group) {
@@ -97,7 +95,7 @@ class FileStorage {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildContractFilePath(contract));
     String contractUrl = await cloudFilePath.getDownloadURL();
-    return await DefaultCacheManager().getSingleFile(contractUrl);
+    return await DandylightCacheManager.instance.getSingleFile(contractUrl);
   }
 
   static _deleteLocationImageFileFromCloud(Location location) async {

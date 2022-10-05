@@ -49,10 +49,10 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     Profile profile = (await ProfileDao.getAll()).elementAt(0);
     profile.pushNotificationsEnabled = action.enabled;
     if(profile.pushNotificationsEnabled) {
-      PushNotificationsManager().init();
-      profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+      await PushNotificationsManager().init();
+      // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
     } else {
-      profile.removeDeviceToken(await PushNotificationsManager().getToken());
+      // profile.removeDeviceToken(await PushNotificationsManager().getToken());
     }
     await ProfileDao.update(profile);
     store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profile.pushNotificationsEnabled ?? false));
@@ -62,7 +62,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     List<Profile> profiles = await ProfileDao.getAll();
     if(profiles != null && profiles.isNotEmpty) {
       Profile profile = profiles.elementAt(0);
-      profile.removeDeviceToken(await PushNotificationsManager().getToken());
+      // profile.removeDeviceToken(await PushNotificationsManager().getToken());
       await ProfileDao.update(profile);
     }
   }

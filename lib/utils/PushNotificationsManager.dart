@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import 'notificationHelper.dart';
+import 'NotificationHelper.dart';
 
 class PushNotificationsManager {
 
@@ -27,7 +27,7 @@ class PushNotificationsManager {
   Future<void> init() async {
     if (!_initialized) {
       // For iOS request permission first.
-      _firebaseMessaging.requestPermission();
+      await _firebaseMessaging.requestPermission();
 
       // For testing purposes print the Firebase Messaging token
       String token = await _firebaseMessaging.getToken();
@@ -38,10 +38,9 @@ class PushNotificationsManager {
   }
 
   final String serverToken = 'AAAACjxm228:APA91bGzc4xnNA_zhCqNK9k_N-i8ZXwtYSdKPSovGGeh89ifF7DlLcC5w3Lzfw-A6seM4Z0Q1SPUIiN5BajUhx-TLVwepCaOuTc4bRzdR4JWsJ8OV5UwBjWe_1U9ZddL-IVLE0RwIc8D';
-  final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
 
   Future<Map<String, dynamic>> sendNotification(JobReminder reminder, String jobName) async {
-    await firebaseMessaging.requestPermission();
+    await _firebaseMessaging.requestPermission();
 
     for(String deviceId in (await ProfileDao.getAll()).elementAt(0).deviceTokens) {
       await http.post(
