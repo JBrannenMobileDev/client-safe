@@ -19,6 +19,12 @@ class SetJobInfo{
   SetJobInfo(this.pageState, this.job);
 }
 
+class SetJobInfoWithJobDocumentId{
+  final JobDetailsPageState pageState;
+  final String jobDocumentId;
+  SetJobInfoWithJobDocumentId(this.pageState, this.jobDocumentId);
+}
+
 class FetchJobDetailsDeviceEvents{
   final JobDetailsPageState calendarPageState;
   final DateTime month;

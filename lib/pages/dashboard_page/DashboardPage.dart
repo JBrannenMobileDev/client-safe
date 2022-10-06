@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/pages/common_widgets/SwipeableCardsWidget.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
@@ -19,12 +20,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
+import '../../models/JobReminder.dart';
 import '../../utils/NotificationHelper.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -39,8 +40,7 @@ class DashboardPage extends StatefulWidget {
   }
 }
 
-class _DashboardPageState extends State<DashboardPage>
-    with TickerProviderStateMixin {
+class _DashboardPageState extends State<DashboardPage> with TickerProviderStateMixin {
   ScrollController _scrollController;
   bool dialVisible = true;
   bool isFabExpanded = false;
@@ -116,21 +116,18 @@ class _DashboardPageState extends State<DashboardPage>
       );
 
   @override
-  Widget build(BuildContext context) =>
-      StoreConnector<AppState, DashboardPageState>(
+  Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
         onInit: (store) async {
-          store.dispatch(
-              new InitDashboardPageAction(store.state.dashboardPageState));
+          store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState));
           store.dispatch(new LoadJobsAction(store.state.dashboardPageState));
-          _runAnimation();
-          FlutterAppBadger.updateBadgeCount(3);
-          DateTime now = DateTime(2022, 10, 4, 11, 43);
-          NotificationHelper().scheduleNotification(0, 'Samantha Maternity', 'Charge camera batteries.', now);
+          if(store.state.dashboardPageState.unseenNotificationCount > 0) {
+            _runAnimation();
+          }
+          JobReminderDao.getAll();
+          NotificationHelper().createAndUpdatePendingNotifications();
         },
-        onDispose: (store) => store.dispatch(
-            new DisposeDataListenersActions(store.state.homePageState)),
-        converter: (Store<AppState> store) =>
-            DashboardPageState.fromStore(store),
+        onDispose: (store) => store.dispatch(new DisposeDataListenersActions(store.state.homePageState)),
+        converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
         builder: (BuildContext context, DashboardPageState pageState) =>
             Scaffold(
           backgroundColor: Color(ColorConstants.getBlueLight()),
@@ -261,28 +258,44 @@ class _DashboardPageState extends State<DashboardPage>
                         SlideTransition(
                           position: offsetAnimationDown,
                           child: GestureDetector(
-                              onTap: () {
-//                              PushNotificationsManager().sendNotification();
-                              },
-                              child: Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    RotationTransition(
-                                        turns: Tween(begin: 0.0, end: -.05)
-                                            .chain(CurveTween(
-                                                curve: Curves.elasticIn))
-                                            .animate(_animationController),
-                                        child: Container(
-                                          margin: EdgeInsets.only(right: 16.0),
-                                          height: 32.0,
-                                          width: 32.0,
-                                          child: Image.asset(
-                                              'assets/images/collection_icons/reminder_icon_white.png'),
-                                        )),
-                                  ],
+                            onTap: () {
+                              NavigationUtil.onNotificationsSelected(context);
+                              pageState.onNotificationsSelected();
+                            },
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      RotationTransition(
+                                          turns: Tween(begin: 0.0, end: -.05)
+                                              .chain(CurveTween(
+                                              curve: Curves.elasticIn))
+                                              .animate(_animationController),
+                                          child: Container(
+                                            margin: EdgeInsets.only(right: 16.0),
+                                            height: 32.0,
+                                            width: 32.0,
+                                            child: Image.asset(
+                                                'assets/images/collection_icons/reminder_icon_white.png'),
+                                          )),
+                                    ],
+                                  ),
                                 ),
-                              )),
+                                pageState.unseenNotificationCount > 0 ? Container(
+                                  margin: EdgeInsets.only(bottom: 16.0),
+                                  width: 8.0,
+                                  height: 8.0,
+                                  decoration: new BoxDecoration(
+                                    color: Color(ColorConstants.error_red),
+                                    shape: BoxShape.circle,
+                                  ),
+                                ) : SizedBox(),
+                              ],
+                            )
+                          ),
                         ),
                         SlideTransition(
                           position: offsetAnimationDown,
@@ -361,7 +374,7 @@ class _DashboardPageState extends State<DashboardPage>
                       SlideTransition(
                           position: offsetAnimationUp,
                           child: pageState.activeJobs.length > 0
-                              ? ActiveJobsHomeCard(pageState: pageState)
+                              ? ActiveJobsHomeCard()
                               : StartAJobButton(pageState: pageState)),
                       SlideTransition(
                           position: offsetAnimationUp,

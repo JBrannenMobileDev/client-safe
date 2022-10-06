@@ -2,6 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
+import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
@@ -50,8 +51,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     profile.pushNotificationsEnabled = action.enabled;
     if(profile.pushNotificationsEnabled) {
       await PushNotificationsManager().init();
-      // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+      NotificationHelper().createAndUpdatePendingNotifications();
     } else {
+      NotificationHelper().clearAll();
       // profile.removeDeviceToken(await PushNotificationsManager().getToken());
     }
     await ProfileDao.update(profile);

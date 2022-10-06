@@ -29,6 +29,7 @@ class ColorConstants{
   static const int peach_light = 0xfff7d1ba;
   static const int grey_alt = 0xff868982;
   static const int grey = 0xffe3e1da;
+  static const int grey_medium = 0xffD2D0C9;
   static const int charcoal = 0xff504B47;
   static const int black = 0xff444444;
 
@@ -45,6 +46,10 @@ class ColorConstants{
 
   static int getPrimaryBackgroundGrey(){
     return grey;
+  }
+
+  static int getPrimaryGreyMedium() {
+    return grey_medium;
   }
 
   static int getPeachDark(){

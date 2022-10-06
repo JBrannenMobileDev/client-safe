@@ -86,6 +86,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetNotificationsToSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllJobsAction>(CalendarPageMiddleware()));
@@ -96,6 +97,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UndoStageAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobInfo>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetJobInfoWithJobDocumentId>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, JobInstagramSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetJobAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobTimeAction>(JobDetailsPageMiddleware()));

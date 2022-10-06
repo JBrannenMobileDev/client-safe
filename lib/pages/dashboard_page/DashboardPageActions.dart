@@ -3,6 +3,8 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
+import '../../models/JobReminder.dart';
+
 
 class InitDashboardPageAction{
   final DashboardPageState item;
@@ -25,6 +27,13 @@ class SetJobToStateAction{
   SetJobToStateAction(this.pageState, this.allJobs);
 }
 
+class SetUnseenReminderCount{
+  final DashboardPageState pageState;
+  final int count;
+  final List<JobReminder> reminders;
+  SetUnseenReminderCount(this.pageState, this.count, this.reminders);
+}
+
 class SetClientsDashboardAction{
   final DashboardPageState pageState;
   final List<Client> clients;
@@ -39,4 +48,14 @@ class UpdateShowHideState{
 class UpdateShowHideLeadsState{
   final DashboardPageState pageState;
   UpdateShowHideLeadsState(this.pageState);
+}
+
+class SetNotificationsToSeen{
+  final DashboardPageState pageState;
+  SetNotificationsToSeen(this.pageState);
+}
+
+class UpdateNotificationIconAction {
+  final DashboardPageState pageState;
+  UpdateNotificationIconAction(this.pageState);
 }

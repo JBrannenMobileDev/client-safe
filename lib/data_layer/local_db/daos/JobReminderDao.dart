@@ -10,6 +10,7 @@ import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/SingleExpense.dart';
+import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
@@ -36,6 +37,7 @@ class JobReminderDao extends Equatable{
     reminder.id = await _jobReminderStore.add(await _db, reminder.toMap());
     await JobReminderCollection().createReminder(reminder);
     _updateLastChangedTime();
+    NotificationHelper().createAndUpdatePendingNotifications();
   }
 
   static Future insertLocalOnly(JobReminder reminder) async {
@@ -219,6 +221,38 @@ class JobReminderDao extends Equatable{
         await _jobReminderStore.add(await _db, fireStoreReminder.toMap());
       }
     }
+  }
+
+  static Future<List<JobReminder>> getPendingJobReminders() async {
+    List<JobReminder> pendingReminders = await getAll();
+    List<JobReminder> reducedReminders = [];
+    DateTime now = DateTime.now();
+    for(JobReminder reminder in pendingReminders) {
+      reminder.triggerTime = await reminder.reminder.getTriggerTime(getJobDate(reminder));
+      if(reminder.triggerTime != null && now.isBefore(reminder.triggerTime)) {
+        reducedReminders.add(reminder);
+      }
+    }
+    reducedReminders..sort((item1, item2)  => (item1.triggerTime).compareTo(item2.triggerTime));
+    return reducedReminders;
+  }
+
+  static Future<List<JobReminder>> getTriggeredReminders() async {
+    List<JobReminder> pendingReminders = await getAll();
+    List<JobReminder> reducedReminders = [];
+    DateTime now = DateTime.now();
+    for(JobReminder reminder in pendingReminders) {
+      reminder.triggerTime = await reminder.reminder.getTriggerTime(getJobDate(reminder));
+      if(reminder.triggerTime != null && now.isAfter(reminder.triggerTime)) {
+        reducedReminders.add(reminder);
+      }
+    }
+    reducedReminders..sort((item1, item2)  => (item1.triggerTime).compareTo(item2.triggerTime));
+    return reducedReminders;
+  }
+
+  static Future<DateTime> getJobDate(JobReminder item1) async {
+    return await item1.getJobDate();
   }
 
   @override

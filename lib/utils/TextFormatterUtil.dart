@@ -26,6 +26,7 @@ class TextFormatterUtil {
   }
 
   static String formatPhoneNum(String phoneToFormat) {
+    if(phoneToFormat == null) return "";
     String resultNum = "";
     String numsOnly = phoneToFormat.replaceAll(RegExp('[^0-9]+'), "");
     numsOnly = numsOnly.replaceAll(" ", "");

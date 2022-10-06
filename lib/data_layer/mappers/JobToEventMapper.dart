@@ -10,6 +10,7 @@ import '../local_db/daos/ProfileDao.dart';
 class JobToEventMapper {
   static map(Job job, String calendarId, String eventIdSaved) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(job.selectedDate == null) return null;
     return Event(
       calendarId,
       eventId: eventIdSaved,
@@ -33,7 +34,7 @@ class JobToEventMapper {
     _currentLocation = getLocation(timezone);
 
     return TZDateTime.from(
-        DateTime(selectedDate.year, selectedDate.month, selectedDate.day, selectedTime.hour, selectedTime.minute),
+        DateTime(selectedDate?.year, selectedDate?.month, selectedDate?.day, selectedTime?.hour, selectedTime?.minute),
         _currentLocation);
   }
 

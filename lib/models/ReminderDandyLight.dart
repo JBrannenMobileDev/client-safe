@@ -1,3 +1,5 @@
+import '../pages/new_reminder_page/WhenSelectionWidget.dart';
+
 class ReminderDandyLight {
   int id;
   String documentId;
@@ -7,6 +9,45 @@ class ReminderDandyLight {
   int amount;
   DateTime time;
 
+  Future<DateTime> getTriggerTime(Future<DateTime> jobDateFuture) async {
+    DateTime jobDate = await jobDateFuture;
+    if(jobDate == null) return null;
+    DateTime triggerDateTime;
+    switch(when) {
+      case WhenSelectionWidget.ON:
+        triggerDateTime = DateTime(jobDate.year, jobDate.month, jobDate.day, time.hour, time.minute);
+        break;
+      case WhenSelectionWidget.BEFORE:
+        triggerDateTime = DateTime(jobDate.year, jobDate.month, jobDate.day, time.hour, time.minute);
+        switch(daysWeeksMonths) {
+          case WhenSelectionWidget.DAYS:
+            triggerDateTime.subtract(Duration(days: amount));
+            break;
+          case WhenSelectionWidget.MONTHS:
+            triggerDateTime = DateTime(triggerDateTime.year, triggerDateTime.month - amount, triggerDateTime.day, triggerDateTime.hour, triggerDateTime.minute);
+            break;
+          case WhenSelectionWidget.WEEKS:
+            triggerDateTime.subtract(Duration(days: (amount*7)));
+            break;
+        }
+        break;
+      case WhenSelectionWidget.AFTER:
+        triggerDateTime = DateTime(jobDate.year, jobDate.month, jobDate.day, time.hour, time.minute);
+        switch(daysWeeksMonths) {
+          case WhenSelectionWidget.DAYS:
+            triggerDateTime.add(Duration(days: amount));
+            break;
+          case WhenSelectionWidget.MONTHS:
+            triggerDateTime = DateTime(triggerDateTime.year, triggerDateTime.month + amount, triggerDateTime.day, triggerDateTime.hour, triggerDateTime.minute);
+            break;
+          case WhenSelectionWidget.WEEKS:
+            triggerDateTime.add(Duration(days: (amount*7)));
+            break;
+        }
+        break;
+    }
+    return triggerDateTime;
+  }
 
   @override
   bool operator ==(Object other) =>

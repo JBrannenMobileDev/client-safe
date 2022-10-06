@@ -68,6 +68,7 @@ class _JobsPageState extends State<JobsPage> {
     return StoreConnector<AppState, JobsPageState>(
         converter: (store) => JobsPageState.fromStore(store),
         onInit: (store) async {
+          store.dispatch(FetchJobsAction(store.state.jobsPageState));
           if(comingFromMainNavigation) {
             store.dispatch(FilterChangedAction(store.state.jobsPageState, JobsPage.FILTER_TYPE_UPCOMING));
           }

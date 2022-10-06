@@ -139,8 +139,7 @@ class CalendarSyncUtil {
               calendar.id,
               await DandylightSharedPrefs.getEventIdByJobAndCalendar(
                   job.documentId, calendar.id));
-          final createEventResult =
-              await _deviceCalendarPlugin.createOrUpdateEvent(event);
+          final createEventResult = await _deviceCalendarPlugin.createOrUpdateEvent(event);
           if (createEventResult.isSuccess &&
               (createEventResult.data?.isNotEmpty ?? false)) {
             String eventId = createEventResult.data;

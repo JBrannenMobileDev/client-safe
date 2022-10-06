@@ -18,6 +18,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
 class LoginPage extends StatefulWidget {
@@ -743,9 +744,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             alignment: Alignment.center,
                             height: 64.0,
                             width: 300.0,
-                            decoration: BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                                borderRadius: BorderRadius.circular(36.0)),
                             child: pageState.showLoginLoadingAnimation
                                 ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -754,16 +752,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   'Signing In',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 24.0,
+                                    fontSize: 26.0,
                                     fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 30.0, left: 4.0),
-                                  child: BouncingLoadingAnimatedIcon(),
-                                )
+                                Container(
+                                  alignment: Alignment.center,
+                                  padding: EdgeInsets.only(left: 16.0),
+                                  child: LoadingAnimationWidget.fourRotatingDots(
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    size: 26,
+                                  ),
+                                ),
                               ],
                             ) : pageState.isForgotPasswordViewVisible ? Text(
                               'Reset Password',

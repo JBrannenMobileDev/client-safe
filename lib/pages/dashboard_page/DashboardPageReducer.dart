@@ -15,7 +15,15 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetClientsDashboardAction>(_setClients),
   TypedReducer<DashboardPageState, UpdateShowHideState>(_updateShowHideState),
   TypedReducer<DashboardPageState, UpdateShowHideLeadsState>(_updateShowHideLeadsState),
+  TypedReducer<DashboardPageState, SetUnseenReminderCount>(_setUnseenCount),
 ]);
+
+DashboardPageState _setUnseenCount(DashboardPageState previousState, SetUnseenReminderCount action) {
+  return previousState.copyWith(
+      unseenNotificationCount: action.count,
+      reminders: action.reminders,
+  );
+}
 
 DashboardPageState _setupDataListeners(DashboardPageState previousState, InitDashboardPageAction action) {
   return previousState.copyWith(jobsProfitTotal: "\$50");

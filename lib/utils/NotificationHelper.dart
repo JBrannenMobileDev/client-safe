@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,6 +9,8 @@ import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
+
+import '../data_layer/local_db/daos/JobDao.dart';
 
 class NotificationHelper {
   static final NotificationHelper _singleton = NotificationHelper._SingletonConstructor();
@@ -62,6 +65,29 @@ class NotificationHelper {
       },
       onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
     );
+
+    createAndUpdatePendingNotifications();
+  }
+
+  void createAndUpdatePendingNotifications() async {
+    List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
+    clearAll();
+
+    for(int index = 0;index < pendingReminders.length; index++) {
+      if(index < 64) {
+        JobReminder reminderToSchedule = pendingReminders.elementAt(index);
+        if(reminderToSchedule.triggerTime != null) {
+          scheduleNotification(
+              index,
+              'Reminder',
+              '(' +
+                  (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle +
+                  ')\n' +
+                  reminderToSchedule.reminder.description, reminderToSchedule.triggerTime);
+          print("Reminder has been scheduled. jobReminderId = " + reminderToSchedule.documentId);
+        }
+      }
+    }
   }
 
   Future<String> getNotificationJobId() async {
@@ -74,15 +100,12 @@ class NotificationHelper {
     return jobId;
   }
 
-  Future<void> turnOffNotification(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    await flutterLocalNotificationsPlugin.cancelAll();
+  Future<void> clearAll() async {
+    await flutterNotificationPlugin.cancelAll();
   }
 
-  Future<void> turnOffNotificationById(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin,
-      num id) async {
-    await flutterLocalNotificationsPlugin.cancel(id);
+  Future<void> turnOffNotificationById(num id) async {
+    await flutterNotificationPlugin.cancel(id);
   }
 
   Future<void> scheduleNotification(
@@ -98,10 +121,7 @@ class NotificationHelper {
           scheduledNotificationDateTime,
           tz.local,
         ),
-        const NotificationDetails(
-            android: AndroidNotificationDetails(
-                'your channel id', 'your channel name',
-                channelDescription: 'your channel description')),
+        const NotificationDetails(),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation:
             UILocalNotificationDateInterpretation.absoluteTime);

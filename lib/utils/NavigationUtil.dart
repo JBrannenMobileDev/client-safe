@@ -6,6 +6,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart'
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobListPage.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/ReminderNotificationsPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/login_page/LoginPage.dart';
@@ -49,7 +50,13 @@ class NavigationUtil {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
   static onStageStatsSelected(BuildContext context, DashboardPageState pageState, List<Job> jobs, String title) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, jobs: jobs, pageTitle: title,)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(jobs: jobs, pageState: pageState, pageTitle: title,)));
+  }
+  static onReminderNotificationItemSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage()));
+  }
+  static onNotificationsSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReminderNotificationsPage()));
   }
 
   static void onSuccessfulLogin(BuildContext context) {

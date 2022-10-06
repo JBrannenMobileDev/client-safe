@@ -8,6 +8,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart'
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
 
 class DashboardPageState {
@@ -20,15 +21,19 @@ class DashboardPageState {
   final List<Job> upcomingJobs;
   final List<Job> allJobs;
   final List<Job> activeJobs;
-  final List<Notifications> unseenNotifications;
+  final int unseenNotificationCount;
+  final List<JobReminder> reminders;
   final List<LineChartMonthData> lineChartMonthData;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
   final Function(Client) onLeadClicked;
   final Function(Job) onJobClicked;
+  final Function(JobReminder) onReminderSelected;
   final Function() onViewAllHideSelected;
   final Function() onViewAllHideLeadsSelected;
+  final Function() onNotificationsSelected;
+  final Function() onNotificationViewClosed;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -36,7 +41,7 @@ class DashboardPageState {
     this.recentLeads,
     this.upcomingJobs,
     this.allJobs,
-    this.unseenNotifications,
+    this.unseenNotificationCount,
     this.onAddClicked,
     this.onSearchClientsClicked,
     this.onActionItemClicked,
@@ -49,6 +54,10 @@ class DashboardPageState {
     this.activeJobs,
     this.allUserStages,
     this.lineChartMonthData,
+    this.reminders,
+    this.onReminderSelected,
+    this.onNotificationsSelected,
+    this.onNotificationViewClosed,
   });
 
   DashboardPageState copyWith({
@@ -61,7 +70,7 @@ class DashboardPageState {
     List<Job> allJobs,
     List<Job> activeJobs,
     List<JobStage> allUserStages,
-    List<Notifications> unseenNotifications,
+    int unseenNotificationCount,
     List<LineChartMonthData> lineChartMonthData,
     Function() onAddClicked,
     Function() onSearchClientsClicked,
@@ -70,6 +79,10 @@ class DashboardPageState {
     Function(Job) onJobClicked,
     Function() onViewAllHideSelected,
     Function() onViewAllHideLeadsSelected,
+    List<JobReminder> reminders,
+    Function(JobReminder) onReminderSelected,
+    Function() onNotificationsSelected,
+    Function() onNotificationViewClosed,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -78,7 +91,7 @@ class DashboardPageState {
       recentLeads: recentLeads ?? this.recentLeads,
       upcomingJobs: currentJobs ?? this.upcomingJobs,
       activeJobs: activeJobs ?? this.activeJobs,
-      unseenNotifications: unseenNotifications ?? this.unseenNotifications,
+      unseenNotificationCount: unseenNotificationCount ?? this.unseenNotificationCount,
       onAddClicked: onAddClicked ?? this.onAddClicked,
       onSearchClientsClicked: onSearchClientsClicked ?? this.onSearchClientsClicked,
       onActionItemClicked: onActionItemClicked ?? onActionItemClicked,
@@ -90,6 +103,10 @@ class DashboardPageState {
       onViewAllHideLeadsSelected: onViewAllHideLeadsSelected ?? this.onViewAllHideLeadsSelected,
       allUserStages: allUserStages ?? this.allUserStages,
       lineChartMonthData: lineChartMonthData ?? this.lineChartMonthData,
+      reminders: reminders ?? this.reminders,
+      onReminderSelected: onReminderSelected ?? this.onReminderSelected,
+      onNotificationsSelected: onNotificationsSelected ?? this.onNotificationsSelected,
+      onNotificationViewClosed: onNotificationViewClosed ?? this.onNotificationViewClosed,
     );
   }
 
@@ -99,7 +116,7 @@ class DashboardPageState {
       actionItems: store.state.dashboardPageState.actionItems,
       recentLeads: store.state.dashboardPageState.recentLeads,
       upcomingJobs: store.state.dashboardPageState.upcomingJobs,
-      unseenNotifications: store.state.dashboardPageState.unseenNotifications,
+      unseenNotificationCount: store.state.dashboardPageState.unseenNotificationCount,
       onAddClicked: store.state.dashboardPageState.onAddClicked,
       onSearchClientsClicked: store.state.dashboardPageState.onSearchClientsClicked,
       onActionItemClicked: store.state.dashboardPageState.onActionItemClicked,
@@ -109,10 +126,14 @@ class DashboardPageState {
       isLeadsMinimized: store.state.dashboardPageState.isLeadsMinimized,
       allUserStages: store.state.dashboardPageState.allUserStages,
       lineChartMonthData: store.state.dashboardPageState.lineChartMonthData,
+      reminders: store.state.dashboardPageState.reminders,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
       onViewAllHideLeadsSelected: () => store.dispatch(UpdateShowHideLeadsState(store.state.dashboardPageState)),
+      onReminderSelected:  (reminder) => store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId)),
+      onNotificationsSelected: () => store.dispatch(SetNotificationsToSeen(store.state.dashboardPageState)),
+      onNotificationViewClosed: () => store.dispatch(UpdateNotificationIconAction(store.state.dashboardPageState)),
     );
   }
 
@@ -121,9 +142,10 @@ class DashboardPageState {
     actionItems: [],
     recentLeads: [],
     upcomingJobs: [],
-    unseenNotifications: [],
+    unseenNotificationCount: 0,
     activeJobs: [],
     allUserStages: [],
+    reminders: [],
     onAddClicked: null,
     onSearchClientsClicked: null,
     onActionItemClicked: null,
@@ -135,6 +157,9 @@ class DashboardPageState {
     onViewAllHideSelected: null,
     isLeadsMinimized: true,
     onViewAllHideLeadsSelected: null,
+    onReminderSelected: null,
+    onNotificationsSelected: null,
+    onNotificationViewClosed: null,
   );
 
   @override
@@ -143,19 +168,23 @@ class DashboardPageState {
       actionItems.hashCode ^
       recentLeads.hashCode ^
       upcomingJobs.hashCode ^
-      unseenNotifications.hashCode ^
+      unseenNotificationCount.hashCode ^
       onSearchClientsClicked.hashCode ^
       onActionItemClicked.hashCode ^
       onLeadClicked.hashCode ^
       onJobClicked.hashCode ^
       onAddClicked.hashCode ^
       allJobs.hashCode ^
+      reminders.hashCode ^
       activeJobs.hashCode ^
       onViewAllHideSelected.hashCode ^
       isLeadsMinimized.hashCode ^
       onViewAllHideLeadsSelected.hashCode ^
       allUserStages.hashCode ^
       lineChartMonthData.hashCode^
+      onReminderSelected.hashCode^
+      onNotificationsSelected.hashCode ^
+      onNotificationViewClosed.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -169,7 +198,7 @@ class DashboardPageState {
               allJobs == other.allJobs &&
               isLeadsMinimized == other.isLeadsMinimized &&
               onViewAllHideLeadsSelected == other.onViewAllHideLeadsSelected &&
-              unseenNotifications == other.unseenNotifications &&
+              unseenNotificationCount == other.unseenNotificationCount &&
               onSearchClientsClicked == other.onSearchClientsClicked &&
               onActionItemClicked == other.onActionItemClicked &&
               onLeadClicked == other.onLeadClicked &&
@@ -179,5 +208,9 @@ class DashboardPageState {
               allUserStages == other.allUserStages &&
               onViewAllHideSelected == other.onViewAllHideSelected &&
               lineChartMonthData == other.lineChartMonthData &&
+              reminders == other.reminders &&
+              onReminderSelected == other.onReminderSelected &&
+              onNotificationsSelected == other.onNotificationsSelected &&
+              onNotificationViewClosed == other.onNotificationViewClosed &&
               isMinimized == other.isMinimized;
 }

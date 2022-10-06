@@ -19,6 +19,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -50,6 +51,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SetJobInfo){
       fetchClientForJob(store, next, action);
+    }
+    if(action is SetJobInfoWithJobDocumentId){
+      setJobInfoWithId(store, next, action);
     }
     if(action is JobInstagramSelectedAction){
       _launchInstagramProfile(store.state.jobDetailsPageState.client.instagramProfileUrl);
@@ -275,6 +279,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       selectedDate: store.state.jobDetailsPageState.selectedDate,
     );
     await JobDao.insertOrUpdate(jobToSave);
+    await NotificationHelper().createAndUpdatePendingNotifications();
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
@@ -295,6 +300,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
     store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
     Client client = await ClientDao.getClientById(action.job.clientDocumentId);
+    store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
+    _fetchDeviceEventsForMonth(store, null, next);
+  }
+
+  void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{
+    Job job = await JobDao.getJobById(action.jobDocumentId);
+    store.dispatch(SetJobAction(store.state.jobDetailsPageState, job));
+    Client client = await ClientDao.getClientById(job.clientDocumentId);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
     _fetchDeviceEventsForMonth(store, null, next);
   }

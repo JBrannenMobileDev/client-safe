@@ -99,11 +99,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
-          appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
-          appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
-          appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
-          appState.dispatch(FetchJobRemindersAction(appState.state.jobDetailsPageState)),
-          appState.dispatch(FetchAllJobTypesAction(appState.state.jobDetailsPageState)),
+            appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
+            appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
+            appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
+            appState.dispatch(FetchJobRemindersAction(appState.state.jobDetailsPageState)),
+            appState.dispatch(FetchAllJobTypesAction(appState.state.jobDetailsPageState)),
         },
         onDidChange: (prev, pageState) {
           pageStateLocal = pageState;
