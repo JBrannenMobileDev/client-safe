@@ -258,4 +258,13 @@ class JobReminderDao extends Equatable{
   @override
   // TODO: implement props
   List<Object> get props => [];
+
+  static void deleteAllWithJobDocumentId(String jobDocumentId) async {
+    List<JobReminder> allReminders = await getAll();
+    for(JobReminder reminder in allReminders) {
+      if(reminder.jobDocumentId == jobDocumentId) {
+        await delete(reminder.documentId);
+      }
+    }
+  }
 }

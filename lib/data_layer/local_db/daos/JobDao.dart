@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/JobCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -92,6 +93,7 @@ class JobDao extends Equatable{
     await JobCollection().deleteJob(job.documentId);
     _updateLastChangedTime();
     CalendarSyncUtil.deleteJobEvent(job);
+    JobReminderDao.deleteAllWithJobDocumentId(job.documentId);
   }
 
    static Future<List<Job>> getAllJobs() async {
