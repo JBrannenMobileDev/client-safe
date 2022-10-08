@@ -207,6 +207,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       jobReminders.add(JobReminder(
         jobDocumentId: thisJob.documentId,
         reminder: reminder,
+        hasBeenSeen: false,
       ));
     }
 

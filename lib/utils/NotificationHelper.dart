@@ -84,7 +84,7 @@ class NotificationHelper {
                   (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle +
                   ')\n' +
                   reminderToSchedule.reminder.description, reminderToSchedule.triggerTime);
-          print("Reminder has been scheduled. jobReminderId = " + reminderToSchedule.documentId);
+          print("Reminder has been scheduled. jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
         }
       }
     }

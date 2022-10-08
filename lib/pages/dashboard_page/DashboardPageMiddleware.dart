@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
@@ -46,6 +48,32 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
     store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
+
+    (await JobReminderDao.getReminderStream()).listen((snapshots) async {
+      List<JobReminder> streamReminders = [];
+      for(RecordSnapshot clientSnapshot in snapshots) {
+        streamReminders.add(JobReminder.fromMap(clientSnapshot.value));
+      }
+      int unseenCount = 0;
+      for(JobReminder reminder in reminders) {
+        if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
+          unseenCount++;
+        }
+      }
+      store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
+    });
+
+
+    List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
+    for(JobReminder reminder in pendingReminders) {
+      DateTime now = DateTime.now();
+      DateTime triggerTime = reminder.triggerTime;
+      int diff = (now.millisecondsSinceEpoch - triggerTime.millisecondsSinceEpoch).abs();
+
+      Timer(Duration(milliseconds: diff), () {
+        _loadJobReminders(store, action, next);
+      });
+    }
   }
 
   Future<void> _loadAllJobs(Store<AppState> store, action, NextDispatcher next) async {

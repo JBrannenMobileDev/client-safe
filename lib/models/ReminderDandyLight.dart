@@ -21,13 +21,13 @@ class ReminderDandyLight {
         triggerDateTime = DateTime(jobDate.year, jobDate.month, jobDate.day, time.hour, time.minute);
         switch(daysWeeksMonths) {
           case WhenSelectionWidget.DAYS:
-            triggerDateTime.subtract(Duration(days: amount));
+            triggerDateTime = triggerDateTime.subtract(Duration(days: amount));
             break;
           case WhenSelectionWidget.MONTHS:
             triggerDateTime = DateTime(triggerDateTime.year, triggerDateTime.month - amount, triggerDateTime.day, triggerDateTime.hour, triggerDateTime.minute);
             break;
           case WhenSelectionWidget.WEEKS:
-            triggerDateTime.subtract(Duration(days: (amount*7)));
+            triggerDateTime = triggerDateTime.subtract(Duration(days: (amount*7)));
             break;
         }
         break;
@@ -35,13 +35,13 @@ class ReminderDandyLight {
         triggerDateTime = DateTime(jobDate.year, jobDate.month, jobDate.day, time.hour, time.minute);
         switch(daysWeeksMonths) {
           case WhenSelectionWidget.DAYS:
-            triggerDateTime.add(Duration(days: amount));
+            triggerDateTime = triggerDateTime.add(Duration(days: amount));
             break;
           case WhenSelectionWidget.MONTHS:
             triggerDateTime = DateTime(triggerDateTime.year, triggerDateTime.month + amount, triggerDateTime.day, triggerDateTime.hour, triggerDateTime.minute);
             break;
           case WhenSelectionWidget.WEEKS:
-            triggerDateTime.add(Duration(days: (amount*7)));
+            triggerDateTime = triggerDateTime.add(Duration(days: (amount*7)));
             break;
         }
         break;

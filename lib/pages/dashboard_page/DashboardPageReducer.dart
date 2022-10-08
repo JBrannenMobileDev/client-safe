@@ -1,5 +1,6 @@
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/utils/JobUtil.dart';
 import 'package:intl/intl.dart';
@@ -19,9 +20,10 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
 ]);
 
 DashboardPageState _setUnseenCount(DashboardPageState previousState, SetUnseenReminderCount action) {
+  List<JobReminder> orderedResult = action.reminders.reversed.toList();
   return previousState.copyWith(
       unseenNotificationCount: action.count,
-      reminders: action.reminders,
+      reminders: orderedResult,
   );
 }
 

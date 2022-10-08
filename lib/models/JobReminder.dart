@@ -7,7 +7,7 @@ class JobReminder {
   String jobDocumentId;
   DateTime triggerTime;//this is not persisted. It is only calculated when needed in NotificationHelper. Otherwise it will be null.
   ReminderDandyLight reminder;
-  bool hasBeenSeen = false;
+  bool hasBeenSeen;
 
   JobReminder({
     this.id,

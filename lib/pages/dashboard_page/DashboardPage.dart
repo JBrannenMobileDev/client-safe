@@ -260,7 +260,6 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                           child: GestureDetector(
                             onTap: () {
                               NavigationUtil.onNotificationsSelected(context);
-                              pageState.onNotificationsSelected();
                             },
                             child: Stack(
                               alignment: Alignment.center,

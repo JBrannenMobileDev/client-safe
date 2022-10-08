@@ -754,7 +754,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   style: TextStyle(
                                     fontSize: 26.0,
                                     fontFamily: 'simple',
-                                    fontWeight: FontWeight.w700,
+                                    fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),

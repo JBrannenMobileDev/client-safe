@@ -284,98 +284,6 @@ class JobStage {
     return currentStageIndex;
   }
 
-  static String getStageFromValue(int value){
-    switch(value) {
-      case 1:
-        return STAGE_1_INQUIRY_RECEIVED;
-        break;
-      case 2:
-        return STAGE_2_FOLLOWUP_SENT;
-        break;
-      case 3:
-        return STAGE_3_PROPOSAL_SENT;
-        break;
-      case 4:
-        return STAGE_4_PROPOSAL_SIGNED;
-        break;
-      case 5:
-        return STAGE_5_DEPOSIT_RECEIVED;
-        break;
-      case 6:
-        return STAGE_6_PLANNING_COMPLETE;
-        break;
-      case 7:
-        return STAGE_7_SESSION_COMPLETE;
-        break;
-      case 8:
-        return STAGE_8_PAYMENT_REQUESTED;
-        break;
-      case 9:
-        return STAGE_9_PAYMENT_RECEIVED;
-        break;
-      case 10:
-        return STAGE_10_EDITING_COMPLETE;
-        break;
-      case 11:
-        return STAGE_11_GALLERY_SENT;
-        break;
-      case 12:
-        return STAGE_12_FEEDBACK_REQUESTED;
-        break;
-      case 13:
-        return STAGE_13_FEEDBACK_RECEIVED;
-        break;
-      case 14:
-        return STAGE_14_JOB_COMPLETE;
-        break;
-      case 15:
-        return STAGE_COMPLETED_CHECK;
-        break;
-    }
-    return STAGE_1_INQUIRY_RECEIVED;
-  }
-
-  static bool containsJobStageIcon(List<JobStage> selectedStages, String jobIcon){
-    for(JobStage selectedStage in selectedStages) {
-      if(selectedStage.stage == getStageFromIcon(jobIcon)) return true;
-    }
-    return false;
-  }
-
-  static String getStageFromIcon(String iconLocation) {
-    switch(iconLocation){
-      case 'assets/images/job_progress/inquiry_received.png':
-        return STAGE_1_INQUIRY_RECEIVED;
-      case 'assets/images/job_progress/followup_sent.png':
-        return STAGE_2_FOLLOWUP_SENT;
-      case 'assets/images/job_progress/proposal_sent.png':
-        return STAGE_3_PROPOSAL_SENT;
-      case 'assets/images/job_progress/proposal_signed.png':
-        return STAGE_4_PROPOSAL_SIGNED;
-      case 'assets/images/job_progress/deposit_received.png':
-        return STAGE_5_DEPOSIT_RECEIVED;
-      case 'assets/images/job_progress/planning_complete.png':
-        return STAGE_6_PLANNING_COMPLETE;
-      case 'assets/images/job_progress/session_complete.png':
-        return STAGE_7_SESSION_COMPLETE;
-      case 'assets/images/job_progress/payment_requested.png':
-        return STAGE_8_PAYMENT_REQUESTED;
-      case 'assets/images/job_progress/payment_received.png':
-        return STAGE_9_PAYMENT_RECEIVED;
-      case 'assets/images/job_progress/editing_complete.png':
-        return STAGE_10_EDITING_COMPLETE;
-      case 'assets/images/job_progress/gallery_sent.png':
-        return STAGE_11_GALLERY_SENT;
-      case 'assets/images/job_progress/feedback_requested.png':
-        return STAGE_12_FEEDBACK_REQUESTED;
-      case 'assets/images/job_progress/feedback_received.png':
-        return STAGE_13_FEEDBACK_RECEIVED;
-      case 'assets/images/job_progreaa/job_complete.png':
-        return STAGE_14_JOB_COMPLETE;
-    }
-    return '';
-  }
-
   static String getStageText(JobStage stage) {
     switch(stage.stage){
       case STAGE_1_INQUIRY_RECEIVED:
@@ -410,57 +318,18 @@ class JobStage {
     return '';
   }
 
-  static JobStage getNextStage(JobStage last) {
-    switch(last.stage) {
-      case STAGE_1_INQUIRY_RECEIVED:
-        return JobStage(stage: STAGE_2_FOLLOWUP_SENT);
-        break;
-      case STAGE_2_FOLLOWUP_SENT:
-        return JobStage(stage: STAGE_3_PROPOSAL_SENT);
-        break;
-      case STAGE_3_PROPOSAL_SENT:
-        return JobStage(stage: STAGE_4_PROPOSAL_SIGNED);
-        break;
-      case STAGE_4_PROPOSAL_SIGNED:
-        return JobStage(stage: STAGE_5_DEPOSIT_RECEIVED);
-        break;
-      case STAGE_5_DEPOSIT_RECEIVED:
-        return JobStage(stage: STAGE_6_PLANNING_COMPLETE);
-        break;
-      case STAGE_6_PLANNING_COMPLETE:
-        return JobStage(stage: STAGE_7_SESSION_COMPLETE);
-        break;
-      case STAGE_7_SESSION_COMPLETE:
-        return JobStage(stage: STAGE_8_PAYMENT_REQUESTED);
-        break;
-      case STAGE_8_PAYMENT_REQUESTED:
-        return JobStage(stage: STAGE_9_PAYMENT_RECEIVED);
-        break;
-      case STAGE_9_PAYMENT_RECEIVED:
-        return JobStage(stage: STAGE_10_EDITING_COMPLETE);
-        break;
-      case STAGE_10_EDITING_COMPLETE:
-        return JobStage(stage: STAGE_11_GALLERY_SENT);
-        break;
-      case STAGE_11_GALLERY_SENT:
-        return JobStage(stage: STAGE_12_FEEDBACK_REQUESTED);
-        break;
-      case STAGE_12_FEEDBACK_REQUESTED:
-        return JobStage(stage: STAGE_13_FEEDBACK_RECEIVED);
-        break;
-      case STAGE_13_FEEDBACK_RECEIVED:
-        return JobStage(stage: STAGE_14_JOB_COMPLETE);
-        break;
-      case STAGE_14_JOB_COMPLETE:
-        return JobStage(stage: STAGE_COMPLETED_CHECK);
-        break;
+  static JobStage getNextStage(JobStage currentStage, List<JobStage> stages) {
+    JobStage nextStage = currentStage;
+    for(int i=0; i< stages.length; i++) {
+      if(stages.elementAt(i).stage == currentStage.stage) {
+        nextStage = stages.elementAt((i + 1));
+      }
     }
-    return JobStage(stage: STAGE_1_INQUIRY_RECEIVED);
+    return nextStage;
   }
 
   static JobStage getStageFromIndex(int stageIndex, List<JobStage> stages) {
-
-    return JobStage(stage: STAGE_1_INQUIRY_RECEIVED);
+    return stages.elementAt(stageIndex);
   }
 
   static List<JobStage> AllStages() {

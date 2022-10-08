@@ -41,7 +41,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
     if(action is SaveStageCompleted){
-      updateJobInDb(store, next, action);
+      updateJobStageToNextStage(store, next, action);
     }
     if(action is UndoStageAction){
       undoStage(store, next, action);
@@ -324,7 +324,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
-  void updateJobInDb(Store<AppState> store, NextDispatcher next, SaveStageCompleted action) async{
+  void updateJobStageToNextStage(Store<AppState> store, NextDispatcher next, SaveStageCompleted action) async{
     List<JobStage> completedJobStages = action.job.completedStages.toList();
     JobStage stageToComplete = action.job.type.stages.elementAt(action.stageIndex);
     completedJobStages.add(stageToComplete);
@@ -371,7 +371,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       if(getIndexOfStageInStages(completedStage, action.job.type.stages) > getIndexOfStageInStages(highestCompletedState, action.job.type.stages)) highestCompletedState = completedStage;
     }
     if(highestCompletedState != null){
-      action.job.stage = JobStage.getNextStage(highestCompletedState);
+      action.job.stage = _getNextUncompletedStage(getIndexOfStageInStages(highestCompletedState, action.job.completedStages), action.job.completedStages, action.job);
     }else{
       action.job.stage = action.job.type.stages.elementAt(1);
     }
@@ -414,10 +414,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
-    JobStage currentStage = JobStage.getStageFromIndex(stageIndex, job.type.stages);
-    JobStage nextStage = JobStage.getNextStage(currentStage);
+    JobStage nextStage = job.type.stages.elementAt(stageIndex++);
     while(_completedStagesContainsNextStage(completedStages, nextStage)){
-      nextStage = JobStage.getNextStage(nextStage);
+      nextStage = JobStage.getNextStage(nextStage, job.type.stages);
     }
     return nextStage;
   }
@@ -438,6 +437,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteReminder(Store<AppState> store, DeleteReminderFromJobAction action, NextDispatcher next) async {
     await JobReminderDao.delete(action.reminder.documentId);
+    if((await JobReminderDao.getReminderById(action.reminder.documentId)) != null) {
+      await JobReminderDao.delete(action.reminder.documentId);
+    }
     store.dispatch(FetchJobRemindersAction(store.state.jobDetailsPageState));
   }
 

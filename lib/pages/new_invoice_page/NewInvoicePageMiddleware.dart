@@ -96,7 +96,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
         if(getIndexOfStageInStages(completedStage, selectedJob.type.stages) > getIndexOfStageInStages(highestCompletedState, selectedJob.type.stages)) highestCompletedState = completedStage;
       }
       if(highestCompletedState != null){
-        selectedJob.stage = JobStage.getNextStage(highestCompletedState);
+        selectedJob.stage = JobStage.getNextStage(highestCompletedState, selectedJob.type.stages);
       }else{
         selectedJob.stage = JobStage.getStageFromIndex(1, selectedJob.type.stages);
       }
@@ -115,9 +115,9 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
   JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
     JobStage currentStage = JobStage.getStageFromIndex(stageIndex, job.type.stages);
-    JobStage nextStage = JobStage.getNextStage(currentStage);
+    JobStage nextStage = JobStage.getNextStage(currentStage, job.type.stages);
     while(_completedStagesContainsNextStage(completedStages, nextStage)){
-      nextStage = JobStage.getNextStage(nextStage);
+      nextStage = JobStage.getNextStage(nextStage, job.type.stages);
     }
     return nextStage;
   }
