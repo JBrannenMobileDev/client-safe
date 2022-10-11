@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Pose.dart';
@@ -49,9 +50,11 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
     for(GroupImage image in poses) {
       pages.add(
           Container(
+            margin: EdgeInsets.only(top: 86.0),
           decoration: BoxDecoration(
+            borderRadius: new BorderRadius.circular(16.0),
             image: DecorationImage(
-              fit: BoxFit.fitWidth,
+              fit: BoxFit.cover,
               image: image.file.path.isNotEmpty ? FileImage(File(image.file.path))
                   : AssetImage("assets/images/backgrounds/image_background.png"),
             ),
@@ -118,7 +121,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 64.0),
+                  margin: EdgeInsets.only(top: 36.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [

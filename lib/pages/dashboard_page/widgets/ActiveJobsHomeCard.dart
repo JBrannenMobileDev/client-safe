@@ -15,7 +15,7 @@ class ActiveJobsHomeCard extends StatelessWidget {
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) => GestureDetector(
           onTap: () {
-            NavigationUtil.onStageStatsSelected(context, pageState, pageState.activeJobs, 'Active Jobs');
+            NavigationUtil.onStageStatsSelected(context, pageState, 'Active Jobs', null);
           },
           child: Container(
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),

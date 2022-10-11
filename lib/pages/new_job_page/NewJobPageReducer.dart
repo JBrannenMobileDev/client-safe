@@ -77,7 +77,18 @@ NewJobPageState _setSelectedDate(NewJobPageState previousState, SetSelectedDateA
 }
 
 NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeAction action) {
-  return previousState.copyWith(sunsetDateTime: action.sunset);
+  DateTime selectedTime = action.sunset != null ? DateTime(
+    action.sunset.year,
+    action.sunset.month,
+    action.sunset.day,
+    (action.sunset.hour - 1),
+    ((action.sunset.minute / 10).floor() * 10),
+  ) : DateTime.now();
+  return previousState.copyWith(
+      sunsetDateTime: action.sunset,
+      selectedTime: selectedTime,
+      initialTimeSelectorTime: selectedTime,
+  );
 }
 
 NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedJobTypeAction action) {

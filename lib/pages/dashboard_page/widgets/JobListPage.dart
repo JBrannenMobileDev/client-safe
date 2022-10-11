@@ -1,12 +1,15 @@
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobInProgressItem.dart';
-import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
-import '../../../utils/styles/Styles.dart';
+import '../../../AppState.dart';
+import '../../../models/JobStage.dart';
+import '../../../utils/JobUtil.dart';
 
 class JobListPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -15,16 +18,24 @@ class JobListPage extends StatelessWidget{
   JobListPage({
     this.pageState,
     this.pageTitle,
-    this.jobs,
+    this.stage,
   });
 
   final DashboardPageState pageState;
   final String pageTitle;
-  final List<Job> jobs;
+  List<Job> jobs;
+  final JobStage stage;
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
+  Widget build(BuildContext context)=> StoreConnector<AppState, DashboardPageState>(
+      converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
+      onInit: (store) {
+        jobs = stage != null ? JobUtil.getJobsForStage(store.state.dashboardPageState.activeJobs, stage) : store.state.dashboardPageState.activeJobs;
+      },
+      onDidChange: (previousPageState, currentPageState) {
+        jobs = stage != null ? JobUtil.getJobsForStage(currentPageState.activeJobs, stage) : currentPageState.activeJobs;
+      },
+      builder: (BuildContext context, DashboardPageState pageState) => Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
         alignment: AlignmentDirectional.centerEnd,
@@ -76,8 +87,9 @@ class JobListPage extends StatelessWidget{
           ),
         ],
       ),
+      ),
     );
-  }
+
 
   Widget _buildItem(BuildContext context, int index) {
     return JobInProgressItem(job: jobs.elementAt(index), pageState: pageState);

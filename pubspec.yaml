@@ -222,6 +222,8 @@ flutter:
     - assets/images/icons/trashcan.png
     - assets/images/icons/plus.png
     - assets/images/icons/bar_chart_icon.png
+    - assets/images/icons/faq.png
+    - assets/images/icons/question_mark.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
@@ -239,6 +241,8 @@ flutter:
     - assets/images/people/girl6.png
     - assets/images/people/girl7.png
     - assets/images/people/girl8.png
+
+    - assets/images/circle_black.png
 
     - assets/images/job_types/maternity.png
     - assets/images/job_types/engagement.png

@@ -44,6 +44,10 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteClient(Store<AppState> store, NextDispatcher next) async{
     await ClientDao.delete(store.state.clientDetailsPageState.client);
+    if(await ClientDao.getClientById(store.state.clientDetailsPageState.client.documentId) != null) {
+      await ClientDao.delete(store.state.clientDetailsPageState.client);
+    }
+
     UserPermissionsUtil.requestPermission(Permission.contacts);
     DeviceContactsDao.deleteContact(store.state.clientDetailsPageState.client);
     store.dispatch(FetchClientData(store.state.clientsPageState));

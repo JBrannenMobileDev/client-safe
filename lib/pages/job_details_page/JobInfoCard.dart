@@ -33,6 +33,7 @@ class JobInfoCard extends StatelessWidget {
             height: 448.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            padding: EdgeInsets.only(left: 8.0, right: 8.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(24.0))),
@@ -41,7 +42,7 @@ class JobInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
                   child: Text(
                           'Job Info',
                           textAlign: TextAlign.start,

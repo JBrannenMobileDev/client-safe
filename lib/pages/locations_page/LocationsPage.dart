@@ -81,7 +81,7 @@ class LocationsPage extends StatelessWidget {
                           margin: EdgeInsets.only(right: 26.0),
                           height: 24.0,
                           width: 24.0,
-                          child: Image.asset('assets/images/icons/plus_icon_white.png'),
+                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryWhite()),),
                         ),
                       ),
                     ],
@@ -94,12 +94,12 @@ class LocationsPage extends StatelessWidget {
                           child: Container(
                             height: (MediaQuery.of(context).size.height),
                             child: GridView.builder(
-                              padding: new EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 64.0),
+                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 64.0),
                               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
-                              childAspectRatio: 3 / 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 64),
+                              childAspectRatio: 2 / 2.75,
+                              crossAxisSpacing: 16,
+                              mainAxisSpacing: 16),
                               itemCount: pageState.locations.length,
                               controller: _controller,
                               physics: AlwaysScrollableScrollPhysics(),
@@ -135,7 +135,11 @@ class LocationsPage extends StatelessWidget {
     return StoreConnector<AppState, LocationsPageState>(
       converter: (store) => LocationsPageState.fromStore(store),
       builder: (BuildContext context, LocationsPageState pageState) =>
-      Container(
+          GestureDetector(
+            onTap: () {
+              pageState.onLocationSelected(pageState.locations.elementAt(index));
+              UserOptionsUtil.showNewLocationDialog(context);
+            },
             child: LocationListWidget(index),
           ),
     );

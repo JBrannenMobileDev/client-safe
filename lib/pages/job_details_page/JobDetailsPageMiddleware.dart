@@ -441,6 +441,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       await JobReminderDao.delete(action.reminder.documentId);
     }
     store.dispatch(FetchJobRemindersAction(store.state.jobDetailsPageState));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   getIndexOfStageInStages(JobStage completedStage, List<JobStage> stages) {

@@ -19,6 +19,7 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../models/Job.dart';
+import '../models/JobStage.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
 
 class NavigationUtil {
@@ -49,8 +50,8 @@ class NavigationUtil {
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
-  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, List<Job> jobs, String title) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(jobs: jobs, pageState: pageState, pageTitle: title,)));
+  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage,)));
   }
   static onReminderNotificationItemSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage()));

@@ -744,6 +744,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             alignment: Alignment.center,
                             height: 64.0,
                             width: 300.0,
+                            decoration: !pageState.showLoginLoadingAnimation ? BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(36.0)) : BoxDecoration(),
                             child: pageState.showLoginLoadingAnimation
                                 ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,

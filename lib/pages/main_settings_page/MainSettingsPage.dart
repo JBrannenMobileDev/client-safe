@@ -43,7 +43,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                         color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                       ),
                       brightness: Brightness.light,
-                      backgroundColor: Colors.transparent,
+                      backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                       pinned: true,
                       centerTitle: true,
                       elevation: 0.0,
@@ -63,7 +63,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                           SafeArea(
                             child: Container(
                               margin: EdgeInsets.only(left: 16.0, right: 16.0),
-                              padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                              padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getPrimaryWhite()),
                                 borderRadius: BorderRadius.circular(16.0),
@@ -136,16 +136,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             CrossAxisAlignment.center,
                                         children: <Widget>[
                                           Container(
-                                            margin:
-                                                EdgeInsets.only(right: 16.0),
+                                            alignment: Alignment.center,
+                                            margin: EdgeInsets.only(right: 16.0),
                                             height: 28.0,
                                             width: 28.0,
-                                            child: Icon(
-                                              Device.get().isIos
-                                                  ? CupertinoIcons.share
-                                                  : Icons.share,
-                                              size: 32.0,
-                                            ),
+                                            child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPrimaryBlack()),),
                                           ),
                                           Text(
                                             'Share DandyLight',
@@ -320,7 +315,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                       ),
                           Container(
                             margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
                               borderRadius: BorderRadius.circular(16.0),
@@ -365,7 +360,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 Container(
                                   padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 32.0),
                                   child: Text(
-                                    'Enable push notifications to get notified of job reminders, e-signatures, questionnaires, payments and custom reminders.',
+                                    'Enable push notifications to get notified of job reminders, expenses, invoices and contracts.',
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
                                       fontSize: 18.0,
@@ -428,7 +423,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 32.0),
-                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
                               borderRadius: BorderRadius.circular(16.0),
@@ -454,7 +449,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               margin: EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
-                                              child: Image.asset('assets/images/icons/profile_icon_black.png'),
+                                              child: Image.asset('assets/images/icons/question_mark.png'),
                                             ),
                                             Text(
                                               'FAQ',
@@ -495,16 +490,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                           CrossAxisAlignment.center,
                                           children: <Widget>[
                                             Container(
-                                              margin:
-                                              EdgeInsets.only(right: 16.0),
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
-                                              child: Icon(
-                                                Device.get().isIos
-                                                    ? CupertinoIcons.share
-                                                    : Icons.share,
-                                                size: 32.0,
-                                              ),
+                                              child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
                                             Text(
                                               'Terms & Privacy',

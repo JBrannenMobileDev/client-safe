@@ -7,6 +7,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
@@ -15,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+
+import '../../poses_page/PosesPage.dart';
 
 class StageItem extends StatefulWidget {
   final int index;
@@ -414,6 +417,9 @@ class _StageItemState extends State<StageItem>
                               case JobStage.STAGE_5_DEPOSIT_RECEIVED:
                                 break;
                               case JobStage.STAGE_6_PLANNING_COMPLETE:
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(builder: (context) => PosesPage()),
+                                );
                                 break;
                               case JobStage.STAGE_7_SESSION_COMPLETE:
                                 break;
@@ -550,8 +556,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_6_PLANNING_COMPLETE);
         stageTitle = isStageCompleted ? 'Planning complete' : 'Planning complete?';
         stageSubtitle = '';
-        // actionButtonText = 'Checklist';
-        actionButtonText = '';
+        actionButtonText = 'Send poses';
         actionIcon = Icons.format_list_bulleted;
         break;
       case JobStage.STAGE_7_SESSION_COMPLETE:

@@ -10,5 +10,6 @@ LocationsPageState _setLocations(LocationsPageState previousState, SetLocationsA
   return previousState.copyWith(
       locations: action.locations,
       locationImages: action.imageFiles,
+      isLoadingImages: !action.finishedLoading
   );
 }

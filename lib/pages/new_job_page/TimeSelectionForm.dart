@@ -89,7 +89,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
             Container(
               height: 200.0,
               child: CupertinoDatePicker(
-                initialDateTime: DateTime.now(),
+                initialDateTime: pageState.initialTimeSelectorTime,
                 onDateTimeChanged: (DateTime time) {
                   vibrate();
                   _onConfirmedTime(time, pageState);

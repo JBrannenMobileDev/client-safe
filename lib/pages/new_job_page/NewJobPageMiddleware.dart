@@ -28,6 +28,7 @@ import '../../models/Profile.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
+import '../../utils/JobUtil.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
@@ -48,7 +49,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SetSelectedDateAction || action is SetSelectedLocation){
       next(action);
-      _fetchSunsetTime(store, action, next);
+      // _fetchSunsetTime(store, action, next);
     }
     if(action is FetchNewJobDeviceEvents) {
       _fetchDeviceEventsForMonth(store, action, next);
@@ -170,7 +171,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       selectedDate: store.state.newJobPageState.selectedDate,
       selectedTime: store.state.newJobPageState.selectedTime,
       type: store.state.newJobPageState.jobType,
-      stage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT),
+      stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState.jobType.stages),
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile,

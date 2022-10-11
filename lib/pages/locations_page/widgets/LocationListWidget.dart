@@ -14,6 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 
 class LocationListWidget extends StatelessWidget {
@@ -26,37 +27,38 @@ class LocationListWidget extends StatelessWidget {
     return StoreConnector<AppState, LocationsPageState>(
       converter: (store) => LocationsPageState.fromStore(store),
       builder: (BuildContext context, LocationsPageState pageState) =>
-      Column(
-        children: <Widget>[
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
               Container(
+                margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
-                  color: Color(ColorConstants.getBlueDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                  borderRadius: new BorderRadius.circular(16.0),
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: pageState.locationImages.isNotEmpty
+                        ? FileImage(pageState.locationImages.elementAt(locationIndex))
+                        : AssetImage("assets/images/backgrounds/image_background.png"),
+                  ),
+                ),
+              ),
+              pageState.isLoadingImages && (pageState.locationImages.isEmpty || pageState.locationImages.elementAt(locationIndex) == null) ? Container(
+                  margin: EdgeInsets.only(bottom: 28.0),
+                  height: double.infinity,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Color(ColorConstants.getPrimaryWhite()),
                   borderRadius: new BorderRadius.circular(16.0),
                 ),
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
-                width: _getItemWidthHeight(context),
-                margin: EdgeInsets.only(top: 8.0),
-                  child: pageState.locations.elementAt(locationIndex) != null ?
-                      Container(
-                          height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
-                        decoration: BoxDecoration(
-                          borderRadius: new BorderRadius.circular(16.0),
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: pageState.locationImages.isNotEmpty
-                                ? FileImage(pageState.locationImages.elementAt(locationIndex))
-                                : AssetImage("assets/images/backgrounds/image_background.png"),
-                          ),
-                        )
-                      )
-                      : SizedBox()
-              ),
-              pageState.locations.elementAt(locationIndex) != null ? Container(
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
-                margin: EdgeInsets.only(top: 8.0),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color(ColorConstants.getBlueDark()),
+                  size: 32,
+                ),
+              ) : SizedBox(),
+              pageState.isLoadingImages && (pageState.locationImages.isEmpty || pageState.locationImages.elementAt(locationIndex) == null) ? SizedBox() : Container(
+                height: 96.0,
+                margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
                     borderRadius: new BorderRadius.circular(16.0),
@@ -71,50 +73,9 @@ class LocationListWidget extends StatelessWidget {
                           0.0,
                           1.0
                         ])),
-              ) : SizedBox(),
-              pageState.locations.elementAt(locationIndex) == null ? Container(
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topCenter,
-                      margin: EdgeInsets.only(top: 4.0, bottom: 0.0),
-                      height: 64.0,
-                      width: 64.0,
-                      child: Image(
-                        image: AssetImage('assets/images/icons/image_icon_blue.png'),
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.topCenter,
-                      width: 124.0,
-                      child: Text(
-                        'Select an image for this location',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w800,
-                          fontFamily: 'simple',
-                          color: Color(ColorConstants.getBlueDark()),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ) : SizedBox(),
-              Container(
-                height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
-                width: double.maxFinite,
-                child: GestureDetector(
-                  onTap: () {
-                    pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
-                    UserOptionsUtil.showNewLocationDialog(context);
-                  },
-                ),
               ),
-              Container(
-                margin: EdgeInsets.only(bottom: 8.0),
+              pageState.isLoadingImages && (pageState.locationImages.isEmpty || pageState.locationImages.elementAt(locationIndex) == null) ? SizedBox() :Container(
+                margin: EdgeInsets.only(bottom: 32.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -149,30 +110,22 @@ class LocationListWidget extends StatelessWidget {
                     ),
                   ],
                 ),
+              ) ,
+              Container(
+                child: Text(
+                  pageState.locations.elementAt(locationIndex).locationName,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'simple',
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                ),
               ),
             ],
           ),
-          Center(
-            child: Container(
-              margin: EdgeInsets.only(top: 4.0),
-              child: Text(
-                pageState.locations.elementAt(locationIndex).locationName,
-                overflow: TextOverflow.ellipsis,
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 18.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'simple',
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
-   double _getItemWidthHeight(BuildContext context){
-    return (MediaQuery.of(context).size.width/2);
-   }
 }

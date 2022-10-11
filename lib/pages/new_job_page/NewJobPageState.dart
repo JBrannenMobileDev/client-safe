@@ -39,6 +39,7 @@ class NewJobPageState {
   final DateTime selectedDate;
   final DateTime selectedTime;
   final DateTime sunsetDateTime;
+  final DateTime initialTimeSelectorTime;
   final JobStage currentJobStage;
   final JobType jobType;
   final JobType selectedJobType;
@@ -115,6 +116,7 @@ class NewJobPageState {
     @required this.onClientLastNameTextChanged,
     @required this.imageFiles,
     @required this.onSunsetWeatherSelected,
+    @required this.initialTimeSelectorTime,
   });
 
   NewJobPageState copyWith({
@@ -141,6 +143,7 @@ class NewJobPageState {
     DateTime selectedDate,
     DateTime selectedTime,
     DateTime sunsetDateTime,
+    DateTime initialTimeSelectorTime,
     JobType jobType,
     JobType selectedJobType,
     List<EventDandyLight> eventList,
@@ -211,6 +214,7 @@ class NewJobPageState {
       deviceEvents: deviceEvents ?? this.deviceEvents,
       imageFiles: imageFiles ?? this.imageFiles,
       onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
+      initialTimeSelectorTime: initialTimeSelectorTime ?? this.initialTimeSelectorTime,
     );
   }
 
@@ -264,6 +268,7 @@ class NewJobPageState {
         onClientLastNameTextChanged: null,
         imageFiles: [],
         onSunsetWeatherSelected: null,
+        initialTimeSelectorTime: DateTime.now(),
       );
   }
 
@@ -299,6 +304,7 @@ class NewJobPageState {
       clientFirstName: store.state.newJobPageState.clientFirstName,
       clientLastName: store.state.newJobPageState.clientLastName,
       imageFiles: store.state.newJobPageState.imageFiles,
+      initialTimeSelectorTime: store.state.newJobPageState.initialTimeSelectorTime,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -361,6 +367,7 @@ class NewJobPageState {
       onClientLastNameTextChanged.hashCode ^
       onClientFirstNameTextChanged.hashCode ^
       onSunsetWeatherSelected.hashCode ^
+      initialTimeSelectorTime.hashCode ^
       imageFiles.hashCode;
 
   @override
@@ -407,5 +414,6 @@ class NewJobPageState {
           onJobClicked == other.onJobClicked &&
           jobTypes == other.jobTypes &&
           onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
+          initialTimeSelectorTime == other.initialTimeSelectorTime &&
           imageFiles == other.imageFiles;
 }
