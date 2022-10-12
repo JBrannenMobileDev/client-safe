@@ -9,7 +9,15 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetFirstNameAction>(_updateFirstName),
   TypedReducer<MainSettingsPageState, SetLastNameAction>(_updateLastName),
   TypedReducer<MainSettingsPageState, SetBusinessNameAction>(_updateBusinessName),
+  TypedReducer<MainSettingsPageState, SetDeleteProgressAction>(_updateDeleteProgress),
 ]);
+
+MainSettingsPageState _updateDeleteProgress(MainSettingsPageState previousState, SetDeleteProgressAction action){
+  return previousState.copyWith(
+    isDeleteInProgress: action.isInProgressDeleting,
+    isDeleteFinished: !action.isInProgressDeleting
+  );
+}
 
 MainSettingsPageState _updateFirstName(MainSettingsPageState previousState, SetFirstNameAction action){
   return previousState.copyWith(

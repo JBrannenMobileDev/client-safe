@@ -143,7 +143,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
             overlayOpacity: 0.5,
             tooltip: 'Speed Dial',
             heroTag: 'speed-dial-hero-tag',
-            backgroundColor: Color(ColorConstants.getPrimaryColor()),
+            backgroundColor: Color(ColorConstants.getBlueDark()),
             foregroundColor: Colors.black,
             elevation: 8.0,
             shape: CircleBorder(),
@@ -336,7 +336,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                                 alignment: Alignment.topCenter,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(top: 64.0),
+                                    margin: EdgeInsets.only(top: 72.0),
                                     child: Text(
                                       'DandyLight',
                                       style: TextStyle(
@@ -350,7 +350,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                                   ),
                                   Container(
                                     margin:
-                                        EdgeInsets.only(left: 89.0, top: 37.0),
+                                        EdgeInsets.only(left: 89.0, top: 45.0),
                                     height: 116.0,
                                     decoration: BoxDecoration(
                                       color: Colors.transparent,

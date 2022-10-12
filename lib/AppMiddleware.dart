@@ -166,6 +166,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedUserProfileAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, RemoveDeviceTokenAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SendSuggestionAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteAccountAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderAction>(NewReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderFromJobAction>(JobDetailsPageMiddleware()));

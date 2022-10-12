@@ -72,3 +72,14 @@ class SendSuggestionAction{
   SendSuggestionAction(this.pageState, this.suggestion);
 }
 
+class DeleteAccountAction {
+  final MainSettingsPageState pageState;
+  DeleteAccountAction(this.pageState);
+}
+
+class SetDeleteProgressAction {
+  final MainSettingsPageState pageState;
+  final bool isInProgressDeleting;
+  SetDeleteProgressAction(this.pageState, this.isInProgressDeleting);
+}
+

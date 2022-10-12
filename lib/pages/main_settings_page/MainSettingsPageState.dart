@@ -1,3 +1,7 @@
+import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
@@ -28,6 +32,8 @@ class MainSettingsPageState{
   final String lastName;
   final String businessName;
   final Profile profile;
+  final bool isDeleteInProgress;
+  final bool isDeleteFinished;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
   final Function(bool) onCalendarChanged;
@@ -36,6 +42,7 @@ class MainSettingsPageState{
   final Function(String) onBusinessNameChanged;
   final Function() onSaveUpdatedProfile;
   final Function(String) onSendSuggestionSelected;
+  final Function() onDeleteAccountSelected;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -52,6 +59,9 @@ class MainSettingsPageState{
     @required this.onSaveUpdatedProfile,
     @required this.profile,
     @required this.onSendSuggestionSelected,
+    @required this.onDeleteAccountSelected,
+    @required this.isDeleteInProgress,
+    @required this.isDeleteFinished,
   });
 
   MainSettingsPageState copyWith({
@@ -61,6 +71,8 @@ class MainSettingsPageState{
     String lastName,
     String businessName,
     Profile profile,
+    bool isDeleteInProgress,
+    bool isDeleteFinished,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -69,6 +81,7 @@ class MainSettingsPageState{
     Function(bool) onCalendarChanged,
     Function() onSaveUpdatedProfile,
     Function(String) onSendSuggestionSelected,
+    Function() onDeleteAccountSelected,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -85,6 +98,9 @@ class MainSettingsPageState{
       onSaveUpdatedProfile: onSaveUpdatedProfile ?? this.onSaveUpdatedProfile,
       profile: profile ?? this.profile,
       onSendSuggestionSelected: onSendSuggestionSelected ?? this.onSendSuggestionSelected,
+      onDeleteAccountSelected: onDeleteAccountSelected ?? this.onDeleteAccountSelected,
+      isDeleteFinished: isDeleteFinished ?? this.isDeleteFinished,
+      isDeleteInProgress: isDeleteInProgress ?? this.isDeleteInProgress
     );
   }
 
@@ -103,6 +119,9 @@ class MainSettingsPageState{
     onSaveUpdatedProfile: null,
     profile: null,
     onSendSuggestionSelected: null,
+    onDeleteAccountSelected: null,
+    isDeleteInProgress: false,
+    isDeleteFinished: false,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -113,23 +132,13 @@ class MainSettingsPageState{
       lastName: store.state.mainSettingsPageState.lastName,
       businessName: store.state.mainSettingsPageState.businessName,
       profile: store.state.mainSettingsPageState.profile,
+      isDeleteFinished: store.state.mainSettingsPageState.isDeleteFinished,
+      isDeleteInProgress: store.state.mainSettingsPageState.isDeleteInProgress,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, false));
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
-        ProfileDao.deleteAllProfilesLocal();
-        ClientDao.deleteAllLocal();
-        InvoiceDao.deleteAllLocal();
-        JobDao.deleteAllLocal();
-        LocationDao.deleteAllLocal();
-        MileageExpenseDao.deleteAllLocal();
-        PriceProfileDao.deleteAllLocal();
-        RecurringExpenseDao.deleteAllLocal();
-        SingleExpenseDao.deleteAllLocal();
-        NextInvoiceNumberDao.deleteAllLocal();
-        ReminderDao.deleteAllLocal();
-        JobTypeDao.deleteAllLocal();
-        JobReminderDao.deleteAllLocal();
+        SembastDb.instance.deleteAllLocalData();
       },
       onPushNotificationsChanged: (enabled) => store.dispatch(SavePushNotificationSettingAction(store.state.mainSettingsPageState, enabled)),
       onCalendarChanged: (enabled) => store.dispatch(SaveCalendarSettingAction(store.state.mainSettingsPageState, enabled)),
@@ -137,7 +146,8 @@ class MainSettingsPageState{
       onLastNameChanged: (lastName) => store.dispatch(SetLastNameAction(store.state.mainSettingsPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(SetBusinessNameAction(store.state.mainSettingsPageState, businessName)),
       onSaveUpdatedProfile: () => store.dispatch(SaveUpdatedUserProfileAction(store.state.mainSettingsPageState)),
-      onSendSuggestionSelected: (suggestion) => store.dispatch(SendSuggestionAction(store.state.mainSettingsPageState, suggestion))
+      onSendSuggestionSelected: (suggestion) => store.dispatch(SendSuggestionAction(store.state.mainSettingsPageState, suggestion)),
+      onDeleteAccountSelected: () => store.dispatch(DeleteAccountAction(store.state.mainSettingsPageState)),
     );
   }
 
@@ -156,6 +166,9 @@ class MainSettingsPageState{
       onSaveUpdatedProfile.hashCode ^
       profile.hashCode ^
       onSendSuggestionSelected.hashCode ^
+      onDeleteAccountSelected.hashCode ^
+      isDeleteFinished.hashCode ^
+      isDeleteInProgress.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -175,5 +188,8 @@ class MainSettingsPageState{
               onSaveUpdatedProfile == other.onSaveUpdatedProfile &&
               profile == other.profile &&
               onSendSuggestionSelected == other.onSendSuggestionSelected &&
+              onDeleteAccountSelected == other.onDeleteAccountSelected &&
+              isDeleteFinished == other.isDeleteFinished &&
+              isDeleteInProgress == other.isDeleteInProgress &&
               onSignOutSelected == other.onSignOutSelected;
 }

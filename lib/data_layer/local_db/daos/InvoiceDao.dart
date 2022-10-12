@@ -254,4 +254,11 @@ class InvoiceDao extends Equatable{
     List<Invoice> invoices = await getAllSortedByDueDate();
     _deleteAllLocalInvoices(invoices);
   }
+
+  static void deleteAllRemote() async {
+    List<Invoice> invoices = await getAllSortedByDueDate();
+    for(Invoice invoice in invoices) {
+      await deleteById(invoice.documentId);
+    }
+  }
 }

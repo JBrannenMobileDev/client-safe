@@ -220,4 +220,11 @@ class LocationDao extends Equatable{
     List<Location> locations = await getAllSortedMostFrequent();
     _deleteAllLocalLocations(locations);
   }
+
+  static void deleteAllRemote() async {
+    List<Location> locations = await getAllSortedMostFrequent();
+    for(Location location in locations) {
+      await delete(location.documentId);
+    }
+  }
 }

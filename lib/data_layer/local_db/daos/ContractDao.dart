@@ -215,4 +215,11 @@ class ContractDao extends Equatable{
     List<Contract> contracts = await getAll();
     _deleteAllLocalContracts(contracts);
   }
+
+  static void deleteAllRemote() async {
+    List<Contract> contracts = await getAll();
+    for(Contract contract in contracts) {
+      await delete(contract.documentId);
+    }
+  }
 }

@@ -221,4 +221,11 @@ class PoseDao extends Equatable{
     List<Pose> locations = await getAllSortedMostFrequent();
     _deleteAllLocalPoses(locations);
   }
+
+  static void deleteAllRemote() async {
+    List<Pose> poses = await getAllSortedMostFrequent();
+    for(Pose pose in poses) {
+      await delete(pose.documentId);
+    }
+  }
 }

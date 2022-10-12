@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
@@ -10,6 +11,7 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../data_layer/local_db/SembastDb.dart';
 import '../../utils/CalendarUtil.dart';
 import 'MainSettingsPageActions.dart';
 
@@ -35,6 +37,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SendSuggestionAction) {
       sendSuggestion(store, action, next);
+    }
+    if(action is DeleteAccountAction) {
+      deleteAccount(store, action);
     }
   }
 
@@ -102,5 +107,14 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     await databaseReference.collection('suggestions')
         .doc(suggestion.userId)
         .set(suggestion.toMap());
+  }
+
+  void deleteAccount(Store<AppState> store, DeleteAccountAction action) async {
+    store.dispatch(SetDeleteProgressAction(store.state.mainSettingsPageState, true));
+    await CalendarSyncUtil.removeJobsFromDeviceCalendars();
+    await SembastDb.instance.deleteAllLocalData();
+    await FirebaseAuthentication().deleteFirebaseData();
+    await FirebaseAuthentication().deleteAccount();
+    store.dispatch(SetDeleteProgressAction(store.state.mainSettingsPageState, false));
   }
 }

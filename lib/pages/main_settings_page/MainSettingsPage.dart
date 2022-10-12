@@ -1,5 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
+import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -487,6 +488,56 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                     ),
                                   ),
                                 ),
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      new MaterialPageRoute(builder: (context) => DeleteAccountPage()),
+                                    );
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Image.asset('assets/images/icons/trash_icon_white.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                            ),
+                                            Text(
+                                              'Delete Account',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 22.0,
+                                                fontFamily: 'simple',
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
                           ),

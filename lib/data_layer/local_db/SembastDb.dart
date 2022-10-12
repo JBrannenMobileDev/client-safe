@@ -5,6 +5,23 @@ import 'package:path_provider/path_provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 
+import 'daos/ClientDao.dart';
+import 'daos/ContractDao.dart';
+import 'daos/InvoiceDao.dart';
+import 'daos/JobDao.dart';
+import 'daos/JobReminderDao.dart';
+import 'daos/JobTypeDao.dart';
+import 'daos/LocationDao.dart';
+import 'daos/MileageExpenseDao.dart';
+import 'daos/NextInvoiceNumberDao.dart';
+import 'daos/PoseDao.dart';
+import 'daos/PoseGroupDao.dart';
+import 'daos/PriceProfileDao.dart';
+import 'daos/ProfileDao.dart';
+import 'daos/RecurringExpenseDao.dart';
+import 'daos/ReminderDao.dart';
+import 'daos/SingleExpenseDao.dart';
+
 class SembastDb {
   // Singleton instance
   static final SembastDb _singleton = SembastDb._();
@@ -45,5 +62,24 @@ class SembastDb {
     _database = await databaseFactoryIo.openDatabase(dbPath);
     // Any code awaiting the Completer's future will now start executing
     _dbOpenCompleter.complete(_database);
+  }
+
+  Future deleteAllLocalData() async {
+    await ProfileDao.deleteAllProfilesLocal();
+    await ClientDao.deleteAllLocal();
+    await InvoiceDao.deleteAllLocal();
+    await JobDao.deleteAllLocal();
+    await LocationDao.deleteAllLocal();
+    await MileageExpenseDao.deleteAllLocal();
+    await PriceProfileDao.deleteAllLocal();
+    await RecurringExpenseDao.deleteAllLocal();
+    await SingleExpenseDao.deleteAllLocal();
+    await NextInvoiceNumberDao.deleteAllLocal();
+    await ReminderDao.deleteAllLocal();
+    await JobTypeDao.deleteAllLocal();
+    await JobReminderDao.deleteAllLocal();
+    await ContractDao.deleteAllLocal();
+    await PoseDao.deleteAllLocal();
+    await PoseGroupDao.deleteAllLocal();
   }
 }

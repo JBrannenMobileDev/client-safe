@@ -221,25 +221,42 @@ class BarChartState extends State<BarChartWidget> {
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = const Text('Apr', style: style);
+        DateTime currentMonth = DateTime.now();
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 5, currentMonth.day);
+        String monthShort = _getMonthStringShort(resultMonth.month);
+        text = Text(monthShort, style: style);
         break;
       case 1:
-        text = const Text('May', style: style);
+        DateTime currentMonth = DateTime.now();
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 4, currentMonth.day);
+        String monthShort = _getMonthStringShort(resultMonth.month);
+        text = Text(monthShort, style: style);
         break;
       case 2:
-        text = const Text('Jun', style: style);
+        DateTime currentMonth = DateTime.now();
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 3, currentMonth.day);
+        String monthShort = _getMonthStringShort(resultMonth.month);
+        text = Text(monthShort, style: style);
         break;
       case 3:
-        text = const Text('Jul', style: style);
+        DateTime currentMonth = DateTime.now();
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 2, currentMonth.day);
+        String monthShort = _getMonthStringShort(resultMonth.month);
+        text = Text(monthShort, style: style);
         break;
       case 4:
-        text = const Text('Aug', style: style);
+        DateTime currentMonth = DateTime.now();
+        DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 1, currentMonth.day);
+        String monthShort = _getMonthStringShort(resultMonth.month);
+        text = Text(monthShort, style: style);
         break;
       case 5:
-        text = const Text('Sep', style: style);
+        DateTime currentMonth = DateTime.now();
+        String monthShort = _getMonthStringShort(currentMonth.month);
+        text = Text(monthShort, style: style);
         break;
       default:
-        text = const Text('', style: style);
+        text = Text('', style: style);
         break;
     }
     return SideTitleWidget(
@@ -253,5 +270,47 @@ class BarChartState extends State<BarChartWidget> {
     setState(() {});
     await Future<dynamic>.delayed(
         animDuration + const Duration(milliseconds: 50));
+  }
+
+  String _getMonthStringShort(int month) {
+    switch(month) {
+      case 1:
+        return 'Jan';
+        break;
+      case 2:
+        return 'Feb';
+        break;
+      case 3:
+        return 'Mar';
+        break;
+      case 4:
+        return 'Apr';
+        break;
+      case 5:
+        return 'May';
+        break;
+      case 6:
+        return 'Jun';
+        break;
+      case 7:
+        return 'Jul';
+        break;
+      case 8:
+        return 'Aug';
+        break;
+      case 9:
+        return 'Sep';
+        break;
+      case 10:
+        return 'Oct';
+        break;
+      case 11:
+        return 'Nov';
+        break;
+      case 12:
+        return 'Dec';
+        break;
+    }
+    return '';
   }
 }
