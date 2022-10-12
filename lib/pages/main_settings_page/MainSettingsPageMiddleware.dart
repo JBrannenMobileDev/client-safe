@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/Suggestion.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -29,6 +32,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is RemoveDeviceTokenAction){
       removeDeviceToken(store, action, next);
+    }
+    if(action is SendSuggestionAction) {
+      sendSuggestion(store, action, next);
     }
   }
 
@@ -88,5 +94,13 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       lastName: store.state.mainSettingsPageState.lastName,
       businessName: store.state.mainSettingsPageState.businessName,
     ));
+  }
+
+  void sendSuggestion(Store<AppState> store, SendSuggestionAction action, NextDispatcher next) async{
+    Suggestion suggestion = Suggestion(message: action.suggestion, userId: UidUtil().getUid(), dateSubmitted: DateTime.now());
+    final databaseReference = FirebaseFirestore.instance;
+    await databaseReference.collection('suggestions')
+        .doc(suggestion.userId)
+        .set(suggestion.toMap());
   }
 }

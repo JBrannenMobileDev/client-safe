@@ -267,4 +267,9 @@ class JobReminderDao extends Equatable{
       }
     }
   }
+
+  static void deleteAllLocal() async {
+    List<JobReminder> reminders = await getAll();
+    _deleteAllLocalReminders(reminders);
+  }
 }

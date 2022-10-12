@@ -14,6 +14,10 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'FeedbackPage.dart';
+import 'SuggestionsPage.dart';
 
 class MainSettingsPage extends StatefulWidget {
   @override
@@ -86,7 +90,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             children: <Widget>[
                                               Container(
                                                 alignment: Alignment.center,
-                                                margin: EdgeInsets.only(right: 16.0),
+                                                margin: EdgeInsets.only(right: 18.0, left: 2.0),
                                                 height: 28.0,
                                                 width: 28.0,
                                                 child: Image.asset('assets/images/icons/profile_icon_black.png'),
@@ -137,7 +141,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         children: <Widget>[
                                           Container(
                                             alignment: Alignment.center,
-                                            margin: EdgeInsets.only(right: 16.0),
+                                            margin: EdgeInsets.only(right: 18.0, left: 2.0),
                                             height: 28.0,
                                             width: 28.0,
                                             child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPrimaryBlack()),),
@@ -217,54 +221,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               ),
                               TextButton(
                                 style: Styles.getButtonStyle(),
-                                onPressed: () {},
-                                child: SizedBox(
-                                  height: 48.0,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: <Widget>[
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            margin:
-                                            EdgeInsets.only(right: 16.0),
-                                            height: 32.0,
-                                            width: 32.0,
-                                            child: Image.asset(
-                                                'assets/images/icons/provide_feedback_icon_black.png'),
-                                          ),
-                                          Text(
-                                            'Provide feedback',
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Container(
-                                        child: Icon(
-                                          Icons.chevron_right,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBackgroundGrey()),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              TextButton(
-                                style: Styles.getButtonStyle(),
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.of(context).push(
+                                    new MaterialPageRoute(builder: (context) => SuggestionsPage()),
+                                  );
+                                },
                                 child: SizedBox(
                                   height: 48.0,
                                   child: Row(
@@ -433,50 +394,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
-
+                                    _launchPrivacyPolicyURL();
                                   },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment: CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Image.asset('assets/images/icons/question_mark.png'),
-                                            ),
-                                            Text(
-                                              'FAQ',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 22.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color:
-                                                Color(ColorConstants.getPrimaryBlack()),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {},
                                   child: SizedBox(
                                     height: 48.0,
                                     child: Row(
@@ -497,7 +416,55 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
                                             Text(
-                                              'Terms & Privacy',
+                                              'Privacy Policy',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 22.0,
+                                                fontFamily: 'simple',
+                                                fontWeight: FontWeight.w600,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    _launchTermsOfServiceURL();
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                            ),
+                                            Text(
+                                              'Terms and Conditions',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 22.0,
@@ -561,4 +528,6 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
               ),
             ),
       );
+  void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
+  void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
 }

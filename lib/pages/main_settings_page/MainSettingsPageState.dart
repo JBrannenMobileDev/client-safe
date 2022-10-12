@@ -10,6 +10,7 @@ import '../../AppState.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/InvoiceDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
+import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/JobTypeDao.dart';
 import '../../data_layer/local_db/daos/LocationDao.dart';
 import '../../data_layer/local_db/daos/MileageExpenseDao.dart';
@@ -34,6 +35,7 @@ class MainSettingsPageState{
   final Function(String) onLastNameChanged;
   final Function(String) onBusinessNameChanged;
   final Function() onSaveUpdatedProfile;
+  final Function(String) onSendSuggestionSelected;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -49,6 +51,7 @@ class MainSettingsPageState{
     @required this.onBusinessNameChanged,
     @required this.onSaveUpdatedProfile,
     @required this.profile,
+    @required this.onSendSuggestionSelected,
   });
 
   MainSettingsPageState copyWith({
@@ -65,6 +68,7 @@ class MainSettingsPageState{
     Function(bool) onPushNotificationsChanged,
     Function(bool) onCalendarChanged,
     Function() onSaveUpdatedProfile,
+    Function(String) onSendSuggestionSelected,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -80,6 +84,7 @@ class MainSettingsPageState{
       onBusinessNameChanged: onBusinessNameChanged ?? this.onBusinessNameChanged,
       onSaveUpdatedProfile: onSaveUpdatedProfile ?? this.onSaveUpdatedProfile,
       profile: profile ?? this.profile,
+      onSendSuggestionSelected: onSendSuggestionSelected ?? this.onSendSuggestionSelected,
     );
   }
 
@@ -97,6 +102,7 @@ class MainSettingsPageState{
     onBusinessNameChanged: null,
     onSaveUpdatedProfile: null,
     profile: null,
+    onSendSuggestionSelected: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -123,6 +129,7 @@ class MainSettingsPageState{
         NextInvoiceNumberDao.deleteAllLocal();
         ReminderDao.deleteAllLocal();
         JobTypeDao.deleteAllLocal();
+        JobReminderDao.deleteAllLocal();
       },
       onPushNotificationsChanged: (enabled) => store.dispatch(SavePushNotificationSettingAction(store.state.mainSettingsPageState, enabled)),
       onCalendarChanged: (enabled) => store.dispatch(SaveCalendarSettingAction(store.state.mainSettingsPageState, enabled)),
@@ -130,6 +137,7 @@ class MainSettingsPageState{
       onLastNameChanged: (lastName) => store.dispatch(SetLastNameAction(store.state.mainSettingsPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(SetBusinessNameAction(store.state.mainSettingsPageState, businessName)),
       onSaveUpdatedProfile: () => store.dispatch(SaveUpdatedUserProfileAction(store.state.mainSettingsPageState)),
+      onSendSuggestionSelected: (suggestion) => store.dispatch(SendSuggestionAction(store.state.mainSettingsPageState, suggestion))
     );
   }
 
@@ -147,6 +155,7 @@ class MainSettingsPageState{
       onBusinessNameChanged.hashCode ^
       onSaveUpdatedProfile.hashCode ^
       profile.hashCode ^
+      onSendSuggestionSelected.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -165,5 +174,6 @@ class MainSettingsPageState{
               onBusinessNameChanged == other.onBusinessNameChanged &&
               onSaveUpdatedProfile == other.onSaveUpdatedProfile &&
               profile == other.profile &&
+              onSendSuggestionSelected == other.onSendSuggestionSelected &&
               onSignOutSelected == other.onSignOutSelected;
 }

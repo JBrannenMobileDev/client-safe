@@ -16,6 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../poses_page/PosesPage.dart';
 
@@ -422,6 +423,7 @@ class _StageItemState extends State<StageItem>
                                 );
                                 break;
                               case JobStage.STAGE_7_SESSION_COMPLETE:
+                                Share.share('Here are the driving directions. \nLocation: ${job.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${job.location.latitude},${job.location.longitude}');
                                 break;
                               case JobStage.STAGE_8_PAYMENT_REQUESTED:
                                 if(pageState.invoice != null) {
@@ -565,7 +567,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_7_SESSION_COMPLETE);
         stageTitle = isStageCompleted ? 'Session complete!' : 'Session complete?';
         stageSubtitle = '';
-        actionButtonText = '';
+        actionButtonText = job.location != null ? 'Send location' : '';
         break;
       case JobStage.STAGE_8_PAYMENT_REQUESTED:
         stageImage = ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index));

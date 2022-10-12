@@ -1,6 +1,8 @@
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 
+import '../../models/Suggestion.dart';
+
 class UpdatePushNotificationEnabled{
   final MainSettingsPageState pageState;
   final bool enabled;
@@ -62,5 +64,11 @@ class SaveUpdatedUserProfileAction{
 class RemoveDeviceTokenAction{
   final MainSettingsPageState pageState;
   RemoveDeviceTokenAction(this.pageState);
+}
+
+class SendSuggestionAction{
+  final MainSettingsPageState pageState;
+  final String suggestion;
+  SendSuggestionAction(this.pageState, this.suggestion);
 }
 

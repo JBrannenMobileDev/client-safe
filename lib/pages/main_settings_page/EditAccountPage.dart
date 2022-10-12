@@ -95,6 +95,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     ),
                                   ),
                                   LoginTextField(
+                                    maxLines: 1,
                                     controller: firstNameTextController,
                                     hintText: 'First name',
                                     labelText: 'First name',
@@ -129,6 +130,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     ),
                                   ),
                                   LoginTextField(
+                                    maxLines: 1,
                                     controller: lastNameTextController,
                                     hintText: 'Last name',
                                     labelText: 'Last name',
@@ -163,6 +165,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     ),
                                   ),
                                   LoginTextField(
+                                    maxLines: 1,
                                     controller: businessNameTextController,
                                     hintText: 'Business name',
                                     labelText: 'Business name',

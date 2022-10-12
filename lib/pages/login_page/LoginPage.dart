@@ -687,6 +687,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       !pageState.showLoginLoadingAnimation ? SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
+                          maxLines: 1,
                           controller: loginEmailTextController,
                           hintText: 'Email address',
                           labelText: 'Email address',
@@ -709,6 +710,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       pageState.showLoginLoadingAnimation || pageState.isForgotPasswordViewVisible ? SizedBox() : SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
+                          maxLines: 1,
                           controller: loginPasswordTextController,
                           hintText: 'Password',
                           labelText: 'Password',
@@ -1000,6 +1002,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           child: ListView(
             children: <Widget>[
               LoginTextField(
+                maxLines: 1,
                 controller: firstNameTextController,
                 hintText: 'First name',
                 labelText: 'First name',
@@ -1019,6 +1022,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 obscureText: false,
               ),
               LoginTextField(
+                maxLines: 1,
                 controller: lastNameTextController,
                 hintText: 'Last name',
                 labelText: 'Last name',
@@ -1038,6 +1042,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 obscureText: false,
               ),
               LoginTextField(
+                maxLines: 1,
                 controller: businessNameTextController,
                 hintText: 'Business name',
                 labelText: 'Business name',
@@ -1057,6 +1062,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 obscureText: false,
               ),
               LoginTextField(
+                maxLines: 1,
                 controller: emailTextController,
                 hintText: 'Email address',
                 labelText: 'Email address',
@@ -1078,6 +1084,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 obscureText: false,
               ),
               selectedButton == CREATE_ACCOUNT ? LoginTextField(
+                maxLines: 1,
                   controller: passwordTextController,
                   hintText: 'Password',
                   labelText: 'Password',

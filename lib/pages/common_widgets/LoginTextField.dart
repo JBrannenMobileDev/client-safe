@@ -22,6 +22,7 @@ class LoginTextField extends StatelessWidget {
   final List<TextInputFormatter> inputFormatter;
   final bool enabled;
   final bool obscureText;
+  int maxLines = 1;
 
   LoginTextField({
       this.controller,
@@ -39,6 +40,7 @@ class LoginTextField extends StatelessWidget {
       this.onEditingCompleted,
       this.enabled,
       this.obscureText,
+      this.maxLines,
   });
 
   @override
@@ -46,19 +48,18 @@ class LoginTextField extends StatelessWidget {
     return  Container(
           padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
           margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 8.0, bottom: 8.0),
-          height: 64,
+          height: height,
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.circular(32.0),
           ),
           child: TextFormField(
-
             obscureText: obscureText,
             cursorColor: Color(ColorConstants.getPrimaryColor()),
             enabled: enabled,
             focusNode: focusNode,
             textInputAction: keyboardAction,
-            maxLines: 1,
+            maxLines: maxLines,
             controller: controller,
             onChanged: (text) {
               onTextInputChanged(text);
