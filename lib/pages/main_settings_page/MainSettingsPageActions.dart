@@ -83,3 +83,14 @@ class SetDeleteProgressAction {
   SetDeleteProgressAction(this.pageState, this.isInProgressDeleting);
 }
 
+class SetPasswordErrorAction {
+  final MainSettingsPageState pageState;
+  SetPasswordErrorAction(this.pageState);
+}
+
+class SavePasswordAction {
+  final MainSettingsPageState pageState;
+  final String password;
+  SavePasswordAction(this.pageState, this.password);
+}
+

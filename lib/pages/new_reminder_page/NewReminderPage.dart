@@ -271,6 +271,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
               onPressed: () {
                 pageState.onDeleteReminderSelected();
                 Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
             ),
@@ -288,6 +289,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteReminderSelected();
+                Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

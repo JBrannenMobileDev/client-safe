@@ -95,7 +95,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                     ? ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
-                    maxHeight: 335.0,
+                    maxHeight: 450.0,
                   ),
                   child: ListView.builder(
                     reverse: false,
@@ -143,7 +143,6 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
   }
 
   void onAddNewReminderSelected() {
-    Navigator.of(context).pop();
     UserOptionsUtil.showNewReminderDialog(context, null);
   }
 

@@ -65,7 +65,6 @@ class SembastDb {
   }
 
   Future deleteAllLocalData() async {
-    await ProfileDao.deleteAllProfilesLocal();
     await ClientDao.deleteAllLocal();
     await InvoiceDao.deleteAllLocal();
     await JobDao.deleteAllLocal();
@@ -81,5 +80,6 @@ class SembastDb {
     await ContractDao.deleteAllLocal();
     await PoseDao.deleteAllLocal();
     await PoseGroupDao.deleteAllLocal();
+    await ProfileDao.deleteAllProfilesLocal();
   }
 }

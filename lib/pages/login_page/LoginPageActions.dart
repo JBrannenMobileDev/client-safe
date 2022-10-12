@@ -171,3 +171,8 @@ class SetIsUserVerifiedAction{
   bool isVerified;
   SetIsUserVerifiedAction(this.pageState, this.isVerified);
 }
+
+class ResetLoginState {
+  final LoginPageState pageState;
+  ResetLoginState(this.pageState);
+}

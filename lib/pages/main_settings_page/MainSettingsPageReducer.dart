@@ -10,7 +10,24 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetLastNameAction>(_updateLastName),
   TypedReducer<MainSettingsPageState, SetBusinessNameAction>(_updateBusinessName),
   TypedReducer<MainSettingsPageState, SetDeleteProgressAction>(_updateDeleteProgress),
+  TypedReducer<MainSettingsPageState, SavePasswordAction>(_updatePassword),
+  TypedReducer<MainSettingsPageState, SetPasswordErrorAction>(_passwordError),
 ]);
+
+MainSettingsPageState _passwordError(MainSettingsPageState previousState, SetPasswordErrorAction action){
+  return previousState.copyWith(
+    passwordErrorMessage: "Invalid password",
+    isDeleteInProgress: false,
+    isDeleteFinished: false,
+  );
+}
+
+MainSettingsPageState _updatePassword(MainSettingsPageState previousState, SavePasswordAction action){
+  return previousState.copyWith(
+      password: action.password,
+      passwordErrorMessage: '',
+  );
+}
 
 MainSettingsPageState _updateDeleteProgress(MainSettingsPageState previousState, SetDeleteProgressAction action){
   return previousState.copyWith(

@@ -1,29 +1,10 @@
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
-import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfileActions.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart' as prefix0;
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
-import '../../data_layer/local_db/daos/ClientDao.dart';
-import '../../data_layer/local_db/daos/InvoiceDao.dart';
-import '../../data_layer/local_db/daos/JobDao.dart';
-import '../../data_layer/local_db/daos/JobReminderDao.dart';
-import '../../data_layer/local_db/daos/JobTypeDao.dart';
-import '../../data_layer/local_db/daos/LocationDao.dart';
-import '../../data_layer/local_db/daos/MileageExpenseDao.dart';
-import '../../data_layer/local_db/daos/NextInvoiceNumberDao.dart';
-import '../../data_layer/local_db/daos/PriceProfileDao.dart';
-import '../../data_layer/local_db/daos/ProfileDao.dart';
-import '../../data_layer/local_db/daos/RecurringExpenseDao.dart';
-import '../../data_layer/local_db/daos/ReminderDao.dart';
-import '../../data_layer/local_db/daos/SingleExpenseDao.dart';
 
 class MainSettingsPageState{
   final bool pushNotificationsEnabled;
@@ -34,6 +15,8 @@ class MainSettingsPageState{
   final Profile profile;
   final bool isDeleteInProgress;
   final bool isDeleteFinished;
+  final String password;
+  final String passwordErrorMessage;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
   final Function(bool) onCalendarChanged;
@@ -43,6 +26,7 @@ class MainSettingsPageState{
   final Function() onSaveUpdatedProfile;
   final Function(String) onSendSuggestionSelected;
   final Function() onDeleteAccountSelected;
+  final Function(String) onPasswordChanged;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -62,6 +46,9 @@ class MainSettingsPageState{
     @required this.onDeleteAccountSelected,
     @required this.isDeleteInProgress,
     @required this.isDeleteFinished,
+    @required this.password,
+    @required this.onPasswordChanged,
+    @required this.passwordErrorMessage,
   });
 
   MainSettingsPageState copyWith({
@@ -73,6 +60,8 @@ class MainSettingsPageState{
     Profile profile,
     bool isDeleteInProgress,
     bool isDeleteFinished,
+    String password,
+    String passwordErrorMessage,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -82,6 +71,7 @@ class MainSettingsPageState{
     Function() onSaveUpdatedProfile,
     Function(String) onSendSuggestionSelected,
     Function() onDeleteAccountSelected,
+    Function(String) onPasswordChanged,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -100,7 +90,10 @@ class MainSettingsPageState{
       onSendSuggestionSelected: onSendSuggestionSelected ?? this.onSendSuggestionSelected,
       onDeleteAccountSelected: onDeleteAccountSelected ?? this.onDeleteAccountSelected,
       isDeleteFinished: isDeleteFinished ?? this.isDeleteFinished,
-      isDeleteInProgress: isDeleteInProgress ?? this.isDeleteInProgress
+      isDeleteInProgress: isDeleteInProgress ?? this.isDeleteInProgress,
+      password: password ?? this.password,
+      onPasswordChanged: onPasswordChanged ?? this.onPasswordChanged,
+      passwordErrorMessage: passwordErrorMessage ?? this.passwordErrorMessage,
     );
   }
 
@@ -122,6 +115,9 @@ class MainSettingsPageState{
     onDeleteAccountSelected: null,
     isDeleteInProgress: false,
     isDeleteFinished: false,
+    password: '',
+    onPasswordChanged: null,
+    passwordErrorMessage: '',
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -134,10 +130,11 @@ class MainSettingsPageState{
       profile: store.state.mainSettingsPageState.profile,
       isDeleteFinished: store.state.mainSettingsPageState.isDeleteFinished,
       isDeleteInProgress: store.state.mainSettingsPageState.isDeleteInProgress,
+      password: store.state.mainSettingsPageState.password,
+      passwordErrorMessage: store.state.mainSettingsPageState.passwordErrorMessage,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
-        store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, false));
-        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
+        store.dispatch(ResetLoginState(store.state.loginPageState));
         SembastDb.instance.deleteAllLocalData();
       },
       onPushNotificationsChanged: (enabled) => store.dispatch(SavePushNotificationSettingAction(store.state.mainSettingsPageState, enabled)),
@@ -148,6 +145,7 @@ class MainSettingsPageState{
       onSaveUpdatedProfile: () => store.dispatch(SaveUpdatedUserProfileAction(store.state.mainSettingsPageState)),
       onSendSuggestionSelected: (suggestion) => store.dispatch(SendSuggestionAction(store.state.mainSettingsPageState, suggestion)),
       onDeleteAccountSelected: () => store.dispatch(DeleteAccountAction(store.state.mainSettingsPageState)),
+      onPasswordChanged: (password) => store.dispatch(SavePasswordAction(store.state.mainSettingsPageState, password)),
     );
   }
 
@@ -169,6 +167,9 @@ class MainSettingsPageState{
       onDeleteAccountSelected.hashCode ^
       isDeleteFinished.hashCode ^
       isDeleteInProgress.hashCode ^
+      password.hashCode ^
+      onPasswordChanged.hashCode ^
+      passwordErrorMessage.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -191,5 +192,8 @@ class MainSettingsPageState{
               onDeleteAccountSelected == other.onDeleteAccountSelected &&
               isDeleteFinished == other.isDeleteFinished &&
               isDeleteInProgress == other.isDeleteInProgress &&
+              password == other.password &&
+              onPasswordChanged == other.onPasswordChanged &&
+              passwordErrorMessage == other.passwordErrorMessage &&
               onSignOutSelected == other.onSignOutSelected;
 }

@@ -36,7 +36,7 @@ class JobLocationListWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: pageState.imageFiles.isNotEmpty
+                      image: pageState.imageFiles.isNotEmpty && pageState.imageFiles.length > locationIndex
                           ? FileImage(pageState.imageFiles.elementAt(locationIndex))
                           : AssetImage("assets/images/backgrounds/image_background.png")
                   ),

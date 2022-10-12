@@ -26,7 +26,12 @@ final loginPageReducer = combineReducers<LoginPageState>([
   TypedReducer<LoginPageState, AnimateLoginErrorMessageAction>(_animateLoginError),
   TypedReducer<LoginPageState, ClearLoginErrorShake>(_clearLoginShake),
   TypedReducer<LoginPageState, SetIsUserVerifiedAction>(_setIsVerified),
+  TypedReducer<LoginPageState, ResetLoginState>(_resetState),
 ]);
+
+LoginPageState _resetState(LoginPageState previousState, ResetLoginState action) {
+  return LoginPageState.initial();
+}
 
 LoginPageState _setIsVerified(LoginPageState previousState, SetIsUserVerifiedAction action) {
   return previousState.copyWith(

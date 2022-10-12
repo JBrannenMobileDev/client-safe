@@ -3,6 +3,7 @@ import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,10 +17,23 @@ class FirebaseAuthentication {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     await _auth.signOut();
   }
-  
-  Future<void> deleteAccount() async {
+
+  Future<bool> reAuthenticateUser(String password, String email) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
-    await _auth.currentUser.delete();
+
+    try {
+      User user = await _auth.currentUser;
+      AuthCredential credentials = EmailAuthProvider.credential(email: email, password: password);
+      await user.reauthenticateWithCredential(credentials);
+      return true;
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+  
+  void deleteAccount(String password, String email) async {
+    await FirebaseAuth.instance.currentUser.delete();
   }
 
   Future<User> registerFirebaseUser(String email, String password, FirebaseAuth auth) async {

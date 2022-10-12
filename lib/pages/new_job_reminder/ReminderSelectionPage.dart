@@ -100,7 +100,6 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
   }
 
   void onAddNewReminderSelected() {
-    Navigator.of(context).pop();
     UserOptionsUtil.showNewReminderDialog(context, null);
   }
 

@@ -13,6 +13,7 @@ import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
 import '../../utils/CalendarUtil.dart';
+import '../login_page/LoginPageActions.dart';
 import 'MainSettingsPageActions.dart';
 
 class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
@@ -111,10 +112,21 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteAccount(Store<AppState> store, DeleteAccountAction action) async {
     store.dispatch(SetDeleteProgressAction(store.state.mainSettingsPageState, true));
-    await CalendarSyncUtil.removeJobsFromDeviceCalendars();
-    await SembastDb.instance.deleteAllLocalData();
-    await FirebaseAuthentication().deleteFirebaseData();
-    await FirebaseAuthentication().deleteAccount();
-    store.dispatch(SetDeleteProgressAction(store.state.mainSettingsPageState, false));
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile != null) {
+      String email = profile.email;
+      if(await FirebaseAuthentication().reAuthenticateUser(action.pageState.password, email)) {
+        await CalendarSyncUtil.removeJobsFromDeviceCalendars();
+        await SembastDb.instance.deleteAllLocalData();
+        await FirebaseAuthentication().deleteFirebaseData();
+        await FirebaseAuthentication().deleteAccount(action.pageState.password, email);
+        store.dispatch(ResetLoginState(store.state.loginPageState));
+        store.dispatch(SetDeleteProgressAction(store.state.mainSettingsPageState, false));
+      } else {
+        store.dispatch(SetPasswordErrorAction(store.state.mainSettingsPageState));
+      }
+    } else {
+      store.dispatch(SetPasswordErrorAction(store.state.mainSettingsPageState));
+    }
   }
 }

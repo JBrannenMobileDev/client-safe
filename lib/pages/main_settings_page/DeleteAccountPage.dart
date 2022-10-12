@@ -26,7 +26,8 @@ class DeleteAccountPage extends StatefulWidget {
 
 class _DeleteAccountPageState extends State<DeleteAccountPage>
     with TickerProviderStateMixin {
-  TextEditingController suggestionTextController = TextEditingController();
+  TextEditingController passwordTextController = TextEditingController();
+
 
   bool isChecked = false;
 
@@ -53,6 +54,8 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
             );
             NavigationUtil.onSignOutSelected(context);
           }
+
+          if(currentState.password.isNotEmpty && passwordTextController.text != currentState.password)passwordTextController.text = currentState.password;
         },
         builder: (BuildContext context, MainSettingsPageState pageState) =>
             WillPopScope(
@@ -130,9 +133,43 @@ class _DeleteAccountPageState extends State<DeleteAccountPage>
                                   ),
                                 ],
                               ),
+                              pageState.passwordErrorMessage.isNotEmpty ? Container(
+                                padding: EdgeInsets.only(left: 54.0),
+                                alignment: Alignment.bottomLeft,
+                                height: 48.0,
+                                child: Text(
+                                  'Invalid Password',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(ColorConstants.error_red),
+                                  ),
+                                  textAlign: TextAlign.start,
+                                ),
+                              ) : SizedBox(height: 48.0,),
+                              LoginTextField(
+                                maxLines: 1,
+                                controller: passwordTextController,
+                                hintText: 'Password',
+                                labelText: 'Password',
+                                inputType: TextInputType.visiblePassword,
+                                height: 64.0,
+                                inputTypeError: 'Valid Password is required',
+                                onTextInputChanged: (password) {
+                                  pageState.onPasswordChanged(password);
+                                },
+                                onEditingCompleted: null,
+                                keyboardAction: TextInputAction.done,
+                                onFocusAction: null,
+                                capitalization: TextCapitalization.none,
+                                enabled: true,
+                                obscureText: true,
+                              )
                             ],
                           ),
                           pageState.isDeleteInProgress ? Container(
+                            alignment: Alignment.center,
                             child: LoadingAnimationWidget.fourRotatingDots(
                               color: Color(ColorConstants.getBlueDark()),
                               size: 32,
