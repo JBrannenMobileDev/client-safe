@@ -60,18 +60,6 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     actions: <Widget>[
                       GestureDetector(
                         onTap: () {
-                          _ackAlert(context, pageState);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 16.0),
-                          height: 24.0,
-                          width: 24.0,
-                          child: Image.asset(
-                              'assets/images/icons/trash_icon_peach.png'),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
                           pageState.onEditClientClicked(pageState.client);
                           UserOptionsUtil.showNewContactDialog(context);
                         },
@@ -81,6 +69,18 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                           width: 24.0,
                           child: Image.asset(
                               'assets/images/icons/edit_icon_peach.png'),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _ackAlert(context, pageState);
+                        },
+                        child: Container(
+                          margin: EdgeInsets.only(right: 16.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset(
+                              'assets/images/icons/trash_icon_peach.png'),
                         ),
                       ),
                     ],

@@ -78,7 +78,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                           "Select the tip amount received.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 20.0,
+                            fontSize: 24.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
                             color: Color(ColorConstants.primary_black),

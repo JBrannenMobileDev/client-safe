@@ -32,7 +32,6 @@ class _NewJobPageState extends State<NewJobPage> {
     initialPage: 0,
   );
   int currentPageIndex = 0;
-  bool hasJumpToBeenCalled = false;
 
   @override
   void initState() {
@@ -75,12 +74,6 @@ class _NewJobPageState extends State<NewJobPage> {
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
-      },
-      onDidChange: (prev, pageState) {
-        if(pageState.comingFromClientDetails && !hasJumpToBeenCalled) {
-          controller.jumpToPage(1);
-          hasJumpToBeenCalled = true;
-        }
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>

@@ -81,6 +81,7 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
             backgroundColor: Colors.transparent,
             body: Center(
               child: Container(
+                margin: EdgeInsets.only(left: 8.0, right: 8.0),
                 width: 450.0,
                 padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
                 decoration: new BoxDecoration(
@@ -97,13 +98,12 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                           height: 28.0,
                           width: 52.0,
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 4.0),
+                        Container(
                           child: Text(
                             'New Job Reminder',
                             textAlign: TextAlign.start,
                             style: TextStyle(
-                              fontSize: 28.0,
+                              fontSize: 24.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.primary_black),
@@ -118,7 +118,7 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                             margin: EdgeInsets.only(right: 24.0),
                             height: 28.0,
                             width: 28.0,
-                            child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryColor()),),
                           ),
                         ) : SizedBox(
                           height: 28.0,
@@ -126,6 +126,7 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 16.0,),
                     ConstrainedBox(
                       constraints: BoxConstraints(
                         maxHeight: getDialogHeight(currentPageIndex),

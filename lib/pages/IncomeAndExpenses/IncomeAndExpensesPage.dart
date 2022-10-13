@@ -94,7 +94,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         pinned: false,
                         floating: false,
                         forceElevated: false,
-                        expandedHeight: 315.0,
+                        expandedHeight: 275.0,
                         centerTitle: true,
                         title: Center(
                           child: Text(
@@ -136,7 +136,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                 ),
                               ),
                               Container(
-                                margin: EdgeInsets.only(top: 56.0),
+                                margin: EdgeInsets.only(top: 42.0),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
@@ -152,14 +152,16 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                       child: Image(
                                         height: 64.0,
                                         width: 64.0,
-                                        image: AssetImage(selectedIndex == 0 ? "assets/images/job_progress/payment_requested.png" : "assets/images/icons/expenses_icon_peach.png"),
+                                        image: AssetImage(
+                                            selectedIndex == 0 ? "assets/images/job_progress/payment_requested.png" : "assets/images/icons/expenses_icon_peach.png"
+                                        ),
                                       ),
                                     ),
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
                                       children: <Widget>[
                                         Row(
-
                                           children: <Widget>[
                                             Container(
                                               margin: EdgeInsets.only(left: 16.0),
@@ -232,9 +234,9 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                       SliverList(
                         delegate: new SliverChildListDelegate(
                           <Widget>[
-                            selectedIndex == 0 ? IncomeGraphCard(pageState: pageState) : MileageExpensesCard(pageState: pageState),
-                            selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
-                            selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState) : RecurringExpensesCard(pageState: pageState),
+                            selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : MileageExpensesCard(pageState: pageState),
+                            selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
+                            selectedIndex == 0 ? IncomeGraphCard(pageState: pageState) : RecurringExpensesCard(pageState: pageState),
                           ],
                         ),
                       ),
@@ -265,7 +267,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   },
                   tooltip: 'Speed Dial',
                   heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: Color(ColorConstants.getPrimaryColor()),
+                  backgroundColor: selectedIndex == 0 ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getPeachDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),

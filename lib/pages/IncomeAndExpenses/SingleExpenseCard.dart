@@ -40,9 +40,9 @@ class SingleExpenseCard extends StatelessWidget{
                         'Single Expenses (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 22.0,
                           fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
@@ -97,9 +97,9 @@ class SingleExpenseCard extends StatelessWidget{
                     'You have zero single expenses.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 22.0,
+                      fontSize: 20.0,
                       fontFamily: 'simple',
-                      fontWeight: FontWeight.w400,
+                      fontWeight: FontWeight.w600,
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),

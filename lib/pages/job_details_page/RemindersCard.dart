@@ -101,13 +101,12 @@ class RemindersCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                IconButton(
-                  icon: Icon(
-                    Icons.notifications_none,
-                    color: Color(ColorConstants.getPeachDark()),
-                  ),
-                  tooltip: jobReminder.reminder.description,
-                  onPressed: null,
+                Container(
+                  margin: EdgeInsets.only(left: 8.0),
+                  height: 32.0,
+                  width: 32.0,
+                  child: Image.asset(
+                      'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPeachDark()),),
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 8.0),
@@ -131,7 +130,7 @@ class RemindersCard extends StatelessWidget {
                 pageState.onDeleteReminderSelected(jobReminder);
               },
               child: Container(
-                margin: EdgeInsets.only(right: 12.0),
+                margin: EdgeInsets.only(right: 8.0),
                 height: 24.0,
                 width: 24.0,
                 child: Image.asset('assets/images/icons/trash_icon_peach.png'),

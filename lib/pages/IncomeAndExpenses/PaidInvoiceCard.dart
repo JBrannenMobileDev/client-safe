@@ -19,7 +19,6 @@ class PaidInvoiceCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 128.0),
     child:Stack(
         alignment: Alignment.topCenter,
         children: <Widget>[
@@ -41,9 +40,9 @@ class PaidInvoiceCard extends StatelessWidget{
                         'Paid Invoices',
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 22.0,
                           fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
@@ -87,9 +86,9 @@ class PaidInvoiceCard extends StatelessWidget{
                     'You have zero paid invoices.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'Raleway',
-                      fontWeight: FontWeight.w400,
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),

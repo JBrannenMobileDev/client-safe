@@ -81,7 +81,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         backgroundColor: Colors.white,
                         pinned: true,
                         centerTitle: true,
-                        title: Center(
+                        title: Container(
                           child: Text(
                             "Contacts",
                             style: TextStyle(
@@ -98,10 +98,10 @@ class _ClientsPageState extends State<ClientsPage> {
                               UserOptionsUtil.showNewContactDialog(context);
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 12.0),
+                              margin: EdgeInsets.only(right: 16.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ),
                         ],

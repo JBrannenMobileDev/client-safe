@@ -15,8 +15,8 @@ class IncomeGraphCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.only(bottom: 128.0),
       child: Stack(
-
         alignment: Alignment.bottomCenter,
         children: <Widget>[
           Container(
@@ -35,9 +35,9 @@ class IncomeGraphCard extends StatelessWidget {
                         "Income Insights",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 22.0,
                           fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),

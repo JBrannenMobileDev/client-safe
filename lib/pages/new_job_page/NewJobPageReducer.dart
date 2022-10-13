@@ -59,9 +59,11 @@ NewJobPageState _setSelectedTime(NewJobPageState previousState, SetSelectedTimeA
 NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, InitializeNewContactPageAction action) {
   return previousState.copyWith(
       selectedClient: action.client,
+      clientFirstName: action.client.firstName,
+      clientLastName: action.client.lastName,
       shouldClear: false,
       comingFromClientDetails: true,
-      pageViewIndex: 1,
+      pageViewIndex: 0,
   );
 }
 

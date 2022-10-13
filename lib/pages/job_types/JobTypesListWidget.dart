@@ -44,7 +44,7 @@ class JobTypesListWidget extends StatelessWidget {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
-                        margin: EdgeInsets.only(right: 16.0, left: 4.0),
+                        margin: EdgeInsets.only(right: 16.0, left: 16.0),
                         height: 36.0,
                         width: 36.0,
                         decoration: BoxDecoration(
