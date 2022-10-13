@@ -34,6 +34,7 @@ class NewLocationTextField extends StatelessWidget {
               margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
               height: height,
               child: TextFormField(
+                cursorColor: Color(ColorConstants.getPrimaryColor()),
                 focusNode: focusNode,
                 textInputAction: keyboardAction,
                 maxLines: 24,
@@ -47,8 +48,18 @@ class NewLocationTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
                   labelText: hintText,
+                  labelStyle: TextStyle(
+                      color: Color(ColorConstants.getPrimaryColor())
+                  ),
                   hintText: hintText,
                   fillColor: Colors.white,
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Color(ColorConstants.getPrimaryColor()),
+                      width: 1.0,
+                    ),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(

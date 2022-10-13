@@ -11,8 +11,8 @@ class Profile{
   String businessName;
   double latDefaultHome;
   double lngDefaultHome;
-  bool pushNotificationsEnabled;
-  bool calendarEnabled;
+  bool pushNotificationsEnabled = false;
+  bool calendarEnabled = false;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;

@@ -28,9 +28,11 @@ class _TipChangeDialogState extends State<TipChangeDialog>
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
-          Dialog(
+          Scaffold(
             backgroundColor: Colors.transparent,
+            body: Center(
             child: Container(
+              margin: EdgeInsets.only(left: 8.0, right: 8.0),
               height: 350.0,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
@@ -333,6 +335,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
               ),
             ),
           ),
+        ),
     );
   }
 

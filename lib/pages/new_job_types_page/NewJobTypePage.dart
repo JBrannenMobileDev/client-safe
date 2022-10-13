@@ -152,7 +152,7 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                               alignment: Alignment.centerRight,
                               margin: EdgeInsets.only(right: 24.0),
                               height: 28.0,
-                              child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ) : SizedBox(
                             height: 28.0,

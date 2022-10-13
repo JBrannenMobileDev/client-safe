@@ -157,9 +157,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     String jobTitle = '';
     if(store.state.newJobPageState.selectedJobType != null) {
-      jobTitle = store.state.newJobPageState.selectedClient.firstName + ' - ' + store.state.newJobPageState.selectedJobType.title;
+      jobTitle = resultClient.firstName + ' - ' + store.state.newJobPageState.selectedJobType.title;
     } else {
-      jobTitle = store.state.newJobPageState.selectedClient.firstName + ' - Job';
+      jobTitle = resultClient.firstName + ' - Job';
     }
 
     Job jobToSave = Job(

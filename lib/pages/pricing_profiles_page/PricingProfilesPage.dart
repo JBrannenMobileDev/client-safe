@@ -63,13 +63,16 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                         ),
                       ),
                       actions: <Widget>[
-                        IconButton(
-                          icon: const Icon(Icons.add_circle_outline),
-                          color: Color(ColorConstants.white),
-                          tooltip: 'Add',
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
                             UserOptionsUtil.showNewPriceProfileDialog(context);
                           },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 24.0),
+                            height: 28.0,
+                            width: 28.0,
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryWhite()),),
+                          ),
                         ),
                       ],
                     ),

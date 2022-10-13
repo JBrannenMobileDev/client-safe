@@ -32,24 +32,19 @@ class RemindersCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
                     Container(
+                      width: double.infinity,
                       margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
                       child: Text(
                         'Reminders',
-                        textAlign: TextAlign.start,
+                        textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 24.0,
                           fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
+                          fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),
-                    ),
-                  ],
                 ),
                 pageState.reminders.length > 0
                     ? ConstrainedBox(
@@ -71,12 +66,12 @@ class RemindersCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0, bottom: 16.0),
+                      padding: EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 16.0),
                       child: Text(
                         "You have not added any reminders to this job yet. Select the (+) icon to add a reminder.",
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 22.0,
+                          fontSize: 20.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),

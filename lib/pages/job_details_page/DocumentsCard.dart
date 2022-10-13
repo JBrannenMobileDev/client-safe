@@ -34,24 +34,20 @@ class DocumentsCard extends StatelessWidget {
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
+
                   Container(
+                    width: double.infinity,
                     margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
                     child: Text(
                       'Documents',
-                      textAlign: TextAlign.start,
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 24.0,
                         fontFamily: 'simple',
-                        fontWeight: FontWeight.w800,
+                        fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
                       ),
                     ),
-                  ),
-                ],
               ),
               pageState.documents.length > 0
                   ? ListView.builder(
@@ -70,9 +66,9 @@ class DocumentsCard extends StatelessWidget {
                         'No documents have been added to this job yet.',
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w400,
+                          fontSize: 20.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
                         ),
                       ),

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../../utils/StringUtils.dart';
+import '../../utils/UserOptionsUtil.dart';
 
 class JobTypeChangeDialog extends StatefulWidget {
   @override
@@ -28,9 +28,11 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
-          Dialog(
+          Scaffold(
             backgroundColor: Colors.transparent,
+            body: Center(
             child: Container(
+              margin: EdgeInsets.only(left: 8.0, right: 8.0),
               padding: EdgeInsets.only(left: 16.0, right: 16.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -40,18 +42,36 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Container(
-                    margin: EdgeInsets.only(bottom: 16.0, top: 16.0),
-                    child: Text(
-                      'Select a job type',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 32.0,
                       ),
-                    ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16.0, top: 16.0),
+                        child: Text(
+                          'Select a job type',
+                          textAlign: TextAlign.start,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          UserOptionsUtil.showNewJobTypePage(context, null);
+                        },
+                        child: Container(
+                          height: 28.0,
+                          width: 28.0,
+                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryColor()),),
+                        ),
+                      ),
+                    ],
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
@@ -109,6 +129,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                   ),
                 ],
               ),
+            ),
             ),
           ),
     );

@@ -36,14 +36,15 @@ class ClientDetailsCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
+                  width: double.infinity,
                   margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 16.0),
                   child: Text(
                     pageState.client?.getClientFullName(),
-                    textAlign: TextAlign.start,
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24.0,
                       fontFamily: 'simple',
-                      fontWeight: FontWeight.w800,
+                      fontWeight: FontWeight.w600,
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),

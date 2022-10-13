@@ -42,14 +42,15 @@ class JobInfoCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
+                  width: double.infinity,
                   margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
                   child: Text(
                           'Job Info',
-                          textAlign: TextAlign.start,
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 24.0,
                             fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             color: Color(ColorConstants.primary_black),
                         ),
                   ),
@@ -276,7 +277,7 @@ class JobInfoCard extends StatelessWidget {
                               color: Color(ColorConstants.getPeachDark()),
                               tooltip: 'Share',
                               onPressed: () {
-                                Share.share('Here are the driving directions. \nLocation: ${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
+                                Share.share('Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the shoot location. \nLocation: ${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
                               },
                             ),
                             Container(

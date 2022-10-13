@@ -30,36 +30,56 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
     return StoreConnector<AppState, JobDetailsPageState>(
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
-          Dialog(
+          Scaffold(
             backgroundColor: Colors.transparent,
+            body: Center(
             child: Container(
+              margin: EdgeInsets.only(left: 8.0, right: 8.0),
+              padding: EdgeInsets.only(left: 16.0, right: 16.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
               ),
-              padding: EdgeInsets.only(left: 16.0, right: 16.0),
               child: pageState.priceProfiles.length > 0
                   ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 16.0, top: 16.0, left: 32.0, right: 32.0),
-                    child: Text(
-                      "Select a price package for this job.",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w800,
-                        color: Color(ColorConstants.primary_black),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        width: 28.0,
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
+                        child: Text(
+                          "Select a price package",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          UserOptionsUtil.showNewPriceProfileDialog(context);
+                        },
+                        child: Container(
+                          height: 28.0,
+                          width: 28.0,
+                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryColor()),),
+                        ),
+                      ),
+                    ],
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: 65.0,
-                      maxHeight: 350.0,
+                      minHeight: 70.0,
+                      maxHeight: 550.0,
                     ),
                     child: ListView.builder(
                       reverse: false,
@@ -166,6 +186,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
               ),
             ),
           ),
+        ),
     );
   }
 
