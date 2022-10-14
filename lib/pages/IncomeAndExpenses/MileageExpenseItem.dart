@@ -63,7 +63,7 @@ class MileageExpenseItem extends StatelessWidget{
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontFamily: 'simple',
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
@@ -77,7 +77,7 @@ class MileageExpenseItem extends StatelessWidget{
                           children: [
                             DandyLightTextWidget(
                               amount: mileageExpense.totalMiles,
-                              textSize: 20.0,
+                              textSize: 18.0,
                               textColor: Color(ColorConstants.getPrimaryBlack()),
                               fontWeight: FontWeight.w600,
                               isCurrency: false,
@@ -87,7 +87,7 @@ class MileageExpenseItem extends StatelessWidget{
                               'mi  •  ',
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
@@ -95,7 +95,7 @@ class MileageExpenseItem extends StatelessWidget{
                             ),
                             DandyLightTextWidget(
                               amount: mileageExpense.charge.chargeAmount,
-                              textSize: 20.0,
+                              textSize: 18.0,
                               textColor: Color(ColorConstants.getPrimaryBlack()),
                               fontWeight: FontWeight.w600,
                               isCurrency: true,

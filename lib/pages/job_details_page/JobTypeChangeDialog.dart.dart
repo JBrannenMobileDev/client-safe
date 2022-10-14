@@ -75,7 +75,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(
-                      minHeight: 65.0,
+                      minHeight: 200.0,
                       maxHeight: 550.0,
                     ),
                     child: ListView.builder(

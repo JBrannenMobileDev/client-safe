@@ -414,11 +414,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
-    JobStage nextStage = job.type.stages.elementAt(stageIndex++);
-    while(_completedStagesContainsNextStage(completedStages, nextStage)){
-      nextStage = JobStage.getNextStage(nextStage, job.type.stages);
+    if(job.type.stages.elementAt(stageIndex).stage != JobStage.STAGE_14_JOB_COMPLETE) {
+      JobStage nextStage = job.type.stages.elementAt(stageIndex++);
+      while(_completedStagesContainsNextStage(completedStages, nextStage)){
+        nextStage = JobStage.getNextStage(nextStage, job.type.stages);
+      }
+      return nextStage;
     }
-    return nextStage;
+    return job.type.stages.elementAt(stageIndex);
   }
 
   bool _completedStagesContainsNextStage(List<JobStage> completedStages, JobStage nextStage) {

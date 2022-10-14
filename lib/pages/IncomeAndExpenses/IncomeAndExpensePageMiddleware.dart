@@ -7,6 +7,7 @@ import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
@@ -58,6 +59,17 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchMileageExpenses){
       _fetchMileageExpenses(store, action, next);
     }
+    if(action is UpdateSelectedYearAction) {
+      _fetchCompletedJobs(store, action);
+    }
+  }
+
+  void _fetchCompletedJobs(Store<AppState> store, UpdateSelectedYearAction action) async{
+    List<Job> allJObsWithPaymentReceivedInSelectedYear = ((await JobDao.getAllJobs()).where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
+        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED))
+        && (job.selectedDate != null && job.selectedDate.year == action.year)).toList()
+    );
+    store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear));
   }
 
   void _updateRecurringExpenseChargeCancelDate(Store<AppState> store, SaveCancelledSubscriptionAction action, NextDispatcher next) async{

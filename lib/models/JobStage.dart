@@ -320,9 +320,11 @@ class JobStage {
 
   static JobStage getNextStage(JobStage currentStage, List<JobStage> stages) {
     JobStage nextStage = currentStage;
-    for(int i=0; i< stages.length; i++) {
-      if(stages.elementAt(i).stage == currentStage.stage) {
-        nextStage = stages.elementAt((i + 1));
+    if(currentStage.stage != JobStage.STAGE_14_JOB_COMPLETE) {
+      for(int i=0; i< stages.length; i++) {
+        if(stages.elementAt(i).stage == currentStage.stage) {
+          nextStage = stages.elementAt((i + 1));
+        }
       }
     }
     return nextStage;

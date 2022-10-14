@@ -61,6 +61,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(FetchSingleExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchRecurringExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchMileageExpenses(appState.state.incomeAndExpensesPageState));
+        appState.dispatch(UpdateSelectedYearAction(appState.state.incomeAndExpensesPageState, DateTime.now().year));
       },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(
@@ -215,11 +216,11 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           margin: EdgeInsets.only(left: 16.0),
                                           child: DandyLightTextWidget(
                                                 amount: selectedIndex == 0 ? pageState.totalTips + pageState.incomeForSelectedYear : pageState.expensesForSelectedYear,
-                                                textSize: 52.0,
+                                                textSize: 48.0,
                                                 textColor: Color(ColorConstants.getPrimaryWhite()),
                                                 fontWeight: FontWeight.w600,
                                                 isCurrency: true,
-                                                decimalPlaces: 2,
+                                                decimalPlaces: 0,
                                               ),
                                         ),
                                       ],

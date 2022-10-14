@@ -20,6 +20,13 @@ class UpdateSelectedYearAction{
   UpdateSelectedYearAction(this.pageState, this.year);
 }
 
+class SetSelectedYearAction{
+  final IncomeAndExpensesPageState pageState;
+  final int year;
+  final List<Job> completedJobs;
+  SetSelectedYearAction(this.pageState, this.year, this.completedJobs);
+}
+
 class LoadAllInvoicesAction{
   final IncomeAndExpensesPageState pageState;
   LoadAllInvoicesAction(this.pageState);

@@ -336,7 +336,6 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
     dueDate: action.selectedJob?.invoice?.dueDate,
     total: total,
-    filterType: rateType,
     lineItems: lineItems,
     hourlyRate: selectedJob.priceProfile.hourlyRate.toString(),
     hourlyQuantity: '0',
@@ -375,7 +374,6 @@ NewInvoicePageState _saveSelectedFilter(NewInvoicePageState previousState, SaveS
       break;
   }
   return previousState.copyWith(
-    filterType: action.selectedFilter,
     total: _calculateSubtotal(previousState),
     lineItems: previousState.lineItems,
     unpaidAmount: remainingBalance,

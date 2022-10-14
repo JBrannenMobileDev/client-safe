@@ -46,6 +46,16 @@ class NewRecurringExpenseCostTextField extends StatelessWidget {
                   labelText: 'Cost',
                   hintText: hintText,
                   fillColor: Colors.white,
+                  labelStyle: TextStyle(
+                      color: Color(ColorConstants.getPrimaryColor())
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(25.0),
+                    borderSide: BorderSide(
+                      color: Color(ColorConstants.getPrimaryColor()),
+                      width: 1.0,
+                    ),
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(

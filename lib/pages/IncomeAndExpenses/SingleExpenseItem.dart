@@ -62,7 +62,7 @@ class SingleExpenseItem extends StatelessWidget{
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontFamily: 'simple',
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
@@ -78,7 +78,7 @@ class SingleExpenseItem extends StatelessWidget{
                               DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ',
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.primary_black),
@@ -86,7 +86,7 @@ class SingleExpenseItem extends StatelessWidget{
                             ),
                             DandyLightTextWidget(
                               amount: singleExpense.charge.chargeAmount,
-                              textSize: 20.0,
+                              textSize: 18.0,
                               textColor: Color(ColorConstants.getPrimaryBlack()),
                               fontWeight: FontWeight.w600,
                               isCurrency: true,

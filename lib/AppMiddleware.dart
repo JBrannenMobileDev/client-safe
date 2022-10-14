@@ -130,6 +130,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveCancelledSubscriptionAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveResumedSubscriptionAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchMileageExpenses>(IncomeAndExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateSelectedYearAction>(IncomeAndExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnDeleteInvoiceSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InvoiceSentAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetLastKnowPosition>(SunsetWeatherPageMiddleware()));

@@ -72,17 +72,18 @@ class SingleExpenseCard extends StatelessWidget{
                 ),
                 pageState.singleExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 8.0),
                   child: DandyLightTextWidget(
                     amount: pageState.singleExpensesForSelectedYearTotal,
                     textSize: 48.0,
                     textColor: Color(ColorConstants.getPeachDark()),
                     fontWeight: FontWeight.w600,
                     isCurrency: true,
-                    decimalPlaces: 2,
+                    decimalPlaces: 0,
                   ),
                 ) : SizedBox(),
                 pageState.singleExpensesForSelectedYear.length > 0 ? ListView.builder(
-                  padding: EdgeInsets.only(top:0.0, bottom: 16.0),
+                  padding: EdgeInsets.only(top:16.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -124,11 +125,11 @@ class SingleExpenseCard extends StatelessWidget{
     if(length == 0) {
       return 178.0;
     }else if(length == 1) {
-      return 222.0;
+      return 246.0;
     }else if(length == 2) {
-      return 306.0;
+      return 330.0;
     }else if(length == 3) {
-      return 370.0;
+      return 394.0;
     }else {
       return pageState.isSingleExpensesMinimized ? 390.0 : ((74*length) + 172).toDouble();
     }

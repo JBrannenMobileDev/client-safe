@@ -43,31 +43,6 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
     currentPageIndex = 0;
   }
 
-  Future<bool> _onWillPop() {
-    return showDialog(
-          context: context,
-          builder: (context) => new CupertinoAlertDialog(
-            title: new Text('Are you sure?'),
-            content: new Text('All unsaved information entered will be lost.'),
-            actions: <Widget>[
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () => Navigator.of(context).pop(false),
-                child: new Text('No'),
-              ),
-              TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  Navigator.of(context).pop(true);
-                },
-                child: new Text('Yes'),
-              ),
-            ],
-          ),
-        ) ??
-        false;
-  }
-
   @override
   Widget build(BuildContext context) {
     controller.addListener(() {
@@ -82,9 +57,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
       },
       converter: (store) => NewRecurringExpensePageState.fromStore(store),
       builder: (BuildContext context, NewRecurringExpensePageState pageState) =>
-          WillPopScope(
-          onWillPop: _onWillPop,
-          child: Scaffold(
+          Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.transparent,
             body: Center(
@@ -224,7 +197,6 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                 ),
               ),
             ),
-        ),
       ),
     );
   }
@@ -286,7 +258,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          content: new Text('This expense will be permanently gone!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -298,13 +270,14 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
               onPressed: () {
                 pageState.onDeleteRecurringExpenseSelected();
                 Navigator.of(context).pop(true);
+                Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
             ),
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          content: new Text('This expense will be permanently gone!'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -315,6 +288,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteRecurringExpenseSelected();
+                Navigator.of(context).pop(true);
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

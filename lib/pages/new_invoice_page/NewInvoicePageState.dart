@@ -33,7 +33,6 @@ class NewInvoicePageState {
   final double discountValue;
   final Job selectedJob;
   final String jobSearchText;
-  final String filterType;
   final String flatRateText;
   final String hourlyRate;
   final String hourlyQuantity;
@@ -96,7 +95,6 @@ class NewInvoicePageState {
     @required this.depositValue,
     @required this.selectedJob,
     @required this.jobSearchText,
-    @required this.filterType,
     @required this.jobs,
     @required this.filteredJobs,
     @required this.allClients,
@@ -162,7 +160,6 @@ class NewInvoicePageState {
     double discountValue,
     Job selectedJob,
     String jobSearchText,
-    String filterType,
     String flatRateText,
     String hourlyRate,
     String hourlyQuantity,
@@ -224,7 +221,6 @@ class NewInvoicePageState {
       unpaidAmount: unpaidAmount ?? this.unpaidAmount,
       selectedJob: selectedJob ?? this.selectedJob,
       jobSearchText: jobSearchText ?? this.jobSearchText,
-      filterType: filterType ?? this.filterType,
       jobs: jobs ?? this.jobs,
       discountValue: discountValue ?? this.discountValue,
       filteredJobs:  filteredJobs ?? this.filteredJobs,
@@ -293,11 +289,10 @@ class NewInvoicePageState {
         unpaidAmount: 0.0,
         selectedJob: null,
         jobSearchText: '',
-        filterType: PriceBreakdownForm.SELECTOR_TYPE_FLAT_RATE,
-        jobs: List(),
-        filteredJobs: List(),
-        allClients: List(),
-        lineItems: List(),
+        jobs: [],
+        filteredJobs: [],
+        allClients: [],
+        lineItems: [],
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -356,7 +351,6 @@ class NewInvoicePageState {
       isFinishedFetchingClients: store.state.newInvoicePageState.isFinishedFetchingClients,
       selectedJob: store.state.newInvoicePageState.selectedJob,
       jobSearchText: store.state.newInvoicePageState.jobSearchText,
-      filterType: store.state.newInvoicePageState.filterType,
       jobs: store.state.newInvoicePageState.jobs,
       filteredJobs: store.state.newInvoicePageState.filteredJobs,
       allClients: store.state.newInvoicePageState.allClients,
@@ -447,7 +441,6 @@ class NewInvoicePageState {
       itemQuantity.hashCode ^
       depositValue.hashCode ^
       unpaidAmount.hashCode ^
-      filterType.hashCode ^
       onHourlyRateTextChanged.hashCode ^
       onHourlyQuantityTextChanged.hashCode ^
       onItemQuantityTextChanged.hashCode ^
@@ -503,7 +496,6 @@ class NewInvoicePageState {
           itemQuantity == other.itemQuantity &&
           depositValue == other.depositValue &&
           unpaidAmount == other.depositValue &&
-          filterType == other.filterType &&
           onHourlyQuantityTextChanged == other.onHourlyQuantityTextChanged &&
           onHourlyRateTextChanged == other.onHourlyRateTextChanged &&
           onItemRateTextChanged == other.onItemRateTextChanged &&

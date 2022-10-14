@@ -63,7 +63,7 @@ class RecurringExpenseItem extends StatelessWidget{
                               style: TextStyle(
                                 fontSize: 20.0,
                                 fontFamily: 'simple',
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w600,
                                 color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                               ),
                             ),
@@ -77,7 +77,7 @@ class RecurringExpenseItem extends StatelessWidget{
                           children: [
                             DandyLightTextWidget(
                               amount: recurringExpense.cost,
-                              textSize: 20.0,
+                              textSize: 18.0,
                               textColor: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                               fontWeight: FontWeight.w600,
                               isCurrency: true,
@@ -87,7 +87,7 @@ class RecurringExpenseItem extends StatelessWidget{
                               ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ',
                               textAlign: TextAlign.start,
                               style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
@@ -95,7 +95,7 @@ class RecurringExpenseItem extends StatelessWidget{
                             ),
                             DandyLightTextWidget(
                               amount: recurringExpense.getTotalOfChargesForYear(pageState.selectedYear),
-                              textSize: 20.0,
+                              textSize: 18.0,
                               textColor: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                               fontWeight: FontWeight.w600,
                               isCurrency: true,

@@ -1,13 +1,26 @@
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/styles/Styles.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class DepositRowWidget extends StatelessWidget{
+class DepositRowWidget extends StatefulWidget{
   final NewInvoicePageState pageState;
 
   DepositRowWidget(this.pageState);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _DepositRowWidgetPageState(pageState);
+  }
+}
+
+class _DepositRowWidgetPageState extends State<DepositRowWidget>
+    with TickerProviderStateMixin {
+  TextEditingController passwordTextController = TextEditingController();
+
+  final NewInvoicePageState pageState;
+  bool isChecked = false;
+
+  _DepositRowWidgetPageState(this.pageState);
 
   @override
   Widget build(BuildContext context) {
@@ -22,32 +35,15 @@ class DepositRowWidget extends StatelessWidget{
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                pageState.pageViewIndex != 3 ? Container(
-                  margin: EdgeInsets.only(right: 8.0),
-                  decoration: BoxDecoration(
-                      color: Color(pageState.selectedJob.isDepositPaid() ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
-                      borderRadius: BorderRadius.circular(24.0)
-                  ),
-                  width: 100.0,
-                  height: 28.0,
-                  child: TextButton(
-                    style: Styles.getButtonStyle(),
-                    onPressed: () {
-                      pageState.onDepositActionPressed();
-                    },
-                    child: Text(
-                      pageState.selectedJob.isDepositPaid()
-                          ? 'paid'
-                          : 'unpaid',
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
-                    ),
-                  ),
+                pageState.pageViewIndex != 3 ? Checkbox(
+                  value: pageState.selectedJob.isDepositPaid(),
+                  activeColor: Color(ColorConstants.error_red),
+                  onChanged: (bool value) {
+                    setState(() {
+                      isChecked = value;
+                    });
+                    pageState.onDepositActionPressed();
+                  },
                 ) : SizedBox(),
                 Text(
                   'Deposit  ',

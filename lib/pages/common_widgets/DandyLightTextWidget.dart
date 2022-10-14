@@ -39,7 +39,7 @@ class DandyLightTextWidget extends StatelessWidget {
             color: textColor,
           ),
         ),
-        Text(
+        decimalPlaces != 0 ? Text(
           '.',
           textAlign: TextAlign.end,
           style: TextStyle(
@@ -47,7 +47,7 @@ class DandyLightTextWidget extends StatelessWidget {
             fontWeight: fontWeight,
             color: textColor,
           ),
-        ),
+        ) : SizedBox(),
         Text(
           decimalString.substring(0, decimalPlaces),
           textAlign: TextAlign.end,

@@ -12,7 +12,7 @@ import 'package:redux/redux.dart';
 final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>([
   TypedReducer<IncomeAndExpensesPageState, SetAllInvoicesAction>(_setInvoices),
   TypedReducer<IncomeAndExpensesPageState, FilterChangedAction>(_updateFilterSelection),
-  TypedReducer<IncomeAndExpensesPageState, UpdateSelectedYearAction>(_setSelectedYear),
+  TypedReducer<IncomeAndExpensesPageState, SetSelectedYearAction>(_setSelectedYear),
   TypedReducer<IncomeAndExpensesPageState, UpdateSingleExpenseShowHideState>(_updateSingleExpenseShowHideState),
   TypedReducer<IncomeAndExpensesPageState, OnAllInvoicesFilterChangedAction>(_updateAllInvoicesFilter),
   TypedReducer<IncomeAndExpensesPageState, OnAllExpensesFilterChangedAction>(_updateAllExpensesFilter),
@@ -223,25 +223,12 @@ IncomeAndExpensesPageState _updateSingleExpenseShowHideState(IncomeAndExpensesPa
 
 IncomeAndExpensesPageState _setInvoices(IncomeAndExpensesPageState previousState, SetAllInvoicesAction action){
   List<Invoice> unpaidInvoices = action.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
-  List<Invoice> unpaidInvoicesForSelectedYear = unpaidInvoices.where((invoice) => invoice.createdDate.year == previousState.selectedYear).toList();
   List<Invoice> paidInvoices = action.allInvoices.where((invoice) => invoice.invoicePaid == true).toList();
-  List<Invoice> paidInvoicesForSelectedYear = paidInvoices.where((invoice) => invoice.createdDate.year == previousState.selectedYear).toList();
-  double totalForSelectedYear = 0.0;
-
-  for(Invoice invoice in paidInvoicesForSelectedYear){
-    totalForSelectedYear = totalForSelectedYear + (invoice.total - invoice.discount);
-  }
-  for(Invoice unpaidInvoice in unpaidInvoicesForSelectedYear){
-    if(unpaidInvoice.depositPaid){
-      totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount ?? 0.0;
-    }
-  }
   paidInvoices.sort((invoiceA, invoiceB) => invoiceA.jobName.compareTo(invoiceB.jobName));
   unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
   return previousState.copyWith(
     allInvoices: action.allInvoices,
     paidInvoices: paidInvoices,
-    incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
     pageViewIndex: 0,
   );
@@ -253,7 +240,7 @@ IncomeAndExpensesPageState _updateFilterSelection(IncomeAndExpensesPageState pre
   );
 }
 
-IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousState, UpdateSelectedYearAction action){
+IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousState, SetSelectedYearAction action){
   List<Invoice> unpaidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
   List<Invoice> unpaidInvoicesForSelectedYear = unpaidInvoices.where((invoice) => invoice.createdDate.year == action.year).toList();
 
@@ -267,6 +254,11 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   for(Invoice unpaidInvoice in unpaidInvoicesForSelectedYear){
     if(unpaidInvoice.depositPaid){
       totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount;
+    }
+  }
+  for(Job job in action.completedJobs) {
+    if(job.invoice == null) {
+      totalForSelectedYear = totalForSelectedYear + job.priceProfile.flatRate;
     }
   }
 

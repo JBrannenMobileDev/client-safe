@@ -28,7 +28,7 @@ class IncomeLineChart extends StatelessWidget{
                 Padding(
                   padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
                   child: Text(
-                    'Income Stats',
+                    'Gross Profit',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 22.0,

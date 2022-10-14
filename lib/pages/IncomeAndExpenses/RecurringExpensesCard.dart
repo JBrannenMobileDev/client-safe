@@ -73,17 +73,18 @@ class RecurringExpensesCard extends StatelessWidget{
                 ),
                 pageState.recurringExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
+                  margin: EdgeInsets.only(top: 8.0),
                   child: DandyLightTextWidget(
                       amount: pageState.recurringExpensesForSelectedYearTotal,
                       textSize: 48.0,
                       textColor: Color(ColorConstants.getPeachDark()),
                       fontWeight: FontWeight.w600,
                       isCurrency: true,
-                      decimalPlaces: 2,
+                      decimalPlaces: 0,
                     ),
                 ) : SizedBox(),
                 pageState.recurringExpensesForSelectedYear.length > 0 ? ListView.builder(
-                  padding: EdgeInsets.only(top:0.0, bottom: 16.0),
+                  padding: EdgeInsets.only(top:16.0, bottom: 16.0),
                     reverse: false,
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -125,13 +126,13 @@ class RecurringExpensesCard extends StatelessWidget{
     if(length == 0) {
       return 178.0;
     }else if(length == 1) {
-      return 222.0;
+      return 246.0;
     }else if(length == 2) {
-      return 306.0;
+      return 330.0;
     }else if(length == 3) {
-      return 370.0;
+      return 395.0;
     }else {
-      return 390.0;
+      return 414.0;
     }
   }
 

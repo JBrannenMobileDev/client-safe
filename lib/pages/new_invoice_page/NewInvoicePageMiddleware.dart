@@ -196,7 +196,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
         crossAxisAlignment: CrossAxisAlignment.start,
         header: (Context context) {
           if (context.pageNumber == 1) {
-            return null;
+            return SizedBox();
           }
           return Container(
               alignment: Alignment.centerRight,
@@ -238,8 +238,8 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                   children: <Widget>[
                     Text('Invoice for', textScaleFactor: 1.5),
                     Text(pageState.selectedJob.clientName, textScaleFactor: 1.5),
-                    client.phone.isNotEmpty ? Text(client.phone.toString(), textScaleFactor: 1.5) : SizedBox(),
-                    client.email.isNotEmpty ? Text(client.email.toString(), textScaleFactor: 1.5) : SizedBox(),
+                    client.phone != null ? Text(client.phone.toString(), textScaleFactor: 1.5) : SizedBox(),
+                    client.email != null ? Text(client.email.toString(), textScaleFactor: 1.5) : SizedBox(),
                   ],
                 ),
                 Column(

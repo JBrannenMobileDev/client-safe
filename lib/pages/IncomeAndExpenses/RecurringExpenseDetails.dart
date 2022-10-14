@@ -37,6 +37,7 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                   CustomScrollView(
                     slivers: <Widget>[
                       SliverAppBar(
+                        iconTheme: IconThemeData(color: Color(ColorConstants.getPrimaryBlack())),
                         brightness: Brightness.light,
                         backgroundColor: Colors.white,
                         pinned: true,

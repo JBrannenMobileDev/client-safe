@@ -88,17 +88,10 @@ class MileageExpensesCard extends StatelessWidget {
                     ),
                     Container(
                       width: 264.0,
-                      margin: EdgeInsets.only(top: 8.0),
+                      margin: EdgeInsets.only(top: 0.0, bottom: 16.0),
                       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(16.0),
-                        border: Border.all(
-                          color: Color(ColorConstants.getPeachDark()),
-                          width: 1.0,
-                        )
-                      ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,7 +112,7 @@ class MileageExpensesCard extends StatelessWidget {
                                     Container(
                                       padding: EdgeInsets.only(bottom: 2.0),
                                       child: Text(
-                                        'mi',
+                                        ' miles driven',
                                         textAlign: TextAlign.start,
                                         style: TextStyle(
                                           fontSize: 20.0,
@@ -132,19 +125,6 @@ class MileageExpensesCard extends StatelessWidget {
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                                child: Text(
-                                  'miles driven',
-                                  textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                           Column(
@@ -175,19 +155,6 @@ class MileageExpensesCard extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Padding(
-                                padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                                child: Text(
-                                  'deduction rate',
-                                  textAlign: TextAlign.end,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
-                                ),
-                              )
                             ],
                           ),
                         ],
@@ -236,15 +203,15 @@ class MileageExpensesCard extends StatelessWidget {
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 178.0;
+      return 175.0;
     }else if(length == 1) {
-      return 326.0;
+      return 300.0;
     }else if(length == 2) {
-      return 400.0;
+      return 375.0;
     }else if(length == 3) {
-      return 474.0;
+      return 450.0;
     }else {
-      return 494.0;
+      return 470.0;
     }
   }
 
