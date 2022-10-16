@@ -7,7 +7,10 @@ import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AllInvoicesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
+import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
+
+import '../dashboard_page/widgets/LineChartMonthData.dart';
 
 final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>([
   TypedReducer<IncomeAndExpensesPageState, SetAllInvoicesAction>(_setInvoices),
@@ -245,20 +248,65 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   List<Invoice> unpaidInvoicesForSelectedYear = unpaidInvoices.where((invoice) => invoice.createdDate.year == action.year).toList();
 
   double totalForSelectedYear = 0.0;
+  double thisMonth = 0.0;
+  double lastMonth = 0.0;
+  double thisMonthLastYear = 0.0;
+  double lastMonthLastYear = 0.0;
+
+  DateTime now = DateTime.now();
+  DateTime lastMonthDate = DateTime(now.year, now.month -1, now.day);
+  DateTime thisMonthLastYearDate = DateTime(now.year-1, now.month, now.day);
+  DateTime lastMonthLastYearDate = DateTime(now.year-1, now.month-1, now.day);
 
   List<Invoice> paidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == true).toList();
   List<Invoice> paidInvoicesForSelectedYear = paidInvoices.where((invoice) => invoice.createdDate.year == action.year).toList();
   for(Invoice invoice in paidInvoicesForSelectedYear){
     totalForSelectedYear = totalForSelectedYear + (invoice.total - invoice.discount);
+    if(invoice.dueDate.year == now.year && invoice.dueDate.month == now.month) {
+      thisMonth = thisMonth + (invoice.total - invoice.discount);
+    }
+    if(invoice.dueDate.year == lastMonthDate.year && invoice.dueDate.month == lastMonthDate.month) {
+      lastMonth = lastMonth + (invoice.total - invoice.discount);
+    }
+    if(invoice.dueDate.year == thisMonthLastYearDate.year && invoice.dueDate.month == thisMonthLastYearDate.month) {
+      thisMonthLastYear = thisMonthLastYear + (invoice.total - invoice.discount);
+    }
+    if(invoice.dueDate.year == lastMonthLastYearDate.year && invoice.dueDate.month == lastMonthLastYearDate.month) {
+      lastMonthLastYear = lastMonthLastYear + (invoice.total - invoice.discount);
+    }
   }
   for(Invoice unpaidInvoice in unpaidInvoicesForSelectedYear){
     if(unpaidInvoice.depositPaid){
       totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount;
+      if(unpaidInvoice.dueDate.year == now.year && unpaidInvoice.dueDate.month == now.month) {
+        thisMonth = thisMonth + unpaidInvoice.depositAmount;
+      }
+      if(unpaidInvoice.dueDate.year == lastMonthDate.year && unpaidInvoice.dueDate.month == lastMonthDate.month) {
+        lastMonth = lastMonth + unpaidInvoice.depositAmount;
+      }
+      if(unpaidInvoice.dueDate.year == thisMonthLastYearDate.year && unpaidInvoice.dueDate.month == thisMonthLastYearDate.month) {
+        thisMonthLastYear = thisMonthLastYear + unpaidInvoice.depositAmount;
+      }
+      if(unpaidInvoice.dueDate.year == lastMonthLastYearDate.year && unpaidInvoice.dueDate.month == lastMonthLastYearDate.month) {
+        lastMonthLastYear = lastMonthLastYear + unpaidInvoice.depositAmount;
+      }
     }
   }
   for(Job job in action.completedJobs) {
     if(job.invoice == null) {
       totalForSelectedYear = totalForSelectedYear + job.priceProfile.flatRate;
+      if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
+        thisMonth = thisMonth + job.priceProfile.flatRate;
+      }
+      if(job.paymentReceivedDate.year == lastMonthDate.year && job.paymentReceivedDate.month == lastMonthDate.month) {
+        lastMonth = lastMonth + job.priceProfile.flatRate;
+      }
+      if(job.paymentReceivedDate.year == thisMonthLastYearDate.year && job.paymentReceivedDate.month == thisMonthLastYearDate.month) {
+        thisMonthLastYear = thisMonthLastYear + job.priceProfile.flatRate;
+      }
+      if(job.paymentReceivedDate.year == lastMonthLastYearDate.year && job.paymentReceivedDate.month == lastMonthLastYearDate.month) {
+        lastMonthLastYear = lastMonthLastYear + job.priceProfile.flatRate;
+      }
     }
   }
 
@@ -297,6 +345,10 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   for(MileageExpense expense in mileageExpenseForSelectedYear){
     totalMilesDriven = totalMilesDriven + expense.totalMiles;
   }
+
+  List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
+  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived);
+
   return previousState.copyWith(
     selectedYear: action.year,
     incomeForSelectedYear: totalForSelectedYear,
@@ -310,5 +362,114 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
     expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
     recurringExpensesForSelectedYearTotal: recurringExpenseTotal,
+    thisMonthIncome: thisMonth.toInt(),
+    lastMonthIncome: lastMonth.toInt(),
+    thisMonthLastYearIncome: thisMonthLastYear.toInt(),
+    lastMonthLastYearIncome: lastMonthLastYear.toInt(),
+    lineChartMonthData: chartItems.reversed.toList(),
   );
+}
+
+List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived) {
+  List<LineChartMonthData> chartItems = [];
+  DateTime now = DateTime.now();
+  int currentYear = now.year;
+
+  String name5 = DateFormat.MMMM().format(now);
+  LineChartMonthData data5 = LineChartMonthData(name: name5, income: 0, monthInt: now.month);
+  chartItems.add(data5);
+
+  DateTime nowMinus1 = DateTime(now.year, now.month - 1, now.day);
+  String name4 = DateFormat.MMMM().format(nowMinus1);
+  LineChartMonthData data4 = LineChartMonthData(name: name4, income: 0, monthInt: nowMinus1.month);
+  chartItems.add(data4);
+
+  DateTime nowMinus2 = DateTime(now.year, now.month - 2, now.day);
+  String name3 = DateFormat.MMMM().format(nowMinus2);
+  LineChartMonthData data3 = LineChartMonthData(name: name3, income: 0, monthInt: nowMinus2.month);
+  chartItems.add(data3);
+
+  DateTime nowMinus3 = DateTime(now.year, now.month - 3, now.day);
+  String name2 = DateFormat.MMMM().format(nowMinus3);
+  LineChartMonthData data2 = LineChartMonthData(name: name2, income: 0, monthInt: nowMinus3.month);
+  chartItems.add(data2);
+
+  DateTime nowMinus4 = DateTime(now.year, now.month - 4, now.day);
+  String name1 = DateFormat.MMMM().format(nowMinus4);
+  LineChartMonthData data1 = LineChartMonthData(name: name1, income: 0, monthInt: nowMinus4.month);
+  chartItems.add(data1);
+
+  DateTime nowMinus5 = DateTime(now.year, now.month - 5, now.day);
+  String name0 = DateFormat.MMMM().format(nowMinus5);
+  LineChartMonthData data = LineChartMonthData(name: name0, income: 0, monthInt: nowMinus5.month);
+  chartItems.add(data);
+
+  for(Job job in jobsWithPaymentReceived) {
+    DateTime paymentReceivedDate = job.paymentReceivedDate != null ? job.paymentReceivedDate : job.selectedDate;
+
+    if(paymentReceivedDate != null && paymentReceivedDate.year == currentYear) {
+      int jobMonth = paymentReceivedDate.month;
+
+      if(jobMonth == chartItems.elementAt(0).monthInt) {
+        chartItems.elementAt(0).income += (job.tipAmount != null ? job.tipAmount : 0);
+
+        if(job.invoice != null) {
+          chartItems.elementAt(0).income += (job.invoice.total - job.invoice.discount).toInt();
+        } else {
+          chartItems.elementAt(0).income += job.priceProfile.flatRate.toInt();
+        }
+      }
+
+      if(jobMonth == chartItems.elementAt(1).monthInt) {
+        chartItems.elementAt(1).income += (job.tipAmount != null ? job.tipAmount : 0);
+
+        if(job.invoice != null) {
+          chartItems.elementAt(1).income += (job.invoice.total - job.invoice.discount).toInt();
+        } else {
+          chartItems.elementAt(1).income += job.priceProfile.flatRate.toInt();
+        }
+      }
+
+      if(jobMonth == chartItems.elementAt(2).monthInt) {
+        chartItems.elementAt(2).income += (job.tipAmount != null ? job.tipAmount : 0);
+
+        if(job.invoice != null) {
+          chartItems.elementAt(2).income += (job.invoice.total - job.invoice.discount).toInt();
+        } else {
+          chartItems.elementAt(2).income += job.priceProfile.flatRate.toInt();
+        }
+      }
+
+      if(jobMonth == chartItems.elementAt(3).monthInt) {
+        chartItems.elementAt(3).income += (job.tipAmount != null ? job.tipAmount : 0);
+
+        if(job.invoice != null) {
+          chartItems.elementAt(3).income += (job.invoice.total - job.invoice.discount).toInt();
+        } else {
+          chartItems.elementAt(3).income += job.priceProfile.flatRate.toInt();
+        }
+      }
+
+      if(jobMonth == chartItems.elementAt(4).monthInt) {
+        chartItems.elementAt(4).income += (job.tipAmount != null ? job.tipAmount : 0);
+
+        if(job.invoice != null) {
+          chartItems.elementAt(4).income += (job.invoice.total - job.invoice.discount).toInt();
+        } else {
+          chartItems.elementAt(4).income += job.priceProfile.flatRate.toInt();
+        }
+      }
+
+      if(jobMonth == chartItems.elementAt(5).monthInt) {
+        chartItems.elementAt(5).income += (job.tipAmount != null ? job.tipAmount : 0);
+
+        if(job.invoice != null) {
+          chartItems.elementAt(5).income += (job.invoice.total - job.invoice.discount).toInt();
+        } else {
+          chartItems.elementAt(5).income += job.priceProfile.flatRate.toInt();
+        }
+      }
+    }
+  }
+  return chartItems;
 }

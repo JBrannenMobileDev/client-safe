@@ -115,20 +115,6 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                         itemBuilder: _buildItem,
                       ),
                       Container(
-                        height: 32.0,
-                        decoration: new BoxDecoration(
-                          gradient: new LinearGradient(
-                              colors: [
-                                Colors.white,
-                                Colors.white.withOpacity(0.0),
-                              ],
-                              begin: const FractionalOffset(0.0, 0.0),
-                              end: const FractionalOffset(0.0, 1.0),
-                              stops: [0.0, 1.0],
-                              tileMode: TileMode.clamp),
-                        ),
-                      ),
-                      Container(
                         alignment: Alignment.bottomCenter,
                         child: Container(
                           height: 32.0,

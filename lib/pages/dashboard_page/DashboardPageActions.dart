@@ -4,6 +4,9 @@ import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
 import '../../models/JobReminder.dart';
+import '../../models/MileageExpense.dart';
+import '../../models/RecurringExpense.dart';
+import '../../models/SingleExpense.dart';
 
 
 class InitDashboardPageAction{
@@ -24,7 +27,10 @@ class LoadJobsAction{
 class SetJobToStateAction{
   final DashboardPageState pageState;
   final List<Job> allJobs;
-  SetJobToStateAction(this.pageState, this.allJobs);
+  final List<SingleExpense> singleExpenses;
+  final List<RecurringExpense> recurringExpense;
+  final List<MileageExpense> mileageExpenses;
+  SetJobToStateAction(this.pageState, this.allJobs, this.singleExpenses, this.recurringExpense, this.mileageExpenses);
 }
 
 class SetUnseenReminderCount{

@@ -44,7 +44,6 @@ NewRecurringExpensePageState _updateCost(NewRecurringExpensePageState previousSt
   resultCost = resultCost.replaceAll(',', '');
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = double.parse(resultCost);
-  doubleCost = doubleCost * 10;
   return previousState.copyWith(
     expenseCost: doubleCost,
   );

@@ -190,7 +190,7 @@ class JobInfoCard extends StatelessWidget {
                                     margin: EdgeInsets.only(right: 12.0),
                                     height: 32.0,
                                     width: 32.0,
-                                    child: Image.asset('assets/images/icons/calendar_icon_peach.png'),
+                                    child: Image.asset('assets/images/icons/calendar_icon_peach.png', color: Color(pageState.job.selectedDate != null ? ColorConstants.getPeachDark() : ColorConstants.error_red)),
                                   ),
                                 ),
                               ),
@@ -198,9 +198,8 @@ class JobInfoCard extends StatelessWidget {
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
                                   (pageState.job.selectedDate != null
-                                      ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job
-                                      .selectedDate)
-                                      : 'Not selected'),
+                                      ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
+                                      : 'Date not selected'),
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -208,7 +207,7 @@ class JobInfoCard extends StatelessWidget {
                                     fontSize: 20.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(pageState.job.selectedDate != null ? ColorConstants.primary_black : ColorConstants.error_red),
                                   ),
                                 ),
                               ),
@@ -220,6 +219,187 @@ class JobInfoCard extends StatelessWidget {
                             width: 24.0,
                             child: Image.asset('assets/images/icons/edit_icon_peach.png'),
                           ),
+                      ],
+                    ),
+                  ),
+                ),
+                TextButton(
+                  style: Styles.getButtonStyle(),
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext builder) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: 16.0),
+                            child: Stack(
+                              alignment: Alignment.topCenter,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(top: 16.0),
+                                  height: MediaQuery.of(context).copyWith().size.height / 3,
+                                  child: CupertinoDatePicker(
+                                    initialDateTime: pageState.job.selectedTime,
+                                    onDateTimeChanged: (DateTime time) {
+                                      vibrate();
+                                      newDateTimeHolder = time;
+                                    },
+                                    use24hFormat: false,
+                                    minuteInterval: 1,
+                                    mode: CupertinoDatePickerMode.time,
+                                  ),
+
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  children: <Widget>[
+                                    TextButton(
+                                      style: Styles.getButtonStyle(),
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        'Cancel',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 22.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(ColorConstants
+                                              .getPrimaryBlack()),
+                                        ),
+                                      ),
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          child: new Image.asset(
+                                            'assets/images/icons/sunset_icon_peach.png',
+                                            height: 32.0,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Container(
+                                          padding: EdgeInsets.only(left: 8.0),
+                                          child: Text(
+                                            (pageState.sunsetTime != null
+                                                ? DateFormat('h:mm a').format(pageState.sunsetTime)
+                                                : ''),
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                              fontSize: 22.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.getPeachDark()),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    TextButton(
+                                      style: Styles.getButtonStyle(),
+                                      onPressed: () {
+                                        pageState.onNewTimeSelected(newDateTimeHolder);
+                                        VibrateUtil.vibrateHeavy();
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: Text(
+                                        'Done',
+                                        textAlign: TextAlign.start,
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                          fontSize: 22.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          );
+                        });
+                  },
+                  child: Container(
+                    height: 48.0,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Padding(
+                              padding: EdgeInsets.only(left: 12.0),
+                              child: GestureDetector(
+                                onTap: () {
+
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(right: 12.0),
+                                  height: 32.0,
+                                  width: 32.0,
+                                  child: Image.asset('assets/images/icons/clock_icon_peach.png', color: Color(pageState.job.selectedTime != null ? ColorConstants.getPeachDark() : ColorConstants.error_red)),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                (pageState.job.selectedTime != null
+                                    ? DateFormat('h:mm a').format(pageState.job
+                                    .selectedTime)
+                                    : 'Time not selected'),
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(pageState.job.selectedTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
+                                ),
+                              ),
+                            ),
+                            pageState.sunsetTime != null ? Container(
+                              padding: EdgeInsets.only(left: 32.0),
+                              child: new Image.asset(
+                                'assets/images/icons/sunset_icon_peach.png',
+                                height: 32.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ) : SizedBox(),
+                            pageState.job.selectedTime != null && pageState.job.selectedDate != null ? Container(
+                              padding: EdgeInsets.only(left: 8.0),
+                              child: Text(
+                                (pageState.sunsetTime != null
+                                    ? DateFormat('h:mm a').format(pageState.sunsetTime)
+                                    : ''),
+                                textAlign: TextAlign.start,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 1,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPeachDark()),
+                                ),
+                              ),
+                            ) : SizedBox(),
+                          ],
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(right: 12.0),
+                          height: 24.0,
+                          width: 24.0,
+                          child: Image.asset('assets/images/icons/edit_icon_peach.png', color: Color(pageState.job.selectedTime != null ? ColorConstants.getPeachDark() : ColorConstants.error_red)),
+                        ),
                       ],
                     ),
                   ),
@@ -247,14 +427,14 @@ class JobInfoCard extends StatelessWidget {
                                   margin: EdgeInsets.only(right: 12.0),
                                   height: 32.0,
                                   width: 32.0,
-                                  child: Image.asset('assets/images/icons/location_icon_peach.png'),
+                                  child: Image.asset('assets/images/icons/location_icon_peach.png', color: Color(pageState.job.location != null ? ColorConstants.getPeachDark() : ColorConstants.error_red)),
                                 ),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                pageState.job.location == null ? 'Not selected' :
+                                pageState.job.location == null ? 'Location not selected' :
                                 pageState.job.location.locationName,
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
@@ -263,7 +443,7 @@ class JobInfoCard extends StatelessWidget {
                                   fontSize: 20.0,
                                   fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                                  color: Color(pageState.job.location != null ? ColorConstants.primary_black : ColorConstants.error_red),
                                 ),
                               ),
                             ),
@@ -271,7 +451,7 @@ class JobInfoCard extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            IconButton(
+                            pageState.job.location != null ? IconButton(
                               iconSize: 26.0,
                               icon: Icon(Device.get().isIos ? CupertinoIcons.share_solid : Icons.share),
                               color: Color(ColorConstants.getPeachDark()),
@@ -279,12 +459,12 @@ class JobInfoCard extends StatelessWidget {
                               onPressed: () {
                                 Share.share('Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the shoot location. \nLocation: ${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
                               },
-                            ),
+                            ) : SizedBox(),
                             Container(
                               margin: EdgeInsets.only(left: 8.0, right: 12.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/edit_icon_peach.png'),
+                              child: Image.asset('assets/images/icons/edit_icon_peach.png', color: Color(pageState.job.location != null ? ColorConstants.getPeachDark() : ColorConstants.error_red)),
                             ),
                           ],
                         ),
@@ -292,188 +472,6 @@ class JobInfoCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                TextButton(
-                  style: Styles.getButtonStyle(),
-                  onPressed: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext builder) {
-                          return Padding(
-                            padding: EdgeInsets.only(top: 16.0),
-                            child: Stack(
-                              alignment: Alignment.topCenter,
-                              children: <Widget>[
-                                Container(
-                                    margin: EdgeInsets.only(top: 16.0),
-                                    height: MediaQuery.of(context).copyWith().size.height / 3,
-                                    child: CupertinoDatePicker(
-                                      initialDateTime: pageState.job.selectedTime,
-                                      onDateTimeChanged: (DateTime time) {
-                                        vibrate();
-                                        newDateTimeHolder = time;
-                                      },
-                                      use24hFormat: false,
-                                      minuteInterval: 1,
-                                      mode: CupertinoDatePickerMode.time,
-                                    ),
-
-                                ),
-                                Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                    children: <Widget>[
-                                      TextButton(
-                                        style: Styles.getButtonStyle(),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          'Cancel',
-                                          textAlign: TextAlign.start,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 22.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(ColorConstants
-                                                .getPrimaryBlack()),
-                                          ),
-                                        ),
-                                      ),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            child: new Image.asset(
-                                              'assets/images/icons/sunset_icon_peach.png',
-                                              height: 32.0,
-                                              fit: BoxFit.cover,
-                                            ),
-                                          ),
-                                          Container(
-                                            padding: EdgeInsets.only(left: 8.0),
-                                            child: Text(
-                                              (pageState.sunsetTime != null
-                                                  ? DateFormat('h:mm a').format(pageState.sunsetTime)
-                                                  : ''),
-                                              textAlign: TextAlign.start,
-                                              overflow: TextOverflow.ellipsis,
-                                              maxLines: 1,
-                                              style: TextStyle(
-                                                fontSize: 22.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(ColorConstants.getPeachDark()),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      TextButton(
-                                        style: Styles.getButtonStyle(),
-                                        onPressed: () {
-                                          pageState.onNewTimeSelected(newDateTimeHolder);
-                                          VibrateUtil.vibrateHeavy();
-                                          Navigator.of(context).pop();
-                                        },
-                                        child: Text(
-                                          'Done',
-                                          textAlign: TextAlign.start,
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                            fontSize: 22.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(ColorConstants.getPrimaryBlack()),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                ),
-                              ],
-                            ),
-                          );
-                        });
-                  },
-                  child: Container(
-                    height: 48.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: EdgeInsets.only(left: 12.0),
-                                child: GestureDetector(
-                                  onTap: () {
-
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 12.0),
-                                    height: 32.0,
-                                    width: 32.0,
-                                    child: Image.asset('assets/images/icons/clock_icon_peach.png'),
-                                  ),
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  (pageState.job.selectedTime != null
-                                      ? DateFormat('h:mm a').format(pageState.job
-                                      .selectedTime)
-                                      : 'Not selected'),
-                                  textAlign: TextAlign.start,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
-                                ),
-                              ),
-                              pageState.sunsetTime != null ? Container(
-                                padding: EdgeInsets.only(left: 32.0),
-                                child: new Image.asset(
-                                  'assets/images/icons/sunset_icon_peach.png',
-                                  height: 32.0,
-                                  fit: BoxFit.cover,
-                                ),
-                              ) : SizedBox(),
-                              pageState.job.selectedTime != null && pageState.job.selectedDate != null ? Container(
-                                padding: EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  (pageState.sunsetTime != null
-                                      ? DateFormat('h:mm a').format(pageState.sunsetTime)
-                                      : ''),
-                                  textAlign: TextAlign.start,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPeachDark()),
-                                  ),
-                                ),
-                              ) : SizedBox(),
-                            ],
-                          ),
-                        Container(
-                            margin: EdgeInsets.only(right: 12.0),
-                            height: 24.0,
-                            width: 24.0,
-                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
-                          ),
-                      ],
-                    ),
-                  ),
-                ),
-
                 TextButton(
                   style: Styles.getButtonStyle(),
                   onPressed: () {
@@ -497,14 +495,14 @@ class JobInfoCard extends StatelessWidget {
                                     margin: EdgeInsets.only(right: 12.0),
                                     height: 32.0,
                                     width: 32.0,
-                                    child: Image.asset('assets/images/icons/price_package_icon.png'),
+                                    child: Image.asset('assets/images/icons/price_package_icon.png', color: Color(pageState.job.priceProfile != null ? ColorConstants.getPeachDark() : ColorConstants.error_red),),
                                   ),
                                 ),
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: Text(
-                                  pageState.job.priceProfile == null ? 'Not selected' :
+                                  pageState.job.priceProfile == null ? 'Price package not selected' :
                                   pageState.job.priceProfile.profileName + ' package',
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
@@ -513,7 +511,7 @@ class JobInfoCard extends StatelessWidget {
                                     fontSize: 20.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(pageState.job.priceProfile != null ? ColorConstants.primary_black : ColorConstants.error_red),
                                   ),
                                 ),
                               ),
@@ -523,8 +521,7 @@ class JobInfoCard extends StatelessWidget {
                           margin: EdgeInsets.only(right: 12.0),
                           height: 24.0,
                           width: 24.0,
-                          child: Image.asset(
-                              'assets/images/icons/edit_icon_peach.png'),
+                          child: Image.asset('assets/images/icons/edit_icon_peach.png', color: Color(pageState.job.priceProfile != null ? ColorConstants.getPeachDark() : ColorConstants.error_red)),
                         ),
                       ],
                     ),

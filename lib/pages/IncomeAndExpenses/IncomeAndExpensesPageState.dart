@@ -17,12 +17,18 @@ import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
+import '../dashboard_page/widgets/LineChartMonthData.dart';
+
 class IncomeAndExpensesPageState {
   final String filterType;
   final String allInvoicesFilterType;
   final String allExpensesFilterType;
   final int selectedYear;
   final int pageViewIndex;
+  final int lastMonthLastYearIncome;
+  final int thisMonthIncome;
+  final int lastMonthIncome;
+  final int thisMonthLastYearIncome;
   final Job selectedJob;
   final List<Invoice> allInvoices;
   final List<Invoice> paidInvoices;
@@ -36,6 +42,7 @@ class IncomeAndExpensesPageState {
   final List<RecurringExpense> allRecurringExpenses;
   final List<MileageExpense> allMileageExpenses;
   final List<MileageExpense> mileageExpensesForSelectedYear;
+  final List<LineChartMonthData> lineChartMonthData;
   final bool isFinishedFetchingClients;
   final String jobSearchText;
   final Function(String) onJobSearchTextChanged;
@@ -130,6 +137,11 @@ class IncomeAndExpensesPageState {
     @required this.mileageExpensesForSelectedYearTotal,
     @required this.totalMilesDriven,
     @required this.onMileageExpenseItemSelected,
+    @required this.lastMonthLastYearIncome,
+    @required this.thisMonthIncome,
+    @required this.lastMonthIncome,
+    @required this.thisMonthLastYearIncome,
+    @required this.lineChartMonthData,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -188,6 +200,11 @@ class IncomeAndExpensesPageState {
     List<MileageExpense> mileageExpensesForSelectedYear,
     double mileageExpensesForSelectedYearTotal,
     double totalMilesDriven,
+    int lastMonthLastYearIncome,
+    int thisMonthIncome,
+    int lastMonthIncome,
+    int thisMonthLastYearIncome,
+    List<LineChartMonthData> lineChartMonthData,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -245,30 +262,35 @@ class IncomeAndExpensesPageState {
       mileageExpensesForSelectedYearTotal: mileageExpensesForSelectedYearTotal ?? this.mileageExpensesForSelectedYearTotal,
       totalMilesDriven: totalMilesDriven ?? this.totalMilesDriven,
       onMileageExpenseItemSelected: onMileageExpenseItemSelected ?? this.onMileageExpenseItemSelected,
+      lastMonthLastYearIncome: lastMonthLastYearIncome ?? this.lastMonthLastYearIncome,
+      thisMonthIncome: thisMonthIncome ?? this.thisMonthIncome,
+      lastMonthIncome: lastMonthIncome ?? this.lastMonthIncome,
+      thisMonthLastYearIncome: thisMonthLastYearIncome ?? this.thisMonthLastYearIncome,
+      lineChartMonthData: lineChartMonthData ?? this.lineChartMonthData,
     );
   }
 
   factory IncomeAndExpensesPageState.initial() => IncomeAndExpensesPageState(
     filterType: IncomeAndExpensesPage.FILTER_TYPE_INCOME,
     selectedYear: DateTime.now().year,
-    allInvoices: List(),
+    allInvoices: [],
     totalIncome: 0,
     incomeForSelectedYear: 0,
     onFilterChanged: null,
     onYearChanged: null,
     onEditInvoiceSelected: null,
     onDeleteSelected: null,
-    unpaidInvoices: List(),
+    unpaidInvoices: [],
     onInvoiceSent: null,
-    paidInvoices: List(),
+    paidInvoices: [],
     totalTips: 0.0,
     singleExpensesForSelectedYearTotal: 0,
     selectedJob: null,
     allInvoicesFilterType: AllInvoicesPage.FILTER_TYPE_UNPAID,
     onAllInvoicesFilterChanged: null,
-    allJobs: List(),
-    filteredJobs: List(),
-    allClients: List(),
+    allJobs: [],
+    filteredJobs: [],
+    allClients: [],
     isFinishedFetchingClients: false,
     onJobSearchTextChanged: null,
     jobSearchText: '',
@@ -282,8 +304,8 @@ class IncomeAndExpensesPageState {
     onClearUnsavedTip: null,
     onSaveTipChange: null,
     unsavedTipAmount: 0,
-    singleExpensesForSelectedYear: List(),
-    allSingleExpenses: List(),
+    singleExpensesForSelectedYear: [],
+    allSingleExpenses: [],
     isSingleExpensesMinimized: true,
     onSingleExpenseItemSelected: null,
     expensesForSelectedYear: 0.0,
@@ -291,19 +313,24 @@ class IncomeAndExpensesPageState {
     onAllExpensesFilterChanged: null,
     allExpensesFilterType: AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES,
     onViewAllExpensesSelected: null,
-    allRecurringExpenses: List(),
-    recurringExpensesForSelectedYear: List(),
+    allRecurringExpenses: [],
+    recurringExpensesForSelectedYear: [],
     recurringExpensesForSelectedYearTotal: 0,
     onEditRecurringExpenseItemSelected: null,
     onRecurringExpenseChargeChecked: null,
     onCancelRecurringSubscriptionSelected: null,
     onResumeRecurringSubscriptionSelected: null,
     profile: null,
-    allMileageExpenses: List(),
-    mileageExpensesForSelectedYear: List(),
+    allMileageExpenses: [],
+    mileageExpensesForSelectedYear: [],
     mileageExpensesForSelectedYearTotal: 0,
     totalMilesDriven: 0.0,
     onMileageExpenseItemSelected: null,
+    lastMonthLastYearIncome: 0,
+    thisMonthIncome: 0,
+    lastMonthIncome: 0,
+    thisMonthLastYearIncome: 0,
+    lineChartMonthData: [],
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -339,6 +366,11 @@ class IncomeAndExpensesPageState {
       mileageExpensesForSelectedYear: store.state.incomeAndExpensesPageState.mileageExpensesForSelectedYear,
       mileageExpensesForSelectedYearTotal: store.state.incomeAndExpensesPageState.mileageExpensesForSelectedYearTotal,
       totalMilesDriven: store.state.incomeAndExpensesPageState.totalMilesDriven,
+      lastMonthLastYearIncome: store.state.incomeAndExpensesPageState.lastMonthLastYearIncome,
+      thisMonthIncome: store.state.incomeAndExpensesPageState.thisMonthIncome,
+      lastMonthIncome: store.state.incomeAndExpensesPageState.lastMonthIncome,
+      thisMonthLastYearIncome: store.state.incomeAndExpensesPageState.thisMonthLastYearIncome,
+      lineChartMonthData: store.state.incomeAndExpensesPageState.lineChartMonthData,
       onJobSearchTextChanged: (searchText) => store.dispatch(JobSearchTextChangedAction(store.state.incomeAndExpensesPageState, searchText)),
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.incomeAndExpensesPageState, filterType)),
       onYearChanged: (year) => store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, year)),
@@ -419,6 +451,11 @@ class IncomeAndExpensesPageState {
       recurringExpensesForSelectedYear.hashCode ^
       recurringExpensesForSelectedYearTotal.hashCode ^
       onRecurringExpenseChargeChecked.hashCode ^
+      lastMonthLastYearIncome.hashCode ^
+      thisMonthIncome.hashCode ^
+      lastMonthIncome.hashCode ^
+      thisMonthLastYearIncome.hashCode ^
+      lineChartMonthData.hashCode ^
       onYearChanged.hashCode;
 
   @override
@@ -473,5 +510,10 @@ class IncomeAndExpensesPageState {
               onCancelPressed == other.onCancelPressed &&
               onSaveTipSelected == other.onSaveTipSelected &&
               allSingleExpenses == other.allSingleExpenses &&
+              lastMonthLastYearIncome == other.lastMonthLastYearIncome &&
+              thisMonthIncome == other.thisMonthIncome &&
+              lastMonthIncome == other.lastMonthIncome &&
+              thisMonthLastYearIncome == other.thisMonthLastYearIncome &&
+              lineChartMonthData == other.lineChartMonthData &&
               onYearChanged == other.onYearChanged;
 }

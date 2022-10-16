@@ -83,7 +83,7 @@ class MileageExpensesCard extends StatelessWidget {
                         textColor: Color(ColorConstants.getPeachDark()),
                         fontWeight: FontWeight.w600,
                         isCurrency: true,
-                        decimalPlaces: 2,
+                        decimalPlaces: 0,
                       ),
                     ),
                     Container(

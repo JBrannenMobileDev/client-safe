@@ -30,7 +30,7 @@ class NewRecurringExpensePage extends StatefulWidget {
 
 class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount = 4;
+  final int pageCount = 3;
   NewRecurringExpensePageState pageState;
   final controller = PageController(
     initialPage: 0,
@@ -125,7 +125,7 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                           RecurringExpenseDateSelection(),
                           NewRecurringExpenseBillingPeriod(),
                           NewRecurringExpenseCost(),
-                          NewRecurringExpenseAutoPaySelection(),
+                          // NewRecurringExpenseAutoPaySelection(),
                         ],
                       ),
                     ),

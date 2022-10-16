@@ -2,18 +2,15 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
-import 'package:dandylight/pages/common_widgets/SwipeableCardsWidget.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/IncomeLineChart.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/StatsHomeCard.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,7 +22,6 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
-import '../../models/JobReminder.dart';
 import '../../utils/NotificationHelper.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -380,7 +376,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                           child: StageStatsHomeCard(pageState: pageState)),
                       SlideTransition(
                           position: offsetAnimationUp,
-                          child: IncomeLineChart(pageState: pageState)),
+                          child: MonthlyProfitLineChart(pageState: pageState)),
                     ])),
                   ],
                 ),

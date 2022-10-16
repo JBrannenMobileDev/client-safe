@@ -1,14 +1,13 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/IncomeAndExpenses/IncomeGraphCard.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/IncomeInsights.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/MileageExpensesCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/PaidInvoiceCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpensesCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/UnpaidInvoicesCard.dart';
 import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -20,6 +19,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 import '../../utils/styles/Styles.dart';
+import 'MonthlyIncomeLineChart.dart';
 
 class IncomeAndExpensesPage extends StatefulWidget {
   static const String FILTER_TYPE_INCOME = "Income";
@@ -237,7 +237,21 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           <Widget>[
                             selectedIndex == 0 ? UnpaidInvoicesCard(pageState: pageState) : MileageExpensesCard(pageState: pageState),
                             selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
-                            selectedIndex == 0 ? IncomeGraphCard(pageState: pageState) : RecurringExpensesCard(pageState: pageState),
+                            selectedIndex == 0 ? Padding(
+                              padding: EdgeInsets.only(top: 32.0, bottom: 16.0),
+                              child: Text(
+                                'Income Insights',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 24.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                            ) : SizedBox(),
+                            selectedIndex == 0 ? MonthlyIncomeLineChart(pageState: pageState) : SizedBox(),
+                            selectedIndex == 0 ? IncomeInsights(pageState: pageState) : RecurringExpensesCard(pageState: pageState),
                           ],
                         ),
                       ),

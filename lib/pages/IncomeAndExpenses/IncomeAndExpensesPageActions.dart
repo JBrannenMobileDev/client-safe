@@ -24,7 +24,9 @@ class SetSelectedYearAction{
   final IncomeAndExpensesPageState pageState;
   final int year;
   final List<Job> completedJobs;
-  SetSelectedYearAction(this.pageState, this.year, this.completedJobs);
+  final List<Job> completedJobsPreviousYear;
+  final List<Job> allJobs;
+  SetSelectedYearAction(this.pageState, this.year, this.completedJobs, this.completedJobsPreviousYear, this.allJobs);
 }
 
 class LoadAllInvoicesAction{

@@ -69,7 +69,12 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
         && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED))
         && (job.selectedDate != null && job.selectedDate.year == action.year)).toList()
     );
-    store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear));
+    List<Job> allJObsWithPaymentReceivedInPreviousYear = ((await JobDao.getAllJobs()).where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
+        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED))
+        && (job.selectedDate != null && job.selectedDate.year == (action.year - 1))).toList()
+    );
+    List<Job> allJobs = await JobDao.getAllJobs();
+    store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear, allJObsWithPaymentReceivedInPreviousYear, allJobs));
   }
 
   void _updateRecurringExpenseChargeCancelDate(Store<AppState> store, SaveCancelledSubscriptionAction action, NextDispatcher next) async{
@@ -117,7 +122,7 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetTipTotalsAction(store.state.incomeAndExpensesPageState, await JobDao.getAllJobs()));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> jobs = List();
+      List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }
@@ -127,7 +132,7 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void _fetchSingleExpenses(Store<AppState> store, FetchSingleExpenses action, NextDispatcher next) async {
     (await SingleExpenseDao.getSingleExpenseStream()).listen((expenseSnapshots) {
-      List<SingleExpense> expenses = List();
+      List<SingleExpense> expenses = [];
       for(RecordSnapshot expenseSnapshot in expenseSnapshots) {
         SingleExpense expenseToSave = SingleExpense.fromMap(expenseSnapshot.value);
         expenseToSave.id = expenseSnapshot.key;

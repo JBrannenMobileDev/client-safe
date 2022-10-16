@@ -110,7 +110,7 @@ class Invoice {
 
   bool isOverdue() {
     DateTime now = DateTime.now();
-    if(dueDate != null && now.isAfter(dueDate)) return true;
+    if(dueDate != null && now.isAfter(dueDate) && invoicePaid) return true;
     return false;
   }
 }

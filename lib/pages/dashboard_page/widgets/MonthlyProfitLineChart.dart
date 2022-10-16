@@ -7,8 +7,8 @@ import '../../../utils/styles/Styles.dart';
 import 'BarChartWidget.dart';
 import 'LeadItem.dart';
 
-class IncomeLineChart extends StatelessWidget{
-  IncomeLineChart({this.pageState});
+class MonthlyProfitLineChart extends StatelessWidget{
+  MonthlyProfitLineChart({this.pageState});
 
   final DashboardPageState pageState;
   @override
@@ -28,7 +28,7 @@ class IncomeLineChart extends StatelessWidget{
                 Padding(
                   padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
                   child: Text(
-                    'Gross Profit',
+                    'Monthly Profit',
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 22.0,

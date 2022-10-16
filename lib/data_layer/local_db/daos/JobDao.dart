@@ -14,6 +14,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../models/JobStage.dart';
+
 class JobDao extends Equatable{
   static const String JOB_STORE_NAME = 'jobs';
   // A Store with int keys and Map<String, dynamic> values.
@@ -62,6 +64,12 @@ class JobDao extends Equatable{
   static Future update(Job job) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
+    Job previousJobState = await getJobById(job.documentId);
+    if(Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE) && !Job.containsStage(previousJobState.completedStages, JobStage.STAGE_14_JOB_COMPLETE)) {
+      if(job.paymentReceivedDate == null) {
+        job.paymentReceivedDate = DateTime.now();
+      }
+    }
     final finder = Finder(filter: Filter.equals('documentId', job.documentId));
     await _jobStore.update(
       await _db,
