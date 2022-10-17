@@ -5,6 +5,7 @@ import 'package:dandylight/pages/new_invoice_page/NewInvoiceTextField.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,11 +31,13 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
   var percentageTextController = TextEditingController(text: '');
   int selectorIndex = 0;
   Map<int, Widget> breakdownTypes;
+  var enteredRate = '';
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     super.build(context);
+    if(rateTextController.text.length == 0) rateTextController = TextEditingController(text: '\$');
     breakdownTypes = <int, Widget>{
       0: Text(NewDiscountDialog.SELECTOR_TYPE_FIXED,
         style: TextStyle(
@@ -55,6 +58,15 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
     };
     return StoreConnector<AppState, NewInvoicePageState>(
       converter: (store) => NewInvoicePageState.fromStore(store),
+      onInit: (appState) {
+        if (enteredRate != null) {
+          rateTextController = TextEditingController(text: '\$' + enteredRate);
+        }
+      },
+      onDidChange: (previous, current) {
+        rateTextController.text = enteredRate.length == 0 ? '\$' : '\$' + enteredRate.replaceFirst(r'$', '');
+        rateTextController.selection = TextSelection.fromPosition(TextPosition(offset: rateTextController.text.length));
+      },
       builder: (BuildContext context, NewInvoicePageState pageState) =>
           Dialog(
             backgroundColor: Colors.transparent,
@@ -127,7 +139,12 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                           inputType: TextInputType.number,
                           height: 64.0,
                           autoFocus: true,
-                          onTextInputChanged: pageState.onNewDiscountRateTextChanged,
+                          onTextInputChanged: (input) {
+                            pageState.onNewDiscountRateTextChanged(input);
+                            setState(() {
+                              enteredRate = input;
+                            });
+                          },
                           capitalization: TextCapitalization.none,
                           keyboardAction: TextInputAction.next,
                           labelText: 'Rate',

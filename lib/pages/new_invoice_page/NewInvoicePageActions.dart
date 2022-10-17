@@ -180,7 +180,8 @@ class SetSelectedDueDate{
 
 class UpdateDepositStatusAction{
   final NewInvoicePageState pageState;
-  UpdateDepositStatusAction(this.pageState);
+  final bool isChecked;
+  UpdateDepositStatusAction(this.pageState, this.isChecked);
 }
 
 class GenerateInvoicePdfAction{

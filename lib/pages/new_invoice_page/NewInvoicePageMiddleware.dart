@@ -82,12 +82,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(ClearStateAction(store.state.newInvoicePageState));
   }
 
-  void _updateDepositStatus(Store<AppState> store, action, NextDispatcher next) async {
+  void _updateDepositStatus(Store<AppState> store, UpdateDepositStatusAction action, NextDispatcher next) async {
     bool isDepositPaid = store.state.newInvoicePageState.selectedJob.isDepositPaid();
     Job selectedJob = store.state.newInvoicePageState.selectedJob;
-    if(isDepositPaid) {
+    if(action.isChecked && !isDepositPaid) {
       List<JobStage> completedJobStages = selectedJob.completedStages.toList();
-      JobStage stageToRemove = JobStage.getStageFromIndex(4, selectedJob.type.stages);
+      JobStage stageToRemove = JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED);
       completedJobStages = _removeStage(stageToRemove, completedJobStages);
       selectedJob.completedStages = completedJobStages;
       JobStage highestCompletedState;
@@ -104,17 +104,16 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
     }else {
       List<JobStage> completedJobStages = selectedJob.completedStages.toList();
-      JobStage stageToComplete = JobStage.getStageFromIndex(4, selectedJob.type.stages);
+      JobStage stageToComplete = JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED);
       completedJobStages.add(stageToComplete);
       selectedJob.completedStages = completedJobStages;
-      selectedJob.stage = _getNextUncompletedStage(4, selectedJob.completedStages, selectedJob);
+      selectedJob.stage = _getNextUncompletedStage(JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED), selectedJob.completedStages, selectedJob);
       await JobDao.insertOrUpdate(selectedJob.copyWith());
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
     }
   }
 
-  JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
-    JobStage currentStage = JobStage.getStageFromIndex(stageIndex, job.type.stages);
+  JobStage _getNextUncompletedStage(JobStage currentStage, List<JobStage> completedStages, Job job) {
     JobStage nextStage = JobStage.getNextStage(currentStage, job.type.stages);
     while(_completedStagesContainsNextStage(completedStages, nextStage)){
       nextStage = JobStage.getNextStage(nextStage, job.type.stages);
@@ -123,7 +122,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool _completedStagesContainsNextStage(List<JobStage> completedStages, JobStage nextStage) {
-    if(nextStage.stage == JobStage.STAGE_COMPLETED_CHECK) return false;
+    if(nextStage.stage == JobStage.STAGE_COMPLETED_CHECK || nextStage.stage == JobStage.STAGE_14_JOB_COMPLETE) return false;
     bool containsNextStage = false;
     for(JobStage completedStage in completedStages){
       if(completedStage.stage == nextStage.stage) return true;

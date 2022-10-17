@@ -10,6 +10,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.da
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/JobStage.dart';
 import '../dashboard_page/widgets/LineChartMonthData.dart';
 
 final incomeAndExpensesPageReducer = combineReducers<IncomeAndExpensesPageState>([
@@ -258,7 +259,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   DateTime thisMonthLastYearDate = DateTime(now.year-1, now.month, now.day);
   DateTime lastMonthLastYearDate = DateTime(now.year-1, now.month-1, now.day);
 
-  List<Invoice> paidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == true).toList();
+  List<Invoice> paidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid).toList();
   List<Invoice> paidInvoicesForSelectedYear = paidInvoices.where((invoice) => invoice.createdDate.year == action.year).toList();
   for(Invoice invoice in paidInvoicesForSelectedYear){
     totalForSelectedYear = totalForSelectedYear + (invoice.total - invoice.discount);
@@ -292,31 +293,37 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       }
     }
   }
-  for(Job job in action.completedJobs) {
+  for(Job job in action.allJobs.where((job) => job.isPaymentReceived() == true).toList()) {
     if(job.invoice == null) {
       totalForSelectedYear = totalForSelectedYear + job.priceProfile.flatRate;
       if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
-        thisMonth = thisMonth + job.priceProfile.flatRate;
+        thisMonth = thisMonth + job.priceProfile.flatRate + job.tipAmount;
       }
       if(job.paymentReceivedDate.year == lastMonthDate.year && job.paymentReceivedDate.month == lastMonthDate.month) {
-        lastMonth = lastMonth + job.priceProfile.flatRate;
+        lastMonth = lastMonth + job.priceProfile.flatRate + job.tipAmount;
       }
       if(job.paymentReceivedDate.year == thisMonthLastYearDate.year && job.paymentReceivedDate.month == thisMonthLastYearDate.month) {
-        thisMonthLastYear = thisMonthLastYear + job.priceProfile.flatRate;
+        thisMonthLastYear = thisMonthLastYear + job.priceProfile.flatRate + job.tipAmount;
       }
       if(job.paymentReceivedDate.year == lastMonthLastYearDate.year && job.paymentReceivedDate.month == lastMonthLastYearDate.month) {
-        lastMonthLastYear = lastMonthLastYear + job.priceProfile.flatRate;
+        lastMonthLastYear = lastMonthLastYear + job.priceProfile.flatRate + job.tipAmount;
+      }
+    } else {
+      if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
+        thisMonth = thisMonth + job.tipAmount;
+      }
+      if(job.paymentReceivedDate.year == lastMonthDate.year && job.paymentReceivedDate.month == lastMonthDate.month) {
+        lastMonth = lastMonth + job.tipAmount;
+      }
+      if(job.paymentReceivedDate.year == thisMonthLastYearDate.year && job.paymentReceivedDate.month == thisMonthLastYearDate.month) {
+        thisMonthLastYear = thisMonthLastYear + job.tipAmount;
+      }
+      if(job.paymentReceivedDate.year == lastMonthLastYearDate.year && job.paymentReceivedDate.month == lastMonthLastYearDate.month) {
+        lastMonthLastYear = lastMonthLastYear + job.tipAmount;
       }
     }
   }
 
-  List<Job> jobsSelectedYear = previousState.allJobs.where((job) => job.selectedDate.year == action.year).toList();
-  double totalTipsForYear = 0;
-  for(Job job in jobsSelectedYear) {
-    if(job != null && job.tipAmount != null) {
-      totalTipsForYear = totalTipsForYear + job.tipAmount;
-    }
-  }
   unpaidInvoices.sort((invoiceA, invoiceB) => (invoiceA.dueDate != null && invoiceB.dueDate != null) ? (invoiceA.dueDate.isAfter(invoiceB.dueDate) ? 1 : -1) : 1);
 
   List<SingleExpense> singleExpenseForSelectedYear = previousState.allSingleExpenses.where((expense) => expense.charge.chargeDate.year == action.year).toList();
@@ -354,7 +361,6 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     incomeForSelectedYear: totalForSelectedYear,
     unpaidInvoices: unpaidInvoices,
     paidInvoices: paidInvoices,
-    totalTips: totalTipsForYear,
     totalMilesDriven: totalMilesDriven,
     mileageExpensesForSelectedYear: mileageExpenseForSelectedYear,
     mileageExpensesForSelectedYearTotal: mileageExpensesTotal,

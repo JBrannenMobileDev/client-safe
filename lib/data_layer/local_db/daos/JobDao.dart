@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/JobCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Job.dart';
@@ -69,7 +70,19 @@ class JobDao extends Equatable{
       if(job.paymentReceivedDate == null) {
         job.paymentReceivedDate = DateTime.now();
       }
+      if(job.invoice != null) {
+        job.invoice.invoicePaid = true;
+        await InvoiceDao.update(job.invoice, job);
+      }
     }
+
+    if(Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && !Job.containsStage(previousJobState.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED)) {
+      if(job.invoice != null) {
+        job.invoice.invoicePaid = true;
+        await InvoiceDao.update(job.invoice, job);
+      }
+    }
+
     final finder = Finder(filter: Filter.equals('documentId', job.documentId));
     await _jobStore.update(
       await _db,

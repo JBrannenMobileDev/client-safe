@@ -1,30 +1,35 @@
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../AppState.dart';
 
 class DepositRowWidget extends StatefulWidget{
-  final NewInvoicePageState pageState;
-
-  DepositRowWidget(this.pageState);
 
   @override
   State<StatefulWidget> createState() {
-    return _DepositRowWidgetPageState(pageState);
+    return _DepositRowWidgetPageState();
   }
 }
 
-class _DepositRowWidgetPageState extends State<DepositRowWidget>
-    with TickerProviderStateMixin {
+class _DepositRowWidgetPageState extends State<DepositRowWidget> with TickerProviderStateMixin {
   TextEditingController passwordTextController = TextEditingController();
 
-  final NewInvoicePageState pageState;
   bool isChecked = false;
 
-  _DepositRowWidgetPageState(this.pageState);
+  _DepositRowWidgetPageState();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return StoreConnector<AppState, NewInvoicePageState>(
+        onInit: (appState) {
+          isChecked = appState.state.newInvoicePageState.selectedJob.isDepositPaid();
+        },
+        converter: (store) => NewInvoicePageState.fromStore(store),
+        builder: (BuildContext context, NewInvoicePageState pageState) =>
+        Padding(
       padding: EdgeInsets.only(
           left: 16.0, right: 16.0, top: 4.0),
       child: Stack(
@@ -36,13 +41,13 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget>
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
                 pageState.pageViewIndex != 3 ? Checkbox(
-                  value: pageState.selectedJob.isDepositPaid(),
+                  value: isChecked,
                   activeColor: Color(ColorConstants.error_red),
-                  onChanged: (bool value) {
+                  onChanged: (bool isChecked) {
                     setState(() {
-                      isChecked = value;
+                      isChecked = isChecked;
                     });
-                    pageState.onDepositActionPressed();
+                    pageState.onDepositActionPressed(isChecked);
                   },
                 ) : SizedBox(),
                 Text(
@@ -62,8 +67,7 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget>
           Text(
             (pageState.selectedJob.isDepositPaid()
                 ? '-'
-                : '') + '\$' +
-                pageState.depositValue.toInt().toString(),
+                : '') + TextFormatterUtil.formatSimpleCurrency(pageState.depositValue.toInt()),
             textAlign: TextAlign.start,
             style: TextStyle(
               fontSize: 24.0,
@@ -78,6 +82,7 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget>
           ),
         ],
       ),
+    ),
     );
   }
 

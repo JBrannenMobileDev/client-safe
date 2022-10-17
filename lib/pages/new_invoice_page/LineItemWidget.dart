@@ -1,6 +1,7 @@
 import 'package:dandylight/models/LineItem.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -55,7 +56,7 @@ class LineItemWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x \$' + lineItem.itemPrice.toInt().toString() + ')   ') : '',
+                lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x ' + TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice.toInt()) + ')   ') : '',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 24.0,
@@ -65,7 +66,7 @@ class LineItemWidget extends StatelessWidget {
                 ),
               ),
               Text(
-                '\$' + (lineItem.itemPrice.toInt() * lineItem.itemQuantity).toString(),
+                TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice.toInt() * lineItem.itemQuantity),
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 24.0,

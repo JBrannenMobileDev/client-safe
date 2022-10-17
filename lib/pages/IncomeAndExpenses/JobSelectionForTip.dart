@@ -71,6 +71,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                           maxLines: 1,
                           autofocus: false,
                           controller: searchTextController,
+                          cursorColor: Color(ColorConstants.getPrimaryColor()),
                           onChanged: (text) {
                             pageState.onJobSearchTextChanged(text);
                           },
@@ -79,6 +80,13 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                             hintText: "Job name",
                             fillColor: Colors.white,
                             contentPadding: EdgeInsets.all(10.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Color(ColorConstants.getPrimaryColor()),
+                                width: 1.0,
+                              ),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(

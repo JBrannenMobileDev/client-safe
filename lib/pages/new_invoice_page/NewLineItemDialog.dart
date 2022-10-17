@@ -26,12 +26,33 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
   final FocusNode itemQuantityFocusNode = FocusNode();
   var rateTextController = TextEditingController(text: '\$');
   var quantityTextController = TextEditingController(text: '1');
+  var enteredRate = '';
+  var enteredQuantity = '';
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    if(rateTextController.text.length == 0) rateTextController = TextEditingController(text: '\$');
+    if(quantityTextController.text.length == 0) quantityTextController = TextEditingController(text: '1');
     return StoreConnector<AppState, NewInvoicePageState>(
       converter: (store) => NewInvoicePageState.fromStore(store),
+      onInit: (appState) {
+
+        if (enteredRate != null) {
+          rateTextController = TextEditingController(text: '\$' + enteredRate);
+        }
+
+        if (enteredQuantity != null) {
+          quantityTextController = TextEditingController(text: '1' + enteredQuantity);
+        }
+      },
+      onDidChange: (previous, current) {
+        rateTextController.text = enteredRate.length == 0 ? '\$' : '\$' + enteredRate.replaceFirst(r'$', '');
+        rateTextController.selection = TextSelection.fromPosition(TextPosition(offset: rateTextController.text.length));
+
+        quantityTextController.text = enteredQuantity.length == 0 ? '1' : enteredQuantity;
+        quantityTextController.selection = TextSelection.fromPosition(TextPosition(offset: 1));
+      },
       builder: (BuildContext context, NewInvoicePageState pageState) =>
           Dialog(
             backgroundColor: Colors.transparent,
@@ -107,34 +128,44 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                               hintText: "\$",
                               inputType: TextInputType.number,
                               height: 64.0,
-                              onTextInputChanged: pageState.onNewLineItemRateTextChanged,
-                              capitalization: TextCapitalization.none,
-                              keyboardAction: TextInputAction.done,
-                              labelText: 'Rate',
-                            ),
-                          ),
-                          Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.only(bottom: 16.0),
-                            child: IconButton(
-                              icon: Icon(
-                                  Icons.close,
-                                  color: Color(ColorConstants.getPrimaryBlack())
-                              ),
-                              tooltip: 'times',
-                              onPressed: null,
-                            ),
-                          ),
-                          Container(
-                            width: 112.0,
-                            margin: EdgeInsets.only(right: 15.0, bottom: 16.0),
+                              onTextInputChanged: (input) {
+                                pageState.onNewLineItemRateTextChanged(input);
+                                setState(() {
+                                  enteredRate = input;
+                                });
+                              },
+                                capitalization: TextCapitalization.none,
+                                keyboardAction: TextInputAction.done,
+                                labelText: 'Rate',
+                                ),
+                                ),
+                                Container(
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(bottom: 16.0),
+                                child: IconButton(
+                                icon: Icon(
+                                Icons.close,
+                                color: Color(ColorConstants.getPrimaryBlack())
+                                ),
+                                tooltip: 'times',
+                                onPressed: null,
+                                ),
+                                ),
+                                Container(
+                                width: 112.0,
+                                margin: EdgeInsets.only(right: 15.0, bottom: 16.0),
                             child: NewInvoiceTextField(
                               focusNode: itemQuantityFocusNode,
                               controller: quantityTextController,
                               hintText: "1",
                               inputType: TextInputType.number,
                               height: 64.0,
-                              onTextInputChanged: pageState.onNewLineItemQuantityTextChanged,
+                              onTextInputChanged: (input) {
+                                pageState.onNewLineItemQuantityTextChanged(input);
+                                setState(() {
+                                  enteredQuantity = input;
+                                });
+                              },
                               capitalization: TextCapitalization.none,
                               keyboardAction: TextInputAction.done,
                               labelText: 'Quantity',

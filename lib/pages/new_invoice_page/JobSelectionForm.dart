@@ -70,6 +70,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                           maxLines: 1,
                           autofocus: false,
                           controller: searchTextController,
+                          cursorColor: Color(ColorConstants.getPrimaryColor()),
                           onChanged: (text) {
                             pageState.onJobSearchTextChanged(text);
                           },
@@ -78,6 +79,13 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                             hintText: "Job name",
                             fillColor: Colors.white,
                             contentPadding: EdgeInsets.all(10.0),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(25.0),
+                              borderSide: BorderSide(
+                                color: Color(ColorConstants.getPrimaryColor()),
+                                width: 1.0,
+                              ),
+                            ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
@@ -113,37 +121,6 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                         physics: ClampingScrollPhysics(),
                         itemCount: pageState.filteredJobs.length,
                         itemBuilder: _buildItem,
-                      ),
-                      Container(
-                        height: 32.0,
-                        decoration: new BoxDecoration(
-                          gradient: new LinearGradient(
-                              colors: [
-                                Colors.white,
-                                Colors.white.withOpacity(0.0),
-                              ],
-                              begin: const FractionalOffset(0.0, 0.0),
-                              end: const FractionalOffset(0.0, 1.0),
-                              stops: [0.0, 1.0],
-                              tileMode: TileMode.clamp),
-                        ),
-                      ),
-                      Container(
-                        alignment: Alignment.bottomCenter,
-                        child: Container(
-                          height: 32.0,
-                          decoration: new BoxDecoration(
-                            gradient: new LinearGradient(
-                                colors: [
-                                  Colors.white,
-                                  Colors.white.withOpacity(0.0),
-                                ],
-                                begin: const FractionalOffset(0.0, 1.0),
-                                end: const FractionalOffset(0.0, 0.0),
-                                stops: [0.0, 1.0],
-                                tileMode: TileMode.clamp),
-                          ),
-                        ),
                       ),
                     ],
                   ),

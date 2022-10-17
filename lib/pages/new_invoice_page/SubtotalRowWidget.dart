@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 
 class SubtotalRowWidget extends StatelessWidget{
@@ -15,30 +16,32 @@ class SubtotalRowWidget extends StatelessWidget{
       child: Stack(
         alignment: Alignment.centerRight,
         children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(right: 112.0),
-            child: Text(
-              'Subtotal',
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w800,
-                color: Color(
-                    ColorConstants.getPrimaryBlack()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                  'Subtotal',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w800,
+                    color: Color(
+                        ColorConstants.getPrimaryBlack()),
+                  ),
               ),
-            ),
-          ),
-          Text(
-            '\$' + pageState.total.toInt().toString(),
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 24.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
-              color: Color(
-                  ColorConstants.getPrimaryBlack()),
-            ),
+              Text(
+                TextFormatterUtil.formatSimpleCurrency(pageState.total.toInt()),
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontFamily: 'simple',
+                  fontWeight: FontWeight.w600,
+                  color: Color(
+                      ColorConstants.getPrimaryBlack()),
+                ),
+              ),
+            ],
           ),
         ],
       ),

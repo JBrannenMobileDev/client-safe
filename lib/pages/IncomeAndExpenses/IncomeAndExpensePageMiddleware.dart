@@ -65,15 +65,32 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _fetchCompletedJobs(Store<AppState> store, UpdateSelectedYearAction action) async{
-    List<Job> allJObsWithPaymentReceivedInSelectedYear = ((await JobDao.getAllJobs()).where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
-        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED))
+    List<Job> allJobs = await JobDao.getAllJobs();
+    List<Job> allJObsWithPaymentReceivedInSelectedYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
+        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
         && (job.selectedDate != null && job.selectedDate.year == action.year)).toList()
     );
-    List<Job> allJObsWithPaymentReceivedInPreviousYear = ((await JobDao.getAllJobs()).where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
-        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED))
+    List<Job> allJObsWithPaymentReceivedInPreviousYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
+        && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
         && (job.selectedDate != null && job.selectedDate.year == (action.year - 1))).toList()
     );
-    List<Job> allJobs = await JobDao.getAllJobs();
+
+    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
+      List<Job> allJobs = [];
+      for(RecordSnapshot clientSnapshot in jobSnapshots) {
+        allJobs.add(Job.fromMap(clientSnapshot.value));
+      }
+      List<Job> allJObsWithPaymentReceivedInSelectedYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
+          && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
+          && (job.selectedDate != null && job.selectedDate.year == action.year)).toList()
+      );
+      List<Job> allJObsWithPaymentReceivedInPreviousYear = (allJobs.where((job) => (Job.containsStage(job.completedStages, JobStage.STAGE_14_JOB_COMPLETE)
+          && !Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && job.invoice == null)
+          && (job.selectedDate != null && job.selectedDate.year == (action.year - 1))).toList()
+      );
+      store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear, allJObsWithPaymentReceivedInPreviousYear, allJobs));
+    });
+
     store.dispatch(SetSelectedYearAction(store.state.incomeAndExpensesPageState, action.year, allJObsWithPaymentReceivedInSelectedYear, allJObsWithPaymentReceivedInPreviousYear, allJobs));
   }
 

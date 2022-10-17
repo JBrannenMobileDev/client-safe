@@ -19,7 +19,7 @@ class LineItemListWidget extends StatelessWidget{
       children: <Widget>[
         Container(
           margin: EdgeInsets.only(left: 16.0, right: 16.0),
-          height: shrinkWrap ? _getHeight(pageState.lineItems.length) : 164.0,
+          height: pageState.pageViewIndex == 3 ? 184 : 296,
           child: ListView.builder(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
@@ -30,20 +30,6 @@ class LineItemListWidget extends StatelessWidget{
             },
           ),
         ),
-        _getHeight(pageState.lineItems.length) == 164.0 ? Container(
-          height: 64.0,
-          decoration: new BoxDecoration(
-            gradient: new LinearGradient(
-                colors: [
-                  Colors.white,
-                  Colors.white.withOpacity(0.0),
-                ],
-                begin: const FractionalOffset(0.0, 1.0),
-                end: const FractionalOffset(0.0, 0.0),
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
-          ),
-        ) : SizedBox(),
         !shrinkWrap ? Container(
           margin: EdgeInsets.only(left: 8.0, bottom: 16.0),
           decoration: BoxDecoration(

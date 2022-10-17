@@ -22,6 +22,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../models/Job.dart';
+import '../../models/JobStage.dart';
+
 class NewInvoiceDialog extends StatefulWidget {
   final Function onSendInvoiceSelected;
 
@@ -111,7 +114,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                       children: <Widget>[
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: pageState.pageViewIndex == 1 ? 196 : 563.0,
+                            maxHeight: 563.0,
                           ),
                           child: PageView(
                             physics: NeverScrollableScrollPhysics(),
@@ -125,13 +128,6 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        pageState.pageViewIndex == 1 ? LineItemListWidget(pageState, false) : SizedBox(),
-                        pageState.pageViewIndex == 1 ? GrayDividerWidget() : SizedBox(),
-                        pageState.pageViewIndex == 1 ? SubtotalRowWidget(pageState) : SizedBox(),
-                        pageState.pageViewIndex == 1 ? DepositRowWidget(pageState) : SizedBox(),
-                        pageState.pageViewIndex == 1 ? DiscountRowWidget(pageState) : SizedBox(),
-                        pageState.pageViewIndex == 1 ? GrayDividerWidget() : SizedBox(),
-                        pageState.pageViewIndex == 1 ? BalanceDueWidget(pageState) : SizedBox(),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[

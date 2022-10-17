@@ -39,6 +39,7 @@ class NewInvoicePageState {
   final String itemRate;
   final String itemQuantity;
   final List<Job> jobs;
+  final bool showPriceEdit;
   final List<Job> filteredJobs;
   final List<Client> allClients;
   final List<LineItem> lineItems;
@@ -78,7 +79,7 @@ class NewInvoicePageState {
   final Function(String) onHourlyQuantityTextChanged;
   final Function(String) onItemRateTextChanged;
   final Function(String) onItemQuantityTextChanged;
-  final Function() onDepositActionPressed;
+  final Function(bool) onDepositActionPressed;
   final Function() generateInvoicePdf;
 
   NewInvoicePageState({
@@ -143,6 +144,7 @@ class NewInvoicePageState {
     @required this.onDueDateSelected,
     @required this.onDepositActionPressed,
     @required this.generateInvoicePdf,
+    @required this.showPriceEdit,
   });
 
   NewInvoicePageState copyWith({
@@ -205,8 +207,9 @@ class NewInvoicePageState {
     Function(String) onItemQuantityTextChanged,
     Function(int) onLineItemDeleted,
     Function() onDeleteDiscountSelected,
-    Function() onDepositActionPressed,
+    Function(bool) onDepositActionPressed,
     Function() generateInvoicePdf,
+    bool showPriceEdit,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -270,6 +273,7 @@ class NewInvoicePageState {
       onDepositActionPressed: onDepositActionPressed ?? this.onDepositActionPressed,
       generateInvoicePdf: generateInvoicePdf ?? this.generateInvoicePdf,
       invoiceDocumentId: invoiceDocumentId ?? this.invoiceDocumentId,
+      showPriceEdit: showPriceEdit ?? this.showPriceEdit,
     );
   }
 
@@ -338,6 +342,7 @@ class NewInvoicePageState {
         onDepositActionPressed: null,
         invoicePdfSaved: null,
         generateInvoicePdf: null,
+        showPriceEdit: false,
       );
   }
 
@@ -375,6 +380,7 @@ class NewInvoicePageState {
       dueDate: store.state.newInvoicePageState.dueDate,
       invoicePdfSaved: store.state.newInvoicePageState.invoicePdfSaved,
       invoiceDocumentId: store.state.newInvoicePageState.invoiceDocumentId,
+      showPriceEdit: store.state.newInvoicePageState.showPriceEdit,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
@@ -401,7 +407,7 @@ class NewInvoicePageState {
       onItemQuantityTextChanged: (itemQuantity) => store.dispatch(UpdateNewInvoiceItemQuantityAction(store.state.newInvoicePageState, itemQuantity)),
       onLineItemDeleted: (index) => store.dispatch(DeleteLineItemAction(store.state.newInvoicePageState, index)),
       onDeleteDiscountSelected: () => store.dispatch(DeleteDiscountAction(store.state.newInvoicePageState)),
-      onDepositActionPressed: () => store.dispatch(UpdateDepositStatusAction(store.state.newInvoicePageState)),
+      onDepositActionPressed: (isChecked) => store.dispatch(UpdateDepositStatusAction(store.state.newInvoicePageState, isChecked)),
       generateInvoicePdf: () => store.dispatch(GenerateInvoicePdfAction(store.state.newInvoicePageState)),
       onEditSelected: null,
     );
@@ -458,6 +464,7 @@ class NewInvoicePageState {
       dueDate.hashCode ^
       onDueDateSelected.hashCode ^
       generateInvoicePdf.hashCode ^
+      showPriceEdit.hashCode ^
       newDiscountFilter.hashCode;
 
   @override
@@ -513,5 +520,6 @@ class NewInvoicePageState {
           dueDate == other.dueDate &&
           generateInvoicePdf == other.generateInvoicePdf &&
           onDueDateSelected == other.onDueDateSelected &&
+          showPriceEdit == other.showPriceEdit &&
           newDiscountFilter == other.newDiscountFilter;
 }

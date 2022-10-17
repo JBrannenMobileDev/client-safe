@@ -401,8 +401,7 @@ class _StageItemState extends State<StageItem>
                           actionButtonText.length > 0) ||
                           (isCurrentStage && actionButtonText.length > 0) ?
                       Opacity(
-                        opacity: isCurrentStage ? 1.0 : _subtextOpacityReversed
-                            .value,
+                        opacity: isCurrentStage ? 1.0 : _subtextOpacityReversed.value,
                         child: GestureDetector(
                           onTap: () {
                             switch (job.type.stages.elementAt(index).stage) {
