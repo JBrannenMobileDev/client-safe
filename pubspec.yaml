@@ -105,7 +105,6 @@ flutter:
     - assets/images/backgrounds/income_background_lighter.png
     - assets/images/backgrounds/expenses_background_lighter.png
     - assets/images/backgrounds/job_details_background.png
-    - assets/images/backgrounds/dashboard_flowers_image.png
     - assets/images/backgrounds/expenses_background_peach.png
     - assets/images/backgrounds/login_background.png
     - assets/images/backgrounds/login_background_blue_mountain.png
@@ -325,7 +324,6 @@ flutter:
     - assets/images/backgrounds/image_background.png
     - assets/images/calendar.png
     - assets/images/clock.png
-    - assets/images/sunset.png
     - assets/images/alert.png
 
     - assets/images/reminders/camera.png
@@ -337,7 +335,7 @@ flutter:
     - assets/images/menu/money_icon.png
     - assets/images/menu/sunset_icon.png
 
-
+    -
 
   fonts:
     - family: Blackjack

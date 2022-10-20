@@ -150,6 +150,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     action.invoice.sentDate = DateTime.now();
     await InvoiceDao.update(action.invoice, store.state.jobDetailsPageState.job);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
@@ -162,6 +163,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     jobToSave.invoice = null;
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, null));
   }
@@ -173,6 +175,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   void _updateJobTip(Store<AppState> store, SaveTipChangeAction action, NextDispatcher next) async{
@@ -182,6 +185,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
@@ -191,6 +195,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   void _updateJobType(Store<AppState> store, SaveUpdatedJobTypeAction action, NextDispatcher next) async{
@@ -282,6 +287,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     await NotificationHelper().createAndUpdatePendingNotifications();
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
@@ -322,6 +328,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   void updateJobStageToNextStage(Store<AppState> store, NextDispatcher next, SaveStageCompleted action) async{
@@ -337,20 +344,18 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
+      jobToSave.paymentReceivedDate = DateTime.now();
       if(action.job.invoice != null){
-        action.job.invoice.invoicePaid = true;
-        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
+        jobToSave.invoice.invoicePaid = true;
+        await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
     }
     if(stageToComplete.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
       if(action.job.invoice != null){
-        action.job.invoice.depositPaid = true;
-        action.job.invoice.unpaidAmount = action.job.invoice.unpaidAmount - action.job.invoice.depositAmount;
-        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
+        jobToSave.invoice.depositPaid = true;
+        jobToSave.invoice.unpaidAmount = action.job.invoice.unpaidAmount - action.job.invoice.depositAmount;
+        await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
-    }
-    if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
-      jobToSave.paymentReceivedDate = DateTime.now();
     }
     if(stageToComplete.stage == JobStage.STAGE_14_JOB_COMPLETE && jobToSave.paymentReceivedDate == null){
       jobToSave.paymentReceivedDate = DateTime.now();
@@ -358,6 +363,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   void undoStage(Store<AppState> store, NextDispatcher next, UndoStageAction action) async{
@@ -383,26 +389,27 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     );
     if(stageToRemove.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
       if(action.job.invoice != null){
-        action.job.invoice.invoicePaid = false;
-        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
+        jobToSave.invoice.invoicePaid = false;
+        await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
     }
     if(stageToRemove.stage == JobStage.STAGE_8_PAYMENT_REQUESTED){
       if(action.job.invoice != null){
-        action.job.invoice.sentDate = null;
-        await InvoiceDao.updateInvoiceOnly(action.job.invoice);
+        jobToSave.invoice.sentDate = null;
+        await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
     }
     if(stageToRemove.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
       if(action.job.invoice != null){
-        action.job.invoice.depositPaid = false;
-        action.job.invoice.unpaidAmount = action.job.invoice.unpaidAmount + action.job.invoice.depositAmount;
+        jobToSave.invoice.depositPaid = false;
+        jobToSave.invoice.unpaidAmount = action.job.invoice.unpaidAmount + action.job.invoice.depositAmount;
         await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
     }
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
   }
 
   List<JobStage> _removeStage(JobStage stageToRemove, List<JobStage> completedJobStages) {

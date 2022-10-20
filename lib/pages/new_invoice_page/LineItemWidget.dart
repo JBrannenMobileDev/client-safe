@@ -25,7 +25,7 @@ class LineItemWidget extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              index > 0 && pageState.pageViewIndex != 3 ? GestureDetector(
+              pageState.pageViewIndex != 3 ? GestureDetector(
                 onTap: () {
                   onDelete(index);
                 },

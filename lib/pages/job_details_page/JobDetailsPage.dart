@@ -355,7 +355,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               fontSize: 26.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              overflow: TextOverflow.visible,
+                              overflow: TextOverflow.fade,
                               color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),

@@ -23,7 +23,8 @@ class SetAllJobsAction {
   final List<Job> allJobs;
   final List<Client> allClients;
   final int newInvoiceNumber;
-  SetAllJobsAction(this.pageState, this.allJobs, this.allClients, this.newInvoiceNumber);
+  final double salesTaxRate;
+  SetAllJobsAction(this.pageState, this.allJobs, this.allClients, this.newInvoiceNumber, this.salesTaxRate);
 }
 
 class IncrementPageViewIndex{
@@ -192,6 +193,18 @@ class GenerateInvoicePdfAction{
 class UpdatePdfSavedFlag{
   final NewInvoicePageState pageState;
   UpdatePdfSavedFlag(this.pageState);
+}
+
+class SetDepositCheckBoxStateAction {
+  final NewInvoicePageState pageState;
+  final bool isChecked;
+  SetDepositCheckBoxStateAction(this.pageState, this.isChecked);
+}
+
+class SetSalesTaxCheckBoxStateAction {
+  final NewInvoicePageState pageState;
+  final bool isChecked;
+  SetSalesTaxCheckBoxStateAction(this.pageState, this.isChecked);
 }
 
 

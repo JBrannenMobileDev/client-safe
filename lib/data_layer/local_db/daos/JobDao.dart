@@ -76,13 +76,6 @@ class JobDao extends Equatable{
       }
     }
 
-    if(Job.containsStage(job.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED) && !Job.containsStage(previousJobState.completedStages, JobStage.STAGE_9_PAYMENT_RECEIVED)) {
-      if(job.invoice != null) {
-        job.invoice.invoicePaid = true;
-        await InvoiceDao.update(job.invoice, job);
-      }
-    }
-
     final finder = Finder(filter: Filter.equals('documentId', job.documentId));
     await _jobStore.update(
       await _db,

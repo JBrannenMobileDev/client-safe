@@ -176,3 +176,9 @@ class ResetLoginState {
   final LoginPageState pageState;
   ResetLoginState(this.pageState);
 }
+
+class SetCurrentUserCheckState {
+  final LoginPageState pageState;
+  final bool isUserCheckFinished;
+  SetCurrentUserCheckState(this.pageState, this.isUserCheckFinished);
+}

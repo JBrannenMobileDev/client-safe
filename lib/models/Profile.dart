@@ -11,6 +11,7 @@ class Profile{
   String businessName;
   double latDefaultHome;
   double lngDefaultHome;
+  double salesTaxRate;
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   DateTime lastSignIn;
@@ -62,6 +63,7 @@ class Profile{
     this.contractsLastChangeDate,
     this.posesLastChangeDate,
     this.poseGroupsLastChangeDate,
+    this.salesTaxRate,
   });
 
   Profile copyWith({
@@ -78,6 +80,7 @@ class Profile{
     double lngDefaultHome,
     bool pushNotificationsEnabled,
     bool calendarEnabled,
+    double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
     DateTime invoicesLastChangeDate,
@@ -127,6 +130,7 @@ class Profile{
       contractsLastChangeDate: contractsLastChangeDate ?? this.contractsLastChangeDate,
       posesLastChangeDate: posesLastChangeDate ?? this.posesLastChangeDate,
       poseGroupsLastChangeDate: poseGroupsLastChangeDate ?? this.poseGroupsLastChangeDate,
+      salesTaxRate: salesTaxRate ?? this.salesTaxRate,
     );
   }
 
@@ -163,6 +167,7 @@ class Profile{
       'contractsLastChangeDate' : contractsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'posesLastChangeDate' : posesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'poseGroupsLastChangeDate' : poseGroupsLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'salesTaxRate' : salesTaxRate,
     };
   }
 
@@ -180,6 +185,7 @@ class Profile{
       lngDefaultHome: map['lngDefaultHome'],
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
       calendarEnabled: map['calendarEnabled'],
+      salesTaxRate: map['salesTaxRate'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,

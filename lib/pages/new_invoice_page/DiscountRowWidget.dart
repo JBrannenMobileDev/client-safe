@@ -14,7 +14,7 @@ class DiscountRowWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 4.0),
+      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 0.0, top: 4.0),
       child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -35,9 +35,27 @@ class DiscountRowWidget extends StatelessWidget{
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
+                  pageState.discountValue > 0.0  && pageState.pageViewIndex != 3 ? Container(
+                    margin: EdgeInsets.only(left: 20.0),
+                    child: GestureDetector(
+                      onTap: () {
+                        pageState.onDeleteDiscountSelected();
+                      },
+                      child: Text(
+                        'X  ',
+                        textAlign: TextAlign.start,
+                        style: TextStyle(
+                          fontSize: 24.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w800,
+                          color: Color(ColorConstants.getPeachDark()),
+                        ),
+                      ),
+                    ),
+                  ) : SizedBox(),
                   pageState.discountValue == 0.0 ?
                   Container(
-                    margin: EdgeInsets.only(left: 8.0),
+                    margin: EdgeInsets.only(left: 16.0),
                     decoration: BoxDecoration(
                         color: Color(ColorConstants.getPrimaryColor()),
                         borderRadius: BorderRadius.circular(24.0)
@@ -66,24 +84,6 @@ class DiscountRowWidget extends StatelessWidget{
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  pageState.discountValue > 0.0  && pageState.pageViewIndex != 3 ? Container(
-                    margin: EdgeInsets.only(right: 4.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        pageState.onDeleteDiscountSelected();
-                      },
-                      child: Text(
-                        'X  ',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.getPeachDark()),
-                        ),
-                      ),
-                    ),
-                  ) : SizedBox(),
                   pageState.discountValue > 0.0 ? Text(
                     (pageState.discountValue.toInt() > 0 ? '-' : '') + TextFormatterUtil.formatSimpleCurrency (pageState.discountValue.toInt()),
                     textAlign: TextAlign.start,

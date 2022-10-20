@@ -15,12 +15,16 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:sembast/sembast.dart';
+
+import '../../data_layer/local_db/daos/ProfileDao.dart';
+import '../../models/Profile.dart';
 
 class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -85,7 +89,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   void _updateDepositStatus(Store<AppState> store, UpdateDepositStatusAction action, NextDispatcher next) async {
     bool isDepositPaid = store.state.newInvoicePageState.selectedJob.isDepositPaid();
     Job selectedJob = store.state.newInvoicePageState.selectedJob;
-    if(action.isChecked && !isDepositPaid) {
+    if(!action.isChecked && isDepositPaid) {
       List<JobStage> completedJobStages = selectedJob.completedStages.toList();
       JobStage stageToRemove = JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED);
       completedJobStages = _removeStage(stageToRemove, completedJobStages);
@@ -102,7 +106,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       }
       await JobDao.insertOrUpdate(selectedJob.copyWith());
       store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob.copyWith()));
-    }else {
+    }else if(action.isChecked && !isDepositPaid){
       List<JobStage> completedJobStages = selectedJob.completedStages.toList();
       JobStage stageToComplete = JobStage(stage: JobStage.STAGE_5_DEPOSIT_RECEIVED);
       completedJobStages.add(stageToComplete);
@@ -139,18 +143,19 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadAll(Store<AppState> store, FetchAllInvoiceJobsAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     int newInvoiceNumber = await NextInvoiceNumberDao.nextNumber();
     List<Job> allJobs = await JobDao.getAllJobs();
     allJobs = allJobs.where((job) => !job.hasCompletedStage(JobStage.STAGE_9_PAYMENT_RECEIVED) && !job.hasCompletedStage(JobStage.STAGE_14_JOB_COMPLETE)).toList();
-    store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber));
+    store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile.salesTaxRate));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, jobs, allClients, newInvoiceNumber));
+      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, jobs, allClients, newInvoiceNumber, profile.salesTaxRate));
     });
 
     (await ClientDao.getClientsStream()).listen((clientSnapshots) async {
@@ -158,7 +163,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in clientSnapshots) {
         clients.add(Client.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, clients, newInvoiceNumber));
+      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, clients, newInvoiceNumber, profile.salesTaxRate));
     });
   }
 

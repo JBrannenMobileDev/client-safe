@@ -21,6 +21,7 @@ class LoginPageState {
   final bool showLoginLoadingAnimation;
   final bool showLoginErrorAnimation;
   final bool isUserVerified;
+  final bool isCurrentUserCheckComplete;
   final User user;
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
@@ -80,6 +81,7 @@ class LoginPageState {
     this.showLoginErrorAnimation,
     this.onClearLoginErrorShake,
     this.isUserVerified,
+    this.isCurrentUserCheckComplete,
   });
 
   LoginPageState copyWith({
@@ -120,6 +122,7 @@ class LoginPageState {
     Function(String) onLoginPasswordChanged,
     Function() onClearLoginErrorShake,
     bool isUserVerified,
+    bool isCurrentUserCheckComplete,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -159,6 +162,7 @@ class LoginPageState {
       onClearLoginErrorShake: onClearLoginErrorShake ?? this.onClearLoginErrorShake,
       isUserVerified: isUserVerified ?? this.isUserVerified,
       onResetPasswordSelected: onResetPasswordSelected ?? this.onResetPasswordSelected,
+      isCurrentUserCheckComplete: isCurrentUserCheckComplete ?? this.isCurrentUserCheckComplete,
     );
   }
 
@@ -182,6 +186,7 @@ class LoginPageState {
       showLoginLoadingAnimation: store.state.loginPageState.showLoginLoadingAnimation,
       showLoginErrorAnimation: store.state.loginPageState.showLoginErrorAnimation,
       isUserVerified: store.state.loginPageState.isUserVerified,
+      isCurrentUserCheckComplete: store.state.loginPageState.isCurrentUserCheckComplete,
       onFirstNameChanged: (firstName) => store.dispatch(UpdateFirstNameAction(store.state.loginPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(UpdateLastNameAction(store.state.loginPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(UpdateBusinessNameAction(store.state.loginPageState, businessName)),
@@ -243,6 +248,7 @@ class LoginPageState {
     loginErrorMessage:'',
     createAccountErrorMessage: '',
     onClearErrorMessages: null,
+    isCurrentUserCheckComplete: false,
   );
 
   @override
@@ -281,6 +287,7 @@ class LoginPageState {
       user.hashCode ^
       shouldShowAccountCreatedDialog.hashCode ^
       createAccountErrorMessage.hashCode ^
+      isCurrentUserCheckComplete.hashCode ^
       onForgotPasswordSelected.hashCode ;
 
   @override
@@ -320,5 +327,6 @@ class LoginPageState {
               updateMainButtonVisible == other.updateMainButtonVisible &&
               updateForgotPasswordVisible == other.updateForgotPasswordVisible &&
               onClearErrorMessages == other.onClearErrorMessages &&
+              isCurrentUserCheckComplete == other.isCurrentUserCheckComplete &&
               onForgotPasswordSelected == other.onForgotPasswordSelected;
 }

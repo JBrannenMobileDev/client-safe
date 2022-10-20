@@ -65,11 +65,11 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       converter: (store) => NewInvoicePageState.fromStore(store),
       builder: (BuildContext context, NewInvoicePageState pageState) =>
           Dialog(
-            insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
+            insetPadding: EdgeInsets.only(left: 0.0, right: 0.0),
             backgroundColor: Colors.transparent,
             child: Container(
               width: 450.0,
-              height: 665.0,
+              height: 708.0,
               margin: EdgeInsets.only(
                   left: 0.0, right: 0.0, top: 16.0, bottom: 16.0),
               padding: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -114,7 +114,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                       children: <Widget>[
                         ConstrainedBox(
                           constraints: BoxConstraints(
-                            maxHeight: 563.0,
+                            maxHeight: 604.0,
                           ),
                           child: PageView(
                             physics: NeverScrollableScrollPhysics(),
@@ -128,44 +128,47 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                             ],
                           ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            TextButton(
-                              style: Styles.getButtonStyle(),
-                              onPressed: () {
-                                onBackPressed(pageState);
-                              },
-                              child: Text(
-                                pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              TextButton(
+                                style: Styles.getButtonStyle(),
+                                onPressed: () {
+                                  onBackPressed(pageState);
+                                },
+                                child: Text(
+                                  pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                            TextButton(
-                              style: Styles.getButtonStyle(),
-                              onPressed: () {
-                                onNextPressed(pageState);
-                              },
-                              child: Text(
-                                pageState.pageViewIndex == pageCount - 1
-                                    ? 'Save'
-                                    : 'Next',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                              TextButton(
+                                style: Styles.getButtonStyle(),
+                                onPressed: () {
+                                  onNextPressed(pageState);
+                                },
+                                child: Text(
+                                  pageState.pageViewIndex == pageCount - 1
+                                      ? 'Save'
+                                      : 'Next',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ],
                     ),

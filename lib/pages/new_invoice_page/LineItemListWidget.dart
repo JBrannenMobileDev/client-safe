@@ -18,8 +18,8 @@ class LineItemListWidget extends StatelessWidget{
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         Container(
-          margin: EdgeInsets.only(left: 16.0, right: 16.0),
-          height: pageState.pageViewIndex == 3 ? 184 : 296,
+          margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 4.0),
+          height: pageState.pageViewIndex == 3 ? 184 : 268,
           child: ListView.builder(
             shrinkWrap: true,
             physics: ClampingScrollPhysics(),
@@ -59,11 +59,5 @@ class LineItemListWidget extends StatelessWidget{
         ) : SizedBox(),
       ],
     );
-  }
-
-  _getHeight(int length) {
-    double height = length * 34.0;
-    if(height <= 164.0) return height;
-    return 164.0;
   }
 }

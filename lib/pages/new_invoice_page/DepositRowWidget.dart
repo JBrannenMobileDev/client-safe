@@ -17,41 +17,26 @@ class DepositRowWidget extends StatefulWidget{
 class _DepositRowWidgetPageState extends State<DepositRowWidget> with TickerProviderStateMixin {
   TextEditingController passwordTextController = TextEditingController();
 
-  bool isChecked = false;
-
   _DepositRowWidgetPageState();
 
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewInvoicePageState>(
-        onInit: (appState) {
-          isChecked = appState.state.newInvoicePageState.selectedJob.isDepositPaid();
-        },
         converter: (store) => NewInvoicePageState.fromStore(store),
         builder: (BuildContext context, NewInvoicePageState pageState) =>
         Padding(
       padding: EdgeInsets.only(
           left: 16.0, right: 16.0, top: 4.0),
-      child: Stack(
-        alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 96.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                pageState.pageViewIndex != 3 ? Checkbox(
-                  value: isChecked,
-                  activeColor: Color(ColorConstants.error_red),
-                  onChanged: (bool isChecked) {
-                    setState(() {
-                      isChecked = isChecked;
-                    });
-                    pageState.onDepositActionPressed(isChecked);
-                  },
-                ) : SizedBox(),
                 Text(
-                  'Deposit  ',
+                  'Deposit',
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 24.0,
@@ -61,6 +46,17 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget> with TickerProv
                         ColorConstants.getPrimaryBlack()),
                   ),
                 ),
+                pageState.pageViewIndex != 3 ? Padding(
+                  padding: EdgeInsets.only(left: 13.0),
+                  child: Checkbox(
+                    value: pageState.isDepositChecked,
+                    activeColor: Color(ColorConstants.getPeachDark()),
+                    onChanged: (bool isChecked) {
+                      pageState.onDepositChecked(isChecked);
+                      pageState.onDepositActionPressed(isChecked);
+                    },
+                  ),
+                ) : SizedBox(),
               ],
             ),
           ),

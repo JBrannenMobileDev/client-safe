@@ -34,8 +34,21 @@ final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
   TypedReducer<NewInvoicePageState, SaveNewDiscountAction>(_saveNewDiscount),
   TypedReducer<NewInvoicePageState, UpdateNewDiscountSelectorAction>(_updateDiscountSelector),
   TypedReducer<NewInvoicePageState, SetSelectedDueDate>(_setDueDate),
-  TypedReducer<NewInvoicePageState, UpdatePdfSavedFlag>(_setPdfSavedFlag),
+  TypedReducer<NewInvoicePageState, SetDepositCheckBoxStateAction>(_setDepositCheckState),
+  TypedReducer<NewInvoicePageState, SetSalesTaxCheckBoxStateAction>(_setSalesTaxCheckState),
 ]);
+
+NewInvoicePageState _setSalesTaxCheckState(NewInvoicePageState previousState, SetSalesTaxCheckBoxStateAction action) {
+  return previousState.copyWith(
+    isSalesTaxChecked: action.isChecked,
+  );
+}
+
+NewInvoicePageState _setDepositCheckState(NewInvoicePageState previousState, SetDepositCheckBoxStateAction action) {
+  return previousState.copyWith(
+    isDepositChecked: action.isChecked,
+  );
+}
 
 NewInvoicePageState _setPdfSavedFlag(NewInvoicePageState previousState, UpdatePdfSavedFlag action) {
   return previousState.copyWith(
@@ -125,6 +138,7 @@ NewInvoicePageState _deleteDiscount(NewInvoicePageState previousState, DeleteDis
     discount: null,
     discountValue: 0.0,
     unpaidAmount: previousState.unpaidAmount + previousState.discountValue,
+    newDiscountRate: '',
   );
 }
 
@@ -274,6 +288,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
   double remainingBalance;
   double total;
   Discount discount;
+  double discountAmount = previousState.discountValue;
 
   remainingBalance = selectedJob.priceProfile.flatRate - (selectedJob.isDepositPaid() ? depositAmount : 0)?.toDouble();
   if(selectedJob.invoice != null && selectedJob.invoice.lineItems.length > 0){
@@ -281,7 +296,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     lineItems = selectedJob.invoice.lineItems;
     remainingBalance = selectedJob.invoice.unpaidAmount;
     discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
-  } else {
+  } else if(previousState.lineItems.isEmpty){
     total = selectedJob.priceProfile.flatRate;
     LineItem rateLineItem = LineItem(
         itemName: selectedJob.priceProfile.profileName,
@@ -289,13 +304,20 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
         itemQuantity: 1
     );
     lineItems.add(rateLineItem);
+  } else {
+    discountAmount = calculateDiscount(previousState, _calculateSubtotal(previousState));
+    remainingBalance = _calculateSubtotal(previousState) - (previousState.selectedJob.isDepositPaid() ? previousState.selectedJob.depositAmount : 0) - discountAmount;
+    lineItems = previousState.lineItems;
+    total = _calculateSubtotal(previousState);
+    discount = previousState.discount;
   }
 
   return previousState.copyWith(
     selectedJob: action.selectedJob,
+    isDepositChecked: action.selectedJob.isDepositPaid(),
     flatRateText: selectedJob.priceProfile.flatRate.toString(),
     depositValue: depositAmount,
-    discountValue: 0.0,
+    discountValue: discountAmount,
     discount: discount,
     newDiscountFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED,
     dueDate: action.selectedJob?.invoice?.dueDate,
@@ -356,6 +378,7 @@ NewInvoicePageState _setJobs(NewInvoicePageState previousState, SetAllJobsAction
     allClients: action.allClients,
     invoiceNumber: action.newInvoiceNumber,
     isFinishedFetchingClients: true,
+    salesTaxPercent: action.salesTaxRate,
   );
 }
 

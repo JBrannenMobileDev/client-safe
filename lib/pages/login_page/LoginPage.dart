@@ -211,13 +211,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       begin: 150,
       end: 0,
     );
-
-
-
-    _controller.forward();
-    _controllerLogoIn.forward();
-    _controllerSunIn.forward();
-    _controllerLoginErrorShake.forward();
   }
 
   @override
@@ -342,9 +335,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         onInit: (appState) {
           appState.dispatch(CheckForCurrentUserAction(appState.state.loginPageState));
         },
-        onWillChange: (pageStateCurrent, pageStatePrevious) {
-          if(pageStatePrevious.mainButtonsVisible != pageStateCurrent.mainButtonsVisible){
-            if(pageStateCurrent.mainButtonsVisible){
+        onWillChange: (previous, current) {
+          if(current.isCurrentUserCheckComplete && !current.navigateToHome) {
+            _controller.forward();
+            _controllerLogoIn.forward();
+            _controllerSunIn.forward();
+            _controllerLoginErrorShake.forward();
+          }
+          if(current.navigateToHome) {
+            _onStartAnimationForGoingToHomePage(current);
+          }
+          if(current.mainButtonsVisible != previous.mainButtonsVisible){
+            if(previous.mainButtonsVisible){
               _controllerLoginView.forward();
             }else {
               _controllerLoginView.reverse();
@@ -352,9 +354,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           }
         },
         onDidChange: (prev, pageState) {
-          if(pageState.navigateToHome) {
-            _onStartAnimationForGoingToHomePage();
-          }
           if(pageState.createAccountErrorMessage.isNotEmpty){
             _controllerErrorShake.reset();
             _controllerErrorShake.forward();
@@ -979,19 +978,26 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
               ),
+              !pageState.isCurrentUserCheckComplete && !pageState.navigateToHome ? Center(
+                child: LoadingAnimationWidget.fourRotatingDots(color: Color(ColorConstants.getPrimaryWhite()), size: 32.0),
+              ) : SizedBox()
             ],
           ),
         ),
       );
   }
 
-  void _onStartAnimationForGoingToHomePage(){
-    _controller.reverse();
-    _controllerLogoOut.forward();
-    _controllerSunIn.reverse();
-    Timer(const Duration(milliseconds: 600), () {
+  void _onStartAnimationForGoingToHomePage(LoginPageState pageState){
+    if(pageState.mainButtonsVisible) {
+      _controller.reverse();
+      _controllerLogoOut.forward();
+      _controllerSunIn.reverse();
+      Timer(const Duration(milliseconds: 600), () {
+        NavigationUtil.onSuccessfulLogin(context);
+      });
+    } else {
       NavigationUtil.onSuccessfulLogin(context);
-    });
+    }
   }
 
   Widget _getCreateAccountTextFieldWidgets(String selectedButton, LoginPageState pageState) {

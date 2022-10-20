@@ -6,6 +6,7 @@ import 'package:dandylight/pages/new_invoice_page/DiscountRowWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/GrayDividerWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/LineItemListWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
+import 'package:dandylight/pages/new_invoice_page/SalesTaxRowWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
@@ -69,7 +70,9 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               GrayDividerWidget(),
               SubtotalRowWidget(pageState),
               pageState.selectedJob != null ? (pageState.selectedJob.isDepositPaid() ? DepositRowWidget() : SizedBox()) : SizedBox(),
-              pageState.discountValue > 0 ? DiscountRowWidget(pageState) : SizedBox(height: 16.0,),
+              pageState.discountValue > 0 ? DiscountRowWidget(pageState) : SizedBox(),
+              pageState.isSalesTaxChecked ? SalesTaxRowWidget() : SizedBox(height: 16.0,),
+              SizedBox(height: 16.0,),
               GrayDividerWidget(),
               BalanceDueWidget(pageState),
               pageState.dueDate != null ? Container(

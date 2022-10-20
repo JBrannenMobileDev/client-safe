@@ -19,6 +19,7 @@ import 'DepositRowWidget.dart';
 import 'DiscountRowWidget.dart';
 import 'GrayDividerWidget.dart';
 import 'LineItemListWidget.dart';
+import 'SalesTaxRowWidget.dart';
 import 'SubtotalRowWidget.dart';
 
 class PriceBreakdownForm extends StatefulWidget {
@@ -100,47 +101,6 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   ),
                 ),
               ),
-              // !pageState.showPriceEdit ? Padding(
-              //   padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 24.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //     children: [
-              //       Text(
-              //         pageState.selectedJob.priceProfile.profileName,
-              //         textAlign: TextAlign.start,
-              //         style: TextStyle(
-              //           fontSize: 22.0,
-              //           fontFamily: 'simple',
-              //           fontWeight: FontWeight.w600,
-              //           color: Color(ColorConstants.primary_black),
-              //         ),
-              //       ),
-              //       Text(
-              //         TextFormatterUtil.formatSimpleCurrency(pageState.selectedJob.priceProfile.flatRate.toInt()),
-              //         textAlign: TextAlign.start,
-              //         style: TextStyle(
-              //           fontSize: 22.0,
-              //           fontFamily: 'simple',
-              //           fontWeight: FontWeight.w600,
-              //           color: Color(ColorConstants.primary_black),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ) : Container(
-              //   margin: EdgeInsets.only(top: 4.0, left: 16.0, right: 16.0, bottom: 16.0),
-              //   child: NewInvoiceTextField(
-              //     focusNode: flatRateInputFocusNode,
-              //     controller: flatRateTextController,
-              //     hintText: "\$",
-              //     inputType: TextInputType.number,
-              //     height: 64.0,
-              //     onTextInputChanged: pageState.onFlatRateTextChanged,
-              //     capitalization: TextCapitalization.none,
-              //     keyboardAction: TextInputAction.done,
-              //     labelText: 'Rate',
-              //   ),
-              // ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -149,6 +109,7 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
                   SubtotalRowWidget(pageState),
                   Job.containsStage(pageState.selectedJob.type.stages, JobStage.STAGE_5_DEPOSIT_RECEIVED) ? DepositRowWidget() : SizedBox(),
                   DiscountRowWidget(pageState),
+                  SalesTaxRowWidget(),
                   GrayDividerWidget(),
                   BalanceDueWidget(pageState),
                 ],

@@ -122,7 +122,7 @@ class PaidInvoiceCard extends StatelessWidget{
     if(pageState.paidInvoices.length > 3) {
       return 3;
     } else {
-      return pageState.unpaidInvoices.length;
+      return pageState.paidInvoices.length;
     }
   }
 }

@@ -129,8 +129,11 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteInvoice(Store<AppState> store, DeleteInvoiceAction action, NextDispatcher next) async {
     await InvoiceDao.deleteByInvoice(action.invoice);
-    store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
+    if(await InvoiceDao.getInvoiceById(action.invoice.documentId) != null) {
+      await InvoiceDao.deleteByInvoice(action.invoice);
+    }
 
+    store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, null));
   }

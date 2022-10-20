@@ -27,7 +27,14 @@ final loginPageReducer = combineReducers<LoginPageState>([
   TypedReducer<LoginPageState, ClearLoginErrorShake>(_clearLoginShake),
   TypedReducer<LoginPageState, SetIsUserVerifiedAction>(_setIsVerified),
   TypedReducer<LoginPageState, ResetLoginState>(_resetState),
+  TypedReducer<LoginPageState, SetCurrentUserCheckState>(_updateUserCheckStatus),
 ]);
+
+LoginPageState _updateUserCheckStatus(LoginPageState previousState, SetCurrentUserCheckState action) {
+  return previousState.copyWith(
+    isCurrentUserCheckComplete: action.isUserCheckFinished,
+  );
+}
 
 LoginPageState _resetState(LoginPageState previousState, ResetLoginState action) {
   return LoginPageState.initial();

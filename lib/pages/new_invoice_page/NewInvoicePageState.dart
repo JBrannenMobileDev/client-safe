@@ -29,6 +29,9 @@ class NewInvoicePageState {
   final bool isInEditMode;
   final double total;
   final double depositValue;
+  final bool isDepositChecked;
+  final double salesTaxPercent;
+  final bool isSalesTaxChecked;
   final double unpaidAmount;
   final double discountValue;
   final Job selectedJob;
@@ -81,6 +84,8 @@ class NewInvoicePageState {
   final Function(String) onItemQuantityTextChanged;
   final Function(bool) onDepositActionPressed;
   final Function() generateInvoicePdf;
+  final Function(bool) onDepositChecked;
+  final Function(bool) onSalesTaxChecked;
 
   NewInvoicePageState({
     @required this.id,
@@ -145,6 +150,11 @@ class NewInvoicePageState {
     @required this.onDepositActionPressed,
     @required this.generateInvoicePdf,
     @required this.showPriceEdit,
+    @required this.isDepositChecked,
+    @required this.salesTaxPercent,
+    @required this.isSalesTaxChecked,
+    @required this.onDepositChecked,
+    @required this.onSalesTaxChecked,
   });
 
   NewInvoicePageState copyWith({
@@ -210,6 +220,11 @@ class NewInvoicePageState {
     Function(bool) onDepositActionPressed,
     Function() generateInvoicePdf,
     bool showPriceEdit,
+    double salesTaxPercent,
+    bool isSalesTaxChecked,
+    bool isDepositChecked,
+    Function(bool) onDepositChecked,
+    Function(bool) onSalesTaxChecked,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -274,6 +289,11 @@ class NewInvoicePageState {
       generateInvoicePdf: generateInvoicePdf ?? this.generateInvoicePdf,
       invoiceDocumentId: invoiceDocumentId ?? this.invoiceDocumentId,
       showPriceEdit: showPriceEdit ?? this.showPriceEdit,
+      isDepositChecked: isDepositChecked ?? this.isDepositChecked,
+      salesTaxPercent: salesTaxPercent ?? this.salesTaxPercent,
+      isSalesTaxChecked: isSalesTaxChecked ?? this.isSalesTaxChecked,
+      onDepositChecked: onDepositChecked ?? this.onDepositChecked,
+      onSalesTaxChecked: onSalesTaxChecked ?? this.onSalesTaxChecked,
     );
   }
 
@@ -343,6 +363,11 @@ class NewInvoicePageState {
         invoicePdfSaved: null,
         generateInvoicePdf: null,
         showPriceEdit: false,
+        isDepositChecked: false,
+        isSalesTaxChecked: false,
+        salesTaxPercent: 0,
+        onDepositChecked: null,
+        onSalesTaxChecked: null,
       );
   }
 
@@ -381,6 +406,9 @@ class NewInvoicePageState {
       invoicePdfSaved: store.state.newInvoicePageState.invoicePdfSaved,
       invoiceDocumentId: store.state.newInvoicePageState.invoiceDocumentId,
       showPriceEdit: store.state.newInvoicePageState.showPriceEdit,
+      isDepositChecked: store.state.newInvoicePageState.isDepositChecked,
+      salesTaxPercent: store.state.newInvoicePageState.salesTaxPercent,
+      isSalesTaxChecked: store.state.newInvoicePageState.isSalesTaxChecked,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
@@ -410,6 +438,8 @@ class NewInvoicePageState {
       onDepositActionPressed: (isChecked) => store.dispatch(UpdateDepositStatusAction(store.state.newInvoicePageState, isChecked)),
       generateInvoicePdf: () => store.dispatch(GenerateInvoicePdfAction(store.state.newInvoicePageState)),
       onEditSelected: null,
+      onDepositChecked: (isChecked) => store.dispatch(SetDepositCheckBoxStateAction(store.state.newInvoicePageState, isChecked)),
+      onSalesTaxChecked: (isChecked) => store.dispatch(SetSalesTaxCheckBoxStateAction(store.state.newInvoicePageState, isChecked)),
     );
   }
 
@@ -465,6 +495,11 @@ class NewInvoicePageState {
       onDueDateSelected.hashCode ^
       generateInvoicePdf.hashCode ^
       showPriceEdit.hashCode ^
+      isDepositChecked.hashCode ^
+      salesTaxPercent.hashCode ^
+      isSalesTaxChecked.hashCode ^
+      isDepositChecked.hashCode ^
+      isSalesTaxChecked.hashCode ^
       newDiscountFilter.hashCode;
 
   @override
@@ -521,5 +556,10 @@ class NewInvoicePageState {
           generateInvoicePdf == other.generateInvoicePdf &&
           onDueDateSelected == other.onDueDateSelected &&
           showPriceEdit == other.showPriceEdit &&
+          isDepositChecked == other.isDepositChecked &&
+          salesTaxPercent == other.salesTaxPercent &&
+          isSalesTaxChecked == other.isSalesTaxChecked &&
+          isDepositChecked == other.isDepositChecked &&
+          isSalesTaxChecked == other.isSalesTaxChecked &&
           newDiscountFilter == other.newDiscountFilter;
 }

@@ -203,6 +203,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _checkForCurrentUser(Store<AppState> store, CheckForCurrentUserAction action, next) async{
+    store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, false));
     final FirebaseAuth _auth = FirebaseAuth.instance;
     User user = await _auth.currentUser;
 
@@ -220,26 +221,21 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
         UidUtil().setUid(user.uid);
         await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) {
+          store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
           _syncFinished = true;
-          if(_animationFinished) {
-            ProfileDao.updateUserLoginTime(user.uid);
-            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-          }
-        });
-        await Future.delayed(const Duration(milliseconds: 2500), () {
-          _animationFinished = true;
-          if(_syncFinished) {
-            ProfileDao.updateUserLoginTime(user.uid);
-            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-          }
+          ProfileDao.updateUserLoginTime(user.uid);
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
         });
       } else {
+        store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
         _auth.signOut();
       }
     }else if(user != null && !user.emailVerified){
+      store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
       store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
       store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
     }else if(user == null){
+      store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
       store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, true));
     }
   }

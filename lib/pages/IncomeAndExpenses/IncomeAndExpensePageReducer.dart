@@ -410,6 +410,8 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived) {
   LineChartMonthData data = LineChartMonthData(name: name0, income: 0, monthInt: nowMinus5.month);
   chartItems.add(data);
 
+  add deposits to chart
+
   for(Job job in jobsWithPaymentReceived) {
     DateTime paymentReceivedDate = job.paymentReceivedDate != null ? job.paymentReceivedDate : job.selectedDate;
 
