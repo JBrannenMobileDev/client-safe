@@ -65,7 +65,8 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
   }
 
   List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
-  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, action.singleExpenses, action.recurringExpense, action.mileageExpenses);
+  List<Job> jobsWithOnlyDepositReceived = action.allJobs.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
+  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, action.singleExpenses, action.recurringExpense, action.mileageExpenses, jobsWithOnlyDepositReceived);
 
   return previousState.copyWith(
       currentJobs: JobUtil.getUpComingJobs(action.allJobs),
@@ -76,7 +77,7 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
   );
 }
 
-List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<SingleExpense> singleExpenses, List<RecurringExpense> recurringExpenses, List<MileageExpense> mileageExpenses) {
+List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<SingleExpense> singleExpenses, List<RecurringExpense> recurringExpenses, List<MileageExpense> mileageExpenses, List<Job> jobsWithOnlyDepositReceived) {
   List<LineChartMonthData> chartItems = [];
   DateTime now = DateTime.now();
   int currentYear = now.year;
@@ -198,6 +199,38 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
     }
   }
 
+  for(Job job in jobsWithOnlyDepositReceived) {
+    DateTime depositReceivedDate = job.depositReceivedDate;
+
+    if(depositReceivedDate != null && depositReceivedDate.year == currentYear) {
+      int depositMonth = depositReceivedDate.month;
+
+      if(depositMonth == chartItems.elementAt(0).monthInt) {
+        chartItems.elementAt(0).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(1).monthInt) {
+        chartItems.elementAt(1).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(2).monthInt) {
+        chartItems.elementAt(2).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(3).monthInt) {
+        chartItems.elementAt(3).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(4).monthInt) {
+        chartItems.elementAt(4).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(5).monthInt) {
+        chartItems.elementAt(5).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+    }
+  }
+
   for(Job job in jobsWithPaymentReceived) {
     DateTime paymentReceivedDate = job.paymentReceivedDate != null ? job.paymentReceivedDate : job.selectedDate;
 
@@ -208,7 +241,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         chartItems.elementAt(0).income += (job.tipAmount != null ? job.tipAmount : 0);
 
         if(job.invoice != null) {
-          chartItems.elementAt(0).income += (job.invoice.total - job.invoice.discount).toInt();
+          chartItems.elementAt(0).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
           chartItems.elementAt(0).income += job.priceProfile.flatRate.toInt();
         }
@@ -218,7 +251,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         chartItems.elementAt(1).income += (job.tipAmount != null ? job.tipAmount : 0);
 
         if(job.invoice != null) {
-          chartItems.elementAt(1).income += (job.invoice.total - job.invoice.discount).toInt();
+          chartItems.elementAt(1).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
           chartItems.elementAt(1).income += job.priceProfile.flatRate.toInt();
         }
@@ -228,7 +261,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         chartItems.elementAt(2).income += (job.tipAmount != null ? job.tipAmount : 0);
 
         if(job.invoice != null) {
-          chartItems.elementAt(2).income += (job.invoice.total - job.invoice.discount).toInt();
+          chartItems.elementAt(2).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
           chartItems.elementAt(2).income += job.priceProfile.flatRate.toInt();
         }
@@ -238,7 +271,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         chartItems.elementAt(3).income += (job.tipAmount != null ? job.tipAmount : 0);
 
         if(job.invoice != null) {
-          chartItems.elementAt(3).income += (job.invoice.total - job.invoice.discount).toInt();
+          chartItems.elementAt(3).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
           chartItems.elementAt(3).income += job.priceProfile.flatRate.toInt();
         }
@@ -248,7 +281,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         chartItems.elementAt(4).income += (job.tipAmount != null ? job.tipAmount : 0);
 
         if(job.invoice != null) {
-          chartItems.elementAt(4).income += (job.invoice.total - job.invoice.discount).toInt();
+          chartItems.elementAt(4).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
           chartItems.elementAt(4).income += job.priceProfile.flatRate.toInt();
         }
@@ -258,7 +291,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         chartItems.elementAt(5).income += (job.tipAmount != null ? job.tipAmount : 0);
 
         if(job.invoice != null) {
-          chartItems.elementAt(5).income += (job.invoice.total - job.invoice.discount).toInt();
+          chartItems.elementAt(5).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
           chartItems.elementAt(5).income += job.priceProfile.flatRate.toInt();
         }

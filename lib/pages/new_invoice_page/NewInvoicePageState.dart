@@ -76,16 +76,13 @@ class NewInvoicePageState {
   final Function(Job) onJobSelected;
   final Function(String) onJobSearchTextChanged;
   final Function() onClearInputSelected;
-  final Function(String) onFilterChanged;
   final Function(String) onFlatRateTextChanged;
-  final Function(String) onHourlyRateTextChanged;
-  final Function(String) onHourlyQuantityTextChanged;
-  final Function(String) onItemRateTextChanged;
-  final Function(String) onItemQuantityTextChanged;
   final Function(bool) onDepositActionPressed;
   final Function() generateInvoicePdf;
   final Function(bool) onDepositChecked;
   final Function(bool) onSalesTaxChecked;
+  final Function(String) onSalesTaxRateChanged;
+  final Function() onInvoiceSent;
 
   NewInvoicePageState({
     @required this.id,
@@ -112,7 +109,6 @@ class NewInvoicePageState {
     @required this.onJobSelected,
     @required this.onJobSearchTextChanged,
     @required this.onClearInputSelected,
-    @required this.onFilterChanged,
     @required this.flatRateText,
     @required this.hourlyRate,
     @required this.hourlyQuantity,
@@ -120,10 +116,6 @@ class NewInvoicePageState {
     @required this.itemQuantity,
     @required this.invoicePdfSaved,
     @required this.onFlatRateTextChanged,
-    @required this.onHourlyRateTextChanged,
-    @required this.onHourlyQuantityTextChanged,
-    @required this.onItemRateTextChanged,
-    @required this.onItemQuantityTextChanged,
     @required this.newLineItemRate,
     @required this.newLineItemName,
     @required this.newLineItemQuantity,
@@ -155,6 +147,8 @@ class NewInvoicePageState {
     @required this.isSalesTaxChecked,
     @required this.onDepositChecked,
     @required this.onSalesTaxChecked,
+    @required this.onSalesTaxRateChanged,
+    @required this.onInvoiceSent,
   });
 
   NewInvoicePageState copyWith({
@@ -209,12 +203,7 @@ class NewInvoicePageState {
     Function(Job) onJobSelected,
     Function(String) onJobSearchTextChanged,
     Function() onClearInputSelected,
-    Function(String) onFilterChanged,
     Function(String) onFlatRateTextChanged,
-    Function(String) onHourlyRateTextChanged,
-    Function(String) onHourlyQuantityTextChanged,
-    Function(String) onItemRateTextChanged,
-    Function(String) onItemQuantityTextChanged,
     Function(int) onLineItemDeleted,
     Function() onDeleteDiscountSelected,
     Function(bool) onDepositActionPressed,
@@ -225,6 +214,8 @@ class NewInvoicePageState {
     bool isDepositChecked,
     Function(bool) onDepositChecked,
     Function(bool) onSalesTaxChecked,
+    Function(String) onSalesTaxRateChanged,
+    Function() onInvoiceSent,
   }){
     return NewInvoicePageState(
       id: id?? this.id,
@@ -251,7 +242,6 @@ class NewInvoicePageState {
       onJobSelected: onJobSelected ?? this.onJobSelected,
       onJobSearchTextChanged: onJobSearchTextChanged ?? this.onJobSearchTextChanged,
       onClearInputSelected: onClearInputSelected?? this.onClearInputSelected,
-      onFilterChanged: onFilterChanged?? this.onFilterChanged,
       flatRateText: flatRateText ?? this.flatRateText,
       hourlyRate: hourlyRate ?? this.hourlyRate,
       hourlyQuantity: hourlyQuantity ?? this.hourlyQuantity,
@@ -267,10 +257,6 @@ class NewInvoicePageState {
       onNewLineItemRateTextChanged: onNewLineItemRateTextChanged ?? this.onNewLineItemRateTextChanged,
       onNewLineItemSaveSelected: onNewLineItemSaveSelected ?? this.onNewLineItemSaveSelected,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
-      onHourlyQuantityTextChanged: onHourlyQuantityTextChanged ?? this.onHourlyQuantityTextChanged,
-      onHourlyRateTextChanged: onHourlyRateTextChanged ?? this.onHourlyRateTextChanged,
-      onItemRateTextChanged: onItemRateTextChanged ?? this.onItemRateTextChanged,
-      onItemQuantityTextChanged: onItemQuantityTextChanged ?? this.onItemQuantityTextChanged,
       onLineItemDeleted: onLineItemDeleted ?? this.onLineItemDeleted,
       newDiscountPercentage: newDiscountPercentage ?? this.newDiscountPercentage,
       newDiscountRate: newDiscountRate ?? this.newDiscountRate,
@@ -294,6 +280,8 @@ class NewInvoicePageState {
       isSalesTaxChecked: isSalesTaxChecked ?? this.isSalesTaxChecked,
       onDepositChecked: onDepositChecked ?? this.onDepositChecked,
       onSalesTaxChecked: onSalesTaxChecked ?? this.onSalesTaxChecked,
+      onSalesTaxRateChanged: onSalesTaxRateChanged ?? this.onSalesTaxRateChanged,
+      onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
     );
   }
 
@@ -324,17 +312,12 @@ class NewInvoicePageState {
         onJobSelected: null,
         onJobSearchTextChanged: null,
         onClearInputSelected: null,
-        onFilterChanged: null,
         flatRateText: '',
         hourlyRate: '',
         hourlyQuantity: '',
         itemRate: '',
         itemQuantity: '',
         onFlatRateTextChanged: null,
-        onHourlyRateTextChanged: null,
-        onHourlyQuantityTextChanged: null,
-        onItemQuantityTextChanged: null,
-        onItemRateTextChanged: null,
         newLineItemName: '',
         newLineItemRate: '',
         newLineItemQuantity: '',
@@ -368,6 +351,8 @@ class NewInvoicePageState {
         salesTaxPercent: 0,
         onDepositChecked: null,
         onSalesTaxChecked: null,
+        onSalesTaxRateChanged: null,
+      onInvoiceSent: null,
       );
   }
 
@@ -427,12 +412,7 @@ class NewInvoicePageState {
       onJobSelected: (selectedJob) => store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, selectedJob)),
       onJobSearchTextChanged: (searchText) => store.dispatch(FilterJobList(store.state.newInvoicePageState, searchText)),
       onClearInputSelected: () => store.dispatch(ClearSearchInputActon(store.state.newInvoicePageState)),
-      onFilterChanged: (selectedFilter) => store.dispatch(SaveSelectedFilter(store.state.newInvoicePageState, selectedFilter)),
       onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateText(store.state.newInvoicePageState, flatRateText)),
-      onHourlyRateTextChanged: (hourlyRate) => store.dispatch(UpdateNewInvoiceHourlyRateTextAction(store.state.newInvoicePageState, hourlyRate)),
-      onHourlyQuantityTextChanged: (hourlyQuantity) => store.dispatch(UpdateNewInvoiceHourlyQuantityTextAction(store.state.newInvoicePageState, hourlyQuantity)),
-      onItemRateTextChanged: (itemRate) => store.dispatch(UpdateNewInvoiceItemTextAction(store.state.newInvoicePageState, itemRate)),
-      onItemQuantityTextChanged: (itemQuantity) => store.dispatch(UpdateNewInvoiceItemQuantityAction(store.state.newInvoicePageState, itemQuantity)),
       onLineItemDeleted: (index) => store.dispatch(DeleteLineItemAction(store.state.newInvoicePageState, index)),
       onDeleteDiscountSelected: () => store.dispatch(DeleteDiscountAction(store.state.newInvoicePageState)),
       onDepositActionPressed: (isChecked) => store.dispatch(UpdateDepositStatusAction(store.state.newInvoicePageState, isChecked)),
@@ -440,6 +420,8 @@ class NewInvoicePageState {
       onEditSelected: null,
       onDepositChecked: (isChecked) => store.dispatch(SetDepositCheckBoxStateAction(store.state.newInvoicePageState, isChecked)),
       onSalesTaxChecked: (isChecked) => store.dispatch(SetSalesTaxCheckBoxStateAction(store.state.newInvoicePageState, isChecked)),
+      onSalesTaxRateChanged: (rate) => store.dispatch(SetSelectedSalesTaxRate(store.state.newInvoicePageState, rate)),
+      onInvoiceSent: () => store.dispatch(UpdateJobOnInvoiceSent(store.state.newInvoicePageState)),
     );
   }
 
@@ -467,7 +449,6 @@ class NewInvoicePageState {
       onJobSearchTextChanged.hashCode ^
       onClearInputSelected.hashCode ^
       jobs.hashCode ^
-      onFilterChanged.hashCode ^
       total.hashCode ^
       discountValue.hashCode ^
       flatRateText.hashCode ^
@@ -477,10 +458,6 @@ class NewInvoicePageState {
       itemQuantity.hashCode ^
       depositValue.hashCode ^
       unpaidAmount.hashCode ^
-      onHourlyRateTextChanged.hashCode ^
-      onHourlyQuantityTextChanged.hashCode ^
-      onItemQuantityTextChanged.hashCode ^
-      onItemRateTextChanged.hashCode ^
       newDiscountRate.hashCode ^
       newDiscountPercentage.hashCode ^
       onNewDiscountRateTextChanged.hashCode ^
@@ -500,6 +477,8 @@ class NewInvoicePageState {
       isSalesTaxChecked.hashCode ^
       isDepositChecked.hashCode ^
       isSalesTaxChecked.hashCode ^
+      onSalesTaxRateChanged.hashCode ^
+      onInvoiceSent.hashCode ^
       newDiscountFilter.hashCode;
 
   @override
@@ -529,7 +508,6 @@ class NewInvoicePageState {
           onJobSearchTextChanged == other.onJobSearchTextChanged &&
           onClearInputSelected == other.onClearInputSelected &&
           jobs == other.jobs &&
-          onFilterChanged == other.onFilterChanged &&
           total == other.total &&
           flatRateText == other.flatRateText &&
           hourlyRate == other.hourlyRate &&
@@ -538,10 +516,6 @@ class NewInvoicePageState {
           itemQuantity == other.itemQuantity &&
           depositValue == other.depositValue &&
           unpaidAmount == other.depositValue &&
-          onHourlyQuantityTextChanged == other.onHourlyQuantityTextChanged &&
-          onHourlyRateTextChanged == other.onHourlyRateTextChanged &&
-          onItemRateTextChanged == other.onItemRateTextChanged &&
-          onItemQuantityTextChanged == other.onItemQuantityTextChanged &&
           newDiscountPercentage == other.newDiscountPercentage &&
           newDiscountRate == other.newDiscountRate &&
           onNewDiscountCancelSelected == other.onNewDiscountCancelSelected &&
@@ -561,5 +535,7 @@ class NewInvoicePageState {
           isSalesTaxChecked == other.isSalesTaxChecked &&
           isDepositChecked == other.isDepositChecked &&
           isSalesTaxChecked == other.isSalesTaxChecked &&
+          onSalesTaxRateChanged == other.onSalesTaxRateChanged &&
+          onInvoiceSent == other.onInvoiceSent &&
           newDiscountFilter == other.newDiscountFilter;
 }

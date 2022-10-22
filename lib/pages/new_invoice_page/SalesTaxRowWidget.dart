@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../utils/UserOptionsUtil.dart';
 import '../../utils/styles/Styles.dart';
 
 class SalesTaxRowWidget extends StatefulWidget{
@@ -79,7 +80,7 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
                 child: TextButton(
                   style: Styles.getButtonStyle(),
                   onPressed: () {
-                    // UserOptionsUtil.showNewDiscountDialog(context);
+                    UserOptionsUtil.showSelectSalesTaxRateDialog(context);
                   },
                   child: Text(
                       pageState.salesTaxPercent > 0 ? pageState.salesTaxPercent.toString() + '%' : '0%',
@@ -93,8 +94,8 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
                   ),
                 ),
               ) : SizedBox(),
-              Text(
-                pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatSimpleCurrency((pageState.total * (pageState.salesTaxPercent/10)).toInt()) : '\$0',
+              pageState.isSalesTaxChecked ? Text(
+                pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatSimpleCurrency((pageState.total * (pageState.salesTaxPercent/100)).toInt()) : '\$0',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 24.0,
@@ -106,7 +107,7 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
                           : ColorConstants
                           .getPrimaryBackgroundGrey()),
                 ),
-              )
+              ) : SizedBox(),
             ],
           ),
         ],

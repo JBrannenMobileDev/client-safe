@@ -28,7 +28,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
       Stack(
         children: <Widget>[
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Center(
                 child: Text(

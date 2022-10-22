@@ -53,7 +53,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
-        if(appState.state.newInvoicePageState.shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
+        appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
       },
       onDidChange: (prev, pageState) {
@@ -219,6 +219,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
       showSuccessAnimation(
         context,
         pageState.invoiceNumber,
+        pageState
       );
       pageState.onSavePressed();
     }
@@ -249,7 +250,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   }
 
 
-  void showSuccessAnimation(BuildContext context, int invoiceId) {
+  void showSuccessAnimation(BuildContext context, int invoiceId, NewInvoicePageState pageState) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -263,7 +264,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
             callback: (String unused) {
               Navigator.of(context).pop(true);
               Navigator.of(context).pop(true);
-              UserOptionsUtil.showSendInvoicePromptDialog(context, invoiceId, onSendInvoiceSelected);
+              UserOptionsUtil.showSendInvoicePromptDialog(context, invoiceId, pageState.onInvoiceSent);
             },
           ),
         );

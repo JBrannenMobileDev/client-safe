@@ -246,7 +246,7 @@ IncomeAndExpensesPageState _updateFilterSelection(IncomeAndExpensesPageState pre
 
 IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousState, SetSelectedYearAction action){
   List<Invoice> unpaidInvoices = previousState.allInvoices.where((invoice) => invoice.invoicePaid == false).toList();
-  List<Invoice> unpaidInvoicesForSelectedYear = unpaidInvoices.where((invoice) => invoice.createdDate.year == action.year).toList();
+  List<Job> jobsWithOnlyDepositReceived = action.allJobs.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
 
   double totalForSelectedYear = 0.0;
   double thisMonth = 0.0;
@@ -276,26 +276,32 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       lastMonthLastYear = lastMonthLastYear + (invoice.total - invoice.discount);
     }
   }
-  for(Invoice unpaidInvoice in unpaidInvoicesForSelectedYear){
-    if(unpaidInvoice.depositPaid){
-      totalForSelectedYear = totalForSelectedYear + unpaidInvoice.depositAmount;
-      if(unpaidInvoice.dueDate.year == now.year && unpaidInvoice.dueDate.month == now.month) {
-        thisMonth = thisMonth + unpaidInvoice.depositAmount;
+
+  for(Job job in jobsWithOnlyDepositReceived){
+      if(job.depositReceivedDate.year == action.year) {
+        totalForSelectedYear = totalForSelectedYear + job.depositAmount;
       }
-      if(unpaidInvoice.dueDate.year == lastMonthDate.year && unpaidInvoice.dueDate.month == lastMonthDate.month) {
-        lastMonth = lastMonth + unpaidInvoice.depositAmount;
+
+      if(job.depositReceivedDate.year == now.year && job.depositReceivedDate.month == now.month) {
+        thisMonth = thisMonth + job.depositAmount;
       }
-      if(unpaidInvoice.dueDate.year == thisMonthLastYearDate.year && unpaidInvoice.dueDate.month == thisMonthLastYearDate.month) {
-        thisMonthLastYear = thisMonthLastYear + unpaidInvoice.depositAmount;
+      if(job.depositReceivedDate.year == lastMonthDate.year && job.depositReceivedDate.month == lastMonthDate.month) {
+        lastMonth = lastMonth + job.depositAmount;
       }
-      if(unpaidInvoice.dueDate.year == lastMonthLastYearDate.year && unpaidInvoice.dueDate.month == lastMonthLastYearDate.month) {
-        lastMonthLastYear = lastMonthLastYear + unpaidInvoice.depositAmount;
+      if(job.depositReceivedDate.year == thisMonthLastYearDate.year && job.depositReceivedDate.month == thisMonthLastYearDate.month) {
+        thisMonthLastYear = thisMonthLastYear + job.depositAmount;
       }
-    }
+      if(job.depositReceivedDate.year == lastMonthLastYearDate.year && job.depositReceivedDate.month == lastMonthLastYearDate.month) {
+        lastMonthLastYear = lastMonthLastYear + job.depositAmount;
+      }
   }
+
   for(Job job in action.allJobs.where((job) => job.isPaymentReceived() == true).toList()) {
     if(job.invoice == null) {
-      totalForSelectedYear = totalForSelectedYear + job.priceProfile.flatRate;
+      if(job.paymentReceivedDate.year == action.year) {
+        totalForSelectedYear = totalForSelectedYear + job.priceProfile.flatRate;
+      }
+
       if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
         thisMonth = thisMonth + job.priceProfile.flatRate + job.tipAmount;
       }
@@ -354,7 +360,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   }
 
   List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
-  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived);
+  List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, jobsWithOnlyDepositReceived);
 
   return previousState.copyWith(
     selectedYear: action.year,
@@ -376,7 +382,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   );
 }
 
-List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived) {
+List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<Job> jobsWithOnlyDepositReceived) {
   List<LineChartMonthData> chartItems = [];
   DateTime now = DateTime.now();
   int currentYear = now.year;
@@ -410,7 +416,37 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived) {
   LineChartMonthData data = LineChartMonthData(name: name0, income: 0, monthInt: nowMinus5.month);
   chartItems.add(data);
 
-  add deposits to chart
+  for(Job job in jobsWithOnlyDepositReceived) {
+    DateTime depositReceivedDate = job.depositReceivedDate;
+
+    if(depositReceivedDate != null && depositReceivedDate.year == currentYear) {
+      int depositMonth = depositReceivedDate.month;
+
+      if(depositMonth == chartItems.elementAt(0).monthInt) {
+        chartItems.elementAt(0).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(1).monthInt) {
+        chartItems.elementAt(1).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(2).monthInt) {
+        chartItems.elementAt(2).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(3).monthInt) {
+        chartItems.elementAt(3).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(4).monthInt) {
+        chartItems.elementAt(4).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+
+      if(depositMonth == chartItems.elementAt(5).monthInt) {
+        chartItems.elementAt(5).income += (job.depositAmount != null ? job.depositAmount : 0);
+      }
+    }
+  }
 
   for(Job job in jobsWithPaymentReceived) {
     DateTime paymentReceivedDate = job.paymentReceivedDate != null ? job.paymentReceivedDate : job.selectedDate;

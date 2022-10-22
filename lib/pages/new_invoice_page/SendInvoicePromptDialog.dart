@@ -73,8 +73,8 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                         Navigator.of(context).pop();
                         },
                         child: Container(
-                          height: 112.0,
-                          width: 112.0,
+                          height: 96.0,
+                          width: 96.0,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -84,7 +84,7 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                             'YES',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 48.0,
+                              fontSize: 32.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.getPrimaryWhite()),
@@ -97,8 +97,8 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                           Navigator.of(context).pop();
                         },
                         child: Container(
-                          height: 112.0,
-                          width: 112.0,
+                          height: 96.0,
+                          width: 96.0,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -108,7 +108,7 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                             'NO',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 48.0,
+                              fontSize: 32.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.getPrimaryWhite()),

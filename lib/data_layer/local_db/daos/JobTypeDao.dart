@@ -104,11 +104,16 @@ class JobTypeDao extends Equatable{
     if((await getAll()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', documentId));
       final recordSnapshots = await _jobTypeStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<JobType> list = recordSnapshots.map((snapshot) {
         final jobType = JobType.fromMap(snapshot.value);
         jobType.id = snapshot.key;
         return jobType;
-      }).toList().elementAt(0);
+      }).toList();
+      if(list.isNotEmpty) {
+        return list.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

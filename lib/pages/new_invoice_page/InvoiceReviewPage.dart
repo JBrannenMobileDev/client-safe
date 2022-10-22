@@ -76,8 +76,8 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               GrayDividerWidget(),
               BalanceDueWidget(pageState),
               pageState.dueDate != null ? Container(
-                margin: EdgeInsets.only(right: 16.0, bottom: 0.0),
-                alignment: Alignment.centerRight,
+                margin: EdgeInsets.only(left: 16.0, bottom: 0.0),
+                alignment: Alignment.centerLeft,
                 child: Text(
                   'Due date:   ' + DateFormat('MMM dd, yyyy').format(pageState.dueDate),
                   textAlign: TextAlign.start,

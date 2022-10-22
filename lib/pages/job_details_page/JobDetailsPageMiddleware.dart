@@ -353,6 +353,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(stageToComplete.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
       if(action.job.invoice != null){
         jobToSave.invoice.depositPaid = true;
+        jobToSave.depositReceivedDate = DateTime.now();
         jobToSave.invoice.unpaidAmount = action.job.invoice.unpaidAmount - action.job.invoice.depositAmount;
         await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }

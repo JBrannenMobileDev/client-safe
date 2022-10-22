@@ -25,6 +25,8 @@ class Invoice {
   double total;
   double unpaidAmount;
   double depositAmount;
+  double salesTaxAmount;
+  double salesTaxRate;
   List<LineItem> lineItems;
 
   Invoice({
@@ -46,6 +48,8 @@ class Invoice {
     this.lineItems,
     this.dueDate,
     this.depositAmount,
+    this.salesTaxAmount,
+    this.salesTaxRate,
   });
 
   Map<String, dynamic> toMap() {
@@ -67,6 +71,8 @@ class Invoice {
       'unpaidAmount' : unpaidAmount,
       'lineItems' : convertLineItemsToMaps(lineItems),
       'depositAmount' : depositAmount,
+      'salesTaxAmount' : salesTaxAmount,
+      'salesTaxRate' : salesTaxRate,
     };
   }
 
@@ -89,6 +95,8 @@ class Invoice {
       unpaidAmount: map['unpaidAmount'],
       lineItems: convertMapsToLineItems(map['lineItems']),
       depositAmount: map['depositAmount'],
+      salesTaxAmount: map['salesTaxAmount'],
+      salesTaxRate: map['salesTaxRate'],
     );
   }
 

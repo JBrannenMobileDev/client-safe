@@ -17,6 +17,7 @@ class Job {
   Location location;
   String notes;
   DateTime paymentReceivedDate;
+  DateTime depositReceivedDate;
   DateTime selectedDate;
   DateTime selectedTime;
   DateTime selectedEndTime;
@@ -49,6 +50,7 @@ class Job {
     this.createdDate,
     this.tipAmount,
     this.paymentReceivedDate,
+    this.depositReceivedDate,
   });
 
   Job copyWith({
@@ -72,6 +74,7 @@ class Job {
     List<JobStage> completedStages,
     DateTime createdDate,
     DateTime paymentReceivedDate,
+    DateTime depositReceivedDate,
   }){
     return Job(
       id: id?? this.id,
@@ -94,6 +97,7 @@ class Job {
       tipAmount: tipAmount ?? this.tipAmount,
       completedStages: completedStages ?? this.completedStages,
       createdDate: createdDate ?? this.createdDate,
+      depositReceivedDate: depositReceivedDate ?? this.depositReceivedDate,
     );
   }
 
@@ -105,6 +109,7 @@ class Job {
       'clientName' : clientName,
       'jobTitle' : jobTitle,
       'notes' : notes,
+      'depositReceivedDate' : depositReceivedDate?.toString() ?? "",
       'selectedDate' : selectedDate?.toString() ?? "",
       'selectedTime' : selectedTime?.toString() ?? "",
       'selectedEndTime' : selectedEndTime?.toString() ?? "",
@@ -129,6 +134,7 @@ class Job {
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
+      depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
       selectedDate: map['selectedDate'] != ""? DateTime.parse(map['selectedDate']) : null,
       selectedTime: map['selectedTime'] != "" ? DateTime.parse(map['selectedTime']) : null,
       createdDate: map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,

@@ -70,12 +70,6 @@ class FilterJobList{
   FilterJobList(this.pageState, this.searchText);
 }
 
-class SaveSelectedFilter{
-  final NewInvoicePageState pageState;
-  final String selectedFilter;
-  SaveSelectedFilter(this.pageState, this.selectedFilter);
-}
-
 class UpdateFlatRateText{
   final NewInvoicePageState pageState;
   final String flatRateText;
@@ -205,6 +199,17 @@ class SetSalesTaxCheckBoxStateAction {
   final NewInvoicePageState pageState;
   final bool isChecked;
   SetSalesTaxCheckBoxStateAction(this.pageState, this.isChecked);
+}
+
+class SetSelectedSalesTaxRate {
+  final NewInvoicePageState pageState;
+  final String rate;
+  SetSelectedSalesTaxRate(this.pageState, this.rate);
+}
+
+class UpdateJobOnInvoiceSent{
+  final NewInvoicePageState pageState;
+  UpdateJobOnInvoiceSent(this.pageState);
 }
 
 

@@ -25,6 +25,7 @@ import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../models/Profile.dart';
+import '../../utils/TextFormatterUtil.dart';
 
 class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -54,6 +55,26 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveNewInvoiceAction){
       _saveInvoice(store, action, next);
     }
+    if(action is UpdateJobOnInvoiceSent) {
+      _invoiceSent(store, action);
+    }
+  }
+
+  void _invoiceSent(Store<AppState> store, UpdateJobOnInvoiceSent action) async {
+    Job job = await JobDao.getJobById(action.pageState.selectedJob.documentId);
+    List<JobStage> completedStages = job.completedStages;
+    if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
+      completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
+    }
+    job.completedStages = completedStages;
+    await JobDao.update(job);
+    await JobDao.update(job);
+
+    Invoice invoice = await InvoiceDao.getInvoiceById(job.invoice.documentId);
+    invoice.sentDate = DateTime.now();
+    await InvoiceDao.update(invoice, job);
+
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _saveInvoice(Store<AppState> store, action, NextDispatcher next) async {
@@ -79,11 +100,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           total: pageState.total,
           lineItems: pageState.lineItems,
           sentDate: pageState.selectedJob.invoice?.sentDate,
+          salesTaxAmount: (pageState.total * (pageState.salesTaxPercent/100)),
+          salesTaxRate: pageState.salesTaxPercent,
     ), pageState.selectedJob);
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, (await JobDao.getJobById(pageState.selectedJob.documentId)).invoice));
-    store.dispatch(ClearStateAction(store.state.newInvoicePageState));
   }
 
   void _updateDepositStatus(Store<AppState> store, UpdateDepositStatusAction action, NextDispatcher next) async {
@@ -147,7 +169,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     List<Client> allClients = await ClientDao.getAllSortedByFirstName();
     int newInvoiceNumber = await NextInvoiceNumberDao.nextNumber();
     List<Job> allJobs = await JobDao.getAllJobs();
-    allJobs = allJobs.where((job) => !job.hasCompletedStage(JobStage.STAGE_9_PAYMENT_RECEIVED) && !job.hasCompletedStage(JobStage.STAGE_14_JOB_COMPLETE)).toList();
+    allJobs = allJobs.where((job) => job.invoice == null).toList();
     store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile.salesTaxRate));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
@@ -526,6 +548,53 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                     alignment: Alignment.centerRight,
                     child: Text(
                       '-\$' + pageState.discountValue.truncate().toString(),
+                      textScaleFactor: 1.5,
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ) : SizedBox(),
+
+          pageState.salesTaxPercent > 0 ? Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Container(
+                width: 198.0,
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '',
+                  textScaleFactor: 1.5,
+                  textAlign: TextAlign.left,
+                ),
+              ),
+              Row(
+
+                children: <Widget>[
+                  Container(
+                    width: 70.0,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        '',
+                        textScaleFactor: 1.5,
+                        textAlign: TextAlign.right
+                    ),
+                  ),
+                  Container(
+                    width: 100.0,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                        'Sales tax',
+                        textScaleFactor: 1.5,
+                        textAlign: TextAlign.right
+                    ),
+                  ),
+                  Container(
+                    width: 100.0,
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      TextFormatterUtil.formatSimpleCurrency((pageState.total * (pageState.salesTaxPercent/100)).toInt()),
                       textScaleFactor: 1.5,
                       textAlign: TextAlign.right,
                     ),
