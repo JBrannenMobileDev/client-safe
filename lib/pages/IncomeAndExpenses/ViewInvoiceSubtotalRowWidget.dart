@@ -12,8 +12,8 @@ class ViewInvoiceSubtotalRowWidget extends StatelessWidget{
     return Padding(
       padding: EdgeInsets.only(
           left: 16.0, right: 16.0, bottom: 0.0, top: 16.0),
-      child: Stack(
-        alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 112.0),

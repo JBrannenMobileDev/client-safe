@@ -24,6 +24,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import 'ViewSalesTaxRowWidget.dart';
+
 class ViewInvoiceDialog extends StatefulWidget {
   final Invoice invoice;
   final Job job;
@@ -187,28 +189,43 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                   GrayDividerWidget(),
                                   ViewInvoiceSubtotalRowWidget(invoice),
                                   invoice.depositPaid ? ViewInvoiceDepositRowWidget(invoice, job) : SizedBox(),
-                                  invoice.discount > 0 ? ViewInvoiceDiscountRowWidget(invoice) : SizedBox(height: 16.0,),
+                                  invoice.discount > 0 ? ViewInvoiceDiscountRowWidget(invoice) : SizedBox(),
+                                  invoice.salesTaxRate > 0 ? ViewSalesTaxRowWidget(invoice) : SizedBox(),
                                   GrayDividerWidget(),
                                   ViewInvoiceBalanceDueWidget(invoice),
                                   invoice.dueDate != null ? Container(
-                                    margin: EdgeInsets.only(right: 16.0, bottom: 0.0),
-                                    alignment: Alignment.centerRight,
-                                    child: Text(
-                                      'Due date:   ' + DateFormat('MMM dd, yyyy').format(invoice.dueDate),
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
+                                    margin: EdgeInsets.only(right: 16.0, bottom: 0.0, left: 16.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          'Due date:',
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontSize: 24.0,
+                                            fontFamily: 'simple',
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(ColorConstants.primary_black),
+                                          ),
+                                        ),
+                                        Text(
+                                          DateFormat('MMM dd, yyyy').format(invoice.dueDate),
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontSize: 24.0,
+                                            fontFamily: 'simple',
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(ColorConstants.primary_black),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ) : SizedBox(),
                                   Expanded(
                                     child: Container(
                                       alignment: Alignment.center,
                                       child: Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.end,
                                         crossAxisAlignment: CrossAxisAlignment.center,
                                         children: <Widget>[
                                           GestureDetector(
@@ -232,40 +249,6 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                                       'assets/images/icons/pdf_icon_white.png'),
                                                   Text(
                                                     'View PDF',
-                                                    textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 22.0,
-                                                      fontFamily: 'simple',
-                                                      fontWeight: FontWeight.w800,
-                                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                                    ),
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          GestureDetector(
-                                            onTap: () {
-                                              pageState.onEditInvoiceSelected(invoice);
-                                              Navigator.of(context).pop();
-                                              UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
-                                            },
-                                            child: Container(
-                                              margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
-                                              padding: EdgeInsets.all(12.0),
-                                              height: 54.0,
-                                              width: 200.0,
-                                              decoration: BoxDecoration(
-                                                  color: Color(ColorConstants.getPrimaryColor()),
-                                                  borderRadius: BorderRadius.circular(36.0)
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                                children: <Widget>[
-                                                  Image.asset(
-                                                      'assets/images/icons/edit_icon_white.png'),
-                                                  Text(
-                                                    'Edit invoice',
                                                     textAlign: TextAlign.center,
                                                     style: TextStyle(
                                                       fontSize: 22.0,

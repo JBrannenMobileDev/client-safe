@@ -15,8 +15,8 @@ class ViewInvoiceDepositRowWidget extends StatelessWidget{
     return Padding(
       padding: EdgeInsets.only(
           left: 16.0, right: 16.0, top: 4.0),
-      child: Stack(
-        alignment: Alignment.centerRight,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 96.0),

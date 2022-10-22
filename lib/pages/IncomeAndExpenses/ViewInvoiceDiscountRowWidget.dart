@@ -10,12 +10,9 @@ class ViewInvoiceDiscountRowWidget extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top: 4.0),
-      child: Stack(
-        alignment: Alignment.centerRight,
-        children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+      padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: invoice.salesTaxRate > 0 ? 4.0 : 16.0, top: 4.0),
+      child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
@@ -31,8 +28,6 @@ class ViewInvoiceDiscountRowWidget extends StatelessWidget{
                   ),
                 ),
               ),
-            ],
-          ),
           invoice.discount > 0.0 ? Text(
             (invoice.discount.toInt() > 0 ? '-' : '') + '\$' +
                 (invoice.discount.toInt().toString()),
@@ -46,7 +41,7 @@ class ViewInvoiceDiscountRowWidget extends StatelessWidget{
                   .getPrimaryBackgroundGrey()),
             ),
           ) : SizedBox(),
-        ],
+    ],
       ),
     );
   }
