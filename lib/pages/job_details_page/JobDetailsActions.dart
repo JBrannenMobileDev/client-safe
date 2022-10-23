@@ -77,6 +77,11 @@ class SetNewInvoice{
   SetNewInvoice(this.pageState, this.invoice);
 }
 
+class DeleteInvoiceFromLocalStateAction{
+  final JobDetailsPageState pageState;
+  DeleteInvoiceFromLocalStateAction(this.pageState);
+}
+
 class SetSunsetTimeForJobAction{
   final JobDetailsPageState pageState;
   final DateTime sunset;
@@ -292,5 +297,10 @@ class SetJobAction{
   final JobDetailsPageState pageState;
   final Job job;
   SetJobAction(this.pageState, this.job);
+}
+
+class ClearPreviousStateAction {
+  final JobDetailsPageState pageState;
+  ClearPreviousStateAction(this.pageState);
 }
 

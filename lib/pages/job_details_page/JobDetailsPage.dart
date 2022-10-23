@@ -99,6 +99,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     return StoreConnector<AppState, JobDetailsPageState>(
         converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
         onInit: (appState) => {
+            // appState.dispatch(ClearPreviousStateAction(appState.state.jobDetailsPageState)),
             appState.dispatch(FetchTimeOfSunsetJobAction(appState.state.jobDetailsPageState)),
             appState.dispatch(FetchJobDetailsPricePackagesAction(appState.state.jobDetailsPageState)),
             appState.dispatch(FetchJobDetailsLocationsAction(appState.state.jobDetailsPageState)),
@@ -429,7 +430,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                             delegate: new SliverChildListDelegate(<Widget>[
                               JobInfoCard(pageState: pageState),
                               ClientDetailsCard(pageState: pageState),
-                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected),
+                              DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, onDeleteInvoiceSelected: onDeleteInvoiceSelected),
                               RemindersCard(pageState: pageState),
                             ])),
                       ],
@@ -448,6 +449,13 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     pageStateLocal.removeExpandedIndex(7);
     pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
     VibrateUtil.vibrateHeavy();
+  }
+
+  void onDeleteInvoiceSelected() {
+    // pageStateLocal.onStageUndo(pageStateLocal.job, 7);
+    // pageStateLocal.removeExpandedIndex(7);
+    // pageStateLocal.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageStateLocal.job.stage.stage, pageStateLocal.job.type.stages)));
+    // VibrateUtil.vibrateHeavy();
   }
 
   void _onAddButtonPressed(BuildContext context) {

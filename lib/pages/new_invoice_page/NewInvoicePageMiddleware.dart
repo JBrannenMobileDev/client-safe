@@ -67,6 +67,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
     }
     job.completedStages = completedStages;
+    job.stage = Job.getNextUncompletedStage(job.completedStages, job.type.stages, job);
     await JobDao.update(job);
     await JobDao.update(job);
 
@@ -75,6 +76,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     await InvoiceDao.update(invoice, job);
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SaveStageCompleted(store.state.jobDetailsPageState, job, job.getStageIndex(JobStage.STAGE_8_PAYMENT_REQUESTED)));
   }
 
   void _saveInvoice(Store<AppState> store, action, NextDispatcher next) async {

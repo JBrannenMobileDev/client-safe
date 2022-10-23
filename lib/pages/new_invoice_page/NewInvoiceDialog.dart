@@ -53,7 +53,7 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
       onInit: (appState) {
-        appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
+        if(appState.state.newInvoicePageState.shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
       },
       onDidChange: (prev, pageState) {

@@ -13,8 +13,9 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 
 class DocumentsCard extends StatelessWidget {
   final Function onSendInvoiceSelected;
+  final Function onDeleteInvoiceSelected;
 
-  DocumentsCard({this.pageState, this.onSendInvoiceSelected});
+  DocumentsCard({this.pageState, this.onSendInvoiceSelected, this.onDeleteInvoiceSelected});
 
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
@@ -144,6 +145,7 @@ class DocumentsCard extends StatelessWidget {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteInvoiceSelected(pageState.invoice);
+                onDeleteInvoiceSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
@@ -162,6 +164,7 @@ class DocumentsCard extends StatelessWidget {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteInvoiceSelected(pageState.invoice);
+                onDeleteInvoiceSelected();
                 Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),

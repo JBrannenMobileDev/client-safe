@@ -35,7 +35,37 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetDeviceEventsAction>(_setDeviceEvents),
   TypedReducer<JobDetailsPageState, SetJobDetailsSelectedDateAction>(_setSelectedDate),
   TypedReducer<JobDetailsPageState, SetAllJobTypesAction>(_setJobTypes),
+  TypedReducer<JobDetailsPageState, DeleteInvoiceFromLocalStateAction>(_deleteInvoice),
+  TypedReducer<JobDetailsPageState, ClearPreviousStateAction>(_clearState),
 ]);
+
+JobDetailsPageState _clearState(JobDetailsPageState previousState, ClearPreviousStateAction action) {
+  return JobDetailsPageState.initial();
+}
+
+JobDetailsPageState _deleteInvoice(JobDetailsPageState previousState, DeleteInvoiceFromLocalStateAction action) {
+  List<DocumentItem> documents = previousState.documents;
+
+  DocumentItem documentToReplace;
+  for(DocumentItem documentItem in documents){
+    if(documentItem.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE){
+      documentToReplace = documentItem;
+    }
+  }
+
+  if(documentToReplace != null){
+    documents.remove(documentToReplace);
+  }
+
+  action.pageState.job.invoice = null;
+
+  return previousState.copyWith(
+    job: action.pageState.job,
+    invoice: null,
+    documents: documents,
+  );
+}
+
 
 JobDetailsPageState _setJobTypes(JobDetailsPageState previousState, SetAllJobTypesAction action) {
   return previousState.copyWith(

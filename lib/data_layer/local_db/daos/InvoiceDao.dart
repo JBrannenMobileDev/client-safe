@@ -157,11 +157,16 @@ class InvoiceDao extends Equatable{
       final finder = Finder(filter: Filter.equals('documentId', documentId));
       final recordSnapshots = await _invoiceStore.find(await _db, finder: finder);
       // Making a List<Client> out of List<RecordSnapshot>
-      return recordSnapshots.map((snapshot) {
+      List<Invoice> list = recordSnapshots.map((snapshot) {
         final invoice = Invoice.fromMap(snapshot.value);
         invoice.id = snapshot.key;
         return invoice;
-      }).toList().elementAt(0);
+      }).toList();
+      if(list.length > 0) {
+        return list.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

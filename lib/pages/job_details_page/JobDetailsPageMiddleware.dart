@@ -22,17 +22,14 @@ import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
-import '../../data_layer/local_db/daos/ReminderDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Profile.dart';
-import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/UidUtil.dart';
 
@@ -147,25 +144,35 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateInvoiceToSent(Store<AppState> store, InvoiceSentAction action, NextDispatcher next) async {
+    Job job = await JobDao.getJobById(action.pageState.job.documentId);
+    List<JobStage> completedStages = job.completedStages;
+    if(!Job.containsStage(completedStages, JobStage.STAGE_8_PAYMENT_REQUESTED)) {
+      completedStages.add(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
+    }
+    job.completedStages = completedStages;
+    await JobDao.update(job);
+
     action.invoice.sentDate = DateTime.now();
     await InvoiceDao.update(action.invoice, store.state.jobDetailsPageState.job);
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void deleteInvoice(Store<AppState> store, OnDeleteInvoiceSelectedAction action, NextDispatcher next) async {
     await InvoiceDao.deleteByInvoice(action.invoice);
     List<JobStage> completedJobStages = store.state.jobDetailsPageState.job.completedStages.toList();
     completedJobStages.remove(JobStage(stage: JobStage.STAGE_8_PAYMENT_REQUESTED));
-    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      completedStages: completedJobStages,
-    );
+    Job jobToSave = store.state.jobDetailsPageState.job;
+    jobToSave.completedStages = completedJobStages;
     jobToSave.invoice = null;
+
     await JobDao.insertOrUpdate(jobToSave);
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(DeleteInvoiceFromLocalStateAction(store.state.jobDetailsPageState));
     store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
-    store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, null));
   }
 
   void _updateJobDeposit(Store<AppState> store, SaveDepositChangeAction action, NextDispatcher next) async{
@@ -389,23 +396,27 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       createdDate: store.state.jobDetailsPageState.job.createdDate,
     );
     if(stageToRemove.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
-      if(action.job.invoice != null){
+      if(jobToSave.invoice != null){
         jobToSave.invoice.invoicePaid = false;
         await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
     }
+
     if(stageToRemove.stage == JobStage.STAGE_8_PAYMENT_REQUESTED){
-      if(action.job.invoice != null){
+      if(jobToSave.invoice != null){
         jobToSave.invoice.sentDate = null;
         await InvoiceDao.updateInvoiceOnly(jobToSave.invoice);
       }
     }
     if(stageToRemove.stage == JobStage.STAGE_5_DEPOSIT_RECEIVED){
-      if(action.job.invoice != null){
+      if(store.state.jobDetailsPageState.invoice != null){
         jobToSave.invoice.depositPaid = false;
         jobToSave.invoice.unpaidAmount = action.job.invoice.unpaidAmount + action.job.invoice.depositAmount;
         await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
+    }
+    if(store.state.jobDetailsPageState.invoice == null) {
+      jobToSave.invoice = null;
     }
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(FetchJobsAction(store.state.jobsPageState));

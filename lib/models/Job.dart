@@ -232,4 +232,29 @@ class Job {
     }
     return contains;
   }
+
+  int getStageIndex(String stageToMatch) {
+    for(int i = 0; i < type.stages.length; i++) {
+      if(type.stages.elementAt(i).stage == stageToMatch) {
+        return i;
+      }
+    }
+    return 0;
+  }
+
+  static JobStage getNextUncompletedStage(List<JobStage> completedStages, List<JobStage> stages, Job job) {
+    int indexOfHighestCompleted = 0;
+    for(JobStage completedStage in completedStages) {
+      int index = job.getStageIndex(completedStage.stage);
+      if(index > indexOfHighestCompleted) {
+        indexOfHighestCompleted = index;
+      }
+    }
+
+    if(indexOfHighestCompleted < stages.length-1) {
+      return stages.elementAt(indexOfHighestCompleted + 1);
+    } else {
+      return stages.elementAt(indexOfHighestCompleted);
+    }
+  }
 }

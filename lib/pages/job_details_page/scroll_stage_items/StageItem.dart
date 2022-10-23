@@ -76,12 +76,12 @@ class _StageItemState extends State<StageItem>
   bool isCurrentStage;
   bool isStageCompleted;
   int index;
-  Job job;
+  Job staleJob;
   Function() onSendInvoiceSelected;
 
   _StageItemState(
       this.index,
-      this.job,
+      this.staleJob,
       this.onSendInvoiceSelected,
       );
 
@@ -90,7 +90,7 @@ class _StageItemState extends State<StageItem>
     super.initState();
     isCurrentStage = false;
     isStageCompleted = false;
-    _setStageStatus(job, index);
+    _setStageStatus(staleJob, index);
 
     _controller = AnimationController(
       vsync: this,
@@ -221,7 +221,7 @@ class _StageItemState extends State<StageItem>
     return StoreConnector<AppState, JobDetailsPageState>(
         onDidChange: (prev, pageState) => {
           setState(() {
-            _setStageStatus(job, index);
+            _setStageStatus(pageState.job, index);
             if(isCurrentStage){
               _pulsingCircleSize.addListener(() => this.setState(() {}));
               _controller.repeat();
@@ -246,7 +246,7 @@ class _StageItemState extends State<StageItem>
                     margin: EdgeInsets.only(
                         bottom: 30.0,
                         left: index == 0 ? 72.0 : 0.0,
-                        right: index == job.type.stages.length-1 ? 72.0 : 0.0,
+                        right: index == pageState.job.type.stages.length-1 ? 72.0 : 0.0,
                     ),
                     height: 4.0,
                     color: Colors.white,
@@ -290,7 +290,7 @@ class _StageItemState extends State<StageItem>
                     child: Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index)),
+                            image: ImageUtil.getJobStageImageFromStage(pageState.job.type.stages.elementAt(index)),
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -404,7 +404,7 @@ class _StageItemState extends State<StageItem>
                         opacity: isCurrentStage ? 1.0 : _subtextOpacityReversed.value,
                         child: GestureDetector(
                           onTap: () {
-                            switch (job.type.stages.elementAt(index).stage) {
+                            switch (pageState.job.type.stages.elementAt(index).stage) {
                               case JobStage.STAGE_1_INQUIRY_RECEIVED:
                                 break;
                               case JobStage.STAGE_2_FOLLOWUP_SENT:
@@ -422,19 +422,18 @@ class _StageItemState extends State<StageItem>
                                 );
                                 break;
                               case JobStage.STAGE_7_SESSION_COMPLETE:
-                                Share.share('Here are the driving directions. \nLocation: ${job.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${job.location.latitude},${job.location.longitude}');
+                                Share.share('Here are the driving directions. \nLocation: ${pageState.job.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.job.location.latitude},${pageState.job.location.longitude}');
                                 break;
                               case JobStage.STAGE_8_PAYMENT_REQUESTED:
-                                if(pageState.invoice != null) {
-                                  IntentLauncherUtil.shareInvoice(
-                                      pageState.invoice);
-                                  pageState.onInvoiceSent(pageState.invoice);
+                                if(pageState.job.invoice != null) {
+                                  IntentLauncherUtil.shareInvoice(pageState.job.invoice);
+                                  pageState.onInvoiceSent(pageState.job.invoice);
                                   pageState.onStageCompleted(
                                       pageState.job, index);
                                   isStageCompleted = true;
                                   isCurrentStage = false;
                                   pageState.removeExpandedIndex(index);
-                                  pageState.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageState.job.stage.stage, job.type.stages)));
+                                  pageState.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageState.job.stage.stage, pageState.job.type.stages)));
                                   VibrateUtil.vibrateHeavy();
                                   _newStageCompleteAnimation.reset();
                                   _stageCompleteAnimation.forward();
