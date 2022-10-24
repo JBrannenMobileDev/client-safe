@@ -8,6 +8,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
+import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/JobType.dart';
@@ -169,12 +170,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       clientName: resultClient.getClientFullName(),
       jobTitle: jobTitle,
       selectedDate: store.state.newJobPageState.selectedDate,
-      selectedTime: store.state.newJobPageState.selectedTime,
+      selectedTime: store.state.newJobPageState.selectedStartTime,
+      selectedEndTime: store.state.newJobPageState.selectedEndTime,
       type: store.state.newJobPageState.jobType,
       stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState.jobType.stages),
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState.selectedLocation,
-      priceProfile: store.state.newJobPageState.selectedPriceProfile,
+      priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile
+          : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
       createdDate: DateTime.now(),
       depositAmount: 0,
       );

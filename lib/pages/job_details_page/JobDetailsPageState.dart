@@ -46,7 +46,7 @@ class JobDetailsPageState {
   final List<DocumentItem> documents;
   final Invoice invoice;
   final Function(PriceProfile) onPriceProfileSelected;
-  final Function() onSaveUpdatedPriceProfileSelected;
+  final Function(String) onSaveUpdatedPriceProfileSelected;
   final Function(JobType) onJobTypeSelected;
   final Function(Job, int) onStageCompleted;
   final Function(Job, int) onStageUndo;
@@ -57,6 +57,7 @@ class JobDetailsPageState {
   final Function() onInstagramSelected;
   final Function(double) onScrollOffsetChanged;
   final Function(DateTime) onNewTimeSelected;
+  final Function(DateTime) onNewEndTimeSelected;
   final Function() onSaveSelectedDate;
   final Function(Client) onClientClicked;
   final Function(Job) onJobClicked;
@@ -136,6 +137,7 @@ class JobDetailsPageState {
     @required this.imageFiles,
     @required this.jobType,
     @required this.jobTypes,
+    @required this.onNewEndTimeSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -161,7 +163,7 @@ class JobDetailsPageState {
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
     Function(PriceProfile) onPriceProfileSelected,
-    Function() onSaveUpdatedPriceProfileSelected,
+    Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
     Function(Job, int) onStageCompleted,
     Function(Job, int) onStageUndo,
@@ -196,6 +198,7 @@ class JobDetailsPageState {
     Function(JobReminder) onDeleteReminderSelected,
     Function(DateTime) onMonthChanged,
     Function(DateTime) onNewDateSelected,
+    Function(DateTime) onNewEndTimeSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -255,6 +258,7 @@ class JobDetailsPageState {
       onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
       imageFiles: imageFiles ?? this.imageFiles,
       jobTypes: jobTypes ?? this.jobTypes,
+      onNewEndTimeSelected: onNewEndTimeSelected ?? this.onNewEndTimeSelected,
     );
   }
 
@@ -296,6 +300,7 @@ class JobDetailsPageState {
         onInstagramSelected: () => store.dispatch(JobInstagramSelectedAction(store.state.jobDetailsPageState)),
         onScrollOffsetChanged: (offset) => store.dispatch(UpdateScrollOffset(store.state.jobDetailsPageState, offset)),
         onNewTimeSelected: (newTime) => store.dispatch(UpdateJobTimeAction(store.state.jobDetailsPageState, newTime)),
+        onNewEndTimeSelected: (newTime) => store.dispatch(UpdateJobEndTimeAction(store.state.jobDetailsPageState, newTime)),
         onSaveSelectedDate: () => store.dispatch(UpdateJobDateAction(store.state.jobDetailsPageState)),
         onClientClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
         onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
@@ -306,7 +311,7 @@ class JobDetailsPageState {
         onJobTypeSelected: (jobType) => store.dispatch(UpdateSelectedJobTypeAction(store.state.jobDetailsPageState, jobType)),
         onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
         onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
-        onSaveUpdatedPriceProfileSelected: () => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState)),
+        onSaveUpdatedPriceProfileSelected: (oneTimePrice) => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState, oneTimePrice)),
         onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
@@ -380,6 +385,7 @@ class JobDetailsPageState {
     reminders: [],
     imageFiles: [],
     jobTypes: [],
+    onNewEndTimeSelected: null,
   );
 
   @override
@@ -434,6 +440,7 @@ class JobDetailsPageState {
       onSaveUpdatedPriceProfileSelected.hashCode ^
       onClearUnsavedDeposit.hashCode ^
       imageFiles.hashCode ^
+      onNewEndTimeSelected.hashCode ^
       reminders.hashCode;
 
   @override
@@ -488,5 +495,6 @@ class JobDetailsPageState {
               onPriceProfileSelected == other.onPriceProfileSelected &&
               onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
               imageFiles == other.imageFiles &&
+              onNewEndTimeSelected == other.onNewEndTimeSelected &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }

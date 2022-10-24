@@ -10,7 +10,10 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import '../new_pricing_profile_page/DandyLightTextField.dart';
 
 class PricePackageChangeDialog extends StatefulWidget {
   @override
@@ -23,6 +26,10 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
     with AutomaticKeepAliveClientMixin {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+
+  final FocusNode flatRateInputFocusNode = new FocusNode();
+  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
+  String oneTimePrice = '';
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +61,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                       Padding(
                         padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
                         child: Text(
-                          "Select a price package",
+                          "Input a one time price \nor select a price package",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22.0,
@@ -88,7 +95,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                       controller: _controller,
                       physics: ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: pageState.priceProfiles.length,
+                      itemCount: pageState.priceProfiles.length + 1,
                       itemBuilder: _buildItem,
                     ),
                   ),
@@ -116,7 +123,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                         TextButton(
                           style: Styles.getButtonStyle(),
                           onPressed: () {
-                            pageState.onSaveUpdatedPriceProfileSelected();
+                            pageState.onSaveUpdatedPriceProfileSelected(oneTimePrice);
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },
@@ -195,13 +202,51 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) => Container(
         margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
-        child: PriceProfileListWidget(
-            pageState.priceProfiles.elementAt(index),
+        child: index == 0 ? Container(
+          padding: EdgeInsets.only(top: 8.0, left: 24.0, right: 24.0),
+          child: Column(
+            children: [
+              DandyLightTextField(
+                controller: flatRateTextController,
+                hintText: "\$",
+                inputType: TextInputType.number,
+                focusNode: flatRateInputFocusNode,
+                height: 66.0,
+                onTextInputChanged: (input) {
+                  setState(() {
+                    String numbersOnly = input.replaceAll('\$', '').replaceAll(' ', '');
+                    if(numbersOnly == '0') {
+                      numbersOnly = '';
+                    }
+                    oneTimePrice = numbersOnly;
+                  });
+                },
+                capitalization: TextCapitalization.none,
+                keyboardAction: TextInputAction.done,
+                labelText: 'One time price',
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 4.0, top: 8.0),
+                child: Text(
+                  "Or",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.primary_black),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ) : PriceProfileListWidget(
+            pageState.priceProfiles.elementAt(index - 1),
             pageState,
             onProfileSelected,
-            pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index)
+            pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && oneTimePrice.isEmpty
                 ? Color(ColorConstants.getBlueDark())
-                : Colors.white,pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index)
+                : Colors.white,pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && oneTimePrice.isEmpty
             ? Color(ColorConstants.getPrimaryWhite())
             : Color(ColorConstants.getPrimaryBlack())),
       ),

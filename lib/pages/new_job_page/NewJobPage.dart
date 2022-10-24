@@ -297,7 +297,7 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 450.0;
         break;
       case 2:
-        height = 450.0;
+        height = 550.0;
         break;
       case 3:
         height = 500.0;
@@ -306,7 +306,7 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 600.0;
         break;
       case 5:
-        height = 325.0;
+        height = 450.0;
         break;
     }
     return height;
@@ -341,7 +341,7 @@ class _NewJobPageState extends State<NewJobPage> {
     String btText = 'Next';
     switch(pageState.pageViewIndex) {
       case 2:
-        if(pageState.selectedPriceProfile == null) btText = 'Skip';
+        if(pageState.selectedPriceProfile == null && pageState.oneTimePrice.isEmpty) btText = 'Skip';
         break;
       case 3:
         if(pageState.selectedLocation == null) btText = 'Skip';
@@ -351,7 +351,7 @@ class _NewJobPageState extends State<NewJobPage> {
         if(pageState.selectedDate.year == today.year && pageState.selectedDate.month == today.month && pageState.selectedDate.day == today.day) btText = 'Skip';
         break;
       case 5:
-        if(pageState.selectedTime == null) btText = 'Skip';
+        if(pageState.selectedStartTime == null) btText = 'Skip';
         break;
     }
     return btText;

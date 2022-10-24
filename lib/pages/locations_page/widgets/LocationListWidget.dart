@@ -30,20 +30,26 @@ class LocationListWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              Container(
+              pageState.isLoadingImages ? Container(
+                margin: EdgeInsets.only(bottom: 28.0),
+                decoration: BoxDecoration(
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                  borderRadius: new BorderRadius.circular(16.0),
+                ),
+              ) : Container(
                 margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getPrimaryWhite()),
                   borderRadius: new BorderRadius.circular(16.0),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: pageState.locationImages.isNotEmpty
+                    image: pageState.locationImages.isNotEmpty && locationIndex < pageState.locationImages.length
                         ? FileImage(pageState.locationImages.elementAt(locationIndex))
                         : AssetImage("assets/images/backgrounds/image_background.png"),
                   ),
                 ),
               ),
-              pageState.isLoadingImages && (pageState.locationImages.isEmpty || pageState.locationImages.elementAt(locationIndex) == null) ? Container(
+              pageState.isLoadingImages ? Container(
                   margin: EdgeInsets.only(bottom: 28.0),
                   height: double.infinity,
                 width: double.infinity,
@@ -56,7 +62,7 @@ class LocationListWidget extends StatelessWidget {
                   size: 32,
                 ),
               ) : SizedBox(),
-              pageState.isLoadingImages && (pageState.locationImages.isEmpty || pageState.locationImages.elementAt(locationIndex) == null) ? SizedBox() : Container(
+              pageState.isLoadingImages ? SizedBox() : Container(
                 height: 96.0,
                 margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
@@ -74,7 +80,7 @@ class LocationListWidget extends StatelessWidget {
                           1.0
                         ])),
               ),
-              pageState.isLoadingImages && (pageState.locationImages.isEmpty || pageState.locationImages.elementAt(locationIndex) == null) ? SizedBox() :Container(
+              pageState.isLoadingImages ? SizedBox() :Container(
                 margin: EdgeInsets.only(bottom: 32.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

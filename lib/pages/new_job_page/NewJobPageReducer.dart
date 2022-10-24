@@ -20,7 +20,8 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetSelectedDateAction>(_setSelectedDate),
   TypedReducer<NewJobPageState, SetSelectedJobTypeAction>(_setJobType),
   TypedReducer<NewJobPageState, SetSunsetTimeAction>(_setSunsetTime),
-  TypedReducer<NewJobPageState, SetSelectedTimeAction>(_setSelectedTime),
+  TypedReducer<NewJobPageState, SetSelectedStartTimeAction>(_setSelectedStartTime),
+  TypedReducer<NewJobPageState, SetSelectedEndTimeAction>(_setSelectedEndTime),
   TypedReducer<NewJobPageState, InitializeNewContactPageAction>(_loadWithSelectedClient),
   TypedReducer<NewJobPageState, InitNewJobPageWithDateAction>(_loadWithSelectedDate),
   TypedReducer<NewJobPageState, SetDocumentPathAction>(_setDocumentPath),
@@ -28,7 +29,19 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetNewJobDeviceEventsAction>(_setNewJobDeviceEvents),
   TypedReducer<NewJobPageState, SetClientFirstNameAction>(_setClientFirstName),
   TypedReducer<NewJobPageState, SetClientLastNameAction>(_setClientLastName),
+  TypedReducer<NewJobPageState, SetOneTimePriceTextAction>(_setOneTimePrice),
 ]);
+
+NewJobPageState _setOneTimePrice(NewJobPageState previousState, SetOneTimePriceTextAction action) {
+  String numbersOnly = action.inputText.replaceAll('\$', '').replaceAll(' ', '');
+  if(numbersOnly == '0') {
+    numbersOnly = '';
+  }
+  return previousState.copyWith(
+      selectedPriceProfile: null,
+      oneTimePrice: numbersOnly
+  );
+}
 
 NewJobPageState _updateComingFromClientDetails(NewJobPageState previousState, UpdateComingFromClientDetails action) {
   return previousState.copyWith(comingFromClientDetails: action.isComingFromClientDetails);
@@ -52,8 +65,12 @@ NewJobPageState _setDocumentPath(NewJobPageState previousState, SetDocumentPathA
   return previousState.copyWith(documentPath: action.documentPath);
 }
 
-NewJobPageState _setSelectedTime(NewJobPageState previousState, SetSelectedTimeAction action) {
-  return previousState.copyWith(selectedTime: action.time);
+NewJobPageState _setSelectedStartTime(NewJobPageState previousState, SetSelectedStartTimeAction action) {
+  return previousState.copyWith(selectedStartTime: action.time);
+}
+
+NewJobPageState _setSelectedEndTime(NewJobPageState previousState, SetSelectedEndTimeAction action) {
+  return previousState.copyWith(selectedEndTime: action.time);
 }
 
 NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, InitializeNewContactPageAction action) {
@@ -88,7 +105,7 @@ NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeActio
   ) : DateTime.now();
   return previousState.copyWith(
       sunsetDateTime: action.sunset,
-      selectedTime: selectedTime,
+      selectedStartTime: selectedTime,
       initialTimeSelectorTime: selectedTime,
   );
 }

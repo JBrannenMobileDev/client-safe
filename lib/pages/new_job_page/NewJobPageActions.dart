@@ -30,6 +30,12 @@ class SetClientFirstNameAction{
   SetClientFirstNameAction(this.pageState, this.firstName);
 }
 
+class SetOneTimePriceTextAction {
+  final NewJobPageState pageState;
+  final String inputText;
+  SetOneTimePriceTextAction(this.pageState, this.inputText);
+}
+
 class SetClientLastNameAction{
   final NewJobPageState pageState;
   final String lastName;
@@ -42,10 +48,16 @@ class InitializeNewContactPageAction{
   InitializeNewContactPageAction(this.pageState, this.client);
 }
 
-class SetSelectedTimeAction{
+class SetSelectedStartTimeAction{
   final NewJobPageState pageState;
   final DateTime time;
-  SetSelectedTimeAction(this.pageState, this.time);
+  SetSelectedStartTimeAction(this.pageState, this.time);
+}
+
+class SetSelectedEndTimeAction{
+  final NewJobPageState pageState;
+  final DateTime time;
+  SetSelectedEndTimeAction(this.pageState, this.time);
 }
 
 class SetSunsetTimeAction{

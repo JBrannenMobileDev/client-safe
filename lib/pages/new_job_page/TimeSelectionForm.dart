@@ -37,10 +37,10 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
-                "Select a time for this job.",
+                "Select a start time for this job.",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 20.0,
+                  fontSize: 22.0,
                   fontFamily: 'simple',
                   fontWeight: FontWeight.w600,
                   color: Color(ColorConstants.primary_black),
@@ -76,7 +76,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                               : ""),
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 20.0,
+                        fontSize: 22.0,
                         fontFamily: 'simple',
                         fontWeight: FontWeight.w800,
                         color: Color(ColorConstants.getPeachDark()),
@@ -87,12 +87,36 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
               ),
             ) : SizedBox(),
             Container(
-              height: 200.0,
+              margin: EdgeInsets.only(bottom: 48.0),
+              height: 125.0,
               child: CupertinoDatePicker(
                 initialDateTime: pageState.initialTimeSelectorTime,
                 onDateTimeChanged: (DateTime time) {
                   vibrate();
-                  _onConfirmedTime(time, pageState);
+                  pageState.onStartTimeSelected(time);
+                },
+                use24hFormat: false,
+                minuteInterval: 1,
+                mode: CupertinoDatePickerMode.time,
+              ),
+            ),
+            Text(
+              "Select an end time for this job.",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 22.0,
+                fontFamily: 'simple',
+                fontWeight: FontWeight.w600,
+                color: Color(ColorConstants.primary_black),
+              ),
+            ),
+            Container(
+              height: 125.0,
+              child: CupertinoDatePicker(
+                initialDateTime: pageState.initialTimeSelectorTime,
+                onDateTimeChanged: (DateTime time) {
+                  vibrate();
+                  pageState.onEndTimeSelected(time);
                 },
                 use24hFormat: false,
                 minuteInterval: 1,
@@ -107,10 +131,6 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
 
   void vibrate() async {
     HapticFeedback.mediumImpact();
-  }
-
-  void _onConfirmedTime(DateTime time, NewJobPageState pageState) {
-    pageState.onTimeSelected(time);
   }
 
   @override

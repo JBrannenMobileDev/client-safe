@@ -34,10 +34,12 @@ class NewJobPageState {
   final String clientLastName;
   final String clientSearchText;
   final String documentPath;
+  final String oneTimePrice;
   final PriceProfile selectedPriceProfile;
   final Location selectedLocation;
   final DateTime selectedDate;
-  final DateTime selectedTime;
+  final DateTime selectedStartTime;
+  final DateTime selectedEndTime;
   final DateTime sunsetDateTime;
   final DateTime initialTimeSelectorTime;
   final JobStage currentJobStage;
@@ -64,10 +66,12 @@ class NewJobPageState {
   final Function(Location) onLocationSelected;
   final Function(DateTime) onDateSelected;
   final Function(JobType) onJobTypeSelected;
-  final Function(DateTime) onTimeSelected;
+  final Function(DateTime) onStartTimeSelected;
+  final Function(DateTime) onEndTimeSelected;
   final Function(Job) onJobClicked;
   final Function(DateTime) onMonthChanged;
   final Function() onSunsetWeatherSelected;
+  final Function(String) onOneTimePriceChanged;
 
   NewJobPageState({
     @required this.id,
@@ -83,7 +87,7 @@ class NewJobPageState {
     @required this.selectedPriceProfile,
     @required this.selectedLocation,
     @required this.selectedDate,
-    @required this.selectedTime,
+    @required this.selectedStartTime,
     @required this.sunsetDateTime,
     @required this.jobType,
     @required this.selectedJobType,
@@ -105,7 +109,7 @@ class NewJobPageState {
     @required this.onDateSelected,
     @required this.onJobTypeSelected,
     @required this.currentJobStage,
-    @required this.onTimeSelected,
+    @required this.onStartTimeSelected,
     @required this.onJobClicked,
     @required this.jobTypes,
     @required this.onMonthChanged,
@@ -117,6 +121,10 @@ class NewJobPageState {
     @required this.imageFiles,
     @required this.onSunsetWeatherSelected,
     @required this.initialTimeSelectorTime,
+    @required this.onOneTimePriceChanged,
+    @required this.oneTimePrice,
+    @required this.onEndTimeSelected,
+    @required this.selectedEndTime,
   });
 
   NewJobPageState copyWith({
@@ -141,7 +149,8 @@ class NewJobPageState {
     List<Location> locations,
     List<File> imageFiles,
     DateTime selectedDate,
-    DateTime selectedTime,
+    DateTime selectedStartTime,
+    DateTime selectedEndTime,
     DateTime sunsetDateTime,
     DateTime initialTimeSelectorTime,
     JobType jobType,
@@ -160,12 +169,15 @@ class NewJobPageState {
     Function(Location) onLocationSelected,
     Function(DateTime) onDateSelected,
     Function(JobType) onJobTypeSelected,
-    Function(DateTime) onTimeSelected,
+    Function(DateTime) onStartTimeSelected,
     Function(Job) onJobClicked,
     Function(DateTime) onMonthChanged,
     Function(String) onClientFirstNameTextChanged,
     Function(String) onClientLastNameTextChanged,
     Function() onSunsetWeatherSelected,
+    Function(String) onOneTimePriceChanged,
+    String oneTimePrice,
+    Function(DateTime) onEndTimeSelected,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -188,7 +200,7 @@ class NewJobPageState {
       selectedLocation: selectedLocation?? this.selectedLocation,
       locations: locations?? this.locations,
       selectedDate: selectedDate?? this.selectedDate,
-      selectedTime: selectedTime?? this.selectedTime,
+      selectedStartTime: selectedStartTime?? this.selectedStartTime,
       sunsetDateTime: sunsetDateTime?? this.sunsetDateTime,
       jobType: jobType?? this.jobType,
       selectedJobType: selectedJobType?? this.selectedJobType,
@@ -204,7 +216,7 @@ class NewJobPageState {
       onLocationSelected: onLocationSelected?? this.onLocationSelected,
       onDateSelected: onDateSelected?? this.onDateSelected,
       onJobTypeSelected: onJobTypeSelected?? this.onJobTypeSelected,
-      onTimeSelected: onTimeSelected?? this.onTimeSelected,
+      onStartTimeSelected: onStartTimeSelected?? this.onStartTimeSelected,
       jobs: jobs ?? this.jobs,
       onJobClicked: onJobClicked ?? this.onJobClicked,
       comingFromClientDetails: comingFromClientDetails ?? this.comingFromClientDetails,
@@ -215,6 +227,10 @@ class NewJobPageState {
       imageFiles: imageFiles ?? this.imageFiles,
       onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
       initialTimeSelectorTime: initialTimeSelectorTime ?? this.initialTimeSelectorTime,
+      onOneTimePriceChanged: onOneTimePriceChanged ?? this.onOneTimePriceChanged,
+      oneTimePrice: oneTimePrice ?? this.oneTimePrice,
+      onEndTimeSelected: onEndTimeSelected ?? this.onEndTimeSelected,
+      selectedEndTime: selectedEndTime ?? this.selectedEndTime,
     );
   }
 
@@ -243,7 +259,8 @@ class NewJobPageState {
         currentJobStage: JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT),
         selectedDate: DateTime.now(),
         deviceEvents: [],
-        selectedTime: null,
+        selectedStartTime: null,
+        selectedEndTime: null,
         sunsetDateTime: null,
         jobType: null,
         selectedJobType: null,
@@ -260,7 +277,7 @@ class NewJobPageState {
         onLocationSelected: null,
         onDateSelected: null,
         onJobTypeSelected: null,
-        onTimeSelected: null,
+        onStartTimeSelected: null,
         onJobClicked: null,
         comingFromClientDetails: false,
         onMonthChanged: null,
@@ -269,6 +286,10 @@ class NewJobPageState {
         imageFiles: [],
         onSunsetWeatherSelected: null,
         initialTimeSelectorTime: DateTime.now(),
+        onOneTimePriceChanged: null,
+        oneTimePrice: '',
+        onEndTimeSelected: null,
+
       );
   }
 
@@ -292,7 +313,7 @@ class NewJobPageState {
       pricingProfiles: store.state.newJobPageState.pricingProfiles,
       locations: store.state.newJobPageState.locations,
       selectedDate: store.state.newJobPageState.selectedDate,
-      selectedTime: store.state.newJobPageState.selectedTime,
+      selectedStartTime: store.state.newJobPageState.selectedStartTime,
       sunsetDateTime: store.state.newJobPageState.sunsetDateTime,
       jobType: store.state.newJobPageState.jobType,
       selectedJobType: store.state.newJobPageState.selectedJobType,
@@ -304,6 +325,8 @@ class NewJobPageState {
       clientFirstName: store.state.newJobPageState.clientFirstName,
       clientLastName: store.state.newJobPageState.clientLastName,
       imageFiles: store.state.newJobPageState.imageFiles,
+      oneTimePrice: store.state.newJobPageState.oneTimePrice,
+      selectedEndTime: store.state.newJobPageState.selectedEndTime,
       initialTimeSelectorTime: store.state.newJobPageState.initialTimeSelectorTime,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
@@ -315,12 +338,14 @@ class NewJobPageState {
       onLocationSelected: (location) => store.dispatch(SetSelectedLocation(store.state.newJobPageState, location)),
       onDateSelected: (selectedDate) => store.dispatch(SetSelectedDateAction(store.state.newJobPageState, selectedDate)),
       onJobTypeSelected: (jobType) => store.dispatch(SetSelectedJobTypeAction(store.state.newJobPageState, jobType)),
-      onTimeSelected: (time) => store.dispatch(SetSelectedTimeAction(store.state.newJobPageState, time)),
+      onStartTimeSelected: (time) => store.dispatch(SetSelectedStartTimeAction(store.state.newJobPageState, time)),
+      onEndTimeSelected: (time) => store.dispatch(SetSelectedEndTimeAction(store.state.newJobPageState, time)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
       onClientLastNameTextChanged: (lastName) => store.dispatch(SetClientLastNameAction(store.state.newJobPageState, lastName)),
       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
-      onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate))
+      onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate)),
+      onOneTimePriceChanged: (inputText) => store.dispatch(SetOneTimePriceTextAction(store.state.newJobPageState, inputText)),
     );
   }
 
@@ -344,7 +369,7 @@ class NewJobPageState {
       pricingProfiles.hashCode ^
       locations.hashCode ^
       selectedDate.hashCode ^
-      selectedTime.hashCode ^
+      selectedStartTime.hashCode ^
       sunsetDateTime.hashCode ^
       jobType.hashCode ^
       selectedJobType.hashCode ^
@@ -359,7 +384,7 @@ class NewJobPageState {
       onDateSelected.hashCode ^
       eventList.hashCode ^
       jobs.hashCode ^
-      onTimeSelected.hashCode ^
+      onStartTimeSelected.hashCode ^
       onJobClicked.hashCode ^
       jobTypes.hashCode ^
       clientFirstName.hashCode ^
@@ -368,6 +393,10 @@ class NewJobPageState {
       onClientFirstNameTextChanged.hashCode ^
       onSunsetWeatherSelected.hashCode ^
       initialTimeSelectorTime.hashCode ^
+      onOneTimePriceChanged.hashCode ^
+      oneTimePrice.hashCode ^
+      onEndTimeSelected.hashCode ^
+      selectedEndTime.hashCode ^
       imageFiles.hashCode;
 
   @override
@@ -395,7 +424,7 @@ class NewJobPageState {
           pricingProfiles == other.pricingProfiles &&
           locations == other.locations &&
           selectedDate == other.selectedDate &&
-          selectedTime == other.selectedTime &&
+          selectedStartTime == other.selectedStartTime &&
           sunsetDateTime == other.sunsetDateTime &&
           jobType == other.jobType &&
           deviceEvents == other.deviceEvents &&
@@ -410,10 +439,14 @@ class NewJobPageState {
           onDateSelected == other.onDateSelected &&
           eventList == other.eventList &&
           jobs == other.jobs &&
-          onTimeSelected == other.onTimeSelected &&
+          onStartTimeSelected == other.onStartTimeSelected &&
           onJobClicked == other.onJobClicked &&
           jobTypes == other.jobTypes &&
           onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
           initialTimeSelectorTime == other.initialTimeSelectorTime &&
+          onOneTimePriceChanged == other.onOneTimePriceChanged &&
+          oneTimePrice == other.oneTimePrice &&
+          onEndTimeSelected == other.onEndTimeSelected &&
+          selectedEndTime == other.selectedEndTime &&
           imageFiles == other.imageFiles;
 }

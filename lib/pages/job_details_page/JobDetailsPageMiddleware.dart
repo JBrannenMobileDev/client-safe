@@ -28,9 +28,11 @@ import 'package:sembast/sembast.dart';
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Profile.dart';
 import '../../utils/CalendarSyncUtil.dart';
+import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
@@ -60,6 +62,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is UpdateJobTimeAction){
       _updateJobWithNewTime(store, action, next);
+    }
+    if(action is UpdateJobEndTimeAction){
+      _updateJobWithNewEndTime(store, action, next);
     }
     if(action is UpdateJobDateAction){
       _updateJobWithNewDate(store, action, next);
@@ -197,7 +202,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _updateJobPriceProfile(Store<AppState> store, SaveUpdatedPricePackageAction action, NextDispatcher next) async{
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      priceProfile: action.pageState.selectedPriceProfile,
+      priceProfile: store.state.jobDetailsPageState.selectedPriceProfile != null && action.oneTimePrice.isEmpty ? store.state.jobDetailsPageState.selectedPriceProfile
+          : action.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(action.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);
@@ -280,6 +286,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _updateJobWithNewTime(Store<AppState> store, UpdateJobTimeAction action, NextDispatcher next) async{
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       selectedTime: action.newTime,
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+  }
+
+  void _updateJobWithNewEndTime(Store<AppState> store, UpdateJobEndTimeAction action, NextDispatcher next) async{
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
+      selectedEndTime: action.newTime,
     );
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));

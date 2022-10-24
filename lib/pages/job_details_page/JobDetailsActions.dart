@@ -153,6 +153,12 @@ class UpdateJobTimeAction{
   UpdateJobTimeAction(this.pageState, this.newTime);
 }
 
+class UpdateJobEndTimeAction{
+  final JobDetailsPageState pageState;
+  final DateTime newTime;
+  UpdateJobEndTimeAction(this.pageState, this.newTime);
+}
+
 class UpdateJobDateAction{
   final JobDetailsPageState pageState;
   UpdateJobDateAction(this.pageState);
@@ -234,7 +240,8 @@ class UpdateSelectedPricePackageAction{
 
 class SaveUpdatedPricePackageAction{
   final JobDetailsPageState pageState;
-  SaveUpdatedPricePackageAction(this.pageState);
+  final String oneTimePrice;
+  SaveUpdatedPricePackageAction(this.pageState, this.oneTimePrice);
 }
 
 class SetPricingProfiles{

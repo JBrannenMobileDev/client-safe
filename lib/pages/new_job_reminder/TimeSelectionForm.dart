@@ -97,7 +97,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
   }
 
   void _onConfirmedTime(DateTime time, NewJobPageState pageState) {
-    pageState.onTimeSelected(time);
+    pageState.onStartTimeSelected(time);
   }
 
   @override
