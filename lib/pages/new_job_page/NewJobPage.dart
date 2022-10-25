@@ -306,7 +306,7 @@ class _NewJobPageState extends State<NewJobPage> {
         height = 600.0;
         break;
       case 5:
-        height = 450.0;
+        height = 250.0;
         break;
     }
     return height;
@@ -348,7 +348,7 @@ class _NewJobPageState extends State<NewJobPage> {
         break;
       case 4:
         DateTime today = DateTime.now();
-        if(pageState.selectedDate.year == today.year && pageState.selectedDate.month == today.month && pageState.selectedDate.day == today.day) btText = 'Skip';
+        if(pageState.selectedDate != null && pageState.selectedDate?.year == today?.year && pageState.selectedDate?.month == today.month && pageState.selectedDate?.day == today.day) btText = 'Skip';
         break;
       case 5:
         if(pageState.selectedStartTime == null) btText = 'Skip';

@@ -20,7 +20,7 @@ class StageStatsItem extends StatelessWidget{
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        NavigationUtil.onStageStatsSelected(context, pageState, stage.stage, stage);
+        NavigationUtil.onStageStatsSelected(context, pageState, JobStage.getStageText(stage), stage);
       },
       child: Container(
         height: 48.0,

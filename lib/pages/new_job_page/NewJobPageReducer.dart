@@ -105,7 +105,6 @@ NewJobPageState _setSunsetTime(NewJobPageState previousState, SetSunsetTimeActio
   ) : DateTime.now();
   return previousState.copyWith(
       sunsetDateTime: action.sunset,
-      selectedStartTime: selectedTime,
       initialTimeSelectorTime: selectedTime,
   );
 }

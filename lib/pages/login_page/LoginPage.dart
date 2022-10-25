@@ -979,7 +979,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 ),
               ),
               !pageState.isCurrentUserCheckComplete && !pageState.navigateToHome ? Center(
-                child: LoadingAnimationWidget.fourRotatingDots(color: Color(ColorConstants.getPrimaryWhite()), size: 32.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
+                    ),
+                  ),
+                ),
               ) : SizedBox()
             ],
           ),

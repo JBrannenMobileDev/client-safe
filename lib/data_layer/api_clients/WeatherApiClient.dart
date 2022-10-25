@@ -38,7 +38,7 @@ class WeatherApiClient {
     final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
-      throw new Exception('error getting quotes');
+      throw new Exception('error getting quotes : ' + response.statusCode.toString());
     }
 
     final json = jsonDecode(response.body);
