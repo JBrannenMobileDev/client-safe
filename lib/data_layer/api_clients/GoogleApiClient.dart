@@ -19,20 +19,28 @@ class GoogleApiClient {
   }) : assert(httpClient != null);
 
   Future<List<PlacesLocation>> getLocationResults(String input) async {
-    String sessionToken = Uuid().generateV4();
-    final url = '$_baseUrl/place/autocomplete/json?input=$input&key=$PLACES_API_KEY&type=(regions)&sessiontoken=$sessionToken';
+    String requestString = input.replaceAll(" ", "%20");
+    final url = '$_baseUrl/place/findplacefromtext/json?fields=formatted_address%2Cname%2Crating%2Cgeometry&input=$requestString&inputtype=textquery&key=$PLACES_API_KEY';
     final http.Response response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {
-      throw new Exception('error getting quotes');
+      throw new Exception('error getting places');
     }
 
-    final List<PlacesLocation> locations = List();
+    final List<PlacesLocation> locations = [];
     final json = jsonDecode(response.body);
-    final predictions = json['predictions'];
-    for(Map<dynamic, dynamic> prediction in predictions) {
-
-      locations.add(PlacesLocation(place_id: prediction['place_id'], description: prediction['description']));
+    final candidates = json['candidates'];
+    for(Map<dynamic, dynamic> candidate in candidates) {
+      Map<dynamic, dynamic> geometry = candidate['geometry'];
+      Map<dynamic, dynamic> location = geometry['location'];
+      locations.add(
+          PlacesLocation(
+              address: candidate['formatted_address'],
+              name: candidate['name'],
+              lat: location['lat'],
+              lon: location['lng'],
+          )
+      );
     }
     return locations;
   }

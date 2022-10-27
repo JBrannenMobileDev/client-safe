@@ -11,14 +11,12 @@ import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart' as locations;
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:sembast/sembast.dart';
 
 
 import '../../data_layer/repositories/FileStorage.dart';
-import 'NewLocationActions.dart';
 
 class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -45,7 +43,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    Location selectedSearchLocation = await GoogleApiClient(httpClient: http.Client()).getLocationDetails(action.selectedSearchLocation.place_id, action.selectedSearchLocation.description);
+    Location selectedSearchLocation = Location(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon);
     store.dispatch(SetSelectedSearchLocation(store.state.newLocationPageState, selectedSearchLocation));
   }
 

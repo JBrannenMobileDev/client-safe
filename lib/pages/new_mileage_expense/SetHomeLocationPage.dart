@@ -53,7 +53,7 @@ class _SetHomeLocationPage extends State<SetHomeLocationPage> with AutomaticKeep
               children: <Widget>[
                 GestureDetector(
                   onTap: () {
-                    NavigationUtil.onSelectMapLocation(context, pageState.onMapLocationSaved, pageState.lat, pageState.lng);
+                    NavigationUtil.onSelectMapLocation(context, pageState.onMapLocationSaved, pageState.lat, pageState.lng, null);
                   },
                   child: Container(
                   alignment: Alignment.center,
@@ -102,7 +102,7 @@ class _SetHomeLocationPage extends State<SetHomeLocationPage> with AutomaticKeep
               ],
             ) : GestureDetector(
               onTap: () {
-                NavigationUtil.onSelectMapLocation(context, pageState.onMapLocationSaved, pageState.lat, pageState.lng);
+                NavigationUtil.onSelectMapLocation(context, pageState.onMapLocationSaved, pageState.lat, pageState.lng, null);
               },
               child: Container(
                 alignment: Alignment.center,

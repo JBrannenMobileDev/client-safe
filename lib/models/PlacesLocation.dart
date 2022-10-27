@@ -1,9 +1,13 @@
 class PlacesLocation {
-  String place_id;
-  String description;
+  String address;
+  String name;
+  double lat;
+  double lon;
 
   PlacesLocation({
-    this.place_id,
-    this.description,
+    this.address,
+    this.name,
+    this.lat,
+    this.lon,
   });
 }

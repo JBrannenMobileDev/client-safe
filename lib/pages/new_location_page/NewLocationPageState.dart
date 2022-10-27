@@ -199,7 +199,7 @@ class NewLocationPageState{
       onSearchInputChanged: (input) => store.dispatch(SetSearchTextAction(store.state.newLocationPageState, input)),
       onSearchLocationSelected: (searchLocation) {
         store.dispatch(FetchSearchLocationDetails(store.state.newLocationPageState, searchLocation));
-        store.dispatch(SetSearchTextAction(store.state.newLocationPageState, searchLocation.description));
+        store.dispatch(SetSearchTextAction(store.state.newLocationPageState, searchLocation.name));
       },
       onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.newLocationPageState, input)),
     );

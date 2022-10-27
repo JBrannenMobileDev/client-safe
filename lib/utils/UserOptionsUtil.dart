@@ -40,7 +40,11 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
 import '../models/JobType.dart';
+import '../models/Location.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
+import '../pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
+import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
+import '../pages/new_job_page/widgets/SelectNewJobLocationOptionsDialog.dart';
 import '../pages/new_job_types_page/NewJobTypePage.dart';
 import 'ColorConstants.dart';
 
@@ -159,6 +163,24 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewLocationPage();
+      },
+    );
+  }
+
+  static void showNewJobSelectLocationOptionsDialog(BuildContext context){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return SelectNewJobLocationDialog();
+      },
+    );
+  }
+
+  static void showNewJobSelectFromMapDialog(BuildContext context, Function(LatLng) onLocationSaved, double lat, double lng, Function(Location) saveSelectedLocation){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return MapLocationSelectionWidget(onLocationSaved, lat, lng, saveSelectedLocation);
       },
     );
   }

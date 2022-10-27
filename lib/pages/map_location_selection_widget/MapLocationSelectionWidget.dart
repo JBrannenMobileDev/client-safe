@@ -13,18 +13,20 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Location.dart';
 import '../../utils/Shadows.dart';
 
 class MapLocationSelectionWidget extends StatefulWidget {
   final Function(LatLng) onMapLocationSaved;
+  final Function(Location) saveSelectedLocation;
   final double lat;
   final double lng;
 
-  MapLocationSelectionWidget(this.onMapLocationSaved, this.lat, this.lng);
+  MapLocationSelectionWidget(this.onMapLocationSaved, this.lat, this.lng, this.saveSelectedLocation);
 
   @override
   State<StatefulWidget> createState() {
-    return _MapLocationSelectionWidgetState(onMapLocationSaved, lat, lng);
+    return _MapLocationSelectionWidgetState(onMapLocationSaved, lat, lng, saveSelectedLocation);
   }
 }
 
@@ -36,10 +38,12 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
   final FocusNode _searchFocus = FocusNode();
 
   final Function(LatLng) onMapLocationSaved;
+  final Function(Location) saveSelectedLocation;
+
   final double lat;
   final double lng;
 
-  _MapLocationSelectionWidgetState(this.onMapLocationSaved, this.lat, this.lng);
+  _MapLocationSelectionWidgetState(this.onMapLocationSaved, this.lat, this.lng, this.saveSelectedLocation);
 
   @override
   void dispose() {
@@ -116,7 +120,11 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                 margin: EdgeInsets.only(bottom: 14.0),
                 child: GestureDetector(
                   onTap: () {
-                    onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                    if(onMapLocationSaved != null) onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
+                    if(saveSelectedLocation != null) {
+                      saveSelectedLocation(pageState.selectedSearchLocation);
+                      Navigator.of(context).pop(true);
+                    }
                     Navigator.of(context).pop(true);
                   },
                   child: Container(
@@ -195,7 +203,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
               pageState.locationResults.length > 0 ? SafeArea(
                 child: Container(
                   height: 350.0,
-                  margin: EdgeInsets.only(top: 64.0, left: 32.0, right: 32.0),
+                  margin: EdgeInsets.only(top: 64.0, left: 16.0, right: 16.0),
                   decoration: BoxDecoration(
                     boxShadow: ElevationToShadow[2],
                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -213,25 +221,53 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                           _searchFocus.unfocus();
                         },
                         child: Container(
-                          alignment: Alignment.centerLeft,
-                          height: 48.0,
+                          height: 64.0,
                           margin: EdgeInsets.only(top: index == 0 ? 16.0 : 0.0),
                           padding: EdgeInsets.only(left: 8.0),
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 28.0,
-                                width: 28.0,
+                                margin: EdgeInsets.only(right: 16.0, top: 4.0),
+                                height: 32.0,
+                                width: 32.0,
                                 child: Image.asset('assets/images/collection_icons/location_pin_blue.png'),
                               ),
-                              Text(
-                                pageState.locationResults.elementAt(index).description,
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
+                              Flexible(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        pageState.locationResults.elementAt(index).name,
+                                        maxLines: 1,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          overflow: TextOverflow.visible,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        pageState.locationResults.elementAt(index).address,
+                                        maxLines: 1,
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          overflow: TextOverflow.visible,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
@@ -247,6 +283,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                     alignment: Alignment.topLeft,
                     child: Container(
                       margin: EdgeInsets.only(left: 8.0),
+                      padding: EdgeInsets.only(left: 8.0),
                       alignment: Alignment.topLeft,
                       height: 50.0,
                       width: 50.0,

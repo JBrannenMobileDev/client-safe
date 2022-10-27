@@ -103,7 +103,7 @@ class NextInvoiceNumberDao extends Equatable{
 
   static Future<int> nextNumber() async {
     List<NextInvoiceNumber> allNextNumbers = await getAllSorted();
-    if(allNextNumbers.length == 0) return 1000;
+    if(allNextNumbers.length == 0 || allNextNumbers.elementAt(0).highestInvoiceNumber == null) return 1000;
     int nextNumber = allNextNumbers.elementAt(0).highestInvoiceNumber++;
     return nextNumber;
   }

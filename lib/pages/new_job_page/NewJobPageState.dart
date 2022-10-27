@@ -12,6 +12,7 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
 import '../sunset_weather_page/SunsetWeatherPageActions.dart' as sunsetPageActions;
@@ -37,6 +38,7 @@ class NewJobPageState {
   final String oneTimePrice;
   final PriceProfile selectedPriceProfile;
   final Location selectedLocation;
+  final Location oneTimeLocation;
   final DateTime selectedDate;
   final DateTime selectedStartTime;
   final DateTime selectedEndTime;
@@ -72,6 +74,9 @@ class NewJobPageState {
   final Function(DateTime) onMonthChanged;
   final Function() onSunsetWeatherSelected;
   final Function(String) onOneTimePriceChanged;
+  final Function(Location) onLocationSearchResultSelected;
+  final double lat;
+  final double lon;
 
   NewJobPageState({
     @required this.id,
@@ -125,6 +130,10 @@ class NewJobPageState {
     @required this.oneTimePrice,
     @required this.onEndTimeSelected,
     @required this.selectedEndTime,
+    @required this.onLocationSearchResultSelected,
+    @required this.lat,
+    @required this.lon,
+    @required this.oneTimeLocation,
   });
 
   NewJobPageState copyWith({
@@ -178,6 +187,10 @@ class NewJobPageState {
     Function(String) onOneTimePriceChanged,
     String oneTimePrice,
     Function(DateTime) onEndTimeSelected,
+    Function(Location) onLocationSearchResultSelected,
+    double lat,
+    double lon,
+    Location oneTimeLocation
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -231,6 +244,10 @@ class NewJobPageState {
       oneTimePrice: oneTimePrice ?? this.oneTimePrice,
       onEndTimeSelected: onEndTimeSelected ?? this.onEndTimeSelected,
       selectedEndTime: selectedEndTime ?? this.selectedEndTime,
+      onLocationSearchResultSelected: onLocationSearchResultSelected ?? this.onLocationSearchResultSelected,
+      lat: lat ?? this.lat,
+      lon: lon ?? this.lon,
+      oneTimeLocation: oneTimeLocation ?? this.oneTimeLocation,
     );
   }
 
@@ -289,7 +306,10 @@ class NewJobPageState {
         onOneTimePriceChanged: null,
         oneTimePrice: '',
         onEndTimeSelected: null,
-
+        onLocationSearchResultSelected: null,
+        lat: 0.0,
+        lon: 0.0,
+        oneTimeLocation: null,
       );
   }
 
@@ -328,6 +348,9 @@ class NewJobPageState {
       oneTimePrice: store.state.newJobPageState.oneTimePrice,
       selectedEndTime: store.state.newJobPageState.selectedEndTime,
       initialTimeSelectorTime: store.state.newJobPageState.initialTimeSelectorTime,
+      oneTimeLocation: store.state.newJobPageState.oneTimeLocation,
+      lat: store.state.newJobPageState.lat,
+      lon: store.state.newJobPageState.lon,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -346,6 +369,7 @@ class NewJobPageState {
       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
       onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate)),
       onOneTimePriceChanged: (inputText) => store.dispatch(SetOneTimePriceTextAction(store.state.newJobPageState, inputText)),
+      onLocationSearchResultSelected: (selectedLocation) => store.dispatch(SetSelectedOneTimeLocation(store.state.newJobPageState, selectedLocation)),
     );
   }
 
@@ -397,6 +421,10 @@ class NewJobPageState {
       oneTimePrice.hashCode ^
       onEndTimeSelected.hashCode ^
       selectedEndTime.hashCode ^
+      onLocationSearchResultSelected.hashCode ^
+      lat.hashCode ^
+      lon.hashCode ^
+      oneTimeLocation.hashCode ^
       imageFiles.hashCode;
 
   @override
@@ -448,5 +476,9 @@ class NewJobPageState {
           oneTimePrice == other.oneTimePrice &&
           onEndTimeSelected == other.onEndTimeSelected &&
           selectedEndTime == other.selectedEndTime &&
+          onLocationSearchResultSelected == other.onLocationSearchResultSelected &&
+          lat == other.lat &&
+          lon == other.lon &&
+          oneTimeLocation == other.oneTimeLocation &&
           imageFiles == other.imageFiles;
 }

@@ -3,14 +3,12 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
-import 'package:dandylight/models/rest_models/OneHourForecast.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/rest_models/Hour.dart';
-import 'SunsetWeatherPageActions.dart';
 
 class SunsetWeatherPageState {
   final bool comingFromNewJob;
@@ -314,7 +312,7 @@ class SunsetWeatherPageState {
       onSearchInputChanged: (input) => store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, input)),
       onSearchLocationSelected: (searchLocation) {
         store.dispatch(FetchSearchLocationDetails(store.state.sunsetWeatherPageState, searchLocation));
-        store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, searchLocation.description));
+        store.dispatch(SetSearchTextAction(store.state.sunsetWeatherPageState, searchLocation.name));
       },
       onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.sunsetWeatherPageState, input)),
       chooseLocationSelected: () => store.dispatch(LoadLocationImageFilesAction(store.state.sunsetWeatherPageState)),

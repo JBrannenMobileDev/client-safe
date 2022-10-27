@@ -1,5 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/JobLocationListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -53,7 +52,7 @@ class _LocationSelectionFormState
                     child: Text(
                       pageState.selectedLocation != null
                           ? pageState.selectedLocation.locationName
-                          : "",
+                          : pageState.oneTimeLocation != null ? pageState.oneTimeLocation.locationName : "",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 22.0,
@@ -123,7 +122,7 @@ class _LocationSelectionFormState
                       ),
                     ),
                     onPressed: () {
-                      UserOptionsUtil.showNewLocationDialog(context);
+                      UserOptionsUtil.showNewJobSelectLocationOptionsDialog(context);
                     },
                     child: Container(
                       width: 150.0,
@@ -135,7 +134,7 @@ class _LocationSelectionFormState
                             color: Color(ColorConstants.white),
                             tooltip: 'Add',
                             onPressed: () {
-                              UserOptionsUtil.showNewLocationDialog(context);
+                              UserOptionsUtil.showNewJobSelectLocationOptionsDialog(context);
                             },
                           ),
                           Text(

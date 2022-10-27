@@ -23,8 +23,6 @@ import 'package:uuid/uuid.dart';
 import 'LoginPageActions.dart';
 
 class LoginPageMiddleware extends MiddlewareClass<AppState> {
-  bool _syncFinished = false;
-  bool _animationFinished = false;
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
@@ -222,7 +220,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         UidUtil().setUid(user.uid);
         await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
-          _syncFinished = true;
           ProfileDao.updateUserLoginTime(user.uid);
           store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
         });

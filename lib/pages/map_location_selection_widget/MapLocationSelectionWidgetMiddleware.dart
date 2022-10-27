@@ -24,7 +24,7 @@ class MapLocationSelectionWidgetMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchLocationDetails(Store<AppState> store, NextDispatcher next, FetchSearchLocationDetails action) async {
-    Location selectedSearchLocation = await GoogleApiClient(httpClient: http.Client()).getLocationDetails(action.selectedSearchLocation.place_id, action.selectedSearchLocation.description);
+    Location selectedSearchLocation = await Location(latitude: action.selectedSearchLocation.lat, longitude: action.selectedSearchLocation.lon, locationName: action.selectedSearchLocation.name, address: action.selectedSearchLocation.address);
     store.dispatch(SetSelectedSearchLocation(store.state.mapLocationSelectionWidgetState, selectedSearchLocation));
   }
 

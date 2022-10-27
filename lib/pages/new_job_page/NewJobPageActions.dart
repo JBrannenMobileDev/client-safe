@@ -8,6 +8,7 @@ import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
@@ -16,6 +17,18 @@ class UpdateErrorStateAction{
   final NewJobPageState pageState;
   final String errorCode;
   UpdateErrorStateAction(this.pageState, this.errorCode);
+}
+
+class SetLastKnowInitialPosition{
+  final NewJobPageState pageState;
+  SetLastKnowInitialPosition(this.pageState);
+}
+
+class SetInitialMapLatLng{
+  final NewJobPageState pageState;
+  final double lat;
+  final double lng;
+  SetInitialMapLatLng(this.pageState, this.lat, this.lng);
 }
 
 class FetchNewJobDeviceEvents{
@@ -99,6 +112,12 @@ class SetSelectedLocation{
   final NewJobPageState pageState;
   final Location location;
   SetSelectedLocation(this.pageState, this.location);
+}
+
+class SetSelectedOneTimeLocation{
+  final NewJobPageState pageState;
+  final Location location;
+  SetSelectedOneTimeLocation(this.pageState, this.location);
 }
 
 class ClearStateAction{

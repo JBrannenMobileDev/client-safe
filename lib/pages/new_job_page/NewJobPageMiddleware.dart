@@ -18,7 +18,9 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -31,6 +33,7 @@ import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/JobUtil.dart';
 import '../../utils/UidUtil.dart';
+import '../../utils/UserPermissionsUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
 class NewJobPageMiddleware extends MiddlewareClass<AppState> {
@@ -54,6 +57,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is FetchNewJobDeviceEvents) {
       _fetchDeviceEventsForMonth(store, action, next);
+    }
+    if(action is SetLastKnowInitialPosition){
+      setLocationData(store, next, action);
     }
   }
 
@@ -217,6 +223,17 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     if(jobReminders.isNotEmpty) {
       await JobReminderDao.insertAll(jobReminders);
+    }
+  }
+
+  void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowInitialPosition action) async {
+      PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
+      if(!status.isGranted) {
+        await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
+      }
+      Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+      if(positionLastKnown != null) {
+        store.dispatch(SetInitialMapLatLng(store.state.newJobPageState, positionLastKnown.latitude, positionLastKnown.longitude));
     }
   }
 }

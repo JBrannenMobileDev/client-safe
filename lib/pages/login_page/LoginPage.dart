@@ -336,14 +336,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           appState.dispatch(CheckForCurrentUserAction(appState.state.loginPageState));
         },
         onWillChange: (previous, current) {
-          if(current.isCurrentUserCheckComplete && !current.navigateToHome) {
+          if(current.isCurrentUserCheckComplete && !current.navigateToHome && selectedButton != CREATE_ACCOUNT) {
             _controller.forward();
             _controllerLogoIn.forward();
             _controllerSunIn.forward();
             _controllerLoginErrorShake.forward();
-          }
-          if(current.navigateToHome) {
-            _onStartAnimationForGoingToHomePage(current);
           }
           if(current.mainButtonsVisible != previous.mainButtonsVisible){
             if(previous.mainButtonsVisible){
@@ -354,6 +351,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           }
         },
         onDidChange: (prev, pageState) {
+          if(pageState.navigateToHome) {
+            _onStartAnimationForGoingToHomePage(pageState);
+          }
           if(pageState.createAccountErrorMessage.isNotEmpty){
             _controllerErrorShake.reset();
             _controllerErrorShake.forward();
@@ -536,9 +536,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           margin: EdgeInsets.only(top: 16.0),
                           alignment: Alignment.center,
                           height: 64.0,
-                          width: 300.0,
+                          width: 200.0,
                           decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryWhite()),
+                              color: Color(ColorConstants.getPeachDark()),
                               borderRadius: BorderRadius.circular(36.0)),
                           child: Text(
                             'Create Account',
@@ -547,7 +547,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               fontSize: 22.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
+                              color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                         ),
@@ -744,9 +744,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             margin: EdgeInsets.only(top: 16.0, bottom: 48.0),
                             alignment: Alignment.center,
                             height: 64.0,
-                            width: 300.0,
+                            width: 200.0,
                             decoration: !pageState.showLoginLoadingAnimation ? BoxDecoration(
-                                color: Color(ColorConstants.getPrimaryWhite()),
+                                color: Color(ColorConstants.getPeachDark()),
                                 borderRadius: BorderRadius.circular(36.0)) : BoxDecoration(),
                             child: pageState.showLoginLoadingAnimation
                                 ? Row(
@@ -778,7 +778,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 fontSize: 22.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
+                                color: Color(ColorConstants.getPrimaryWhite()),
                               ),
                             ) : Text(
                               'Sign in',
@@ -787,7 +787,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 fontSize: 22.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
+                                color: Color(ColorConstants.getPrimaryWhite()),
                               ),
                             ),
                           ),
@@ -982,7 +982,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: Container(
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitWidth,
                       image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
                     ),
                   ),

@@ -83,7 +83,7 @@ class MapLocationSelectionWidgetState {
       onSearchInputChanged: (input) => store.dispatch(SetSearchTextAction(store.state.mapLocationSelectionWidgetState, input)),
       onSearchLocationSelected: (searchLocation) {
         store.dispatch(FetchSearchLocationDetails(store.state.mapLocationSelectionWidgetState, searchLocation));
-        store.dispatch(SetSearchTextAction(store.state.mapLocationSelectionWidgetState, searchLocation.description));
+        store.dispatch(SetSearchTextAction(store.state.mapLocationSelectionWidgetState, searchLocation.name));
       },
       onThrottleGetLocations: (input) => store.dispatch(FetchGoogleLocationsAction(store.state.mapLocationSelectionWidgetState, input)),
       onClearSearchTextSelected: () => store.dispatch(ClearSearchTextAction(store.state.mapLocationSelectionWidgetState)),

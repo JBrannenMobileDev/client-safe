@@ -74,6 +74,7 @@ class _NewJobPageState extends State<NewJobPage> {
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
+        store.dispatch(SetLastKnowInitialPosition(store.state.newJobPageState));
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
@@ -124,7 +125,7 @@ class _NewJobPageState extends State<NewJobPage> {
                           onTap: () {
                             if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
                             if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
-                            if(pageState.pageViewIndex == 3) UserOptionsUtil.showNewLocationDialog(context);
+                            if(pageState.pageViewIndex == 3) UserOptionsUtil.showNewJobSelectLocationOptionsDialog(context);
                           },
                           child: Container(
                             margin: EdgeInsets.only(right: 24.0),

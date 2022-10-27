@@ -202,25 +202,53 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                             _searchFocus.unfocus();
                           },
                           child: Container(
-                            alignment: Alignment.centerLeft,
-                            height: 48.0,
+                            height: 64.0,
                             margin: EdgeInsets.only(top: index == 0 ? 16.0 : 0.0),
                             padding: EdgeInsets.only(left: 8.0),
                             child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  margin: EdgeInsets.only(right: 16.0),
-                                  height: 28.0,
-                                  width: 28.0,
+                                  margin: EdgeInsets.only(right: 16.0, top: 4.0),
+                                  height: 32.0,
+                                  width: 32.0,
                                   child: Image.asset('assets/images/collection_icons/location_pin_blue.png'),
                                 ),
-                                Text(
-                                  pageState.locationsResults.elementAt(index).description,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                Flexible(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          pageState.locationsResults.elementAt(index).name,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                            fontFamily: 'simple',
+                                            fontWeight: FontWeight.w600,
+                                            overflow: TextOverflow.visible,
+                                            color: Color(ColorConstants.getPrimaryBlack()),
+                                          ),
+                                        ),
+                                      ),
+                                      Expanded(
+                                        child: Text(
+                                          pageState.locationsResults.elementAt(index).address,
+                                          maxLines: 1,
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontSize: 18.0,
+                                            fontFamily: 'simple',
+                                            fontWeight: FontWeight.w600,
+                                            overflow: TextOverflow.visible,
+                                            color: Color(ColorConstants.getPrimaryBlack()),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ],

@@ -17,6 +17,7 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, ClientSelectedAction>(_setSelectedClient),
   TypedReducer<NewJobPageState, SetSelectedPriceProfile>(_setSelectedPriceProfile),
   TypedReducer<NewJobPageState, SetSelectedLocation>(_setSelectedLocation),
+  TypedReducer<NewJobPageState, SetSelectedOneTimeLocation>(_setSelectedOneTimeLocation),
   TypedReducer<NewJobPageState, SetSelectedDateAction>(_setSelectedDate),
   TypedReducer<NewJobPageState, SetSelectedJobTypeAction>(_setJobType),
   TypedReducer<NewJobPageState, SetSunsetTimeAction>(_setSunsetTime),
@@ -30,7 +31,16 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetClientFirstNameAction>(_setClientFirstName),
   TypedReducer<NewJobPageState, SetClientLastNameAction>(_setClientLastName),
   TypedReducer<NewJobPageState, SetOneTimePriceTextAction>(_setOneTimePrice),
+  TypedReducer<NewJobPageState, SetInitialMapLatLng>(_setInitMapLatLng),
+
 ]);
+
+NewJobPageState _setInitMapLatLng(NewJobPageState previousState, SetInitialMapLatLng action){
+  return previousState.copyWith(
+    lat: action.lat,
+    lon: action.lng,
+  );
+}
 
 NewJobPageState _setOneTimePrice(NewJobPageState previousState, SetOneTimePriceTextAction action) {
   String numbersOnly = action.inputText.replaceAll('\$', '').replaceAll(' ', '');
@@ -124,7 +134,25 @@ NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelec
 NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedLocation action) {
   Location newLocation;
   if(previousState.selectedLocation != action.location) newLocation = action.location;
-  return previousState.copyWith(selectedLocation: newLocation);
+  return previousState.copyWith(
+      selectedLocation: newLocation,
+      oneTimeLocation: null,
+  );
+}
+
+NewJobPageState _setSelectedOneTimeLocation(NewJobPageState previousState, SetSelectedOneTimeLocation action) {
+  List<Location> allLocations = action.pageState.locations;
+  if(previousState.oneTimeLocation == null) {
+    allLocations.insert(0, action.location);
+  } else {
+    allLocations.remove(previousState.oneTimeLocation);
+    allLocations.insert(0, action.location);
+  }
+  return previousState.copyWith(
+      oneTimeLocation: action.location,
+      selectedLocation: action.location,
+      locations: allLocations,
+  );
 }
 
 NewJobPageState _updateErrorState(NewJobPageState previousState, UpdateErrorStateAction action) {

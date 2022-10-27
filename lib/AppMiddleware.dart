@@ -181,6 +181,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchJobRemindersAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobReminderAction>(NewJobReminderPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchNewJobDeviceEvents>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetLastKnowInitialPosition>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewJobTypeAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobTypeAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewJobTypePageMiddleware()));
