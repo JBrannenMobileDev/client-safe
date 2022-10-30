@@ -352,10 +352,8 @@ class JobInfoCard extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                (pageState.job.selectedTime != null
-                                    ? DateFormat('h:mm a').format(pageState.job
-                                    .selectedTime)
-                                    : 'Time not selected'),
+                                (pageState.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.job.selectedTime)
+                                    : 'Start time not selected'),
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -367,7 +365,7 @@ class JobInfoCard extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            pageState.sunsetTime != null ? Container(
+                            pageState.job.selectedTime != null && pageState.sunsetTime != null ? Container(
                               padding: EdgeInsets.only(left: 32.0),
                               child: new Image.asset(
                                 'assets/images/icons/sunset_icon_peach.png',

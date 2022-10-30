@@ -68,12 +68,12 @@ class _LocationSelectionFormState
                       maxHeight: 435.0,
                     ),
                     child: GridView.builder(
-                            padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
+                            padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
                             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                                 maxCrossAxisExtent: 200,
-                                childAspectRatio: 3 / 2,
-                                crossAxisSpacing: 20,
-                                mainAxisSpacing: 64),
+                                childAspectRatio: 2 / 2.75,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16),
                             itemCount: pageState.locations.length,
                             controller: _controller,
                             physics: ClampingScrollPhysics(),

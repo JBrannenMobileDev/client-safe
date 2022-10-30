@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
@@ -142,8 +144,10 @@ NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedL
 
 NewJobPageState _setSelectedOneTimeLocation(NewJobPageState previousState, SetSelectedOneTimeLocation action) {
   List<Location> allLocations = action.pageState.locations;
+  List<File> imageFiles = action.pageState.imageFiles;
   if(previousState.oneTimeLocation == null) {
     allLocations.insert(0, action.location);
+    imageFiles.insert(0, File(""));
   } else {
     allLocations.remove(previousState.oneTimeLocation);
     allLocations.insert(0, action.location);
