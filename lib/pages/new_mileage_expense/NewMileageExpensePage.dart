@@ -5,7 +5,6 @@ import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.da
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/pages/new_mileage_expense/SelectExpenseDatePage.dart';
 import 'package:dandylight/pages/new_mileage_expense/SelectStartEndLocations.dart';
-import 'package:dandylight/pages/new_mileage_expense/SetHomeLocationPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
@@ -18,21 +17,27 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class NewMileageExpensePage extends StatefulWidget {
+  final bool hasDefaultHome;
+
+  NewMileageExpensePage(this.hasDefaultHome);
+
   @override
   _NewMileageExpensePageState createState() {
-    return _NewMileageExpensePageState();
+    return _NewMileageExpensePageState(hasDefaultHome);
   }
 }
 
 class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  final int pageCount = 2;
+  final int pageCount = 1;
   final controller = PageController(
     initialPage: 0,
   );
 
-  bool hasJumpToBeenCalled = false;
+  bool hasDefaultHome;
   int currentPageIndex = 0;
+
+  _NewMileageExpensePageState(this.hasDefaultHome);
 
   @override
   void initState() {
@@ -76,12 +81,6 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
       onInit: (store) {
         store.dispatch(FetchLastKnowPosition(store.state.newMileageExpensePageState));
         if(store.state.newMileageExpensePageState.shouldClear) store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
-      },
-      onDidChange: (prev, pageState) {
-        if(pageState.profile != null && pageState.profile.hasDefaultHome() && !hasJumpToBeenCalled) {
-          controller.jumpToPage(1);
-          hasJumpToBeenCalled = true;
-        }
       },
       converter: (store) => NewMileageExpensePageState.fromStore(store),
       builder: (BuildContext context, NewMileageExpensePageState pageState) =>
@@ -145,13 +144,12 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                         ),
                       ),
                       Container(
-                        height: currentPageIndex == 0 || currentPageIndex == 2 ? 225.0 : 432.0,
+                        height: currentPageIndex == 1 ? 225.0 : 432.0,
                         child: PageView(
                           physics: NeverScrollableScrollPhysics(),
                           controller: controller,
                           pageSnapping: true,
                           children: <Widget>[
-                            SetHomeLocationPage(onNextPressed),
                             SelectStartEndLocationsPage(),
                             SelectExpenseDatePage(),
                           ],
@@ -235,9 +233,6 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
     if (currentPageIndex != pageCount) {
       switch (currentPageIndex) {
         case 0:
-          canProgress = true;
-          break;
-        case 1:
           if((pageState.endLocationName.isNotEmpty && pageState.endLocationName != 'Select a location') && (pageState.profile.hasDefaultHome() || pageState.startLocationName.isNotEmpty)){
             canProgress = true;
           }else {

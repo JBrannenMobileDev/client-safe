@@ -143,7 +143,7 @@ class DashboardPageState {
     recentLeads: [],
     upcomingJobs: [],
     unseenNotificationCount: 0,
-    activeJobs: [],
+    activeJobs: null,
     allUserStages: [],
     reminders: [],
     onAddClicked: null,

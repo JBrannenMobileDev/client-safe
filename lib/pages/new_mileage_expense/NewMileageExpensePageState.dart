@@ -35,7 +35,6 @@ class NewMileageExpensePageState {
   final double lat;
   final double lng;
   final Location selectedSearchLocation;
-  final Function(LatLng) onMapLocationSaved;
   final Profile profile;
   final String selectedHomeLocationName;
   final String startLocationName;
@@ -70,7 +69,6 @@ class NewMileageExpensePageState {
     @required this.onExpenseDateSelected,
     @required this.expenseDate,
     @required this.expenseCost,
-    @required this.onMapLocationSaved,
     @required this.lat,
     @required this.lng,
     @required this.searchText,
@@ -110,7 +108,6 @@ class NewMileageExpensePageState {
     Function(LatLng) onEndLocationChanged,
     Function(DateTime) onExpenseDateSelected,
     double expenseCost,
-    Function(LatLng) onMapLocationSaved,
     double lat,
     double lng,
     String searchText,
@@ -150,7 +147,6 @@ class NewMileageExpensePageState {
       expenseCost: expenseCost ?? this.expenseCost,
       onStartLocationChanged: onStartLocationChanged ?? this.onStartLocationChanged,
       onEndLocationChanged: onEndLocationChanged ?? this.onEndLocationChanged,
-      onMapLocationSaved: onMapLocationSaved ?? this.onMapLocationSaved,
       lat: lat ?? this.lat,
       lng: lng ?? this.lng,
       searchText: searchText ?? this.searchText,
@@ -191,7 +187,6 @@ class NewMileageExpensePageState {
     onExpenseDateSelected: null,
     expenseCost: 0.0,
     onEndLocationChanged: null,
-    onMapLocationSaved: null,
     lat: 0.0,
     lng: 0.0,
     searchText: '',
@@ -251,10 +246,12 @@ class NewMileageExpensePageState {
         store.dispatch(DeleteMileageExpenseAction(store.state.newMileageExpensePageState));
         store.dispatch(ClearMileageExpenseStateAction(store.state.newMileageExpensePageState));
       },
-      onStartLocationChanged: (latLng) => store.dispatch(UpdateStartLocationAction(store.state.newMileageExpensePageState, latLng)),
+      onStartLocationChanged: (latLng) => {
+        store.dispatch(SaveHomeLocationAction(store.state.newMileageExpensePageState, latLng)),
+        store.dispatch(UpdateStartLocationAction(store.state.newMileageExpensePageState, latLng))
+      },
       onEndLocationChanged: (latLng) => store.dispatch(UpdateEndLocationAction(store.state.newMileageExpensePageState, latLng)),
       onExpenseDateSelected: (expenseDate) => store.dispatch(SetExpenseDateAction(store.state.newMileageExpensePageState, expenseDate)),
-      onMapLocationSaved: (latLngHome) => store.dispatch(SaveHomeLocationAction(store.state.newMileageExpensePageState, latLngHome)),
       onFilterChanged: (selectedFilter) => store.dispatch(SetSelectedFilterAction(store.state.newMileageExpensePageState, selectedFilter)),
       onLocationSelected: (selectedLocation) => store.dispatch(SetSelectedLocationAction(store.state.newMileageExpensePageState, selectedLocation)),
     );
@@ -286,7 +283,6 @@ class NewMileageExpensePageState {
       expenseCost.hashCode ^
       onDeleteMileageExpenseSelected.hashCode ^
       onEndLocationChanged.hashCode ^
-      onMapLocationSaved.hashCode ^
       selectedSearchLocation.hashCode ^
       lat.hashCode ^
       lng.hashCode ^
@@ -337,7 +333,6 @@ class NewMileageExpensePageState {
           lat == other.lat &&
           lng == other.lng &&
           profile == other.profile &&
-          onMapLocationSaved == other.onMapLocationSaved &&
           imageFiles == other.imageFiles &&
           onExpenseDateSelected == other.onExpenseDateSelected;
 }

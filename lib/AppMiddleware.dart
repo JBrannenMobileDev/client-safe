@@ -148,12 +148,12 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveRecurringExpenseProfileAction>(NewRecurringExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteRecurringExpenseAction>(NewRecurringExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.FetchLastKnowPosition>(NewMileageExpensePageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, mileageActions.SaveHomeLocationAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.UpdateStartLocationAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.UpdateEndLocationAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.LoadExistingMileageExpenseAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.SaveMileageExpenseProfileAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.DeleteMileageExpenseAction>(NewMileageExpensePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, mileageActions.SaveHomeLocationAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mileageActions.LoadNewMileageLocationsAction>(NewMileageExpensePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.SetLastKnowPosition>(MapLocationSelectionWidgetMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, mapLocationSelection.FetchGoogleLocationsAction>(MapLocationSelectionWidgetMiddleware()));

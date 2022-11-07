@@ -182,12 +182,12 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveHomeLocation(Store<AppState> store, SaveHomeLocationAction action, NextDispatcher next) async{
-    final coordinatesEnd = Coordinates(action.homeLocation.latitude, action.homeLocation.longitude);
+    final coordinatesEnd = Coordinates(action.startLocation.latitude, action.startLocation.longitude);
     var address = await Geocoder.local.findAddressesFromCoordinates(coordinatesEnd);
     store.dispatch(SetLocationNameAction(store.state.newMileageExpensePageState, address.elementAt(0).thoroughfare + ', ' + address.elementAt(0).locality));
     Profile profile = store.state.newMileageExpensePageState.profile;
-    profile.latDefaultHome = action.homeLocation.latitude;
-    profile.lngDefaultHome = action.homeLocation.longitude;
+    profile.latDefaultHome = action.startLocation.latitude;
+    profile.lngDefaultHome = action.startLocation.longitude;
     await ProfileDao.insertOrUpdate(profile);
     store.dispatch(SetProfileData(store.state.newMileageExpensePageState, profile));
   }

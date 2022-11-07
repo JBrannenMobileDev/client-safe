@@ -113,11 +113,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewMileageExpenseSelected(BuildContext context){
+  static void showNewMileageExpenseSelected(BuildContext context, bool hasDefaultHome){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewMileageExpensePage();
+        return NewMileageExpensePage(hasDefaultHome);
       },
     );
   }

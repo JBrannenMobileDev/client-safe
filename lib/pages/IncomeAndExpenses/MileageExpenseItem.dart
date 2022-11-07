@@ -27,7 +27,7 @@ class MileageExpenseItem extends StatelessWidget{
         style: Styles.getButtonStyle(),
         onPressed: () async {
           pageState.onMileageExpenseItemSelected(mileageExpense);
-          UserOptionsUtil.showNewMileageExpenseSelected(context);
+          UserOptionsUtil.showNewMileageExpenseSelected(context, pageState.profile.hasDefaultHome());
         },
         child: Padding(
           padding: EdgeInsets.fromLTRB(8.0, 12.0, 0.0, 12.0),

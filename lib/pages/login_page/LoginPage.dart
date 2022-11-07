@@ -981,10 +981,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               !pageState.isCurrentUserCheckComplete && !pageState.navigateToHome ? Center(
                 child: Container(
                   decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.fitWidth,
-                      image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
-                    ),
+                    color: Color(ColorConstants.getBlueLight())
                   ),
                 ),
               ) : SizedBox()

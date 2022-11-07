@@ -57,6 +57,12 @@ class UpdateStartLocationAction{
   UpdateStartLocationAction(this.pageState, this.startLocation);
 }
 
+class SaveHomeLocationAction{
+  final NewMileageExpensePageState pageState;
+  final LatLng startLocation;
+  SaveHomeLocationAction(this.pageState, this.startLocation);
+}
+
 class UpdateEndLocationAction{
   final NewMileageExpensePageState pageState;
   final LatLng endLocation;
@@ -67,12 +73,6 @@ class SetLocationNameAction{
   final NewMileageExpensePageState pageState;
   final String selectedLocationName;
   SetLocationNameAction(this.pageState, this.selectedLocationName);
-}
-
-class SaveHomeLocationAction{
-  final NewMileageExpensePageState pageState;
-  final LatLng homeLocation;
-  SaveHomeLocationAction(this.pageState, this.homeLocation);
 }
 
 class FetchLastKnowPosition{

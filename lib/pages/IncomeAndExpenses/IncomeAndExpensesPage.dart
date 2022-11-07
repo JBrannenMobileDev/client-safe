@@ -415,7 +415,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewMileageExpenseSelected(context);
+                        UserOptionsUtil.showNewMileageExpenseSelected(context, pageState.profile.hasDefaultHome());
                       },
                     ),
                   ],

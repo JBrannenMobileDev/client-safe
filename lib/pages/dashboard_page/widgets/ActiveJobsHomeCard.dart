@@ -58,7 +58,7 @@ class ActiveJobsHomeCard extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(right: 16.0),
                       child: Text(
-                        pageState.activeJobs.length.toString(),
+                        pageState.activeJobs != null ? pageState.activeJobs.length.toString() : '',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 20.0,
