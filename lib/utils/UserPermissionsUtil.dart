@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:app_settings/app_settings.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class UserPermissionsUtil {

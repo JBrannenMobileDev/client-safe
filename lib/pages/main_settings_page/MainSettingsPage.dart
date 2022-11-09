@@ -7,6 +7,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -353,14 +354,22 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         trackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
                                         onChanged: (enabled) {
-                                          pageState.onCalendarChanged(enabled);
+                                          if(enabled) {
+                                            UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
+                                          } else {
+                                            pageState.onCalendarChanged(enabled);
+                                          }
                                         },
                                         value: pageState.calendarEnabled,
                                       ) : Switch(
                                         activeTrackColor: Color(ColorConstants.getBlueDark()),
                                         inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                         onChanged: (enabled) {
-                                          pageState.onCalendarChanged(enabled);
+                                          if(enabled) {
+                                            UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
+                                          } else {
+                                            pageState.onCalendarChanged(enabled);
+                                          }
                                         },
                                         value: pageState.calendarEnabled,
                                       )

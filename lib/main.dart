@@ -24,8 +24,5 @@ main() async {
       initialState: AppState.initial(),
       middleware: createAppMiddleware());
 
-  final notificationHelper = NotificationHelper();
-  await notificationHelper.initNotifications();
-
   initializeDateFormatting().then((_) => runApp(new ClientSafeApp(store)));
 }

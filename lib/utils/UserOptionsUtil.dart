@@ -41,6 +41,7 @@ import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
 import '../models/JobType.dart';
 import '../models/Location.dart';
+import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
 import '../pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import '../pages/new_job_page/widgets/SelectNewJobLocationDialog.dart';
@@ -55,6 +56,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewContactPage();
+      },
+    );
+  }
+
+  static void showCalendarSelectionDialog(BuildContext context, Function(bool) onCalendarChanged){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CalendarSelectionPage(onCalendarChanged);
       },
     );
   }

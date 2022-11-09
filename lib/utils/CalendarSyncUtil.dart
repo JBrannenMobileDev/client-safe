@@ -70,11 +70,6 @@ class CalendarSyncUtil {
     return eventsNoDuplicates;
   }
 
-  static void insertOrUpdateCalendarEvent(Job job) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if (profile.calendarEnabled) {}
-  }
-
   static void removeJobsFromDeviceCalendars() async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
@@ -90,17 +85,17 @@ class CalendarSyncUtil {
         }
       }
 
-      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      List<Calendar> writableCalendars = getWritableCalendars(calendarsResult);
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<String> calendarsToSync = List<String>.from(calendarsIds);
       List<Job> unfinishedJobs = await getUnfinishedJobs();
 
-      for (Calendar calendar in writableCalendars) {
+      for (String calendarId in calendarsToSync) {
         for (Job job in unfinishedJobs) {
           Event event = await JobToEventMapper.map(
               job,
-              calendar.id,
+              calendarId,
               await DandylightSharedPrefs.getEventIdByJobAndCalendar(
-                  job.documentId, calendar.id));
+                  job.documentId, calendarId));
           if (event.eventId.isNotEmpty) {
             await _deviceCalendarPlugin.deleteEvent(
                 event.calendarId, event.eventId);
@@ -128,23 +123,21 @@ class CalendarSyncUtil {
         }
       }
 
-      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      List<Calendar> writableCalendars = getWritableCalendars(calendarsResult);
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<String> calendarsToSync = List<String>.from(calendarsIds);
+
       List<Job> unfinishedJobs = await getUnfinishedJobs();
 
-      for (Calendar calendar in writableCalendars) {
+      for (String calendarId in calendarsToSync) {
         for (Job job in unfinishedJobs) {
-          Event event = await JobToEventMapper.map(
-              job,
-              calendar.id,
-              await DandylightSharedPrefs.getEventIdByJobAndCalendar(
-                  job.documentId, calendar.id));
-          final createEventResult = await _deviceCalendarPlugin.createOrUpdateEvent(event);
-          if (createEventResult.isSuccess &&
-              (createEventResult.data?.isNotEmpty ?? false)) {
-            String eventId = createEventResult.data;
-            await DandylightSharedPrefs.saveEventId(
-                eventId, calendar.id, job.documentId);
+          if(job.selectedTime != null && job.selectedDate != null){
+            Event event = await JobToEventMapper.map(job, calendarId, await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendarId));
+            final createEventResult = await _deviceCalendarPlugin.createOrUpdateEvent(event);
+            if (createEventResult.isSuccess && (createEventResult.data?.isNotEmpty ?? false)) {
+              String eventId = createEventResult.data;
+              await DandylightSharedPrefs.saveEventId(
+                  eventId, calendarId, job.documentId);
+            }
           }
         }
       }
@@ -166,14 +159,41 @@ class CalendarSyncUtil {
     return unfinishedJobs;
   }
 
-  static List<Calendar> getWritableCalendars(
-      Result<UnmodifiableListView<Calendar>> calendarsResult) {
+  static List<Calendar> _getWritableCalendars(Result<UnmodifiableListView<Calendar>> calendarsResult) {
     List<Calendar> allCalendars = calendarsResult.data.toList(growable: false);
     List<Calendar> writableCalendars = [];
     for (Calendar calendar in allCalendars) {
       if (!calendar.isReadOnly) {
         writableCalendars.add(calendar);
       }
+    }
+    return writableCalendars;
+  }
+
+  static Future<List<Calendar>> getWritableCalendars() async {
+    List<Calendar> writableCalendars = [];
+    try{
+      DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
+      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
+      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
+        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
+        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
+          //do nothing. no permission granted.
+        } else {
+          //nothing to do here.
+        }
+      }
+
+      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
+
+      List<Calendar> allCalendars = calendarsResult.data.toList(growable: false);
+      for (Calendar calendar in allCalendars) {
+        if (!calendar.isReadOnly) {
+          writableCalendars.add(calendar);
+        }
+      }
+    } catch (e) {
+      print(e);
     }
     return writableCalendars;
   }
@@ -193,22 +213,22 @@ class CalendarSyncUtil {
         }
       }
 
-      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      List<Calendar> writableCalendars = getWritableCalendars(calendarsResult);
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<String> calendarsToSync = List<String>.from(calendarsIds);
 
-      for (Calendar calendar in writableCalendars) {
+      for (String calendarId in calendarsToSync) {
         Event event = await JobToEventMapper.map(
             job,
-            calendar.id,
+            calendarId,
             await DandylightSharedPrefs.getEventIdByJobAndCalendar(
-                job.documentId, calendar.id));
+                job.documentId, calendarId));
         final createEventResult =
             await _deviceCalendarPlugin.createOrUpdateEvent(event);
         if (createEventResult.isSuccess &&
             (createEventResult.data?.isNotEmpty ?? false)) {
           String eventId = createEventResult.data;
           await DandylightSharedPrefs.saveEventId(
-              eventId, calendar.id, job.documentId);
+              eventId, calendarId, job.documentId);
         }
       }
     } catch (e) {
@@ -231,18 +251,18 @@ class CalendarSyncUtil {
         }
       }
 
-      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      List<Calendar> writableCalendars = getWritableCalendars(calendarsResult);
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<String> calendarsToSync = List<String>.from(calendarsIds);
 
-      for (Calendar calendar in writableCalendars) {
+      for (String calendarId in calendarsToSync) {
         Event event = await JobToEventMapper.map(
             job,
-            calendar.id,
-            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendar.id));
+            calendarId,
+            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendarId));
         final createEventResult = await _deviceCalendarPlugin.createOrUpdateEvent(event);
         if (createEventResult.isSuccess && (createEventResult.data?.isNotEmpty ?? false)) {
           String eventId = createEventResult.data;
-          await DandylightSharedPrefs.saveEventId(eventId, calendar.id, job.documentId);
+          await DandylightSharedPrefs.saveEventId(eventId, calendarId, job.documentId);
         }
       }
     } catch (e) {
@@ -265,15 +285,15 @@ class CalendarSyncUtil {
         }
       }
 
-      final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
-      List<Calendar> writableCalendars = getWritableCalendars(calendarsResult);
+      List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
+      List<String> calendarsToSync = List<String>.from(calendarsIds);
 
-      for (Calendar calendar in writableCalendars) {
+      for (String calendarId in calendarsToSync) {
         Event event = await JobToEventMapper.map(
             job,
-            calendar.id,
-            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendar.id));
-        final deleteEventResult = await _deviceCalendarPlugin.deleteEvent(calendar.id, event.eventId);
+            calendarId,
+            await DandylightSharedPrefs.getEventIdByJobAndCalendar(job.documentId, calendarId));
+        final deleteEventResult = await _deviceCalendarPlugin.deleteEvent(calendarId, event.eventId);
         if (deleteEventResult.isSuccess && deleteEventResult.data) {
           await DandylightSharedPrefs.deleteEvent(job.documentId);
         }

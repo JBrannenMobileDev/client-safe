@@ -1,6 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensePageReducer.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageReducer.dart';
+import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageReducer.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageReducer.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
@@ -66,4 +67,5 @@ AppState appReducers(AppState state, dynamic action) =>
         posesPageState: posesReducer(state.posesPageState, action),
         newPoseGroupPageState: newPoseGroupReducer(state.newPoseGroupPageState, action),
         poseGroupPageState: poseGroupReducer(state.poseGroupPageState, action),
+        calendarSelectionPageState: calendarSelectionPageReducer(state.calendarSelectionPageState, action),
     );

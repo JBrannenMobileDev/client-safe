@@ -536,7 +536,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           margin: EdgeInsets.only(top: 16.0),
                           alignment: Alignment.center,
                           height: 64.0,
-                          width: 200.0,
+                          width: 250.0,
                           decoration: BoxDecoration(
                               color: Color(ColorConstants.getPeachDark()),
                               borderRadius: BorderRadius.circular(36.0)),
@@ -744,7 +744,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             margin: EdgeInsets.only(top: 16.0, bottom: 48.0),
                             alignment: Alignment.center,
                             height: 64.0,
-                            width: 200.0,
+                            width: 250.0,
                             decoration: !pageState.showLoginLoadingAnimation ? BoxDecoration(
                                 color: Color(ColorConstants.getPeachDark()),
                                 borderRadius: BorderRadius.circular(36.0)) : BoxDecoration(),

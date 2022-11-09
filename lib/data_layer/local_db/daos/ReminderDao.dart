@@ -102,11 +102,16 @@ class ReminderDao extends Equatable{
     if((await getAll()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', documentId));
       final recordSnapshots = await _reminderStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<ReminderDandyLight> reminders = recordSnapshots.map((snapshot) {
         final reminder = ReminderDandyLight.fromMap(snapshot.value);
         reminder.id = snapshot.key;
         return reminder;
-      }).toList().elementAt(0);
+      }).toList();
+      if(reminders.isNotEmpty) {
+        return reminders.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }

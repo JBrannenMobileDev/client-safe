@@ -4,6 +4,7 @@ class Profile{
   String uid;
   String referralUid;
   List<dynamic> deviceTokens;
+  List<dynamic> calendarIdsToSync;
   String firstName;
   String lastName;
   String email;
@@ -64,6 +65,7 @@ class Profile{
     this.posesLastChangeDate,
     this.poseGroupsLastChangeDate,
     this.salesTaxRate,
+    this.calendarIdsToSync,
   });
 
   Profile copyWith({
@@ -71,6 +73,7 @@ class Profile{
     String uid,
     String referralUid,
     List<dynamic> deviceTokens,
+    List<dynamic> calendarIdsToSync,
     String firstName,
     String lastName,
     String businessName,
@@ -131,6 +134,7 @@ class Profile{
       posesLastChangeDate: posesLastChangeDate ?? this.posesLastChangeDate,
       poseGroupsLastChangeDate: poseGroupsLastChangeDate ?? this.poseGroupsLastChangeDate,
       salesTaxRate: salesTaxRate ?? this.salesTaxRate,
+      calendarIdsToSync: calendarIdsToSync ?? this.calendarIdsToSync,
     );
   }
 
@@ -141,6 +145,7 @@ class Profile{
       'uid' : uid,
       'referralUid' : referralUid,
       'deviceTokens' : deviceTokens,
+      'calendarIdsToSync' : calendarIdsToSync,
       'firstName': firstName,
       'lastName' : lastName,
       'email' : email,
@@ -176,6 +181,7 @@ class Profile{
       uid: map['uid'],
       referralUid: map['referralUid'],
       deviceTokens: map['deviceTokens'],
+      calendarIdsToSync: map['calendarIdsToSync'],
       firstName: map['firstName'],
       lastName: map['lastName'],
       email: map['email'],

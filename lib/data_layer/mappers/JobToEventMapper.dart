@@ -16,13 +16,13 @@ class JobToEventMapper {
       eventId: eventIdSaved,
       title: profile.businessName + ' - ' + job.jobTitle,
       description: job.notes,
-      start: await createStartDateTime(job.selectedDate, job.selectedTime),
-      end: await createEndTZDateTime(job),
+      start: await buildDateTime(job.selectedDate, job.selectedTime),
+      end: job.selectedEndTime != null ?  await buildDateTime(job.selectedDate, job.selectedEndTime) :  await createEndTZDateTime(job),
       location: job.location.locationName
     );
   }
 
-  static createStartDateTime(DateTime selectedDate, DateTime selectedTime) async {
+  static buildDateTime(DateTime selectedDate, DateTime selectedTime) async {
 
     Location _currentLocation = null;
     String timezone = null;

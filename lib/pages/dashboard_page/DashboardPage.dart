@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
+import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
@@ -123,8 +124,12 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
           if(store.state.dashboardPageState.unseenNotificationCount > 0) {
             _runAnimation();
           }
-          JobReminderDao.getAll();
-          NotificationHelper().createAndUpdatePendingNotifications();
+          List<JobReminder> allReminders = await JobReminderDao.getAll();
+          final notificationHelper = NotificationHelper();
+          await notificationHelper.initNotifications();
+          if(allReminders.length > 0) {
+            NotificationHelper().createAndUpdatePendingNotifications();
+          }
         },
         onDispose: (store) => store.dispatch(new DisposeDataListenersActions(store.state.homePageState)),
         converter: (Store<AppState> store) => DashboardPageState.fromStore(store),

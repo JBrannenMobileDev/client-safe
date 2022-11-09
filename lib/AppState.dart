@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
+import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
 import 'package:dandylight/pages/home_page/HomePageState.dart';
@@ -67,6 +68,7 @@ class AppState {
   final PosesPageState posesPageState;
   final NewPoseGroupPageState newPoseGroupPageState;
   final PoseGroupPageState poseGroupPageState;
+  final CalendarSelectionPageState calendarSelectionPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -101,6 +103,7 @@ class AppState {
     @required this.posesPageState,
     @required this.newPoseGroupPageState,
     @required this.poseGroupPageState,
+    @required this.calendarSelectionPageState,
   });
 
   factory AppState.initial() {
@@ -137,6 +140,7 @@ class AppState {
       posesPageState: PosesPageState.initial(),
       newPoseGroupPageState: NewPoseGroupPageState.initial(),
       poseGroupPageState: PoseGroupPageState.initial(),
+      calendarSelectionPageState: CalendarSelectionPageState.initial(),
     );
   }
 
@@ -173,6 +177,7 @@ class AppState {
     PosesPageState posesPageState,
     NewPoseGroupPageState newPoseGroupPageState,
     PoseGroupPageState poseGroupPageState,
+    CalendarSelectionPageState calendarSelectionPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -207,6 +212,7 @@ class AppState {
       posesPageState: posesPageState ?? this.posesPageState,
       newPoseGroupPageState: newPoseGroupPageState ?? this.newPoseGroupPageState,
       poseGroupPageState: poseGroupPageState ?? this.poseGroupPageState,
+      calendarSelectionPageState: calendarSelectionPageState ?? this.calendarSelectionPageState,
     );
   }
 
@@ -243,6 +249,7 @@ class AppState {
     posesPageState.hashCode ^
     newPoseGroupPageState.hashCode ^
     poseGroupPageState.hashCode ^
+    calendarSelectionPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -280,5 +287,6 @@ class AppState {
               posesPageState == other.posesPageState &&
               newPoseGroupPageState == other.newPoseGroupPageState &&
               poseGroupPageState == other.poseGroupPageState &&
+              calendarSelectionPageState == other.calendarSelectionPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

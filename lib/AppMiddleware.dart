@@ -4,6 +4,8 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensePageMiddlewar
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageActions.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPageMiddleware.dart';
+import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionActions.dart';
+import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageMiddleware.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageMiddleware.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
@@ -194,5 +196,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SavePosesToGroupAction>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPoseImagesFromStorage>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSelectedPoses>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchWritableCalendars>(CalendarSelectionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveSelectedAction>(CalendarSelectionPageMiddleware()));
   return middlewareList;
 }
