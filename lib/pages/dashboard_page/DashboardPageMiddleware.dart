@@ -5,12 +5,14 @@ import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/MileageExpense.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
@@ -27,6 +29,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadAllJobs(store, action, next);
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
+      await _setupDeepLinkObserver(store, action);
     }
     if(action is SetNotificationsToSeen) {
       _setNotificationsToSeen(store, action);
@@ -34,6 +37,22 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateNotificationIconAction) {
       _loadJobReminders(store, action, next);
     }
+  }
+
+  Future<void> _setupDeepLinkObserver(Store<AppState> store, LoadJobsAction action) async {
+    (await ProfileDao.getProfileStream()).listen((snapshots) async {
+      List<Profile> streamProfiles = [];
+      for(RecordSnapshot clientSnapshot in snapshots) {
+        streamProfiles.add(Profile.fromMap(clientSnapshot.value));
+      }
+      Profile profile = streamProfiles.elementAt(0);
+      if(profile.showNewMileageExpensePage) {
+        await store.dispatch(SetShowNewMileageExpensePageAction(store.state.dashboardPageState, true));
+        profile.showNewMileageExpensePage = false;
+        await ProfileDao.update(profile);
+        await store.dispatch(SetShowNewMileageExpensePageAction(store.state.dashboardPageState, false));
+      }
+    });
   }
 
   Future<void> _setNotificationsToSeen(Store<AppState> store, SetNotificationsToSeen action) async {

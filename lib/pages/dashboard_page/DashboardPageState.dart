@@ -15,6 +15,7 @@ class DashboardPageState {
   final String jobsProfitTotal;
   final bool isMinimized;
   final bool isLeadsMinimized;
+  final bool shouldShowNewMileageExpensePage;
   final List<Action> actionItems;
   final List<Client> recentLeads;
   final List<JobStage> allUserStages;
@@ -58,6 +59,7 @@ class DashboardPageState {
     this.onReminderSelected,
     this.onNotificationsSelected,
     this.onNotificationViewClosed,
+    this.shouldShowNewMileageExpensePage,
   });
 
   DashboardPageState copyWith({
@@ -83,6 +85,7 @@ class DashboardPageState {
     Function(JobReminder) onReminderSelected,
     Function() onNotificationsSelected,
     Function() onNotificationViewClosed,
+    bool shouldShowNewMileageExpensePage,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -107,6 +110,7 @@ class DashboardPageState {
       onReminderSelected: onReminderSelected ?? this.onReminderSelected,
       onNotificationsSelected: onNotificationsSelected ?? this.onNotificationsSelected,
       onNotificationViewClosed: onNotificationViewClosed ?? this.onNotificationViewClosed,
+      shouldShowNewMileageExpensePage: shouldShowNewMileageExpensePage ?? this.shouldShowNewMileageExpensePage,
     );
   }
 
@@ -127,6 +131,7 @@ class DashboardPageState {
       allUserStages: store.state.dashboardPageState.allUserStages,
       lineChartMonthData: store.state.dashboardPageState.lineChartMonthData,
       reminders: store.state.dashboardPageState.reminders,
+      shouldShowNewMileageExpensePage: store.state.dashboardPageState.shouldShowNewMileageExpensePage,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -142,6 +147,7 @@ class DashboardPageState {
     actionItems: [],
     recentLeads: [],
     upcomingJobs: [],
+    shouldShowNewMileageExpensePage: false,
     unseenNotificationCount: 0,
     activeJobs: null,
     allUserStages: [],
@@ -174,6 +180,7 @@ class DashboardPageState {
       onLeadClicked.hashCode ^
       onJobClicked.hashCode ^
       onAddClicked.hashCode ^
+      shouldShowNewMileageExpensePage.hashCode ^
       allJobs.hashCode ^
       reminders.hashCode ^
       activeJobs.hashCode ^
@@ -209,6 +216,7 @@ class DashboardPageState {
               onViewAllHideSelected == other.onViewAllHideSelected &&
               lineChartMonthData == other.lineChartMonthData &&
               reminders == other.reminders &&
+              shouldShowNewMileageExpensePage == other.shouldShowNewMileageExpensePage &&
               onReminderSelected == other.onReminderSelected &&
               onNotificationsSelected == other.onNotificationsSelected &&
               onNotificationViewClosed == other.onNotificationViewClosed &&

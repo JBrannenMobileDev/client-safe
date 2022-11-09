@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -15,8 +13,14 @@ import '../data_layer/local_db/daos/JobDao.dart';
 class NotificationHelper {
   static final NotificationHelper _singleton = NotificationHelper._SingletonConstructor();
 
+  Function(NotificationResponse notificationResponse) notificationTapBackground;
+
   factory NotificationHelper() {
     return _singleton;
+  }
+
+  void setTapBackgroundMethod(Function(NotificationResponse notificationResponse) notificationTapBackground) {
+    this.notificationTapBackground = notificationTapBackground;
   }
 
   NotificationHelper._SingletonConstructor();
@@ -83,7 +87,10 @@ class NotificationHelper {
               '(' +
                   (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle +
                   ')\n' +
-                  reminderToSchedule.reminder.description, reminderToSchedule.triggerTime);
+                  reminderToSchedule.reminder.description,
+              reminderToSchedule.payload,
+              reminderToSchedule.triggerTime,
+          );
           print("Reminder has been scheduled. jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
         }
       }
@@ -112,6 +119,7 @@ class NotificationHelper {
       int id,
       String title,
       String body,
+      String payload,
       DateTime scheduledNotificationDateTime) async {
     await flutterNotificationPlugin.zonedSchedule(
         id,
@@ -124,7 +132,7 @@ class NotificationHelper {
         const NotificationDetails(),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
-        payload: //add job documentId here.
+        payload: payload,
     );
   }
 
@@ -148,7 +156,8 @@ class NotificationHelper {
 @pragma('vm:entry-point')
 void notificationTapBackground(NotificationResponse notificationResponse) {
   print('notification(${notificationResponse.id}) action tapped: ''${notificationResponse.actionId} with'' payload: ${notificationResponse.payload}');
-  if (notificationResponse.input?.isNotEmpty ?? false) {
-    print('notification action tapped with input: ${notificationResponse.input}');
+
+  if(notificationResponse.payload?.isNotEmpty ?? false) {
+
   }
 }

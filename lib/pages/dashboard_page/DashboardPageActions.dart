@@ -40,6 +40,12 @@ class SetUnseenReminderCount{
   SetUnseenReminderCount(this.pageState, this.count, this.reminders);
 }
 
+class SetShowNewMileageExpensePageAction{
+  final DashboardPageState pageState;
+  final bool shouldShow;
+  SetShowNewMileageExpensePageAction(this.pageState, this.shouldShow);
+}
+
 class SetClientsDashboardAction{
   final DashboardPageState pageState;
   final List<Client> clients;

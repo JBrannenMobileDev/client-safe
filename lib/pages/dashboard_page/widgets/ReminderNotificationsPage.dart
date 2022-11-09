@@ -80,50 +80,52 @@ class ReminderNotificationsPage extends StatelessWidget{
                                 child: Stack(
                                   alignment: Alignment.centerRight,
                                   children: <Widget>[
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Container(
-                                          margin: EdgeInsets.only(right: 16.0),
-                                          height: 32.0,
-                                          width: 32.0,
-                                          child: Image.asset(
-                                            'assets/images/collection_icons/reminder_icon_white.png', color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark()),),
-                                        ),
-                                        Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              child: Text(
-                                                pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 1,
-                                                style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                    Expanded(
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Container(
+                                            margin: EdgeInsets.only(right: 16.0),
+                                            height: 32.0,
+                                            width: 32.0,
+                                            child: Image.asset(
+                                              'assets/images/collection_icons/reminder_icon_white.png', color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark()),),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                child: Text(
+                                                  pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
+                                                  textAlign: TextAlign.start,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                  style: TextStyle(
+                                                    fontSize: 20.0,
+                                                    fontFamily: 'simple',
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              child: Text(
-                                                pageState.reminders.elementAt(index).reminder.description,
-                                                textAlign: TextAlign.start,
-                                                overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                              Container(
+                                                child: Text(
+                                                  pageState.reminders.elementAt(index).reminder.description,
+                                                  textAlign: TextAlign.start,
+                                                  overflow: TextOverflow.ellipsis,
+                                                  maxLines: 2,
+                                                  style: TextStyle(
+                                                    fontSize: 16.0,
+                                                    fontFamily: 'simple',
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                                  ),
                                                 ),
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ],
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                     Container(
                                       child: Icon(

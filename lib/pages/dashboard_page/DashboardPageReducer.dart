@@ -21,7 +21,14 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, UpdateShowHideState>(_updateShowHideState),
   TypedReducer<DashboardPageState, UpdateShowHideLeadsState>(_updateShowHideLeadsState),
   TypedReducer<DashboardPageState, SetUnseenReminderCount>(_setUnseenCount),
+  TypedReducer<DashboardPageState, SetShowNewMileageExpensePageAction>(_setMileageExpenseEvent),
 ]);
+
+DashboardPageState _setMileageExpenseEvent(DashboardPageState previousState, SetShowNewMileageExpensePageAction action) {
+  return previousState.copyWith(
+    shouldShowNewMileageExpensePage: action.shouldShow,
+  );
+}
 
 DashboardPageState _setUnseenCount(DashboardPageState previousState, SetUnseenReminderCount action) {
   List<JobReminder> orderedResult = action.reminders.reversed.toList();

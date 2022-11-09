@@ -15,6 +15,7 @@ class Profile{
   double salesTaxRate;
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
+  bool showNewMileageExpensePage = false;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -66,6 +67,7 @@ class Profile{
     this.poseGroupsLastChangeDate,
     this.salesTaxRate,
     this.calendarIdsToSync,
+    this.showNewMileageExpensePage,
   });
 
   Profile copyWith({
@@ -83,6 +85,7 @@ class Profile{
     double lngDefaultHome,
     bool pushNotificationsEnabled,
     bool calendarEnabled,
+    bool showNewMileageExpensePage,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -135,6 +138,7 @@ class Profile{
       poseGroupsLastChangeDate: poseGroupsLastChangeDate ?? this.poseGroupsLastChangeDate,
       salesTaxRate: salesTaxRate ?? this.salesTaxRate,
       calendarIdsToSync: calendarIdsToSync ?? this.calendarIdsToSync,
+      showNewMileageExpensePage: showNewMileageExpensePage ?? this.showNewMileageExpensePage,
     );
   }
 
@@ -155,6 +159,7 @@ class Profile{
       'lngDefaultHome' : lngDefaultHome,
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
+      'showNewMileageExpensePage' : showNewMileageExpensePage,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'invoicesLastChangeDate' : invoicesLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -192,6 +197,7 @@ class Profile{
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
       calendarEnabled: map['calendarEnabled'],
       salesTaxRate: map['salesTaxRate'],
+      showNewMileageExpensePage: map['showNewMileageExpensePage'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,

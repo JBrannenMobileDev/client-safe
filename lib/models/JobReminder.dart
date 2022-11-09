@@ -7,6 +7,7 @@ class JobReminder {
   int id;
   String documentId;
   String jobDocumentId;
+  String payload;
   DateTime triggerTime;//this is not persisted. It is only calculated when needed in NotificationHelper. Otherwise it will be null.
   ReminderDandyLight reminder;
   bool hasBeenSeen;
@@ -17,6 +18,7 @@ class JobReminder {
     this.jobDocumentId,
     this.reminder,
     this.hasBeenSeen,
+    this.payload,
   });
 
   Future<DateTime> getJobDate() async {
@@ -29,6 +31,7 @@ class JobReminder {
       'jobDocumentId' : jobDocumentId,
       'reminder': reminder.toMap(),
       'hasBeenSeen' : hasBeenSeen,
+      'payload' : payload,
     };
   }
 
@@ -38,6 +41,7 @@ class JobReminder {
       jobDocumentId: map['jobDocumentId'],
       reminder: ReminderDandyLight.fromMap(map['reminder']),
       hasBeenSeen: map['hasBeenSeen'],
+      payload: map['payload'],
     );
   }
 }

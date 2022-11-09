@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
@@ -13,16 +14,19 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
+import '../../models/Profile.dart';
 import '../../utils/NotificationHelper.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -116,6 +120,17 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
         ),
       );
 
+  @pragma('vm:entry-point')
+  static void notificationTapBackground(NotificationResponse notificationResponse) async {
+    print('notification(${notificationResponse.id}) action tapped: ''${notificationResponse.actionId} with'' payload: ${notificationResponse.payload}');
+
+    if(notificationResponse.payload?.isNotEmpty ?? false) {
+      Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+      profile.showNewMileageExpensePage = true;
+      ProfileDao.update(profile);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
         onInit: (store) async {
@@ -126,9 +141,15 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
           }
           List<JobReminder> allReminders = await JobReminderDao.getAll();
           final notificationHelper = NotificationHelper();
+          notificationHelper.setTapBackgroundMethod(notificationTapBackground);
           await notificationHelper.initNotifications();
           if(allReminders.length > 0) {
             NotificationHelper().createAndUpdatePendingNotifications();
+          }
+        },
+        onDidChange: (previous, current) async {
+          if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+            UserOptionsUtil.showNewMileageExpenseSelected(context, (await ProfileDao.getMatchingProfile(UidUtil().getUid())).hasDefaultHome());
           }
         },
         onDispose: (store) => store.dispatch(new DisposeDataListenersActions(store.state.homePageState)),
