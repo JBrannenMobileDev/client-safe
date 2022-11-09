@@ -35,6 +35,7 @@ import '../../utils/JobUtil.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/UserPermissionsUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
+import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -217,6 +218,19 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       jobReminders.add(JobReminder(
         jobDocumentId: thisJob.documentId,
         reminder: reminder,
+        hasBeenSeen: false,
+      ));
+    }
+
+    if(thisJob.selectedDate != null && (thisJob.selectedEndTime != null || thisJob.selectedTime != null)) {
+      jobReminders.add(JobReminder(
+        id: JobReminder.MILEAGE_EXPENSE,
+        jobDocumentId: thisJob.documentId,
+        reminder: ReminderDandyLight(
+          description: 'Have you entered your mileage expense for your job?',
+          when: WhenSelectionWidget.ON,
+          time: thisJob.selectedEndTime.add(Duration(hours: 1)) ?? thisJob.selectedTime.add(Duration(hours: 1)),
+        ),
         hasBeenSeen: false,
       ));
     }

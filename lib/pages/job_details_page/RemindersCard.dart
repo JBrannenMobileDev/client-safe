@@ -98,32 +98,35 @@ class RemindersCard extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Container(
-                  margin: EdgeInsets.only(left: 8.0),
-                  height: 32.0,
-                  width: 32.0,
-                  child: Image.asset(
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(left: 8.0),
+                    height: 32.0,
+                    width: 32.0,
+                    child: Image.asset(
                       'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPeachDark()),),
-                ),
-                Container(
-                  padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    jobReminder.reminder.description,
-                    textAlign: TextAlign.start,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width - 113,
+                    padding: EdgeInsets.only(left: 8.0),
+                    child: Text(
+                      jobReminder.reminder.description,
+                      textAlign: TextAlign.start,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
             GestureDetector(
               onTap: () {

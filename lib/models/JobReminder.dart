@@ -2,6 +2,8 @@ import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 
 class JobReminder {
+  static const int MILEAGE_EXPENSE = 100;
+
   int id;
   String documentId;
   String jobDocumentId;

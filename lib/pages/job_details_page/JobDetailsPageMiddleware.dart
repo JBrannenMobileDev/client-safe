@@ -13,6 +13,7 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
@@ -34,6 +35,7 @@ import '../../models/Profile.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
+import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -287,6 +289,27 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       selectedTime: action.newTime,
     );
+
+    if(jobToSave.selectedDate != null && (jobToSave.selectedEndTime != null || jobToSave.selectedTime != null)){
+      List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(jobToSave.documentId);
+      jobReminders.removeWhere((reminder) => reminder.id == JobReminder.MILEAGE_EXPENSE);
+
+      jobReminders.add(JobReminder(
+        id: JobReminder.MILEAGE_EXPENSE,
+        jobDocumentId: jobToSave.documentId,
+        reminder: ReminderDandyLight(
+          description: 'Have you entered your mileage expense for your job?',
+          when: WhenSelectionWidget.ON,
+          time: jobToSave.selectedEndTime.add(Duration(hours: 1)) ?? jobToSave.selectedTime.add(Duration(hours: 1)),
+        ),
+        hasBeenSeen: false,
+      ));
+
+      if(jobReminders.isNotEmpty) {
+        await JobReminderDao.insertAll(jobReminders);
+      }
+    }
+
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
