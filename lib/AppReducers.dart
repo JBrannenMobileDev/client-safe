@@ -7,6 +7,7 @@ import 'package:dandylight/pages/clients_page/ClientsPageReducer.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageReducer.dart';
 import 'package:dandylight/pages/home_page/HomePageReducer.dart';
+import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageReducer.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageReducer.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageReducer.dart';
@@ -25,6 +26,7 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageR
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageReducer.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageReducer.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
+import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageReducer.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageReducer.dart';
 import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
@@ -68,4 +70,6 @@ AppState appReducers(AppState state, dynamic action) =>
         newPoseGroupPageState: newPoseGroupReducer(state.newPoseGroupPageState, action),
         poseGroupPageState: poseGroupReducer(state.poseGroupPageState, action),
         calendarSelectionPageState: calendarSelectionPageReducer(state.calendarSelectionPageState, action),
+        incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageReducer(state.incomeAndExpenseSettingsPageState, action),
+        paymentRequestInfoPageState: paymentRequestInfoPageReducer(state.paymentRequestInfoPageState, action),
     );

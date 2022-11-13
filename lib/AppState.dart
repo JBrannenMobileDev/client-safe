@@ -5,6 +5,7 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
 import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
@@ -23,6 +24,7 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageS
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
@@ -69,6 +71,8 @@ class AppState {
   final NewPoseGroupPageState newPoseGroupPageState;
   final PoseGroupPageState poseGroupPageState;
   final CalendarSelectionPageState calendarSelectionPageState;
+  final IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState;
+  final PaymentRequestInfoPageState paymentRequestInfoPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -104,6 +108,8 @@ class AppState {
     @required this.newPoseGroupPageState,
     @required this.poseGroupPageState,
     @required this.calendarSelectionPageState,
+    @required this.incomeAndExpenseSettingsPageState,
+    @required this.paymentRequestInfoPageState,
   });
 
   factory AppState.initial() {
@@ -141,6 +147,8 @@ class AppState {
       newPoseGroupPageState: NewPoseGroupPageState.initial(),
       poseGroupPageState: PoseGroupPageState.initial(),
       calendarSelectionPageState: CalendarSelectionPageState.initial(),
+      incomeAndExpenseSettingsPageState: IncomeAndExpenseSettingsPageState.initial(),
+      paymentRequestInfoPageState: PaymentRequestInfoPageState.initial(),
     );
   }
 
@@ -178,6 +186,8 @@ class AppState {
     NewPoseGroupPageState newPoseGroupPageState,
     PoseGroupPageState poseGroupPageState,
     CalendarSelectionPageState calendarSelectionPageState,
+    IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState,
+    PaymentRequestInfoPageState paymentRequestInfoPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -213,6 +223,8 @@ class AppState {
       newPoseGroupPageState: newPoseGroupPageState ?? this.newPoseGroupPageState,
       poseGroupPageState: poseGroupPageState ?? this.poseGroupPageState,
       calendarSelectionPageState: calendarSelectionPageState ?? this.calendarSelectionPageState,
+      incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageState ?? this.incomeAndExpenseSettingsPageState,
+      paymentRequestInfoPageState: paymentRequestInfoPageState ?? this.paymentRequestInfoPageState,
     );
   }
 
@@ -250,6 +262,8 @@ class AppState {
     newPoseGroupPageState.hashCode ^
     poseGroupPageState.hashCode ^
     calendarSelectionPageState.hashCode ^
+    incomeAndExpenseSettingsPageState.hashCode ^
+    paymentRequestInfoPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -288,5 +302,7 @@ class AppState {
               newPoseGroupPageState == other.newPoseGroupPageState &&
               poseGroupPageState == other.poseGroupPageState &&
               calendarSelectionPageState == other.calendarSelectionPageState &&
+              incomeAndExpenseSettingsPageState == other.incomeAndExpenseSettingsPageState &&
+              paymentRequestInfoPageState == other.paymentRequestInfoPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

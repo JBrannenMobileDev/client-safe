@@ -1,7 +1,10 @@
 import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
+import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
@@ -54,15 +57,24 @@ class NotificationHelper {
     await flutterNotificationPlugin.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse:
-          (NotificationResponse notificationResponse) {
+          (NotificationResponse notificationResponse) async {
         switch (notificationResponse.notificationResponseType) {
           case NotificationResponseType.selectedNotification:
             print('Notification selected');
+            if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
+              Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+              profile.showNewMileageExpensePage = true;
+              ProfileDao.update(profile);
+            }
             break;
           case NotificationResponseType.selectedNotificationAction:
             print('Notification selected with action');
             if (notificationResponse.actionId == navigationActionId) {
-
+              if(notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
+                Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+                profile.showNewMileageExpensePage = true;
+                ProfileDao.update(profile);
+              }
             }
             break;
         }

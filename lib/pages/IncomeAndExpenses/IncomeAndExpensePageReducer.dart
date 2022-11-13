@@ -303,23 +303,23 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       }
 
       if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
-        thisMonth = thisMonth + job.priceProfile.flatRate + job.tipAmount;
+        thisMonth = thisMonth + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == lastMonthDate.year && job.paymentReceivedDate.month == lastMonthDate.month) {
-        lastMonth = lastMonth + job.priceProfile.flatRate + job.tipAmount;
+        lastMonth = lastMonth + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == thisMonthLastYearDate.year && job.paymentReceivedDate.month == thisMonthLastYearDate.month) {
-        thisMonthLastYear = thisMonthLastYear + job.priceProfile.flatRate + job.tipAmount;
+        thisMonthLastYear = thisMonthLastYear + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == lastMonthLastYearDate.year && job.paymentReceivedDate.month == lastMonthLastYearDate.month) {
-        lastMonthLastYear = lastMonthLastYear + job.priceProfile.flatRate + job.tipAmount;
+        lastMonthLastYear = lastMonthLastYear + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
       }
     } else {
       if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
-        thisMonth = thisMonth + job.tipAmount;
+        thisMonth = thisMonth + job.tipAmount ?? 0.0;
       }
       if(job.paymentReceivedDate.year == lastMonthDate.year && job.paymentReceivedDate.month == lastMonthDate.month) {
-        lastMonth = lastMonth + job.tipAmount;
+        lastMonth = lastMonth + job.tipAmount ?? 0.0;
       }
       if(job.paymentReceivedDate.year == thisMonthLastYearDate.year && job.paymentReceivedDate.month == thisMonthLastYearDate.month) {
         thisMonthLastYear = thisMonthLastYear + job.tipAmount;

@@ -176,32 +176,38 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
 
   for(RecurringExpense expense in recurringExpenses) {
     Charge chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(0).monthInt);
-    if(chargeForMonthAndYear != null) {
+    bool isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(0).monthInt);
+    if(chargeForMonthAndYear != null && isPaid) {
       chartItems.elementAt(0).income -= chargeForMonthAndYear.chargeAmount.toInt();
     }
 
     chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(1).monthInt);
-    if(chargeForMonthAndYear != null) {
+    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(1).monthInt);
+    if(chargeForMonthAndYear != null && isPaid) {
       chartItems.elementAt(1).income -= chargeForMonthAndYear.chargeAmount.toInt();
     }
 
     chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(2).monthInt);
-    if(chargeForMonthAndYear != null) {
+    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(2).monthInt);
+    if(chargeForMonthAndYear != null && isPaid) {
       chartItems.elementAt(2).income -= chargeForMonthAndYear.chargeAmount.toInt();
     }
 
     chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(3).monthInt);
-    if(chargeForMonthAndYear != null) {
+    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(3).monthInt);
+    if(chargeForMonthAndYear != null && isPaid) {
       chartItems.elementAt(3).income -= chargeForMonthAndYear.chargeAmount.toInt();
     }
 
     chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(4).monthInt);
-    if(chargeForMonthAndYear != null) {
+    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(4).monthInt);
+    if(chargeForMonthAndYear != null && isPaid) {
       chartItems.elementAt(4).income -= chargeForMonthAndYear.chargeAmount.toInt();
     }
 
     chargeForMonthAndYear = getCharge(expense.charges, currentYear, chartItems.elementAt(5).monthInt);
-    if(chargeForMonthAndYear != null) {
+    isPaid = isChargeRecurringChargePaid(expense.charges, currentYear, chartItems.elementAt(5).monthInt);
+    if(chargeForMonthAndYear != null && isPaid) {
       chartItems.elementAt(5).income -= chargeForMonthAndYear.chargeAmount.toInt();
     }
   }
@@ -306,6 +312,15 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
     }
   }
   return chartItems;
+}
+
+bool isChargeRecurringChargePaid(List<Charge> charges, int currentYear, int monthInt) {
+  for(Charge charge in charges) {
+    if(charge.chargeDate.year == currentYear && charge.chargeDate.month == monthInt) {
+      return charge.isPaid;
+    }
+  }
+  return null;
 }
 
 Charge getCharge(List<Charge> charges, int currentYear, int monthInt) {

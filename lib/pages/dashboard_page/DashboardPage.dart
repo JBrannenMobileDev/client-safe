@@ -124,7 +124,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
   static void notificationTapBackground(NotificationResponse notificationResponse) async {
     print('notification(${notificationResponse.id}) action tapped: ''${notificationResponse.actionId} with'' payload: ${notificationResponse.payload}');
 
-    if(notificationResponse.payload?.isNotEmpty ?? false) {
+    if((notificationResponse.payload?.isNotEmpty ?? false) && notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
       Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
       profile.showNewMileageExpensePage = true;
       ProfileDao.update(profile);
@@ -149,7 +149,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
         },
         onDidChange: (previous, current) async {
           if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
-            UserOptionsUtil.showNewMileageExpenseSelected(context, (await ProfileDao.getMatchingProfile(UidUtil().getUid())).hasDefaultHome());
+            UserOptionsUtil.showNewMileageExpenseSelected(context);
           }
         },
         onDispose: (store) => store.dispatch(new DisposeDataListenersActions(store.state.homePageState)),

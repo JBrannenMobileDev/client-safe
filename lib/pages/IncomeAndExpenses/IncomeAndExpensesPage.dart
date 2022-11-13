@@ -18,6 +18,7 @@ import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_pic
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
+import '../../utils/NavigationUtil.dart';
 import '../../utils/styles/Styles.dart';
 import 'MonthlyIncomeLineChart.dart';
 
@@ -97,8 +98,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         forceElevated: false,
                         expandedHeight: 275.0,
                         centerTitle: true,
-                        title: Center(
-                          child: Text(
+                        title: Text(
                             'Income & Expenses',
                             style: TextStyle(
                               fontFamily: 'simple',
@@ -106,10 +106,20 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.getPrimaryWhite()),
                             ),
-                          ),
                         ),
                         actions: <Widget>[
-
+                          GestureDetector(
+                            onTap: () {
+                              NavigationUtil.onIncomeAndExpenseSettingsSelected(context);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 16.0),
+                              height: 32.0,
+                              width: 32.0,
+                              child: Image.asset(
+                                  'assets/images/icons/settings_icon_white.png'),
+                            ),
+                          )
                         ],
                         flexibleSpace: new FlexibleSpaceBar(
                           background: Column(
@@ -415,7 +425,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewMileageExpenseSelected(context, pageState.profile.hasDefaultHome());
+                        UserOptionsUtil.showNewMileageExpenseSelected(context);
                       },
                     ),
                   ],

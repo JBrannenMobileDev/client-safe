@@ -17,13 +17,10 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 class NewMileageExpensePage extends StatefulWidget {
-  final bool hasDefaultHome;
-
-  NewMileageExpensePage(this.hasDefaultHome);
 
   @override
   _NewMileageExpensePageState createState() {
-    return _NewMileageExpensePageState(hasDefaultHome);
+    return _NewMileageExpensePageState();
   }
 }
 
@@ -34,10 +31,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
     initialPage: 0,
   );
 
-  bool hasDefaultHome;
   int currentPageIndex = 0;
-
-  _NewMileageExpensePageState(this.hasDefaultHome);
 
   @override
   void initState() {

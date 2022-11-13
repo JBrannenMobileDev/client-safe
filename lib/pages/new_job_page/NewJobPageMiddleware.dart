@@ -226,9 +226,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       jobReminders.add(JobReminder(
         id: JobReminder.MILEAGE_EXPENSE,
         jobDocumentId: thisJob.documentId,
-        payload: thisJob.location.latitude.toString() + ' ' + thisJob.location.longitude.toString(),
+        payload: JobReminder.MILEAGE_EXPENSE_ID,
         reminder: ReminderDandyLight(
-          description: 'Have you entered your mileage?',
+          description: 'Have you entered your mileage expense?',
           when: WhenSelectionWidget.ON,
           time: thisJob.selectedEndTime.add(Duration(hours: 1)) ?? thisJob.selectedTime.add(Duration(hours: 1)),
         ),

@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -7,6 +8,7 @@ import 'package:redux/redux.dart';
 import 'package:swipedetector/swipedetector.dart';
 
 import '../../../AppState.dart';
+import '../../../models/JobReminder.dart';
 import '../../../utils/NavigationUtil.dart';
 import '../../../utils/styles/Styles.dart';
 
@@ -72,60 +74,62 @@ class ReminderNotificationsPage extends StatelessWidget{
                             return TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onReminderSelected(pageState.reminders.elementAt(index));
-                                NavigationUtil.onJobTapped(context);
+                                if(pageState.reminders.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
+                                  UserOptionsUtil.showNewMileageExpenseSelected(context);
+                                } else {
+                                  pageState.onReminderSelected(pageState.reminders.elementAt(index));
+                                  NavigationUtil.onJobTapped(context);
+                                }
                               },
                               child: Padding(
                                 padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
                                 child: Stack(
                                   alignment: Alignment.centerRight,
                                   children: <Widget>[
-                                    Expanded(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        children: <Widget>[
-                                          Container(
-                                            margin: EdgeInsets.only(right: 16.0),
-                                            height: 32.0,
-                                            width: 32.0,
-                                            child: Image.asset(
-                                              'assets/images/collection_icons/reminder_icon_white.png', color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark()),),
-                                          ),
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                child: Text(
-                                                  pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
-                                                  textAlign: TextAlign.start,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 1,
-                                                  style: TextStyle(
-                                                    fontSize: 20.0,
-                                                    fontFamily: 'simple',
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
-                                                  ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(right: 16.0),
+                                          height: 32.0,
+                                          width: 32.0,
+                                          child: Image.asset(
+                                            'assets/images/collection_icons/reminder_icon_white.png', color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark()),),
+                                        ),
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              child: Text(
+                                                pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
+                                                textAlign: TextAlign.start,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                style: TextStyle(
+                                                  fontSize: 20.0,
+                                                  fontFamily: 'simple',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                                 ),
                                               ),
-                                              Container(
-                                                child: Text(
-                                                  pageState.reminders.elementAt(index).reminder.description,
-                                                  textAlign: TextAlign.start,
-                                                  overflow: TextOverflow.ellipsis,
-                                                  maxLines: 2,
-                                                  style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    fontFamily: 'simple',
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
-                                                  ),
+                                            ),
+                                            Container(
+                                              child: Text(
+                                                pageState.reminders.elementAt(index).reminder.description,
+                                                textAlign: TextAlign.start,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 2,
+                                                style: TextStyle(
+                                                  fontSize: 16.0,
+                                                  fontFamily: 'simple',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                                 ),
-                                              )
-                                            ],
-                                          ),
-                                        ],
-                                      ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      ],
                                     ),
                                     Container(
                                       child: Icon(

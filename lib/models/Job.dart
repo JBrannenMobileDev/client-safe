@@ -70,7 +70,7 @@ class Job {
     JobStage stage,
     Invoice invoice,
     int depositAmount,
-    int tipAmount,
+    int tipAmount = 0,
     List<JobStage> completedStages,
     DateTime createdDate,
     DateTime paymentReceivedDate,

@@ -46,7 +46,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         streamProfiles.add(Profile.fromMap(clientSnapshot.value));
       }
       Profile profile = streamProfiles.elementAt(0);
-      if(profile.showNewMileageExpensePage) {
+      if(profile.showNewMileageExpensePage ?? false) {
         await store.dispatch(SetShowNewMileageExpensePageAction(store.state.dashboardPageState, true));
         profile.showNewMileageExpensePage = false;
         await ProfileDao.update(profile);

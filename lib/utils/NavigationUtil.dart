@@ -8,6 +8,7 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobListPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ReminderNotificationsPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
+import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/pages/login_page/LoginPage.dart';
 import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
@@ -44,6 +45,9 @@ class NavigationUtil {
   }
   static onMainSettingsSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => MainSettingsPage()));
+  }
+  static onIncomeAndExpenseSettingsSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => IncomeAndExpenseSettingsPage()));
   }
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));

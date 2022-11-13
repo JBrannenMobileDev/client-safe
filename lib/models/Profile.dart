@@ -10,6 +10,11 @@ class Profile{
   String email;
   String phone;
   String businessName;
+  String zellePhoneEmail;
+  String zelleFullName;
+  String venmoLink;
+  String cashAppLink;
+  String applePayPhone;
   double latDefaultHome;
   double lngDefaultHome;
   double salesTaxRate;
@@ -68,6 +73,11 @@ class Profile{
     this.salesTaxRate,
     this.calendarIdsToSync,
     this.showNewMileageExpensePage,
+    this.zelleFullName,
+    this.zellePhoneEmail,
+    this.venmoLink,
+    this.cashAppLink,
+    this.applePayPhone,
   });
 
   Profile copyWith({
@@ -81,6 +91,11 @@ class Profile{
     String businessName,
     String email,
     String phone,
+    String zellePhoneEmail,
+    String zelleFullName,
+    String venmoLink,
+    String cashAppLink,
+    String applePayPhone,
     double latDefaultHome,
     double lngDefaultHome,
     bool pushNotificationsEnabled,
@@ -139,6 +154,11 @@ class Profile{
       salesTaxRate: salesTaxRate ?? this.salesTaxRate,
       calendarIdsToSync: calendarIdsToSync ?? this.calendarIdsToSync,
       showNewMileageExpensePage: showNewMileageExpensePage ?? this.showNewMileageExpensePage,
+      zelleFullName: zelleFullName ?? this.zelleFullName,
+      zellePhoneEmail: zellePhoneEmail ?? this.zellePhoneEmail,
+      venmoLink: venmoLink ?? this.venmoLink,
+      cashAppLink: cashAppLink ?? this.cashAppLink,
+      applePayPhone: applePayPhone ?? this.applePayPhone,
     );
   }
 
@@ -154,6 +174,11 @@ class Profile{
       'lastName' : lastName,
       'email' : email,
       'phone' : phone,
+      'zelleFullName' : zelleFullName,
+      'zellePhoneEmail' : zellePhoneEmail,
+      'venmoLink' : venmoLink,
+      'cashAppLink' : cashAppLink,
+      'applePayPhone' : applePayPhone,
       'businessName' : businessName,
       'latDefaultHome' : latDefaultHome,
       'lngDefaultHome' : lngDefaultHome,
@@ -184,6 +209,11 @@ class Profile{
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
       uid: map['uid'],
+      zelleFullName: map['zelleFullName'],
+      zellePhoneEmail: map['zellePhoneEmail'],
+      venmoLink: map['venmoLink'],
+      cashAppLink: map['cashAppLink'],
+      applePayPhone: map['applePayPhone'],
       referralUid: map['referralUid'],
       deviceTokens: map['deviceTokens'],
       calendarIdsToSync: map['calendarIdsToSync'],
