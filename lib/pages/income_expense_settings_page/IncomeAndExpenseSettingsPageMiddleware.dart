@@ -32,14 +32,14 @@ class IncomeAndExpenseSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    store.dispatch(SaveZelleStateAction(store.state.incomeAndExpenseSettingsPageState, !(profile.zellePhoneEmail.isEmpty && profile.zelleFullName.isEmpty)));
+    store.dispatch(SaveZelleStateAction(store.state.incomeAndExpenseSettingsPageState, !(profile.zellePhoneEmail?.isEmpty == true && profile.zelleFullName?.isEmpty == true)));
     store.dispatch(SetZellePhoneEmailTextAction(store.state.incomeAndExpenseSettingsPageState, profile.zellePhoneEmail));
     store.dispatch(SetZelleFullNameTextAction(store.state.incomeAndExpenseSettingsPageState, profile.zelleFullName));
-    store.dispatch(SaveVenmoStateAction(store.state.incomeAndExpenseSettingsPageState, profile.venmoLink.isNotEmpty));
+    store.dispatch(SaveVenmoStateAction(store.state.incomeAndExpenseSettingsPageState, profile.venmoLink?.isNotEmpty));
     store.dispatch(SetVenmoLinkTextAction(store.state.incomeAndExpenseSettingsPageState, profile.venmoLink));
-    store.dispatch(SaveCashAppStateAction(store.state.incomeAndExpenseSettingsPageState, profile.cashAppLink.isNotEmpty));
+    store.dispatch(SaveCashAppStateAction(store.state.incomeAndExpenseSettingsPageState, profile.cashAppLink?.isNotEmpty));
     store.dispatch(SetCashAppLinkTextAction(store.state.incomeAndExpenseSettingsPageState, profile.cashAppLink));
-    store.dispatch(SaveApplePayStateAction(store.state.incomeAndExpenseSettingsPageState, profile.venmoLink.isNotEmpty));
+    store.dispatch(SaveApplePayStateAction(store.state.incomeAndExpenseSettingsPageState, profile.venmoLink?.isNotEmpty));
     store.dispatch(SetApplePayPhoneTextAction(store.state.incomeAndExpenseSettingsPageState, profile.applePayPhone));
   }
 

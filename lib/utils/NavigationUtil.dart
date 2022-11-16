@@ -15,6 +15,7 @@ import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
 import 'package:dandylight/pages/main_settings_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
+import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -48,6 +49,9 @@ class NavigationUtil {
   }
   static onIncomeAndExpenseSettingsSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => IncomeAndExpenseSettingsPage()));
+  }
+  static onPaymentRequestInfoSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => PaymentRequestInfoPage()));
   }
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));

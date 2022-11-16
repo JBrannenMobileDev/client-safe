@@ -201,6 +201,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _checkForCurrentUser(Store<AppState> store, CheckForCurrentUserAction action, next) async{
+    await Future.delayed(Duration(seconds: 1));
     store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, false));
     final FirebaseAuth _auth = FirebaseAuth.instance;
     User user = await _auth.currentUser;

@@ -210,6 +210,12 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
   void _generateNewInvoicePdf(Store<AppState> store, action, NextDispatcher next) async {
     NewInvoicePageState pageState = store.state.newInvoicePageState;
     Client client = await ClientDao.getClientById(pageState.selectedJob.clientDocumentId);
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? 'Zelle\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? 'Venmo\n' + profile.venmoLink : '';
+    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? 'Cash App\n' + profile.cashAppLink : '';
+    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? 'Apple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
+
     final Document pdf = Document();
 
     pdf.addPage(MultiPage(
@@ -672,7 +678,47 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                 ],
               ),
             ],
-          )
+          ),
+          Container(
+            margin: EdgeInsets.only(top: 32.0),
+            child: Text(
+                'Accepted forms of payment',
+                textScaleFactor: 1.5,
+                textAlign: TextAlign.left
+            ),
+          ),
+          zelleInfo.isNotEmpty ? Container(
+            margin: EdgeInsets.only(top: 16.0),
+            child: Text(
+                zelleInfo,
+                textScaleFactor: 1.5,
+                textAlign: TextAlign.left
+            ),
+          ) : SizedBox(),
+          venmoInfo.isNotEmpty ? Container(
+            margin: EdgeInsets.only(top: 16.0),
+            child: Text(
+                venmoInfo,
+                textScaleFactor: 1.5,
+                textAlign: TextAlign.left
+            ),
+          ) : SizedBox(),
+          cashAppInfo.isNotEmpty ? Container(
+            margin: EdgeInsets.only(top: 16.0),
+            child: Text(
+                cashAppInfo,
+                textScaleFactor: 1.5,
+                textAlign: TextAlign.left
+            ),
+          ) : SizedBox(),
+          applePayInfo.isNotEmpty ? Container(
+            margin: EdgeInsets.only(top: 16.0),
+            child: Text(
+                applePayInfo,
+                textScaleFactor: 1.5,
+                textAlign: TextAlign.left
+            ),
+          ) : SizedBox(),
 
         ]));
 

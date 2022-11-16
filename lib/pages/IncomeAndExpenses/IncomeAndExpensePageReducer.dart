@@ -316,16 +316,16 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
       }
     } else {
       if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
-        thisMonth = thisMonth + job.tipAmount ?? 0.0;
+        thisMonth = thisMonth + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == lastMonthDate.year && job.paymentReceivedDate.month == lastMonthDate.month) {
-        lastMonth = lastMonth + job.tipAmount ?? 0.0;
+        lastMonth = lastMonth + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == thisMonthLastYearDate.year && job.paymentReceivedDate.month == thisMonthLastYearDate.month) {
-        thisMonthLastYear = thisMonthLastYear + job.tipAmount;
+        thisMonthLastYear = thisMonthLastYear + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == lastMonthLastYearDate.year && job.paymentReceivedDate.month == lastMonthLastYearDate.month) {
-        lastMonthLastYear = lastMonthLastYear + job.tipAmount;
+        lastMonthLastYear = lastMonthLastYear + (job.tipAmount != null ? job.tipAmount : 0);
       }
     }
   }

@@ -68,19 +68,15 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
       begin: const Offset(0.0, -1.0),
       end: Offset.zero,
     );
-    // if (comingFromLogin) {
-    //   controller = AnimationController(
-    //       duration: const Duration(milliseconds: 500), vsync: this);
-    //   controller.forward();
-    // } else {
-    //   controller = AnimationController(
-    //       duration: const Duration(milliseconds: 0), vsync: this);
-    //   controller.forward();
-    // }
-
-    controller = AnimationController(
-        duration: const Duration(milliseconds: 0), vsync: this);
-    controller.forward();
+    if (comingFromLogin) {
+      controller = AnimationController(
+          duration: const Duration(milliseconds: 500), vsync: this);
+      controller.forward();
+    } else {
+      controller = AnimationController(
+          duration: const Duration(milliseconds: 0), vsync: this);
+      controller.forward();
+    }
   }
 
   void _runAnimation() async {

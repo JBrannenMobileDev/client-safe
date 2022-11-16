@@ -13,6 +13,7 @@ import 'package:dandylight/pages/job_details_page/RemindersCard.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/job_details_page/scroll_stage_items/StageItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -290,15 +291,19 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                       ),
                       onTap: () {
-                        bool containsInvoice = false;
-                        for(DocumentItem document in pageState.documents){
-                          if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
-                        }
-                        if(!containsInvoice) {
-                          pageState.onAddInvoiceSelected();
-                          UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
-                        }else{
-                          UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
+                        if(pageState.job.priceProfile != null) {
+                          bool containsInvoice = false;
+                          for(DocumentItem document in pageState.documents){
+                            if(document.getDocumentType() == DocumentItem.DOCUMENT_TYPE_INVOICE) containsInvoice = true;
+                          }
+                          if(!containsInvoice) {
+                            pageState.onAddInvoiceSelected();
+                            UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
+                          }else{
+                            UserOptionsUtil.showInvoiceOptionsDialog(context, onSendInvoiceSelected);
+                          }
+                        } else {
+                          DandyToastUtil.showErrorToast('Please select a price package for this job before creating an invoice.');
                         }
                       },
                     ),

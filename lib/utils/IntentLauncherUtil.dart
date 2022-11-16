@@ -2,12 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:android_intent_plus/android_intent.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Invoice.dart';
+import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
+import 'package:flutter_share/flutter_share.dart';
 import 'package:share_extend/share_extend.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'PdfUtil.dart';
+import 'TextFormatterUtil.dart';
 
 class IntentLauncherUtil{
   static Future<bool> launchURL(String url) async {
@@ -52,11 +58,22 @@ class IntentLauncherUtil{
     }
   }
 
-  static Future shareInvoice(Invoice invoice) async{
-    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId));
-    ShareExtend.share(invoiceFile.path, "file");
+  static Future sharePaymentLinks() async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink : '';
+    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink : '';
+    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
+    FlutterShare.share(title: 'How to pay', text: 'Here are the forms of payment i accept:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo);
   }
 
+  static Future shareInvoice(Invoice invoice) async{
+    File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId));
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    // ShareExtend.share(invoiceFile.path, "file");
+    FlutterShare.shareFile(title: profile.businessName + ' Invoice', filePath: invoiceFile.path, text: 'Invoice for Vintage Vibes\n\nAmount Due: \$500\n\nAccepted payment methods:\nZelle\nVenmo');
+    // Share.shareFiles([invoiceFile.path], subject: 'Vintage Vibes Photography Invoice', text: 'Invoice for Vintage Vibes\n\nAmount Due: \$500\n\nAccepted payment methods:\nZelle\nVenmo');
+  }
   static Future shareInvoiceById(int invoiceId) async{
     File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoiceId));
     ShareExtend.share(invoiceFile.path, "file");

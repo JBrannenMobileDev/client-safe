@@ -14,7 +14,6 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageMiddleware.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageActions.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageMiddleware.dart';
-import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageMiddleware.dart';
 import 'package:dandylight/pages/job_types/JobTypesActions.dart';
@@ -55,6 +54,7 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderPageMiddleware.dar
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageMiddleware.dart';
+import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageActions.dart' as paymentLinks;
 import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageMiddleware.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
@@ -208,11 +208,11 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveVenmoInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCashAppInput>(IncomeAndExpenseSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveApplePayInput>(IncomeAndExpenseSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, LoadPaymentSettingsFromProfile>(PaymentRequestInfoPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveZelleFullNameInput>(PaymentRequestInfoPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveZellePhoneEmailInput>(PaymentRequestInfoPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveVenmoInput>(PaymentRequestInfoPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveCashAppInput>(PaymentRequestInfoPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveApplePayInput>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.LoadPaymentSettingsFromProfile>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveZelleFullNameInput>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveZellePhoneEmailInput>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveVenmoInput>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveCashAppInput>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveApplePayInput>(PaymentRequestInfoPageMiddleware()));
   return middlewareList;
 }

@@ -83,7 +83,9 @@ class BarChartState extends State<BarChartWidget> {
       int x,
       int y, {
         bool isTouched = false,
+        bool isNegative = false,
         Color barColor = const Color(0xffE6CE97),
+        Color barColorNegative = const Color(ColorConstants.peach_dark),
         Color touchedBarColor = const Color(0xff557571),
         double width = 22,
         List<int> showTooltips = const [],
@@ -93,8 +95,9 @@ class BarChartState extends State<BarChartWidget> {
       barRods: [
         BarChartRodData(
           toY: isTouched ? y.toDouble() + 1 : y.toDouble(),
-          color: isTouched ? touchedBarColor : barColor,
+          color: isNegative ? barColorNegative : isTouched ? touchedBarColor : barColor,
           width: width,
+          borderRadius: BorderRadius.circular(8.0),
         ),
       ],
       showingTooltipIndicators: showTooltips,
@@ -104,17 +107,17 @@ class BarChartState extends State<BarChartWidget> {
   List<BarChartGroupData> showingGroups() => List.generate(6, (i) {
     switch (i) {
       case 0:
-        return makeGroupData(0, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex);
+        return makeGroupData(0, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
       case 1:
-        return makeGroupData(1, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex);
+        return makeGroupData(1, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
       case 2:
-        return makeGroupData(2, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex);
+        return makeGroupData(2, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
       case 3:
-        return makeGroupData(3, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex);
+        return makeGroupData(3, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
       case 4:
-        return makeGroupData(4, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex);
+        return makeGroupData(4, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
       case 5:
-        return makeGroupData(5, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex);
+        return makeGroupData(5, widget.monthsData.elementAt(i).income, isTouched: i == touchedIndex, isNegative: widget.monthsData.elementAt(i).income < 0);
       default:
         return throw Error();
     }

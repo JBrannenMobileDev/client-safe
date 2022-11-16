@@ -239,7 +239,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                               height: 54.0,
                                               width: 200.0,
                                               decoration: BoxDecoration(
-                                                  color: Color(ColorConstants.getBlueLight()),
+                                                  color: Color(ColorConstants.getPeachDark()),
                                                   borderRadius: BorderRadius.circular(36.0)
                                               ),
                                               child: Row(
@@ -253,7 +253,7 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                                     style: TextStyle(
                                                       fontSize: 22.0,
                                                       fontFamily: 'simple',
-                                                      fontWeight: FontWeight.w800,
+                                                      fontWeight: FontWeight.w600,
                                                       color: Color(ColorConstants.getPrimaryWhite()),
                                                     ),
                                                   )
@@ -264,8 +264,8 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                           GestureDetector(
                                             onTap: () async {
                                               IntentLauncherUtil.shareInvoice(invoice);
-                                              pageState.onInvoiceSent(invoice);
-                                              onSendInvoiceSelected();
+                                              if(onSendInvoiceSelected != null) await onSendInvoiceSelected();
+                                              await pageState.onInvoiceSent(invoice);
                                             },
                                             child: Container(
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
@@ -287,7 +287,39 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                                     style: TextStyle(
                                                       fontSize: 22.0,
                                                       fontFamily: 'simple',
-                                                      fontWeight: FontWeight.w800,
+                                                      fontWeight: FontWeight.w600,
+                                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  )
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              IntentLauncherUtil.sharePaymentLinks();
+                                              if(onSendInvoiceSelected != null) await onSendInvoiceSelected();
+                                              await pageState.onInvoiceSent(invoice);
+                                            },
+                                            child: Container(
+                                              margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
+                                              padding: EdgeInsets.all(12.0),
+                                              height: 54.0,
+                                              width: 200.0,
+                                              decoration: BoxDecoration(
+                                                  color: Color(ColorConstants.getPeachDark()),
+                                                  borderRadius: BorderRadius.circular(36.0)
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                children: <Widget>[
+                                                  Text(
+                                                    'Share Payment Links',
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 22.0,
+                                                      fontFamily: 'simple',
+                                                      fontWeight: FontWeight.w600,
                                                       color: Color(ColorConstants.getPrimaryWhite()),
                                                     ),
                                                   )

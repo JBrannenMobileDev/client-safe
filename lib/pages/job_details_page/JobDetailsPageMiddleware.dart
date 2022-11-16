@@ -385,9 +385,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     action.job.stage = _getNextUncompletedStage(action.stageIndex, action.job.completedStages, action.job);
     Job jobToSave = action.job.copyWith(
       completedStages: completedJobStages,
-      depositAmount: store.state.jobDetailsPageState.job.depositAmount,
-      tipAmount: store.state.jobDetailsPageState.job.tipAmount,
-      createdDate: store.state.jobDetailsPageState.job.createdDate,
+      depositAmount: action.job.depositAmount,
+      tipAmount: action.job.tipAmount,
+      createdDate: action.job.createdDate,
     );
     if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
       jobToSave.paymentReceivedDate = DateTime.now();

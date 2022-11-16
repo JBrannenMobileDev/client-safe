@@ -2,6 +2,8 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageActions.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +69,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                 TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
-
+                                    NavigationUtil.onPaymentRequestInfoSelected(context);
                                   },
                                   child: SizedBox(
                                     height: 48.0,
@@ -86,7 +88,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                               margin: EdgeInsets.only(right: 16.0),
                                               height: 28.0,
                                               width: 28.0,
-                                              child: Image.asset('assets/images/icons/coin_icon_peach.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                              child: Image.asset('assets/images/collection_icons/pricing_profile_icons/wallet_icon_gold.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
                                             Text(
                                               'Payment request info',
@@ -112,51 +114,54 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                     ),
                                   ),
                                 ),
-                                TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-
-                                  },
-                                  child: SizedBox(
-                                    height: 48.0,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                      crossAxisAlignment:
-                                      CrossAxisAlignment.center,
-                                      children: <Widget>[
-                                        Row(
-                                          crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                          children: <Widget>[
-                                            Container(
-                                              alignment: Alignment.center,
-                                              margin: EdgeInsets.only(right: 16.0),
-                                              height: 28.0,
-                                              width: 28.0,
-                                              child: Icon(Platform.isIOS ? CupertinoIcons.share : Icons.share),
-                                            ),
-                                            Text(
-                                              'Export income & expense report',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 22.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(ColorConstants
-                                                    .getPrimaryBlack()),
+                                Container(
+                                  margin: EdgeInsets.only(top: 8.0),
+                                  child: TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      DandyToastUtil.showToast('Generate report feature coming soon!', Color(ColorConstants.getPrimaryColor()));
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                alignment: Alignment.center,
+                                                margin: EdgeInsets.only(right: 16.0),
+                                                height: 28.0,
+                                                width: 28.0,
+                                                child: Icon(Platform.isIOS ? CupertinoIcons.share : Icons.share, color: Color(ColorConstants.getPrimaryBlack()),),
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        Container(
-                                          child: Icon(
-                                            Icons.chevron_right,
-                                            color: Color(ColorConstants
-                                                .getPrimaryBackgroundGrey()),
+                                              Text(
+                                                'Generate income\nand expense report',
+                                                textAlign: TextAlign.start,
+                                                style: TextStyle(
+                                                  fontSize: 22.0,
+                                                  fontFamily: 'simple',
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(ColorConstants
+                                                      .getPrimaryBlack()),
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                        ),
-                                      ],
+                                          Container(
+                                            child: Icon(
+                                              Icons.chevron_right,
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBackgroundGrey()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),

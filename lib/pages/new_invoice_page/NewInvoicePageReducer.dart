@@ -283,6 +283,7 @@ NewInvoicePageState _clearState(NewInvoicePageState previousState, ClearStateAct
 }
 
 NewInvoicePageState _setJobs(NewInvoicePageState previousState, SetAllJobsAction action) {
+  action.allJobs.retainWhere((job) => job.priceProfile != null);
   return previousState.copyWith(
     jobs: action.allJobs,
     filteredJobs: action.allJobs,
