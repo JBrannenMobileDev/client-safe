@@ -60,7 +60,7 @@ class IntentLauncherUtil{
 
   static Future sharePaymentLinks() async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
     String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink : '';
     String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink : '';
     String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
@@ -70,9 +70,11 @@ class IntentLauncherUtil{
   static Future shareInvoice(Invoice invoice) async{
     File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoice.invoiceId));
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    // ShareExtend.share(invoiceFile.path, "file");
-    FlutterShare.shareFile(title: profile.businessName + ' Invoice', filePath: invoiceFile.path, text: 'Invoice for Vintage Vibes\n\nAmount Due: \$500\n\nAccepted payment methods:\nZelle\nVenmo');
-    // Share.shareFiles([invoiceFile.path], subject: 'Vintage Vibes Photography Invoice', text: 'Invoice for Vintage Vibes\n\nAmount Due: \$500\n\nAccepted payment methods:\nZelle\nVenmo');
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink : '';
+    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink : '';
+    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
+    Share.shareXFiles([XFile(invoiceFile.path)], subject: profile.businessName + ' Invoice', text: profile.businessName + ' Invoice\n\nAmount Due: ' + TextFormatterUtil.formatDecimalCurrency(invoice.unpaidAmount) + '\n\nAccepted forms of payment:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo);
   }
   static Future shareInvoiceById(int invoiceId) async{
     File invoiceFile = File(await PdfUtil.getInvoiceFilePath(invoiceId));

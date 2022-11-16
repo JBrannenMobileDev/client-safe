@@ -211,7 +211,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     NewInvoicePageState pageState = store.state.newInvoicePageState;
     Client client = await ClientDao.getClientById(pageState.selectedJob.clientDocumentId);
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? 'Zelle\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? 'Zelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
     String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? 'Venmo\n' + profile.venmoLink : '';
     String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? 'Cash App\n' + profile.cashAppLink : '';
     String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? 'Apple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
