@@ -18,11 +18,7 @@ class StageStatsItem extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        NavigationUtil.onStageStatsSelected(context, pageState, JobStage.getStageText(stage), stage);
-      },
-      child: Container(
+    return Container(
         height: 48.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,7 +75,6 @@ class StageStatsItem extends StatelessWidget{
             )
           ],
         ),
-      ),
     );
   }
 }

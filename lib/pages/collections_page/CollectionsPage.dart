@@ -55,7 +55,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                     child: GridView.builder(
                         shrinkWrap: true,
                         physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: 6,
+                        itemCount: 8,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -74,13 +74,13 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                     color: getCircleColor(index),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Image.asset(collectionIcons.elementAt(index)),
+                                  child: index < 6 ? Image.asset(collectionIcons.elementAt(index)) : SizedBox(),
                                 ),
                                 Center(
                                   child: Container(
-                                    margin: EdgeInsets.only(top: 4.0),
+                                    padding: EdgeInsets.only(top: 4.0),
                                     child: Text(
-                                      ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
+                                      index < 6 ? ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)) : '',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 20.0,
@@ -168,16 +168,16 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 6:
-        color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getPrimaryWhite());
         break;
       case 7:
-        color = Color(ColorConstants.getBlueLight());
+        color = Color(ColorConstants.getPrimaryWhite());
         break;
       case 8:
-        color = Color(ColorConstants.getPeachDark());
+        color = Color(ColorConstants.getPrimaryWhite());
         break;
       case 9:
-        color = Color(ColorConstants.getPeachLight());
+        color = Color(ColorConstants.getPrimaryWhite());
         break;
     }
     return color;

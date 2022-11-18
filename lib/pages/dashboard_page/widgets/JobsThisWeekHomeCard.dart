@@ -8,14 +8,14 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/NavigationUtil.dart';
 
-class ActiveJobsHomeCard extends StatelessWidget {
+class JobsThisWeekHomeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) => GestureDetector(
           onTap: () {
-            NavigationUtil.onStageStatsSelected(context, pageState, 'Active Jobs', null, true);
+            NavigationUtil.onStageStatsSelected(context, pageState, 'Jobs This Week', null, false);
           },
           child: Container(
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
@@ -42,7 +42,7 @@ class ActiveJobsHomeCard extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Active Jobs',
+                      'Jobs This Week',
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 20.0,
@@ -58,7 +58,7 @@ class ActiveJobsHomeCard extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(right: 16.0),
                       child: Text(
-                        pageState.activeJobs != null ? pageState.activeJobs.length.toString() : '',
+                        pageState.jobsThisWeek != null ? pageState.jobsThisWeek.length.toString() : '',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 20.0,

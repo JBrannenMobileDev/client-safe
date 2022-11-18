@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/JobsThisWeekHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
@@ -358,7 +359,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                                 alignment: Alignment.topCenter,
                                 children: [
                                   Container(
-                                    margin: EdgeInsets.only(top: 72.0),
+                                    margin: EdgeInsets.only(top: 78.0),
                                     child: Text(
                                       'DandyLight',
                                       style: TextStyle(
@@ -372,7 +373,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                                   ),
                                   Container(
                                     margin:
-                                        EdgeInsets.only(left: 89.0, top: 45.0),
+                                        EdgeInsets.only(left: 89.0, top: 48.0),
                                     height: 116.0,
                                     decoration: BoxDecoration(
                                       color: Colors.transparent,
@@ -395,11 +396,15 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                       SlideTransition(
                           position: offsetAnimationUp,
                           child: pageState.activeJobs == null || pageState.activeJobs.length > 0
-                              ? ActiveJobsHomeCard()
+                              ? JobsThisWeekHomeCard()
                               : StartAJobButton(pageState: pageState)),
                       SlideTransition(
                           position: offsetAnimationUp,
                           child: StageStatsHomeCard(pageState: pageState)),
+                      SlideTransition(
+                          position: offsetAnimationUp,
+                          child: ActiveJobsHomeCard()
+                      ),
                       SlideTransition(
                           position: offsetAnimationUp,
                           child: MonthlyProfitLineChart(pageState: pageState)),

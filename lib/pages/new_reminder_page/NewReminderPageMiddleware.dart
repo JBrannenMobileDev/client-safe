@@ -43,6 +43,5 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
       await ReminderDao.delete(action.pageState.documentId);
     }
     store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 }

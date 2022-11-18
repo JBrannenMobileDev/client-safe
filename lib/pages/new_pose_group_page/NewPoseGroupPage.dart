@@ -29,119 +29,122 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
     return StoreConnector<AppState, NewPoseGroupPageState>(
       converter: (store) => NewPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, NewPoseGroupPageState pageState) =>
-          Dialog(
+          Scaffold(
                 backgroundColor: Colors.transparent,
-                child: Container(
-                  width: 375.0,
-                  padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                  decoration: new BoxDecoration(
-                      color: Color(ColorConstants.white),
-                      borderRadius: new BorderRadius.all(Radius.circular(16.0))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          "New Collection",
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
+                body: Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.only(left: 16.0, right: 16.0),
+                    padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
+                    decoration: new BoxDecoration(
+                        color: Color(ColorConstants.white),
+                        borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16.0),
+                          child: Text(
+                            "New Collection",
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 26.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.primary_black),
+                            ),
                           ),
                         ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 26.0, right: 26.0),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 32.0),
-                              child: Text(
-                                "Enter a simple and descriptive name for this pose collection. ",
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                        Container(
+                          margin: EdgeInsets.only(left: 26.0, right: 26.0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Padding(
+                                padding: EdgeInsets.only(bottom: 32.0),
+                                child: Text(
+                                  "Enter a simple and descriptive name for this pose collection. ",
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                            NewPoseGroupTextField(
-                                contractNameTextController,
-                                "Collection Name",
-                                TextInputType.text,
-                                64.0,
-                                pageState.onNameChanged,
-                                'Collection name is required',
-                                TextInputAction.done,
-                                null,
-                                null,
-                                TextCapitalization.words,
-                                null),
-                          ],
+                              NewPoseGroupTextField(
+                                  contractNameTextController,
+                                  "Collection Name",
+                                  TextInputType.text,
+                                  64.0,
+                                  pageState.onNameChanged,
+                                  'Collection name is required',
+                                  TextInputAction.done,
+                                  null,
+                                  null,
+                                  TextCapitalization.words,
+                                  null),
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 26.0, right: 26.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            TextButton(
-                              style: Styles.getButtonStyle(
-                                color: Colors.white,
-                                textColor: Color(ColorConstants.primary_black),
-                                left: 8.0,
-                                top: 8.0,
-                                right: 8.0,
-                                bottom: 8.0,
-                              ),
-                              onPressed: () {
-                                onBackPressed(pageState);
-                              },
-                              child: Text(
-                                'Cancel',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                        Padding(
+                          padding: EdgeInsets.only(left: 26.0, right: 26.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Colors.white,
+                                  textColor: Color(ColorConstants.primary_black),
+                                  left: 8.0,
+                                  top: 8.0,
+                                  right: 8.0,
+                                  bottom: 8.0,
+                                ),
+                                onPressed: () {
+                                  onBackPressed(pageState);
+                                },
+                                child: Text(
+                                  'Cancel',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                            TextButton(
-                              style: Styles.getButtonStyle(
-                                color: Colors.white,
-                                textColor: Color(ColorConstants.primary_black),
-                                left: 8.0,
-                                top: 8.0,
-                                right: 8.0,
-                                bottom: 8.0,
-                              ),
-                              onPressed: () {
-                                onNextPressed(pageState);
-                              },
-                              child: Text(
-                                'Save',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                              TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Colors.white,
+                                  textColor: Color(ColorConstants.primary_black),
+                                  left: 8.0,
+                                  top: 8.0,
+                                  right: 8.0,
+                                  bottom: 8.0,
+                                ),
+                                onPressed: () {
+                                  onNextPressed(pageState);
+                                },
+                                child: Text(
+                                  'Save',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),

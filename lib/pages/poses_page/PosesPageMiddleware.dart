@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/daos/PoseGroupDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
@@ -23,12 +24,32 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
 
     for(int index=0; index < groups.length; index++) {
-      if(groups.elementAt(index).poses.isNotEmpty && groups.elementAt(index).poses.first.imageUrl.isNotEmpty){
+      if(groups.elementAt(index).poses.isNotEmpty && groups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
         imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index)));
         next(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
       } else {
         imageFiles.insert(index, File(''));
       }
     }
+
+    (await PoseGroupDao.getPoseGroupsStream()).listen((snapshots) async {
+      List<PoseGroup> streamGroups = [];
+      for(RecordSnapshot clientSnapshot in snapshots) {
+        streamGroups.add(PoseGroup.fromMap(clientSnapshot.value));
+      }
+
+      List<File> imageFiles = [];
+
+      for(int index=0; index < streamGroups.length; index++) {
+        if(streamGroups.elementAt(index).poses.isNotEmpty && streamGroups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
+          imageFiles.insert(index, await FileStorage.getPoseImageFile(streamGroups.elementAt(index).poses.first, streamGroups.elementAt(index)));
+          if(index == streamGroups.length-1) {
+            next(SetPoseGroupsAction(store.state.posesPageState, streamGroups, imageFiles));
+          }
+        } else {
+          imageFiles.insert(index, File(''));
+        }
+      }
+    });
   }
 }

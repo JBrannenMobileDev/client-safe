@@ -388,6 +388,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       depositAmount: action.job.depositAmount,
       tipAmount: action.job.tipAmount,
       createdDate: action.job.createdDate,
+      stage: action.job.stage,
     );
     if(stageToComplete.stage == JobStage.STAGE_9_PAYMENT_RECEIVED){
       jobToSave.paymentReceivedDate = DateTime.now();

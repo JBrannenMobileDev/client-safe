@@ -11,9 +11,8 @@ class JobsPageState {
   final String filterType;
   final Job selectedJob;
   final List<Job> leads;
-  final List<Job> jobsInProgress;
+  final List<Job> activeJobs;
   final List<Job> jobsCompleted;
-  final List<Job> jobsUpcoming;
   final Function(String) onFilterChanged;
   final Function(Job) onJobClicked;
 
@@ -21,20 +20,18 @@ class JobsPageState {
     @required this.filterType,
     @required this.selectedJob,
     @required this.leads,
-    @required this.jobsInProgress,
+    @required this.activeJobs,
     @required this.jobsCompleted,
     @required this.onFilterChanged,
     @required this.onJobClicked,
-    @required this.jobsUpcoming,
   });
 
   JobsPageState copyWith({
     String filterType,
     Job selectedJob,
     List<Job> leads,
-    List<Job> jobsInProgress,
+    List<Job> activeJobs,
     List<Job> jobsCompleted,
-    List<Job> jobsUpcoming,
     Function(String) onFilterChanged,
     Function(String) onJobClicked,
   }){
@@ -42,23 +39,21 @@ class JobsPageState {
       filterType: filterType?? this.filterType,
       selectedJob: selectedJob?? this.selectedJob,
       leads: leads?? this.leads,
-      jobsInProgress: jobsInProgress?? this.jobsInProgress,
+      activeJobs: activeJobs?? this.activeJobs,
       jobsCompleted: jobsCompleted?? this.jobsCompleted,
       onFilterChanged: onFilterChanged?? this.onFilterChanged,
       onJobClicked: onJobClicked?? this.onJobClicked,
-      jobsUpcoming: jobsUpcoming ?? this.jobsUpcoming,
     );
   }
 
   factory JobsPageState.initial() => JobsPageState(
-    filterType: JobsPage.FILTER_TYPE_UPCOMING,
+    filterType: JobsPage.FILTER_TYPE_ACTIVE_JOBS,
     selectedJob: null,
     leads: [],
-    jobsInProgress: [],
+    activeJobs: [],
     jobsCompleted: [],
     onFilterChanged: null,
     onJobClicked: null,
-    jobsUpcoming: [],
   );
 
   factory JobsPageState.fromStore(Store<AppState> store) {
@@ -66,9 +61,8 @@ class JobsPageState {
       filterType: store.state.jobsPageState.filterType,
       selectedJob: store.state.jobsPageState.selectedJob,
       leads: store.state.jobsPageState.leads,
-      jobsInProgress: store.state.jobsPageState.jobsInProgress,
+      activeJobs: store.state.jobsPageState.activeJobs,
       jobsCompleted: store.state.jobsPageState.jobsCompleted,
-      jobsUpcoming: store.state.jobsPageState.jobsUpcoming,
       onFilterChanged: (filterType) => store.dispatch(FilterChangedAction(store.state.jobsPageState, filterType)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
     );
@@ -79,10 +73,9 @@ class JobsPageState {
       filterType.hashCode ^
       selectedJob.hashCode ^
       leads.hashCode ^
-      jobsInProgress.hashCode ^
+      activeJobs.hashCode ^
       jobsCompleted.hashCode ^
       onFilterChanged.hashCode ^
-      jobsUpcoming.hashCode ^
       onJobClicked.hashCode;
 
   @override
@@ -92,9 +85,8 @@ class JobsPageState {
               filterType == other.filterType &&
               selectedJob == other.selectedJob &&
               leads == other.leads &&
-              jobsInProgress == other.jobsInProgress &&
+              activeJobs == other.activeJobs &&
               jobsCompleted == other.jobsCompleted &&
               onFilterChanged == other.onFilterChanged &&
-              jobsUpcoming == other.jobsUpcoming &&
               onJobClicked == other.onJobClicked;
 }

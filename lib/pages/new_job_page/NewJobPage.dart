@@ -348,8 +348,7 @@ class _NewJobPageState extends State<NewJobPage> {
         if(pageState.selectedLocation == null) btText = 'Skip';
         break;
       case 4:
-        DateTime today = DateTime.now();
-        if(pageState.selectedDate != null && pageState.selectedDate?.year == today?.year && pageState.selectedDate?.month == today.month && pageState.selectedDate?.day == today.day) btText = 'Skip';
+        if(pageState.selectedDate == null) btText = 'Skip';
         break;
       case 5:
         if(pageState.selectedStartTime == null) btText = 'Skip';

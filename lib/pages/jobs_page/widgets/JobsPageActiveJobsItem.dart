@@ -8,10 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class JobsPageInProgressItem extends StatelessWidget{
+class JobsPageActiveJobsItem extends StatelessWidget{
   final Job job;
   final JobsPageState pageState;
-  JobsPageInProgressItem({this.job, this.pageState});
+  JobsPageActiveJobsItem({this.job, this.pageState});
 
   @override
   Widget build(BuildContext context) {

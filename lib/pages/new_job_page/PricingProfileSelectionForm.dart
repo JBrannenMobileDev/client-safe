@@ -57,7 +57,7 @@ class _PricingProfileSelectionFormState
                   ConstrainedBox(
                     constraints: BoxConstraints(
                       minHeight: 65.0,
-                      maxHeight: 350.0,
+                      maxHeight: 486.0,
                     ),
                     child: ListView.builder(
                       reverse: false,

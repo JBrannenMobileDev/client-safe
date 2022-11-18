@@ -1,5 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
+import 'package:dandylight/utils/TimeFormatUtil.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
@@ -106,7 +107,7 @@ class NewReminderPageState {
         onDaysWeeksMonthsAmountChanged: null,
         when: WhenSelectionWidget.BEFORE,
         onTimeSelected: null,
-        selectedTime: null,
+        selectedTime: TimeFormatUtil.nearestQuarter(DateTime.now()),
       );
 
   factory NewReminderPageState.fromStore(Store<AppState> store) {

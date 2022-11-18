@@ -10,6 +10,7 @@ import 'package:dandylight/pages/job_details_page/LocationSelectionDialog.dart';
 import 'package:dandylight/pages/job_details_page/NameChangeDialog.dart';
 import 'package:dandylight/pages/job_details_page/NewDateSelectionDialog.dart';
 import 'package:dandylight/pages/job_details_page/PricePackageChangeDialog.dart.dart';
+import 'package:dandylight/pages/job_details_page/ReminderViewDialog.dart';
 import 'package:dandylight/pages/job_details_page/TipChangeDialog.dart';
 import 'package:dandylight/pages/job_details_page/document_items/InvoiceOptionsDialog.dart';
 import 'package:dandylight/pages/login_page/ShowAccountCreatedDialog.dart';
@@ -39,6 +40,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
+import '../models/JobReminder.dart';
 import '../models/JobType.dart';
 import '../models/Location.dart';
 import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
@@ -50,12 +52,20 @@ import '../pages/new_job_types_page/NewJobTypePage.dart';
 import 'ColorConstants.dart';
 
 class UserOptionsUtil {
-
   static void showNewContactDialog(BuildContext context){
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return NewContactPage();
+      },
+    );
+  }
+
+  static void showReminderViewDialog(BuildContext context, JobReminder jobReminder){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return ReminderViewDialog(jobReminder: jobReminder);
       },
     );
   }

@@ -41,9 +41,13 @@ class _PoseGroupPageState extends State<PoseGroupPage>
   _PoseGroupPageState(this.poseGroup);
 
   Future getDeviceImage(PoseGroupPageState pageState) async {
-    List<XFile> images = await ImagePicker().pickMultiImage();
-    if(images.length > 0) {
-      pageState.onNewPoseImagesSelected(images);
+    try{
+      List<XFile> images = await ImagePicker().pickMultiImage();
+      if(images.length != null && images.length > 0) {
+        pageState.onNewPoseImagesSelected(images);
+      }
+    } catch(ex) {
+      print(ex.toString());
     }
   }
 
@@ -248,7 +252,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                     ),
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     centerTitle: true,
-                    title: Center(
+                    title: Container(
                       child: Text(
                         !isBottomSheetVisible ? poseGroup.groupName : "Select Photos",
                         style: TextStyle(
@@ -312,7 +316,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                           child: Container(
                             height: (MediaQuery.of(context).size.height),
                             child: GridView.builder(
-                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 64.0),
+                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
                                 gridDelegate:
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
                                     maxCrossAxisExtent: 200,

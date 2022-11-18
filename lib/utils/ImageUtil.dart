@@ -146,8 +146,8 @@ class ImageUtil{
     'assets/images/collection_icons/packages_icon_white.png',
     'assets/images/collection_icons/location_icon_white.png',
     'assets/images/collection_icons/contract_icon_white.png',
-    // 'assets/images/collection_icons/workflow_icon_white.png',
-    // 'assets/images/collection_icons/auto_responses_icon_white.png',
+    'assets/images/collection_icons/workflow_icon_white.png',
+    'assets/images/collection_icons/auto_responses_icon_white.png',
     // 'assets/images/collection_icons/automation_icon_white.png',
   ];
 

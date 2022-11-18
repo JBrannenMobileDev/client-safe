@@ -92,9 +92,11 @@ class RemindersCard extends StatelessWidget {
     JobReminder jobReminder = pageState.reminders.elementAt(index);
     return TextButton(
       style: Styles.getButtonStyle(),
-      onPressed: null,
+      onPressed: () {
+        UserOptionsUtil.showReminderViewDialog(context, jobReminder);
+      },
       child: Container(
-        height: 48.0,
+        height: 54.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
@@ -110,13 +112,13 @@ class RemindersCard extends StatelessWidget {
                       'assets/images/collection_icons/reminder_icon_white.png', color: Color(ColorConstants.getPeachDark()),),
                   ),
                   Container(
-                    width: MediaQuery.of(context).size.width - 100,
+                    width: MediaQuery.of(context).size.width - 130,
                     padding: EdgeInsets.only(left: 8.0),
                     child: Text(
                       jobReminder.reminder.description,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+                      maxLines: 3,
                       style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'simple',

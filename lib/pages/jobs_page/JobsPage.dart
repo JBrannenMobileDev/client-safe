@@ -1,7 +1,7 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobCompletedItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
-import 'package:dandylight/pages/jobs_page/widgets/JobsPageInProgressItem.dart';
+import 'package:dandylight/pages/jobs_page/widgets/JobsPageActiveJobsItem.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -14,9 +14,8 @@ class JobsPage extends StatefulWidget {
   const JobsPage({Key key, this.comingFromMainNavigation}) : super(key: key);
   final bool comingFromMainNavigation;
 
-  static const String FILTER_TYPE_IN_PROGRESS = "In Progress";
+  static const String FILTER_TYPE_ACTIVE_JOBS = "Active Jobs";
   static const String FILTER_TYPE_COMPETED = "Completed";
-  static const String FILTER_TYPE_UPCOMING = "Upcoming";
 
   @override
   State<StatefulWidget> createState() {
@@ -37,7 +36,7 @@ class _JobsPageState extends State<JobsPage> {
   @override
   Widget build(BuildContext context) {
     jobTypes = <int, Widget>{
-      0: Text(JobsPage.FILTER_TYPE_UPCOMING,
+      0: Text(JobsPage.FILTER_TYPE_ACTIVE_JOBS,
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
@@ -46,21 +45,12 @@ class _JobsPageState extends State<JobsPage> {
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
-      1: Text(JobsPage.FILTER_TYPE_IN_PROGRESS,
+      1: Text(JobsPage.FILTER_TYPE_COMPETED,
         style: TextStyle(
           fontSize: 20.0,
           fontWeight: FontWeight.w600,
           fontFamily: 'simple',
           color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      2: Text(JobsPage.FILTER_TYPE_COMPETED,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'simple',
-          color: Color(selectorIndex == 2
               ? ColorConstants.getPrimaryWhite()
               : ColorConstants.getPrimaryBlack()),
         ),),
@@ -70,7 +60,7 @@ class _JobsPageState extends State<JobsPage> {
         onInit: (store) async {
           store.dispatch(FetchJobsAction(store.state.jobsPageState));
           if(comingFromMainNavigation) {
-            store.dispatch(FilterChangedAction(store.state.jobsPageState, JobsPage.FILTER_TYPE_UPCOMING));
+            store.dispatch(FilterChangedAction(store.state.jobsPageState, JobsPage.FILTER_TYPE_ACTIVE_JOBS));
           }
         },
         builder: (BuildContext context, JobsPageState pageState) => Scaffold(
@@ -85,7 +75,7 @@ class _JobsPageState extends State<JobsPage> {
                         backgroundColor: Colors.white,
                         pinned: true,
                         centerTitle: true,
-                        title: Center(
+                        title: Container(
                           child: Text(
                             "Jobs",
                             style: TextStyle(
@@ -105,7 +95,7 @@ class _JobsPageState extends State<JobsPage> {
                               margin: EdgeInsets.only(right: 12.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/plus_icon_peach.png'),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
                             ),
                           ),
                         ],
@@ -121,7 +111,7 @@ class _JobsPageState extends State<JobsPage> {
                                 setState(() {
                                   selectorIndex = filterTypeIndex;
                                 });
-                                pageState.onFilterChanged(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_UPCOMING : filterTypeIndex == 1 ? JobsPage.FILTER_TYPE_IN_PROGRESS : JobsPage.FILTER_TYPE_COMPETED);
+                                pageState.onFilterChanged(filterTypeIndex == 0 ? JobsPage.FILTER_TYPE_ACTIVE_JOBS : JobsPage.FILTER_TYPE_COMPETED);
                               },
                               groupValue: selectorIndex,
                             ),
@@ -139,7 +129,7 @@ class _JobsPageState extends State<JobsPage> {
                               controller: _controller,
                               physics: ClampingScrollPhysics(),
                               key: _listKey,
-                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_UPCOMING ? pageState.jobsUpcoming.length : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? pageState.jobsInProgress.length : pageState.jobsCompleted.length,
+                              itemCount: pageState.filterType == JobsPage.FILTER_TYPE_ACTIVE_JOBS ? pageState.activeJobs.length : pageState.jobsCompleted.length,
                               itemBuilder: _buildItem,
                             ),
                           ],
@@ -158,7 +148,7 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, JobsPageState>(
     converter: (store) => JobsPageState.fromStore(store),
     builder: (BuildContext context, JobsPageState pageState) =>
-    pageState.filterType == JobsPage.FILTER_TYPE_UPCOMING ? JobsPageInProgressItem(job: pageState.jobsUpcoming.elementAt(index), pageState: pageState,)
-        : pageState.filterType == JobsPage.FILTER_TYPE_IN_PROGRESS ? JobsPageInProgressItem(job: pageState.jobsInProgress.elementAt(index), pageState: pageState,) : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index), pageState: pageState),
+    pageState.filterType == JobsPage.FILTER_TYPE_ACTIVE_JOBS ? JobsPageActiveJobsItem(job: pageState.activeJobs.elementAt(index), pageState: pageState,)
+        : JobCompletedItem(job: pageState.jobsCompleted.elementAt(index), pageState: pageState),
   );
 }

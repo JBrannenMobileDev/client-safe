@@ -3,8 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Pose.dart';
-import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -130,12 +128,12 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                           Navigator.of(context).pop();
                         },
                         child: Container(
-                          margin: EdgeInsets.only(right: 22.0),
+                          padding: EdgeInsets.only(left: 16, right: 22.0),
                           height: 48.0,
-                          width: 48.0,
+                          width: 64.0,
                           child: Icon(
                             (Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back),
-                            size: 24.0,
+                            size: 32.0,
                             color: Color(ColorConstants.getPeachLight()),
                           ),
                         ),

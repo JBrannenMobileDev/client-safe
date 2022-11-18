@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../poses_page/PosesActions.dart';
 import 'GroupImage.dart';
 import 'PoseGroupActions.dart';
 
@@ -100,7 +101,9 @@ class PoseGroupPageState{
         store.dispatch(SetLoadingNewImagesState(store.state.poseGroupPageState, true)),
         store.dispatch(SavePosesToGroupAction(store.state.poseGroupPageState, poseImages)),
       },
-      onBackSelected: () => store.dispatch(ClearPoseGroupState(store.state.poseGroupPageState)),
+      onBackSelected: () {
+        store.dispatch(ClearPoseGroupState(store.state.poseGroupPageState));
+        },
     );
   }
 

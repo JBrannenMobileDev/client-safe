@@ -73,10 +73,10 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     PoseGroup poseGroup = action.pageState.poseGroup;
     poseGroup.poses.addAll(newPoses);
     await PoseGroupDao.update(poseGroup);
-    store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, poseGroup));
-    store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, groupImages));
+    await store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, poseGroup));
+    await store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, groupImages));
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
-    await FileStorage.updatePosesImageUrl(poseGroup, newPoses);
+    // await FileStorage.updatePosesImageUrl(poseGroup, newPoses);
   }
 
   void _deletePoseFromGroup(Store<AppState> store, DeletePoseAction action) async{

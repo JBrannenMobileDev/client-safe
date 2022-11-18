@@ -336,7 +336,7 @@ class _NewReminderPageState extends State<NewReminderPage> {
   getDialogHeight(int currentPageIndex) {
     switch(currentPageIndex) {
       case 0:
-        return 125.0;
+        return 172.0;
       case 1:
         return 420.0;
       case 2:

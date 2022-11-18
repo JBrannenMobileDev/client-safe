@@ -72,7 +72,7 @@ class PosesPage extends StatelessWidget {
                         pageState.poseGroups.length > 0 ? Container(
                             height: (MediaQuery.of(context).size.height),
                             child: ListView.builder(
-                              padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 64.0),
+                              padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 250.0),
                               itemCount: pageState.poseGroups.length,
                               controller: _controller,
                               physics: AlwaysScrollableScrollPhysics(),

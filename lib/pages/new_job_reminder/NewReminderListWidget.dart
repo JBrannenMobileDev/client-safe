@@ -19,7 +19,7 @@ class NewReminderListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: Styles.getButtonStyle(
-          color: pageState.selectedReminder == reminder ? Color(ColorConstants.getBlueLight()) : backgroundColor,
+          color: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(32.0),
           ),
@@ -32,22 +32,18 @@ class NewReminderListWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: 64.0,
+              height: 76.0,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
-
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Container(
-                        alignment: Alignment.center,
+                        alignment: Alignment.centerLeft,
                         margin: EdgeInsets.only(right: 16.0),
                         height: 48.0,
                         width: 48.0,
                         decoration: BoxDecoration(
                           image: DecorationImage(
-                            image: Image.asset(pageState.selectedReminder == reminder ? 'assets/images/icons/reminder_icon_white.png' : 'assets/images/icons/reminder_icon_blue_light.png').image,
+                            image: Image.asset(pageState.selectedReminder == reminder ? 'assets/images/icons/reminder_filled.png' : 'assets/images/icons/reminder_icon_blue_light.png').image,
                             fit: BoxFit.contain,
                           ),
                           color: Colors.transparent,
@@ -57,14 +53,18 @@ class NewReminderListWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            reminder.description,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: textColor,
+                          Container(
+                            width: MediaQuery.of(context).size.width - 130,
+                            child: Text(
+                              reminder.description,
+                              textAlign: TextAlign.start,
+                              maxLines: 2,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: textColor,
+                              ),
                             ),
                           ),
                           Container(
@@ -84,8 +84,6 @@ class NewReminderListWidget extends StatelessWidget {
                       ),
                     ],
                   ),
-                ],
-              ),
             ),
           ],
         ),

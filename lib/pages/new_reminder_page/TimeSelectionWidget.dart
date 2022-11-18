@@ -70,7 +70,7 @@ class _TimeSelectionWidgetState extends State<TimeSelectionWidget> {
                 Container(
                   height: 200.0,
                   child: CupertinoDatePicker(
-                    initialDateTime: DateTime.now(),
+                    initialDateTime: pageState.selectedTime,
                     onDateTimeChanged: (DateTime time) {
                       vibrate();
                       pageState.onTimeSelected(time);

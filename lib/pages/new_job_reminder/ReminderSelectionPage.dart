@@ -31,7 +31,6 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
       converter: (store) => NewJobReminderPageState.fromStore(store),
       builder: (BuildContext context, NewJobReminderPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(left: 26.0, right: 26.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
@@ -52,11 +51,10 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                     ? ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
-                          maxHeight: 335.0,
+                          maxHeight: 500.0,
                         ),
                         child: ListView.builder(
                           reverse: false,
-                          padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
                           shrinkWrap: true,
                           controller: _controller,
                           physics: ClampingScrollPhysics(),

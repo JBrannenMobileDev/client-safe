@@ -65,7 +65,6 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
       hasBeenSeen: false,
     );
     await JobReminderDao.insertOrUpdate(jobReminderToSave);
-    store.dispatch(ClearNewJobReminderStateAction(store.state.newJobReminderPageState));
     store.dispatch(FetchJobRemindersAction(store.state.jobDetailsPageState));
   }
 }

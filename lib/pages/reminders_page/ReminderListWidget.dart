@@ -58,14 +58,19 @@ class ReminderListWidget extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            reminder.description,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: textColor,
+                          Container(
+                            width: MediaQuery.of(context).size.width - 120,
+                            child: Text(
+                              reminder.description,
+                              textAlign: TextAlign.start,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w600,
+                                color: textColor,
+                              ),
                             ),
                           ),
                           Container(

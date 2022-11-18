@@ -7,7 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../../models/JobStage.dart';
 import '../../../utils/JobUtil.dart';
+import '../../../utils/NavigationUtil.dart';
 
 class StageStatsHomeCard extends StatelessWidget {
   StageStatsHomeCard({this.pageState});
@@ -67,6 +69,17 @@ class StageStatsHomeCard extends StatelessWidget {
   }
 
   Widget _buildItem(BuildContext context, int index) {
-    return StageStatsItem(jobs: JobUtil.getJobsForStage(pageState.activeJobs, pageState.allUserStages.elementAt(index)), pageState: pageState, stage: pageState.allUserStages.elementAt(index));
+    JobStage stage = pageState.allUserStages.elementAt(index);
+    return GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          NavigationUtil.onStageStatsSelected(
+              context, pageState, JobStage.getStageText(stage), stage, false);
+        },
+        child: StageStatsItem(jobs: JobUtil.getJobsForStage(
+            pageState.activeJobs, pageState.allUserStages.elementAt(index)),
+            pageState: pageState,
+            stage: pageState.allUserStages.elementAt(index))
+    );
   }
 }

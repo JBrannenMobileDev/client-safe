@@ -30,7 +30,7 @@ class _NewPoseGroupName extends State<NewPoseGroupName> with AutomaticKeepAliveC
       converter: (store) => NewPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, NewPoseGroupPageState pageState) =>
           Container(
-        margin: EdgeInsets.only(left: 26.0, right: 26.0),
+        margin: EdgeInsets.only(left: 8.0, right: 8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[

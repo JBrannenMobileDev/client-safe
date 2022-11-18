@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'NewJobReminderPageActions.dart';
+
 class NewJobReminderPage extends StatefulWidget {
   final Job job;
 
@@ -73,6 +75,9 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
       });
     });
     return StoreConnector<AppState, NewJobReminderPageState>(
+      onInit: (store) {
+        store.dispatch(ClearNewJobReminderStateAction(store.state.newJobReminderPageState));
+      },
       converter: (store) => NewJobReminderPageState.fromStore(store),
       builder: (BuildContext context, NewJobReminderPageState pageState) =>
           WillPopScope(
@@ -248,7 +253,7 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
     double height = 380.0;
     switch(currentPageIndex){
       case 0:
-        height = 380.0;
+        height = 500.0;
         break;
       case 1:
         height = 380.0;

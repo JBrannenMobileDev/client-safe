@@ -56,10 +56,21 @@ DashboardPageState _updateShowHideLeadsState(DashboardPageState previousState, U
 
 DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateAction action) {
   List<Job> activeJobs = JobUtil.getActiveJobs(action.allJobs);
+  List<Job> jobsThisWeek = [];
 
   List<JobStage> allStagesFromAllJobs = [];
   for(Job job in activeJobs) {
     allStagesFromAllJobs.addAll(job.type.stages);
+  }
+
+  DateTime now = DateTime.now();
+  now.subtract(Duration(days: 1));
+  DateTime oneWeekInFuture = DateTime.now();
+  oneWeekInFuture.add(Duration(days: 7));
+  for(Job job in activeJobs) {
+    if(job.selectedDate != null && job.selectedDate.isBefore(oneWeekInFuture) && job.selectedDate.isAfter(now)) {
+      jobsThisWeek.add(job);
+    }
   }
 
   var seen = Set<String>();
@@ -71,6 +82,7 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
     if(jobsForStage.length > 0) activeStages.add(stage);
   }
 
+
   List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
   List<Job> jobsWithOnlyDepositReceived = action.allJobs.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
   List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, action.singleExpenses, action.recurringExpense, action.mileageExpenses, jobsWithOnlyDepositReceived);
@@ -81,6 +93,7 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
       activeJobs: activeJobs,
       allUserStages: activeStages,
       lineChartMonthData: chartItems.reversed.toList(),
+      jobsThisWeek: jobsThisWeek,
   );
 }
 

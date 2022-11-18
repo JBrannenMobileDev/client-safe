@@ -22,6 +22,7 @@ class DashboardPageState {
   final List<Job> upcomingJobs;
   final List<Job> allJobs;
   final List<Job> activeJobs;
+  final List<Job> jobsThisWeek;
   final int unseenNotificationCount;
   final List<JobReminder> reminders;
   final List<LineChartMonthData> lineChartMonthData;
@@ -60,6 +61,7 @@ class DashboardPageState {
     this.onNotificationsSelected,
     this.onNotificationViewClosed,
     this.shouldShowNewMileageExpensePage,
+    this.jobsThisWeek,
   });
 
   DashboardPageState copyWith({
@@ -71,6 +73,7 @@ class DashboardPageState {
     List<Job> currentJobs,
     List<Job> allJobs,
     List<Job> activeJobs,
+    List<Job> jobsThisWeek,
     List<JobStage> allUserStages,
     int unseenNotificationCount,
     List<LineChartMonthData> lineChartMonthData,
@@ -111,6 +114,7 @@ class DashboardPageState {
       onNotificationsSelected: onNotificationsSelected ?? this.onNotificationsSelected,
       onNotificationViewClosed: onNotificationViewClosed ?? this.onNotificationViewClosed,
       shouldShowNewMileageExpensePage: shouldShowNewMileageExpensePage ?? this.shouldShowNewMileageExpensePage,
+      jobsThisWeek: jobsThisWeek ?? this.jobsThisWeek,
     );
   }
 
@@ -132,6 +136,7 @@ class DashboardPageState {
       lineChartMonthData: store.state.dashboardPageState.lineChartMonthData,
       reminders: store.state.dashboardPageState.reminders,
       shouldShowNewMileageExpensePage: store.state.dashboardPageState.shouldShowNewMileageExpensePage,
+      jobsThisWeek: store.state.dashboardPageState.jobsThisWeek,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -166,6 +171,7 @@ class DashboardPageState {
     onReminderSelected: null,
     onNotificationsSelected: null,
     onNotificationViewClosed: null,
+    jobsThisWeek: [],
   );
 
   @override
@@ -192,6 +198,7 @@ class DashboardPageState {
       onReminderSelected.hashCode^
       onNotificationsSelected.hashCode ^
       onNotificationViewClosed.hashCode ^
+      jobsThisWeek.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -220,5 +227,6 @@ class DashboardPageState {
               onReminderSelected == other.onReminderSelected &&
               onNotificationsSelected == other.onNotificationsSelected &&
               onNotificationViewClosed == other.onNotificationViewClosed &&
+              jobsThisWeek == other.jobsThisWeek &&
               isMinimized == other.isMinimized;
 }

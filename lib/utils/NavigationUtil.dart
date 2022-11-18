@@ -59,8 +59,8 @@ class NavigationUtil {
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
-  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage,)));
+  static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage, bool isActiveJobs) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage, isActiveJobs: isActiveJobs)));
   }
   static onReminderNotificationItemSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage()));

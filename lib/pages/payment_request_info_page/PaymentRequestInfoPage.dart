@@ -51,15 +51,35 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
     onDidChange: (previous, current) {
       if(previous.zellePhoneEmail.isEmpty && current.zellePhoneEmail?.isNotEmpty == true) {
         zellePhoneEmailTextController.text = current.zellePhoneEmail;
+        zellePhoneEmailTextController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: zellePhoneEmailTextController.text.length,
+          ),
+        );
       }
       if(previous.zelleFullName.isEmpty && current.zelleFullName?.isNotEmpty == true) {
         zelleFullNameTextController.text = current.zelleFullName;
+        zelleFullNameTextController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: zelleFullNameTextController.text.length,
+          ),
+        );
       }
       if(previous.venmoLink.isEmpty && current.venmoLink?.isNotEmpty == true) {
         venmoLinkTextController.text = current.venmoLink;
+        venmoLinkTextController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: venmoLinkTextController.text.length,
+          ),
+        );
       }
       if(previous.cashAppLink.isEmpty && current.cashAppLink?.isNotEmpty == true) {
         cashAppLinkTextController.text = current.cashAppLink;
+        cashAppLinkTextController.selection = TextSelection.fromPosition(
+          TextPosition(
+            offset: cashAppLinkTextController.text.length,
+          ),
+        );
       }
       if(previous.applePayPhone.isEmpty && current.applePayPhone?.isNotEmpty == true) {
         applePayLinkTextController.text = current.applePayPhone;

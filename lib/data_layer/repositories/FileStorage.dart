@@ -27,7 +27,7 @@ class FileStorage {
   }
 
   static savePoseImageFile(String path, Pose pose, PoseGroup group) async {
-    _uploadPoseImageFile(path, pose, group);
+    await _uploadPoseImageFile(path, pose, group);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
@@ -70,21 +70,21 @@ class FileStorage {
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
 
-  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group) {
+  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
-    PoseDao.update(poseToUpdate);
+    await PoseDao.update(poseToUpdate);
     for(Pose pose in group.poses) {
       if(pose.documentId == poseToUpdate.documentId) {
         pose.imageUrl = imageUrl;
       }
     }
-    PoseGroupDao.update(group);
+    await PoseGroupDao.update(group);
   }
 
   static updatePosesImageUrl(PoseGroup poseGroup, List<Pose> newPoses) async {
     for(Pose pose in newPoses) {
       final storageRef = FirebaseStorage.instance.ref();
-      final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
+      final cloudFilePath = await storageRef.child(_buildPoseImagePath(pose));
       String imageUrl = await cloudFilePath.getDownloadURL();
       poseGroup.poses.firstWhere((groupPose) => groupPose.documentId == pose.documentId)?.imageUrl = imageUrl;
     }

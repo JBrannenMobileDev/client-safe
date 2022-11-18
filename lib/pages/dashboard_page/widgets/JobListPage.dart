@@ -19,21 +19,23 @@ class JobListPage extends StatelessWidget{
     this.pageState,
     this.pageTitle,
     this.stage,
+    this.isActiveJobs
   });
 
   final DashboardPageState pageState;
   final String pageTitle;
   List<Job> jobs;
   final JobStage stage;
+  final bool isActiveJobs;
 
   @override
   Widget build(BuildContext context)=> StoreConnector<AppState, DashboardPageState>(
       converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
       onInit: (store) {
-        jobs = stage != null ? JobUtil.getJobsForStage(store.state.dashboardPageState.activeJobs, stage) : store.state.dashboardPageState.activeJobs;
+        jobs = stage != null ? JobUtil.getJobsForStage(store.state.dashboardPageState.activeJobs, stage) : isActiveJobs ? store.state.dashboardPageState.activeJobs : store.state.dashboardPageState.jobsThisWeek;
       },
       onDidChange: (previousPageState, currentPageState) {
-        jobs = stage != null ? JobUtil.getJobsForStage(currentPageState.activeJobs, stage) : currentPageState.activeJobs;
+        jobs = stage != null ? JobUtil.getJobsForStage(currentPageState.activeJobs, stage) : isActiveJobs ? currentPageState.activeJobs : currentPageState.jobsThisWeek;
       },
       builder: (BuildContext context, DashboardPageState pageState) => Scaffold(
       backgroundColor: Colors.white,

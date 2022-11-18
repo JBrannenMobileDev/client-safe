@@ -45,7 +45,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>motion</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Photo Library will be uses to select an image to represent this location.</string>
+	<string>Photo Library will be uses to select an image for your poses or a location.</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>reminders</string>
 	<key>NSSpeechRecognitionUsageDescription</key>

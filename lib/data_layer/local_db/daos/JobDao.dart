@@ -72,7 +72,7 @@ class JobDao extends Equatable{
       }
       if(job.invoice != null) {
         job.invoice.invoicePaid = true;
-        await InvoiceDao.update(job.invoice, job);
+        await InvoiceDao.updateInvoiceOnly(job.invoice);
       }
     }
 

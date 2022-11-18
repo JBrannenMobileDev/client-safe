@@ -62,7 +62,7 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                         inputType: TextInputType.text,
                         focusNode: null,
                         onFocusAction: null,
-                        height: 66.0,
+                        height: 132.0,
                         onTextInputChanged: pageState.onReminderDescriptionChanged,
                         keyboardAction: TextInputAction.done,
                         capitalization: TextCapitalization.words,
