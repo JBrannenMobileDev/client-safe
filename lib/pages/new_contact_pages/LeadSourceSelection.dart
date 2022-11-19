@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import 'NewContactTextField.dart';
+
 class LeadSourceSelection extends StatefulWidget {
   @override
   _LeadSourceSelection createState() {
@@ -17,8 +19,8 @@ class LeadSourceSelection extends StatefulWidget {
 
 class _LeadSourceSelection extends State<LeadSourceSelection>
     with AutomaticKeepAliveClientMixin {
-  final firstNameTextController = TextEditingController();
-  final lastNameTextController = TextEditingController();
+  final customLeadController = TextEditingController();
+  final FocusNode _customLeadFocusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +28,12 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
     List<String> leadSourceIconsWhite = ImageUtil.leadSourceIconsWhite;
     List<String> leadSourceIconsPeach = ImageUtil.leadSourceIconsPeach;
     return StoreConnector<AppState, NewContactPageState>(
+      onInit: (store) {
+        customLeadController.value = customLeadController.value.copyWith(text:store.state.newContactPageState.customLeadSourceName);
+      },
+      onWillChange: (statePrevious, stateNew) {
+        customLeadController.value = customLeadController.value.copyWith(text:stateNew.customLeadSourceName);
+      },
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
           Container(
@@ -103,10 +111,30 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                     ),
                   );
                 }),
+            Container(
+              height: 84.0,
+              child: pageState.leadSource == 'assets/images/icons/email_icon_white.png' ? NewContactTextField(
+                  customLeadController,
+                  "Custom Name",
+                  TextInputType.text,
+                  66.0,
+                  pageState.onCustomLeadSourceTextChanged,
+                  NewContactPageState.NO_ERROR,
+                  TextInputAction.done,
+                  _customLeadFocusNode,
+                  onAction,
+                  TextCapitalization.words,
+                  null,
+                  true) : SizedBox(),
+            ),
           ],
         ),
       ),
     );
+  }
+
+  void onAction(){
+    _customLeadFocusNode.unfocus();
   }
 
   @override

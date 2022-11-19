@@ -31,7 +31,14 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, ClearDeviceContactsAction>(_clearDeviceContacts),
   TypedReducer<NewContactPageState, FilterDeviceContactsAction>(_filterContacts),
   TypedReducer<NewContactPageState, SetSavedClientToState>(_setClient),
+  TypedReducer<NewContactPageState, UpdateCustomLeadNameAction>(_setCustomLeadSourceName),
 ]);
+
+NewContactPageState _setCustomLeadSourceName(NewContactPageState previousState, UpdateCustomLeadNameAction action){
+  return previousState.copyWith(
+    customLeadSourceName: action.customName,
+  );
+}
 
 NewContactPageState _setClient(NewContactPageState previousState, SetSavedClientToState action){
   return previousState.copyWith(
@@ -75,6 +82,8 @@ NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingC
     leadSource: action.client.leadSource,
     notes: action.client.notes,
     client: action.client,
+    customLeadSourceName: action.client.customLeadSourceName,
+    pageViewIndex: 0,
   );
 }
 

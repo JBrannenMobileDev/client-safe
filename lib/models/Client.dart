@@ -23,6 +23,7 @@ class Client{
   String email;
   String phone;
   String leadSource;
+  String customLeadSourceName;
   String relationshipStatus;
   String spouseFirstName;
   String spouseLastName;
@@ -33,6 +34,7 @@ class Client{
   String iconUrl;
   List<Job> jobs;
   String notes;
+  DateTime createdDate;
 
   Client({
     this.id,
@@ -52,6 +54,8 @@ class Client{
     this.iconUrl,
     this.jobs,
     this.notes,
+    this.createdDate,
+    this.customLeadSourceName,
   });
 
   Map<String, dynamic> toMap() {
@@ -72,6 +76,8 @@ class Client{
       'iconUrl' : iconUrl,
       'jobs' : jobs,
       'notes': notes,
+      'createdDate' : createdDate?.toString() ?? "",
+      'customLeadSourceName' : customLeadSourceName,
     };
   }
 
@@ -93,6 +99,8 @@ class Client{
       iconUrl: map['iconUrl'],
       jobs: map['jobs'],
       notes: map['notes'],
+      customLeadSourceName: map['customLeadSourceName'],
+      createdDate: map['createdDate'] != null && map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
     );
   }
 

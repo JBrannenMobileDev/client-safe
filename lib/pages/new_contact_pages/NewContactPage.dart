@@ -250,7 +250,7 @@ class _NewContactPageState extends State<NewContactPage> {
       case 6:
         return 400.0;
       case 7:
-        return 256.0;
+        return 350.0;
     }
     return 256.0;
   }

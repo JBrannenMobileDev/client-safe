@@ -26,7 +26,7 @@ class _ChildrenState extends State<Children> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              pageState.numberOfChildren.toString(),
+              pageState.numberOfChildren.toString() + (pageState.numberOfChildren == 10 ? '+' : ''),
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 68.0,

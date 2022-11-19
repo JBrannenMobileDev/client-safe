@@ -9,6 +9,12 @@ class LoadExistingClientData{
   LoadExistingClientData(this.pageState, this.client);
 }
 
+class UpdateCustomLeadNameAction{
+  final NewContactPageState pageState;
+  final String customName;
+  UpdateCustomLeadNameAction(this.pageState, this.customName);
+}
+
 class SetSavedClientToState{
   final NewContactPageState pageState;
   final Client client;

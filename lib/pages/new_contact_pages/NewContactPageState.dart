@@ -35,6 +35,7 @@ class NewContactPageState {
   final Contact selectedDeviceContact;
   final String searchText;
   final String notes;
+  final String customLeadSourceName;
   final String leadSource;
   final String clientIcon;
   final String errorState;
@@ -63,6 +64,7 @@ class NewContactPageState {
   final Function() onCloseSelected;
   final Function(String) onContactSearchTextChanged;
   final Function() onStartNewJobSelected;
+  final Function(String) onCustomLeadSourceTextChanged;
 
   NewContactPageState({
     @required this.documentId,
@@ -112,6 +114,8 @@ class NewContactPageState {
     @required this.onCloseSelected,
     @required this.onContactSearchTextChanged,
     @required this.onStartNewJobSelected,
+    @required this.customLeadSourceName,
+    @required this.onCustomLeadSourceTextChanged,
   });
 
   NewContactPageState copyWith({
@@ -135,6 +139,7 @@ class NewContactPageState {
     String searchText,
     String notes,
     String leadSource,
+    String customLeadSourceName,
     String clientIcon,
     String errorState,
     Client client,
@@ -162,6 +167,7 @@ class NewContactPageState {
     Function() onCLoseSelected,
     Function(String) onContactSearchTextChanged,
     Function() onStartNewJobSelected,
+    Function(String) onCustomLeadSourceTextChanged,
   }){
     return NewContactPageState(
       documentId: documentId?? this.documentId,
@@ -211,6 +217,8 @@ class NewContactPageState {
       onCloseSelected: onCLoseSelected?? this.onCloseSelected,
       onContactSearchTextChanged: onContactSearchTextChanged?? this.onContactSearchTextChanged,
       onStartNewJobSelected: onStartNewJobSelected ?? this.onStartNewJobSelected,
+      customLeadSourceName: customLeadSourceName ?? this.customLeadSourceName,
+      onCustomLeadSourceTextChanged: onCustomLeadSourceTextChanged ?? this.onCustomLeadSourceTextChanged,
     );
   }
 
@@ -227,6 +235,7 @@ class NewContactPageState {
         relationshipStatus: Client.RELATIONSHIP_SINGLE,
         spouseFirstName: "",
         spouseLastName: "",
+        customLeadSourceName: '',
         numberOfChildren: 0,
         importantDates: [],
         deviceContacts: [],
@@ -262,6 +271,7 @@ class NewContactPageState {
         onCloseSelected: null,
         onContactSearchTextChanged: null,
         onStartNewJobSelected: null,
+        onCustomLeadSourceTextChanged: null,
       );
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
@@ -289,6 +299,7 @@ class NewContactPageState {
       clientIcon: store.state.newContactPageState.clientIcon,
       errorState: store.state.newContactPageState.errorState,
       client: store.state.newContactPageState.client,
+      customLeadSourceName: store.state.newContactPageState.customLeadSourceName,
       onSavePressed: () => store.dispatch(SaveNewContactAction(store.state.newContactPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
@@ -313,6 +324,7 @@ class NewContactPageState {
       onCloseSelected: () => store.dispatch(ClearDeviceContactsAction(store.state.newContactPageState)),
       onContactSearchTextChanged: (text) => store.dispatch(FilterDeviceContactsAction(store.state.newContactPageState, text)),
       onStartNewJobSelected: () => store.dispatch(jobActions.InitializeNewContactPageAction(store.state.newJobPageState, store.state.newContactPageState.client)),
+      onCustomLeadSourceTextChanged: (customName) => store.dispatch(UpdateCustomLeadNameAction(store.state.newContactPageState, customName)),
     );
   }
 
@@ -363,6 +375,8 @@ class NewContactPageState {
       onDeviceContactSelected.hashCode ^
       onCloseSelected.hashCode ^
       onGetDeviceContactsSelected.hashCode ^
+      customLeadSourceName.hashCode ^
+      onCustomLeadSourceTextChanged.hashCode ^
       onContactSearchTextChanged.hashCode;
 
   @override
@@ -414,5 +428,7 @@ class NewContactPageState {
           onDeviceContactSelected == other.onDeviceContactSelected &&
           onCloseSelected == other.onCloseSelected &&
           onGetDeviceContactsSelected == other.onGetDeviceContactsSelected &&
+          customLeadSourceName == other.customLeadSourceName &&
+          onCustomLeadSourceTextChanged == other.onCustomLeadSourceTextChanged &&
           onContactSearchTextChanged == other.onContactSearchTextChanged;
 }
