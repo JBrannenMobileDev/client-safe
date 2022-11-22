@@ -28,7 +28,7 @@ class IncomeInsights extends StatelessWidget {
               children: [
                 Container(
                   width: (MediaQuery.of(context).size.width / 2) - (28),
-                  height: 100.0,
+                  height: 120.0,
                   decoration: BoxDecoration(
                       color: Color(ColorConstants.getPrimaryWhite()),
                       borderRadius: new BorderRadius.all(Radius.circular(24.0))),
@@ -49,12 +49,12 @@ class IncomeInsights extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 38.0),
+                        padding: EdgeInsets.only(top: 42.0),
                         child: Text(
                           TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthIncome),
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 24.0,
+                            fontSize: 32.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
                             color: Color(ColorConstants.primary_black),
@@ -66,7 +66,7 @@ class IncomeInsights extends StatelessWidget {
                 ),
                 Container(
                   width: (MediaQuery.of(context).size.width / 2) - (28),
-                  height: 100.0,
+                  height: 120.0,
                   decoration: BoxDecoration(
                       color: Color(ColorConstants.getPrimaryWhite()),
                       borderRadius: new BorderRadius.all(Radius.circular(24.0))),
@@ -87,12 +87,12 @@ class IncomeInsights extends StatelessWidget {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 38.0),
+                        padding: EdgeInsets.only(top: 42.0),
                         child: Text(
                           TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthIncome),
                           textAlign: TextAlign.start,
                           style: TextStyle(
-                            fontSize: 24.0,
+                            fontSize: 32.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
                             color: Color(ColorConstants.primary_black),
@@ -110,7 +110,7 @@ class IncomeInsights extends StatelessWidget {
             children: [
               Container(
                 width: (MediaQuery.of(context).size.width / 2) - (28),
-                height: 100.0,
+                height: 120.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
                     borderRadius: new BorderRadius.all(Radius.circular(24.0))),
@@ -131,12 +131,12 @@ class IncomeInsights extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 38.0),
+                      padding: EdgeInsets.only(top: 42.0),
                       child: Text(
                         TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthLastYearIncome),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 32.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),
@@ -148,7 +148,7 @@ class IncomeInsights extends StatelessWidget {
               ),
               Container(
                 width: (MediaQuery.of(context).size.width / 2) - (28),
-                height: 100.0,
+                height: 120.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
                     borderRadius: new BorderRadius.all(Radius.circular(24.0))),
@@ -169,12 +169,12 @@ class IncomeInsights extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 38.0),
+                      padding: EdgeInsets.only(top: 42.0),
                       child: Text(
                         TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthLastYearIncome),
                         textAlign: TextAlign.start,
                         style: TextStyle(
-                          fontSize: 24.0,
+                          fontSize: 32.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
                           color: Color(ColorConstants.primary_black),

@@ -4,6 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
@@ -11,6 +12,7 @@ import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
+import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
@@ -104,12 +106,23 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _loadAllJobs(Store<AppState> store, action, NextDispatcher next) async {
     List<Job> allJobs = await JobDao.getAllJobs();
+    List<JobType> allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
 
     store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
+    store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
+
+    (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
+      List<JobType> jobTypes = [];
+      for(RecordSnapshot clientSnapshot in jobSnapshots) {
+        jobTypes.add(JobType.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
+      store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
+    });
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];
@@ -118,6 +131,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       }
       store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, jobs, singleExpenses, recurringExpenses, mileageExpenses));
+      store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     });
 
     (await SingleExpenseDao.getSingleExpenseStream()).listen((singleSnapshots) async {

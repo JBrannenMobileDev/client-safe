@@ -5,12 +5,19 @@ import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/SingleExpense.dart';
+import 'package:dandylight/pages/dashboard_page/JobTypePieChartRowData.dart';
+import 'package:dandylight/pages/dashboard_page/LeadSourcePieChartRowData.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/JobUtil.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
+import '../../models/JobType.dart';
+import '../../utils/ImageUtil.dart';
 import 'DashboardPageActions.dart';
 import 'DashboardPageState.dart';
 
@@ -22,6 +29,7 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, UpdateShowHideLeadsState>(_updateShowHideLeadsState),
   TypedReducer<DashboardPageState, SetUnseenReminderCount>(_setUnseenCount),
   TypedReducer<DashboardPageState, SetShowNewMileageExpensePageAction>(_setMileageExpenseEvent),
+  TypedReducer<DashboardPageState, SetJobTypeChartData>(_setJobTypesChartData),
 ]);
 
 DashboardPageState _setMileageExpenseEvent(DashboardPageState previousState, SetShowNewMileageExpensePageAction action) {
@@ -87,6 +95,7 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
   List<Job> jobsWithOnlyDepositReceived = action.allJobs.where((job) => job.isPaymentReceived() == false && job.isDepositPaid() == true).toList();
   List<LineChartMonthData> chartItems = buildChartData(jobsWithPaymentReceived, action.singleExpenses, action.recurringExpense, action.mileageExpenses, jobsWithOnlyDepositReceived);
 
+
   return previousState.copyWith(
       currentJobs: JobUtil.getUpComingJobs(action.allJobs),
       allJobs: action.allJobs,
@@ -94,6 +103,18 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
       allUserStages: activeStages,
       lineChartMonthData: chartItems.reversed.toList(),
       jobsThisWeek: jobsThisWeek,
+  );
+}
+
+DashboardPageState _setJobTypesChartData(DashboardPageState previousState, SetJobTypeChartData action) {
+  List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
+
+  List<PieChartSectionData> jobTypeBreakdownData = buildJobTypeData(jobsWithPaymentReceived, action.allJobTypes);
+  List<JobTypePieChartRowData> jobTypeRowData = buildJobTypeRowData(jobsWithPaymentReceived, action.allJobTypes);;
+
+  return previousState.copyWith(
+    jobTypeBreakdownData: jobTypeBreakdownData,
+    jobTypePieChartRowData: jobTypeRowData.reversed.toList(),
   );
 }
 
@@ -269,7 +290,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(0).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
-          chartItems.elementAt(0).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(0).income += (job.priceProfile != null ? job.priceProfile.flatRate.toInt() : 0);
         }
       }
 
@@ -279,7 +300,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(1).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
-          chartItems.elementAt(1).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(1).income += (job.priceProfile != null ? job.priceProfile.flatRate.toInt() : 0);
         }
       }
 
@@ -289,7 +310,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(2).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
-          chartItems.elementAt(2).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(2).income += (job.priceProfile != null ? job.priceProfile.flatRate.toInt() : 0);
         }
       }
 
@@ -299,7 +320,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(3).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
-          chartItems.elementAt(3).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(3).income += (job.priceProfile != null ? job.priceProfile.flatRate.toInt() : 0);
         }
       }
 
@@ -309,7 +330,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(4).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
-          chartItems.elementAt(4).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(4).income += (job.priceProfile != null ? job.priceProfile.flatRate.toInt() : 0);
         }
       }
 
@@ -319,7 +340,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(5).income += (job.invoice.total - job.invoice.discount - job.invoice.salesTaxAmount).toInt();
         } else {
-          chartItems.elementAt(5).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(5).income += (job.priceProfile != null ? job.priceProfile.flatRate.toInt() : 0);
         }
       }
     }
@@ -346,9 +367,138 @@ Charge getCharge(List<Charge> charges, int currentYear, int monthInt) {
 }
 
 DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashboardAction action) {
-  List<Client> leads = action.clients.where((client) => (!_hasAJob(client.documentId, previousState.allJobs))).toList();
+  List<Client> clientsWithAJob = action.clients.where((client) => (_hasAJob(client.documentId, previousState.allJobs)) && client.createdDate.year == DateTime.now().year).toList();
+  List<Client> allClientsFromThisYear = action.clients.where((client) => client.createdDate.year == DateTime.now().year).toList();
+  double rate = (clientsWithAJob.length/allClientsFromThisYear.length) * 100;
+
+  var groupedList = <String, List<Client>>{};
+  List<PieChartSectionData> chartData = [];
+  List<LeadSourcePieChartRowData> rowData = [];
+
+  for(Client client in allClientsFromThisYear) {
+    groupedList.putIfAbsent(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource), () => <Client>[]).add(client);
+  }
+
+  var seen = Set<String>();
+  List<Client> allLeadSourceNames = allClientsFromThisYear.where((client) => seen.add(client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource))).toList();
+
+  int index = 0;
+  for(Client client in allLeadSourceNames) {
+    String leadSourceName = client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource);
+    List<Client> clientsForLeadName = groupedList[leadSourceName];
+
+    if(clientsForLeadName != null) {
+      int count = clientsForLeadName.length;
+
+      List<Client> groupLeads = clientsForLeadName.where((client) => (_hasAJob(client.documentId, previousState.allJobs))).toList();
+      int conversionRate = ((groupLeads.length/clientsForLeadName.length) * 100).toInt();
+
+      rowData.add(LeadSourcePieChartRowData(
+        sourceName: leadSourceName,
+        count: count,
+        conversionRate: conversionRate,
+        color: ColorConstants.getPieChartColor(index),
+      ));
+
+      chartData.add(PieChartSectionData(
+        color: Color(ColorConstants.getPieChartColor(index)),
+        value: (count/allClientsFromThisYear.length*100).roundToDouble(),
+        title: (count/allClientsFromThisYear.length*100).round().toString() + '%',
+        radius: 50,
+        titleStyle: TextStyle(
+          fontSize: 20,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w700,
+          color: const Color(0xffffffff),
+        ),
+      ));
+
+    }
+    index++;
+  }
+
+  rowData.sort((a, b) => a.count.compareTo(b.count));
+
   return previousState.copyWith(
-      recentLeads: leads.reversed.toList());
+      leadConversionRate: rate.toInt(),
+      unconvertedLeadCount: allClientsFromThisYear.length - clientsWithAJob.length,
+      leadSourcesData: chartData,
+      leadSourcePieChartRowData: rowData.reversed.toList(),
+  );
+}
+
+List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, List<JobType> allJobTypes) {
+  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate.year == DateTime.now().year).toList();
+  var groupedList = <String, List<Job>>{};
+  List<PieChartSectionData> result = [];
+
+  for(Job job in jobsThisYearPaid) {
+    groupedList.putIfAbsent(job.type.title, () => <Job>[]).add(job);
+  }
+
+  int index = 0;
+  for(JobType jobType in allJobTypes) {
+    List<Job> jobsForType = groupedList[jobType.title];
+    if(jobsForType != null) {
+      int count = jobsForType.length;
+      int totalIncome = 0;
+
+      for(Job groupJob in jobsForType) {
+        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice.total.toInt() : groupJob.priceProfile != null ? groupJob.priceProfile.flatRate.toInt() : 0);
+      }
+
+      result.add(PieChartSectionData(
+        color: Color(ColorConstants.getPieChartColor(index)),
+        value: (count/jobsThisYearPaid.length*100).roundToDouble(),
+        title: (count/jobsThisYearPaid.length*100).round().toString() + '%',
+        radius: 50,
+        titleStyle: TextStyle(
+          fontSize: 20,
+          fontFamily: 'simple',
+          fontWeight: FontWeight.w700,
+          color: const Color(0xffffffff),
+        ),
+      ));
+    }
+    index++;
+  }
+
+  return result;
+}
+
+List<JobTypePieChartRowData> buildJobTypeRowData(List<Job> jobsWithPaymentReceived, List<JobType> allJobTypes) {
+  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate.year == DateTime.now().year).toList();
+  var groupedList = <String, List<Job>>{};
+  List<JobTypePieChartRowData> jobTypePieChartRowItems = [];
+
+  for(Job job in jobsThisYearPaid) {
+    groupedList.putIfAbsent(job.type.title, () => <Job>[]).add(job);
+  }
+
+  int index = 0;
+  for(JobType jobType in allJobTypes) {
+    List<Job> jobsForType = groupedList[jobType.title];
+    if(jobsForType != null) {
+      int count = jobsForType.length;
+      int totalIncome = 0;
+
+      for(Job groupJob in jobsForType) {
+        totalIncome = totalIncome + (groupJob.invoice != null ? groupJob.invoice.total.toInt() : groupJob.priceProfile != null ? groupJob.priceProfile.flatRate.toInt() : 0);
+      }
+
+      jobTypePieChartRowItems.add(JobTypePieChartRowData(
+        jobs: jobsForType,
+        count: count,
+        totalIncomeForType: totalIncome,
+        jobType: jobType.title,
+        color: ColorConstants.getPieChartColor(index),
+      ));
+    }
+    index++;
+  }
+
+  jobTypePieChartRowItems.sort((a, b) => a.count.compareTo(b.count));
+  return jobTypePieChartRowItems;
 }
 
 bool _hasAJob(String clientDocumentId, List<Job> jobs) {

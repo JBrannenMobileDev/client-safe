@@ -100,7 +100,7 @@ class Client{
       jobs: map['jobs'],
       notes: map['notes'],
       customLeadSourceName: map['customLeadSourceName'],
-      createdDate: map['createdDate'] != null && map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
+      createdDate: map['createdDate'] != null && map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : DateTime.now(),
     );
   }
 
@@ -165,10 +165,10 @@ class Client{
         break;
       case 'assets/images/icons/email_icon_white.png':
       case 'assets/images/icons/email_icon_peach_light.png':
-        return 'Email';
+        return 'Other';
         break;
     }
-    return '';
+    return 'Other';
   }
 
   @override

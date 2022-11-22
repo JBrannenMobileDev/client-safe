@@ -6,26 +6,35 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
+import 'JobTypePieChartRowData.dart';
+import 'LeadSourcePieChartRowData.dart';
 
 class DashboardPageState {
   final String jobsProfitTotal;
   final bool isMinimized;
   final bool isLeadsMinimized;
   final bool shouldShowNewMileageExpensePage;
+  final int leadConversionRate;
+  final int unconvertedLeadCount;
   final List<Action> actionItems;
   final List<Client> recentLeads;
   final List<JobStage> allUserStages;
+  final List<JobTypePieChartRowData> jobTypePieChartRowData;
   final List<Job> upcomingJobs;
   final List<Job> allJobs;
   final List<Job> activeJobs;
   final List<Job> jobsThisWeek;
+  final List<PieChartSectionData> jobTypeBreakdownData;
+  final List<PieChartSectionData> leadSourcesData;
   final int unseenNotificationCount;
   final List<JobReminder> reminders;
   final List<LineChartMonthData> lineChartMonthData;
+  final List<LeadSourcePieChartRowData> leadSourcePieChartRowData;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
@@ -62,12 +71,20 @@ class DashboardPageState {
     this.onNotificationViewClosed,
     this.shouldShowNewMileageExpensePage,
     this.jobsThisWeek,
+    this.leadConversionRate,
+    this.unconvertedLeadCount,
+    this.jobTypeBreakdownData,
+    this.leadSourcesData,
+    this.jobTypePieChartRowData,
+    this.leadSourcePieChartRowData,
   });
 
   DashboardPageState copyWith({
     String jobsProfitTotal,
     bool isMinimized,
     bool isLeadsMinimized,
+    int leadConversionRate,
+    int unconvertedLeadCount,
     List<Action> actionItems,
     List<Client> recentLeads,
     List<Job> currentJobs,
@@ -89,6 +106,10 @@ class DashboardPageState {
     Function() onNotificationsSelected,
     Function() onNotificationViewClosed,
     bool shouldShowNewMileageExpensePage,
+    List<PieChartSectionData> jobTypeBreakdownData,
+    List<PieChartSectionData> leadSourcesData,
+    List<JobTypePieChartRowData> jobTypePieChartRowData,
+    List<LeadSourcePieChartRowData> leadSourcePieChartRowData,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -115,6 +136,12 @@ class DashboardPageState {
       onNotificationViewClosed: onNotificationViewClosed ?? this.onNotificationViewClosed,
       shouldShowNewMileageExpensePage: shouldShowNewMileageExpensePage ?? this.shouldShowNewMileageExpensePage,
       jobsThisWeek: jobsThisWeek ?? this.jobsThisWeek,
+      leadConversionRate: leadConversionRate ?? this.leadConversionRate,
+      unconvertedLeadCount: unconvertedLeadCount ?? this.unconvertedLeadCount,
+      jobTypeBreakdownData: jobTypeBreakdownData ?? this.jobTypeBreakdownData,
+      leadSourcesData: leadSourcesData ?? this.leadSourcesData,
+      jobTypePieChartRowData: jobTypePieChartRowData ?? this.jobTypePieChartRowData,
+      leadSourcePieChartRowData: leadSourcePieChartRowData ?? this.leadSourcePieChartRowData,
     );
   }
 
@@ -137,6 +164,12 @@ class DashboardPageState {
       reminders: store.state.dashboardPageState.reminders,
       shouldShowNewMileageExpensePage: store.state.dashboardPageState.shouldShowNewMileageExpensePage,
       jobsThisWeek: store.state.dashboardPageState.jobsThisWeek,
+      leadConversionRate: store.state.dashboardPageState.leadConversionRate,
+      unconvertedLeadCount: store.state.dashboardPageState.unconvertedLeadCount,
+      jobTypeBreakdownData: store.state.dashboardPageState.jobTypeBreakdownData,
+      leadSourcesData: store.state.dashboardPageState.leadSourcesData,
+      jobTypePieChartRowData: store.state.dashboardPageState.jobTypePieChartRowData,
+      leadSourcePieChartRowData: store.state.dashboardPageState.leadSourcePieChartRowData,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -172,6 +205,12 @@ class DashboardPageState {
     onNotificationsSelected: null,
     onNotificationViewClosed: null,
     jobsThisWeek: [],
+    jobTypeBreakdownData: [],
+    leadSourcesData: [],
+    leadConversionRate: 0,
+    unconvertedLeadCount: 0,
+    jobTypePieChartRowData: [],
+    leadSourcePieChartRowData: [],
   );
 
   @override
@@ -199,6 +238,12 @@ class DashboardPageState {
       onNotificationsSelected.hashCode ^
       onNotificationViewClosed.hashCode ^
       jobsThisWeek.hashCode ^
+      leadConversionRate.hashCode ^
+      unconvertedLeadCount.hashCode ^
+      jobTypeBreakdownData.hashCode ^
+      leadSourcesData.hashCode ^
+      jobTypePieChartRowData.hashCode ^
+      leadSourcePieChartRowData.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -228,5 +273,11 @@ class DashboardPageState {
               onNotificationsSelected == other.onNotificationsSelected &&
               onNotificationViewClosed == other.onNotificationViewClosed &&
               jobsThisWeek == other.jobsThisWeek &&
+              leadConversionRate == other.leadConversionRate &&
+              unconvertedLeadCount == other.unconvertedLeadCount &&
+              jobTypeBreakdownData == other.jobTypeBreakdownData &&
+              leadSourcesData == other.leadSourcesData &&
+              jobTypePieChartRowData == other.jobTypePieChartRowData &&
+              leadSourcePieChartRowData == other.leadSourcePieChartRowData &&
               isMinimized == other.isMinimized;
 }

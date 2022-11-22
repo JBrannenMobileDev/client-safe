@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 class ColorConstants{
 
   //Set 1
@@ -70,5 +72,13 @@ class ColorConstants{
 
   static int getPrimaryBlack() {
     return black;
+  }
+
+  static int getPieChartColor(int index) {
+    List<int> colors = [gold, peach_dark, blue_light, blue_dark, peach_light, grey ];
+    while(index > 5) {
+      index = index - 6;
+    }
+    return colors.elementAt(index);
   }
 }

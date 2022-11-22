@@ -19,7 +19,7 @@ class MonthlyProfitLineChart extends StatelessWidget{
         children: <Widget>[
           Container(
             height: 275.0,
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 150.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(24.0))),

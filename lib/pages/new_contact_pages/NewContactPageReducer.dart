@@ -37,6 +37,7 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
 NewContactPageState _setCustomLeadSourceName(NewContactPageState previousState, UpdateCustomLeadNameAction action){
   return previousState.copyWith(
     customLeadSourceName: action.customName,
+    leadSource: '',
   );
 }
 
@@ -130,7 +131,8 @@ NewContactPageState _setClientIcon(NewContactPageState previousState, SetClientI
 
 NewContactPageState _setLeadSource(NewContactPageState previousState, SetLeadSourceAction action){
   return previousState.copyWith(
-      leadSource: action.leadSource
+      leadSource: action.leadSource,
+      customLeadSourceName: '',
   );
 }
 

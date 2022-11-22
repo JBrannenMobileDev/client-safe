@@ -6,7 +6,9 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobsThisWeekHomeCard.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
@@ -393,21 +395,54 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                     ),
                     new SliverList(
                         delegate: new SliverChildListDelegate(<Widget>[
-                      SlideTransition(
-                          position: offsetAnimationUp,
-                          child: pageState.activeJobs == null || pageState.activeJobs.length > 0
-                              ? JobsThisWeekHomeCard()
-                              : StartAJobButton(pageState: pageState)),
-                      SlideTransition(
-                          position: offsetAnimationUp,
-                          child: StageStatsHomeCard(pageState: pageState)),
-                      SlideTransition(
-                          position: offsetAnimationUp,
-                          child: ActiveJobsHomeCard()
-                      ),
-                      SlideTransition(
-                          position: offsetAnimationUp,
-                          child: MonthlyProfitLineChart(pageState: pageState)),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: pageState.activeJobs == null || pageState.activeJobs.length > 0
+                                  ? JobsThisWeekHomeCard()
+                                  : StartAJobButton(pageState: pageState)),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: StageStatsHomeCard(pageState: pageState)
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: ActiveJobsHomeCard()
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child:  Padding(
+                                padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                child: Text(
+                                  'Business Insights - ' + DateTime.now().year.toString(),
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 24.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                ),
+                              )
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: MonthlyProfitLineChart(pageState: pageState)
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: JobTypeBreakdownPieChart()
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: buildLeadStatsWidget(pageState),
+                              ),
+                          ),
+                          SlideTransition(
+                              position: offsetAnimationUp,
+                              child: LeadSourcesPieChart(),
+                          ),
                     ])),
                   ],
                 ),
@@ -416,6 +451,93 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
           ),
         ),
       );
+
+  Widget buildLeadStatsWidget(DashboardPageState pageState) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - (25),
+            height: 120.0,
+            decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryWhite()),
+                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    'Lead Conversion Rate',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 42.0),
+                  child: Text(
+                    pageState.leadConversionRate.toString() + '%',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 42.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w500,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            width: (MediaQuery.of(context).size.width / 2) - (25),
+            height: 120.0,
+            decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryWhite()),
+                borderRadius: new BorderRadius.all(Radius.circular(24.0))),
+            child: Stack(
+              alignment: Alignment.topCenter,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    'Unconverted Leads',
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 42.0),
+                  child: Text(
+                    pageState.unconvertedLeadCount.toString(),
+                    textAlign: TextAlign.start,
+                    style: TextStyle(
+                      fontSize: 42.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w500,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   getFabIcon() {
     if (isFabExpanded) {

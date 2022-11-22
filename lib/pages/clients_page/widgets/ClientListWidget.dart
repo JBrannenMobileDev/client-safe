@@ -95,8 +95,7 @@ class ClientListWidget extends StatelessWidget {
     String textToDisplay = "";
     if (client.jobs?.length ?? 0 > 0) {
     } else {
-      textToDisplay =
-          "Lead source:  " + ImageUtil.getLeadSourceText(client.leadSource);
+      textToDisplay = "Lead source:  " + (client.customLeadSourceName != null && client.customLeadSourceName.isNotEmpty ? client.customLeadSourceName : ImageUtil.getLeadSourceText(client.leadSource));
     }
     return textToDisplay;
   }

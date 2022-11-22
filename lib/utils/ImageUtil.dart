@@ -101,7 +101,7 @@ class ImageUtil{
   ];
 
   static String getLeadSourceText(String fileLocation){
-    String leadSourceTitle = "";
+    String leadSourceTitle = Client.LEAD_SOURCE_OTHER;
     switch(fileLocation){
       case 'assets/images/icons/word_of_mouth_icon_white.png':
       case 'assets/images/icons/word_of_mouth_icon_peach.png':
