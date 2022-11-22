@@ -26,6 +26,7 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageR
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageReducer.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageReducer.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
+import 'package:dandylight/pages/onboarding_flow_pages/OnBoardingFlowPageReducer.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageReducer.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageReducer.dart';
 import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
@@ -72,4 +73,5 @@ AppState appReducers(AppState state, dynamic action) =>
         calendarSelectionPageState: calendarSelectionPageReducer(state.calendarSelectionPageState, action),
         incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageReducer(state.incomeAndExpenseSettingsPageState, action),
         paymentRequestInfoPageState: paymentRequestInfoPageReducer(state.paymentRequestInfoPageState, action),
+        onBoardingFlowPageState: onBoardingPageReducer(state.onBoardingFlowPageState, action),
     );

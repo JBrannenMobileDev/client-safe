@@ -88,7 +88,8 @@ class UpdateShowResendMessageAction{
 class UpdateNavigateToHomeAction{
   final LoginPageState pageState;
   final bool navigateToHome;
-  UpdateNavigateToHomeAction(this.pageState, this.navigateToHome);
+  final bool shouldShowOnBoardingFlow;
+  UpdateNavigateToHomeAction(this.pageState, this.navigateToHome, this.shouldShowOnBoardingFlow);
 }
 
 class SetSignInErrorMessageAction{

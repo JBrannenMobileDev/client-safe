@@ -78,7 +78,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         profile = getMatchingProfile(profiles, user.email);
       }
       ProfileDao.updateUserLoginTime(user.uid);
-      store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+      store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true, profile.shouldShowOnBoarding));
       // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
       await ProfileDao.update(profile);
     } else {
@@ -108,6 +108,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               fireStoreProfile.singleExpensesLastChangeDate = DateTime(1970);
             if (fireStoreProfile.nextInvoiceNumberLastChangeDate != null)
               fireStoreProfile.nextInvoiceNumberLastChangeDate = DateTime(1970);
+            fireStoreProfile.shouldShowOnBoarding = true;
             await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync(
                 authResult.user.uid);
@@ -115,10 +116,10 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         }
         if (authResult.user != null && authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
           profile = await ProfileDao.getMatchingProfile(authResult.user.uid);
           // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
           await ProfileDao.update(profile);
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true, profile.shouldShowOnBoarding));
         } else if (authResult.user != null && !authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
           VibrateUtil.vibrateHeavy();
@@ -222,7 +223,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
           ProfileDao.updateUserLoginTime(user.uid);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true, profile.shouldShowOnBoarding));
         });
       } else {
         store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));

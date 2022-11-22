@@ -22,6 +22,7 @@ class LoginPageState {
   final bool showLoginErrorAnimation;
   final bool isUserVerified;
   final bool isCurrentUserCheckComplete;
+  final bool shouldShowOnBoardingFlow;
   final User user;
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
@@ -82,6 +83,7 @@ class LoginPageState {
     this.onClearLoginErrorShake,
     this.isUserVerified,
     this.isCurrentUserCheckComplete,
+    this.shouldShowOnBoardingFlow,
   });
 
   LoginPageState copyWith({
@@ -123,6 +125,7 @@ class LoginPageState {
     Function() onClearLoginErrorShake,
     bool isUserVerified,
     bool isCurrentUserCheckComplete,
+    bool shouldShowOnBoardingFlow,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -163,6 +166,7 @@ class LoginPageState {
       isUserVerified: isUserVerified ?? this.isUserVerified,
       onResetPasswordSelected: onResetPasswordSelected ?? this.onResetPasswordSelected,
       isCurrentUserCheckComplete: isCurrentUserCheckComplete ?? this.isCurrentUserCheckComplete,
+      shouldShowOnBoardingFlow: shouldShowOnBoardingFlow ?? this.shouldShowOnBoardingFlow,
     );
   }
 
@@ -187,6 +191,7 @@ class LoginPageState {
       showLoginErrorAnimation: store.state.loginPageState.showLoginErrorAnimation,
       isUserVerified: store.state.loginPageState.isUserVerified,
       isCurrentUserCheckComplete: store.state.loginPageState.isCurrentUserCheckComplete,
+      shouldShowOnBoardingFlow: store.state.loginPageState.shouldShowOnBoardingFlow,
       onFirstNameChanged: (firstName) => store.dispatch(UpdateFirstNameAction(store.state.loginPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(UpdateLastNameAction(store.state.loginPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(UpdateBusinessNameAction(store.state.loginPageState, businessName)),
@@ -249,6 +254,7 @@ class LoginPageState {
     createAccountErrorMessage: '',
     onClearErrorMessages: null,
     isCurrentUserCheckComplete: false,
+    shouldShowOnBoardingFlow: false,
   );
 
   @override
@@ -288,6 +294,7 @@ class LoginPageState {
       shouldShowAccountCreatedDialog.hashCode ^
       createAccountErrorMessage.hashCode ^
       isCurrentUserCheckComplete.hashCode ^
+      shouldShowOnBoardingFlow.hashCode ^
       onForgotPasswordSelected.hashCode ;
 
   @override
@@ -328,5 +335,6 @@ class LoginPageState {
               updateForgotPasswordVisible == other.updateForgotPasswordVisible &&
               onClearErrorMessages == other.onClearErrorMessages &&
               isCurrentUserCheckComplete == other.isCurrentUserCheckComplete &&
+              shouldShowOnBoardingFlow == other.shouldShowOnBoardingFlow &&
               onForgotPasswordSelected == other.onForgotPasswordSelected;
 }

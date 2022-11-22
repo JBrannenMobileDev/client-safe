@@ -76,6 +76,7 @@ dependencies:
   flutter_native_timezone: ^2.0.0
   swipedetector: ^1.2.0
   flutter_share: ^2.0.0
+  smooth_page_indicator: ^1.0.0+2
 
 flutter_icons:
   android: true
@@ -225,6 +226,8 @@ flutter:
     - assets/images/icons/faq.png
     - assets/images/icons/question_mark.png
     - assets/images/icons/reminder_filled.png
+    - assets/images/icons/price_package_black.png
+    - assets/images/icons/permission_icon.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

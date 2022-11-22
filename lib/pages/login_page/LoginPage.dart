@@ -995,7 +995,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   }
 
   void _onStartAnimationForGoingToHomePage(LoginPageState pageState){
-    if(pageState.mainButtonsVisible) {
+    if(pageState.mainButtonsVisible && !pageState.shouldShowOnBoardingFlow) {
       _controller.reverse();
       _controllerLogoOut.forward();
       _controllerSunIn.reverse();
@@ -1003,7 +1003,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         NavigationUtil.onSuccessfulLogin(context);
       });
     } else {
-      NavigationUtil.onSuccessfulLogin(context);
+      pageState.shouldShowOnBoardingFlow ? NavigationUtil.ShowOnBoardingFlow(context) : NavigationUtil.onSuccessfulLogin(context);
     }
   }
 

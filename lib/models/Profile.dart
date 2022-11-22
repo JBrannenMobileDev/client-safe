@@ -21,6 +21,8 @@ class Profile{
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
+  bool shouldShowOnBoarding = true;
+  bool termsOfServiceAndPrivacyPolicyChecked = false;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -78,6 +80,8 @@ class Profile{
     this.venmoLink,
     this.cashAppLink,
     this.applePayPhone,
+    this.shouldShowOnBoarding,
+    this.termsOfServiceAndPrivacyPolicyChecked,
   });
 
   Profile copyWith({
@@ -101,6 +105,8 @@ class Profile{
     bool pushNotificationsEnabled,
     bool calendarEnabled,
     bool showNewMileageExpensePage,
+    bool shouldShowOnBoarding,
+    bool termsOfServiceAndPrivacyPolicyChecked,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -135,6 +141,7 @@ class Profile{
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
       calendarEnabled: calendarEnabled ?? this.calendarEnabled,
       lastSignIn: lastSignIn ?? this.lastSignIn,
+      shouldShowOnBoarding: shouldShowOnBoarding ?? this.shouldShowOnBoarding,
       clientsLastChangeDate:  clientsLastChangeDate ?? this.clientsLastChangeDate,
       invoicesLastChangeDate: invoicesLastChangeDate ?? this.invoicesLastChangeDate,
       jobsLastChangeDate: jobsLastChangeDate ?? this.jobsLastChangeDate,
@@ -159,6 +166,7 @@ class Profile{
       venmoLink: venmoLink ?? this.venmoLink,
       cashAppLink: cashAppLink ?? this.cashAppLink,
       applePayPhone: applePayPhone ?? this.applePayPhone,
+      termsOfServiceAndPrivacyPolicyChecked: termsOfServiceAndPrivacyPolicyChecked ?? this.termsOfServiceAndPrivacyPolicyChecked,
     );
   }
 
@@ -185,6 +193,8 @@ class Profile{
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
       'showNewMileageExpensePage' : showNewMileageExpensePage,
+      'shouldShowOnBoarding' : shouldShowOnBoarding,
+      'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'invoicesLastChangeDate' : invoicesLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -228,6 +238,8 @@ class Profile{
       calendarEnabled: map['calendarEnabled'],
       salesTaxRate: map['salesTaxRate'],
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
+      shouldShowOnBoarding: map['shouldShowOnBoarding'],
+      termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,

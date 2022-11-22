@@ -53,6 +53,8 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageMiddleware.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
+import 'package:dandylight/pages/onboarding_flow_pages/OnBoardingFlowPageActions.dart';
+import 'package:dandylight/pages/onboarding_flow_pages/OnBoardingFlowPageMiddleware.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageMiddleware.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageActions.dart' as paymentLinks;
 import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
@@ -214,5 +216,9 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveVenmoInput>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveCashAppInput>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveApplePayInput>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveTermsAndPrivacyStateAction>(OnBoardingFlowPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadSettingsFromProfileOnBoarding>(OnBoardingFlowPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePushNotificationSettingActionOnBoarding>(OnBoardingFlowPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveCalendarSettingActionOnBoarding>(OnBoardingFlowPageMiddleware()));
   return middlewareList;
 }

@@ -24,6 +24,7 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageS
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:dandylight/pages/onboarding_flow_pages/OnboardingFlowPageState.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
@@ -73,6 +74,7 @@ class AppState {
   final CalendarSelectionPageState calendarSelectionPageState;
   final IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState;
   final PaymentRequestInfoPageState paymentRequestInfoPageState;
+  final OnBoardingFlowPageState onBoardingFlowPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -110,6 +112,7 @@ class AppState {
     @required this.calendarSelectionPageState,
     @required this.incomeAndExpenseSettingsPageState,
     @required this.paymentRequestInfoPageState,
+    @required this.onBoardingFlowPageState,
   });
 
   factory AppState.initial() {
@@ -149,6 +152,7 @@ class AppState {
       calendarSelectionPageState: CalendarSelectionPageState.initial(),
       incomeAndExpenseSettingsPageState: IncomeAndExpenseSettingsPageState.initial(),
       paymentRequestInfoPageState: PaymentRequestInfoPageState.initial(),
+      onBoardingFlowPageState: OnBoardingFlowPageState.initial(),
     );
   }
 
@@ -188,6 +192,7 @@ class AppState {
     CalendarSelectionPageState calendarSelectionPageState,
     IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState,
     PaymentRequestInfoPageState paymentRequestInfoPageState,
+    OnBoardingFlowPageState onBoardingFlowPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -225,6 +230,7 @@ class AppState {
       calendarSelectionPageState: calendarSelectionPageState ?? this.calendarSelectionPageState,
       incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageState ?? this.incomeAndExpenseSettingsPageState,
       paymentRequestInfoPageState: paymentRequestInfoPageState ?? this.paymentRequestInfoPageState,
+      onBoardingFlowPageState: onBoardingFlowPageState ?? this.onBoardingFlowPageState,
     );
   }
 
@@ -264,6 +270,7 @@ class AppState {
     calendarSelectionPageState.hashCode ^
     incomeAndExpenseSettingsPageState.hashCode ^
     paymentRequestInfoPageState.hashCode ^
+    onBoardingFlowPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -304,5 +311,6 @@ class AppState {
               calendarSelectionPageState == other.calendarSelectionPageState &&
               incomeAndExpenseSettingsPageState == other.incomeAndExpenseSettingsPageState &&
               paymentRequestInfoPageState == other.paymentRequestInfoPageState &&
+              onBoardingFlowPageState == other.onBoardingFlowPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }
