@@ -541,10 +541,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               color: Color(ColorConstants.getPeachDark()),
                               borderRadius: BorderRadius.circular(36.0)),
                           child: Text(
-                            'Create Account',
+                            'Start Free Trial',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 22.0,
+                              fontSize: 26.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
                               color: Color(ColorConstants.getPrimaryWhite()),
@@ -567,7 +567,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             pageState.onClearErrorMessages();
                           },
                           child: Text(
-                            pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Create account'),
+                            pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Start Free Trial'),
                             style: TextStyle(
                               fontSize: 22.0,
                               fontFamily: 'simple',
@@ -1002,8 +1002,14 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       Timer(const Duration(milliseconds: 600), () {
         NavigationUtil.onSuccessfulLogin(context);
       });
+    } else if(pageState.shouldShowOnBoardingFlow){
+      _controller.reverse();
+      _controllerLogoOut.forward();
+      Timer(const Duration(milliseconds: 600), () {
+        NavigationUtil.ShowOnBoardingFlow(context);
+      });
     } else {
-      pageState.shouldShowOnBoardingFlow ? NavigationUtil.ShowOnBoardingFlow(context) : NavigationUtil.onSuccessfulLogin(context);
+      NavigationUtil.onSuccessfulLogin(context);
     }
   }
 

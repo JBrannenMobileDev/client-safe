@@ -5,6 +5,8 @@ import 'package:dandylight/pages/onboarding_flow_pages/OnBoardingFlowPageActions
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/JobType.dart';
+import '../../models/PriceProfile.dart';
 
 class OnBoardingFlowPageState{
   final bool pushNotificationsEnabled;
@@ -13,6 +15,8 @@ class OnBoardingFlowPageState{
   final bool termsAndPrivacyChecked;
   final bool showTermsAndPrivacyError;
   final int pagerIndex;
+  final List<JobType> jobTypes;
+  final List<PriceProfile> priceProfiles;
   final Function(bool) onTermsAndPrivacyChecked;
   final Function() onSkipAllSelected;
   final Function() onSkipStepSelected;
@@ -39,6 +43,8 @@ class OnBoardingFlowPageState{
     @required this.onLetsGetStartedSelected,
     @required this.onNextSelected,
     @required this.onBoardingComplete,
+    @required this.jobTypes,
+    @required this.priceProfiles,
   });
 
   OnBoardingFlowPageState copyWith({
@@ -50,6 +56,8 @@ class OnBoardingFlowPageState{
     bool termsAndPrivacyChecked,
     bool showTermsAndPrivacyError,
     int pagerIndex,
+    List<JobType> jobTypes,
+    List<PriceProfile> priceProfiles,
     Function(bool) onTermsAndPrivacyChecked,
     Function() onSkipAllSelected,
     Function() onSkipStepSelected,
@@ -74,6 +82,8 @@ class OnBoardingFlowPageState{
       onLetsGetStartedSelected: onLetsGetStartedSelected ?? this.onLetsGetStartedSelected,
       onNextSelected: onNextSelected ?? this.onNextSelected,
       onBoardingComplete: onBoardingComplete ?? this.onBoardingComplete,
+      jobTypes: jobTypes ?? this.jobTypes,
+      priceProfiles: priceProfiles ?? this.priceProfiles,
     );
   }
 
@@ -93,6 +103,8 @@ class OnBoardingFlowPageState{
     onLetsGetStartedSelected: null,
     onNextSelected: null,
     onBoardingComplete: null,
+    jobTypes: [],
+    priceProfiles: [],
   );
 
   factory OnBoardingFlowPageState.fromStore(Store<AppState> store) {
@@ -103,6 +115,8 @@ class OnBoardingFlowPageState{
       termsAndPrivacyChecked: store.state.onBoardingFlowPageState.termsAndPrivacyChecked,
       showTermsAndPrivacyError: store.state.onBoardingFlowPageState.showTermsAndPrivacyError,
       pagerIndex: store.state.onBoardingFlowPageState.pagerIndex,
+      jobTypes: store.state.onBoardingFlowPageState.jobTypes,
+      priceProfiles: store.state.onBoardingFlowPageState.priceProfiles,
       onTermsAndPrivacyChecked: (isChecked) => store.dispatch(SaveTermsAndPrivacyStateAction(store.state.onBoardingFlowPageState, isChecked)),
       onSkipAllSelected: () => store.dispatch(SaveSkipAllStateAction(store.state.onBoardingFlowPageState)),
       onSkipStepSelected: () => store.dispatch(IncrementPagerIndexAction(store.state.onBoardingFlowPageState)),

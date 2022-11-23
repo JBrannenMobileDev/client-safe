@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/common_widgets/DandyLightTextWidget.dart';
+import 'package:dandylight/pages/onboarding_flow_pages/OnBoardingJobTypesPage.dart';
 import 'package:dandylight/pages/onboarding_flow_pages/OnboardingFlowPageState.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -29,7 +30,7 @@ class StepsPagerOnBoardPage extends StatefulWidget {
 
 class _StepsPagerOnBoardPageState extends State<StepsPagerOnBoardPage>
     with TickerProviderStateMixin {
-  final int pageCount = 3;
+  final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
@@ -56,7 +57,7 @@ class _StepsPagerOnBoardPageState extends State<StepsPagerOnBoardPage>
       builder: (BuildContext context, OnBoardingFlowPageState pageState) =>
     WillPopScope(
     onWillPop: () async {
-      if (currentPageIndex == 0) {
+      if (pageState.pagerIndex == 0) {
         Navigator.of(context).pop();
       } else {
         pageState.onBackSelected();
@@ -68,34 +69,55 @@ class _StepsPagerOnBoardPageState extends State<StepsPagerOnBoardPage>
     child: Scaffold(
         extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-        body: Stack(
-          alignment: Alignment.topCenter,
-          children: <Widget>[
-            CustomScrollView(
+        backgroundColor: Color(ColorConstants.getBlueLight()),
+        body: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(
                   iconTheme: IconThemeData(
-                    color: Color(ColorConstants
-                        .getPrimaryBlack()), //change your color here
+                    color: Color(ColorConstants.getPrimaryWhite()), //change your color here
                   ),
                   brightness: Brightness.light,
-                  backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                  backgroundColor: Color(ColorConstants.getBlueLight()),
                   pinned: true,
                   centerTitle: true,
-                  title: Text(
-                    pageState.pagerIndex == 0
-                        ? 'Job Types'
-                        : pageState.pagerIndex == 1
+                  title: Container(
+                    child: AnimatedSmoothIndicator(
+                      activeIndex: pageState.pagerIndex,
+                      count: 3,
+                      effect: ExpandingDotsEffect(
+                        expansionFactor: 2,
+                          dotWidth: 16.0,
+                          dotHeight: 16.0,
+                          activeDotColor: Color(ColorConstants.getBlueDark()),
+                          dotColor: Color(ColorConstants.getPrimaryWhite())),
+                    ),
+                  ),
+                  actions: <Widget>[
+                    IconButton(
+                      icon: const Icon(CupertinoIcons.chevron_forward, size: 30.0,),
+                      onPressed: () {
+                        pageState.onNextSelected();
+                        controller.animateToPage(currentPageIndex + 1,
+                            duration: Duration(milliseconds: 150), curve: Curves.ease);
+                      },
+                    ),
+                  ],
+                  bottom: PreferredSize(
+                    preferredSize: Size(150, 24),
+                    child: Container(
+                      child: Text(
+                        pageState.pagerIndex == 0
+                            ? 'Job Types'
+                            : pageState.pagerIndex == 1
                             ? 'Price Packages'
-                            : pageState.pagerIndex == 2
-                                ? 'Payment Links'
-                                : 'App Permissions',
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
+                            : 'App Permissions',
+                        style: TextStyle(
+                          fontSize: 26.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.getPrimaryBlack()),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -103,118 +125,33 @@ class _StepsPagerOnBoardPageState extends State<StepsPagerOnBoardPage>
                   delegate: new SliverChildListDelegate(
                     <Widget>[
                       Container(
-                        height: 300.0,
+                        height: MediaQuery.of(context).size.height - 150,
                         child: PageView(
-                          physics: NeverScrollableScrollPhysics(),
                           controller: controller,
                           pageSnapping: true,
                           children: <Widget>[
-                            SizedBox(),
-                            SizedBox(),
+                            OnBoardingJobTypesPage(),
                             SizedBox(),
                             SizedBox(),
                           ],
+                          onPageChanged: (index) {
+                            if(pageState.pagerIndex > index) {
+                              currentPageIndex - 1;
+                              pageState.onBackSelected();
+                            }  else if(pageState.pagerIndex < index){
+                              currentPageIndex + 1;
+                              pageState.onNextSelected();
+                            }
+                          },
                         ),
                       ),
                     ],
                   ),
                 ),
               ],
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 64.0, right: 16.0),
-              alignment: Alignment.topRight,
-              child: TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  pageState.onSkipAllSelected();
-                  if (pageState.termsAndPrivacyChecked) {
-                    NavigationUtil.onSuccessfulLogin(context);
-                  }
-                },
-                child: Container(
-                  child: Text(
-                    'Skip',
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Container(
-              margin: EdgeInsets.only(top: 54.0),
-              child: AnimatedSmoothIndicator(
-                activeIndex: pageState.pagerIndex,
-                count: 4,
-                effect: ExpandingDotsEffect(
-                    dotWidth: 12.0,
-                    dotHeight: 12.0,
-                    activeDotColor: Color(ColorConstants.getPrimaryColor()),
-                    dotColor: Color(ColorConstants.getPrimaryColor())),
-              ),
-            ),
-            Container(
-              alignment: Alignment.bottomCenter,
-              margin: EdgeInsets.only(bottom: 32.0),
-              padding: EdgeInsets.only(top: 8.0),
-              child: TextButton(
-                style: Styles.getButtonStyle(),
-                onPressed: () {
-                  if (currentPageIndex == 3) {
-                    pageState.onBoardingComplete();
-                    NavigationUtil.onSuccessfulLogin(context);
-                  } else {
-                    pageState.onNextSelected();
-                    controller.animateToPage(currentPageIndex + 1,
-                        duration: Duration(milliseconds: 150),
-                        curve: Curves.ease);
-                  }
-                  if (MediaQuery.of(context).viewInsets.bottom != 0)
-                    KeyboardUtil.closeKeyboard(context);
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  width: 214,
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  height: 54.0,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(26.0),
-                      color: Color(ColorConstants.getBlueDark())),
-                  child: Text(
-                    pageState.pagerIndex == 3 ? 'Finish' : 'Next',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
         ),
       ),
     ),
     );
   }
-
-  Future<bool> _onWillPop() async {
-    if (currentPageIndex == 0) {
-      Navigator.of(context).pop();
-    } else {
-      controller.animateToPage(currentPageIndex - 1,
-          duration: Duration(milliseconds: 150), curve: Curves.ease);
-    }
-    return false;
-  }
-
-  void onBackPressed(OnBoardingFlowPageState pageState) {}
 }

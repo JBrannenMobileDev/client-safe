@@ -92,10 +92,10 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
                             Container(
                                 margin: EdgeInsets.only(top: 124.0, left: 24, right: 24),
                                 child: Text(
-                                  'Before we get started, lets setup some important items to help save you time and money.\n\nItems to setup:',
+                                  'Before we get started, lets setup some important items to help save you time and money.',
                                   textAlign: TextAlign.start,
                                   style: TextStyle(
-                                    fontSize: 24.0,
+                                    fontSize: 22.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(
@@ -118,22 +118,16 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(left: 38.0, right: 38.0, top: 8.0),
-                        child: TextButton(
-                          style: Styles.getButtonStyle(
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(32.0),
-                            ),
-                          ),
-                          onPressed: () {
-
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
+                        margin: EdgeInsets.only(left: 16, right: 16.0, top: 64.0),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(32.0),
+                          color: Color(ColorConstants.getPrimaryWhite())
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0),
+                              child: Container(
                                 height: 54.0,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -143,7 +137,7 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
                                       children: <Widget>[
                                         Container(
                                           alignment: Alignment.center,
-                                          margin: EdgeInsets.only(right: 16.0, left: 16.0),
+                                          margin: EdgeInsets.only(right: 16.0, left: 0.0),
                                           height: 36.0,
                                           width: 36.0,
                                           child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png', color: Color(ColorConstants.getPeachDark())),
@@ -160,44 +154,27 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          child: Text(
-                                            ' ( 4 min )',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: 18.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(ColorConstants.primary_bg_grey_dark),
-                                            ),
-                                          ),
-                                        ),
                                       ],
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        '( 4 min )',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(ColorConstants.primary_bg_grey_dark),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 38.0, right: 38.0, top: 8.0),
-                        child: TextButton(
-                          style: Styles.getButtonStyle(
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(32.0),
                             ),
-                          ),
-                          onPressed: () {
-
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
+                            Container(
+                              margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 0.0),
+                              child: Container(
                                 height: 54.0,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -208,7 +185,7 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
                                       children: <Widget>[
                                         Container(
                                           alignment: Alignment.center,
-                                          margin: EdgeInsets.only(right: 16.0, left: 16.0),
+                                          margin: EdgeInsets.only(right: 16.0, left: 0.0),
                                           height: 36.0,
                                           width: 36.0,
                                           child: Image.asset('assets/images/icons/price_package_black.png', color: Color(ColorConstants.getPeachDark())),
@@ -225,120 +202,37 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          child: Text(
-                                            ' ( 3 min )',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: 18.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(ColorConstants.primary_bg_grey_dark),
-                                            ),
-                                          ),
-                                        ),
                                       ],
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        '( 3 min )',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(ColorConstants.primary_bg_grey_dark),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 38.0, right: 38.0, top: 8.0),
-                        child: TextButton(
-                          style: Styles.getButtonStyle(
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(32.0),
                             ),
-                          ),
-                          onPressed: () {
-
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
+                            Container(
+                              margin: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 8.0),
+                              child: Container(
                                 height: 54.0,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
                                     Row(
-
                                       children: <Widget>[
                                         Container(
                                           alignment: Alignment.center,
-                                          margin: EdgeInsets.only(right: 16.0, left: 16.0),
-                                          height: 36.0,
-                                          width: 36.0,
-                                          child: Image.asset('assets/images/collection_icons/pricing_profile_icons/wallet_icon_gold.png', color: Color(ColorConstants.getPeachDark())),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            'Your Payment Links',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants.getBlueDark()),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            ' ( 5 min )',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: 18.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(ColorConstants.primary_bg_grey_dark),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      Container(
-                        margin: EdgeInsets.only(left: 38.0, right: 38.0, top: 8.0),
-                        child: TextButton(
-                          style: Styles.getButtonStyle(
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(32.0),
-                            ),
-                          ),
-                          onPressed: () {
-
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                height: 54.0,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: <Widget>[
-                                    Row(
-
-                                      children: <Widget>[
-                                        Container(
-                                          alignment: Alignment.center,
-                                          margin: EdgeInsets.only(right: 16.0, left: 16.0),
+                                          margin: EdgeInsets.only(right: 16.0, left: 0.0),
                                           height: 36.0,
                                           width: 36.0,
                                           child: Image.asset('assets/images/icons/permission_icon.png', color: Color(ColorConstants.getPeachDark())),
@@ -355,25 +249,25 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
                                             ),
                                           ),
                                         ),
-                                        Container(
-                                          child: Text(
-                                            ' ( 1 min )',
-                                            textAlign: TextAlign.start,
-                                            style: TextStyle(
-                                              fontSize: 18.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(ColorConstants.primary_bg_grey_dark),
-                                            ),
-                                          ),
-                                        ),
                                       ],
+                                    ),
+                                    Container(
+                                      child: Text(
+                                        '( 1 min )',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                          fontSize: 18.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(ColorConstants.primary_bg_grey_dark),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
                               ),
-                            ],
-                          ),
+                            )
+                          ],
                         ),
                       ),
                     ],
@@ -410,64 +304,83 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
             Container(
               alignment: Alignment.bottomCenter,
               margin: EdgeInsets.only(bottom: 96.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  TextButton(
-                    style: Styles.getButtonStyle(),
-                    onPressed: () {
-                      _launchTermsOfServiceURL();
-                    },
-                    child: Container(
-                      child: Text(
-                        'Terms of service',
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 24.0, right: 24.0),
+                    child: Text(
+                      'By checking the box you agree to our',
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontFamily: 'simple',
+                        fontWeight: pageState.showTermsAndPrivacyError ? FontWeight.w700 : FontWeight.w600,
+                        color: Color(pageState.showTermsAndPrivacyError ? ColorConstants.error_red : ColorConstants.getBlueDark()),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      TextButton(
+                        style: Styles.getButtonStyle(),
+                        onPressed: () {
+                          _launchTermsOfServiceURL();
+                        },
+                        child: Container(
+                          child: Text(
+                            'Terms of service',
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'simple',
+                              fontWeight: pageState.showTermsAndPrivacyError ? FontWeight.w700 : FontWeight.w600,
+                              color: Color(pageState.showTermsAndPrivacyError ? ColorConstants.error_red : ColorConstants.getBlueDark()),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Text(
+                        ' && ',
                         textAlign: TextAlign.center,
                         softWrap: true,
                         style: TextStyle(
-                          fontSize: 20.0,
+                          fontSize: 16.0,
                           fontFamily: 'simple',
                           fontWeight: pageState.showTermsAndPrivacyError ? FontWeight.w700 : FontWeight.w600,
                           color: Color(pageState.showTermsAndPrivacyError ? ColorConstants.error_red : ColorConstants.getBlueDark()),
                         ),
                       ),
-                    ),
-                  ),
-                  Text(
-                    ' && ',
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: pageState.showTermsAndPrivacyError ? FontWeight.w700 : FontWeight.w600,
-                      color: Color(pageState.showTermsAndPrivacyError ? ColorConstants.error_red : ColorConstants.getBlueDark()),
-                    ),
-                  ),
-                  TextButton(
-                    style: Styles.getButtonStyle(),
-                    onPressed: () {
-                      _launchPrivacyPolicyURL();
-                    },
-                    child: Container(
-                      child: Text(
-                        'Privacy policy',
-                        textAlign: TextAlign.center,
-                        softWrap: true,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: pageState.showTermsAndPrivacyError ? FontWeight.w700 : FontWeight.w600,
-                          color: Color(pageState.showTermsAndPrivacyError ? ColorConstants.error_red : ColorConstants.getBlueDark()),
+                      TextButton(
+                        style: Styles.getButtonStyle(),
+                        onPressed: () {
+                          _launchPrivacyPolicyURL();
+                        },
+                        child: Container(
+                          child: Text(
+                            'Privacy policy',
+                            textAlign: TextAlign.center,
+                            softWrap: true,
+                            style: TextStyle(
+                              fontSize: 16.0,
+                              fontFamily: 'simple',
+                              fontWeight: pageState.showTermsAndPrivacyError ? FontWeight.w700 : FontWeight.w600,
+                              color: Color(pageState.showTermsAndPrivacyError ? ColorConstants.error_red : ColorConstants.getBlueDark()),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  Checkbox(
-                    activeColor: Color(ColorConstants.getBlueDark()),
-                      value: pageState.termsAndPrivacyChecked,
-                      onChanged: (isChecked) {
-                        pageState.onTermsAndPrivacyChecked(isChecked);
-                      }
+                      Checkbox(
+                          activeColor: Color(ColorConstants.getBlueDark()),
+                          value: pageState.termsAndPrivacyChecked,
+                          onChanged: (isChecked) {
+                            pageState.onTermsAndPrivacyChecked(isChecked);
+                          }
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -475,7 +388,7 @@ class _OnBoardingMainPageState extends State<OnBoardingMainPage>
             Container(
               alignment: Alignment.bottomCenter,
               margin: EdgeInsets.only(bottom: 32.0),
-              padding: EdgeInsets.only(top: 8.0),
+              padding: EdgeInsets.only(top: 0.0),
               child: TextButton(
                 style: Styles.getButtonStyle(),
                 onPressed: () {
