@@ -3,16 +3,11 @@ import 'dart:async';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/new_contact_pages/Children.dart';
-import 'package:dandylight/pages/new_contact_pages/ImportantDates.dart';
 import 'package:dandylight/pages/new_contact_pages/LeadSourceSelection.dart';
-import 'package:dandylight/pages/new_contact_pages/MarriedSpouse.dart';
 import 'package:dandylight/pages/new_contact_pages/NameAndGender.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_contact_pages/Notes.dart';
 import 'package:dandylight/pages/new_contact_pages/PhoneEmailInstagram.dart';
-import 'package:dandylight/pages/new_contact_pages/ProfileIcons.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/InputValidatorUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -35,7 +30,7 @@ class NewContactPage extends StatefulWidget {
 }
 
 class _NewContactPageState extends State<NewContactPage> {
-  final int pageCount = 7;
+  final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
   );
@@ -97,7 +92,7 @@ class _NewContactPageState extends State<NewContactPage> {
             body: Center(
               child: Container(
                 width: 375.0,
-                padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
+                padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                 decoration: new BoxDecoration(
                     color: Color(ColorConstants.white),
                     borderRadius: new BorderRadius.all(Radius.circular(16.0))),
@@ -112,7 +107,7 @@ class _NewContactPageState extends State<NewContactPage> {
                         alignment: Alignment.center,
                         children: <Widget>[
                           Text(
-                            pageState.shouldClear ? "New Client" : "Edit Client",
+                            pageState.shouldClear ? "New Contact" : "Edit Contact",
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 28.0,
@@ -157,11 +152,6 @@ class _NewContactPageState extends State<NewContactPage> {
                         children: <Widget>[
                           NameAndGender(),
                           PhoneEmailInstagram(),
-                          MarriedSpouse(),
-                          Children(),
-                          ImportantDates(),
-                          Notes(),
-                          ProfileIcons(),
                           LeadSourceSelection(),
                         ],
                       ),
@@ -237,19 +227,11 @@ class _NewContactPageState extends State<NewContactPage> {
 
   double _getWidgetHeight(int index) {
     switch(index) {
+      case 0:
+        return 256.0;
       case 1:
         return 256.0;
       case 2:
-        return 256.0;
-      case 3:
-        return 256.0;
-      case 4:
-        return 256.0;
-      case 5:
-        return 256.0;
-      case 6:
-        return 400.0;
-      case 7:
         return 350.0;
     }
     return 256.0;
@@ -306,11 +288,10 @@ class _NewContactPageState extends State<NewContactPage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          if (!pageState.newContactFirstName.contains("Client")) {
+          if (pageState.newContactFirstName.isNotEmpty) {
             canProgress = true;
           } else {
-            pageState.onErrorStateChanged(
-                NewContactPageState.ERROR_FIRST_NAME_MISSING);
+            pageState.onErrorStateChanged(NewContactPageState.ERROR_FIRST_NAME_MISSING);
             HapticFeedback.heavyImpact();
           }
           break;

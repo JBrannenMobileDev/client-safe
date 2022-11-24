@@ -157,7 +157,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
         Client(
           firstName: store.state.newJobPageState.clientFirstName,
           lastName: store.state.newJobPageState.clientLastName,
-          iconUrl: ImageUtil.getRandomPersonIcon().assetName
         )
       );
       resultClient = await ClientDao.getClientById(clientId);

@@ -55,15 +55,20 @@ class ReminderSelectionListWidget extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(
-                          pageState.allDandyLightReminders.elementAt(index).description,
-                          textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            overflow: TextOverflow.fade,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                        Container(
+                          width: MediaQuery.of(context).size.width - 181,
+                          child: Text(
+                            pageState.allDandyLightReminders.elementAt(index).description,
+                            textAlign: TextAlign.start,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w600,
+                              overflow: TextOverflow.fade,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
                           ),
                         ),
                         Container(

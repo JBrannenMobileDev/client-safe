@@ -66,13 +66,16 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                         ),
                       ),
                       actions: <Widget>[
-                        IconButton(
-                          icon: const Icon(Icons.add_circle_outline),
-                          color: Color(ColorConstants.white),
-                          tooltip: 'Add',
-                          onPressed: () {
+                        GestureDetector(
+                          onTap: () {
                             UserOptionsUtil.showNewReminderDialog(context, null);
                           },
+                          child: Container(
+                            margin: EdgeInsets.only(right: 26.0),
+                            height: 24.0,
+                            width: 24.0,
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryWhite()),),
+                          ),
                         ),
                       ],
                     ),

@@ -32,14 +32,7 @@ class NewJobClientListWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(pageState.filteredClients.elementAt(clientIndex).iconUrl),
-                  fit: BoxFit.contain,
-                ),
-                color: const Color(ColorConstants.primary_bg_grey),
-                borderRadius: BorderRadius.all(Radius.circular(22.0)),
-              ),
+              child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
             ),
             Expanded(
               child: Container(

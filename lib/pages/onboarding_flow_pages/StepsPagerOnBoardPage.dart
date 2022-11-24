@@ -94,7 +94,7 @@ class _StepsPagerOnBoardPageState extends State<StepsPagerOnBoardPage>
                   ),
                   actions: <Widget>[
                     IconButton(
-                      icon: const Icon(CupertinoIcons.chevron_forward, size: 30.0,),
+                      icon: const Icon(CupertinoIcons.person, size: 30.0,),
                       onPressed: () {
                         pageState.onNextSelected();
                         controller.animateToPage(currentPageIndex + 1,

@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../utils/InputDoneView.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
 class PricePackageChangeDialog extends StatefulWidget {
@@ -30,11 +32,31 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
   String oneTimePrice = '';
+  OverlayEntry overlayEntry;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, JobDetailsPageState>(
+      onInit: (store) {
+        KeyboardVisibilityNotification().addNewListener(
+            onShow: () {
+              showOverlay(context);
+            },
+            onHide: () {
+              removeOverlay();
+            }
+        );
+        flatRateTextController.text = '\$';
+        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+        flatRateInputFocusNode.addListener(() {
+          flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+        });
+      },
+      onDidChange: (previous, current) {
+        if(flatRateTextController.text == '') flatRateTextController.text = '\$';
+        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+      },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Scaffold(
@@ -244,20 +266,51 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
             pageState.priceProfiles.elementAt(index - 1),
             pageState,
             onProfileSelected,
-            pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && oneTimePrice.isEmpty
+            pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
                 ? Color(ColorConstants.getBlueDark())
-                : Colors.white,pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && oneTimePrice.isEmpty
+                : Colors.white,pageState.selectedPriceProfile == pageState.priceProfiles.elementAt(index - 1) && isOneTimePriceEmpty(oneTimePrice)
             ? Color(ColorConstants.getPrimaryWhite())
             : Color(ColorConstants.getPrimaryBlack())),
       ),
     );
   }
 
-  onProfileSelected(
-      PriceProfile priceProfile, var pageState, BuildContext context) {
+  onProfileSelected(PriceProfile priceProfile, var pageState, BuildContext context) {
     pageState.onPriceProfileSelected(priceProfile);
+    flatRateTextController.text = '\$';
+    oneTimePrice = '';
+    flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+  }
+
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneView());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
   }
 
   @override
   bool get wantKeepAlive => true;
+
+  bool isOneTimePriceEmpty(String oneTimePrice) {
+    String numbersOnly = oneTimePrice.replaceAll('\$', '').replaceAll(' ', '');
+    if(numbersOnly == '0') {
+      numbersOnly = '';
+    }
+    return numbersOnly.isEmpty;
+  }
 }

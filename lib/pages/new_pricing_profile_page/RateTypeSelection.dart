@@ -58,9 +58,6 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
             removeOverlay();
         });
       },
-      onDidChange: (prev, pageState) {
-        if(pageState.flatRate == 0) flatRateTextController.text = '\$';
-      },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           Stack(

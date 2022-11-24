@@ -33,12 +33,7 @@ class LeadItem extends StatelessWidget{
                   margin: EdgeInsets.only(right: 18.0, top: 0.0),
                   height: 42.0,
                   width: 42.0,
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage(client.iconUrl),
-                      fit: BoxFit.contain,
-                    ),
-                  ),
+                  child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

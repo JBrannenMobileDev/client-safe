@@ -130,7 +130,10 @@ NewJobPageState _setJobType(NewJobPageState previousState, SetSelectedJobTypeAct
 NewJobPageState _setSelectedPriceProfile(NewJobPageState previousState, SetSelectedPriceProfile action) {
   PriceProfile newProfile;
   if(previousState.selectedPriceProfile != action.priceProfile) newProfile = action.priceProfile;
-  return previousState.copyWith(selectedPriceProfile: newProfile);
+  return previousState.copyWith(
+      selectedPriceProfile: newProfile,
+      oneTimePrice: '',
+  );
 }
 
 NewJobPageState _setSelectedLocation(NewJobPageState previousState, SetSelectedLocation action) {

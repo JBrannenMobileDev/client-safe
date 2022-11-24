@@ -313,7 +313,7 @@ class JobStage {
       case STAGE_13_FEEDBACK_RECEIVED:
         return 'Receive feedback';
       case STAGE_14_JOB_COMPLETE:
-        return 'Job complete';
+        return 'Complete Job';
     }
     return '';
   }

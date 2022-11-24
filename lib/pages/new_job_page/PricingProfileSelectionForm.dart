@@ -10,7 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../utils/InputDoneView.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
 class PricingProfileSelectionForm extends StatefulWidget {
@@ -28,11 +30,31 @@ class _PricingProfileSelectionFormState
 
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
+  OverlayEntry overlayEntry;
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
+      onInit: (store) {
+        KeyboardVisibilityNotification().addNewListener(
+            onShow: () {
+              showOverlay(context);
+            },
+            onHide: () {
+              removeOverlay();
+            }
+        );
+        flatRateTextController.text = '\$' + (store.state.newJobPageState.oneTimePrice.isNotEmpty && (int.parse(store.state.newJobPageState.oneTimePrice) > 0) ? store.state.newJobPageState.oneTimePrice : '');
+        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+        flatRateInputFocusNode.addListener(() {
+          flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+         });
+        },
+      onDidChange: (previous, current) {
+        if(current.oneTimePrice == '') flatRateTextController.text = '\$';
+        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
+      },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
         margin: EdgeInsets.only(left: 16.0, right: 16.0),
@@ -149,7 +171,7 @@ class _PricingProfileSelectionFormState
             children: [
               DandyLightTextField(
                 controller: flatRateTextController,
-                hintText: "\$",
+                hintText: "\$ 0",
                 inputType: TextInputType.number,
                 focusNode: flatRateInputFocusNode,
                 height: 66.0,
@@ -174,21 +196,41 @@ class _PricingProfileSelectionFormState
             ],
           ),
         ) : PriceProfileListWidget(
-            pageState.pricingProfiles.elementAt(index - 1),
-            pageState,
-            onProfileSelected,
-            pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index -1 ) && pageState.oneTimePrice.isEmpty
-                ? Color(ColorConstants.getBlueDark())
-                : Colors.white,pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index - 1) && pageState.oneTimePrice.isEmpty
-            ? Color(ColorConstants.getPrimaryWhite())
-            : Color(ColorConstants.getPrimaryBlack())),
+              pageState.pricingProfiles.elementAt(index - 1),
+              pageState,
+              onProfileSelected,
+              pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index -1 ) && pageState.oneTimePrice.isEmpty
+                  ? Color(ColorConstants.getBlueDark())
+                  : Colors.white,pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index - 1) && pageState.oneTimePrice.isEmpty
+              ? Color(ColorConstants.getPrimaryWhite())
+              : Color(ColorConstants.getPrimaryBlack())),
       ),
     );
   }
 
-  onProfileSelected(
-      PriceProfile priceProfile, var pageState, BuildContext context) {
+  onProfileSelected(PriceProfile priceProfile, var pageState, BuildContext context) {
     pageState.onPriceProfileSelected(priceProfile);
+  }
+
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneView());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
   }
 
   @override

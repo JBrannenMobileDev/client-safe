@@ -5,6 +5,7 @@ import 'package:dandylight/pages/clients_page/ClientsPage.dart';
 import 'package:dandylight/pages/clients_page/ClientsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
@@ -32,14 +33,7 @@ class ClientListWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 4.0),
               height: 44.0,
               width: 44.0,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(getClient(clientIndex, pageState).iconUrl),
-                  fit: BoxFit.contain,
-                ),
-                color: const Color(ColorConstants.primary_bg_grey),
-                borderRadius: BorderRadius.all(Radius.circular(22.0)),
-              ),
+              child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
             ),
             Expanded(
               child: Container(

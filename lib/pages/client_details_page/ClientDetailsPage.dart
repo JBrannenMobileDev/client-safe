@@ -43,7 +43,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                   SliverAppBar(
                     brightness: Brightness.light,
                     backgroundColor: Colors.white,
-                    expandedHeight: Device.get().isIphoneX ? 298.0 : 276.0,
+                    expandedHeight: 264.0,
                     pinned: true,
                     floating: false,
                     forceElevated: false,
@@ -96,28 +96,13 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       collapseMode: CollapseMode.parallax,
                       background: Column(
                         mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: Device.get().isIphoneX ? 92.0 : 72.0),
-                                height: 116.0,
-                                width: MediaQuery.of(context).size.width / 3,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(
-                                        pageState.client?.iconUrl ?? ""),
-                                    fit: BoxFit.contain,
-                                  ),
-                                  borderRadius:
-                                  BorderRadius.all(Radius.circular(8.0)),
-                                ),
-                              ),
-                            ],
+                          Container(
+                            margin: EdgeInsets.only(top: 96.0),
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,

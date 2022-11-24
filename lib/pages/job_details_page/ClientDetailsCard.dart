@@ -62,15 +62,7 @@ class ClientDetailsCard extends StatelessWidget {
                         margin: EdgeInsets.only(bottom: 16.0),
                         height: 96.0,
                         width: MediaQuery.of(context).size.width / 3,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(
-                                pageState.client?.iconUrl ?? ""),
-                            fit: BoxFit.contain,
-                          ),
-                          borderRadius:
-                          BorderRadius.all(Radius.circular(8.0)),
-                        ),
+                        child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
                       ),
                     ),
                   ],

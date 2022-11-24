@@ -20,6 +20,10 @@ class ImageUtil{
   static const String INCOME_BG = "assets/images/backgrounds/income_background_lighter.png";
   static const String EXPENSES_BG = "assets/images/backgrounds/expenses_background_peach.png";
 
+  // static List<String> profileIcons = [
+  //
+  // ]
+
   static List<String> femaleIcons = [
     "assets/images/people/girl1.png",
     "assets/images/people/girl2.png",

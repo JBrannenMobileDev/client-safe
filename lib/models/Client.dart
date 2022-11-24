@@ -31,7 +31,6 @@ class Client{
   List<ImportantDate> importantDates;
   List<String> albumLinks;
   String instagramProfileUrl;
-  String iconUrl;
   List<Job> jobs;
   String notes;
   DateTime createdDate;
@@ -51,7 +50,6 @@ class Client{
     this.importantDates,
     this.albumLinks,
     this.instagramProfileUrl,
-    this.iconUrl,
     this.jobs,
     this.notes,
     this.createdDate,
@@ -73,7 +71,6 @@ class Client{
       'importantDates' : convertImportantDatesToMaps(importantDates),
       'albumLinks' : albumLinks,
       'instagramProfileUrl' : instagramProfileUrl,
-      'iconUrl' : iconUrl,
       'jobs' : jobs,
       'notes': notes,
       'createdDate' : createdDate?.toString() ?? "",
@@ -96,7 +93,6 @@ class Client{
       importantDates: convertMapsToImportantDates(map['importantDates']),
       albumLinks: map['albumLinks'],
       instagramProfileUrl: map['instagramProfileUrl'],
-      iconUrl: map['iconUrl'],
       jobs: map['jobs'],
       notes: map['notes'],
       customLeadSourceName: map['customLeadSourceName'],

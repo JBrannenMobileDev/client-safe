@@ -228,6 +228,7 @@ flutter:
     - assets/images/icons/reminder_filled.png
     - assets/images/icons/price_package_black.png
     - assets/images/icons/permission_icon.png
+    - assets/images/icons/profile_icon.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

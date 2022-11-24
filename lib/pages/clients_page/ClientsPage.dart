@@ -98,10 +98,10 @@ class _ClientsPageState extends State<ClientsPage> {
                               UserOptionsUtil.showNewContactDialog(context);
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 16.0),
+                              margin: EdgeInsets.only(right: 26.0),
                               height: 24.0,
                               width: 24.0,
-                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
+                              child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
                             ),
                           ),
                         ],
@@ -111,7 +111,7 @@ class _ClientsPageState extends State<ClientsPage> {
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getPrimaryColor()),
+                              thumbColor: Color(ColorConstants.getBlueDark()),
                               children: genders,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {

@@ -92,7 +92,7 @@ class _JobsPageState extends State<JobsPage> {
                               UserOptionsUtil.showNewJobDialog(context);
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 12.0),
+                              margin: EdgeInsets.only(right: 26.0),
                               height: 24.0,
                               width: 24.0,
                               child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),

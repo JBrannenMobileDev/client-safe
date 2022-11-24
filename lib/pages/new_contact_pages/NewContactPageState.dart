@@ -37,7 +37,6 @@ class NewContactPageState {
   final String notes;
   final String customLeadSourceName;
   final String leadSource;
-  final String clientIcon;
   final String errorState;
   final Client client;
   final Function() onSavePressed;
@@ -56,7 +55,6 @@ class NewContactPageState {
   final Function(ImportantDate) onImportantDateAdded;
   final Function(int) onImportantDateRemoved;
   final Function(String) onNotesChanged;
-  final Function(String) onClientIconSelected;
   final Function(String) onErrorStateChanged;
   final Function(String) onLeadSourceSelected;
   final Function() onGetDeviceContactsSelected;
@@ -87,7 +85,6 @@ class NewContactPageState {
     @required this.searchText,
     @required this.notes,
     @required this.leadSource,
-    @required this.clientIcon,
     @required this.errorState,
     @required this.client,
     @required this.onSavePressed,
@@ -106,7 +103,6 @@ class NewContactPageState {
     @required this.onImportantDateAdded,
     @required this.onImportantDateRemoved,
     @required this.onNotesChanged,
-    @required this.onClientIconSelected,
     @required this.onErrorStateChanged,
     @required this.onLeadSourceSelected,
     @required this.onGetDeviceContactsSelected,
@@ -140,7 +136,6 @@ class NewContactPageState {
     String notes,
     String leadSource,
     String customLeadSourceName,
-    String clientIcon,
     String errorState,
     Client client,
     Function() onSavePressed,
@@ -190,7 +185,6 @@ class NewContactPageState {
       searchText: searchText?? this.searchText,
       notes: notes?? this.notes,
       leadSource: leadSource?? this.leadSource,
-      clientIcon: clientIcon?? this.clientIcon,
       errorState: errorState?? this.errorState,
       client: client ?? this.client,
       onSavePressed: onSavePressed?? this.onSavePressed,
@@ -209,7 +203,6 @@ class NewContactPageState {
       onImportantDateRemoved: onImportantDateRemoved?? this.onImportantDateRemoved,
       onNotesChanged: onNotesChanged?? this.onNotesChanged,
       onRelationshipStatusChanged: onRelationshipStatusChanged?? this.onRelationshipStatusChanged,
-      onClientIconSelected: onClientIconSelected?? this.onClientIconSelected,
       onErrorStateChanged: onErrorStateChanged?? this.onErrorStateChanged,
       onLeadSourceSelected: onLeadSourceSelected?? this.onLeadSourceSelected,
       onGetDeviceContactsSelected: onGetDeviceContactsSelected?? this.onGetDeviceContactsSelected,
@@ -244,7 +237,6 @@ class NewContactPageState {
         searchText: '',
         notes: "",
         leadSource: 'assets/images/icons/email_icon_white.png',
-        clientIcon: '',
         errorState: NO_ERROR,
         client: null,
         onSavePressed: null,
@@ -263,7 +255,6 @@ class NewContactPageState {
         onImportantDateAdded: null,
         onImportantDateRemoved: null,
         onNotesChanged: null,
-        onClientIconSelected: null,
         onErrorStateChanged: null,
         onLeadSourceSelected: null,
         onGetDeviceContactsSelected: null,
@@ -296,7 +287,6 @@ class NewContactPageState {
       searchText: store.state.newContactPageState.searchText,
       notes: store.state.newContactPageState.notes,
       leadSource: store.state.newContactPageState.leadSource,
-      clientIcon: store.state.newContactPageState.clientIcon,
       errorState: store.state.newContactPageState.errorState,
       client: store.state.newContactPageState.client,
       customLeadSourceName: store.state.newContactPageState.customLeadSourceName,
@@ -316,7 +306,6 @@ class NewContactPageState {
       onImportantDateRemoved: (chipIndex) => store.dispatch(RemoveImportantDateAction(store.state.newContactPageState, chipIndex)),
       onNotesChanged: (notes) => store.dispatch(UpdateNotesAction(store.state.newContactPageState, notes)),
       onRelationshipStatusChanged: (statusIndex) => store.dispatch(UpdateRelationshipAction(store.state.newContactPageState, statusIndex)),
-      onClientIconSelected: (fileLocation) => store.dispatch(SetClientIconAction(store.state.newContactPageState, fileLocation)),
       onErrorStateChanged: (errorCode) => store.dispatch(UpdateErrorStateAction(store.state.newContactPageState, errorCode)),
       onLeadSourceSelected: (fileLocation) => store.dispatch(SetLeadSourceAction(store.state.newContactPageState, fileLocation)),
       onGetDeviceContactsSelected: () => store.dispatch(GetDeviceContactsAction(store.state.newContactPageState)),
@@ -352,7 +341,6 @@ class NewContactPageState {
       searchText.hashCode ^
       notes.hashCode ^
       leadSource.hashCode ^
-      clientIcon.hashCode ^
       errorState.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
@@ -405,7 +393,6 @@ class NewContactPageState {
           onStartNewJobSelected == other.onStartNewJobSelected &&
           client == other.client &&
           leadSource == other.leadSource &&
-          clientIcon == other.clientIcon &&
           errorState == other.errorState &&
           onSavePressed == other.onSavePressed &&
           onCancelPressed == other.onCancelPressed &&

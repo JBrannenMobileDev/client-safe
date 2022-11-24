@@ -67,12 +67,6 @@ class SetLeadSourceAction{
   SetLeadSourceAction(this.pageState, this.leadSource);
 }
 
-class SetClientIconAction{
-  final NewContactPageState pageState;
-  final String clientIcon;
-  SetClientIconAction(this.pageState, this.clientIcon);
-}
-
 class ClearStateAction{
   final NewContactPageState pageState;
   ClearStateAction(this.pageState);

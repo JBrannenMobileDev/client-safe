@@ -22,7 +22,6 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, AddImportantDateAction>(_addImportantDate),
   TypedReducer<NewContactPageState, RemoveImportantDateAction>(_removeImportantDate),
   TypedReducer<NewContactPageState, UpdateNotesAction>(_updateNotes),
-  TypedReducer<NewContactPageState, SetClientIconAction>(_setClientIcon),
   TypedReducer<NewContactPageState, SetLeadSourceAction>(_setLeadSource),
   TypedReducer<NewContactPageState, UpdateErrorStateAction>(_updateErrorState),
   TypedReducer<NewContactPageState, LoadExistingClientData>(_loadClient),
@@ -79,7 +78,6 @@ NewContactPageState _loadClient(NewContactPageState previousState, LoadExistingC
     spouseLastName: action.client.spouseLastName,
     numberOfChildren: action.client.numOfChildren,
     importantDates: action.client.importantDates,
-    clientIcon: action.client.iconUrl,
     leadSource: action.client.leadSource,
     notes: action.client.notes,
     client: action.client,
@@ -120,12 +118,6 @@ NewContactPageState _loadDeviceContacts(NewContactPageState previousState, LoadD
   return previousState.copyWith(
       deviceContacts: action.deviceContacts,
       filteredDeviceContacts: action.deviceContacts,
-  );
-}
-
-NewContactPageState _setClientIcon(NewContactPageState previousState, SetClientIconAction action){
-  return previousState.copyWith(
-    clientIcon: action.clientIcon
   );
 }
 

@@ -132,7 +132,6 @@ LoginPageState _setCreateAccountError(LoginPageState previousState, SetCreateAcc
 LoginPageState _updateNavigateToHome(LoginPageState previousState, UpdateNavigateToHomeAction action) {
   return previousState.copyWith(
     navigateToHome: action.navigateToHome,
-    shouldShowOnBoardingFlow: action.shouldShowOnBoardingFlow,
   );
 }
 

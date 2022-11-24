@@ -1,5 +1,6 @@
 
 import 'dart:ffi';
+import 'dart:math';
 
 class ColorConstants{
 
@@ -80,5 +81,11 @@ class ColorConstants{
       index = index - 6;
     }
     return colors.elementAt(index);
+  }
+
+  static int getRandomProfileColor() {
+    List<int> colors = [gold, peach_dark, blue_light, blue_dark, peach_light];
+    var intValue = Random().nextInt(5);
+    return colors[intValue];
   }
 }

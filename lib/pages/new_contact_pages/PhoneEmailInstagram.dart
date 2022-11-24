@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../utils/InputDoneView.dart';
 import 'NewContactTextField.dart';
 
 class PhoneEmailInstagram extends StatefulWidget {
@@ -49,6 +51,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _instagramFocus = FocusNode();
   final _mobileFormatter = NumberTextInputFormatter();
+  OverlayEntry overlayEntry;
 
   @override
   Widget build(BuildContext context) =>
@@ -57,6 +60,15 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
           phoneTextController.text = store.state.newContactPageState.newContactPhone;
           emailTextController.text = store.state.newContactPageState.newContactEmail;
           instagramUrlTextController.text = store.state.newContactPageState.newContactInstagramUrl;
+
+          KeyboardVisibilityNotification().addNewListener(
+              onShow: () {
+                showOverlay(context);
+              },
+              onHide: () {
+                removeOverlay();
+              }
+          );
         },
         converter: (store) => NewContactPageState.fromStore(store),
         builder: (BuildContext context, NewContactPageState pageState) =>
@@ -124,6 +136,27 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
 
   void onInstagramAction(){
     _emailFocus.unfocus();
+  }
+
+  showOverlay(BuildContext context) {
+    if (overlayEntry != null) return;
+    OverlayState overlayState = Overlay.of(context);
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Positioned(
+          bottom: MediaQuery.of(context).viewInsets.bottom,
+          right: 0.0,
+          left: 0.0,
+          child: InputDoneView());
+    });
+
+    overlayState.insert(overlayEntry);
+  }
+
+  removeOverlay() {
+    if (overlayEntry != null) {
+      overlayEntry.remove();
+      overlayEntry = null;
+    }
   }
 
   @override

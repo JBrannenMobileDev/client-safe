@@ -68,12 +68,10 @@ class DeviceContactsDao {
   }
 
   static Future<Contact> _contactFromClient(Client client) async {
-    ByteData avatarBytes = await rootBundle.load(client.iconUrl);
-    Uint8List avatar = avatarBytes.buffer.asUint8List();
     return Contact(
         givenName: client.firstName,
         familyName: client.lastName,
-        phones: [Item(label: "mobile", value: client.phone)],
-        avatar: avatar);
+        phones: [Item(label: "mobile", value: client.phone)]
+    );
   }
 }
