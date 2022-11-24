@@ -30,7 +30,7 @@ class ClientJobItem extends StatelessWidget{
           alignment: Alignment.centerRight,
           children: <Widget>[
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(right: 18.0, top: 4.0),
@@ -55,19 +55,9 @@ class ClientJobItem extends StatelessWidget{
                           style: TextStyle(
                             fontSize: 20.0,
                             fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
+                            fontWeight: FontWeight.w600,
                             color: Color(ColorConstants.primary_black),
                           ),
-                        ),
-                      ),
-                      Text(
-                        'Stage: ' + job.stage.stage,
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Text(

@@ -152,15 +152,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
   void _saveNewJob(Store<AppState> store, action, NextDispatcher next) async {
     Client resultClient = store.state.newJobPageState.selectedClient;
-    if(store.state.newJobPageState.selectedClient == null) {
-      String clientId = await ClientDao.insert(
-        Client(
-          firstName: store.state.newJobPageState.clientFirstName,
-          lastName: store.state.newJobPageState.clientLastName,
-        )
-      );
-      resultClient = await ClientDao.getClientById(clientId);
-    }
 
     String jobTitle = '';
     if(store.state.newJobPageState.selectedJobType != null) {

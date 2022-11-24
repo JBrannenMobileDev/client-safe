@@ -31,11 +31,22 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, UpdateComingFromClientDetails>(_updateComingFromClientDetails),
   TypedReducer<NewJobPageState, SetNewJobDeviceEventsAction>(_setNewJobDeviceEvents),
   TypedReducer<NewJobPageState, SetClientFirstNameAction>(_setClientFirstName),
-  TypedReducer<NewJobPageState, SetClientLastNameAction>(_setClientLastName),
   TypedReducer<NewJobPageState, SetOneTimePriceTextAction>(_setOneTimePrice),
   TypedReducer<NewJobPageState, SetInitialMapLatLng>(_setInitMapLatLng),
+  TypedReducer<NewJobPageState, LoadAndSelectNewContactAction>(_setSelectedClientFromNewContactPage),
 
 ]);
+
+NewJobPageState _setSelectedClientFromNewContactPage(NewJobPageState previousState, LoadAndSelectNewContactAction action){
+  action.pageState.allClients.insert(0, action.selectedClient);
+  return previousState.copyWith(
+    allClients: action.pageState.allClients,
+    clientSearchText: '',
+    filteredClients: action.pageState.allClients,
+    selectedClient: action.selectedClient,
+    isSelectedClientNew: true,
+  );
+}
 
 NewJobPageState _setInitMapLatLng(NewJobPageState previousState, SetInitialMapLatLng action){
   return previousState.copyWith(
@@ -89,7 +100,6 @@ NewJobPageState _loadWithSelectedClient(NewJobPageState previousState, Initializ
   return previousState.copyWith(
       selectedClient: action.client,
       clientFirstName: action.client.firstName,
-      clientLastName: action.client.lastName,
       shouldClear: false,
       comingFromClientDetails: true,
       pageViewIndex: 0,
@@ -191,6 +201,7 @@ NewJobPageState _setAll(NewJobPageState previousState, SetAllToStateAction actio
     jobs: action.upcomingJobs,
     jobTypes: action.jobTypes,
     imageFiles: action.imageFiles,
+    filteredClients: action.allClients,
   );
 }
 
@@ -199,12 +210,12 @@ NewJobPageState _setSelectedClient(NewJobPageState previousState, ClientSelected
   return previousState.copyWith(
     selectedClient: selectedClient,
     clientFirstName: selectedClient.firstName,
-    clientLastName: selectedClient.lastName,
+    isSelectedClientNew: false,
   );
 }
 
 NewJobPageState _setClientFirstName(NewJobPageState previousState, SetClientFirstNameAction action) {
-  List<Client> filteredClients = _filterClients(previousState, action.firstName, previousState.clientLastName);
+  List<Client> filteredClients = _filterClients(previousState, action.firstName);
   return previousState.copyWith(
     selectedClient: null,
     clientFirstName: action.firstName,
@@ -212,16 +223,7 @@ NewJobPageState _setClientFirstName(NewJobPageState previousState, SetClientFirs
   );
 }
 
-NewJobPageState _setClientLastName(NewJobPageState previousState, SetClientLastNameAction action) {
-  List<Client> filteredClients = _filterClients(previousState, previousState.clientFirstName, action.lastName);
-  return previousState.copyWith(
-    selectedClient: null,
-    clientLastName: action.lastName,
-    filteredClients: filteredClients,
-  );
-}
-
-List<Client> _filterClients(NewJobPageState previousState, String firstName, String lastName) {
+List<Client> _filterClients(NewJobPageState previousState, String firstName) {
   List<Client> filteredClientsByFirstName = firstName.isNotEmpty
       ? previousState.allClients
           .where((client) => client
@@ -229,25 +231,6 @@ List<Client> _filterClients(NewJobPageState previousState, String firstName, Str
               .toLowerCase()
               .contains(firstName.toLowerCase())
           ).toList()
-      : [];
-
-  List<Client> filteredClientsByLastName = lastName.isNotEmpty
-      ? previousState.allClients
-      .where((client) => client
-      .getClientFullName()
-      .toLowerCase()
-      .contains(lastName.toLowerCase())
-  ).toList()
-      : [];
-
-  List<Client> result = [];
-
-  for(Client clientByFirst in filteredClientsByFirstName) {
-    if(!filteredClientsByLastName.contains(clientByFirst)) {
-      result.add(clientByFirst);
-    }
-  }
-  result.addAll(filteredClientsByLastName);
-
-  return result;
+      : previousState.allClients;
+  return filteredClientsByFirstName;
 }

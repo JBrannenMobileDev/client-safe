@@ -99,6 +99,26 @@ class ClientDao extends Equatable{
     _updateLastChangedTime();
   }
 
+  static Future<Client> getClientByCreatedDate(DateTime createdDate) async{
+    if((await getAll()).length > 0) {
+      final recordSnapshots = await _clientStore.find(await _db);
+      List<Client> clients = recordSnapshots.map((snapshot) {
+        final client = Client.fromMap(snapshot.value);
+        client.id = snapshot.key;
+        return client;
+      }).toList();
+      for(Client savedClient in clients) {
+        if(savedClient.createdDate.isAtSameMomentAs(createdDate)) {
+          return savedClient;
+        }
+      }
+      return null;
+    } else {
+      return null;
+    }
+
+  }
+
   static Future<List<Client>> getAllSortedByFirstName() async {
     final finder = Finder(sortOrders: [
       SortOrder('firstName'),

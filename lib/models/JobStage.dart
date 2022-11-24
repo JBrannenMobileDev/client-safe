@@ -120,6 +120,58 @@ class JobStage {
     return AssetImage(imageLocation);
   }
 
+  String getStageImageLocation() {
+    String imageLocation = 'assets/images/job_progress/inquiry_received.png';
+    switch(stage) {
+      case STAGE_1_INQUIRY_RECEIVED:
+        imageLocation = 'assets/images/job_progress/inquiry_received.png';
+        break;
+      case STAGE_2_FOLLOWUP_SENT:
+        imageLocation = 'assets/images/job_progress/followup_sent.png';
+        break;
+      case STAGE_3_PROPOSAL_SENT:
+        imageLocation = 'assets/images/job_progress/proposal_sent.png';
+        break;
+      case STAGE_4_PROPOSAL_SIGNED:
+        imageLocation = 'assets/images/job_progress/proposal_signed.png';
+        break;
+      case STAGE_5_DEPOSIT_RECEIVED:
+        imageLocation = 'assets/images/job_progress/deposit_received.png';
+        break;
+      case STAGE_6_PLANNING_COMPLETE:
+        imageLocation = 'assets/images/job_progress/planning_complete.png';
+        break;
+      case STAGE_7_SESSION_COMPLETE:
+        imageLocation = 'assets/images/job_progress/session_complete.png';
+        break;
+      case STAGE_8_PAYMENT_REQUESTED:
+        imageLocation = 'assets/images/job_progress/payment_requested.png';
+        break;
+      case STAGE_9_PAYMENT_RECEIVED:
+        imageLocation = 'assets/images/job_progress/payment_received.png';
+        break;
+      case STAGE_10_EDITING_COMPLETE:
+        imageLocation = 'assets/images/job_progress/editing_complete.png';
+        break;
+      case STAGE_11_GALLERY_SENT:
+        imageLocation = 'assets/images/job_progress/gallery_sent.png';
+        break;
+      case STAGE_12_FEEDBACK_REQUESTED:
+        imageLocation = 'assets/images/job_progress/feedback_requested.png';
+        break;
+      case STAGE_13_FEEDBACK_RECEIVED:
+        imageLocation = 'assets/images/job_progress/feedback_received.png';
+        break;
+      case STAGE_14_JOB_COMPLETE:
+        imageLocation = 'assets/images/job_progress/job_complete.png';
+        break;
+      case STAGE_COMPLETED_CHECK:
+        imageLocation = 'assets/images/job_progress/job_complete.png';
+        break;
+    }
+    return imageLocation;
+  }
+
   AssetImage getNextStageImage() {
     String imageLocation = 'assets/images/job_progress/inquiry_received.png';
     switch(stage) {

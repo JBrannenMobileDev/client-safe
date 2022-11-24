@@ -15,6 +15,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/ImageUtil.dart';
 import '../../utils/styles/Styles.dart';
 
 class ClientDetailsPage extends StatefulWidget {
@@ -34,15 +35,12 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
         converter: (store) => ClientDetailsPageState.fromStore(store),
         builder: (BuildContext context, ClientDetailsPageState pageState) =>
             Scaffold(
-          backgroundColor: Colors.white,
-          body: Stack(
-            alignment: AlignmentDirectional.centerEnd,
-            children: <Widget>[
-              CustomScrollView(
+          backgroundColor: Color(ColorConstants.grey),
+          body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
                     brightness: Brightness.light,
-                    backgroundColor: Colors.white,
+                    backgroundColor: Color(ColorConstants.grey),
                     expandedHeight: 264.0,
                     pinned: true,
                     floating: false,
@@ -61,7 +59,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       GestureDetector(
                         onTap: () {
                           pageState.onEditClientClicked(pageState.client);
-                          UserOptionsUtil.showNewContactDialog(context);
+                          UserOptionsUtil.showNewContactDialog(context, false);
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 16.0),
@@ -94,159 +92,269 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                     ),
                     flexibleSpace: FlexibleSpaceBar(
                       collapseMode: CollapseMode.parallax,
-                      background: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(top: 96.0),
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              GestureDetector(
-                                onTap: () {
-                                  if(pageState.client.phone != null && pageState.client.phone.length > 0){
-                                    onCallPressed(pageState.client.phone);
-                                  }else{
-                                    DandyToastUtil.showErrorToast('No phone number saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryColor()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                      background: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.vertical(top: Radius.circular(0), bottom: Radius.circular(32)),
+                          color: Color(ColorConstants.getPrimaryWhite())
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(top: 96.0),
+                              width: MediaQuery.of(context).size.width / 3,
+                              child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                GestureDetector(
+                                  onTap: () {
+                                    if(pageState.client.phone != null && pageState.client.phone.length > 0){
+                                      onCallPressed(pageState.client.phone);
+                                    }else{
+                                      DandyToastUtil.showErrorToast('No phone number saved yet');
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color(ColorConstants.getPrimaryColor()),
+                                      borderRadius: BorderRadius.circular(32.0),
+                                    ),
+                                    height: 64.0,
+                                    width: 64.0,
+                                    child: Image.asset('assets/images/icons/phonecall_icon_white.png'),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset('assets/images/icons/phonecall_icon_white.png'),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  if(pageState.client.phone != null && pageState.client.phone.length > 0){
-                                    onSMSPressed(pageState.client.phone);
-                                  }else{
-                                    DandyToastUtil.showErrorToast('No phone number saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryColor()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    if(pageState.client.phone != null && pageState.client.phone.length > 0){
+                                      onSMSPressed(pageState.client.phone);
+                                    }else{
+                                      DandyToastUtil.showErrorToast('No phone number saved yet');
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color(ColorConstants.getPrimaryColor()),
+                                      borderRadius: BorderRadius.circular(32.0),
+                                    ),
+                                    height: 64.0,
+                                    width: 64.0,
+                                    child: Image.asset('assets/images/icons/sms_icon_white.png'),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset('assets/images/icons/sms_icon_white.png'),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  if(pageState.client.email != null && pageState.client.email.length > 0){
-                                    onEmailPressed(pageState.client.email);
-                                  }else{
-                                    DandyToastUtil.showErrorToast('No email saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryColor()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    if(pageState.client.email != null && pageState.client.email.length > 0){
+                                      onEmailPressed(pageState.client.email);
+                                    }else{
+                                      DandyToastUtil.showErrorToast('No email saved yet');
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color(ColorConstants.getPrimaryColor()),
+                                      borderRadius: BorderRadius.circular(32.0),
+                                    ),
+                                    height: 64.0,
+                                    width: 64.0,
+                                    child: Image.asset('assets/images/icons/email_icon_white.png'),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset('assets/images/icons/email_icon_white.png'),
                                 ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  if(pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0){
-                                    pageState.onInstagramSelected();
-                                  }else{
-                                    DandyToastUtil.showErrorToast('No Instagram URL saved yet');
-                                  }
-                                },
-                                child: Container(
-                                  padding: EdgeInsets.all(12.0),
-                                  decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryColor()),
-                                    borderRadius: BorderRadius.circular(32.0),
+                                GestureDetector(
+                                  onTap: () {
+                                    if(pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0){
+                                      pageState.onInstagramSelected();
+                                    }else{
+                                      DandyToastUtil.showErrorToast('No Instagram URL saved yet');
+                                    }
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.all(12.0),
+                                    decoration: BoxDecoration(
+                                      color: Color(ColorConstants.getPrimaryColor()),
+                                      borderRadius: BorderRadius.circular(32.0),
+                                    ),
+                                    height: 64.0,
+                                    width: 64.0,
+                                    child: Image.asset('assets/images/icons/instagram_icon_white.png'),
                                   ),
-                                  height: 64.0,
-                                  width: 64.0,
-                                  child: Image.asset('assets/images/icons/instagram_icon_white.png'),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 32.0),
-                          child: Text(
-                            'Jobs',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                        Container(
+                          height: 104,
+                          margin: EdgeInsets.only(left: 20, top: 16, right: 20, bottom: 16),
+                          decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            borderRadius: BorderRadius.circular(32.0),
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 16),
+                                alignment: Alignment.topLeft,
+                                padding: EdgeInsets.only(left: 24.0, bottom: 8.0, right: 24),
+                                child: Text(
+                                  'Job History',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
+                                ),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(left: 24, right: 18.0),
+                                    height: 38.0,
+                                    width: 38.0,
+                                    child: Image.asset('assets/images/icons/briefcase_icon_white.png', color: Color(ColorConstants.peach_dark),),
+                                  ),
+                                  Expanded(
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                                          child: Text(
+                                            (pageState.clientJobs != null && pageState.clientJobs.length > 0) ? pageState.clientJobs.length.toString() + ' Jobs' : '0 Jobs',
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                              fontSize: 20.0,
+                                              fontFamily: 'simple',
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(ColorConstants.primary_black),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(right: 16),
+                                          child: Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        pageState.clientJobs.length > 0 ? ListView.builder(
-                          reverse: false,
-                          padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 64.0),
-                          shrinkWrap: true,
-                          controller: _controller,
-                          physics: ClampingScrollPhysics(),
-                          key: _listKey,
-                          itemCount: pageState.clientJobs.length,
-                          itemBuilder: _buildItem,
-                        ) : Container(
-                          margin: EdgeInsets.only(top: 16.0, left: 32.0, right: 32.0),
-                          child: Text(
-                            'Start a job to turn this lead into a client.',
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                        Container(
+                          margin: EdgeInsets.only(left: 20, top: 4, right: 20, bottom: 16),
+                          height: 135,
+                          decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            borderRadius: BorderRadius.circular(32.0),
+                          ),
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(top: 16),
+                                alignment: Alignment.topLeft,
+                                padding: EdgeInsets.only(left: 24.0),
+                                child: Text(
+                                  'Notes',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
+                        Container(
+                        margin: EdgeInsets.only(left: 20, top: 4, right: 20, bottom: 16),
+                        height: 104,
+                        decoration: BoxDecoration(
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          borderRadius: BorderRadius.circular(32.0),
+                        ),
+                        child: Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(top: 16),
+                              alignment: Alignment.topLeft,
+                              padding: EdgeInsets.only(left: 24.0, bottom: 8.0, right: 24),
+                              child: Text(
+                                'Lead Source',
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ),
+                            ),
+                            Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(left: 24, right: 18.0),
+                                  height: 38.0,
+                                  width: 38.0,
+                                  child: Image.asset(pageState.client.leadSource, color: Color(ColorConstants.peach_dark),),
+                                ),
+                                Expanded(
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
+                                        child: Text(
+                                          ImageUtil.getLeadSourceText(pageState.client.leadSource),
+                                          textAlign: TextAlign.start,
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            fontFamily: 'simple',
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(ColorConstants.primary_black),
+                                          ),
+                                        ),
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(right: 16),
+                                        child: Icon(
+                                          Icons.chevron_right,
+                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
                       ],
                     ),
                   ),
                 ],
-              ),
-              ClientSafeButton(
-                height: 48.0,
-                width: 200.0,
-                text: "Start New Job",
-                marginLeft: 32.0,
-                marginTop: 0.0,
-                marginRight: 32.0,
-                marginBottom: Device.get().isIphoneX ? 52.0 : 22,
-                onPressed: () {
-                  _showNewJobDialog(pageState);
-                },
-                icon: Icon(Icons.business_center, color: Colors.white),
-                urlText: "",
-              ),
-            ],
           ),
         ),
       );

@@ -12,7 +12,6 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
 import '../sunset_weather_page/SunsetWeatherPageActions.dart' as sunsetPageActions;
@@ -29,10 +28,10 @@ class NewJobPageState {
   final bool shouldClear;
   final bool comingFromClientDetails;
   final bool isFinishedFetchingClients;
+  final bool isSelectedClientNew;
   final String errorState;
   final Client selectedClient;
   final String clientFirstName;
-  final String clientLastName;
   final String clientSearchText;
   final String documentPath;
   final String oneTimePrice;
@@ -62,7 +61,6 @@ class NewJobPageState {
   final Function() onBackPressed;
   final Function(Client) onClientSelected;
   final Function(String) onClientFirstNameTextChanged;
-  final Function(String) onClientLastNameTextChanged;
   final Function() onClearInputSelected;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(Location) onLocationSelected;
@@ -120,9 +118,7 @@ class NewJobPageState {
     @required this.onMonthChanged,
     @required this.deviceEvents,
     @required this.clientFirstName,
-    @required this.clientLastName,
     @required this.onClientFirstNameTextChanged,
-    @required this.onClientLastNameTextChanged,
     @required this.imageFiles,
     @required this.onSunsetWeatherSelected,
     @required this.initialTimeSelectorTime,
@@ -134,6 +130,7 @@ class NewJobPageState {
     @required this.lat,
     @required this.lon,
     @required this.oneTimeLocation,
+    @required this.isSelectedClientNew,
   });
 
   NewJobPageState copyWith({
@@ -145,10 +142,10 @@ class NewJobPageState {
     bool saveButtonEnabled,
     bool shouldClear,
     bool isFinishedFetchingClients,
+    bool isSelectedClientNew,
     String errorState,
     Client selectedClient,
     String clientFirstName,
-    String clientLastName,
     String clientSearchText,
     PriceProfile selectedPriceProfile,
     Location selectedLocation,
@@ -182,7 +179,6 @@ class NewJobPageState {
     Function(Job) onJobClicked,
     Function(DateTime) onMonthChanged,
     Function(String) onClientFirstNameTextChanged,
-    Function(String) onClientLastNameTextChanged,
     Function() onSunsetWeatherSelected,
     Function(String) onOneTimePriceChanged,
     String oneTimePrice,
@@ -198,9 +194,7 @@ class NewJobPageState {
       pageViewIndex: pageViewIndex?? this.pageViewIndex,
       saveButtonEnabled: saveButtonEnabled?? this.saveButtonEnabled,
       clientFirstName: clientFirstName?? this.clientFirstName,
-      clientLastName: clientLastName?? this.clientLastName,
       onClientFirstNameTextChanged: onClientFirstNameTextChanged?? this.onClientFirstNameTextChanged,
-      onClientLastNameTextChanged: onClientLastNameTextChanged?? this.onClientLastNameTextChanged,
       shouldClear: shouldClear?? this.shouldClear,
       isFinishedFetchingClients: isFinishedFetchingClients?? this.isFinishedFetchingClients,
       errorState: errorState?? this.errorState,
@@ -248,6 +242,7 @@ class NewJobPageState {
       lat: lat ?? this.lat,
       lon: lon ?? this.lon,
       oneTimeLocation: oneTimeLocation ?? this.oneTimeLocation,
+      isSelectedClientNew: isSelectedClientNew ?? this.isSelectedClientNew,
     );
   }
 
@@ -260,7 +255,6 @@ class NewJobPageState {
         documentPath: '',
         pageViewIndex: 0,
         clientFirstName: '',
-        clientLastName: '',
         saveButtonEnabled: false,
         shouldClear: true,
         isFinishedFetchingClients: false,
@@ -299,7 +293,6 @@ class NewJobPageState {
         comingFromClientDetails: false,
         onMonthChanged: null,
         onClientFirstNameTextChanged: null,
-        onClientLastNameTextChanged: null,
         imageFiles: [],
         onSunsetWeatherSelected: null,
         initialTimeSelectorTime: DateTime.now(),
@@ -310,6 +303,7 @@ class NewJobPageState {
         lat: 0.0,
         lon: 0.0,
         oneTimeLocation: null,
+        isSelectedClientNew: false,
       );
   }
 
@@ -343,7 +337,6 @@ class NewJobPageState {
       comingFromClientDetails: store.state.newJobPageState.comingFromClientDetails,
       jobTypes: store.state.newJobPageState.jobTypes,
       clientFirstName: store.state.newJobPageState.clientFirstName,
-      clientLastName: store.state.newJobPageState.clientLastName,
       imageFiles: store.state.newJobPageState.imageFiles,
       oneTimePrice: store.state.newJobPageState.oneTimePrice,
       selectedEndTime: store.state.newJobPageState.selectedEndTime,
@@ -351,6 +344,7 @@ class NewJobPageState {
       oneTimeLocation: store.state.newJobPageState.oneTimeLocation,
       lat: store.state.newJobPageState.lat,
       lon: store.state.newJobPageState.lon,
+      isSelectedClientNew: store.state.newJobPageState.isSelectedClientNew,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -365,7 +359,6 @@ class NewJobPageState {
       onEndTimeSelected: (time) => store.dispatch(SetSelectedEndTimeAction(store.state.newJobPageState, time)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onMonthChanged: (month) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, month)),
-      onClientLastNameTextChanged: (lastName) => store.dispatch(SetClientLastNameAction(store.state.newJobPageState, lastName)),
       onClientFirstNameTextChanged: (firstName) => store.dispatch(SetClientFirstNameAction(store.state.newJobPageState, firstName)),
       onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate)),
       onOneTimePriceChanged: (inputText) => store.dispatch(SetOneTimePriceTextAction(store.state.newJobPageState, inputText)),
@@ -381,6 +374,7 @@ class NewJobPageState {
       documentPath.hashCode ^
       saveButtonEnabled.hashCode ^
       shouldClear.hashCode ^
+      isSelectedClientNew.hashCode ^
       isFinishedFetchingClients.hashCode ^
       errorState.hashCode ^
       selectedClient.hashCode ^
@@ -412,8 +406,6 @@ class NewJobPageState {
       onJobClicked.hashCode ^
       jobTypes.hashCode ^
       clientFirstName.hashCode ^
-      clientLastName.hashCode ^
-      onClientLastNameTextChanged.hashCode ^
       onClientFirstNameTextChanged.hashCode ^
       onSunsetWeatherSelected.hashCode ^
       initialTimeSelectorTime.hashCode ^
@@ -440,9 +432,7 @@ class NewJobPageState {
           isFinishedFetchingClients == other.isFinishedFetchingClients &&
           errorState == other.errorState &&
           clientFirstName == other.clientFirstName &&
-          clientLastName == other.clientLastName &&
           onClientFirstNameTextChanged == other.onClientFirstNameTextChanged &&
-          onClientLastNameTextChanged == other.onClientLastNameTextChanged &&
           selectedClient == other.selectedClient &&
           clientSearchText == other.clientSearchText &&
           allClients == other.allClients &&
@@ -459,6 +449,7 @@ class NewJobPageState {
           selectedJobType == other.selectedJobType &&
           currentJobStage == other.currentJobStage &&
           onSavePressed == other.onSavePressed &&
+          isSelectedClientNew == other.isSelectedClientNew &&
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&

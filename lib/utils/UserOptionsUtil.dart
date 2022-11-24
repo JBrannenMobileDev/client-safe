@@ -52,11 +52,11 @@ import '../pages/new_job_types_page/NewJobTypePage.dart';
 import 'ColorConstants.dart';
 
 class UserOptionsUtil {
-  static void showNewContactDialog(BuildContext context){
+  static void showNewContactDialog(BuildContext context, bool comingFromNewJob){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewContactPage();
+        return NewContactPage(comingFromNewJob: comingFromNewJob);
       },
     );
   }

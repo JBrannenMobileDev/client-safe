@@ -11,6 +11,8 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../new_job_page/NewJobPageActions.dart';
+
 class NewContactPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -61,5 +63,6 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(FetchClientData(store.state.clientsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));
+    store.dispatch(LoadAndSelectNewContactAction(store.state.newJobPageState, await ClientDao.getClientByCreatedDate(client.createdDate)));
   }
 }

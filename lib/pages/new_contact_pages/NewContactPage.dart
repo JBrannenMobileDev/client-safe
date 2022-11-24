@@ -23,13 +23,19 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class NewContactPage extends StatefulWidget {
+  final bool comingFromNewJob;
+  NewContactPage({this.comingFromNewJob});
+
   @override
   _NewContactPageState createState() {
-    return _NewContactPageState();
+    return _NewContactPageState(comingFromNewJob);
   }
 }
 
 class _NewContactPageState extends State<NewContactPage> {
+  _NewContactPageState(this.comingFromNewJob);
+
+  final bool comingFromNewJob;
   final int pageCount = 2;
   final controller = PageController(
     initialPage: 0,
@@ -70,6 +76,9 @@ class _NewContactPageState extends State<NewContactPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, NewContactPageState>(
       onInit: (store) async{
+        if(comingFromNewJob) {
+          store.dispatch(SetIsComingFromNewJobAction(store.state.newContactPageState));
+        }
         store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
         PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(Permission.contacts);
         if(readContactsStatus == PermissionStatus.denied){
@@ -360,7 +369,7 @@ class _NewContactPageState extends State<NewContactPage> {
     Navigator.of(context).pop();
     List<Job> jobs = await JobDao.getAllJobs();
     List<Job> thisClientsJobs = jobs.where((job) => job.clientDocumentId == clientDocumentId).toList();
-    if(thisClientsJobs.length == 0){
+    if(thisClientsJobs.length == 0 && !comingFromNewJob){
       UserOptionsUtil.showJobPromptDialog(context);
     }else {
       Navigator.of(context).pop();

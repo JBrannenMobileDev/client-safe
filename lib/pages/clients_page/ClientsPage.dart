@@ -95,7 +95,7 @@ class _ClientsPageState extends State<ClientsPage> {
                         actions: <Widget>[
                           GestureDetector(
                             onTap: () {
-                              UserOptionsUtil.showNewContactDialog(context);
+                              UserOptionsUtil.showNewContactDialog(context, false);
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 26.0),

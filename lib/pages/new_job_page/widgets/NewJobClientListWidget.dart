@@ -20,7 +20,7 @@ class NewJobClientListWidget extends StatelessWidget {
               shape: RoundedRectangleBorder(
                 borderRadius: new BorderRadius.circular(32.0),
               ),
-              color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getBlueDark()) : Colors.transparent,
+              color: Colors.transparent,
             ),
         onPressed: () {
           pageState.onClientSelected(pageState.filteredClients.elementAt(clientIndex));
@@ -32,7 +32,7 @@ class NewJobClientListWidget extends StatelessWidget {
               margin: EdgeInsets.only(left: 8.0, right: 16.0, top: 2.0, bottom: 2.0),
               height: 44.0,
               width: 44.0,
-              child: Image.asset('assets/images/icons/profile_icon.png', color: Color(ColorConstants.getPrimaryColor()),),
+              child: Image.asset('assets/images/icons/profile_icon.png', color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getPrimaryColor())),
             ),
             Expanded(
               child: Container(
@@ -50,7 +50,7 @@ class NewJobClientListWidget extends StatelessWidget {
                           fontSize: 20.0,
                           fontFamily: 'simple',
                           fontWeight: FontWeight.w600,
-                          color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Colors.white : Color(ColorConstants.primary_black),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],

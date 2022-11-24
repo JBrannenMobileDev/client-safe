@@ -39,7 +39,7 @@ class NewJobTextField extends StatelessWidget {
     return StoreConnector<AppState, NewJobPageState>(
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
-          margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+          margin: EdgeInsets.only(top: 8.0, bottom: 0.0),
           height: height,
           child: TextFormField(
             focusNode: focusNode,

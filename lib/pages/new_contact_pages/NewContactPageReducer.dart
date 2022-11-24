@@ -31,7 +31,14 @@ final newContactPageReducer = combineReducers<NewContactPageState>([
   TypedReducer<NewContactPageState, FilterDeviceContactsAction>(_filterContacts),
   TypedReducer<NewContactPageState, SetSavedClientToState>(_setClient),
   TypedReducer<NewContactPageState, UpdateCustomLeadNameAction>(_setCustomLeadSourceName),
+  TypedReducer<NewContactPageState, SetIsComingFromNewJobAction>(_setIsComingFromNewJob),
 ]);
+
+NewContactPageState _setIsComingFromNewJob(NewContactPageState previousState, SetIsComingFromNewJobAction action){
+  return previousState.copyWith(
+    isComingFromNewJob: true,
+  );
+}
 
 NewContactPageState _setCustomLeadSourceName(NewContactPageState previousState, UpdateCustomLeadNameAction action){
   return previousState.copyWith(

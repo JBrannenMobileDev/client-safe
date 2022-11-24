@@ -72,6 +72,11 @@ class ClearStateAction{
   ClearStateAction(this.pageState);
 }
 
+class SetIsComingFromNewJobAction{
+  final NewContactPageState pageState;
+  SetIsComingFromNewJobAction(this.pageState);
+}
+
 class IncrementPageViewIndex{
   final NewContactPageState pageState;
   IncrementPageViewIndex(this.pageState);

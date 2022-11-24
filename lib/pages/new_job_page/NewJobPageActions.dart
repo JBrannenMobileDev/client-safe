@@ -49,10 +49,10 @@ class SetOneTimePriceTextAction {
   SetOneTimePriceTextAction(this.pageState, this.inputText);
 }
 
-class SetClientLastNameAction{
+class LoadAndSelectNewContactAction{
   final NewJobPageState pageState;
-  final String lastName;
-  SetClientLastNameAction(this.pageState, this.lastName);
+  final Client selectedClient;
+  LoadAndSelectNewContactAction(this.pageState, this.selectedClient);
 }
 
 class InitializeNewContactPageAction{

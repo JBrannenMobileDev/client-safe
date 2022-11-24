@@ -15,6 +15,7 @@ class ClientSafeButton extends StatelessWidget{
   final Function onPressed;
   final Icon icon;
   final String urlText;
+  int color = ColorConstants.getPrimaryColor();
 
   ClientSafeButton({
     this.height,
@@ -27,6 +28,7 @@ class ClientSafeButton extends StatelessWidget{
     this.onPressed,
     this.icon,
     this.urlText,
+    this.color,
   });
 
   @override
@@ -41,8 +43,8 @@ class ClientSafeButton extends StatelessWidget{
           style: Styles.getButtonStyle(
             shape: new RoundedRectangleBorder(
                   borderRadius: new BorderRadius.circular(32.0),
-                  side: BorderSide(color: Color(ColorConstants.getPrimaryColor()))),
-            color: Color(ColorConstants.getPrimaryColor()),
+                  side: BorderSide(color: Color(color))),
+            color: Color(color),
             textColor: Colors.white,
           ),
           onPressed: () => urlText.length > 0 ? onPressed(urlText) : onPressed(),

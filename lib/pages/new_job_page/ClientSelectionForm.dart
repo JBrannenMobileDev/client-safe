@@ -1,6 +1,5 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/NewJobClientListWidget.dart';
@@ -25,9 +24,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
     with AutomaticKeepAliveClientMixin {
   bool searchHasFocus = false;
   final firstNameTextController = TextEditingController();
-  final lastNameTextController = TextEditingController();
   final FocusNode _firstNameFocus = FocusNode();
-  final FocusNode _lastNameFocus = FocusNode();
 
   ScrollController _controller = ScrollController();
 
@@ -38,17 +35,12 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
       onInit: (store) {
         store.dispatch(FetchAllAction(store.state.newJobPageState));
         firstNameTextController.text = store.state.newJobPageState.clientFirstName;
-        lastNameTextController.text = store.state.newJobPageState.clientLastName;
       },
       onDidChange: (previous, current) {
         if(current.selectedClient != null && previous.selectedClient == null) {
           firstNameTextController.value = firstNameTextController.value.copyWith(
             text: current.clientFirstName,
             selection: TextSelection.collapsed(offset: current.clientFirstName.length),
-          );
-          lastNameTextController.value = lastNameTextController.value.copyWith(
-            text: current.clientLastName,
-            selection: TextSelection.collapsed(offset: current.clientLastName.length),
           );
         }
       },
@@ -69,9 +61,33 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     color: Color(ColorConstants.primary_black),
                   ),
                 ),
+                Container(
+                  margin: EdgeInsets.only(top: 16, bottom: 4.0),
+                  height: 64.0,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: Color(ColorConstants.getBlueDark()),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      UserOptionsUtil.showNewContactDialog(context, true);
+                    },
+                    child: Text(
+                      'Add New Contact',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                      ),
+                    ),
+                  ),
+                ),
                 NewJobTextField(
                   controller: firstNameTextController,
-                  hintText: "First Name",
+                  hintText: "Previous Client Name",
                   inputType: TextInputType.text,
                   height: 64.0,
                   onTextInputChanged: pageState.onClientFirstNameTextChanged,
@@ -81,22 +97,10 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   onFocusAction: onFirstNameAction,
                   inputTypeError: NewContactPageState.ERROR_FIRST_NAME_MISSING,
                 ),
-                NewJobTextField(
-                    controller: lastNameTextController,
-                    hintText: "Last Name",
-                    inputType: TextInputType.text,
-                    height: 64.0,
-                    onTextInputChanged: pageState.onClientLastNameTextChanged,
-                    keyboardAction: TextInputAction.next,
-                    capitalization: TextCapitalization.words,
-                    focusNode: _lastNameFocus,
-                    onFocusAction: onLastNameAction,
-                    inputTypeError: NewContactPageState.NO_ERROR
-                ),
                 ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
-                          maxHeight: 317.0,
+                          maxHeight: 371.0,
                         ),
                         child: ListView.builder(
                           reverse: false,
@@ -117,16 +121,6 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
 
   void onFirstNameAction(){
     _firstNameFocus.unfocus();
-    FocusScope.of(context).requestFocus(_lastNameFocus);
-  }
-
-  void onLastNameAction(){
-    _lastNameFocus.unfocus();
-  }
-
-  void onAddNewContactPressed() {
-    Navigator.of(context).pop();
-    UserOptionsUtil.showNewContactDialog(context);
   }
 
   @override

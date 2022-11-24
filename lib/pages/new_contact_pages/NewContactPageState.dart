@@ -20,6 +20,7 @@ class NewContactPageState {
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
+  final bool isComingFromNewJob;
   final String newContactFirstName;
   final String newContactLastName;
   final String newContactPhone;
@@ -112,6 +113,7 @@ class NewContactPageState {
     @required this.onStartNewJobSelected,
     @required this.customLeadSourceName,
     @required this.onCustomLeadSourceTextChanged,
+    @required this.isComingFromNewJob,
   });
 
   NewContactPageState copyWith({
@@ -119,6 +121,7 @@ class NewContactPageState {
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
+    bool isComingFromNewJob,
     String newContactFirstName,
     String newContactLastName,
     String newContactPhone,
@@ -212,6 +215,7 @@ class NewContactPageState {
       onStartNewJobSelected: onStartNewJobSelected ?? this.onStartNewJobSelected,
       customLeadSourceName: customLeadSourceName ?? this.customLeadSourceName,
       onCustomLeadSourceTextChanged: onCustomLeadSourceTextChanged ?? this.onCustomLeadSourceTextChanged,
+      isComingFromNewJob: isComingFromNewJob ?? this.isComingFromNewJob,
     );
   }
 
@@ -263,6 +267,7 @@ class NewContactPageState {
         onContactSearchTextChanged: null,
         onStartNewJobSelected: null,
         onCustomLeadSourceTextChanged: null,
+        isComingFromNewJob: false,
       );
 
   factory NewContactPageState.fromStore(Store<AppState> store) {
@@ -290,6 +295,7 @@ class NewContactPageState {
       errorState: store.state.newContactPageState.errorState,
       client: store.state.newContactPageState.client,
       customLeadSourceName: store.state.newContactPageState.customLeadSourceName,
+      isComingFromNewJob: store.state.newContactPageState.isComingFromNewJob,
       onSavePressed: () => store.dispatch(SaveNewContactAction(store.state.newContactPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newContactPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newContactPageState)),
@@ -335,6 +341,7 @@ class NewContactPageState {
       spouseLastName.hashCode ^
       numberOfChildren.hashCode ^
       importantDates.hashCode ^
+      isComingFromNewJob.hashCode ^
       deviceContacts.hashCode ^
       filteredDeviceContacts.hashCode ^
       selectedDeviceContact.hashCode ^
@@ -377,6 +384,7 @@ class NewContactPageState {
           shouldClear == other.shouldClear &&
           newContactFirstName == other.newContactFirstName &&
           newContactLastName == other.newContactLastName &&
+          isComingFromNewJob == other.isComingFromNewJob &&
           newContactPhone == other.newContactPhone &&
           newContactEmail == other.newContactEmail &&
           newContactInstagramUrl == other.newContactInstagramUrl &&

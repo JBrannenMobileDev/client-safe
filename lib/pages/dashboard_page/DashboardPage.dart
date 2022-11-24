@@ -232,7 +232,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                   ),
                 ),
                 onTap: () {
-                  UserOptionsUtil.showNewContactDialog(context);
+                  UserOptionsUtil.showNewContactDialog(context, false);
                 },
               ),
             ],
