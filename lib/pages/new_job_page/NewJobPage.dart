@@ -85,7 +85,7 @@ class _NewJobPageState extends State<NewJobPage> {
             body: Center(
               child: Container(
                 width: getDialogWidth(currentPageIndex),
-                padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
+                padding: EdgeInsets.only(top: 8.0, bottom: 18.0),
                 decoration: new BoxDecoration(
                     color: Color(ColorConstants.white),
                     borderRadius: new BorderRadius.all(Radius.circular(16.0))),
@@ -292,7 +292,7 @@ class _NewJobPageState extends State<NewJobPage> {
     double height = 380.0;
     switch(currentPageIndex){
       case 0:
-        height = 550;
+        height = 573;
         break;
       case 1:
         height = 450.0;

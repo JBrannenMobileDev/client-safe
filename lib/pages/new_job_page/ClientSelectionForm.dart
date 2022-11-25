@@ -63,10 +63,10 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 16, bottom: 4.0),
-                  height: 64.0,
-                  width: MediaQuery.of(context).size.width,
+                  height: 54.0,
+                  width: 200,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
+                    borderRadius: BorderRadius.circular(32),
                     color: Color(ColorConstants.getBlueDark()),
                   ),
                   child: TextButton(
@@ -77,7 +77,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                       'Add New Contact',
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: 24.0,
+                        fontSize: 22.0,
                         fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.getPrimaryWhite()),
@@ -85,9 +85,19 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     ),
                   ),
                 ),
+                Text(
+                  'Or',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.primary_black),
+                  ),
+                ),
                 NewJobTextField(
                   controller: firstNameTextController,
-                  hintText: "Previous Client Name",
+                  hintText: 'Search Your Contacts',
                   inputType: TextInputType.text,
                   height: 64.0,
                   onTextInputChanged: pageState.onClientFirstNameTextChanged,
