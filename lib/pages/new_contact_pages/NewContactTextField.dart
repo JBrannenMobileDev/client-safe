@@ -19,10 +19,11 @@ class NewContactTextField extends StatelessWidget {
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
   final bool textFieldEnabled;
+  final int borderColor;
 
   NewContactTextField(this.controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
-      this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter, this.textFieldEnabled);
+      this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter, this.textFieldEnabled, this.borderColor);
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class NewContactTextField extends StatelessWidget {
                 enabled: textFieldEnabled,
                 focusNode: focusNode,
                 textInputAction: keyboardAction,
-                maxLines: 24,
+                maxLines: 50,
                 controller: controller,
                 cursorColor: Color(ColorConstants.getPrimaryColor()),
                 onChanged: (text) {
@@ -63,7 +64,7 @@ class NewContactTextField extends StatelessWidget {
                           NewContactPageState.NO_ERROR &&
                           inputTypeError == pageState.errorState
                           ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                          : textFieldEnabled ? Color(borderColor) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),
@@ -74,7 +75,7 @@ class NewContactTextField extends StatelessWidget {
                                   NewContactPageState.NO_ERROR &&
                               inputTypeError == pageState.errorState
                           ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                          : textFieldEnabled ? Color(borderColor) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),
@@ -85,7 +86,7 @@ class NewContactTextField extends StatelessWidget {
                           NewContactPageState.NO_ERROR &&
                           inputTypeError == pageState.errorState
                           ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                          : textFieldEnabled ? Color(borderColor) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),
@@ -96,7 +97,7 @@ class NewContactTextField extends StatelessWidget {
                           NewContactPageState.NO_ERROR &&
                           inputTypeError == pageState.errorState
                           ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                          : textFieldEnabled ? Color(borderColor) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),

@@ -79,6 +79,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteClientAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, InstagramSelectedAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, OnSaveLeadSourceUpdateAction>(ClientDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNotesAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePricingProfileAction>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPricingProfilesAction>(PricingProfilesPageMiddleware()));

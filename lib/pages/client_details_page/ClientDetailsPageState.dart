@@ -4,16 +4,19 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
+
+import '../../models/ImportantDate.dart';
 
 class ClientDetailsPageState {
   final Client client;
   final List<Job> clientJobs;
   final String leadSource;
   final String customLeadSourceName;
+  final String notes;
+  final List<ImportantDate> importantDates;
   final Function(Client) onEditClientClicked;
   final Function() onDeleteClientClicked;
   final Function() onCallClientClicked;
@@ -25,6 +28,9 @@ class ClientDetailsPageState {
   final Function(String) onCustomLeadSourceTextChanged;
   final Function(String) onLeadSourceSelected;
   final Function() onSaveLeadSourceSelected;
+  final Function(String) onNotesTextChanged;
+  final Function(ImportantDate) onImportantDateAdded;
+  final Function(int) onImportantDateRemoved;
 
   ClientDetailsPageState({
     @required this.client,
@@ -42,6 +48,11 @@ class ClientDetailsPageState {
     @required this.leadSource,
     @required this.customLeadSourceName,
     @required this.onSaveLeadSourceSelected,
+    @required this.onNotesTextChanged,
+    @required this.notes,
+    @required this.importantDates,
+    @required this.onImportantDateAdded,
+    @required this.onImportantDateRemoved,
   });
 
   ClientDetailsPageState copyWith({
@@ -60,6 +71,11 @@ class ClientDetailsPageState {
     Function(String) onCustomLeadSourceTextChanged,
     Function(String) onLeadSourceSelected,
     Function() onSaveLeadSourceSelected,
+    Function(String) onNotesTextChanged,
+    String notes,
+    List<ImportantDate> importantDates,
+    Function(ImportantDate) onImportantDateAdded,
+    Function(int) onImportantDateRemoved,
   }){
     return ClientDetailsPageState(
       client: client?? this.client,
@@ -77,6 +93,11 @@ class ClientDetailsPageState {
       leadSource: leadSource ?? this.leadSource,
       customLeadSourceName: customLeadSourceName ?? this.customLeadSourceName,
       onSaveLeadSourceSelected: onSaveLeadSourceSelected ?? this.onSaveLeadSourceSelected,
+      onNotesTextChanged: onNotesTextChanged ?? this.onNotesTextChanged,
+      notes: notes ?? this.notes,
+      importantDates: importantDates ?? this.importantDates,
+      onImportantDateAdded: onImportantDateAdded ?? this.onImportantDateAdded,
+      onImportantDateRemoved: onImportantDateRemoved ?? this.onImportantDateRemoved,
     );
   }
 
@@ -96,6 +117,11 @@ class ClientDetailsPageState {
     leadSource: '',
     customLeadSourceName: '',
     onSaveLeadSourceSelected: null,
+    onNotesTextChanged: null,
+    notes: '',
+    importantDates: [],
+    onImportantDateRemoved: null,
+    onImportantDateAdded: null,
   );
 
   factory ClientDetailsPageState.fromStore(Store<AppState> store) {
@@ -104,6 +130,8 @@ class ClientDetailsPageState {
       clientJobs: store.state.clientDetailsPageState.clientJobs,
       leadSource: store.state.clientDetailsPageState.leadSource,
       customLeadSourceName: store.state.clientDetailsPageState.customLeadSourceName,
+      notes: store.state.clientDetailsPageState.notes,
+      importantDates: store.state.clientDetailsPageState.importantDates,
       onEditClientClicked: (client) => store.dispatch(LoadExistingClientData(store.state.newContactPageState, client)),
       onDeleteClientClicked: () => store.dispatch(DeleteClientAction(store.state.clientDetailsPageState)),
       onCallClientClicked: () => store.dispatch(null),
@@ -115,6 +143,9 @@ class ClientDetailsPageState {
       onCustomLeadSourceTextChanged: (customLead) => store.dispatch(UpdateTempCustomLeadNameAction(store.state.clientDetailsPageState, customLead)),
       onLeadSourceSelected: (leadSource) => store.dispatch(SetTempLeadSourceAction(store.state.clientDetailsPageState, leadSource)),
       onSaveLeadSourceSelected: () => store.dispatch(OnSaveLeadSourceUpdateAction(store.state.clientDetailsPageState)),
+      onNotesTextChanged: (notes) => store.dispatch(SaveNotesAction(store.state.clientDetailsPageState, notes)),
+      onImportantDateAdded: (importantDate) => store.dispatch(AddClientDetailsImportantDateAction(store.state.clientDetailsPageState, importantDate)),
+      onImportantDateRemoved: (chipIndex) => store.dispatch(RemoveClientDetailsImportantDateAction(store.state.clientDetailsPageState, chipIndex)),
     );
   }
 
@@ -133,6 +164,11 @@ class ClientDetailsPageState {
     leadSource.hashCode ^
     customLeadSourceName.hashCode ^
     onSaveLeadSourceSelected.hashCode ^
+    onNotesTextChanged.hashCode ^
+    notes.hashCode ^
+    importantDates.hashCode ^
+    onImportantDateRemoved.hashCode ^
+    onImportantDateAdded.hashCode ^
     onJobSelected.hashCode;
 
   @override
@@ -148,5 +184,10 @@ class ClientDetailsPageState {
           onEmailClientClicked == other.onEmailClientClicked &&
           onStartNewJobClicked == other.onStartNewJobClicked &&
           onSaveLeadSourceSelected == other.onSaveLeadSourceSelected &&
+          onNotesTextChanged == other.onNotesTextChanged &&
+          notes == other.notes &&
+          importantDates == other.importantDates &&
+          onImportantDateRemoved == other.onImportantDateRemoved &&
+          onImportantDateAdded == other.onImportantDateAdded &&
           onJobSelected == other.onJobSelected;
 }

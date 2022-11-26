@@ -175,7 +175,9 @@ class _NameAndGenderState extends State<NameAndGender>
                     onFirstNameAction,
                     TextCapitalization.words,
                     null,
-                    true),
+                    true,
+                  ColorConstants.getPrimaryColor(),
+                ),
                 NewContactTextField(
                     lastNameTextController,
                     "Last Name",
@@ -188,7 +190,9 @@ class _NameAndGenderState extends State<NameAndGender>
                     onLastNameAction,
                     TextCapitalization.words,
                     null,
-                    true)
+                    true,
+                  ColorConstants.getPrimaryColor(),
+                )
               ],
             ),
           ],

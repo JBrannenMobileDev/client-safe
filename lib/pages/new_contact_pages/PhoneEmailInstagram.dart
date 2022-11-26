@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../utils/ColorConstants.dart';
 import '../../utils/InputDoneView.dart';
 import 'NewContactTextField.dart';
 
@@ -92,7 +93,9 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                     FilteringTextInputFormatter.digitsOnly,
                     _mobileFormatter,
                   ],
-                  true),
+                  true,
+                ColorConstants.getPrimaryColor(),
+              ),
               NewContactTextField(
                   emailTextController,
                   "Email",
@@ -105,7 +108,9 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   onEmailAction,
                   TextCapitalization.none,
                   null,
-                  true),
+                  true,
+                ColorConstants.getPrimaryColor(),
+              ),
               NewContactTextField(
                   instagramUrlTextController,
                   "Instagram URL",
@@ -118,7 +123,9 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   onInstagramAction,
                   TextCapitalization.none,
                   null,
-                  true),
+                  true,
+                ColorConstants.getPrimaryColor(),
+              ),
             ],
           ),
         ),

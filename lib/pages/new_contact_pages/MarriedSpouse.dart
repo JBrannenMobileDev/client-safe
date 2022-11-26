@@ -130,7 +130,9 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                               TextCapitalization.words,
                               null,
                               getRelationshipIndex(pageState.relationshipStatus) == 1 || getRelationshipIndex(pageState.relationshipStatus) == 0
-                                ? true : false),
+                                ? true : false,
+                        ColorConstants.getPrimaryColor(),
+                      ),
                       NewContactTextField(
                               lastNameTextController,
                               "Last Name",
@@ -144,7 +146,9 @@ class _MarriedSpouseState extends State<MarriedSpouse>
                               TextCapitalization.words,
                               null,
                               getRelationshipIndex(pageState.relationshipStatus) == 1 || getRelationshipIndex(pageState.relationshipStatus) == 0
-                                  ? true : false),
+                                  ? true : false,
+                        ColorConstants.getPrimaryColor(),
+                      ),
                     ],
                   ),
                 ),

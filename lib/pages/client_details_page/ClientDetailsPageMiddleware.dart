@@ -32,6 +32,16 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is OnSaveLeadSourceUpdateAction){
       _updateClientLeadSource(store, next, action);
     }
+    if(action is SaveNotesAction){
+      _updateClientNotes(store, next, action);
+    }
+  }
+
+  void _updateClientNotes(Store<AppState> store, NextDispatcher next, SaveNotesAction action) async{
+    Client client = action.pageState.client;
+    client.notes = action.notes;
+    await ClientDao.update(client);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateClientLeadSource(Store<AppState> store, NextDispatcher next, OnSaveLeadSourceUpdateAction action) async{

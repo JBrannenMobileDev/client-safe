@@ -2,6 +2,8 @@ import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 
+import '../../models/ImportantDate.dart';
+
 class InitializeClientDetailsAction{
   final ClientDetailsPageState pageState;
   final Client client;
@@ -35,10 +37,34 @@ class OnSaveLeadSourceUpdateAction{
   OnSaveLeadSourceUpdateAction(this.pageState);
 }
 
+class SetNotesAction{
+  final ClientDetailsPageState pageState;
+  final String notes;
+  SetNotesAction(this.pageState, this.notes);
+}
+
 class SetClientJobsAction{
   final ClientDetailsPageState pageState;
   final List<Job> clientJobs;
   SetClientJobsAction(this.pageState, this.clientJobs);
+}
+
+class SaveNotesAction{
+  final ClientDetailsPageState pageState;
+  final String notes;
+  SaveNotesAction(this.pageState, this.notes);
+}
+
+class AddClientDetailsImportantDateAction{
+  final ClientDetailsPageState pageState;
+  final ImportantDate importantDate;
+  AddClientDetailsImportantDateAction(this.pageState, this.importantDate);
+}
+
+class RemoveClientDetailsImportantDateAction{
+  final ClientDetailsPageState pageState;
+  final int chipIndex;
+  RemoveClientDetailsImportantDateAction(this.pageState, this.chipIndex);
 }
 
 
