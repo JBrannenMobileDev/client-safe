@@ -5,6 +5,9 @@ class ImportantDate{
   static const String TYPE_GRADUATION = "Graduation";
   static const String TYPE_PREGNANCY_DUE_DATE = "Pregnancy Due Date";
   static const String TYPE_BIRTHDAY = "Birthday";
+  static const String TYPE_ENGAGEMENT = "Wedding Engagement";
+  static const String TYPE_WEDDING = "Wedding";
+
 
   final DateTime date;
   final String type;

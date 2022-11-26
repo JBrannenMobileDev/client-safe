@@ -5,6 +5,7 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
 import 'package:dandylight/pages/calendar_page/CalendarPage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPage.dart';
+import 'package:dandylight/pages/client_details_page/JobHistoryListPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobListPage.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ReminderNotificationsPage.dart';
 import 'package:dandylight/pages/home_page/HomePage.dart';
@@ -63,6 +64,9 @@ class NavigationUtil {
   }
   static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage, bool isActiveJobs) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage, isActiveJobs: isActiveJobs)));
+  }
+  static onJobHistorySelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobHistoryListPage()));
   }
   static onReminderNotificationItemSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage()));

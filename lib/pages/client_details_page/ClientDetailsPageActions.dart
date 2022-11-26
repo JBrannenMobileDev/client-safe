@@ -67,4 +67,9 @@ class RemoveClientDetailsImportantDateAction{
   RemoveClientDetailsImportantDateAction(this.pageState, this.chipIndex);
 }
 
+class SaveImportantDatesAction{
+  final ClientDetailsPageState pageState;
+  SaveImportantDatesAction(this.pageState);
+}
+
 

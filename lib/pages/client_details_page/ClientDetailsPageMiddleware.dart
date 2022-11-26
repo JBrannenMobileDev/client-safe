@@ -35,6 +35,16 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveNotesAction){
       _updateClientNotes(store, next, action);
     }
+    if(action is SaveImportantDatesAction) {
+      _updateClientWithImportantDates(store, action);
+    }
+  }
+
+  void _updateClientWithImportantDates(Store<AppState> store, SaveImportantDatesAction action) async{
+    Client client = action.pageState.client;
+    client.importantDates = action.pageState.importantDates;
+    await ClientDao.update(client);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _updateClientNotes(Store<AppState> store, NextDispatcher next, SaveNotesAction action) async{

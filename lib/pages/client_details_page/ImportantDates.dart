@@ -31,9 +31,11 @@ class ImportantDates extends StatefulWidget {
 class _ImportantDates extends State<ImportantDates> {
   List<String> _chipLabels = [
     ImportantDate.TYPE_ANNIVERSARY,
-    ImportantDate.TYPE_GRADUATION,
+    ImportantDate.TYPE_ENGAGEMENT,
     ImportantDate.TYPE_PREGNANCY_DUE_DATE,
+    ImportantDate.TYPE_GRADUATION,
     ImportantDate.TYPE_BIRTHDAY,
+    ImportantDate.TYPE_WEDDING,
   ];
 
   @override
@@ -58,7 +60,7 @@ class _ImportantDates extends State<ImportantDates> {
       converter: (store) => ClientDetailsPageState.fromStore(store),
       builder: (BuildContext context, ClientDetailsPageState pageState) => Container(
         padding: EdgeInsets.only(top: 4.0, left: 20, right: 20),
-        height: 350,
+        height: 416,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
             color: Color(ColorConstants.getPrimaryWhite())),
@@ -88,7 +90,7 @@ class _ImportantDates extends State<ImportantDates> {
                     ),
                     TextButton(
                       onPressed: () {
-                        // pageState.onImportantDatesSaved();
+                        pageState.onSaveImportantDatesSelected();
                         Navigator.of(context).pop();
                       },
                       child: Text(
@@ -104,6 +106,19 @@ class _ImportantDates extends State<ImportantDates> {
                     ),
                   ],
                 )),
+            Container(
+              margin: EdgeInsets.only(top: 0, bottom: 32.0),
+              child: Text(
+                'Important Dates',
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  fontSize: 22.0,
+                  fontFamily: 'simple',
+                  fontWeight: FontWeight.w600,
+                  color: Color(ColorConstants.primary_black),
+                ),
+              ),
+            ),
             Text(
               "Do you know any important dates for " +
                   pageState.client.firstName +

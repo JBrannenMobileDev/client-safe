@@ -31,6 +31,7 @@ class ClientDetailsPageState {
   final Function(String) onNotesTextChanged;
   final Function(ImportantDate) onImportantDateAdded;
   final Function(int) onImportantDateRemoved;
+  final Function() onSaveImportantDatesSelected;
 
   ClientDetailsPageState({
     @required this.client,
@@ -53,6 +54,7 @@ class ClientDetailsPageState {
     @required this.importantDates,
     @required this.onImportantDateAdded,
     @required this.onImportantDateRemoved,
+    @required this.onSaveImportantDatesSelected,
   });
 
   ClientDetailsPageState copyWith({
@@ -76,6 +78,7 @@ class ClientDetailsPageState {
     List<ImportantDate> importantDates,
     Function(ImportantDate) onImportantDateAdded,
     Function(int) onImportantDateRemoved,
+    Function() onSaveImportantDatesSelected,
   }){
     return ClientDetailsPageState(
       client: client?? this.client,
@@ -98,6 +101,7 @@ class ClientDetailsPageState {
       importantDates: importantDates ?? this.importantDates,
       onImportantDateAdded: onImportantDateAdded ?? this.onImportantDateAdded,
       onImportantDateRemoved: onImportantDateRemoved ?? this.onImportantDateRemoved,
+      onSaveImportantDatesSelected: onSaveImportantDatesSelected ?? this.onSaveImportantDatesSelected,
     );
   }
 
@@ -122,6 +126,7 @@ class ClientDetailsPageState {
     importantDates: [],
     onImportantDateRemoved: null,
     onImportantDateAdded: null,
+    onSaveImportantDatesSelected: null,
   );
 
   factory ClientDetailsPageState.fromStore(Store<AppState> store) {
@@ -146,6 +151,7 @@ class ClientDetailsPageState {
       onNotesTextChanged: (notes) => store.dispatch(SaveNotesAction(store.state.clientDetailsPageState, notes)),
       onImportantDateAdded: (importantDate) => store.dispatch(AddClientDetailsImportantDateAction(store.state.clientDetailsPageState, importantDate)),
       onImportantDateRemoved: (chipIndex) => store.dispatch(RemoveClientDetailsImportantDateAction(store.state.clientDetailsPageState, chipIndex)),
+      onSaveImportantDatesSelected: () => store.dispatch(SaveImportantDatesAction(store.state.clientDetailsPageState)),
     );
   }
 
@@ -169,6 +175,7 @@ class ClientDetailsPageState {
     importantDates.hashCode ^
     onImportantDateRemoved.hashCode ^
     onImportantDateAdded.hashCode ^
+    onSaveImportantDatesSelected.hashCode ^
     onJobSelected.hashCode;
 
   @override
@@ -189,5 +196,6 @@ class ClientDetailsPageState {
           importantDates == other.importantDates &&
           onImportantDateRemoved == other.onImportantDateRemoved &&
           onImportantDateAdded == other.onImportantDateAdded &&
+          onSaveImportantDatesSelected == other.onSaveImportantDatesSelected &&
           onJobSelected == other.onJobSelected;
 }
