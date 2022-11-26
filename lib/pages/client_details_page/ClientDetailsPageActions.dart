@@ -8,6 +8,18 @@ class InitializeClientDetailsAction{
   InitializeClientDetailsAction(this.pageState, this.client);
 }
 
+class SetTempLeadSourceAction{
+  final ClientDetailsPageState pageState;
+  final String leadSource;
+  SetTempLeadSourceAction(this.pageState, this.leadSource);
+}
+
+class UpdateTempCustomLeadNameAction{
+  final ClientDetailsPageState pageState;
+  final String customName;
+  UpdateTempCustomLeadNameAction(this.pageState, this.customName);
+}
+
 class DeleteClientAction{
   final ClientDetailsPageState pageState;
   DeleteClientAction(this.pageState);
@@ -16,6 +28,11 @@ class DeleteClientAction{
 class InstagramSelectedAction{
   final ClientDetailsPageState pageState;
   InstagramSelectedAction(this.pageState);
+}
+
+class OnSaveLeadSourceUpdateAction{
+  final ClientDetailsPageState pageState;
+  OnSaveLeadSourceUpdateAction(this.pageState);
 }
 
 class SetClientJobsAction{

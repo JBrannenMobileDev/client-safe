@@ -14,6 +14,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../models/Client.dart';
+
 class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -27,6 +29,20 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is InstagramSelectedAction){
       _launchInstagramProfile(store.state.clientDetailsPageState.client.instagramProfileUrl);
     }
+    if(action is OnSaveLeadSourceUpdateAction){
+      _updateClientLeadSource(store, next, action);
+    }
+  }
+
+  void _updateClientLeadSource(Store<AppState> store, NextDispatcher next, OnSaveLeadSourceUpdateAction action) async{
+    Client client = action.pageState.client;
+    client.leadSource = action.pageState.leadSource;
+    client.customLeadSourceName = action.pageState.customLeadSourceName;
+
+    await ClientDao.update(client);
+
+    next(action);
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
   void _initializedClientDetailsState(Store<AppState> store, NextDispatcher next, InitializeClientDetailsAction action) async{

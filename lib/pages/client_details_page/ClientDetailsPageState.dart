@@ -12,6 +12,8 @@ import 'package:redux/redux.dart';
 class ClientDetailsPageState {
   final Client client;
   final List<Job> clientJobs;
+  final String leadSource;
+  final String customLeadSourceName;
   final Function(Client) onEditClientClicked;
   final Function() onDeleteClientClicked;
   final Function() onCallClientClicked;
@@ -20,6 +22,9 @@ class ClientDetailsPageState {
   final Function(Client) onStartNewJobClicked;
   final Function(Job) onJobSelected;
   final Function() onInstagramSelected;
+  final Function(String) onCustomLeadSourceTextChanged;
+  final Function(String) onLeadSourceSelected;
+  final Function() onSaveLeadSourceSelected;
 
   ClientDetailsPageState({
     @required this.client,
@@ -32,11 +37,18 @@ class ClientDetailsPageState {
     @required this.onStartNewJobClicked,
     @required this.onJobSelected,
     @required this.onInstagramSelected,
+    @required this.onCustomLeadSourceTextChanged,
+    @required this.onLeadSourceSelected,
+    @required this.leadSource,
+    @required this.customLeadSourceName,
+    @required this.onSaveLeadSourceSelected,
   });
 
   ClientDetailsPageState copyWith({
     Client client,
     List<Job> clientJobs,
+    String leadSource,
+    String customLeadSourceName,
     Function(Client) onEditClientClicked,
     Function() onDeleteClientClicked,
     Function() onCallClientClicked,
@@ -45,6 +57,9 @@ class ClientDetailsPageState {
     Function(Client) onStartNewJobClicked,
     Function(Job) onJobSelected,
     Function() onInstagramSelected,
+    Function(String) onCustomLeadSourceTextChanged,
+    Function(String) onLeadSourceSelected,
+    Function() onSaveLeadSourceSelected,
   }){
     return ClientDetailsPageState(
       client: client?? this.client,
@@ -57,12 +72,17 @@ class ClientDetailsPageState {
       onStartNewJobClicked: onStartNewJobClicked?? this.onStartNewJobClicked,
       onJobSelected: onJobSelected?? this.onJobSelected,
       onInstagramSelected: onInstagramSelected?? this.onInstagramSelected,
+      onCustomLeadSourceTextChanged: onCustomLeadSourceTextChanged ?? this.onCustomLeadSourceTextChanged,
+      onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
+      leadSource: leadSource ?? this.leadSource,
+      customLeadSourceName: customLeadSourceName ?? this.customLeadSourceName,
+      onSaveLeadSourceSelected: onSaveLeadSourceSelected ?? this.onSaveLeadSourceSelected,
     );
   }
 
   factory ClientDetailsPageState.initial() => ClientDetailsPageState(
     client: null,
-    clientJobs: List(),
+    clientJobs: [],
     onEditClientClicked: null,
     onDeleteClientClicked: null,
     onCallClientClicked: null,
@@ -71,12 +91,19 @@ class ClientDetailsPageState {
     onStartNewJobClicked: null,
     onJobSelected: null,
     onInstagramSelected: null,
+    onCustomLeadSourceTextChanged: null,
+    onLeadSourceSelected: null,
+    leadSource: '',
+    customLeadSourceName: '',
+    onSaveLeadSourceSelected: null,
   );
 
   factory ClientDetailsPageState.fromStore(Store<AppState> store) {
     return ClientDetailsPageState(
       client: store.state.clientDetailsPageState.client,
       clientJobs: store.state.clientDetailsPageState.clientJobs,
+      leadSource: store.state.clientDetailsPageState.leadSource,
+      customLeadSourceName: store.state.clientDetailsPageState.customLeadSourceName,
       onEditClientClicked: (client) => store.dispatch(LoadExistingClientData(store.state.newContactPageState, client)),
       onDeleteClientClicked: () => store.dispatch(DeleteClientAction(store.state.clientDetailsPageState)),
       onCallClientClicked: () => store.dispatch(null),
@@ -85,6 +112,9 @@ class ClientDetailsPageState {
       onStartNewJobClicked: (client) => store.dispatch(InitializeNewContactPageAction(store.state.newJobPageState, client)),
       onJobSelected: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onInstagramSelected: () => store.dispatch(InstagramSelectedAction(store.state.clientDetailsPageState)),
+      onCustomLeadSourceTextChanged: (customLead) => store.dispatch(UpdateTempCustomLeadNameAction(store.state.clientDetailsPageState, customLead)),
+      onLeadSourceSelected: (leadSource) => store.dispatch(SetTempLeadSourceAction(store.state.clientDetailsPageState, leadSource)),
+      onSaveLeadSourceSelected: () => store.dispatch(OnSaveLeadSourceUpdateAction(store.state.clientDetailsPageState)),
     );
   }
 
@@ -98,6 +128,11 @@ class ClientDetailsPageState {
     onMessageClientClicked.hashCode ^
     onEmailClientClicked.hashCode ^
     onStartNewJobClicked.hashCode ^
+    onCustomLeadSourceTextChanged.hashCode ^
+    onLeadSourceSelected.hashCode ^
+    leadSource.hashCode ^
+    customLeadSourceName.hashCode ^
+    onSaveLeadSourceSelected.hashCode ^
     onJobSelected.hashCode;
 
   @override
@@ -112,5 +147,6 @@ class ClientDetailsPageState {
           onMessageClientClicked == other.onMessageClientClicked &&
           onEmailClientClicked == other.onEmailClientClicked &&
           onStartNewJobClicked == other.onStartNewJobClicked &&
+          onSaveLeadSourceSelected == other.onSaveLeadSourceSelected &&
           onJobSelected == other.onJobSelected;
 }

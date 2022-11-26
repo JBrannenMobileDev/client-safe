@@ -60,7 +60,6 @@ class UpdateErrorStateAction{
   UpdateErrorStateAction(this.pageState, this.errorCode);
 }
 
-
 class SetLeadSourceAction{
   final NewContactPageState pageState;
   final String leadSource;

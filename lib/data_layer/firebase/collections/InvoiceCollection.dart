@@ -87,7 +87,6 @@ class InvoiceCollection {
       result.documentId = invoiceDocument.id;
       invoiceList.add(result);
     }
-    invoiceList.sort((invoiceA, invoiceB) => invoiceA.dueDate.compareTo(invoiceB.dueDate));
     return invoiceList;
   }
 

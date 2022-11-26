@@ -5,11 +5,28 @@ import 'ClientDetailsPageState.dart';
 final clientDetailsPageReducer = combineReducers<ClientDetailsPageState>([
   TypedReducer<ClientDetailsPageState, InitializeClientDetailsAction>(_setClient),
   TypedReducer<ClientDetailsPageState, SetClientJobsAction>(_setJobs),
+  TypedReducer<ClientDetailsPageState, SetTempLeadSourceAction>(_setLeadSource),
+  TypedReducer<ClientDetailsPageState, UpdateTempCustomLeadNameAction>(_setCustomLeadSourceName),
 ]);
+
+ClientDetailsPageState _setCustomLeadSourceName(ClientDetailsPageState previousState, UpdateTempCustomLeadNameAction action){
+  return previousState.copyWith(
+    customLeadSourceName: action.customName,
+  );
+}
+
+ClientDetailsPageState _setLeadSource(ClientDetailsPageState previousState, SetTempLeadSourceAction action){
+  return previousState.copyWith(
+    leadSource: action.leadSource,
+    customLeadSourceName: '',
+  );
+}
 
 ClientDetailsPageState _setClient(ClientDetailsPageState previousState, InitializeClientDetailsAction action){
   return previousState.copyWith(
     client: action.client,
+    leadSource: action.client.leadSource,
+    customLeadSourceName: action.client.customLeadSourceName,
   );
 }
 

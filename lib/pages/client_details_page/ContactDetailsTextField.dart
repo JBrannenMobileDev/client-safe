@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class NewContactTextField extends StatelessWidget {
+import 'ClientDetailsPageState.dart';
+
+class ContactDetailsTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
   final TextInputType inputType;
@@ -20,16 +22,17 @@ class NewContactTextField extends StatelessWidget {
   final List<TextInputFormatter> inputFormatter;
   final bool textFieldEnabled;
 
-  NewContactTextField(this.controller, this.hintText, this.inputType,
+  ContactDetailsTextField(this.controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
       this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter, this.textFieldEnabled);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, NewContactPageState>(
-      converter: (store) => NewContactPageState.fromStore(store),
-      builder: (BuildContext context, NewContactPageState pageState) =>
+    return StoreConnector<AppState, ClientDetailsPageState>(
+      converter: (store) => ClientDetailsPageState.fromStore(store),
+      builder: (BuildContext context, ClientDetailsPageState pageState) =>
           Container(
+              margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
               height: height,
               child: TextFormField(
                 enabled: textFieldEnabled,
@@ -40,7 +43,6 @@ class NewContactTextField extends StatelessWidget {
                 cursorColor: Color(ColorConstants.getPrimaryColor()),
                 onChanged: (text) {
                   onTextInputChanged(text);
-                  pageState.onErrorStateChanged(NewContactPageState.NO_ERROR);
                 },
                 onFieldSubmitted: (term){
                   onFocusAction();
@@ -59,44 +61,28 @@ class NewContactTextField extends StatelessWidget {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: pageState.errorState !=
-                          NewContactPageState.NO_ERROR &&
-                          inputTypeError == pageState.errorState
-                          ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: pageState.errorState !=
-                                  NewContactPageState.NO_ERROR &&
-                              inputTypeError == pageState.errorState
-                          ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: pageState.errorState !=
-                          NewContactPageState.NO_ERROR &&
-                          inputTypeError == pageState.errorState
-                          ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: pageState.errorState !=
-                          NewContactPageState.NO_ERROR &&
-                          inputTypeError == pageState.errorState
-                          ? Colors.red
-                          : textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),
