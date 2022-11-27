@@ -341,7 +341,7 @@ class UserOptionsUtil {
     );
   }
 
-  static void showPaymentLinksRequestDialog(BuildContext context, Function onSendInvoiceSelected) {
+  static void showPaymentLinksRequestDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

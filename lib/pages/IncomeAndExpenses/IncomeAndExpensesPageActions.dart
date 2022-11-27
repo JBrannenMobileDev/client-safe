@@ -204,6 +204,11 @@ class SaveResumedSubscriptionAction{
   SaveResumedSubscriptionAction(this.pageState, this.expense);
 }
 
+class SetPaymentRequestAsSeen{
+  final IncomeAndExpensesPageState pageState;
+  SetPaymentRequestAsSeen(this.pageState);
+}
+
 class SetProfileAction{
   final IncomeAndExpensesPageState pageState;
   final Profile profile;

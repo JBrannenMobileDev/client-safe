@@ -62,6 +62,14 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateSelectedYearAction) {
       _fetchCompletedJobs(store, action);
     }
+    if(action is SetPaymentRequestAsSeen) {
+      _setPaymentRequestAsSeen(store, action);
+    }
+  }
+
+  void _setPaymentRequestAsSeen(Store<AppState> store, SetPaymentRequestAsSeen action) async{
+   action.pageState.profile.showRequestPaymentLinksDialog = false;
+   ProfileDao.update(action.pageState.profile);
   }
 
   void _fetchCompletedJobs(Store<AppState> store, UpdateSelectedYearAction action) async{

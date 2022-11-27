@@ -321,7 +321,8 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                       ),
                       onTap: () {
                         if(pageState.profile.showRequestPaymentLinksDialog) {
-
+                          UserOptionsUtil.showPaymentLinksRequestDialog(context);
+                          pageState.setPaymentRequestAsSeen();
                         } else {
                           UserOptionsUtil.showNewInvoiceDialog(context, null);
                         }

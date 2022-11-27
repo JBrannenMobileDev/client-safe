@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 
 import '../../AppState.dart';
 import '../../utils/ImageUtil.dart';
+import '../../utils/UserOptionsUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../new_contact_pages/NewContactPageState.dart';
 import '../new_contact_pages/NewContactTextField.dart';
@@ -34,114 +35,150 @@ class _RequestPaymentLinksDialogPage extends State<RequestPaymentLinksDialog> {
     return StoreConnector<AppState, IncomeAndExpenseSettingsPageState>(
       converter: (store) => IncomeAndExpenseSettingsPageState.fromStore(store),
       builder: (BuildContext context, IncomeAndExpenseSettingsPageState pageState) =>
-          Container(
-            margin: EdgeInsets.only(left: 16, top: 0, right: 16, bottom: 16),
-            height: 150,
-            decoration: BoxDecoration(
-              color: Color(ColorConstants.getPrimaryWhite()),
-              borderRadius: BorderRadius.circular(16.0),
-            ),
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(top: 16),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(left: 24.0),
-                  child: Text(
-                    'Before we create the invoice, would you like to include your payment info?',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
+          Dialog(
+            insetPadding: EdgeInsets.only(left: 16.0, right: 16.0),
+            backgroundColor: Colors.transparent,
+            child: Container(
+              height: 448,
+              width: 450,
+              decoration: BoxDecoration(
+                color: Color(ColorConstants.getPrimaryWhite()),
+                borderRadius: BorderRadius.circular(16.0),
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Payment Info',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 16),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(left: 24.0),
-                  child: Text(
-                    'We currently support these forms of payment.',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(left: 24.0, right: 24),
+                    child: Text(
+                      'Before we create the invoice, would you like to include your payment info?',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
                     ),
                   ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 16),
-                  alignment: Alignment.center,
-                  padding: EdgeInsets.only(left: 24.0),
-                  child: Text(
-                    'Zelle\nVenmo\nCash App\nApple Pay',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(left: 24.0, right: 24),
+                    child: Text(
+                      'Payment info will be included in the invoice so that your customer knows how to pay you.',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
                     ),
                   ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    GestureDetector(
-                      onTap: () {
-
-                      },
-                      child: Container(
-                        height: 64.0,
-                        width: 64.0,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(ColorConstants.getPrimaryColor())
-                        ),
-                        child: Text(
-                          'YES',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 32.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                  Container(
+                    margin: EdgeInsets.only(top: 16),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(left: 24.0, right: 24),
+                    child: Text(
+                      'We currently support these forms of payment: Zelle, Venmo, Cash App, Apple Pay',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(top: 16, bottom: 16.0),
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.only(left: 24.0, right: 24),
+                    child: Text(
+                      'Payment info can also be set in the Income and Expenses page settings.',
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          UserOptionsUtil.showNewInvoiceDialog(context, null);
+                        },
+                        child: Container(
+                          height: 78.0,
+                          width: 78.0,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(ColorConstants.getPeachDark())
+                          ),
+                          child: Text(
+                            'NO',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 26.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Container(
-                        height: 64.0,
-                        width: 64.0,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(ColorConstants.getPeachDark())
-                        ),
-                        child: Text(
-                          'NO',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 32.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          UserOptionsUtil.showNewInvoiceDialog(context, null);
+                          NavigationUtil.onPaymentRequestInfoSelected(context);
+                        },
+                        child: Container(
+                          height: 78.0,
+                          width: 78.0,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Color(ColorConstants.getPrimaryColor())
+                          ),
+                          child: Text(
+                            'YES',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 26.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w800,
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
     );

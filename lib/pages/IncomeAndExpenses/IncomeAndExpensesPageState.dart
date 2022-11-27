@@ -80,6 +80,7 @@ class IncomeAndExpensesPageState {
   final Function(RecurringExpense) onResumeRecurringSubscriptionSelected;
   final double totalMilesDriven;
   final Function(MileageExpense) onMileageExpenseItemSelected;
+  final Function() setPaymentRequestAsSeen;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -142,6 +143,7 @@ class IncomeAndExpensesPageState {
     @required this.lastMonthIncome,
     @required this.thisMonthLastYearIncome,
     @required this.lineChartMonthData,
+    @required this.setPaymentRequestAsSeen,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -205,6 +207,7 @@ class IncomeAndExpensesPageState {
     int lastMonthIncome,
     int thisMonthLastYearIncome,
     List<LineChartMonthData> lineChartMonthData,
+    Function() setPaymentRequestAsSeen,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -267,6 +270,7 @@ class IncomeAndExpensesPageState {
       lastMonthIncome: lastMonthIncome ?? this.lastMonthIncome,
       thisMonthLastYearIncome: thisMonthLastYearIncome ?? this.thisMonthLastYearIncome,
       lineChartMonthData: lineChartMonthData ?? this.lineChartMonthData,
+      setPaymentRequestAsSeen: setPaymentRequestAsSeen ?? this.setPaymentRequestAsSeen,
     );
   }
 
@@ -331,6 +335,7 @@ class IncomeAndExpensesPageState {
     lastMonthIncome: 0,
     thisMonthLastYearIncome: 0,
     lineChartMonthData: [],
+    setPaymentRequestAsSeen: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -398,6 +403,7 @@ class IncomeAndExpensesPageState {
       onCancelRecurringSubscriptionSelected: (expense) => store.dispatch(SaveCancelledSubscriptionAction(store.state.incomeAndExpensesPageState, expense)),
       onResumeRecurringSubscriptionSelected: (expense) => store.dispatch(SaveResumedSubscriptionAction(store.state.incomeAndExpensesPageState, expense)),
       onMileageExpenseItemSelected: (expense) => store.dispatch(LoadExistingMileageExpenseAction(store.state.newMileageExpensePageState, expense)),
+      setPaymentRequestAsSeen: () => store.dispatch(SetPaymentRequestAsSeen(store.state.incomeAndExpensesPageState)),
     );
   }
 
@@ -410,6 +416,7 @@ class IncomeAndExpensesPageState {
       onCancelRecurringSubscriptionSelected.hashCode ^
       onEditRecurringExpenseItemSelected.hashCode ^
       allExpensesFilterType.hashCode ^
+      setPaymentRequestAsSeen.hashCode ^
       singleExpensesForSelectedYearTotal.hashCode ^
       isFinishedFetchingClients.hashCode ^
       jobSearchText.hashCode ^
@@ -483,6 +490,7 @@ class IncomeAndExpensesPageState {
               jobSearchText == other.jobSearchText &&
               totalMilesDriven == other.totalMilesDriven &&
               profile == other.profile &&
+              setPaymentRequestAsSeen == other.setPaymentRequestAsSeen &&
               onCancelRecurringSubscriptionSelected == other.onCancelRecurringSubscriptionSelected &&
               allExpensesFilterType == other.allExpensesFilterType &&
               expensesForSelectedYear == other.expensesForSelectedYear &&

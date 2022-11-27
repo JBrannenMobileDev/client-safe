@@ -74,7 +74,7 @@ class PieChartState extends State<PieChartWidget> {
               });
             },
           ),
-          sectionsSpace: 0,
+          sectionsSpace: 0.5,
           centerSpaceRadius: 50,
           sections: chartData,
         ),

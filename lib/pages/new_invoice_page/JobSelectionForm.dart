@@ -39,7 +39,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  "Select a Job",
+                  "What job is this invoice for?",
                   textAlign: TextAlign.start,
                   style: TextStyle(
                     fontSize: 24.0,
