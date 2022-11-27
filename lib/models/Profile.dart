@@ -22,6 +22,7 @@ class Profile{
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
   bool termsOfServiceAndPrivacyPolicyChecked = false;
+  bool showRequestPaymentLinksDialog = true;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -80,6 +81,7 @@ class Profile{
     this.cashAppLink,
     this.applePayPhone,
     this.termsOfServiceAndPrivacyPolicyChecked,
+    this.showRequestPaymentLinksDialog,
   });
 
   Profile copyWith({
@@ -104,6 +106,7 @@ class Profile{
     bool calendarEnabled,
     bool showNewMileageExpensePage,
     bool termsOfServiceAndPrivacyPolicyChecked,
+    bool showRequestPaymentLinksDialog,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -163,6 +166,7 @@ class Profile{
       cashAppLink: cashAppLink ?? this.cashAppLink,
       applePayPhone: applePayPhone ?? this.applePayPhone,
       termsOfServiceAndPrivacyPolicyChecked: termsOfServiceAndPrivacyPolicyChecked ?? this.termsOfServiceAndPrivacyPolicyChecked,
+      showRequestPaymentLinksDialog: showRequestPaymentLinksDialog ?? this.showRequestPaymentLinksDialog,
     );
   }
 
@@ -186,6 +190,7 @@ class Profile{
       'businessName' : businessName,
       'latDefaultHome' : latDefaultHome,
       'lngDefaultHome' : lngDefaultHome,
+      'showRequestPaymentLinksDialog' : showRequestPaymentLinksDialog,
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
       'showNewMileageExpensePage' : showNewMileageExpensePage,
@@ -232,6 +237,7 @@ class Profile{
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
       calendarEnabled: map['calendarEnabled'],
       salesTaxRate: map['salesTaxRate'],
+      showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'],
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,

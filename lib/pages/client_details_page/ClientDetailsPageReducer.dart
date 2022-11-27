@@ -56,6 +56,7 @@ ClientDetailsPageState _setClient(ClientDetailsPageState previousState, Initiali
     client: action.client,
     leadSource: action.client.leadSource,
     customLeadSourceName: action.client.customLeadSourceName,
+    importantDates: action.client.importantDates,
   );
 }
 

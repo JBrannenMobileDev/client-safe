@@ -40,7 +40,7 @@ class ImportantDatesWidget extends StatelessWidget {
                 padding: EdgeInsets.only(left: 24.0, bottom: 8.0, right: 24),
                 child: Text(
                   'Important Dates',
-                  textAlign: TextAlign.start,
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 20.0,
                     fontFamily: 'simple',
@@ -67,8 +67,7 @@ class ImportantDatesWidget extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
                           child: Text(
-                            pageState.client.importantDates.length.toString() +
-                                ' Dates',
+                            pageState.client.importantDates.length == 1 ? '1 Date' : pageState.client.importantDates.length.toString() + ' Dates',
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20.0,

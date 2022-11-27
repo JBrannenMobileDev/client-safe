@@ -32,9 +32,8 @@ class ContactDetailsTextField extends StatelessWidget {
       converter: (store) => ClientDetailsPageState.fromStore(store),
       builder: (BuildContext context, ClientDetailsPageState pageState) =>
           Container(
-              margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
               height: height,
-              child: TextFormField(
+              child: TextField(
                 enabled: textFieldEnabled,
                 focusNode: focusNode,
                 textInputAction: keyboardAction,
@@ -43,9 +42,6 @@ class ContactDetailsTextField extends StatelessWidget {
                 cursorColor: Color(ColorConstants.getPrimaryColor()),
                 onChanged: (text) {
                   onTextInputChanged(text);
-                },
-                onFieldSubmitted: (term){
-                  onFocusAction();
                 },
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
@@ -58,34 +54,13 @@ class ContactDetailsTextField extends StatelessWidget {
                   ),
                   hintText: hintText,
                   fillColor: Colors.white,
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                      width: 1.0,
-                    ),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                      width: 1.0,
-                    ),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                      width: 1.0,
-                    ),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(25.0),
-                    borderSide: BorderSide(
-                      color: textFieldEnabled ? Color(ColorConstants.getPrimaryColor()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
-                      width: 1.0,
-                    ),
-                  ),
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  enabledBorder: InputBorder.none,
+                  errorBorder: InputBorder.none,
+                  disabledBorder: InputBorder.none,
+                  contentPadding: EdgeInsets.all(0),
+                  isDense: true,
                 ),
                 keyboardType: inputType,
                 textCapitalization: capitalization,

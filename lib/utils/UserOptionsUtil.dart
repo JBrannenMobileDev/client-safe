@@ -3,6 +3,7 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipDialog.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/RequestPaymentLinksDialog.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/ViewInvoiceDialog.dart';
 import 'package:dandylight/pages/job_details_page/DepositChangeDialog.dart';
 import 'package:dandylight/pages/job_details_page/JobTypeChangeDialog.dart.dart';
@@ -336,6 +337,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewInvoiceDialog(onSendInvoiceSelected);
+      },
+    );
+  }
+
+  static void showPaymentLinksRequestDialog(BuildContext context, Function onSendInvoiceSelected) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return RequestPaymentLinksDialog();
       },
     );
   }

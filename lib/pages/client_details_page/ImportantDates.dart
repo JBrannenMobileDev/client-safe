@@ -66,7 +66,6 @@ class _ImportantDates extends State<ImportantDates> {
             color: Color(ColorConstants.getPrimaryWhite())),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
                 margin: EdgeInsets.only(top: 4.0),

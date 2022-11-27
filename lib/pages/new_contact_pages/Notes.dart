@@ -1,4 +1,5 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/client_details_page/ContactDetailsTextField.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
@@ -48,7 +49,7 @@ class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin {
                 ),
               ),
             ),
-            NewContactTextField(
+            ContactDetailsTextField(
                 notesController,
                 "Notes",
                 TextInputType.multiline,
@@ -61,7 +62,6 @@ class _Notes extends State<Notes> with AutomaticKeepAliveClientMixin {
                 TextCapitalization.sentences,
                 null,
                 true,
-              ColorConstants.getPrimaryColor(),
             ),
           ],
         ),

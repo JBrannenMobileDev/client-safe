@@ -74,10 +74,7 @@ class JobHistoryWidget extends StatelessWidget {
                                   bottom: 4.0, top: 4.0),
                               child: Text(
                                 (pageState.clientJobs != null &&
-                                    pageState.clientJobs.length > 0)
-                                    ? pageState.clientJobs.length
-                                    .toString() + ' Jobs'
-                                    : '0 Jobs',
+                                    pageState.clientJobs.length > 0) ? pageState.clientJobs.length == 1 ? '1 Job' : pageState.clientJobs.length.toString() + ' Jobs' : '0 Jobs',
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
                                   fontSize: 20.0,

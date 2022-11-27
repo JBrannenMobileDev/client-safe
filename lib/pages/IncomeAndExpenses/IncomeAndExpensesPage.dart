@@ -320,7 +320,11 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         ),
                       ),
                       onTap: () {
-                        UserOptionsUtil.showNewInvoiceDialog(context, null);
+                        if(pageState.profile.showRequestPaymentLinksDialog) {
+
+                        } else {
+                          UserOptionsUtil.showNewInvoiceDialog(context, null);
+                        }
                       },
                     ),
                     SpeedDialChild(
