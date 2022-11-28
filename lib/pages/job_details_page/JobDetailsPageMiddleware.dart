@@ -206,6 +206,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
       priceProfile: store.state.jobDetailsPageState.selectedPriceProfile != null && action.oneTimePrice.isEmpty ? store.state.jobDetailsPageState.selectedPriceProfile
           : action.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(action.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
+      depositAmount: action.pageState.selectedPriceProfile.deposit.toInt(),
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);

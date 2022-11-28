@@ -28,6 +28,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       profileName: store.state.pricingProfilePageState.profileName,
       flatRate: store.state.pricingProfilePageState.flatRate.toDouble(),
       icon: ImageUtil.getRandomPriceProfileIcon(),
+      deposit: store.state.pricingProfilePageState.deposit,
     );
     await PriceProfileDao.insertOrUpdate(priceProfile);
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));

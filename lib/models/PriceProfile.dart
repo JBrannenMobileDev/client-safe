@@ -8,6 +8,7 @@ class PriceProfile{
   double flatRate;
   double hourlyRate;
   double itemRate;
+  double deposit;
   String icon;
 
   PriceProfile({
@@ -19,6 +20,7 @@ class PriceProfile{
     this.hourlyRate,
     this.itemRate,
     this.icon,
+    this.deposit,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,6 +32,7 @@ class PriceProfile{
       'hourlyRate' : hourlyRate,
       'itemRate' : itemRate,
       'icon' : icon,
+      'deposit' : deposit,
     };
   }
 
@@ -42,6 +45,7 @@ class PriceProfile{
       hourlyRate: map['hourlyRate'],
       itemRate: map['itemRate'],
       icon: map['icon'],
+      deposit: map['deposit'],
     );
   }
 

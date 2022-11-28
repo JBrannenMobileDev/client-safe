@@ -86,7 +86,7 @@ class Invoice {
       jobDocumentId: map['jobDocumentId'],
       createdDate: map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       sentDate: map['sentDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['sentDate']) : null,
-      dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : null,
+      dueDate: map['dueDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['dueDate']) : map['createdDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['createdDate']) : null,
       depositPaid: map['depositPaid'],
       invoicePaid: map['invoicePaid'],
       priceProfile: PriceProfile.fromMap(map['priceProfile']),

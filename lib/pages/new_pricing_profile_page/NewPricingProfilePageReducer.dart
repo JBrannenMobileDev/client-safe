@@ -11,7 +11,25 @@ final newPricingProfilePageReducer = combineReducers<NewPricingProfilePageState>
   TypedReducer<NewPricingProfilePageState, UpdateProfileNameAction>(_updateName),
   TypedReducer<NewPricingProfilePageState, SaveSelectedRateTypeAction>(_saveRateType),
   TypedReducer<NewPricingProfilePageState, UpdateFlatRateTextAction>(_updateFlatRate),
+  TypedReducer<NewPricingProfilePageState, UpdateDepositAmountAction>(_updateDepositAmount),
+  TypedReducer<NewPricingProfilePageState, ResetPageIndexAction>(_resetPageIndex),
 ]);
+
+NewPricingProfilePageState _resetPageIndex(NewPricingProfilePageState previousState, ResetPageIndexAction action){
+  return previousState.copyWith(
+    pageViewIndex: 0,
+  );
+}
+
+NewPricingProfilePageState _updateDepositAmount(NewPricingProfilePageState previousState, UpdateDepositAmountAction action){
+  String resultCost = action.depositAmount.replaceAll('\$', '');
+  resultCost = resultCost.replaceAll(',', '');
+  resultCost = resultCost.replaceAll(' ', '');
+  double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
+  return previousState.copyWith(
+    deposit: doubleCost,
+  );
+}
 
 NewPricingProfilePageState _saveRateType(NewPricingProfilePageState previousState, SaveSelectedRateTypeAction action){
   return previousState.copyWith(
@@ -23,7 +41,7 @@ NewPricingProfilePageState _updateFlatRate(NewPricingProfilePageState previousSt
   String resultCost = action.flatRateText.replaceAll('\$', '');
   resultCost = resultCost.replaceAll(',', '');
   resultCost = resultCost.replaceAll(' ', '');
-  double doubleCost = double.parse(resultCost);
+  double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
   return previousState.copyWith(
     flatRate: doubleCost.toInt(),
   );

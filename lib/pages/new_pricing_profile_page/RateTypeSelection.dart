@@ -30,6 +30,8 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   OverlayEntry overlayEntry;
   final FocusNode flatRateInputFocusNode = new FocusNode();
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
+  final FocusNode depositInputFocusNode = new FocusNode();
+  var depositTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
   int selectorIndex = 0;
 
   _RateTypeSelection(this.scaffoldKey);
@@ -39,7 +41,18 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
     super.build(context);
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (appState) {
-        flatRateTextController.text = '\$' + (appState.state.pricingProfilePageState.flatRate.toInt() > 0 ? appState.state.pricingProfilePageState.flatRate.toInt().toString() : '');
+        if(appState.state.pricingProfilePageState.flatRate.toInt() == 0) {
+          flatRateTextController.text = '';
+        } else {
+          flatRateTextController.text = '\$' + appState.state.pricingProfilePageState.flatRate.toInt().toString();
+        }
+
+        if(appState.state.pricingProfilePageState.deposit.toInt() == 0) {
+          depositTextController.text = '';
+        } else {
+          depositTextController.text = '\$' + appState.state.pricingProfilePageState.deposit.toInt().toString();
+        }
+
        KeyboardVisibilityNotification().addNewListener(
             onShow: () {
               showOverlay(context);
@@ -52,6 +65,15 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
         flatRateInputFocusNode.addListener(() {
 
           bool hasFocus = flatRateInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        depositInputFocusNode.addListener(() {
+
+          bool hasFocus = depositInputFocusNode.hasFocus;
           if (hasFocus)
             showOverlay(context);
           else
@@ -84,11 +106,24 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     padding: EdgeInsets.only(left: 24.0, right: 24.0),
                     child: DandyLightTextField(
                       controller: flatRateTextController,
-                      hintText: "\$",
+                      hintText: "Price",
                       inputType: TextInputType.number,
                       focusNode: flatRateInputFocusNode,
                       height: 66.0,
                       onTextInputChanged: pageState.onFlatRateTextChanged,
+                      capitalization: TextCapitalization.none,
+                      keyboardAction: TextInputAction.done,
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 24.0, right: 24.0),
+                    child: DandyLightTextField(
+                      controller: depositTextController,
+                      hintText: "Deposit",
+                      inputType: TextInputType.number,
+                      focusNode: depositInputFocusNode,
+                      height: 66.0,
+                      onTextInputChanged: pageState.onDepositTextChanged,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
                     ),

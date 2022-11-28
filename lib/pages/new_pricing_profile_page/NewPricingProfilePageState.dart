@@ -18,6 +18,7 @@ class NewPricingProfilePageState {
   final String profileName;
   final String profileIcon;
   final int flatRate;
+  final double deposit;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -27,6 +28,7 @@ class NewPricingProfilePageState {
   final Function(String) onProfileIconSelected;
   final Function(String) onFilterChanged;
   final Function(String) onFlatRateTextChanged;
+  final Function(String) onDepositTextChanged;
 
   NewPricingProfilePageState({
     @required this.id,
@@ -46,6 +48,8 @@ class NewPricingProfilePageState {
     @required this.flatRate,
     @required this.onFilterChanged,
     @required this.onFlatRateTextChanged,
+    @required this.onDepositTextChanged,
+    @required this.deposit,
   });
 
   NewPricingProfilePageState copyWith({
@@ -58,6 +62,7 @@ class NewPricingProfilePageState {
     String profileIcon,
     String rateType,
     int flatRate,
+    double deposit,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -67,6 +72,7 @@ class NewPricingProfilePageState {
     Function(String) onProfileIconSelected,
     Function(String) onFilterChanged,
     Function(String) onFlatRateTextChanged,
+    Function(String) onDepositTextChanged,
   }){
     return NewPricingProfilePageState(
       id: id?? this.id,
@@ -86,6 +92,8 @@ class NewPricingProfilePageState {
       onFilterChanged: onFilterChanged ?? this.onFilterChanged,
       onFlatRateTextChanged: onFlatRateTextChanged ?? this.onFlatRateTextChanged,
       documentId: documentId ?? this.documentId,
+      onDepositTextChanged: onDepositTextChanged ?? this.onDepositTextChanged,
+      deposit: deposit ?? this.deposit,
     );
   }
 
@@ -107,6 +115,8 @@ class NewPricingProfilePageState {
         onProfileIconSelected: null,
         onFilterChanged: null,
         onFlatRateTextChanged: null,
+        onDepositTextChanged: null,
+        deposit: 0,
       );
 
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {
@@ -119,6 +129,7 @@ class NewPricingProfilePageState {
       profileIcon: store.state.pricingProfilePageState.profileIcon,
       flatRate: store.state.pricingProfilePageState.flatRate,
       documentId: store.state.pricingProfilePageState.documentId,
+      deposit: store.state.pricingProfilePageState.deposit,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
@@ -128,6 +139,7 @@ class NewPricingProfilePageState {
       onProfileIconSelected: (fileLocation) => store.dispatch(SetProfileIconAction(store.state.pricingProfilePageState, fileLocation)),
       onFilterChanged: (rateType) => store.dispatch(SaveSelectedRateTypeAction(store.state.pricingProfilePageState, rateType)),
       onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.pricingProfilePageState, flatRateText)),
+      onDepositTextChanged: (deposit) => store.dispatch(UpdateDepositAmountAction(store.state.pricingProfilePageState, deposit)),
     );
   }
 
@@ -148,6 +160,8 @@ class NewPricingProfilePageState {
       onProfileIconSelected.hashCode ^
       flatRate.hashCode ^
       onFilterChanged.hashCode ^
+      onDepositTextChanged.hashCode ^
+      deposit.hashCode ^
       onFlatRateTextChanged.hashCode ;
 
   @override
@@ -167,5 +181,7 @@ class NewPricingProfilePageState {
           onBackPressed == other.onBackPressed &&
           onProfileNameChanged == other.onProfileNameChanged &&
           onProfileIconSelected == other.onProfileIconSelected &&
+          onDepositTextChanged == other.onDepositTextChanged &&
+          deposit == other.deposit &&
           flatRate == other.flatRate ;
 }

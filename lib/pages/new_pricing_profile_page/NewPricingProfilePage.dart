@@ -69,7 +69,11 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
     });
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (store) {
-        if(store.state.pricingProfilePageState.shouldClear) store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
+        if(store.state.pricingProfilePageState.shouldClear) {
+          store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
+        } else {
+          store.dispatch(ResetPageIndexAction(store.state.pricingProfilePageState));
+        }
       },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
@@ -133,7 +137,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                       ),
                     ),
                     Container(
-                      height: 225.0,
+                      height: 228.0,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,

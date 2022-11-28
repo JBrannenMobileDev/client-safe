@@ -35,13 +35,11 @@ class PriceProfileListWidget extends StatelessWidget {
             Container(
               height: 64.0,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
-                  Row(
-
-                    children: <Widget>[
-                      Container(
+                  Container(
                         alignment: Alignment.center,
                         margin: EdgeInsets.only(right: 16.0, left: 16.0),
                         height: 36.0,
@@ -54,36 +52,53 @@ class PriceProfileListWidget extends StatelessWidget {
                           color: Colors.transparent,
                         ),
                       ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            priceProfile.profileName,
-                            textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: textColor,
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.flatRate),
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w400,
-                                color: textColor,
+                      Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.max,
+                            children: <Widget>[
+                              Text(
+                                priceProfile.profileName,
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 22.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: textColor,
+                                ),
                               ),
-                            ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.flatRate),
+                                    textAlign: TextAlign.start,
+                                    style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontFamily: 'simple',
+                                      fontWeight: FontWeight.w400,
+                                      color: textColor,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(right: 24.0),
+                                    child: Text(
+                                      (priceProfile.deposit != null ? priceProfile.deposit > 0 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
+                                      textAlign: TextAlign.start,
+                                      style: TextStyle(
+                                        fontSize: 20.0,
+                                        fontFamily: 'simple',
+                                        fontWeight: FontWeight.w400,
+                                        color: textColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ],
                       ),
-                    ],
-                  ),
                 ],
               ),
             ),

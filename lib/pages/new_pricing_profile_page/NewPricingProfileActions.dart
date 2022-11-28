@@ -24,6 +24,11 @@ class ClearStateAction{
   ClearStateAction(this.pageState);
 }
 
+class ResetPageIndexAction{
+  final NewPricingProfilePageState pageState;
+  ResetPageIndexAction(this.pageState);
+}
+
 class DeletePriceProfileAction{
   final NewPricingProfilePageState pageState;
   DeletePriceProfileAction(this.pageState);
@@ -55,6 +60,12 @@ class UpdateFlatRateTextAction{
   final NewPricingProfilePageState pageState;
   final String flatRateText;
   UpdateFlatRateTextAction(this.pageState, this.flatRateText);
+}
+
+class UpdateDepositAmountAction{
+  final NewPricingProfilePageState pageState;
+  final String depositAmount;
+  UpdateDepositAmountAction(this.pageState, this.depositAmount);
 }
 
 class UpdateHourlyRateTextAction{
