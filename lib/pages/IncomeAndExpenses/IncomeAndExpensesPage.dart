@@ -330,7 +330,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getPeachLight()),
+                      backgroundColor: Color(ColorConstants.getBlueLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -357,7 +357,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                   ] : [
                     SpeedDialChild(
                         child: Icon(Icons.add),
-                        backgroundColor: Color(ColorConstants.getPeachDark()),
+                        backgroundColor: Color(ColorConstants.getPeachLight()),
                         labelWidget: Container(
                           alignment: Alignment.center,
                           height: 42.0,
@@ -383,7 +383,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                     ),
                     SpeedDialChild(
                       child: Icon(Icons.add),
-                      backgroundColor: Color(ColorConstants.getBlueLight()),
+                      backgroundColor: Color(ColorConstants.getPeachLight()),
                       labelWidget: Container(
                         alignment: Alignment.center,
                         height: 42.0,
@@ -420,7 +420,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           borderRadius: BorderRadius.circular(21.0),
                         ),
                         child: Text(
-                          'Mileage Expense',
+                          'Mileage Trip',
                           style: TextStyle(
                             fontFamily: 'simple',
                             fontSize: 22.0,

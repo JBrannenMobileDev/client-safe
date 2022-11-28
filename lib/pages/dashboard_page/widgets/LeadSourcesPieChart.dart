@@ -36,8 +36,31 @@ class LeadSourcesPieChart extends StatelessWidget{
                     ),
                   ),
                 ),
-                PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,),
-                Container(
+                pageState.leadSourcesData.length > 0 ? PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,) :
+                Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(top: 25, bottom: 25),
+                      height: 100,
+                      child: Image.asset('assets/images/icons/pie_chart.png', color: Color(ColorConstants.getPeachLight()),),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(left: 36, right: 36),
+                      height: 74,
+                      child: Text(
+                        'No data available. Add new contacts to see stats.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                pageState.leadSourcesData.length > 0 ? Container(
                   margin: EdgeInsets.only(left: 16, right: 16),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,8 +87,8 @@ class LeadSourcesPieChart extends StatelessWidget{
                       ),
                     ],
                   ),
-                ),
-                ListView.builder(
+                ) : SizedBox(),
+                pageState.leadSourcesData.length > 0 ? ListView.builder(
                   reverse: false,
                   padding: new EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
                   shrinkWrap: true,
@@ -121,7 +144,7 @@ class LeadSourcesPieChart extends StatelessWidget{
                       ),
                     );
                   },
-                ),
+                ) : SizedBox(),
               ],
             ),
           ),

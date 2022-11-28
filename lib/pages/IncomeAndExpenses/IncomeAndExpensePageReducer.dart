@@ -70,7 +70,7 @@ IncomeAndExpensesPageState _setMileageExpenses(IncomeAndExpensesPageState previo
     allMileageExpenses: action.mileageExpenses,
     totalMilesDriven: totalMilesDriven,
     mileageExpensesForSelectedYearTotal: mileageExpensesTotal,
-    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal,
   );
 }
 
@@ -108,7 +108,7 @@ IncomeAndExpensesPageState _setSingleExpenses(IncomeAndExpensesPageState previou
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     allSingleExpenses: action.singleExpenses,
     singleExpensesForSelectedYearTotal: singleExpensesTotal,
-    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal,
   );
 }
 
@@ -132,7 +132,7 @@ IncomeAndExpensesPageState _setRecurringExpenses(IncomeAndExpensesPageState prev
     recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
     allRecurringExpenses: action.recurringExpenses,
     recurringExpensesForSelectedYearTotal: recurringExpenseTotal,
-    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal,
   );
 }
 
@@ -372,7 +372,7 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
     mileageExpensesForSelectedYearTotal: mileageExpensesTotal,
     singleExpensesForSelectedYear: singleExpenseForSelectedYear,
     recurringExpensesForSelectedYear: recurringExpenseForSelectedYear,
-    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal + mileageExpensesTotal,
+    expensesForSelectedYear: singleExpensesTotal + recurringExpenseTotal,
     recurringExpensesForSelectedYearTotal: recurringExpenseTotal,
     thisMonthIncome: thisMonth.toInt(),
     lastMonthIncome: lastMonth.toInt(),

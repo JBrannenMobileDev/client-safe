@@ -159,8 +159,9 @@ class LeadSourceSelectionWidget extends StatelessWidget {
                     );
                   }),
               Container(
-                height: 66.0,
+                height: 82.0,
                 width: 275,
+                margin: EdgeInsets.only(bottom: 27.0),
                 child: modalPageState.leadSource ==
                         'assets/images/icons/email_icon_white.png'
                     ? NewContactTextField(

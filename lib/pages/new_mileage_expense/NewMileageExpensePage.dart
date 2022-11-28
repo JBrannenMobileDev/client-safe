@@ -100,7 +100,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                           alignment: Alignment.center,
                           children: <Widget>[
                             Text(
-                              pageState.shouldClear ? "New Mileage Expense" : "Edit Mileage Expense",
+                              pageState.shouldClear ? "New Mileage Tip" : "Edit Mileage Tip",
                               textAlign: TextAlign.start,
                               style: TextStyle(
                                 fontSize: 26.0,

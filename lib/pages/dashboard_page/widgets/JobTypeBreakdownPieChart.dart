@@ -36,8 +36,31 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                     ),
                   ),
                 ),
-                PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,),
-                ListView.builder(
+                pageState.jobTypeBreakdownData.length > 0 ? PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,) :
+                  Column(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(top: 25, bottom: 25),
+                        height: 100,
+                        child: Image.asset('assets/images/icons/pie_chart.png', color: Color(ColorConstants.getPeachLight()),),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 36, right: 36),
+                        height: 74,
+                        child: Text(
+                          'No data available. Receive payment to see stats.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                pageState.jobTypeBreakdownData.length > 0 ? ListView.builder(
                   reverse: false,
                   padding: new EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
                   shrinkWrap: true,
@@ -93,7 +116,7 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                       ),
                     );
                   },
-                ),
+                ) : SizedBox(),
               ],
             ),
           ),

@@ -31,6 +31,7 @@ class NewContactTextField extends StatelessWidget {
       converter: (store) => NewContactPageState.fromStore(store),
       builder: (BuildContext context, NewContactPageState pageState) =>
           Container(
+              margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
               height: height,
               child: TextFormField(
                 enabled: textFieldEnabled,

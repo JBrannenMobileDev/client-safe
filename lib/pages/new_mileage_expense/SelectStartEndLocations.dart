@@ -54,7 +54,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
             Padding(
               padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
               child: Text(
-                'Select the start and end locations for this mileage expense.',
+                'Select the start and end locations for this mileage trip.',
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 20.0,

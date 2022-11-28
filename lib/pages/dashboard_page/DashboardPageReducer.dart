@@ -110,7 +110,7 @@ DashboardPageState _setJobTypesChartData(DashboardPageState previousState, SetJo
   List<Job> jobsWithPaymentReceived = action.allJobs.where((job) => job.isPaymentReceived() == true).toList();
 
   List<PieChartSectionData> jobTypeBreakdownData = buildJobTypeData(jobsWithPaymentReceived, action.allJobTypes);
-  List<JobTypePieChartRowData> jobTypeRowData = buildJobTypeRowData(jobsWithPaymentReceived, action.allJobTypes);;
+  List<JobTypePieChartRowData> jobTypeRowData = buildJobTypeRowData(jobsWithPaymentReceived, action.allJobTypes);
 
   return previousState.copyWith(
     jobTypeBreakdownData: jobTypeBreakdownData,
@@ -153,34 +153,6 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
   chartItems.add(data);
 
   for(SingleExpense expense in singleExpenses) {
-    if(expense.charge.chargeDate != null && expense.charge.chargeDate.year == currentYear) {
-      if(expense.charge.chargeDate.month == chartItems.elementAt(0).monthInt) {
-        chartItems.elementAt(0).income -= expense.charge.chargeAmount.toInt();
-      }
-
-      if(expense.charge.chargeDate.month == chartItems.elementAt(1).monthInt) {
-        chartItems.elementAt(1).income -= expense.charge.chargeAmount.toInt();
-      }
-
-      if(expense.charge.chargeDate.month == chartItems.elementAt(2).monthInt) {
-        chartItems.elementAt(2).income -= expense.charge.chargeAmount.toInt();
-      }
-
-      if(expense.charge.chargeDate.month == chartItems.elementAt(3).monthInt) {
-        chartItems.elementAt(3).income -= expense.charge.chargeAmount.toInt();
-      }
-
-      if(expense.charge.chargeDate.month == chartItems.elementAt(4).monthInt) {
-        chartItems.elementAt(4).income -= expense.charge.chargeAmount.toInt();
-      }
-
-      if(expense.charge.chargeDate.month == chartItems.elementAt(5).monthInt) {
-        chartItems.elementAt(5).income -= expense.charge.chargeAmount.toInt();
-      }
-    }
-  }
-
-  for(MileageExpense expense in mileageExpenses) {
     if(expense.charge.chargeDate != null && expense.charge.chargeDate.year == currentYear) {
       if(expense.charge.chargeDate.month == chartItems.elementAt(0).monthInt) {
         chartItems.elementAt(0).income -= expense.charge.chargeAmount.toInt();
@@ -420,7 +392,7 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
   rowData.sort((a, b) => a.count.compareTo(b.count));
 
   return previousState.copyWith(
-      leadConversionRate: rate.toInt(),
+      leadConversionRate: !rate.isNaN ? rate.toInt() : 0,
       unconvertedLeadCount: allClientsFromThisYear.length - clientsWithAJob.length,
       leadSourcesData: chartData,
       leadSourcePieChartRowData: rowData.reversed.toList(),

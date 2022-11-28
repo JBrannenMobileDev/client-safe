@@ -39,7 +39,7 @@ class MileageExpensesCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Text(
-                        'Mileage Expenses (' + pageState.selectedYear.toString() + ')',
+                        'Mileage Deduction (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           fontSize: 22.0,
@@ -172,10 +172,10 @@ class MileageExpensesCard extends StatelessWidget {
                   itemBuilder: _buildItem,
                 ) : Container(
                   alignment: Alignment.center,
-                  margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 16.0, right: 16.0),
+                  margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
                   height: 64.0,
                   child: Text(
-                    'You have zero mileage expenses.',
+                    'You have not added any trips yet. Select the + button to add a trip. ',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20.0,
