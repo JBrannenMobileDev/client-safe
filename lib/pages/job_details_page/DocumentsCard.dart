@@ -104,7 +104,18 @@ class DocumentsCard extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 8.0),
-                  child: item.buildTitle(context),
+                  child: Text(
+                    item.getDocumentType(),
+                    textAlign: TextAlign.start,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
                 ),
               ],
             ),

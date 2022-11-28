@@ -299,20 +299,20 @@ IncomeAndExpensesPageState _setSelectedYear(IncomeAndExpensesPageState previousS
   for(Job job in action.allJobs.where((job) => job.isPaymentReceived() == true).toList()) {
     if(job.invoice == null) {
       if(job.paymentReceivedDate.year == action.year) {
-        totalForSelectedYear = totalForSelectedYear + job.priceProfile.flatRate;
+        totalForSelectedYear = totalForSelectedYear + job.getJobCost();
       }
 
       if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
-        thisMonth = thisMonth + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
+        thisMonth = thisMonth + job.getJobCost() + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == lastMonthDate.year && job.paymentReceivedDate.month == lastMonthDate.month) {
-        lastMonth = lastMonth + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
+        lastMonth = lastMonth + job.getJobCost() + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == thisMonthLastYearDate.year && job.paymentReceivedDate.month == thisMonthLastYearDate.month) {
-        thisMonthLastYear = thisMonthLastYear + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
+        thisMonthLastYear = thisMonthLastYear + job.getJobCost() + (job.tipAmount != null ? job.tipAmount : 0);
       }
       if(job.paymentReceivedDate.year == lastMonthLastYearDate.year && job.paymentReceivedDate.month == lastMonthLastYearDate.month) {
-        lastMonthLastYear = lastMonthLastYear + job.priceProfile.flatRate + (job.tipAmount != null ? job.tipAmount : 0);
+        lastMonthLastYear = lastMonthLastYear + job.getJobCost() + (job.tipAmount != null ? job.tipAmount : 0);
       }
     } else {
       if(job.paymentReceivedDate.year == now.year && job.paymentReceivedDate.month == now.month) {
@@ -460,7 +460,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(0).income += (job.invoice.total - job.invoice.discount).toInt();
         } else {
-          chartItems.elementAt(0).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(0).income += job.getJobCost().toInt();
         }
       }
 
@@ -470,7 +470,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(1).income += (job.invoice.total - job.invoice.discount).toInt();
         } else {
-          chartItems.elementAt(1).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(1).income += job.getJobCost().toInt();
         }
       }
 
@@ -480,7 +480,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(2).income += (job.invoice.total - job.invoice.discount).toInt();
         } else {
-          chartItems.elementAt(2).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(2).income += job.getJobCost().toInt();
         }
       }
 
@@ -490,7 +490,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(3).income += (job.invoice.total - job.invoice.discount).toInt();
         } else {
-          chartItems.elementAt(3).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(3).income += job.getJobCost().toInt();
         }
       }
 
@@ -500,7 +500,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(4).income += (job.invoice.total - job.invoice.discount).toInt();
         } else {
-          chartItems.elementAt(4).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(4).income += job.getJobCost().toInt();
         }
       }
 
@@ -510,7 +510,7 @@ List<LineChartMonthData> buildChartData(List<Job> jobsWithPaymentReceived, List<
         if(job.invoice != null) {
           chartItems.elementAt(5).income += (job.invoice.total - job.invoice.discount).toInt();
         } else {
-          chartItems.elementAt(5).income += job.priceProfile.flatRate.toInt();
+          chartItems.elementAt(5).income += job.getJobCost().toInt();
         }
       }
     }

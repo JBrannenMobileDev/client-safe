@@ -92,8 +92,8 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveUpdatedPricePackageAction){
       _updateJobPriceProfile(store, action, next);
     }
-    if(action is SaveDepositChangeAction){
-      _updateJobDeposit(store, action, next);
+    if(action is SaveAddOnCostAction){
+      _updateJobAddOnCost(store, action, next);
     }
     if(action is SaveTipChangeAction){
       _updateJobTip(store, action, next);
@@ -182,9 +182,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
   }
 
-  void _updateJobDeposit(Store<AppState> store, SaveDepositChangeAction action, NextDispatcher next) async{
+  void _updateJobAddOnCost(Store<AppState> store, SaveAddOnCostAction action, NextDispatcher next) async{
     Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
-      depositAmount: action.pageState.unsavedDepositAmount,
+      addOnCost: action.pageState.unsavedAddOnCostAmount,
     );
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     await JobDao.insertOrUpdate(jobToSave);

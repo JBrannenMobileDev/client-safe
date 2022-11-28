@@ -32,7 +32,7 @@ class JobDetailsPageState {
   final JobType jobType;
   final List<JobReminder> reminders;
   final String jobTitleText;
-  final int unsavedDepositAmount;
+  final double unsavedAddOnCostAmount;
   final int unsavedTipAmount;
   final List<Location> locations;
   final List<File> imageFiles;
@@ -66,7 +66,7 @@ class JobDetailsPageState {
   final Function() onNameChangeSaved;
   final Function() onJobTypeSaveSelected;
   final Function(int) onAddToDeposit;
-  final Function() onSaveDepositChange;
+  final Function() onSaveAddOnCost;
   final Function() onClearUnsavedDeposit;
   final Function(int) onAddToTip;
   final Function() onSaveTipChange;
@@ -117,9 +117,9 @@ class JobDetailsPageState {
     @required this.priceProfiles,
     @required this.onPriceProfileSelected,
     @required this.onSaveUpdatedPriceProfileSelected,
-    @required this.unsavedDepositAmount,
+    @required this.unsavedAddOnCostAmount,
     @required this.onAddToDeposit,
-    @required this.onSaveDepositChange,
+    @required this.onSaveAddOnCost,
     @required this.onClearUnsavedDeposit,
     @required this.onAddInvoiceSelected,
     @required this.documents,
@@ -182,9 +182,9 @@ class JobDetailsPageState {
     Function(String) onJobTitleTextChanged,
     Function() onNameChangeSaved,
     Function(JobType) onJobTypeSaveSelected,
-    int unsavedDepositAmount,
+    double unsavedAddOnCostAmount,
     Function(int) onAddToDeposit,
-    Function() onSaveDepositChange,
+    Function() onSaveAddOnCost,
     Function() onClearUnsavedDeposit,
     Function() onAddInvoiceSelected,
     List<DocumentItem> documents,
@@ -242,9 +242,9 @@ class JobDetailsPageState {
       unsavedTipAmount: unsavedTipAmount ?? this.unsavedTipAmount,
       onPriceProfileSelected: onPriceProfileSelected ?? this.onPriceProfileSelected,
       onSaveUpdatedPriceProfileSelected: onSaveUpdatedPriceProfileSelected ?? this.onSaveUpdatedPriceProfileSelected,
-      unsavedDepositAmount: unsavedDepositAmount ?? this.unsavedDepositAmount,
+      unsavedAddOnCostAmount: unsavedAddOnCostAmount ?? this.unsavedAddOnCostAmount,
       onAddToDeposit: onAddToDeposit ?? this.onAddToDeposit,
-      onSaveDepositChange:  onSaveDepositChange ?? this.onSaveDepositChange,
+      onSaveAddOnCost:  onSaveAddOnCost ?? this.onSaveAddOnCost,
       onClearUnsavedDeposit: onClearUnsavedDeposit ?? this.onClearUnsavedDeposit,
       onAddInvoiceSelected: onAddInvoiceSelected ?? this.onAddInvoiceSelected,
       documents: documents ?? this.documents,
@@ -279,7 +279,7 @@ class JobDetailsPageState {
         newStagAnimationIndex: store.state.jobDetailsPageState.newStagAnimationIndex,
         selectedPriceProfile: store.state.jobDetailsPageState.selectedPriceProfile,
         priceProfiles: store.state.jobDetailsPageState.priceProfiles,
-        unsavedDepositAmount: store.state.jobDetailsPageState.unsavedDepositAmount,
+        unsavedAddOnCostAmount: store.state.jobDetailsPageState.unsavedAddOnCostAmount,
         unsavedTipAmount: store.state.jobDetailsPageState.unsavedTipAmount,
         documentPath: store.state.jobDetailsPageState.documentPath,
         documents: store.state.jobDetailsPageState.documents,
@@ -312,8 +312,8 @@ class JobDetailsPageState {
         onJobTypeSaveSelected: () => store.dispatch(SaveUpdatedJobTypeAction(store.state.jobDetailsPageState)),
         onPriceProfileSelected: (priceProfile) => store.dispatch(UpdateSelectedPricePackageAction(store.state.jobDetailsPageState, priceProfile)),
         onSaveUpdatedPriceProfileSelected: (oneTimePrice) => store.dispatch(SaveUpdatedPricePackageAction(store.state.jobDetailsPageState, oneTimePrice)),
-        onAddToDeposit: (amountToAdd) => store.dispatch(AddToDepositAction(store.state.jobDetailsPageState, amountToAdd)),
-        onSaveDepositChange: () => store.dispatch(SaveDepositChangeAction(store.state.jobDetailsPageState)),
+        onAddToDeposit: (amountToAdd) => store.dispatch(AddToAddOnCostAction(store.state.jobDetailsPageState, amountToAdd)),
+        onSaveAddOnCost: () => store.dispatch(SaveAddOnCostAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
         onAddInvoiceSelected: () {
           store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
@@ -372,9 +372,9 @@ class JobDetailsPageState {
     priceProfiles: [],
     onPriceProfileSelected: null,
     onSaveUpdatedPriceProfileSelected: null,
-    unsavedDepositAmount: 0,
+    unsavedAddOnCostAmount: 0,
     onAddToDeposit: null,
-    onSaveDepositChange: null,
+    onSaveAddOnCost: null,
     onClearUnsavedDeposit: null,
     onAddInvoiceSelected: null,
     invoice: null,
@@ -398,9 +398,9 @@ class JobDetailsPageState {
       deviceEvents.hashCode ^
       onSaveTipChange.hashCode ^
       onClearUnsavedTip.hashCode ^
-      unsavedDepositAmount.hashCode ^
+      unsavedAddOnCostAmount.hashCode ^
       onAddToDeposit.hashCode ^
-      onSaveDepositChange.hashCode ^
+      onSaveAddOnCost.hashCode ^
       job.hashCode ^
       jobTypes.hashCode ^
       jobType.hashCode ^
@@ -447,10 +447,10 @@ class JobDetailsPageState {
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is JobDetailsPageState &&
-              unsavedDepositAmount == other.unsavedDepositAmount &&
+              unsavedAddOnCostAmount == other.unsavedAddOnCostAmount &&
               onAddToDeposit == other.onAddToDeposit &&
               onAddInvoiceSelected == other.onAddInvoiceSelected &&
-              onSaveDepositChange == other.onSaveDepositChange &&
+              onSaveAddOnCost == other.onSaveAddOnCost &&
               job == other.job &&
               jobTypes == other.jobTypes &&
               selectedDate == other.selectedDate &&

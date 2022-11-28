@@ -8,14 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-class DepositChangeDialog extends StatefulWidget {
+class AddOnCostChangeDialog extends StatefulWidget {
   @override
-  _DepositChangeDialogState createState() {
-    return _DepositChangeDialogState();
+  _AddOnCostChangeDialogState createState() {
+    return _AddOnCostChangeDialogState();
   }
 }
 
-class _DepositChangeDialogState extends State<DepositChangeDialog>
+class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
     with AutomaticKeepAliveClientMixin {
   final jobTitleTextController = TextEditingController();
 
@@ -33,7 +33,7 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
             body: Center(
               child: Container(
                 margin: EdgeInsets.only(left: 8.0, right: 8.0),
-              height: 350.0,
+              height: 432.0,
               padding: EdgeInsets.only(left: 32.0, right: 32.0),
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -45,7 +45,7 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                 children: <Widget>[
 
                   Padding(
-                    padding: EdgeInsets.only(top: 62.0, right: 16.0),
+                    padding: EdgeInsets.only(top: 134.0, right: 16.0),
                     child: GestureDetector(
                       onTap: () {
                         pageState.onClearUnsavedDeposit();
@@ -73,9 +73,22 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
+                        padding: EdgeInsets.only(bottom: 16.0),
+                        child: Text(
+                          "Select the Add-on cost amount",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 24.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                      ),
+                      Padding(
                         padding: EdgeInsets.only(bottom: 24.0),
                         child: Text(
-                          "Select a new deposit amount.",
+                          "This amount will be added to the current price of this job.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 20.0,
@@ -88,7 +101,7 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                       Container(
                         margin: EdgeInsets.only(bottom: 16.0),
                         child: Text(
-                          "\$" + pageState.unsavedDepositAmount.toString(),
+                          "\$" + pageState.unsavedAddOnCostAmount.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 52.0,
@@ -301,7 +314,7 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                                 'Cancel',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 24.0,
                                   fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),
@@ -311,7 +324,7 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                             TextButton(
                               style: Styles.getButtonStyle(),
                               onPressed: () {
-                                pageState.onSaveDepositChange();
+                                pageState.onSaveAddOnCost();
                                 VibrateUtil.vibrateHeavy();
                                 Navigator.of(context).pop();
                               },
@@ -319,7 +332,7 @@ class _DepositChangeDialogState extends State<DepositChangeDialog>
                                 'Save',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: 20.0,
+                                  fontSize: 24.0,
                                   fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.primary_black),

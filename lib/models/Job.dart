@@ -26,6 +26,7 @@ class Job {
   JobStage stage;
   Invoice invoice;
   int depositAmount;
+  double addOnCost;
   int tipAmount = 0;
   List<JobStage> completedStages;
 
@@ -51,6 +52,7 @@ class Job {
     this.tipAmount,
     this.paymentReceivedDate,
     this.depositReceivedDate,
+    this.addOnCost,
   });
 
   Job copyWith({
@@ -75,6 +77,7 @@ class Job {
     DateTime createdDate,
     DateTime paymentReceivedDate,
     DateTime depositReceivedDate,
+    double addOnCost,
   }){
     return Job(
       id: id?? this.id,
@@ -98,6 +101,7 @@ class Job {
       completedStages: completedStages ?? this.completedStages,
       createdDate: createdDate ?? this.createdDate,
       depositReceivedDate: depositReceivedDate ?? this.depositReceivedDate,
+      addOnCost: addOnCost ?? this.addOnCost,
     );
   }
 
@@ -123,6 +127,7 @@ class Job {
       'completedStages' : convertCompletedStagesToMap(completedStages),
       'depositAmount' : depositAmount,
       'tipAmount' : tipAmount,
+      'addOnCost' : addOnCost,
     };
   }
 
@@ -134,6 +139,7 @@ class Job {
       clientName: map['clientName'],
       jobTitle: map['jobTitle'],
       notes: map['notes'],
+      addOnCost: map['addOnCost'],
       depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
       selectedDate: map['selectedDate'] != ""? DateTime.parse(map['selectedDate']) : null,
       selectedTime: map['selectedTime'] != "" ? DateTime.parse(map['selectedTime']) : null,
@@ -221,6 +227,10 @@ class Job {
       if(completedStage.stage == JobStage.STAGE_9_PAYMENT_RECEIVED || completedStage.stage == JobStage.STAGE_14_JOB_COMPLETE || completedStage.stage == JobStage.STAGE_COMPLETED_CHECK) return true;
     }
     return false;
+  }
+
+  double getJobCost() {
+    return (priceProfile.flatRate != null ? priceProfile.flatRate : 0) + this.addOnCost;
   }
 
   static bool containsStage(List<JobStage> completedStages, String stageConstant) {

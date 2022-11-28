@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../ColorConstants.dart';
+
 class Styles {
 
   static ButtonStyle getButtonStyle({
@@ -17,7 +19,10 @@ class Styles {
       shape: shape,
       primary: color,
       textStyle: TextStyle(
-        color: textColor
+      fontSize: 20.0,
+      fontFamily: 'simple',
+      fontWeight: FontWeight.w600,
+      color: Color(ColorConstants.primary_black),
       ),
     );
   }

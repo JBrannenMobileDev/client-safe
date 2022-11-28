@@ -681,7 +681,7 @@ class JobInfoCard extends StatelessWidget {
                 TextButton(
                   style: Styles.getButtonStyle(),
                   onPressed: () {
-                    UserOptionsUtil.showDepositChangeDialog(context);
+                    UserOptionsUtil.showAddOnCostSelectionDialog(context);
                   },
                   child: Container(
                     height: 48.0,
@@ -703,8 +703,7 @@ class JobInfoCard extends StatelessWidget {
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
                               child: Text(
-                                pageState.job.depositAmount == null ? 'Not selected (deposit)' :
-                                '\$' + (pageState.job.depositAmount != null ? pageState.job.depositAmount.toInt().toString() : '0') + ' (deposit)',
+                                '\$' + (pageState.job.addOnCost != null ? pageState.job.addOnCost.toInt().toString() : '0') + ' (Add-on cost)',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,

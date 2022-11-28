@@ -60,7 +60,7 @@ class JobCompletedItem extends StatelessWidget{
                       ),
                     ),
                     Text(
-                      NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.priceProfile.flatRate),
+                      NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.getJobCost()),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 18.0,

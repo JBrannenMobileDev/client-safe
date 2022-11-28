@@ -278,11 +278,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showDepositChangeDialog(BuildContext context) {
+  static void showAddOnCostSelectionDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return DepositChangeDialog();
+        return AddOnCostChangeDialog();
       },
     );
   }

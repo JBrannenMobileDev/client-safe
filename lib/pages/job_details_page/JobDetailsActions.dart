@@ -250,15 +250,15 @@ class SetPricingProfiles{
   SetPricingProfiles(this.pageState, this.priceProfiles);
 }
 
-class AddToDepositAction{
+class AddToAddOnCostAction{
   final JobDetailsPageState pageState;
   final int amountToAdd;
-  AddToDepositAction(this.pageState, this.amountToAdd);
+  AddToAddOnCostAction(this.pageState, this.amountToAdd);
 }
 
-class SaveDepositChangeAction{
+class SaveAddOnCostAction{
   final JobDetailsPageState pageState;
-  SaveDepositChangeAction(this.pageState);
+  SaveAddOnCostAction(this.pageState);
 }
 
 class ClearUnsavedDepositAction{
