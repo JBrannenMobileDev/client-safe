@@ -243,13 +243,21 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     remainingBalance = selectedJob.invoice.unpaidAmount;
     discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
   } else if(previousState.lineItems.isEmpty){
-    total = selectedJob.priceProfile.flatRate;
+    total = selectedJob.getJobCost();
     LineItem rateLineItem = LineItem(
         itemName: selectedJob.priceProfile.profileName,
         itemPrice: selectedJob.priceProfile.flatRate,
         itemQuantity: 1
     );
     lineItems.add(rateLineItem);
+    if(selectedJob.addOnCost != null && selectedJob.addOnCost > 0) {
+      LineItem addOnLineItem = LineItem(
+          itemName: 'Add-on cost',
+          itemPrice: selectedJob.addOnCost,
+          itemQuantity: 1
+      );
+      lineItems.add(addOnLineItem);
+    }
     remainingBalance = _calculateSubtotalByLineItem(lineItems) - (action.selectedJob.isDepositPaid() ? action.selectedJob.depositAmount : 0);
   } else {
     total = _calculateSubtotal(previousState);

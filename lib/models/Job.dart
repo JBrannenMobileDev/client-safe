@@ -230,7 +230,7 @@ class Job {
   }
 
   double getJobCost() {
-    return (priceProfile.flatRate != null ? priceProfile.flatRate : 0) + this.addOnCost;
+    return (priceProfile != null && priceProfile.flatRate != null ? priceProfile.flatRate : 0) + (this.addOnCost != null ? this.addOnCost : 0);
   }
 
   static bool containsStage(List<JobStage> completedStages, String stageConstant) {
