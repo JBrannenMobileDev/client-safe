@@ -58,6 +58,15 @@ class IntentLauncherUtil{
     }
   }
 
+  static Future shareDepositRequest(depositAmount) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';
+    String venmoInfo = profile.venmoLink != null && profile.venmoLink.isNotEmpty ? '\n\nVenmo\n' + profile.venmoLink : '';
+    String cashAppInfo = profile.cashAppLink != null && profile.cashAppLink.isNotEmpty ? '\n\nCash App\n' + profile.cashAppLink : '';
+    String applePayInfo = profile.applePayPhone != null && profile.applePayPhone.isNotEmpty ? '\n\nApple Pay\n' + TextFormatterUtil.formatPhoneNum(profile.applePayPhone) : '';
+    FlutterShare.share(title: profile.businessName + ' Deposit Request', text: 'YOUR MESSAGE GOES HERE\n\nDeposit Amount Due: ' + TextFormatterUtil.formatSimpleCurrency(depositAmount) + (zelleInfo.isNotEmpty || venmoInfo.isNotEmpty || cashAppInfo.isNotEmpty || applePayInfo.isNotEmpty ? '\n\nHere are the forms of payment i accept:' + zelleInfo + venmoInfo + cashAppInfo + applePayInfo : ''));
+  }
+
   static Future sharePaymentLinks() async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty ? '\n\nZelle\n' + 'Add recipient info:\n' + (TextFormatterUtil.isEmail(profile.zellePhoneEmail) ? 'Email: ' : TextFormatterUtil.isPhone(profile.zellePhoneEmail) ? 'Phone: ' : 'Phone or Email') + TextFormatterUtil.formatPhoneOrEmail(profile.zellePhoneEmail) + '\nName: ' + profile.zelleFullName : '';

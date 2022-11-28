@@ -24,15 +24,17 @@ class StageItem extends StatefulWidget {
   final int index;
   final Job job;
   final Function() onSendInvoiceSelected;
+  final Function() onJobCompleteSelected;
   StageItem(
       this.index,
       this.job,
       this.onSendInvoiceSelected,
+      this.onJobCompleteSelected,
   );
 
   @override
   State<StatefulWidget> createState() {
-    return _StageItemState(index, job, onSendInvoiceSelected);
+    return _StageItemState(index, job, onSendInvoiceSelected, onJobCompleteSelected);
   }
 }
 
@@ -78,11 +80,13 @@ class _StageItemState extends State<StageItem>
   int index;
   Job staleJob;
   Function() onSendInvoiceSelected;
+  final Function() onJobCompleteSelected;
 
   _StageItemState(
       this.index,
       this.staleJob,
       this.onSendInvoiceSelected,
+      this.onJobCompleteSelected
       );
 
   @override
@@ -310,6 +314,9 @@ class _StageItemState extends State<StageItem>
                               pageState.removeExpandedIndex(index);
                               pageState.setNewIndexForStageAnimation((JobStage.getIndexOfCurrentStage(pageState.job.stage.stage, pageState.job.type.stages)));
                           }else{
+                            if(index >= pageState.job.type.stages.length-1) {
+                              onJobCompleteSelected();
+                            }
                             Timer(Duration(milliseconds: 300), () => {
                               pageState.onStageCompleted(pageState.job, index),
                               isStageCompleted = true,
@@ -415,6 +422,7 @@ class _StageItemState extends State<StageItem>
                               case JobStage.STAGE_4_PROPOSAL_SIGNED:
                                 break;
                               case JobStage.STAGE_5_DEPOSIT_RECEIVED:
+                                IntentLauncherUtil.shareDepositRequest(pageState.job.depositAmount);
                                 break;
                               case JobStage.STAGE_6_PLANNING_COMPLETE:
                                 Navigator.of(context).push(
@@ -466,7 +474,7 @@ class _StageItemState extends State<StageItem>
                           child: Container(
                             alignment: Alignment.center,
                             height: 32.0,
-                            width: 125.0,
+                            width: 136.0,
                             margin: EdgeInsets.only(top: 5.0),
                             padding: EdgeInsets.only(
                                 top: 4.0, left: 8.0, bottom: 4.0, right: 8.0),
@@ -548,7 +556,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_5_DEPOSIT_RECEIVED);
         stageTitle = isStageCompleted ? 'Deposit received!' : 'Deposit received?';
         stageSubtitle = '';
-        actionButtonText = '';
+        actionButtonText = 'Request Deposit';
         break;
       case JobStage.STAGE_6_PLANNING_COMPLETE:
         stageImage = ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index));

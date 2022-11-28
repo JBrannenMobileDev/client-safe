@@ -19,6 +19,7 @@ import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -488,7 +489,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   }
 
   _getWidgetForIndex(int index, Job job) {
-    return StageItem(index, job, onSendInvoiceSelected);
+    return StageItem(index, job, onSendInvoiceSelected, onJobCompleteSelected);
   }
 
   getFabIcon() {
@@ -497,5 +498,28 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
     }else{
       return Icon(Icons.add, color: Color(ColorConstants.getPrimaryWhite()));
     }
+  }
+
+  void onJobCompleteSelected() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Padding(
+            padding: EdgeInsets.all(96.0),
+            child: FlareActor(
+              "assets/animations/success_check.flr",
+              alignment: Alignment.center,
+              fit: BoxFit.contain,
+              animation: "show_check",
+              callback: onFlareCompleted,
+            ),
+          );
+        },
+      );
+  }
+
+  void onFlareCompleted(String unused, ) {
+    Navigator.of(context).pop(true);
+    Navigator.of(context).pop(true);
   }
 }
