@@ -20,6 +20,9 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'InfoContainerWidget.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -73,9 +76,21 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Tween<double> sunRadiusTween;
   String selectedButton;
 
+  final int pageCount = 4;
+  final controller = PageController(
+    initialPage: 0,
+  );
+  int currentPageIndex = 0;
+
   @override
   void initState() {
     super.initState();
+    currentPageIndex = 0;
+
+    controller.addListener(() {
+      currentPageIndex = controller.page.toInt();
+    });
+
     loginEmailFocusNode.addListener(() {
       if(loginEmailFocusNode.hasFocus || loginPasswordFocusNode.hasFocus){
         _controllerSlideUp.forward();
@@ -424,7 +439,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 child: Container(
                   alignment: Alignment.bottomCenter,
                   height: MediaQuery.of(context).size.height,
-                  margin: EdgeInsets.only(bottom: 48.0),
+                  margin: EdgeInsets.only(bottom: 24.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
@@ -518,6 +533,46 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 //                         ),
 //                       ),
 //                   ),
+                      SlideTransition(
+                        position: hideMainButtonsStep,
+                        child: Container(
+                          margin: EdgeInsets.only(bottom: 16.0),
+                          height: 250.0,
+                          width: MediaQuery.of(context).size.width,
+                          child: PageView(
+                            controller: controller,
+                            pageSnapping: true,
+                            children: <Widget>[
+                              InfoContainerWidget(),
+                              InfoContainerWidget(),
+                              InfoContainerWidget(),
+                              InfoContainerWidget()
+                            ],
+                            onPageChanged: (index) {
+                              setState(() {
+                                currentPageIndex = index;
+                              });
+                            },
+                          ),
+                        ),
+                      ),
+                    SlideTransition(
+                    position: hideMainButtonsStep,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 250,
+                        child: AnimatedSmoothIndicator(
+                          activeIndex: currentPageIndex,
+                          count: 4,
+                          effect: ExpandingDotsEffect(
+                              expansionFactor: 2,
+                              dotWidth: 8.0,
+                              dotHeight: 8.0,
+                              activeDotColor: Color(ColorConstants.getPeachDark()),
+                              dotColor: Color(ColorConstants.getPrimaryWhite())),
+                        ),
+                      ),
+                    ),
                   SlideTransition(
                     position: hideMainButtonsStep,
                     child: GestureDetector(
@@ -554,7 +609,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       ),
                   ),
                       Container(
-                        margin: EdgeInsets.only(top: 16.0),
+                        margin: EdgeInsets.only(top: 12.0),
                         child: GestureDetector(
                           onTap: () {
                             if(pageState.mainButtonsVisible){
@@ -577,8 +632,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                      (pageState.isForgotPasswordViewVisible || pageState.mainButtonsVisible) ? SizedBox(height: 42.0,) : Container(
-                        margin: EdgeInsets.only(top: 16.0),
+                      (pageState.isForgotPasswordViewVisible || pageState.mainButtonsVisible) ? SizedBox(height: 38.0,) : Container(
+                        margin: EdgeInsets.only(top: 12.0),
                         child: GestureDetector(
                           onTap: () {
                             pageState.updateForgotPasswordVisible(true);
@@ -741,7 +796,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             }
                           },
                           child: Container(
-                            margin: EdgeInsets.only(top: 16.0, bottom: 48.0),
+                            margin: EdgeInsets.only(top: 12.0, bottom: 10.0),
                             alignment: Alignment.center,
                             height: 64.0,
                             width: 250.0,
@@ -784,7 +839,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               'Sign in',
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 22.0,
+                                fontSize: 26.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: Color(ColorConstants.getPrimaryWhite()),
