@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:dandylight/widgets/bouncing_loading_animation/BouncingLoadingAnimatedIcon.dart';
 import 'package:dandylight/widgets/bouncing_loading_animation/LoginLoadingWidget.dart';
 import 'package:flutter/services.dart';
 
@@ -22,7 +21,13 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import 'BusinessAnalyticsInfo.dart';
 import 'InfoContainerWidget.dart';
+import 'InvoiceInfo.dart';
+import 'JobTrackingInfo.dart';
+import 'IncomeAndExpensesInfo.dart';
+import 'StayOrganizedInfo.dart';
+import 'TrackYourMilesInfo.dart';
 
 class LoginPage extends StatefulWidget {
 
@@ -76,7 +81,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   Tween<double> sunRadiusTween;
   String selectedButton;
 
-  final int pageCount = 4;
+  final int pageCount = 6;
   final controller = PageController(
     initialPage: 0,
   );
@@ -89,6 +94,20 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
 
     controller.addListener(() {
       currentPageIndex = controller.page.toInt();
+    });
+
+    final duration = Duration(seconds: 6);
+    Timer.periodic(duration, (timer) {
+      // Stop the timer when it matches a condition
+      if (currentPageIndex < pageCount - 1) {
+        currentPageIndex = currentPageIndex + 1;
+        controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 350), curve: Curves.ease);
+      } else {
+        currentPageIndex = 0;
+        controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+      }
+
+      print('Tick: ${timer.tick}');
     });
 
     loginEmailFocusNode.addListener(() {
@@ -536,17 +555,18 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       SlideTransition(
                         position: hideMainButtonsStep,
                         child: Container(
-                          margin: EdgeInsets.only(bottom: 16.0),
-                          height: 250.0,
+                          height: 270.0,
                           width: MediaQuery.of(context).size.width,
                           child: PageView(
                             controller: controller,
                             pageSnapping: true,
                             children: <Widget>[
-                              InfoContainerWidget(),
-                              InfoContainerWidget(),
-                              InfoContainerWidget(),
-                              InfoContainerWidget()
+                              InfoContainerWidget(contentWidget: JobTrackingInfo(),),
+                              InfoContainerWidget(contentWidget: TrackYourMilesInfo(),),
+                              InfoContainerWidget(contentWidget: IncomeAndExpensesInfo(),),
+                              InfoContainerWidget(contentWidget: InvoiceInfo(),),
+                              InfoContainerWidget(contentWidget: StayOrganizedInfo(),),
+                              InfoContainerWidget(contentWidget: BusinessAnalyticsInfo(),),
                             ],
                             onPageChanged: (index) {
                               setState(() {
@@ -559,11 +579,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     SlideTransition(
                     position: hideMainButtonsStep,
                       child: Container(
+                        margin: EdgeInsets.only(bottom: 16.0),
                         alignment: Alignment.center,
                         width: 250,
                         child: AnimatedSmoothIndicator(
                           activeIndex: currentPageIndex,
-                          count: 4,
+                          count: 6,
                           effect: ExpandingDotsEffect(
                               expansionFactor: 2,
                               dotWidth: 8.0,

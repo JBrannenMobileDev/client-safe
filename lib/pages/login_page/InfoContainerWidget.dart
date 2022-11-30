@@ -14,25 +14,32 @@ import 'package:intl/intl.dart';
 
 
 class InfoContainerWidget extends StatefulWidget {
+  final Widget contentWidget;
+
+  InfoContainerWidget({this.contentWidget});
+
   @override
   State<StatefulWidget> createState() {
-    return _InfoContainerWidget();
+    return _InfoContainerWidget(contentWidget);
   }
 }
 
 class _InfoContainerWidget extends State<InfoContainerWidget> {
+  final Widget contentWidget;
+
+  _InfoContainerWidget(this.contentWidget);
 
   @override
   Widget build(BuildContext context) {
     return Container(
             margin: EdgeInsets.only(bottom: 16.0),
             alignment: Alignment.center,
-            height: 250,
+            height: 270,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(24),
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(32),
+              borderRadius: BorderRadius.circular(24),
               child: BackdropFilter(
                 filter: ImageFilter.blur(
                   sigmaX: 5.0,
@@ -40,10 +47,10 @@ class _InfoContainerWidget extends State<InfoContainerWidget> {
                 ),
                 child: Container(
                   width: 325,
-                  height: 250,
+                  height: 270,
                   padding: EdgeInsets.all(24),
-                  color: Color(ColorConstants.getPrimaryWhite()).withOpacity(0.4),
-                  child: SizedBox(),
+                  color: Color(ColorConstants.getPrimaryWhite()).withOpacity(1),
+                  child: contentWidget,
                 ),
               ),
             ),
