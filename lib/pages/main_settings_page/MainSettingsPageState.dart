@@ -2,6 +2,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -136,6 +137,7 @@ class MainSettingsPageState{
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
         SembastDb.instance.deleteAllLocalData();
+        EventSender().reset();
       },
       onPushNotificationsChanged: (enabled) => store.dispatch(SavePushNotificationSettingAction(store.state.mainSettingsPageState, enabled)),
       onCalendarChanged: (enabled) => store.dispatch(SaveCalendarSettingAction(store.state.mainSettingsPageState, enabled)),

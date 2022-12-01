@@ -10,6 +10,8 @@ import 'package:flutter/widgets.dart';
 import '../../../models/JobStage.dart';
 import '../../../utils/JobUtil.dart';
 import '../../../utils/NavigationUtil.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 
 class StageStatsHomeCard extends StatelessWidget {
   StageStatsHomeCard({this.pageState});
@@ -73,8 +75,8 @@ class StageStatsHomeCard extends StatelessWidget {
     return GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () {
-          NavigationUtil.onStageStatsSelected(
-              context, pageState, JobStage.getStageText(stage), stage, false);
+          NavigationUtil.onStageStatsSelected(context, pageState, JobStage.getStageText(stage), stage, false);
+          EventSender().sendEvent(eventName: EventNames.NAV_TO_ACTIVE_STAGE, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.getStageText(stage)});
         },
         child: StageStatsItem(jobs: JobUtil.getJobsForStage(
             pageState.activeJobs, pageState.allUserStages.elementAt(index)),

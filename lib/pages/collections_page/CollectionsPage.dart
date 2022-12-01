@@ -9,6 +9,8 @@ import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../poses_page/PosesPage.dart';
 
 class CollectionsPage extends StatefulWidget {
@@ -51,11 +53,11 @@ class _CollectionsPageState extends State<CollectionsPage> {
               delegate: new SliverChildListDelegate(
                 <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(left: 32.0, right: 32.0),
+                    padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 64.0),
                     child: GridView.builder(
                         shrinkWrap: true,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        itemCount: 8,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: 10,
                         gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
@@ -63,7 +65,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
                               onCollectionSelected(index);
                             },
                             child: Opacity(
-                            opacity: index > 6 ? 0.25 : 1.0,
+                            opacity: 1.0,
                             child:Column(
                               children: <Widget>[
                                 Container(
@@ -74,13 +76,13 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                     color: getCircleColor(index),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: index < 6 ? Image.asset(collectionIcons.elementAt(index)) : SizedBox(),
+                                  child: Image.asset(collectionIcons.elementAt(index)),
                                 ),
                                 Center(
                                   child: Container(
                                     padding: EdgeInsets.only(top: 4.0),
                                     child: Text(
-                                      index < 6 ? ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)) : '',
+                                      ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         fontSize: 20.0,
@@ -134,14 +136,23 @@ class _CollectionsPageState extends State<CollectionsPage> {
         break;
       case 5:
         DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
-        // Navigator.of(context).push(
-        //   new MaterialPageRoute(builder: (context) => CustomerContractsPage()),
-        // );
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
         break;
       case 6:
-        // Navigator.of(context).push(
-        //   new MaterialPageRoute(builder: (context) => QuestionnairesPage()),
-        // );
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTOMATED_BOOKING);
+        break;
+      case 7:
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachDark()));
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
+        break;
+      case 8:
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryColor()));
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTO_RESPONSES);
+        break;
+      case 9:
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueDark()));
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_CLIENT_GUIDES);
         break;
     }
   }
@@ -168,16 +179,16 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getBlueLight());
         break;
       case 6:
-        color = Color(ColorConstants.getPrimaryWhite());
+        color = Color(ColorConstants.getPeachLight());
         break;
       case 7:
-        color = Color(ColorConstants.getPrimaryWhite());
+        color = Color(ColorConstants.getPeachDark());
         break;
       case 8:
-        color = Color(ColorConstants.getPrimaryWhite());
+        color = Color(ColorConstants.getPrimaryColor());
         break;
       case 9:
-        color = Color(ColorConstants.getPrimaryWhite());
+        color = Color(ColorConstants.getBlueDark());
         break;
     }
     return color;

@@ -9,11 +9,11 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
-import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -81,6 +81,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
       // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
       await ProfileDao.update(profile);
+      await EventSender().setUserIdentity(user.uid);
     } else {
       store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
       await _auth.signInWithEmailAndPassword(
@@ -88,6 +89,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               password: store.state.loginPageState.password).then((authResult) async {
         if (authResult.user != null) {
           UidUtil().setUid(authResult.user.uid);
+          EventSender().setUserIdentity(authResult.user.uid);
           if(profile == null) {
             Profile fireStoreProfile = await UserCollection().getUser(authResult.user.uid) ?? Profile();
             if (fireStoreProfile.clientsLastChangeDate != null)
@@ -179,6 +181,13 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, error.message));
         VibrateUtil.vibrateMultiple();
       });
+      if(user != null) {
+        await EventSender().setUserIdentity(user.uid);
+        await EventSender().setUserProfileData(EventNames.FIRST_NAME, store.state.loginPageState.firstName);
+        await EventSender().setUserProfileData(EventNames.LAST_NAME, store.state.loginPageState.lastName);
+        await EventSender().setUserProfileData(EventNames.EMAIL, store.state.loginPageState.emailAddress);
+        await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, store.state.loginPageState.businessName);
+      }
       if(user != null && !user.emailVerified){
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
         List<Profile> userProfiles = await ProfileDao.getAll();
@@ -219,6 +228,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
         store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
         UidUtil().setUid(user.uid);
+        await EventSender().setUserIdentity(user.uid);
         await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
           ProfileDao.updateUserLoginTime(user.uid);

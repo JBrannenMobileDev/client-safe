@@ -26,7 +26,7 @@ class DandyToastUtil {
         timeInSecForIosWeb: 3,
         backgroundColor: color,
         textColor: Colors.white,
-        fontSize: 16.0
+        fontSize: 16.0,
     );
   }
 }

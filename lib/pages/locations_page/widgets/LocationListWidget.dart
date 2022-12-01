@@ -17,6 +17,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:path_provider/path_provider.dart';
 
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
+
 class LocationListWidget extends StatelessWidget {
   final int locationIndex;
 
@@ -93,6 +96,7 @@ class LocationListWidget extends StatelessWidget {
                       tooltip: 'Driving Directions',
                       onPressed: () {
                         pageState.onDrivingDirectionsSelected(pageState.locations.elementAt(locationIndex));
+                        EventSender().sendEvent(eventName: EventNames.BT_DRIVING_DIRECTIONS);
                       },
                     ),
                     IconButton(
@@ -102,6 +106,7 @@ class LocationListWidget extends StatelessWidget {
                       tooltip: 'Share',
                       onPressed: () {
                         pageState.onShareLocationSelected(pageState.locations.elementAt(locationIndex));
+                        EventSender().sendEvent(eventName: EventNames.BT_SHARE_LOCATION);
                       },
                     ),
                     IconButton(

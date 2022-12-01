@@ -11,6 +11,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class JobSelectionForm extends StatefulWidget {
   @override
   _JobSelectionFormState createState() {
@@ -151,7 +154,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                       marginRight: 0.0,
                       marginBottom: 0.0,
                       marginTop: 32.0,
-                      onPressed: onAddNewContactPressed,
+                      onPressed: onAddNewJobPressed,
                       urlText: "",
                     ),
                   ],
@@ -162,9 +165,10 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
     );
   }
 
-  void onAddNewContactPressed() {
+  void onAddNewJobPressed() {
     Navigator.of(context).pop();
     UserOptionsUtil.showNewJobDialog(context);
+    EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "New Invoice Page"});
   }
 
   @override

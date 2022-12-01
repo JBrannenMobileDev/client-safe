@@ -12,6 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class StartJobPromptDialog extends StatefulWidget {
   @override
   _StartJobPromptDialogState createState() {
@@ -60,11 +63,12 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
-                        pageState.onStartNewJobSelected();
-                        pageState.onCancelPressed();//just clears the pageState for cleanup.
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pop();
-                        UserOptionsUtil.showNewJobDialog(context);
+                          pageState.onStartNewJobSelected();
+                          pageState.onCancelPressed();//just clears the pageState for cleanup.
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          UserOptionsUtil.showNewJobDialog(context);
+                          EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start job Prompt"});
                         },
                         child: Container(
                           height: 112.0,

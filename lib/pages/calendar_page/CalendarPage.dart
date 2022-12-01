@@ -16,6 +16,8 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../utils/CalendarUtil.dart';
 import '../../utils/UserPermissionsUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -140,6 +142,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             onPressed: () {
               pageState.onAddNewJobSelected();
               UserOptionsUtil.showNewJobDialog(context);
+              EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Calendar Page"});
             }),
       ),
     );

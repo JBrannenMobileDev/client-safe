@@ -8,6 +8,8 @@ import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -69,6 +71,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       // profile.removeDeviceToken(await PushNotificationsManager().getToken());
     }
     await ProfileDao.update(profile);
+    EventSender().setUserProfileData(EventNames.NOTIFICATIONS_ENABLED, action.enabled);
     store.dispatch(UpdatePushNotificationEnabled(store.state.mainSettingsPageState, profile.pushNotificationsEnabled ?? false));
   }
 
@@ -85,6 +88,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     Profile profile = (await ProfileDao.getAll()).elementAt(0);
     profile.calendarEnabled = action.enabled;
     await ProfileDao.update(profile);
+    EventSender().setUserProfileData(EventNames.CALENDAR_SYNC_ENABLED, action.enabled);
     store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profile.calendarEnabled ?? false));
     if(!action.enabled) {
       CalendarSyncUtil.removeJobsFromDeviceCalendars();

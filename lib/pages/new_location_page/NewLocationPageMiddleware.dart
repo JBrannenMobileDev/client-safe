@@ -17,6 +17,8 @@ import 'package:sembast/sembast.dart';
 
 
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -74,9 +76,14 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     location.longitude = action.pageState.newLocationLongitude;
 
     Location locationWithId = await LocationDao.insertOrUpdate(location);
-
-
     await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_LOCATION, properties: {
+      EventNames.LOCATION_PARAM_NAME : location.locationName,
+      EventNames.LOCATION_PARAM_LAT : location.latitude,
+      EventNames.LOCATION_PARAM_LON : location.longitude,
+    });
+
     store.dispatch(ClearStateAction(store.state.newLocationPageState));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     store.dispatch(jobs.FetchAllAction(store.state.newJobPageState));

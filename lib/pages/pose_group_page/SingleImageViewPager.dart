@@ -14,6 +14,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import 'GroupImage.dart';
 
 class SingleImageViewPager extends StatefulWidget {
@@ -156,6 +158,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                               Share.shareFiles(
                                   pathList,
                                   subject: 'Example Pose');
+                              EventSender().sendEvent(eventName: EventNames.BT_SHARE_POSE);
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 22.0),

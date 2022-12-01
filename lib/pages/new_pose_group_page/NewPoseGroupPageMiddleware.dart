@@ -4,6 +4,8 @@ import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/models/PoseGroup.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../poses_page/PosesActions.dart';
 import 'NewPoseGroupActions.dart';
 
@@ -22,7 +24,10 @@ class NewPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     poseGroup.documentId = action.pageState.documentId;
     poseGroup.groupName = action.pageState.groupName;
 
-    PoseGroup group = await PoseGroupDao.insertOrUpdate(poseGroup);
+    await PoseGroupDao.insertOrUpdate(poseGroup);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_POSE_GROUP, properties: {EventNames.POSE_GROUP_PARAM_NAME : poseGroup.groupName,});
+
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
   }
 }

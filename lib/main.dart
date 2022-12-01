@@ -6,7 +6,7 @@ import 'package:dandylight/ClientSafeApp.dart';
 import 'package:dandylight/AppReducers.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/analytics/DeviceInfo.dart';
-import 'package:dandylight/utils/analytics/MixPanelAnalyticsManager.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -59,5 +59,5 @@ void initializingMixPanel() async {
     );
   }
 
-  await MixPanelAnalyticsManager().initialize(deviceInfo);
+  await EventSender().initialize(deviceInfo);
 }

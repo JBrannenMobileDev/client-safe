@@ -20,6 +20,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/ImageUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
 
 class ClientDetailsPage extends StatefulWidget {
@@ -64,6 +66,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                       onTap: () {
                         pageState.onEditClientClicked(pageState.client);
                         UserOptionsUtil.showNewContactDialog(context, false);
+                        EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Client Details Page - Edit"});
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 16.0),

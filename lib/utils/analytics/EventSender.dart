@@ -4,23 +4,23 @@ import 'package:flutter/widgets.dart';
 import 'DeviceInfo.dart';
 import 'package:mixpanel_flutter/mixpanel_flutter.dart';
 
-class MixPanelAnalyticsManager {
-  static final MixPanelAnalyticsManager _instance = MixPanelAnalyticsManager._internal();
+class EventSender {
+  static final EventSender _instance = EventSender._internal();
   Mixpanel _mixpanel;
   DeviceInfo _deviceInfo;
-  String _mixpanelToken = "b68c6458df27e9e215eafc6e5e8d5019";
+  String _mixpanelTokenProd = "b68c6458df27e9e215eafc6e5e8d5019";
+  String _mixpanelTokenTest = "efb6a18dfd40f8417215c7e506109913";
 
-  factory MixPanelAnalyticsManager() {
+  factory EventSender() {
     return _instance;
   }
 
-  MixPanelAnalyticsManager._internal() {}
+  EventSender._internal() {}
 
   Future<void> initialize(DeviceInfo deviceInfo) async {
     _deviceInfo = deviceInfo;
     _mixpanel = await Mixpanel.init(
-        _mixpanelToken,
-        optOutTrackingDefault: false,
+        _mixpanelTokenTest,
         trackAutomaticEvents: true,
         superProperties: metaData,
     );
@@ -40,9 +40,21 @@ class MixPanelAnalyticsManager {
     _deviceInfo = value;
   }
 
-  void setUserIdentity(String uuid) async {
-    if (uuid.isNotEmpty && _instance != null && _mixpanel != null) {
-      await _mixpanel.identify(uuid);
+  void reset() {
+    if(_mixpanel != null) {
+      _mixpanel.reset();
+    }
+  }
+
+  void setUserIdentity(String uid) async {
+    if (uid.isNotEmpty && _instance != null && _mixpanel != null) {
+      await _mixpanel.identify(uid);
+    }
+  }
+
+  void setUserProfileData(String name, Object data) async {
+    if (name.isNotEmpty && data != null && _instance != null && _mixpanel != null) {
+      await _mixpanel.getPeople().set(name, data);
     }
   }
 

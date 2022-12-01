@@ -17,6 +17,8 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
@@ -176,10 +178,14 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile
           : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
       createdDate: DateTime.now(),
-      depositAmount: store.state.newJobPageState.selectedPriceProfile.deposit.toInt(),
+      depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit.toInt() : 0,
       );
+
     await JobDao.insertOrUpdate(jobToSave);
     await _createJobReminders(store, resultClient);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_JOB, properties: _buildEventProperties(jobToSave));
+
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.clientDetailsPageState.client));
   }
@@ -240,5 +246,17 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       if(positionLastKnown != null) {
         store.dispatch(SetInitialMapLatLng(store.state.newJobPageState, positionLastKnown.latitude, positionLastKnown.longitude));
     }
+  }
+
+  Map<String, Object> _buildEventProperties(Job jobToSave) {
+    Map<String, Object> result = Map();
+    if(jobToSave.type != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.type.title);
+    if(jobToSave.selectedDate != null) result.putIfAbsent(EventNames.JOB_PARAM_JOB_DATE, () => jobToSave.selectedDate.toUtc().toString());
+    if(jobToSave.selectedTime != null) result.putIfAbsent(EventNames.JOB_PARAM_START_TIME, () => jobToSave.selectedTime.toUtc().toString());
+    if(jobToSave.selectedEndTime != null) result.putIfAbsent(EventNames.JOB_PARAM_END_TIME, () => jobToSave.selectedEndTime.toUtc().toString());
+    if(jobToSave.priceProfile != null) result.putIfAbsent(EventNames.JOB_PARAM_PRICE_PACKAGE, () => jobToSave.priceProfile.profileName);
+    if(jobToSave.location != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.location.locationName);
+    if(jobToSave.type != null) result.putIfAbsent(EventNames.JOB_PARAM_TYPE, () => jobToSave.type.title);
+    return result;
   }
 }

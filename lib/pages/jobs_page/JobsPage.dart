@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import 'JobsPageActions.dart';
 
 class JobsPage extends StatefulWidget {
@@ -90,6 +92,7 @@ class _JobsPageState extends State<JobsPage> {
                           GestureDetector(
                             onTap: () {
                               UserOptionsUtil.showNewJobDialog(context);
+                              EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Jobs Page"});
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 26.0),

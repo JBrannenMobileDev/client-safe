@@ -8,6 +8,8 @@ import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/JobStage.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../new_job_page/NewJobPageActions.dart';
 import 'NewJobTypeActions.dart';
 
@@ -45,6 +47,13 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
     );
 
     await JobTypeDao.insertOrUpdate(newJobType);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_JOB_TYPE, properties: {
+      EventNames.JOB_TYPE_PARAM_NAME : newJobType.title,
+      EventNames.JOB_TYPE_PARAM_REMINDER_NAMES : newJobType.reminders.map((reminder) => reminder.description).toList(),
+      EventNames.JOB_TYPE_PARAM_STAGE_NAMES : newJobType.stages.map((stage) => stage.stage).toList(),
+    });
+
     store.dispatch(FetchJobTypesAction(store.state.jobTypesPageState));
     store.dispatch(FetchAllAction(store.state.newJobPageState));
   }

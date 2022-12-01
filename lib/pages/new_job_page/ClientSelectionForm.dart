@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../new_contact_pages/NewContactPageState.dart';
 
 class ClientSelectionForm extends StatefulWidget {
@@ -72,6 +74,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   child: TextButton(
                     onPressed: () {
                       UserOptionsUtil.showNewContactDialog(context, true);
+                      EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "New Job Page"});
                     },
                     child: Text(
                       'Add New Contact',

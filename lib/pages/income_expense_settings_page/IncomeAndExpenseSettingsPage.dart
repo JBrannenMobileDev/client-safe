@@ -4,12 +4,15 @@ import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSe
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'dart:io' show Platform;
+
+import '../../utils/analytics/EventSender.dart';
 
 
 class IncomeAndExpenseSettingsPage extends StatefulWidget {
@@ -70,6 +73,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
                                     NavigationUtil.onPaymentRequestInfoSelected(context);
+                                    EventSender().sendEvent(eventName: EventNames.NAV_TO_PAYMENT_LINK_INFO);
                                   },
                                   child: SizedBox(
                                     height: 48.0,
@@ -120,6 +124,7 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                     style: Styles.getButtonStyle(),
                                     onPressed: () {
                                       DandyToastUtil.showToast('Generate report feature coming soon!', Color(ColorConstants.getPrimaryColor()));
+                                      EventSender().sendEvent(eventName: EventNames.BT_GENERATE_INCOME_EXPENSE_REPORT);
                                     },
                                     child: SizedBox(
                                       height: 48.0,

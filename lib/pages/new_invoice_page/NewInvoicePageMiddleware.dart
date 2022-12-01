@@ -26,6 +26,8 @@ import 'package:sembast/sembast.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../models/Profile.dart';
 import '../../utils/TextFormatterUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -83,7 +85,6 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     bool invoicePaid = store.state.newInvoicePageState.selectedJob.isPaymentReceived();
     NewInvoicePageState pageState = store.state.newInvoicePageState;
     await InvoiceDao.insertOrUpdate(
-
         Invoice(
           clientDocumentId: pageState.selectedJob.clientDocumentId,
           documentId: pageState.selectedJob.invoice?.documentId,
@@ -105,6 +106,9 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           salesTaxAmount: (pageState.total * (pageState.salesTaxPercent/100)),
           salesTaxRate: pageState.salesTaxPercent,
     ), pageState.selectedJob);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_INVOICE);
+
     store.dispatch(LoadAllInvoicesAction(store.state.incomeAndExpensesPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(SetNewInvoice(store.state.jobDetailsPageState, (await JobDao.getJobById(pageState.selectedJob.documentId)).invoice));

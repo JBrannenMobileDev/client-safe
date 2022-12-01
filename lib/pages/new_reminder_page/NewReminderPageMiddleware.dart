@@ -6,6 +6,8 @@ import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collec
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../new_job_types_page/NewJobTypeActions.dart';
 
 class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
@@ -31,6 +33,14 @@ class NewReminderPageMiddleware extends MiddlewareClass<AppState> {
       time: store.state.newReminderPageState.selectedTime,
     );
     await ReminderDao.insertOrUpdate(reminder);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_REMINDER, properties: {
+      EventNames.REMINDER_PARAM_NAME : reminder.description,
+      EventNames.REMINDER_PARAM_BEFORE_ON_AFTER : reminder.when,
+      EventNames.REMINDER_PARAM_DAYS_WEEKS_MONTHS : reminder.daysWeeksMonths,
+      EventNames.REMINDER_PARAM_DAYS_WEEKS_MONTHS_AMOUNT : reminder.amount,
+    });
+
     store.dispatch(ClearNewReminderStateAction(store.state.newReminderPageState));
     store.dispatch(collectionReminders.FetchRemindersAction(store.state.remindersPageState));
     store.dispatch(LoadPricesPackagesAndRemindersAction(store.state.newJobTypePageState));

@@ -31,6 +31,8 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 
 import '../../models/Profile.dart';
 import '../../utils/NotificationHelper.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({Key key, this.destination, this.comingFromLogin})
@@ -207,6 +209,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                 ),
                 onTap: () {
                   UserOptionsUtil.showNewJobDialog(context);
+                  EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Dashboard"});
                 },
               ),
               SpeedDialChild(
@@ -233,6 +236,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                 ),
                 onTap: () {
                   UserOptionsUtil.showNewContactDialog(context, false);
+                  EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Dashboard Page"});
                 },
               ),
             ],
@@ -269,6 +273,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                               new MaterialPageRoute(
                                   builder: (context) => SunsetWeatherPage()),
                             );
+                            EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 16.0),
@@ -285,6 +290,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                           child: GestureDetector(
                             onTap: () {
                               NavigationUtil.onNotificationsSelected(context);
+                              EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
                             },
                             child: Stack(
                               alignment: Alignment.center,
@@ -326,6 +332,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                           child: GestureDetector(
                             onTap: () {
                               NavigationUtil.onCalendarSelected(context);
+                              EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 16.0),
@@ -341,6 +348,7 @@ class _DashboardPageState extends State<DashboardPage> with TickerProviderStateM
                           child: GestureDetector(
                             onTap: () {
                               NavigationUtil.onMainSettingsSelected(context);
+                              EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 16.0),

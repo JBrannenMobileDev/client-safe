@@ -6,6 +6,9 @@ import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpenseAction
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -27,10 +30,16 @@ class NewRecurringExpensePageMiddleware extends MiddlewareClass<AppState> {
       initialChargeDate: store.state.newRecurringExpensePageState.expenseDate,
       billingPeriod: store.state.newRecurringExpensePageState.billingPeriod,
       isAutoPay: store.state.newRecurringExpensePageState.isAutoPay,
-      charges: List(),
+      charges: [],
     );
     recurringExpense.updateChargeList();
     await RecurringExpenseDao.insertOrUpdate(recurringExpense);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_RECURRING_EXPENSE, properties: {
+      EventNames.RECURRING_EXPENSE_PARAM_NAME : recurringExpense.expenseName,
+      EventNames.RECURRING_EXPENSE_PARAM_COST : recurringExpense.cost,
+    });
+
     store.dispatch(ClearRecurringExpenseStateAction(store.state.newRecurringExpensePageState));
     store.dispatch(FetchRecurringExpenses(store.state.incomeAndExpensesPageState));
   }

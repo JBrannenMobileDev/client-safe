@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/widgets/bouncing_loading_animation/LoginLoadingWidget.dart';
 import 'package:flutter/services.dart';
 
@@ -96,7 +98,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       currentPageIndex = controller.page.toInt();
     });
 
-    final duration = Duration(seconds: 6);
+    final duration = Duration(seconds: 8);
     Timer.periodic(duration, (timer) {
       // Stop the timer when it matches a condition
       if (currentPageIndex < pageCount - 1) {
@@ -607,6 +609,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           Timer(const Duration(milliseconds: 250), () {
                             _controllerCreateAccount.forward();
                           });
+                          EventSender().sendEvent(eventName: EventNames.BT_START_FREE_TRIAL);
                         },
                         child: Container(
                           margin: EdgeInsets.only(top: 16.0),
@@ -659,6 +662,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           onTap: () {
                             pageState.updateForgotPasswordVisible(true);
                             pageState.onClearErrorMessages();
+                            EventSender().sendEvent(eventName: EventNames.BT_FORGOT_PASSWORD);
                           },
                           child: Text(
                             'Forgot password ?',
@@ -708,6 +712,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             GestureDetector(
                               onTap: () {
                                 pageState.onResendEmailVerificationSelected();
+                                EventSender().sendEvent(eventName: EventNames.BT_RESEND_VERIFICATION_EMAIL);
                               },
                               child: Container(
                                 height: 32.0,
@@ -811,9 +816,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           onTap: () {
                             if(!pageState.showLoginLoadingAnimation && !pageState.isForgotPasswordViewVisible) {
                               pageState.onLoginSelected();
+                              EventSender().sendEvent(eventName: EventNames.BT_SIGN_IN);
                             } else if(pageState.isForgotPasswordViewVisible) {
                               pageState.onResetPasswordSelected();
                               pageState.updateForgotPasswordVisible(false);
+                              EventSender().sendEvent(eventName: EventNames.BT_RESET_PASSWORD);
                             }
                           },
                           child: Container(
@@ -982,6 +989,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   child: GestureDetector(
                     onTap: () {
                       pageState.onCreateAccountSubmitted();
+                      EventSender().sendEvent(eventName: EventNames.BT_SUBMIT_CREATE_ACCOUNT);
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 8.0, left: 84.0, right: 84.0),

@@ -9,6 +9,9 @@ import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -31,6 +34,11 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       deposit: store.state.pricingProfilePageState.deposit,
     );
     await PriceProfileDao.insertOrUpdate(priceProfile);
+    EventSender().sendEvent(eventName: EventNames.CREATED_PRICE_PACKAGE, properties: {
+      EventNames.PRICE_PACKAGE_PARAM_NAME : priceProfile.profileName,
+      EventNames.PRICE_PACKAGE_PARAM_PRICE : priceProfile.flatRate,
+      EventNames.PRICE_PACKAGE_PARAM_DEPOSIT : priceProfile.deposit,
+    });
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
     store.dispatch(prefix0.FetchAllAction(store.state.newJobPageState));
   }

@@ -56,7 +56,7 @@ NewJobPageState _setInitMapLatLng(NewJobPageState previousState, SetInitialMapLa
 }
 
 NewJobPageState _setOneTimePrice(NewJobPageState previousState, SetOneTimePriceTextAction action) {
-  String numbersOnly = action.inputText.replaceAll('\$', '').replaceAll(' ', '');
+  String numbersOnly = action.inputText.replaceAll('\$', '').replaceAll(' ', '').replaceAll(',', '');
   if(numbersOnly == '0') {
     numbersOnly = '';
   }

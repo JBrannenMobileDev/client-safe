@@ -8,6 +8,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class ClientsPage extends StatefulWidget {
   static const String FILTER_TYPE_CLIENTS = "Clients";
   static const String FILTER_TYPE_LEADS = "Leads";
@@ -96,6 +99,7 @@ class _ClientsPageState extends State<ClientsPage> {
                           GestureDetector(
                             onTap: () {
                               UserOptionsUtil.showNewContactDialog(context, false);
+                              EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "Contacts Page"});
                             },
                             child: Container(
                               margin: EdgeInsets.only(right: 26.0),

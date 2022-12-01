@@ -7,6 +7,9 @@ import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -30,6 +33,12 @@ class NewSingleExpensePageMiddleware extends MiddlewareClass<AppState> {
       charge: charge,
     );
     await SingleExpenseDao.insertOrUpdate(singleExpense);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_SINGLE_EXPENSE, properties: {
+      EventNames.SINGLE_EXPENSE_PARAM_NAME : singleExpense.expenseName,
+      EventNames.SINGLE_EXPENSE_PARAM_COST : singleExpense.charge.chargeAmount,
+    });
+
     store.dispatch(ClearSingleEpenseStateAction(store.state.newSingleExpensePageState));
     store.dispatch(FetchSingleExpenses(store.state.incomeAndExpensesPageState));
   }

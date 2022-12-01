@@ -13,6 +13,8 @@ import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/GlobalKeyUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
@@ -73,6 +75,13 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     PoseGroup poseGroup = action.pageState.poseGroup;
     poseGroup.poses.addAll(newPoses);
     await PoseGroupDao.update(poseGroup);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_POSES, properties: {
+      EventNames.POSES_PARAM_GROUP_NAME : poseGroup.groupName,
+      EventNames.POSES_PARAM_IMAGE_COUNT : newPoses.length,
+    });
+
+
     await store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, poseGroup));
     await store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, groupImages));
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
@@ -123,6 +132,7 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     Share.shareFiles(
           filePaths,
           subject: 'Example Poses');
+    EventSender().sendEvent(eventName: EventNames.BT_SHARE_POSES);
   }
 
   pathsDoNotMatch(String path, List<XFile> selectedImages) {

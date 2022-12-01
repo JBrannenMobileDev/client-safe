@@ -7,6 +7,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../utils/NavigationUtil.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 
 class ActiveJobsHomeCard extends StatelessWidget {
 
@@ -16,6 +18,7 @@ class ActiveJobsHomeCard extends StatelessWidget {
     builder: (BuildContext context, DashboardPageState pageState) => GestureDetector(
           onTap: () {
             NavigationUtil.onStageStatsSelected(context, pageState, 'Active Jobs', null, true);
+            EventSender().sendEvent(eventName: EventNames.NAV_TO_ACTIVE_JOBS);
           },
           child: Container(
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),

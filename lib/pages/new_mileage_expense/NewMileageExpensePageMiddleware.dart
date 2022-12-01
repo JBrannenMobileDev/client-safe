@@ -21,6 +21,8 @@ import 'package:http/http.dart' as http;
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 
 class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
@@ -82,6 +84,14 @@ class NewMileageExpensePageMiddleware extends MiddlewareClass<AppState> {
       charge: Charge(chargeDate: action.pageState.expenseDate, chargeAmount: action.pageState.expenseCost),
     );
     await MileageExpenseDao.insertOrUpdate(expense);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_MILEAGE_TRIP, properties: {
+      EventNames.TRIP_PARAM_LAT_START : expense.startLat,
+      EventNames.TRIP_PARAM_LON_START : expense.startLng,
+      EventNames.TRIP_PARAM_LAT_END : expense.endLat,
+      EventNames.TRIP_PARAM_LON_END : expense.endLng,
+      EventNames.TRIP_PARAM_DIST_MILES : expense.totalMiles,
+    });
   }
 
   void updateEndLocation(Store<AppState> store, UpdateEndLocationAction action, NextDispatcher next) async{

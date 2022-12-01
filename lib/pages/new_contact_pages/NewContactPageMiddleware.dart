@@ -11,6 +11,8 @@ import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../new_job_page/NewJobPageActions.dart';
 
 class NewContactPageMiddleware extends MiddlewareClass<AppState> {
@@ -50,8 +52,14 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       customLeadSourceName: action.pageState.customLeadSourceName,
       createdDate: action.pageState.client?.createdDate ?? DateTime.now()
     );
+
+
+
     await ClientDao.insertOrUpdate(client);
     DeviceContactsDao.addOrUpdateContact(client);
+
+    EventSender().sendEvent(eventName: EventNames.CREATED_CONTACT, properties: _buildEventProperties(client));
+
     List<Client> clients = await ClientDao.getAllSortedByFirstName();
     for(Client client in clients){
       if((client.phone != null && client.phone.isNotEmpty && (client.phone == store.state.newContactPageState.newContactPhone)) ||
@@ -64,5 +72,16 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client));
     store.dispatch(LoadAndSelectNewContactAction(store.state.newJobPageState, await ClientDao.getClientByCreatedDate(client.createdDate)));
+  }
+
+  Map<String, Object> _buildEventProperties(Client client) {
+    Map<String, Object> result = Map();
+    if(client.firstName != null && client.firstName.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_FIRSTNAME, () => client.firstName);
+    if(client.lastName != null && client.lastName.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LASTNAME, () => client.lastName);
+    if(client.phone != null && client.phone.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_PHONE, () => client.phone);
+    if(client.email != null && client.email.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_EMAIL, () => client.email);
+    if(client.instagramProfileUrl != null && client.instagramProfileUrl.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_INSTAGRAM_URL, () => client.instagramProfileUrl);
+    if(client.leadSource != null && client.leadSource.isNotEmpty) result.putIfAbsent(EventNames.CONTACT_PARAM_LEAD_SOURCE, () => client.leadSource);
+    return result;
   }
 }

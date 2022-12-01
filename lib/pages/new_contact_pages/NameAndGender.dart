@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import 'NewContactTextField.dart';
 
 class NameAndGender extends StatefulWidget {
@@ -137,7 +139,8 @@ class _NameAndGenderState extends State<NameAndGender>
               children: <Widget>[
                 InkWell(
                   onTap: () => {
-                    pageState.onGetDeviceContactsSelected()
+                    pageState.onGetDeviceContactsSelected(),
+                    EventSender().sendEvent(eventName: EventNames.BT_IMPORT_DEVICE_CONTACT),
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

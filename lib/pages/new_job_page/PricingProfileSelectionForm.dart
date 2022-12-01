@@ -129,7 +129,7 @@ class _PricingProfileSelectionFormState
                     padding: EdgeInsets.only(bottom: 64.0),
                     child: Text(
                       "You do not have any pricing packages setup. "
-                      "Select the button below to create a new pricing package.",
+                      "Select the + to create a new pricing package.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,
@@ -138,20 +138,6 @@ class _PricingProfileSelectionFormState
                         color: Color(ColorConstants.primary_black),
                       ),
                     ),
-                  ),
-                  ClientSafeButton(
-                    height: 64.0,
-                    width: double.infinity,
-                    text: "Pricing Package",
-                    marginLeft: 32.0,
-                    marginTop: 0.0,
-                    marginRight: 32.0,
-                    marginBottom: 0.0,
-                    onPressed: () {
-                      UserOptionsUtil.showNewPriceProfileDialog(context);
-                    },
-                    icon: Icon(Icons.add, color: Colors.white),
-                    urlText: "",
                   ),
                 ],
               ),

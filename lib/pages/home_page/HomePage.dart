@@ -6,6 +6,9 @@ import 'package:dandylight/pages/jobs_page/JobsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class HomePage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -98,9 +101,24 @@ class _HomeState extends State<HomePage> {
   }
 
   void onTabTapped(int index) {
-    if(index == 3) {
-
+    switch(index) {
+      case 0:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTACTS);
+        break;
+      case 1:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_INCOME);
+        break;
+      case 2:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_DASHBOARD);
+        break;
+      case 3:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_JOBS);
+        break;
+      case 4:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTIONS);
+        break;
     }
+
     setState(() {
       _children = [
         ClientsPage(),
