@@ -75,6 +75,7 @@ class NewJobPageState {
   final Function(Location) onLocationSearchResultSelected;
   final double lat;
   final double lon;
+  final Function(bool) onCalendarEnabled;
 
   NewJobPageState({
     @required this.id,
@@ -131,6 +132,7 @@ class NewJobPageState {
     @required this.lon,
     @required this.oneTimeLocation,
     @required this.isSelectedClientNew,
+    @required this.onCalendarEnabled,
   });
 
   NewJobPageState copyWith({
@@ -186,7 +188,8 @@ class NewJobPageState {
     Function(Location) onLocationSearchResultSelected,
     double lat,
     double lon,
-    Location oneTimeLocation
+    Location oneTimeLocation,
+    Function(bool) onCalendarEnabled,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -243,6 +246,7 @@ class NewJobPageState {
       lon: lon ?? this.lon,
       oneTimeLocation: oneTimeLocation ?? this.oneTimeLocation,
       isSelectedClientNew: isSelectedClientNew ?? this.isSelectedClientNew,
+      onCalendarEnabled: onCalendarEnabled ?? this.onCalendarEnabled,
     );
   }
 
@@ -304,6 +308,7 @@ class NewJobPageState {
         lon: 0.0,
         oneTimeLocation: null,
         isSelectedClientNew: false,
+        onCalendarEnabled: null,
       );
   }
 
@@ -363,6 +368,7 @@ class NewJobPageState {
       onSunsetWeatherSelected: () => store.dispatch(sunsetPageActions.LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.newJobPageState.selectedLocation, store.state.newJobPageState.selectedDate)),
       onOneTimePriceChanged: (inputText) => store.dispatch(SetOneTimePriceTextAction(store.state.newJobPageState, inputText)),
       onLocationSearchResultSelected: (selectedLocation) => store.dispatch(SetSelectedOneTimeLocation(store.state.newJobPageState, selectedLocation)),
+      onCalendarEnabled: (enabled) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, DateTime.now())),
     );
   }
 

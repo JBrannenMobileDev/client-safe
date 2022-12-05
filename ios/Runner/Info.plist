@@ -29,7 +29,7 @@
 	<key>NSAppleMusicUsageDescription</key>
 	<string>Music!</string>
 	<key>NSCalendarsUsageDescription</key>
-	<string>This permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
+	<string>Calendar permission will make it easier to schedule jobs. Your phone calendar will be synced with the DandyLight calendar.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera will be used to take a picture of this location.</string>
 	<key>NSContactsUsageDescription</key>
@@ -47,7 +47,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Photo Library will be uses to select an image for your poses or a location.</string>
 	<key>NSRemindersUsageDescription</key>
-	<string>reminders</string>
+	<string>This permission will allow your custom reminders to been shown.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>speech</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>

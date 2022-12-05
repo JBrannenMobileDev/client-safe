@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../utils/CalendarUtil.dart';
+import '../../utils/UserOptionsUtil.dart';
 import 'NewJobPageActions.dart';
 
 class DateForm extends StatefulWidget {
@@ -63,7 +64,11 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (appState) => {
-        appState.dispatch(FetchNewJobDeviceEvents(appState.state.newJobPageState, DateTime.now())),
+        if(!appState.state.dashboardPageState.profile.calendarEnabled) {
+          Future.microtask(() => UserOptionsUtil.showCalendarSelectionDialog(context, appState.state.newJobPageState.onCalendarEnabled)),
+        } else {
+          appState.dispatch(FetchNewJobDeviceEvents(appState.state.newJobPageState, DateTime.now())),
+        }
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
