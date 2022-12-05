@@ -109,6 +109,6 @@ Widget _buildItem(BuildContext context, int index) {
   return StoreConnector<AppState, NewJobReminderPageState>(
     converter: (store) => NewJobReminderPageState.fromStore(store),
     builder: (BuildContext context, NewJobReminderPageState pageState) =>
-        NewReminderListWidget(pageState.allReminders.elementAt(index), pageState, pageState.onReminderSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
+        NewReminderListWidget(pageState.allReminders.elementAt(index), pageState, pageState.onReminderSelected, Colors.white, Color(ColorConstants.getPrimaryBlack()), index),
   );
 }

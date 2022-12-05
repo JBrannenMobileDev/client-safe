@@ -30,7 +30,14 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetUnseenReminderCount>(_setUnseenCount),
   TypedReducer<DashboardPageState, SetShowNewMileageExpensePageAction>(_setMileageExpenseEvent),
   TypedReducer<DashboardPageState, SetJobTypeChartData>(_setJobTypesChartData),
+  TypedReducer<DashboardPageState, SetProfileDashboardAction>(_setProfile),
 ]);
+
+DashboardPageState _setProfile(DashboardPageState previousState, SetProfileDashboardAction action) {
+  return previousState.copyWith(
+    profile: action.profile,
+  );
+}
 
 DashboardPageState _setMileageExpenseEvent(DashboardPageState previousState, SetShowNewMileageExpensePageAction action) {
   return previousState.copyWith(

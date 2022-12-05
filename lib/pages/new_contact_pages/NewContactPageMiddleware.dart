@@ -6,10 +6,8 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.da
 import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:contacts_service/contacts_service.dart';
 import 'package:redux/redux.dart';
-import 'package:sembast/sembast.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';

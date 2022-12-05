@@ -7,7 +7,7 @@ description: A new Flutter application.
 # Both the version and the builder number may be overridden in flutter
 # build by specifying --build-name and --build-number, respectively.
 # Read more about versioning at semver.org.
-version: 1.0.0
+version: 0.1.0+1
 
 environment:
   sdk: ">=2.2.2 <3.0.0"
@@ -70,7 +70,6 @@ dependencies:
   loading_animation_widget: ^1.2.0+2
   fl_chart: ^0.55.1
   file_picker: ^5.1.0
-  flutter_pdfview: ^1.2.3
   change_app_package_name: ^1.1.0
   flutter_app_badger: ^1.5.0
   flutter_native_timezone: ^2.0.0
@@ -90,6 +89,9 @@ flutter_icons:
   android: true
   ios: true
   image_path: "assets/images/dandy_light_app_icon.png"
+  remove_alpha_ios: true
+  adaptive_icon_background: "#BCC6C0"
+  adaptive_icon_foreground: "assets/images/app_icon_adaptive_android.png"
 
 dev_dependencies:
   flutter_test:

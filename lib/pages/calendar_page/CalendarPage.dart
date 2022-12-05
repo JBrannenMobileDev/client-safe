@@ -62,13 +62,21 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     });
   }
 
+  void _FetchDeviceEvents() {
+
+  }
+
   @override
   Widget build(BuildContext context) {
 
     return StoreConnector<AppState, CalendarPageState>(
       onInit: (store) async {
         store.dispatch(FetchAllJobsAction(store.state.calendarPageState));
-        store.dispatch(FetchDeviceEvents(store.state.calendarPageState, DateTime.now()));
+        if(!store.state.dashboardPageState.profile.calendarEnabled) {
+          Future.microtask(() => UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState.onCalendarEnabled));
+        } else {
+          store.dispatch(FetchDeviceEvents(store.state.calendarPageState, DateTime.now(), store.state.dashboardPageState.profile.calendarEnabled));
+        }
       },
       converter: (store) => CalendarPageState.fromStore(store),
       builder: (BuildContext context, CalendarPageState pageState) => Scaffold(
@@ -162,7 +170,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         CalendarFormat.week: '',
       },
       onPageChanged: (focusedDay) {
-        pageState.onMonthChanged(focusedDay);
+        pageState.onMonthChanged(focusedDay, pageState.isCalendarEnabled);
       },
       focusedDay: pageState.selectedDate,
       firstDay: DateTime.utc(2010, 10, 16).toLocal(),

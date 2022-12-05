@@ -15,6 +15,12 @@ class EventNames {
   static const String BT_DRIVING_DIRECTIONS = "bt_driving_directions";
   static const String BT_SEND_INVOICE = "bt_send_invoice";
 
+  static const String BT_STAGE_COMPLETE = "bt_stage_complete";
+  static const String STAGE_COMPLETE_PARAM_STAGE = "stage_complete_param_stage";
+
+  static const String BT_STAGE_ACTION = "bt_stage_action";
+  static const String STAGE_ACTION_PARAM_STAGE = "stage_action_param_stage";
+
   static const String BT_START_NEW_JOB = "bt_start_new_job";
   static const String JOB_PARAM_COMING_FROM = "job_param_coming_from";
 
@@ -120,5 +126,12 @@ class EventNames {
   static const String BUSINESS_NAME = "business_name";
   static const String CALENDAR_SYNC_ENABLED = "calendar_sync_enabled";
   static const String NOTIFICATIONS_ENABLED = "notifications_enabled";
+
+  //Login flow
+  static const String FIRST_NAME_ENTERED = "first_name_entered";
+  static const String LAST_NAME_ENTERED = "last_name_entered";
+  static const String EMAIL_ENTERED = "email_entered";
+  static const String BUSINESS_NAME_ENTERED = "business_name_entered";
+  static const String PASSWORD_ENTERED = "password_entered";
 
 }

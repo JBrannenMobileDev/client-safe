@@ -6,6 +6,7 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
 import '../../models/MileageExpense.dart';
+import '../../models/Profile.dart';
 import '../../models/RecurringExpense.dart';
 import '../../models/SingleExpense.dart';
 
@@ -39,6 +40,12 @@ class SetJobTypeChartData{
   final List<Job> allJobs;
   final List<JobType> allJobTypes;
   SetJobTypeChartData(this.pageState, this.allJobs, this.allJobTypes);
+}
+
+class SetProfileDashboardAction{
+  final DashboardPageState pageState;
+  final Profile profile;
+  SetProfileDashboardAction(this.pageState, this.profile);
 }
 
 class SetUnseenReminderCount{

@@ -21,6 +21,8 @@ import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:redux/redux.dart';
@@ -410,6 +412,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       jobToSave.paymentReceivedDate = DateTime.now();
     }
     await JobDao.insertOrUpdate(jobToSave);
+    EventSender().sendEvent(eventName: EventNames.BT_STAGE_COMPLETE, properties: {EventNames.STAGE_COMPLETE_PARAM_STAGE : stageToComplete.stage});
     store.dispatch(FetchJobsAction(store.state.jobsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));

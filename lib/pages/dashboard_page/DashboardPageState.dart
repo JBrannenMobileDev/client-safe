@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
+import '../../models/Profile.dart';
 import 'JobTypePieChartRowData.dart';
 import 'LeadSourcePieChartRowData.dart';
 
@@ -35,6 +36,7 @@ class DashboardPageState {
   final List<JobReminder> reminders;
   final List<LineChartMonthData> lineChartMonthData;
   final List<LeadSourcePieChartRowData> leadSourcePieChartRowData;
+  final Profile profile;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
   final Function(Action) onActionItemClicked;
@@ -77,6 +79,7 @@ class DashboardPageState {
     this.leadSourcesData,
     this.jobTypePieChartRowData,
     this.leadSourcePieChartRowData,
+    this.profile,
   });
 
   DashboardPageState copyWith({
@@ -110,6 +113,7 @@ class DashboardPageState {
     List<PieChartSectionData> leadSourcesData,
     List<JobTypePieChartRowData> jobTypePieChartRowData,
     List<LeadSourcePieChartRowData> leadSourcePieChartRowData,
+    Profile profile,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -142,6 +146,7 @@ class DashboardPageState {
       leadSourcesData: leadSourcesData ?? this.leadSourcesData,
       jobTypePieChartRowData: jobTypePieChartRowData ?? this.jobTypePieChartRowData,
       leadSourcePieChartRowData: leadSourcePieChartRowData ?? this.leadSourcePieChartRowData,
+      profile: profile ?? this.profile,
     );
   }
 
@@ -170,6 +175,7 @@ class DashboardPageState {
       leadSourcesData: store.state.dashboardPageState.leadSourcesData,
       jobTypePieChartRowData: store.state.dashboardPageState.jobTypePieChartRowData,
       leadSourcePieChartRowData: store.state.dashboardPageState.leadSourcePieChartRowData,
+      profile: store.state.dashboardPageState.profile,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -211,6 +217,7 @@ class DashboardPageState {
     unconvertedLeadCount: 0,
     jobTypePieChartRowData: [],
     leadSourcePieChartRowData: [],
+    profile: null,
   );
 
   @override
@@ -244,6 +251,7 @@ class DashboardPageState {
       leadSourcesData.hashCode ^
       jobTypePieChartRowData.hashCode ^
       leadSourcePieChartRowData.hashCode ^
+      profile.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -279,5 +287,6 @@ class DashboardPageState {
               leadSourcesData == other.leadSourcesData &&
               jobTypePieChartRowData == other.jobTypePieChartRowData &&
               leadSourcePieChartRowData == other.leadSourcePieChartRowData &&
+              profile == other.profile &&
               isMinimized == other.isMinimized;
 }

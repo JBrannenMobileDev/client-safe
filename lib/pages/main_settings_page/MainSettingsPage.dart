@@ -66,9 +66,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                     SliverList(
                       delegate: new SliverChildListDelegate(
                         <Widget>[
-                          SafeArea(
-                            child: Container(
-                              margin: EdgeInsets.only(left: 16.0, right: 16.0),
+                          Container(
+                              margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0),
                               padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -274,7 +273,6 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               ),
                             ],
                           ),
-                        ),
                       ),
                           Container(
                             margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
@@ -310,8 +308,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         },
                                         value: pageState.pushNotificationsEnabled,
                                       ) : Switch(
-                                        activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                        activeTrackColor: Color(ColorConstants.getBlueLight()),
                                         inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                        activeColor: Color(ColorConstants.getBlueDark()),
                                         onChanged: (enabled) {
                                           pageState.onPushNotificationsChanged(enabled);
                                         },
@@ -362,8 +361,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         },
                                         value: pageState.calendarEnabled,
                                       ) : Switch(
-                                        activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                        activeTrackColor: Color(ColorConstants.getBlueLight()),
                                         inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                        activeColor: Color(ColorConstants.getBlueDark()),
                                         onChanged: (enabled) {
                                           if(enabled) {
                                             UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);

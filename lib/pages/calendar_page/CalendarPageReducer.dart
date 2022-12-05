@@ -9,7 +9,14 @@ final calendarPageReducer = combineReducers<CalendarPageState>([
   TypedReducer<CalendarPageState, SetJobsCalendarStateAction>(_setAllJobs),
   TypedReducer<CalendarPageState, SetDeviceEventsAction>(_setDeviceEvents),
   TypedReducer<CalendarPageState, SetSelectedDateAction>(_setSelectedDate),
+  TypedReducer<CalendarPageState, UpdateCalendarEnabledAction>(_setCalendarEnabled),
 ]);
+
+CalendarPageState _setCalendarEnabled(CalendarPageState previousState, UpdateCalendarEnabledAction action) {
+  return previousState.copyWith(
+    isCalendarEnabled: action.enabled,
+  );
+}
 
 CalendarPageState _setDeviceEvents(CalendarPageState previousState, SetDeviceEventsAction action) {
   List<EventDandyLight> eventList = [];

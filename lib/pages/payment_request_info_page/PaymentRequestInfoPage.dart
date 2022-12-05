@@ -165,8 +165,9 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       },
                                       value: pageState.zelleEnabled,
                                     ) : Switch(
-                                      activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
 
                                       },
@@ -256,8 +257,9 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       },
                                       value: pageState.venmoEnabled,
                                     ) : Switch(
-                                      activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
                                         pageState.onVenmoSelected(enabled);
                                       },
@@ -323,8 +325,9 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       },
                                       value: pageState.cashAppEnabled,
                                     ) : Switch(
-                                      activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
                                         pageState.onCashAppSelected(enabled);
                                       },
@@ -390,8 +393,9 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       },
                                       value: pageState.applePayEnabled,
                                     ) : Switch(
-                                      activeTrackColor: Color(ColorConstants.getBlueDark()),
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
                                         pageState.onApplePaySelected(enabled);
                                       },

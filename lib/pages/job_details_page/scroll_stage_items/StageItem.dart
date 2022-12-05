@@ -11,6 +11,8 @@ import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -416,6 +418,7 @@ class _StageItemState extends State<StageItem>
                                 break;
                               case JobStage.STAGE_2_FOLLOWUP_SENT:
                                 onSMSPressed(pageState.client.phone);
+                                EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_2_FOLLOWUP_SENT});
                                 break;
                               case JobStage.STAGE_3_PROPOSAL_SENT:
                                 break;
@@ -423,14 +426,17 @@ class _StageItemState extends State<StageItem>
                                 break;
                               case JobStage.STAGE_5_DEPOSIT_RECEIVED:
                                 IntentLauncherUtil.shareDepositRequest(pageState.job.depositAmount);
+                                EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_5_DEPOSIT_RECEIVED});
                                 break;
                               case JobStage.STAGE_6_PLANNING_COMPLETE:
                                 Navigator.of(context).push(
                                   new MaterialPageRoute(builder: (context) => PosesPage()),
                                 );
+                                EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_6_PLANNING_COMPLETE});
                                 break;
                               case JobStage.STAGE_7_SESSION_COMPLETE:
                                 Share.share('Here are the driving directions. \nLocation: ${pageState.job.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.job.location.latitude},${pageState.job.location.longitude}');
+                                EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_7_SESSION_COMPLETE});
                                 break;
                               case JobStage.STAGE_8_PAYMENT_REQUESTED:
                                 if(pageState.job.invoice != null) {
@@ -449,6 +455,7 @@ class _StageItemState extends State<StageItem>
                                   pageState.onAddInvoiceSelected();
                                   UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
                                 }
+                                EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_8_PAYMENT_REQUESTED});
                                 break;
                               case JobStage.STAGE_9_PAYMENT_RECEIVED:
                                 if(pageState.invoice != null) {
@@ -458,6 +465,7 @@ class _StageItemState extends State<StageItem>
                                   pageState.onAddInvoiceSelected();
                                   UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
                                 }
+                                EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_9_PAYMENT_RECEIVED});
                                 break;
                               case JobStage.STAGE_10_EDITING_COMPLETE:
                                 break;
@@ -556,7 +564,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_5_DEPOSIT_RECEIVED);
         stageTitle = isStageCompleted ? 'Deposit received!' : 'Deposit received?';
         stageSubtitle = '';
-        actionButtonText = 'Request Deposit';
+        actionButtonText = job.priceProfile.deposit != null && job.priceProfile.deposit > 0 ? 'Request Deposit' : '';
         break;
       case JobStage.STAGE_6_PLANNING_COMPLETE:
         stageImage = ImageUtil.getJobStageImageFromStage(job.type.stages.elementAt(index));

@@ -18,6 +18,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -110,10 +111,28 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
     List<MileageExpense> mileageExpenses = await MileageExpenseDao.getAll();
     List<RecurringExpense> recurringExpenses = await RecurringExpenseDao.getAll();
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
 
     store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
+    store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
+    (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
+      List<Profile> profiles = [];
+      for(RecordSnapshot record in profilesSnapshots) {
+        profiles.add(Profile.fromMap(record.value));
+      }
+
+      Profile result = null;
+      String uid = UidUtil().getUid();
+      for(Profile profile in profiles) {
+        if(profile.uid == uid) {
+          result = profile;
+        }
+      }
+      store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, result));
+    });
 
     (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
       List<JobType> jobTypes = [];

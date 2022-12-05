@@ -12,8 +12,9 @@ class NewReminderListWidget extends StatelessWidget {
   final Function onReminderSelected;
   final Color backgroundColor;
   final Color textColor;
+  final int index;
 
-  NewReminderListWidget(this.reminder, this.pageState, this.onReminderSelected, this.backgroundColor, this.textColor);
+  NewReminderListWidget(this.reminder, this.pageState, this.onReminderSelected, this.backgroundColor, this.textColor, this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +33,7 @@ class NewReminderListWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
+              margin: EdgeInsets.only(bottom: pageState.allReminders.length == index-1 ? 128.0 : 0),
               height: 76.0,
               child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,

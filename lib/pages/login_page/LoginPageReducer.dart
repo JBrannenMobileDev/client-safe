@@ -1,3 +1,5 @@
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:redux/redux.dart';
 import 'LoginPageActions.dart';
 import 'LoginPageState.dart';
@@ -154,30 +156,45 @@ LoginPageState _updateShowResendMessage(LoginPageState previousState, UpdateShow
 }
 
 LoginPageState _updateFirstName(LoginPageState previousState, UpdateFirstNameAction action) {
+  if(previousState.firstName.isEmpty && action.firstName.isNotEmpty) {
+    EventSender().sendEvent(eventName: EventNames.FIRST_NAME_ENTERED);
+  }
   return previousState.copyWith(
       firstName: action.firstName,
   );
 }
 
 LoginPageState _updateLastName(LoginPageState previousState, UpdateLastNameAction action) {
+  if(previousState.lastName.isEmpty && action.lastName.isNotEmpty) {
+    EventSender().sendEvent(eventName: EventNames.LAST_NAME_ENTERED);
+  }
   return previousState.copyWith(
     lastName: action.lastName,
   );
 }
 
 LoginPageState _updateBusinessName(LoginPageState previousState, UpdateBusinessNameAction action) {
+  if(previousState.businessName.isEmpty && action.businessName.isNotEmpty) {
+    EventSender().sendEvent(eventName: EventNames.BUSINESS_NAME_ENTERED);
+  }
   return previousState.copyWith(
     businessName: action.businessName,
   );
 }
 
 LoginPageState _updateEmailAddress(LoginPageState previousState, UpdateEmailAddressAction action) {
+  if(previousState.emailAddress.isEmpty && action.emailAddress.isNotEmpty) {
+    EventSender().sendEvent(eventName: EventNames.EMAIL_ENTERED);
+  }
   return previousState.copyWith(
     emailAddress: action.emailAddress,
   );
 }
 
 LoginPageState _updatePassword(LoginPageState previousState, UpdatePasswordAction action) {
+  if(previousState.password.isEmpty && action.password.isNotEmpty) {
+    EventSender().sendEvent(eventName: EventNames.PASSWORD_ENTERED);
+  }
   return previousState.copyWith(
     password: action.password,
   );

@@ -28,5 +28,12 @@ class FetchAllJobsAction{
 class FetchDeviceEvents{
   final CalendarPageState calendarPageState;
   final DateTime month;
-  FetchDeviceEvents(this.calendarPageState, this.month);
+  final bool calendarEnabled;
+  FetchDeviceEvents(this.calendarPageState, this.month, this.calendarEnabled);
+}
+
+class UpdateCalendarEnabledAction{
+  final CalendarPageState pageState;
+  final bool enabled;
+  UpdateCalendarEnabledAction(this.pageState, this.enabled);
 }
