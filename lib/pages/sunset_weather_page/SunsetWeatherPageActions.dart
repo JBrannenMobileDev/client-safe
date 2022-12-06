@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -69,9 +70,9 @@ class SetSelectedDateAction{
 
 class SetForecastAction{
   final SunsetWeatherPageState pageState;
-  final Forecast7Days forecast7days;
+  final ForecastFiveDayResponse forecast5days;
   final List<Location> locations;
-  SetForecastAction(this.pageState, this.forecast7days, this.locations);
+  SetForecastAction(this.pageState, this.forecast5days, this.locations);
 }
 
 class SetSelectedLocationAction{

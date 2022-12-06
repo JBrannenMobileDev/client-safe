@@ -1,9 +1,11 @@
 import 'dart:io';
 
+import 'package:dandylight/data_layer/api_clients/AccuWeatherClient.dart';
 import 'package:dandylight/data_layer/api_clients/GoogleApiClient.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:dandylight/utils/UserPermissionsUtil.dart';
 import 'package:geocoder/geocoder.dart';
@@ -91,8 +93,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
             response.data.nauticalTwilightEnd.toLocal(),
           )
       );
-      Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(latLng.latitude, latLng.longitude);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(latLng.latitude, latLng.longitude);
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
 
@@ -113,8 +115,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
             response.data.nauticalTwilightEnd.toLocal(),
           )
       );
-      Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(selectedLocation.latitude, selectedLocation.longitude);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(selectedLocation.latitude, selectedLocation.longitude);
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
 
@@ -140,8 +142,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(SetLocationsAction(store.state.sunsetWeatherPageState, locations));
         });
 
-        Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
-        store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+        ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
+        store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
 
         final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: positionLastKnown.latitude, longitude: positionLastKnown.longitude);
         store.dispatch(
@@ -190,8 +192,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           )
       );
 
-      Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(lat, long);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(lat, long);
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
 
@@ -229,8 +231,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           )
       );
 
-      Forecast7Days forecast7days = await WeatherRepository(weatherApiClient: WeatherApiClient(httpClient: http.Client())).fetch7DayForecast(lat, long);
-      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast7days, await LocationDao.getAllSortedMostFrequent()));
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(lat, long);
+      store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
 }

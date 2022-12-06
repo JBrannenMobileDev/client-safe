@@ -112,7 +112,7 @@ class LocationsPage extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
                           child: Text(
-                            "Save locations you regularly use here. This will help you save time sharing driving directions with your clients.",
+                            "Save locations you regularly use here. This will help you save time sharing driving directions with your clients.\n\nYour locations will never be shared with other photographers. They will remain private to you.",
                             // \n\nYou can also share your saved locations with a client to help them decide what location they want.
                             textAlign: TextAlign.center,
                             style: TextStyle(

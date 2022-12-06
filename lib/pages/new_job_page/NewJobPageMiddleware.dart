@@ -33,7 +33,6 @@ import '../../models/Profile.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
-import '../../utils/JobUtil.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/UserPermissionsUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';

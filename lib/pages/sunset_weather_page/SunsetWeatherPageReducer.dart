@@ -1,3 +1,4 @@
+import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/DailyForecasts.dart';
 import 'package:dandylight/models/rest_models/Hour.dart';
 import 'package:dandylight/models/rest_models/OneDayForecast.dart';
 import 'package:dandylight/models/rest_models/OneHourForecast.dart';
@@ -95,24 +96,26 @@ SunsetWeatherPageState _setDocumentPath(SunsetWeatherPageState previousState, Se
 }
 
 SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetForecastAction action){
-  Forecastday matchingDay;
-  for(Forecastday forecastDay in action.forecast7days.forecast.forecastday){
-    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == forecastDay.date) {
+  DailyForecasts matchingDay;
+  for(DailyForecasts forecastDay in action.forecast5days.dailyForecasts){
+    if(DateFormat('yyyy-MM-dd').format(previousState.selectedDate) == DateFormat('yyyy-MM-dd').format(DateTime.parse(forecastDay.date))) {
       matchingDay = forecastDay;
       break;
     }
   }
 
+  bool isNight = DateTime.parse(matchingDay.date).hour > 17;
+
   return matchingDay != null ? previousState.copyWith(
     showFartherThan7DaysError: false,
-    weatherDescription: getWeatherDescription(matchingDay.hour),
-    tempHigh: matchingDay.day.maxtempF.toInt().toString(),
-    tempLow: matchingDay.day.mintempF.toInt().toString(),
-    chanceOfRain: getAvgChanceOfRain(matchingDay.hour),
-    cloudCoverage: getAvgCloudCoverage(matchingDay.hour),
-    weatherIcon: _getMostAccurateWeatherCode(matchingDay.hour),
+    weatherDescription: isNight ? matchingDay.night.iconPhrase : matchingDay.day.iconPhrase,
+    tempHigh: matchingDay.temperature.maximum.value.toString(),
+    tempLow: matchingDay.temperature.minimum.value.toString(),
+    chanceOfRain: isNight ? matchingDay.night.precipitationProbability.toString() : matchingDay.day.precipitationProbability.toString(),
+    cloudCoverage: isNight ? matchingDay.night.cloudCover.toString() : matchingDay.day.cloudCover.toString(),
+    weatherIcon: _getWeatherIcon(isNight ? matchingDay.night.icon : matchingDay.day.icon),
     isWeatherDataLoading: false,
-    hoursForecast: matchingDay.hour,
+    hoursForecast: null, //TODO fetch hourly weather seperate. Its only for current day. needs seperate error msg.
     locations: action.locations,
   ) : previousState.copyWith(
     showFartherThan7DaysError: true,
@@ -219,102 +222,7 @@ String getWeatherDescription(List<Hour> hourly) {
   }
 }
 
-String getAvgCloudCoverage(List<Hour> hourly) {
-  int totalCloudCover = 0;
-  for(Hour oneHour in hourly){
-    totalCloudCover = totalCloudCover + oneHour.cloud;
-  }
-  return (totalCloudCover~/24).toInt().toString();
-}
-
-String getAvgChanceOfRain(List<Hour> hourly) {
-  int totalChanceOfRain = 0;
-  for(Hour oneHour in hourly){
-    totalChanceOfRain = totalChanceOfRain + oneHour.chanceOfRain;
-  }
-  return (totalChanceOfRain~/24).toInt().toString();
-}
-
-AssetImage _getMostAccurateWeatherCode(List<Hour> hourly) {
-  int containsSunny = 0;
-  int containsRainy = 0;
-  int containsSnowy = 0;
-  int containsPartlyCloudy = 0;
-  int containsCloudy = 0;
-  int containsHail = 0;
-  int containsLightning = 0;
-  for(Hour oneHour in hourly){
-    switch(oneHour.condition.code){
-      case 1000:
-        containsSunny = containsSunny + 1;
-        break;
-      case 1003:
-        containsPartlyCloudy = containsPartlyCloudy + 1;
-        break;
-      case 1006:
-      case 1135:
-      case 1147:
-      case 1009:
-      case 1030:
-        containsCloudy = containsCloudy + 1;
-        break;
-      case 1063:
-      case 1150:
-      case 1153:
-      case 1180:
-      case 1183:
-      case 1087:
-      case 1273:
-      case 1276:
-      case 1279:
-      case 1282:
-      case 1186:
-      case 1189:
-      case 1192:
-      case 1195:
-      case 1201:
-      case 1240:
-      case 1243:
-      case 1246:
-        containsRainy = containsRainy + 1;
-        break;
-      case 1066:
-      case 1072:
-      case 1114:
-      case 1117:
-      case 1210:
-      case 1213:
-      case 1216:
-      case 1219:
-      case 1222:
-      case 1225:
-      case 1255:
-      case 1258:
-        containsSnowy = containsSnowy + 1;
-        break;
-      case 1069:
-      case 1168:
-      case 1171:
-      case 1198:
-      case 1204:
-      case 1207:
-      case 1237:
-      case 1249:
-      case 1252:
-      case 1261:
-      case 1264:
-        containsHail = containsHail + 1;
-        break;
-      case 1087:
-      case 1273:
-      case 1276:
-      case 1279:
-      case 1282:
-        containsLightning = containsLightning + 1;
-        break;
-    }
-  }
-
+AssetImage _getWeatherIcon(int iconId) {
   AssetImage imageToReturn = AssetImage('assets/images/icons/sunny_icon_gold.png');
   int highestCount = 0;
 
