@@ -3,9 +3,12 @@ import 'dart:io';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
+import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
 
 
 class FilterSelectorChangedAction{
@@ -73,6 +76,12 @@ class SetForecastAction{
   final ForecastFiveDayResponse forecast5days;
   final List<Location> locations;
   SetForecastAction(this.pageState, this.forecast5days, this.locations);
+}
+
+class SetHourlyForecastAction{
+  final SunsetWeatherPageState pageState;
+  final List<HourWeather> hours;
+  SetHourlyForecastAction(this.pageState, this.hours);
 }
 
 class SetSelectedLocationAction{

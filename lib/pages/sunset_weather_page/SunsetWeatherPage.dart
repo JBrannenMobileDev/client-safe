@@ -35,19 +35,6 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
       onInit: (store) async {
         store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState));
       },
-      onDidChange: (prev, pageState) {
-        final DateTime now = DateTime.now();
-        final DateTime today = DateTime(now.year, now.month, now.day);
-        final DateTime selectedDate = DateTime(pageState.selectedDate.year,
-            pageState.selectedDate.month, pageState.selectedDate.day);
-        if (today == selectedDate) {
-          if (_controller.positions.isNotEmpty) {
-            _controller.animateTo((72 * now.hour + 16).toDouble(),
-                duration: Duration(milliseconds: 250),
-                curve: Curves.fastLinearToSlowEaseIn);
-          }
-        }
-      },
       converter: (store) => SunsetWeatherPageState.fromStore(store),
       builder: (BuildContext context, SunsetWeatherPageState pageState) =>
           Scaffold(
@@ -154,7 +141,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                   ),
                                 )
                           : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 Container(
                                   margin:
@@ -165,7 +152,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     shape: BoxShape.circle,
                                   ),
                                   child: pageState.weatherIcon != null
-                                      ? Image(image: pageState.weatherIcon)
+                                      ? Image.asset(pageState.weatherIcon, color: Color(ColorConstants.getBlueLight()),)
                                       : SizedBox(),
                                 ),
                                 Container(
@@ -204,7 +191,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                             MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-                                            width: 158.0,
+
                                             child: Text(
                                               'Chance of rain:',
                                               textAlign: TextAlign.end,
@@ -218,7 +205,6 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                             ),
                                           ),
                                           Container(
-                                            width: 42.0,
                                             child: Text(
                                               ' ' +
                                                   pageState.chanceOfRain +
@@ -241,7 +227,6 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                             MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-                                            width: 158.0,
                                             child: Text(
                                               'Cloud coverage:',
                                               textAlign: TextAlign.end,
@@ -255,7 +240,6 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                             ),
                                           ),
                                           Container(
-                                            width: 42.0,
                                             child: Text(
                                               ' ' +
                                                   pageState.cloudCoverage +
@@ -804,7 +788,7 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Text(
-              _getHourText(pageState.hoursForecast.elementAt(index).time),
+              _getHourText(pageState.hoursForecast.elementAt(index).dateTime),
               textAlign: TextAlign.start,
               style: TextStyle(
                 fontSize: 20.0,
@@ -820,17 +804,12 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
               ),
-              child: Image(
-                  image: getWeatherIcon(
-                      pageState.hoursForecast.elementAt(index).condition.code,
-                      pageState.hoursForecast.elementAt(index).condition.text)),
+              child: Image.asset(getWeatherIcon(pageState.hoursForecast.elementAt(index).weatherIcon), color: Color(ColorConstants.getBlueLight()),),
             ),
             Text(
               pageState.hoursForecast
                       .elementAt(index)
-                      .tempF
-                      .toInt()
-                      .toString() +
+                      .temperature.value.toInt().toString() +
                   '°',
               textAlign: TextAlign.start,
               style: TextStyle(
@@ -848,7 +827,7 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
 }
 
 String _getHourText(String time) {
-  DateTime dateTime = DateTime.parse(time);
+  DateTime dateTime = DateTime.parse(time).toLocal();
   switch (dateTime.hour) {
     case 0:
       return '12am';
@@ -926,56 +905,73 @@ String _getHourText(String time) {
   return '';
 }
 
-AssetImage getWeatherIcon(int weatherCode, String weatherDescription) {
-  AssetImage icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
-  switch (weatherCode) {
-    case 1000:
-      if (weatherDescription.contains('Clear')) {
-        icon = AssetImage('assets/images/icons/night_icon.png');
-      } else {
-        icon = AssetImage('assets/images/icons/sunny_icon_gold.png');
-      }
+String getWeatherIcon(int iconId) {
+  String imageToReturn = 'assets/images/icons/sunny_icon_gold.png';
+  switch(iconId) {
+    case 1:
+    case 2:
+    case 30:
+      imageToReturn = 'assets/images/icons/sunny_icon_gold.png';
       break;
-    case 1003:
-      icon = AssetImage('assets/images/icons/partly_cloudy_icon.png');
+    case 3:
+    case 4:
+    case 5:
+      imageToReturn = 'assets/images/icons/partly_cloudy_icon.png';
       break;
-    case 1006:
-    case 1135:
-    case 1147:
-      icon = AssetImage('assets/images/icons/cloudy_icon.png');
+    case 6:
+    case 7:
+    case 8:
+    case 31:
+      imageToReturn = 'assets/images/icons/cloudy_icon.png';
       break;
-    case 1009:
-    case 1030:
-      icon = AssetImage('assets/images/icons/very_cloudy_icon.png');
+    case 11:
+      imageToReturn = 'assets/images/icons/fog.png';
       break;
-    case 1063:
-    case 1150:
-    case 1153:
-    case 1180:
-    case 1183:
-      icon = AssetImage('assets/images/icons/sunny_rainy_icon.png');
+    case 12:
+    case 13:
+    case 14:
+    case 18:
+    case 29:
+      imageToReturn = 'assets/images/icons/rainy_icon.png';
       break;
-    case 1066:
-    case 1072:
-    case 1114:
-    case 1117:
-      icon = AssetImage('assets/images/icons/snowing_icon.png');
+    case 15:
+    case 16:
+    case 17:
+    case 41:
+    case 42:
+      imageToReturn = 'assets/images/icons/lightning_rain_icon.png';
       break;
-    case 1069:
-    case 1168:
-    case 1171:
-    case 1198:
-      icon = AssetImage('assets/images/icons/hail_icon.png');
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 43:
+    case 44:
+      imageToReturn = 'assets/images/icons/snowing_icon.png';
       break;
-    case 1087:
-      icon = AssetImage('assets/images/icons/lightning_rain_icon.png');
+    case 25:
+    case 26:
+      imageToReturn = 'assets/images/icons/hail_icon.png';
       break;
-    case 1186:
-    case 1189:
-    case 1192:
-    case 1195:
-      icon = AssetImage('assets/images/icons/rainy_icon.png');
+    case 32:
+      imageToReturn = 'assets/images/icons/windy.png';
+      break;
+    case 33:
+    case 34:
+      imageToReturn = 'assets/images/icons/clear_night.png';
+      break;
+    case 35:
+    case 36:
+    case 37:
+    case 38:
+      imageToReturn = 'assets/images/icons/partly_cloudy_night.png';
+      break;
+    case 39:
+    case 40:
+      imageToReturn = 'assets/images/icons/rainy_night.png';
       break;
   }
-  return icon;
+  return imageToReturn;
 }

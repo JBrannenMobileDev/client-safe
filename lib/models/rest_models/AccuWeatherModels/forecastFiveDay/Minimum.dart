@@ -1,5 +1,5 @@
 class Minimum {
-  int value;
+  double value;
   String unit;
   int unitType;
 

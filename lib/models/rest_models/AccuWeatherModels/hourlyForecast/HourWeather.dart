@@ -1,6 +1,6 @@
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/Temperature.dart';
 
-class HourlyWeatherResponse {
+class HourWeather {
   String dateTime;
   int epochDateTime;
   int weatherIcon;
@@ -12,7 +12,7 @@ class HourlyWeatherResponse {
   String mobileLink;
   String link;
 
-  HourlyWeatherResponse(
+  HourWeather(
       {this.dateTime,
         this.epochDateTime,
         this.weatherIcon,
@@ -24,7 +24,7 @@ class HourlyWeatherResponse {
         this.mobileLink,
         this.link});
 
-  HourlyWeatherResponse.fromJson(Map<String, dynamic> json) {
+  HourWeather.fromJson(Map<String, dynamic> json) {
     dateTime = json['DateTime'];
     epochDateTime = json['EpochDateTime'];
     weatherIcon = json['WeatherIcon'];

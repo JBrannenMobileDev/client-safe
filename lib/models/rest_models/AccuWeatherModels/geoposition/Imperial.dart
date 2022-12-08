@@ -1,5 +1,5 @@
 class Imperial {
-  int value;
+  double value;
   String unit;
   int unitType;
 

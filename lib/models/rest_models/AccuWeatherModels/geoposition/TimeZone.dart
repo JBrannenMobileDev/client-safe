@@ -1,7 +1,7 @@
 class TimeZone {
   String code;
   String name;
-  int gmtOffset;
+  double gmtOffset;
   bool isDaylightSaving;
   String nextOffsetChange;
 

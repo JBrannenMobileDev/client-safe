@@ -240,6 +240,11 @@ flutter:
     - assets/images/icons/permission_icon.png
     - assets/images/icons/profile_icon.png
     - assets/images/icons/pie_chart.png
+    - assets/images/icons/windy.png
+    - assets/images/icons/rainy_night.png
+    - assets/images/icons/partly_cloudy_night.png
+    - assets/images/icons/fog.png
+    - assets/images/icons/clear_night.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

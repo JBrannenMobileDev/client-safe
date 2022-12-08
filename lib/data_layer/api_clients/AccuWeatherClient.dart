@@ -4,11 +4,13 @@ import 'package:dandylight/credentials.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/currentWeather/CurrentWeatherResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/geoposition/GeopositionResponse.dart';
-import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyWeatherResponse.dart';
+import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
 import 'package:dandylight/models/rest_models/CurrentWeather.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:http/http.dart' as http;
 import 'package:meta/meta.dart';
+
+import '../../models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
 
 class AccuWeatherClient {
   final _baseUrl = 'https://dataservice.accuweather.com';
@@ -32,7 +34,7 @@ class AccuWeatherClient {
     return CurrentWeatherResponse.fromJson(json);
   }
 
-  Future<HourlyWeatherResponse> fetchHourly12Weather(double lat, double lon) async {
+  Future<List<HourWeather>> fetchHourly12Weather(double lat, double lon) async {
     String location_key = (await _fetchLocationKey(lat.toString(), lon.toString())).key;
     final url = '$_baseUrl/forecasts/v1/hourly/12hour/$location_key?apikey=$_api_key';
     final response = await this.httpClient.get(Uri.parse(url));
@@ -42,12 +44,12 @@ class AccuWeatherClient {
     }
 
     final json = jsonDecode(response.body);
-    return HourlyWeatherResponse.fromJson(json);
+    return List<HourWeather>.from(json.map((x) => HourWeather.fromJson(x)));
   }
 
   Future<ForecastFiveDayResponse> fetch5DayWeatherForecast(double lat, double lon) async {
     String location_key = (await _fetchLocationKey(lat.toString(), lon.toString())).key;
-    final url = '$_baseUrl/forecasts/v1/daily/5day/$location_key?apikey=$_api_key&language=en-us&details=true&metric=true';
+    final url = '$_baseUrl/forecasts/v1/daily/5day/$location_key?apikey=$_api_key&language=en-us&details=true&metric=false';
     final response = await this.httpClient.get(Uri.parse(url));
 
     if (response.statusCode != 200) {

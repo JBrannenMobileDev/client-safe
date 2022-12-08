@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
+import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
+import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -26,7 +28,7 @@ class SunsetWeatherPageState {
   final String weatherDescription;
   final String chanceOfRain;
   final String cloudCoverage;
-  final AssetImage weatherIcon;
+  final String weatherIcon;
   final DateTime selectedDate;
   final String tempHigh;
   final String tempLow;
@@ -34,7 +36,7 @@ class SunsetWeatherPageState {
   final bool showFartherThan7DaysError;
   final bool isWeatherDataLoading;
   final bool isSunsetDataLoading;
-  final List<Hour> hoursForecast;
+  final List<HourWeather> hoursForecast;
   final int pageViewIndex;
   final Function() onNextPressed;
   final Function() onSaveLocationSelected;
@@ -126,7 +128,7 @@ class SunsetWeatherPageState {
     String weatherDescription,
     String chanceOfRain,
     String cloudCoverage,
-    AssetImage weatherIcon,
+    String weatherIcon,
     DateTime selectedDate,
     String tempHigh,
     String tempLow,
@@ -135,7 +137,7 @@ class SunsetWeatherPageState {
     bool showFartherThan7DaysError,
     bool isWeatherDataLoading,
     bool isSunsetDataLoading,
-    List<Hour> hoursForecast,
+    List<HourWeather> hoursForecast,
     int pageViewIndex,
     Function() onNextPressed,
     Function() onSaveLocationSelected,

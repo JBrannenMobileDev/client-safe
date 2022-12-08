@@ -7,7 +7,6 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart
 import 'package:flutter/cupertino.dart';
 import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
-import '../../models/rest_models/ForecastDay.dart';
 
 final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, FilterSelectorChangedAction>(_updateSelectorIndex),
@@ -26,6 +25,7 @@ final sunsetWeatherPageReducer = combineReducers<SunsetWeatherPageState>([
   TypedReducer<SunsetWeatherPageState, SetLocationImageFilesAction>(_setLocationImages),
   TypedReducer<SunsetWeatherPageState, SetComingFromNewJobAction>(_setComingFromNewJob),
   TypedReducer<SunsetWeatherPageState, ClearPageStateAction>(_clearPageState),
+  TypedReducer<SunsetWeatherPageState, SetHourlyForecastAction>(_setHourlyForecast),
 ]);
 
 SunsetWeatherPageState _clearPageState(SunsetWeatherPageState previousState, ClearPageStateAction action){
@@ -95,6 +95,12 @@ SunsetWeatherPageState _setDocumentPath(SunsetWeatherPageState previousState, Se
   );
 }
 
+SunsetWeatherPageState _setHourlyForecast(SunsetWeatherPageState previousState, SetHourlyForecastAction action) {
+  return previousState.copyWith(
+    hoursForecast: action.hours,
+  );
+}
+
 SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetForecastAction action){
   DailyForecasts matchingDay;
   for(DailyForecasts forecastDay in action.forecast5days.dailyForecasts){
@@ -109,156 +115,86 @@ SunsetWeatherPageState _setForecast(SunsetWeatherPageState previousState, SetFor
   return matchingDay != null ? previousState.copyWith(
     showFartherThan7DaysError: false,
     weatherDescription: isNight ? matchingDay.night.iconPhrase : matchingDay.day.iconPhrase,
-    tempHigh: matchingDay.temperature.maximum.value.toString(),
-    tempLow: matchingDay.temperature.minimum.value.toString(),
+    tempHigh: matchingDay.temperature.maximum.value.toInt().toString(),
+    tempLow: matchingDay.temperature.minimum.value.toInt().toString(),
     chanceOfRain: isNight ? matchingDay.night.precipitationProbability.toString() : matchingDay.day.precipitationProbability.toString(),
     cloudCoverage: isNight ? matchingDay.night.cloudCover.toString() : matchingDay.day.cloudCover.toString(),
     weatherIcon: _getWeatherIcon(isNight ? matchingDay.night.icon : matchingDay.day.icon),
     isWeatherDataLoading: false,
-    hoursForecast: null, //TODO fetch hourly weather seperate. Its only for current day. needs seperate error msg.
     locations: action.locations,
   ) : previousState.copyWith(
     showFartherThan7DaysError: true,
   );
 }
 
-String getWeatherDescription(List<Hour> hourly) {
-  int containsSunny = 0;
-  int containsRainy = 0;
-  int containsSnowy = 0;
-  int containsPartlyCloudy = 0;
-  int containsCloudy = 0;
-  int containsHail = 0;
-  int containsLightning = 0;
-  for(Hour oneHour in hourly){
-    switch(oneHour.condition.code){
-      case 1000:
-        containsSunny = containsSunny + 1;
-        break;
-      case 1003:
-        containsPartlyCloudy = containsPartlyCloudy + 1;
-        break;
-      case 1006:
-      case 1135:
-      case 1147:
-      case 1009:
-      case 1030:
-        containsCloudy = containsCloudy + 1;
-        break;
-      case 1063:
-      case 1150:
-      case 1153:
-      case 1180:
-      case 1183:
-      case 1087:
-      case 1273:
-      case 1276:
-      case 1279:
-      case 1282:
-      case 1186:
-      case 1189:
-      case 1192:
-      case 1195:
-      case 1201:
-      case 1240:
-      case 1243:
-      case 1246:
-        containsRainy = containsRainy + 1;
-        break;
-      case 1066:
-      case 1072:
-      case 1114:
-      case 1117:
-      case 1210:
-      case 1213:
-      case 1216:
-      case 1219:
-      case 1222:
-      case 1225:
-      case 1255:
-      case 1258:
-        containsSnowy = containsSnowy + 1;
-        break;
-      case 1069:
-      case 1168:
-      case 1171:
-      case 1198:
-      case 1204:
-      case 1207:
-      case 1237:
-      case 1249:
-      case 1252:
-      case 1261:
-      case 1264:
-        containsHail = containsHail + 1;
-        break;
-      case 1087:
-      case 1273:
-      case 1276:
-      case 1279:
-      case 1282:
-        containsLightning = containsLightning + 1;
-        break;
-    }
+String _getWeatherIcon(int iconId) {
+  String imageToReturn = 'assets/images/icons/sunny_icon_gold.png';
+  switch(iconId) {
+    case 1:
+    case 2:
+    case 30:
+      imageToReturn = 'assets/images/icons/sunny_icon_gold.png';
+      break;
+    case 3:
+    case 4:
+    case 5:
+      imageToReturn = 'assets/images/icons/partly_cloudy_icon.png';
+      break;
+    case 6:
+    case 7:
+    case 8:
+    case 31:
+      imageToReturn = 'assets/images/icons/cloudy_icon.png';
+      break;
+    case 11:
+      imageToReturn = 'assets/images/icons/fog.png';
+      break;
+    case 12:
+    case 13:
+    case 14:
+    case 18:
+    case 29:
+      imageToReturn = 'assets/images/icons/rainy_icon.png';
+      break;
+    case 15:
+    case 16:
+    case 17:
+    case 41:
+    case 42:
+      imageToReturn = 'assets/images/icons/lightning_rain_icon.png';
+      break;
+    case 19:
+    case 20:
+    case 21:
+    case 22:
+    case 23:
+    case 24:
+    case 43:
+    case 44:
+      imageToReturn = 'assets/images/icons/snowing_icon.png';
+      break;
+    case 25:
+    case 26:
+      imageToReturn = 'assets/images/icons/hail_icon.png';
+      break;
+    case 32:
+      imageToReturn = 'assets/images/icons/windy.png';
+      break;
+    case 33:
+    case 34:
+      imageToReturn = 'assets/images/icons/clear_night.png';
+      break;
+    case 35:
+    case 36:
+    case 37:
+    case 38:
+      imageToReturn = 'assets/images/icons/partly_cloudy_night.png';
+      break;
+    case 39:
+    case 40:
+      imageToReturn = 'assets/images/icons/rainy_night.png';
+      break;
   }
-  if(containsLightning > 0){
-    return 'Chance of Thunderstroms';
-  } else if(containsSnowy > 0){
-    return 'Chance of Snow';
-  } else if(containsHail > 0){
-    return 'Chance of Hail';
-  } else if(containsRainy > 0){
-    return 'Chance of Rain';
-  } else {
-    if(containsSunny > containsPartlyCloudy && containsSunny > containsCloudy) {
-      return 'Sunny';
-    } else {
-      if(containsPartlyCloudy > containsCloudy) {
-        return 'Partly Cloudy';
-      } else {
-        return 'Cloudy';
-      }
-    }
-  }
-}
-
-AssetImage _getWeatherIcon(int iconId) {
-  AssetImage imageToReturn = AssetImage('assets/images/icons/sunny_icon_gold.png');
-  int highestCount = 0;
-
-  if(containsLightning > containsSnowy) {
-    imageToReturn = AssetImage('assets/images/icons/lightning_rain_icon.png');
-    highestCount = containsLightning;
-  } else {
-    imageToReturn = AssetImage('assets/images/icons/snowing_icon.png');
-    highestCount = containsSnowy;
-  }
-
-  if(containsHail > highestCount){
-    imageToReturn = AssetImage('assets/images/icons/hail_icon.png');
-    highestCount = containsHail;
-  }
-
-  if(containsRainy > highestCount){
-    imageToReturn = AssetImage('assets/images/icons/rainy_icon.png');
-    highestCount = containsRainy;
-  }
-
-  if(containsCloudy > highestCount){
-    imageToReturn = AssetImage('assets/images/icons/cloudy_icon.png');
-    highestCount = containsCloudy;
-  }
-
-  if(containsPartlyCloudy > highestCount){
-    imageToReturn = AssetImage('assets/images/icons/partly_cloudy_icon.png');
-    highestCount = containsPartlyCloudy;
-  }
-
-  if(containsSunny > highestCount){
-    imageToReturn = AssetImage('assets/images/icons/sunny_icon_gold.png');
-    highestCount = containsSunny;
-  }
-
   return imageToReturn;
 }
 

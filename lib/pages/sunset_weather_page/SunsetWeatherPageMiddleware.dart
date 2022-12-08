@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
+import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:dandylight/utils/UserPermissionsUtil.dart';
 import 'package:geocoder/geocoder.dart';
@@ -21,6 +22,7 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 
 class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
@@ -94,6 +96,11 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           )
       );
       ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(latLng.latitude, latLng.longitude);
+      DateTime now = DateTime.now();
+      if(action.pageState.selectedDate.year == now.year && action.pageState.selectedDate.month == now.month && action.pageState.selectedDate.day == now.day) {
+        List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(latLng.latitude, latLng.longitude);
+        store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
+      }
       store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
@@ -116,6 +123,11 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
           )
       );
       ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(selectedLocation.latitude, selectedLocation.longitude);
+      DateTime now = DateTime.now();
+      if(action.pageState.selectedDate.year == now.year && action.pageState.selectedDate.month == now.month && action.pageState.selectedDate.day == now.day) {
+        List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(selectedLocation.latitude, selectedLocation.longitude);
+        store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
+      }
       store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
@@ -143,6 +155,11 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
         });
 
         ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(positionLastKnown.latitude, positionLastKnown.longitude);
+        DateTime now = DateTime.now();
+        if(action.pageState.selectedDate.year == now.year && action.pageState.selectedDate.month == now.month && action.pageState.selectedDate.day == now.day) {
+          List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(positionLastKnown.latitude, positionLastKnown.longitude);
+          store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
+        }
         store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
 
         final response = await SunriseSunset.getResults(date: DateTime.now(), latitude: positionLastKnown.latitude, longitude: positionLastKnown.longitude);
@@ -193,6 +210,11 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       );
 
       ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(lat, long);
+      DateTime now = DateTime.now();
+      if(action.selectedDate.year == now.year && action.selectedDate.month == now.month && action.selectedDate.day == now.day) {
+        List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(lat, long);
+        store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
+      }
       store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
@@ -232,6 +254,11 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       );
 
       ForecastFiveDayResponse forecast5days = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetch5DayForecast(lat, long);
+      DateTime now = DateTime.now();
+      if(action.date.year == now.year && action.date.month == now.month && action.date.day == now.day) {
+        List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(lat, long);
+        store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
+      }
       store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }
   }
