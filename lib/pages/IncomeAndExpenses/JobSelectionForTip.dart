@@ -173,6 +173,7 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                       marginTop: 32.0,
                       onPressed: startNewJobSelected,
                       urlText: "",
+                      color: ColorConstants.getPrimaryColor()
                     ),
                   ],
                 ),

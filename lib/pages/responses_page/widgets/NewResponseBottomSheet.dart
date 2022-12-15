@@ -10,7 +10,18 @@ import '../../../models/Response.dart';
 import '../../../models/ResponsesListItem.dart';
 
 
-class NewResponseBottomSheet extends StatelessWidget {
+class NewResponseBottomSheet extends StatefulWidget {
+  final String parentGroup;
+
+  NewResponseBottomSheet(this.parentGroup);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _NewResponsePageState(parentGroup);
+  }
+}
+
+class _NewResponsePageState extends State<NewResponseBottomSheet> {
   final TitleTextController = TextEditingController();
   final MessageTextController = TextEditingController();
   final FocusNode _TitleFocusNode = FocusNode();
@@ -18,7 +29,7 @@ class NewResponseBottomSheet extends StatelessWidget {
   final Response response = Response();
   final String parentGroup;
 
-  NewResponseBottomSheet(this.parentGroup);
+  _NewResponsePageState(this.parentGroup);
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +131,7 @@ class NewResponseBottomSheet extends StatelessWidget {
                   'noError',
                   TextInputAction.next,
                   _TitleFocusNode,
-                  onAction,
+                  onTitleAction,
                   TextCapitalization.words,
                   null,
                   true,
@@ -157,7 +168,7 @@ class NewResponseBottomSheet extends StatelessWidget {
                   'noError',
                   TextInputAction.done,
                   _ResponseFocusNode,
-                  onAction,
+                  onMessageAction,
                   TextCapitalization.sentences,
                   null,
                   true,
@@ -169,8 +180,12 @@ class NewResponseBottomSheet extends StatelessWidget {
     );
   }
 
-  void onAction(){
+  void onTitleAction(){
     _TitleFocusNode.unfocus();
+  }
+
+  void onMessageAction(){
+    _ResponseFocusNode.unfocus();
   }
 
   _onMessageChanged(String responseMessage) {

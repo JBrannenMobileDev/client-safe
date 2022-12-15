@@ -370,6 +370,7 @@ class _NewContactPageState extends State<NewContactPage> {
     List<Job> jobs = await JobDao.getAllJobs();
     List<Job> thisClientsJobs = jobs.where((job) => job.clientDocumentId == clientDocumentId).toList();
     if(thisClientsJobs.length == 0 && !comingFromNewJob){
+      Navigator.of(context).pop();
       UserOptionsUtil.showJobPromptDialog(context);
     }else {
       Navigator.of(context).pop();

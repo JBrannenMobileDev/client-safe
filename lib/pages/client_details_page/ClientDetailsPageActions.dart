@@ -3,6 +3,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 
 import '../../models/ImportantDate.dart';
+import '../../models/Response.dart';
 
 class InitializeClientDetailsAction{
   final ClientDetailsPageState pageState;
@@ -70,6 +71,17 @@ class RemoveClientDetailsImportantDateAction{
 class SaveImportantDatesAction{
   final ClientDetailsPageState pageState;
   SaveImportantDatesAction(this.pageState);
+}
+
+class FetchClientDetailsResponsesAction{
+  final ClientDetailsPageState pageState;
+  FetchClientDetailsResponsesAction(this.pageState);
+}
+
+class SetResponsesAction{
+  final ClientDetailsPageState pageState;
+  final List<Response> responses;
+  SetResponsesAction(this.pageState, this.responses);
 }
 
 

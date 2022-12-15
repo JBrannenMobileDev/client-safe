@@ -206,6 +206,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             lastName: store.state.loginPageState.lastName,
             businessName: store.state.loginPageState.businessName,
             email: store.state.loginPageState.emailAddress,
+            calendarEnabled: false,
+            pushNotificationsEnabled: false,
           );
         await ProfileDao.insertOrUpdate(newProfile);
 

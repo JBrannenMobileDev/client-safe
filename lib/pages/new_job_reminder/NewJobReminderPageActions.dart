@@ -44,6 +44,7 @@ class ReminderSelectedAction{
 class SetAllRemindersAction{
   final NewJobReminderPageState pageState;
   final List<ReminderDandyLight> allReminders;
-  SetAllRemindersAction(this.pageState, this.allReminders);
+  final int allRemindersLength;
+  SetAllRemindersAction(this.pageState, this.allReminders, this.allRemindersLength);
 }
 

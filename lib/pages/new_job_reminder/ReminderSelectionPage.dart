@@ -66,9 +66,10 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Padding(
-                      padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
+                      padding: EdgeInsets.only(left: 64.0, right: 64.0, top: 64.0),
                       child: Text(
-                        "You have not created any collection reminders yet.",
+                        pageState.hasNotCreatedAnyReminders ?
+                        "You have not created any collection reminders yet." : "All of your reminders are already added to this job.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 22.0,
@@ -81,13 +82,14 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                     ClientSafeButton(
                       height: 50.0,
                       width: 200.0,
-                      text: "Add New Reminder",
+                      text: "New Reminder",
                       marginLeft: 0.0,
                       marginRight: 0.0,
                       marginBottom: 0.0,
                       marginTop: 32.0,
                       onPressed: onAddNewReminderSelected,
                       urlText: "",
+                      color: ColorConstants.getPrimaryColor(),
                     ),
                   ],
                 ),

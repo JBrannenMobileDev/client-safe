@@ -8,6 +8,7 @@ import 'package:dandylight/pages/client_details_page/JobHistoryWidget.dart';
 import 'package:dandylight/pages/client_details_page/LeadSourceSelectionWidget.dart';
 import 'package:dandylight/pages/client_details_page/LeadSourceWidget.dart';
 import 'package:dandylight/pages/client_details_page/NotesWidget.dart';
+import 'package:dandylight/pages/client_details_page/SendMessageBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPage.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
@@ -23,6 +24,7 @@ import '../../utils/ImageUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
+import 'ClientDetailsPageActions.dart';
 
 class ClientDetailsPage extends StatefulWidget {
   @override
@@ -149,9 +151,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  if (pageState.client.phone != null &&
-                                      pageState.client.phone.length > 0) {
-                                    onSMSPressed(pageState.client.phone);
+                                  if (pageState.client.phone != null && pageState.client.phone.length > 0) {
+                                    onSMSPressed(pageState.client.phone, context);
                                   } else {
                                     DandyToastUtil.showErrorToast(
                                         'No phone number saved yet');
@@ -174,7 +175,7 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                                 onTap: () {
                                   if (pageState.client.email != null &&
                                       pageState.client.email.length > 0) {
-                                    onEmailPressed(pageState.client.email);
+                                    onEmailPressed(pageState.client.email, context);
                                   } else {
                                     DandyToastUtil.showErrorToast(
                                         'No email saved yet');
@@ -195,11 +196,8 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                               ),
                               GestureDetector(
                                 onTap: () {
-                                  if (pageState.client.instagramProfileUrl !=
-                                      null &&
-                                      pageState.client.instagramProfileUrl
-                                          .length > 0) {
-                                    pageState.onInstagramSelected();
+                                  if (pageState.client.instagramProfileUrl != null && pageState.client.instagramProfileUrl.length > 0) {
+                                    IntentLauncherUtil.launchURL(pageState.client.instagramProfileUrl);
                                   } else {
                                     DandyToastUtil.showErrorToast(
                                         'No Instagram URL saved yet');
@@ -296,25 +294,30 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
 
 }
 
-Widget _buildItem(BuildContext context, int index) {
-  return StoreConnector<AppState, ClientDetailsPageState>(
-    converter: (store) => ClientDetailsPageState.fromStore(store),
-    builder: (BuildContext context, ClientDetailsPageState pageState) =>
-        ClientJobItem(
-            job: pageState.clientJobs.elementAt(index),
-            pageState: pageState,
-        ),
-  );
-}
-
 void onCallPressed(String phoneNum){
   if(phoneNum.isNotEmpty) IntentLauncherUtil.makePhoneCall(phoneNum);
 }
 
-void onEmailPressed(String email){
-  if(email.isNotEmpty) IntentLauncherUtil.sendEmail(email, "", "");
+void onEmailPressed(String email, BuildContext context){
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+    builder: (context) {
+      return SendMessageBottomSheet(SendMessageBottomSheet.TYPE_EMAIL, email);
+    },
+  );
 }
 
-void onSMSPressed(String sms){
-  if(sms.isNotEmpty) IntentLauncherUtil.sendSMS(sms);
+void onSMSPressed(String phoneNum, BuildContext context){
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+    builder: (context) {
+      return SendMessageBottomSheet(SendMessageBottomSheet.TYPE_SMS, phoneNum);
+    },
+  );
 }

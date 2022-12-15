@@ -17,8 +17,9 @@ import 'TextFormatterUtil.dart';
 
 class IntentLauncherUtil{
   static Future<bool> launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url, forceSafariVC: false);
+    Uri uri = Uri.tryParse(url.trimLeft());
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalNonBrowserApplication);
       return true;
     } else {
       return false;
@@ -50,8 +51,15 @@ class IntentLauncherUtil{
   static Future<bool> sendSMSWithBody(String phoneNum, String body) async {
     String trimmedPhoneNum = trimPhoneNumber(phoneNum);
     String formattedPhoneNum = 'sms:$trimmedPhoneNum';
+    String uri = '';
+    if (Platform.isAndroid) {
+      uri = 'sms:$trimmedPhoneNum?body=' + Uri.encodeComponent(body);
+    } else if (Platform.isIOS) {
+      // iOS
+      uri = 'sms:$trimmedPhoneNum&body=' + Uri.encodeComponent(body);
+    }
     if (await canLaunch(formattedPhoneNum)) {
-      await launch(formattedPhoneNum);
+      await launch(uri);
       return true;
     } else {
       return false;

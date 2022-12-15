@@ -9,6 +9,7 @@ class ResponsesListItem{
   static const String RESPONSE = 'response';
   static const String GROUP_TITLE = 'group_title';
   static const String ADD_ANOTHER_BUTTON = 'add_another_button';
+  static const String NEW_RESPONSE = 'new_response_button';
 
   String itemType;
   String title;

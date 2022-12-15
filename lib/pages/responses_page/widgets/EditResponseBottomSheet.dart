@@ -9,22 +9,31 @@ import '../../../AppState.dart';
 import '../../../models/ResponsesListItem.dart';
 
 
-class EditResponseBottomSheet extends StatelessWidget {
-  final TitleTextController = TextEditingController();
-  final MessageTextController = TextEditingController();
-  final FocusNode _TitleFocusNode = FocusNode();
-  final FocusNode _ResponseFocusNode = FocusNode();
+class EditResponseBottomSheet extends StatefulWidget {
   final ResponsesListItem response;
 
   EditResponseBottomSheet(this.response);
+
+  @override
+  State<StatefulWidget> createState() {
+    return _EditResponsePageState(response);
+  }
+}
+
+class _EditResponsePageState extends State<EditResponseBottomSheet> {
+  final TitleTextController = TextEditingController();
+  final MessageTextController = TextEditingController();
+  final ResponsesListItem response;
+
+  _EditResponsePageState(this.response);
 
   @override
   Widget build(BuildContext context) {
 
     return StoreConnector<AppState, ResponsesPageState>(
       onInit: (store) {
-        TitleTextController.value = TitleTextController.value.copyWith(text: response.response.title);
-        MessageTextController.value = MessageTextController.value.copyWith(text: response.response.message);
+        TitleTextController.text = response.response.title;
+        MessageTextController.text = response.response.message;
       },
       converter: (store) => ResponsesPageState.fromStore(store),
       builder: (BuildContext context, ResponsesPageState modalPageState) =>
@@ -118,8 +127,8 @@ class EditResponseBottomSheet extends StatelessWidget {
                   _onTitleChanged,
                   'noError',
                   TextInputAction.next,
-                  _TitleFocusNode,
-                  onAction,
+                  null,
+                  onTitleAction,
                   TextCapitalization.words,
                   null,
                   true,
@@ -155,8 +164,8 @@ class EditResponseBottomSheet extends StatelessWidget {
                   _onMessageChanged,
                   'noError',
                   TextInputAction.done,
-                  _ResponseFocusNode,
-                  onAction,
+                  null,
+                  onMessageAction,
                   TextCapitalization.sentences,
                   null,
                   true,
@@ -168,8 +177,12 @@ class EditResponseBottomSheet extends StatelessWidget {
     );
   }
 
-  void onAction(){
-    _TitleFocusNode.unfocus();
+  void onTitleAction(){
+    // _TitleFocusNode.unfocus();
+  }
+
+  void onMessageAction(){
+    // _ResponseFocusNode.unfocus();
   }
 
   _onMessageChanged(String responseMessage) {
@@ -178,5 +191,6 @@ class EditResponseBottomSheet extends StatelessWidget {
 
   _onTitleChanged(String title) {
     response.response.title = title;
+    response.title = title;
   }
 }

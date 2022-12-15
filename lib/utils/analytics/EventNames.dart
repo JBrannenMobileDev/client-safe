@@ -14,6 +14,12 @@ class EventNames {
   static const String BT_SHARE_LOCATION = "bt_share_location";
   static const String BT_DRIVING_DIRECTIONS = "bt_driving_directions";
   static const String BT_SEND_INVOICE = "bt_send_invoice";
+  static const String BT_SEND_TEXT =  "bt_send_text";
+  static const String BT_SEND_EMAIL =  "bt_send_email";
+  static const String BT_SEND_SAVED_TEXT =  "bt_send_saved_text";
+  static const String BT_SEND_SAVED_EMAIL =  "bt_send_saved_email";
+  static const String BT_CALL =  "bt_call";
+  static const String BT_INSTAGRAM_PAGE =  "bt_instagram_page";
 
   static const String BT_STAGE_COMPLETE = "bt_stage_complete";
   static const String STAGE_COMPLETE_PARAM_STAGE = "stage_complete_param_stage";
@@ -93,6 +99,8 @@ class EventNames {
 
   static const String CREATED_POSE_GROUP = "create_pose_group";
   static const String POSE_GROUP_PARAM_NAME = "pose_group_param_name";
+
+  static const String CREATED_RESPONSE = "create_response";
 
   static const String CREATED_POSES = "create_poses";
   static const String POSES_PARAM_GROUP_NAME = "poses_param_group_name";

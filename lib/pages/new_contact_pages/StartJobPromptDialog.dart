@@ -71,8 +71,8 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                           EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start job Prompt"});
                         },
                         child: Container(
-                          height: 112.0,
-                          width: 112.0,
+                          height: 96.0,
+                          width: 96.0,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -82,7 +82,7 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                             'YES',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 48.0,
+                              fontSize: 36.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.getPrimaryWhite()),
@@ -93,11 +93,10 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).pop();
-                          Navigator.of(context).pop();
                         },
                         child: Container(
-                          height: 112.0,
-                          width: 112.0,
+                          height: 96.0,
+                          width: 96.0,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -107,7 +106,7 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                             'NO',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              fontSize: 48.0,
+                              fontSize: 36.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w800,
                               color: Color(ColorConstants.getPrimaryWhite()),

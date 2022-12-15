@@ -4,6 +4,8 @@ import 'package:dandylight/pages/responses_page/ResponsesActions.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import '../../models/Response.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 
 class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -35,6 +37,7 @@ class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
   void saveNewResponse(Store<AppState> store, SaveNewResponseAction action, ) async{
     await ResponseDao.insertOrUpdate(action.response);
     fetchResponses(store);
+    EventSender().sendEvent(eventName: EventNames.CREATED_RESPONSE);
   }
 
   void fetchResponses(Store<AppState> store) async{

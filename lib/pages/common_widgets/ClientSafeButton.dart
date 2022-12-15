@@ -15,7 +15,7 @@ class ClientSafeButton extends StatelessWidget{
   final Function onPressed;
   final Icon icon;
   final String urlText;
-  int color = ColorConstants.getPrimaryColor();
+  final int color;
 
   ClientSafeButton({
     this.height,

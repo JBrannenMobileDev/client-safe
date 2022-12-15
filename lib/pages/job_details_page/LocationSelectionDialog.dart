@@ -174,6 +174,7 @@ class _LocationSelectionDialogState
                     },
                     icon: Icon(Icons.add, color: Colors.white),
                     urlText: "",
+                      color: ColorConstants.getPrimaryColor()
                   ),
                 ],
               ),

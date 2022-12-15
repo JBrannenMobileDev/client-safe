@@ -42,5 +42,6 @@ NewJobReminderPageState _setSelectedReminder(NewJobReminderPageState previousSta
 NewJobReminderPageState _setAllReminders(NewJobReminderPageState previousState, SetAllRemindersAction action) {
   return previousState.copyWith(
     allReminders: action.allReminders,
+    hasNotCreatedAnyReminders: action.allRemindersLength == 0,
   );
 }

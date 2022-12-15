@@ -133,6 +133,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                       marginTop: 32.0,
                       onPressed: onAddNewReminderSelected,
                       urlText: "",
+                        color: ColorConstants.getPrimaryColor()
                     ),
                   ],
                 ),

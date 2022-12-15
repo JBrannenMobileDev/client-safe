@@ -20,6 +20,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../../utils/DandyToastUtil.dart';
+import '../../client_details_page/SendMessageBottomSheet.dart';
 import '../../poses_page/PosesPage.dart';
 
 class StageItem extends StatefulWidget {
@@ -417,7 +419,7 @@ class _StageItemState extends State<StageItem>
                               case JobStage.STAGE_1_INQUIRY_RECEIVED:
                                 break;
                               case JobStage.STAGE_2_FOLLOWUP_SENT:
-                                onSMSPressed(pageState.client.phone);
+                                onSMSPressed(pageState.client.phone, context, pageState);
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_2_FOLLOWUP_SENT});
                                 break;
                               case JobStage.STAGE_3_PROPOSAL_SENT:
@@ -451,6 +453,7 @@ class _StageItemState extends State<StageItem>
                                   VibrateUtil.vibrateHeavy();
                                   _newStageCompleteAnimation.reset();
                                   _stageCompleteAnimation.forward();
+                                  EventSender().sendEvent(eventName: EventNames.BT_SEND_INVOICE);
                                 }else {
                                   pageState.onAddInvoiceSelected();
                                   UserOptionsUtil.showNewInvoiceDialog(context, onSendInvoiceSelected);
@@ -515,8 +518,20 @@ class _StageItemState extends State<StageItem>
     return pageState.expandedIndexes.contains(index);
   }
 
-  void onSMSPressed(String sms){
-    if(sms.isNotEmpty) IntentLauncherUtil.sendSMS(sms);
+  void onSMSPressed(String phoneNum, BuildContext context, JobDetailsPageState pageState){
+    if(phoneNum != null && phoneNum.isNotEmpty) {
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+        builder: (context) {
+          return SendMessageBottomSheet(SendMessageBottomSheet.TYPE_SMS, phoneNum);
+        },
+      );
+    } else {
+      DandyToastUtil.showToast("You have not saved a phone number yet for " + pageState.client.firstName, Color(ColorConstants.getBlueDark()));
+    }
   }
 
   void _setStageStatus(Job job, int index) {

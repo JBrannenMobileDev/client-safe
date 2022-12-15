@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/ImportantDate.dart';
+import '../../models/ResponsesListItem.dart';
 
 class ClientDetailsPageState {
   final Client client;
@@ -16,6 +17,7 @@ class ClientDetailsPageState {
   final String leadSource;
   final String customLeadSourceName;
   final String notes;
+  final List<ResponsesListItem> items;
   final List<ImportantDate> importantDates;
   final Function(Client) onEditClientClicked;
   final Function() onDeleteClientClicked;
@@ -55,6 +57,7 @@ class ClientDetailsPageState {
     @required this.onImportantDateAdded,
     @required this.onImportantDateRemoved,
     @required this.onSaveImportantDatesSelected,
+    @required this.items,
   });
 
   ClientDetailsPageState copyWith({
@@ -79,6 +82,7 @@ class ClientDetailsPageState {
     Function(ImportantDate) onImportantDateAdded,
     Function(int) onImportantDateRemoved,
     Function() onSaveImportantDatesSelected,
+    List<ResponsesListItem> items,
   }){
     return ClientDetailsPageState(
       client: client?? this.client,
@@ -102,6 +106,7 @@ class ClientDetailsPageState {
       onImportantDateAdded: onImportantDateAdded ?? this.onImportantDateAdded,
       onImportantDateRemoved: onImportantDateRemoved ?? this.onImportantDateRemoved,
       onSaveImportantDatesSelected: onSaveImportantDatesSelected ?? this.onSaveImportantDatesSelected,
+      items: items ?? this.items,
     );
   }
 
@@ -127,6 +132,7 @@ class ClientDetailsPageState {
     onImportantDateRemoved: null,
     onImportantDateAdded: null,
     onSaveImportantDatesSelected: null,
+    items: [],
   );
 
   factory ClientDetailsPageState.fromStore(Store<AppState> store) {
@@ -137,6 +143,7 @@ class ClientDetailsPageState {
       customLeadSourceName: store.state.clientDetailsPageState.customLeadSourceName,
       notes: store.state.clientDetailsPageState.notes,
       importantDates: store.state.clientDetailsPageState.importantDates,
+      items: store.state.clientDetailsPageState.items,
       onEditClientClicked: (client) => store.dispatch(LoadExistingClientData(store.state.newContactPageState, client)),
       onDeleteClientClicked: () => store.dispatch(DeleteClientAction(store.state.clientDetailsPageState)),
       onCallClientClicked: () => store.dispatch(null),
@@ -176,6 +183,7 @@ class ClientDetailsPageState {
     onImportantDateRemoved.hashCode ^
     onImportantDateAdded.hashCode ^
     onSaveImportantDatesSelected.hashCode ^
+    items.hashCode ^
     onJobSelected.hashCode;
 
   @override
@@ -197,5 +205,6 @@ class ClientDetailsPageState {
           onImportantDateRemoved == other.onImportantDateRemoved &&
           onImportantDateAdded == other.onImportantDateAdded &&
           onSaveImportantDatesSelected == other.onSaveImportantDatesSelected &&
+          items == other.items &&
           onJobSelected == other.onJobSelected;
 }

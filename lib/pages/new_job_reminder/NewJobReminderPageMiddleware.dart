@@ -28,14 +28,14 @@ class NewJobReminderPageMiddleware extends MiddlewareClass<AppState> {
 
   void _loadAll(Store<AppState> store, action, NextDispatcher next) async {
     List<ReminderDandyLight> allReminders = await ReminderDao.getAll();
-    store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(allReminders, store)));
+    store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(allReminders, store), allReminders.length));
 
     (await ReminderDao.getReminderStream()).listen((snapshots) async {
       List<ReminderDandyLight> remindersToUpdate = [];
       for(RecordSnapshot reminderSnapshot in snapshots) {
         remindersToUpdate.add(ReminderDandyLight.fromMap(reminderSnapshot.value));
       }
-      store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(remindersToUpdate, store)));
+      store.dispatch(SetAllRemindersAction(store.state.newJobReminderPageState, _getFilteredReminders(remindersToUpdate, store), remindersToUpdate.length));
     });
   }
 

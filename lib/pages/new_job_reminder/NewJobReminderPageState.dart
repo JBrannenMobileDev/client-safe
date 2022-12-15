@@ -13,6 +13,7 @@ class NewJobReminderPageState {
   final int pageViewIndex;
   final bool comingFromJobDetails;
   final bool isFinishedFetchingReminders;
+  final bool hasNotCreatedAnyReminders;
   final ReminderDandyLight selectedReminder;
   final DateTime selectedTime;
   final List<ReminderDandyLight> allReminders;
@@ -38,6 +39,7 @@ class NewJobReminderPageState {
     @required this.allReminders,
     @required this.onReminderSelected,
     @required this.onTimeSelected,
+    @required this.hasNotCreatedAnyReminders,
   });
 
   NewJobReminderPageState copyWith({
@@ -55,6 +57,7 @@ class NewJobReminderPageState {
     Function() onBackPressed,
     Function(ReminderDandyLight) onReminderSelected,
     Function(DateTime) onTimeSelected,
+    bool hasNotCreatedAnyReminders,
   }){
     return NewJobReminderPageState(
       id: id?? this.id,
@@ -71,6 +74,7 @@ class NewJobReminderPageState {
       onReminderSelected:  onReminderSelected?? this.onReminderSelected,
       onTimeSelected: onTimeSelected?? this.onTimeSelected,
       allReminders: allReminders ?? this.allReminders,
+        hasNotCreatedAnyReminders: hasNotCreatedAnyReminders ?? this.hasNotCreatedAnyReminders,
     );
   }
 
@@ -92,6 +96,7 @@ class NewJobReminderPageState {
         onReminderSelected: null,
         onTimeSelected: null,
         comingFromJobDetails: false,
+        hasNotCreatedAnyReminders: true,
       );
   }
 
@@ -105,6 +110,7 @@ class NewJobReminderPageState {
       comingFromJobDetails: store.state.newJobReminderPageState.comingFromJobDetails,
       allReminders: store.state.newJobReminderPageState.allReminders,
       selectedReminder: store.state.newJobReminderPageState.selectedReminder,
+      hasNotCreatedAnyReminders: store.state.newJobReminderPageState.hasNotCreatedAnyReminders,
       onSavePressed: (job) => store.dispatch(SaveNewJobReminderAction(store.state.newJobReminderPageState, job)),
       onCancelPressed: () => store.dispatch(ClearNewJobReminderStateAction(store.state.newJobReminderPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobReminderPageState)),
@@ -121,6 +127,7 @@ class NewJobReminderPageState {
       pageViewIndex.hashCode ^
       isFinishedFetchingReminders.hashCode ^
       selectedReminder.hashCode ^
+      hasNotCreatedAnyReminders.hashCode ^
       selectedTime.hashCode ^
       onSavePressed.hashCode ^
       onCancelPressed.hashCode ^
@@ -146,5 +153,6 @@ class NewJobReminderPageState {
           onBackPressed == other.onBackPressed &&
           onReminderSelected == other.onReminderSelected &&
           onTimeSelected == other.onTimeSelected &&
+          hasNotCreatedAnyReminders == other.hasNotCreatedAnyReminders &&
           allReminders == other.allReminders;
 }

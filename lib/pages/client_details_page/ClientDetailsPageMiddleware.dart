@@ -14,7 +14,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../data_layer/local_db/daos/ResponseDao.dart';
 import '../../models/Client.dart';
+import '../../models/Response.dart';
 
 class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -38,6 +40,23 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveImportantDatesAction) {
       _updateClientWithImportantDates(store, action);
     }
+    if(action is FetchClientDetailsResponsesAction){
+      fetchResponses(store);
+    }
+  }
+
+  void fetchResponses(Store<AppState> store) async{
+    List<Response> responses = await ResponseDao.getAll();
+    store.dispatch(SetResponsesAction(store.state.clientDetailsPageState, responses));
+
+    (await ResponseDao.getResponseStream()).listen((snapshots) async {
+      List<Response> streamResponses = [];
+      for(RecordSnapshot clientSnapshot in snapshots) {
+        streamResponses.add(Response.fromMap(clientSnapshot.value));
+      }
+
+      store.dispatch(SetResponsesAction(store.state.clientDetailsPageState, responses));
+    });
   }
 
   void _updateClientWithImportantDates(Store<AppState> store, SaveImportantDatesAction action) async{
