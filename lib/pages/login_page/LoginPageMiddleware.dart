@@ -5,7 +5,9 @@ import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
@@ -20,6 +22,7 @@ import 'package:flutter/services.dart';
 import 'package:redux/redux.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../models/Response.dart';
 import 'LoginPageActions.dart';
 
 class LoginPageMiddleware extends MiddlewareClass<AppState> {
@@ -204,7 +207,79 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             businessName: store.state.loginPageState.businessName,
             email: store.state.loginPageState.emailAddress,
           );
-        ProfileDao.insertOrUpdate(newProfile);
+        await ProfileDao.insertOrUpdate(newProfile);
+
+        List<Response> defaultResponses = [];
+        defaultResponses.add(Response(
+          title: Response.GROUP_TITLE_PRE_BOOKING,
+          message: '',
+          parentGroup: '',
+        ));
+        defaultResponses.add(Response(
+          title: 'Reply to initial inquiry',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+        ));
+        defaultResponses.add(Response(
+          title: 'I am unavailable on that date',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+        ));
+        defaultResponses.add(Response(
+          buttonName: 'Add another',
+          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+        ));
+        defaultResponses.add(Response(
+          title: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+          message: '',
+          parentGroup: '',
+        ));
+        defaultResponses.add(Response(
+          title: 'Confirm deposit paid',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'What to expect',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'What to wear',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'Upcoming photoshoot reminder',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          buttonName: 'Add another',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+          message: '',
+          parentGroup: '',
+        ));
+        defaultResponses.add(Response(
+          title: 'Thank you',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'Your photos are ready',
+          message: '{Your personal message goes here}',
+          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          buttonName: 'Add another',
+          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+        ));
+        for(Response response in defaultResponses) {
+          await ResponseDao.insertOrUpdate(response);
+        }
       }
     }
   }

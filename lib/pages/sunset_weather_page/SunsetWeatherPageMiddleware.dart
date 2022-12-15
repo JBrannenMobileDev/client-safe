@@ -214,6 +214,8 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
       if(action.selectedDate.year == now.year && action.selectedDate.month == now.month && action.selectedDate.day == now.day) {
         List<HourWeather> hourlyForecast = await WeatherRepository(weatherApiClient: AccuWeatherClient(httpClient: http.Client())).fetchHourly12Weather(lat, long);
         store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, hourlyForecast));
+      } else {
+        store.dispatch(SetHourlyForecastAction(store.state.sunsetWeatherPageState, []));
       }
       store.dispatch(SetForecastAction(store.state.sunsetWeatherPageState, forecast5days, await LocationDao.getAllSortedMostFrequent()));
     }

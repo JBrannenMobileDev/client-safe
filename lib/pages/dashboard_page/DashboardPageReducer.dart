@@ -80,8 +80,7 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
 
   DateTime now = DateTime.now();
   now.subtract(Duration(days: 1));
-  DateTime oneWeekInFuture = DateTime.now();
-  oneWeekInFuture.add(Duration(days: 7));
+  DateTime oneWeekInFuture = DateTime.now().add(Duration(days: 7));
   for(Job job in activeJobs) {
     if(job.selectedDate != null && job.selectedDate.isBefore(oneWeekInFuture) && job.selectedDate.isAfter(now)) {
       jobsThisWeek.add(job);

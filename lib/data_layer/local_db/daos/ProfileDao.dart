@@ -139,6 +139,7 @@ class ProfileDao extends Equatable{
           priceProfilesLastChangeDate: fireStoreProfile.priceProfilesLastChangeDate,
           recurringExpensesLastChangeDate: fireStoreProfile.recurringExpensesLastChangeDate,
           singleExpensesLastChangeDate: fireStoreProfile.singleExpensesLastChangeDate,
+          responsesLastChangeDate: fireStoreProfile.responsesLastChangeDate,
         );
         ProfileDao.insertOrUpdate(updatedProfile);
       }

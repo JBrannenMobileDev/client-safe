@@ -116,7 +116,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
       converter: (store) => JobTypesPageState.fromStore(store),
       builder: (BuildContext context, JobTypesPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
             child: JobTypesListWidget(pageState.jobTypes.elementAt(index), pageState, onJobTypeSelected, Colors.white, Color(ColorConstants.getPrimaryBlack()), index),
           ),
     );

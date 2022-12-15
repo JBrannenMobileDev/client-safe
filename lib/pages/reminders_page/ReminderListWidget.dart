@@ -20,9 +20,9 @@ class ReminderListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: Styles.getButtonStyle(
-          color: backgroundColor,
+          color: backgroundColor.withOpacity(0.5),
           shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(32.0),
+            borderRadius: new BorderRadius.circular(8.0),
           ),
         ),
         onPressed: () {
@@ -33,12 +33,8 @@ class ReminderListWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: 64.0,
+              height: 56.0,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Row(
 
                     children: <Widget>[
                       Container(
@@ -46,13 +42,7 @@ class ReminderListWidget extends StatelessWidget {
                         margin: EdgeInsets.only(right: 16.0, left: 8.0),
                         height: 36.0,
                         width: 36.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: Image.asset('assets/images/icons/reminder_icon_blue_light.png').image,
-                            fit: BoxFit.contain,
-                          ),
-                          color: Colors.transparent,
-                        ),
+                        child: Image.asset('assets/images/icons/reminder_icon_blue_light.png', color: Color(ColorConstants.getBlueDark()),),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +56,7 @@ class ReminderListWidget extends StatelessWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                fontSize: 22.0,
+                                fontSize: 20.0,
                                 fontFamily: 'simple',
                                 fontWeight: FontWeight.w600,
                                 color: textColor,
@@ -87,8 +77,6 @@ class ReminderListWidget extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
-                    ],
                   ),
                 ],
               ),

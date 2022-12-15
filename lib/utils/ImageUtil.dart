@@ -149,10 +149,10 @@ class ImageUtil{
     'assets/images/icons/briefcase_icon_white.png',
     'assets/images/collection_icons/packages_icon_white.png',
     'assets/images/collection_icons/location_icon_white.png',
+    'assets/images/collection_icons/auto_responses_icon_white.png',
     'assets/images/collection_icons/contract_icon_white.png',
     'assets/images/icons/calendar_icon_white.png',
     'assets/images/collection_icons/questionaire_icon_white.png',
-    'assets/images/collection_icons/auto_responses_icon_white.png',
     'assets/images/collection_icons/workflow_icon_white.png',
   ];
 
@@ -320,7 +320,7 @@ class ImageUtil{
         iconName = 'Client Guides';
         break;
       case 'assets/images/collection_icons/auto_responses_icon_white.png':
-        iconName = 'Auto Responses';
+        iconName = 'Responses';
         break;
       case 'assets/images/collection_icons/automation_icon_white.png':
         iconName = 'Automation';

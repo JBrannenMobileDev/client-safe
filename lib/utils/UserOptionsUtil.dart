@@ -34,6 +34,7 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePage.
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePage.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPage.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePage.dart';
+import 'package:dandylight/pages/responses_page/widgets/NewResponseCategoryPage.dart';
 import 'package:dandylight/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -400,6 +401,15 @@ class UserOptionsUtil {
       context: context,
       builder: (BuildContext context) {
         return NewPoseGroupPage();
+      },
+    );
+  }
+
+  static void showNewResponseGroupDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return NewResponseCategoryPage();
       },
     );
   }

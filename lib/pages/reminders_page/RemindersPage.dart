@@ -1,8 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
-import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
-import 'package:dandylight/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -47,7 +45,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                   slivers: <Widget>[
                     SliverAppBar(
                       iconTheme: IconThemeData(
-                        color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                        color: Color(ColorConstants.getBlueDark()), //change your color here
                       ),
                       brightness: Brightness.light,
                       backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
@@ -61,7 +59,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                             fontSize: 26.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
-                            color: const Color(ColorConstants.white),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
@@ -74,7 +72,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                             margin: EdgeInsets.only(right: 26.0),
                             height: 24.0,
                             width: 24.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryWhite()),),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ),
                       ],
@@ -101,7 +99,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                                 fontSize: 18.0,
                                 fontFamily: 'Raleway',
                                 fontWeight: FontWeight.w400,
-                                color: const Color(ColorConstants.white),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ),
@@ -119,7 +117,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
       converter: (store) => RemindersPageState.fromStore(store),
       builder: (BuildContext context, RemindersPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
             child: ReminderListWidget(pageState.reminders.elementAt(index), pageState, onReminderSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
           ),
     );

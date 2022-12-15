@@ -20,9 +20,9 @@ class PriceProfileListWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
         style: Styles.getButtonStyle(
-          color: backgroundColor,
+          color: backgroundColor.withOpacity(0.5),
           shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(32.0),
+            borderRadius: new BorderRadius.circular(8.0),
           ),
         ),
         onPressed: () {
@@ -33,7 +33,7 @@ class PriceProfileListWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              height: 64.0,
+              height: 56.0,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -44,13 +44,7 @@ class PriceProfileListWidget extends StatelessWidget {
                         margin: EdgeInsets.only(right: 16.0, left: 16.0),
                         height: 36.0,
                         width: 36.0,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage(priceProfile.icon),
-                            fit: BoxFit.contain,
-                          ),
-                          color: Colors.transparent,
-                        ),
+                        child: Image.asset(priceProfile.icon, color: Color(ColorConstants.getPrimaryBlack()),),
                       ),
                       Expanded(
                           child: Column(
@@ -62,7 +56,7 @@ class PriceProfileListWidget extends StatelessWidget {
                                 priceProfile.profileName,
                                 textAlign: TextAlign.start,
                                 style: TextStyle(
-                                  fontSize: 22.0,
+                                  fontSize: 20.0,
                                   fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: textColor,
@@ -75,7 +69,7 @@ class PriceProfileListWidget extends StatelessWidget {
                                     'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.flatRate),
                                     textAlign: TextAlign.start,
                                     style: TextStyle(
-                                      fontSize: 20.0,
+                                      fontSize: 18.0,
                                       fontFamily: 'simple',
                                       fontWeight: FontWeight.w400,
                                       color: textColor,
@@ -87,7 +81,7 @@ class PriceProfileListWidget extends StatelessWidget {
                                       (priceProfile.deposit != null ? priceProfile.deposit > 0 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
                                       textAlign: TextAlign.start,
                                       style: TextStyle(
-                                        fontSize: 20.0,
+                                        fontSize: 18.0,
                                         fontFamily: 'simple',
                                         fontWeight: FontWeight.w400,
                                         color: textColor,

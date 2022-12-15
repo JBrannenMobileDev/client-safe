@@ -101,7 +101,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     final duration = Duration(seconds: 8);
     Timer.periodic(duration, (timer) {
       // Stop the timer when it matches a condition
-      if (currentPageIndex < pageCount - 1) {
+      if (controller.hasClients && currentPageIndex < pageCount - 1) {
         currentPageIndex = currentPageIndex + 1;
         controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 350), curve: Curves.ease);
       } else {

@@ -104,7 +104,7 @@ class RecurringExpenseDao extends Equatable{
         final expense = RecurringExpense.fromMap(snapshot.value);
         expense.id = snapshot.key;
         return expense;
-      }).toList().elementAt(0);
+      }).toList()?.elementAt(0);
     } else {
       return null;
     }

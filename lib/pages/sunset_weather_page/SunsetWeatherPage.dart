@@ -76,7 +76,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                   delegate: new SliverChildListDelegate(
                     <Widget>[
                       Container(
-                        margin: EdgeInsets.only(top: 8.0, left: 0.0),
+                        margin: EdgeInsets.only(top: 8.0, left: 0.0, bottom: 8),
                         child: Text(
                           DateFormat('EEEE').format(pageState.selectedDate) +
                               ' - ' +
@@ -356,7 +356,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                         ),
                       ),
                       pageState.isWeatherDataLoading
-                          ? pageState.showFartherThan7DaysError
+                          ? pageState.hoursForecast.length == 0
                               ? Container(
                                   alignment: Alignment.center,
                                   margin: EdgeInsets.only(
@@ -365,7 +365,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                       (MediaQuery.of(context).size.width / 4) +
                                           16,
                                   child: Text(
-                                    'Weather data is not available yet for the date selected. Check back within 7 days of your desired date.',
+                                    'Hourly weather data is only available for the current day.',
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 20.0,
@@ -401,7 +401,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     ],
                                   ),
                                 )
-                          : Container(
+                          : pageState.hoursForecast.length > 0 ? Container(
                               padding: EdgeInsets.all(0.0),
                               margin: EdgeInsets.only(top: 0.0, bottom: 32.0),
                               height: 124.0,
@@ -412,7 +412,25 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: _buildSingleDayForecastItem,
                               ),
-                            ),
+                            ) : Container(
+                        alignment: Alignment.center,
+                        margin: EdgeInsets.only(
+                            left: 64.0, right: 64.0, bottom: 16.0),
+                        height:
+                        (MediaQuery.of(context).size.width / 4) +
+                            16,
+                        child: Text(
+                          'Hourly weather data is only available for the current day.',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w800,
+                            color:
+                            Color(ColorConstants.getPeachDark()),
+                          ),
+                        ),
+                      ),
                       Container(
                         margin:
                             EdgeInsets.only(top: 0.0, bottom: 8.0, left: 0.0),

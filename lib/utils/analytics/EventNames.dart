@@ -45,9 +45,14 @@ class EventNames {
   static const String NAV_TO_PAYMENT_LINK_INFO = "nav_to_payment_link_info";
   static const String NAV_TO_AUTOMATED_BOOKING = "nav_to_automated_booking";
   static const String NAV_TO_QUESTIONNAIRES = "nav_to_questionnaires";
-  static const String NAV_TO_AUTO_RESPONSES = "nav_to_auto_responses";
   static const String NAV_TO_CONTRACTS = "nav_to_contracts";
   static const String NAV_TO_CLIENT_GUIDES = "nav_to_client_guides";
+  static const String NAV_TO_COLLECTION_REMINDERS = "nav_to_collection_reminders";
+  static const String NAV_TO_COLLECTION_POSES = "nav_to_collection_poses";
+  static const String NAV_TO_COLLECTION_JOB_TYPES = "nav_to_collection_job_types";
+  static const String NAV_TO_COLLECTION_PRICE_PACKAGES = "nav_to_collection_price_packages";
+  static const String NAV_TO_COLLECTION_LOCATIONS = "nav_to_collection_locations";
+  static const String NAV_TO_COLLECTION_RESPONSES = "nav_to_collection_responses";
 
   static const String NAV_TO_ACTIVE_STAGE = "nav_to_active_stage";
   static const String ACTIVE_STAGE_PARAM_NAME = "active_stage_param_name";

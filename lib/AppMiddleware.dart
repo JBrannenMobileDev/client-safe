@@ -67,6 +67,8 @@ import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.da
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageMiddleware.dart';
 import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collectionReminders;
 import 'package:dandylight/pages/reminders_page/RemindersPageMiddleware.dart';
+import 'package:dandylight/pages/responses_page/ResponsesActions.dart';
+import 'package:dandylight/pages/responses_page/ResponsesPageMiddleware.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
 import 'package:redux/redux.dart';
@@ -224,5 +226,9 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LoadSettingsFromProfileOnBoarding>(OnBoardingFlowPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePushNotificationSettingActionOnBoarding>(OnBoardingFlowPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCalendarSettingActionOnBoarding>(OnBoardingFlowPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchResponsesAction>(ResponsesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateResponseAction>(ResponsesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveNewResponseAction>(ResponsesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteResponseAction>(ResponsesPageMiddleware()));
   return middlewareList;
 }

@@ -33,6 +33,7 @@ import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
+import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
 import 'package:dandylight/pages/search_page/SearchPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 
@@ -74,4 +75,5 @@ AppState appReducers(AppState state, dynamic action) =>
         incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageReducer(state.incomeAndExpenseSettingsPageState, action),
         paymentRequestInfoPageState: paymentRequestInfoPageReducer(state.paymentRequestInfoPageState, action),
         onBoardingFlowPageState: onBoardingPageReducer(state.onBoardingFlowPageState, action),
+        responsesPageState: responsesReducer(state.responsesPageState, action),
     );

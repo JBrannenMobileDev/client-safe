@@ -1,7 +1,7 @@
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/pages/client_details_page/ContactDetailsTextField.dart';
+import 'package:dandylight/widgets/DandyLightTextField.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -63,7 +63,7 @@ class _NotesWidgetPage extends State<NotesWidget> {
                 ),
                 Container(
                   margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                  child: ContactDetailsTextField(
+                  child: DandyLightTextField(
                     notesController,
                     "",
                     TextInputType.text,

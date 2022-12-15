@@ -29,11 +29,13 @@ import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:dandylight/models/Response.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 import '../../models/JobType.dart';
 import '../local_db/daos/JobTypeDao.dart';
+import '../local_db/daos/ResponseDao.dart';
 
 class FireStoreSync {
     
@@ -59,6 +61,7 @@ class FireStoreSync {
                     await _syncContracts(userLocalDb, userFireStoreDb);
                     await _syncPoses(userLocalDb, userFireStoreDb);
                     await _syncPoseGroups(userLocalDb, userFireStoreDb);
+                    await _syncResponses(userLocalDb, userFireStoreDb);
                 }
         }
         setupFireStoreListeners();
@@ -277,6 +280,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        ResponseDao.getResponsesStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                Response response = Response.fromMap(snapshot.doc.data());
+                Response responseFromLocal = await ResponseDao.getResponseById(response.documentId);
+                if(responseFromLocal != null) {
+                    ResponseDao.updateLocalOnly(response);
+                }else {
+                    ResponseDao.insertLocalOnly(response);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -469,6 +485,18 @@ class FireStoreSync {
         if((userLocalDb.profileLastChangeDate != userFireStoreDb.profileLastChangeDate) || (userLocalDb.profileLastChangeDate == null && userFireStoreDb.profileLastChangeDate != null)) {
             if(userLocalDb.profileLastChangeDate != null && userFireStoreDb.profileLastChangeDate != null){
                 if(userLocalDb.profileLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.profileLastChangeDate.millisecondsSinceEpoch) {
+                    await ProfileDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncResponses(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.responsesLastChangeDate != userFireStoreDb.responsesLastChangeDate) || (userLocalDb.responsesLastChangeDate == null && userFireStoreDb.responsesLastChangeDate != null)) {
+            if(userLocalDb.responsesLastChangeDate != null && userFireStoreDb.responsesLastChangeDate != null){
+                if(userLocalDb.responsesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.responsesLastChangeDate.millisecondsSinceEpoch) {
                     await ProfileDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.

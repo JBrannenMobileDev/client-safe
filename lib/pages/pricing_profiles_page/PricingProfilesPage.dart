@@ -116,7 +116,7 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
       converter: (store) => PricingProfilesPageState.fromStore(store),
       builder: (BuildContext context, PricingProfilesPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
+            margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
             child: PriceProfileListWidget(pageState.pricingProfiles.elementAt(index), pageState, onProfileSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
           ),
     );

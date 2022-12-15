@@ -40,6 +40,7 @@ class Profile{
   DateTime contractsLastChangeDate;
   DateTime posesLastChangeDate;
   DateTime poseGroupsLastChangeDate;
+  DateTime responsesLastChangeDate;
 
   Profile({
     this.id,
@@ -82,6 +83,7 @@ class Profile{
     this.applePayPhone,
     this.termsOfServiceAndPrivacyPolicyChecked,
     this.showRequestPaymentLinksDialog,
+    this.responsesLastChangeDate,
   });
 
   Profile copyWith({
@@ -125,6 +127,7 @@ class Profile{
     DateTime contractsLastChangeDate,
     DateTime posesLastChangeDate,
     DateTime poseGroupsLastChangeDate,
+    DateTime responsesLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -167,6 +170,7 @@ class Profile{
       applePayPhone: applePayPhone ?? this.applePayPhone,
       termsOfServiceAndPrivacyPolicyChecked: termsOfServiceAndPrivacyPolicyChecked ?? this.termsOfServiceAndPrivacyPolicyChecked,
       showRequestPaymentLinksDialog: showRequestPaymentLinksDialog ?? this.showRequestPaymentLinksDialog,
+      responsesLastChangeDate: responsesLastChangeDate ?? this.responsesLastChangeDate,
     );
   }
 
@@ -212,6 +216,7 @@ class Profile{
       'contractsLastChangeDate' : contractsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'posesLastChangeDate' : posesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'poseGroupsLastChangeDate' : poseGroupsLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'responsesLastChangeDate' : responsesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'salesTaxRate' : salesTaxRate,
     };
   }
@@ -257,6 +262,7 @@ class Profile{
       contractsLastChangeDate: map['contractsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['contractsLastChangeDate']) : null,
       posesLastChangeDate: map['posesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['posesLastChangeDate']) : null,
       poseGroupsLastChangeDate: map['poseGroupsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseGroupsLastChangeDate']) : null,
+      responsesLastChangeDate: map['responsesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['responsesLastChangeDate']) : null,
     );
   }
 

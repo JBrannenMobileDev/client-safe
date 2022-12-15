@@ -459,6 +459,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
         await InvoiceDao.updateInvoiceOnly(action.job.invoice);
       }
     }
+    if(stageToRemove.stage == JobStage.STAGE_14_JOB_COMPLETE) {
+      jobToSave.paymentReceivedDate = null;
+    }
     if(store.state.jobDetailsPageState.invoice == null) {
       jobToSave.invoice = null;
     }

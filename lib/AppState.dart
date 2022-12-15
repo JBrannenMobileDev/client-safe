@@ -30,6 +30,7 @@ import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
+import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
 import 'package:dandylight/pages/search_page/SearchPageState.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
@@ -75,6 +76,7 @@ class AppState {
   final IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState;
   final PaymentRequestInfoPageState paymentRequestInfoPageState;
   final OnBoardingFlowPageState onBoardingFlowPageState;
+  final ResponsesPageState responsesPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -113,6 +115,7 @@ class AppState {
     @required this.incomeAndExpenseSettingsPageState,
     @required this.paymentRequestInfoPageState,
     @required this.onBoardingFlowPageState,
+    @required this.responsesPageState,
   });
 
   factory AppState.initial() {
@@ -153,6 +156,7 @@ class AppState {
       incomeAndExpenseSettingsPageState: IncomeAndExpenseSettingsPageState.initial(),
       paymentRequestInfoPageState: PaymentRequestInfoPageState.initial(),
       onBoardingFlowPageState: OnBoardingFlowPageState.initial(),
+      responsesPageState: ResponsesPageState.initial(),
     );
   }
 
@@ -193,6 +197,7 @@ class AppState {
     IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState,
     PaymentRequestInfoPageState paymentRequestInfoPageState,
     OnBoardingFlowPageState onBoardingFlowPageState,
+    ResponsesPageState responsesPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -231,6 +236,7 @@ class AppState {
       incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageState ?? this.incomeAndExpenseSettingsPageState,
       paymentRequestInfoPageState: paymentRequestInfoPageState ?? this.paymentRequestInfoPageState,
       onBoardingFlowPageState: onBoardingFlowPageState ?? this.onBoardingFlowPageState,
+      responsesPageState: responsesPageState ?? this.responsesPageState,
     );
   }
 
@@ -271,6 +277,7 @@ class AppState {
     incomeAndExpenseSettingsPageState.hashCode ^
     paymentRequestInfoPageState.hashCode ^
     onBoardingFlowPageState.hashCode ^
+    responsesPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -312,5 +319,6 @@ class AppState {
               incomeAndExpenseSettingsPageState == other.incomeAndExpenseSettingsPageState &&
               paymentRequestInfoPageState == other.paymentRequestInfoPageState &&
               onBoardingFlowPageState == other.onBoardingFlowPageState &&
+              responsesPageState == other.responsesPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

@@ -12,6 +12,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../poses_page/PosesPage.dart';
+import '../responses_page/ResponsesPage.dart';
 
 class CollectionsPage extends StatefulWidget {
 
@@ -110,45 +111,52 @@ class _CollectionsPageState extends State<CollectionsPage> {
   void onCollectionSelected(int index){
     switch(index){
       case 0:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_REMINDERS);
         Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => RemindersPage()),
         );
         break;
       case 1:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_POSES);
         Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => PosesPage()),
         );
         break;
       case 2:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_JOB_TYPES);
         Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => JobTypesPage()),
         );
         break;
       case 3:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_PRICE_PACKAGES);
         Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => PricingProfilesPage()),
         );
         break;
       case 4:
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_LOCATIONS);
         Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => LocationsPage()),
         );
         break;
       case 5:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_RESPONSES);
+        Navigator.of(context).push(
+          new MaterialPageRoute(builder: (context) => ResponsesPage()),
+        );
         break;
       case 6:
         DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTOMATED_BOOKING);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
         break;
       case 7:
         DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachDark()));
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTOMATED_BOOKING);
         break;
       case 8:
         DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryColor()));
-        EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTO_RESPONSES);
+        EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
         break;
       case 9:
         DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueDark()));
