@@ -78,10 +78,10 @@ class FetchClientDetailsResponsesAction{
   FetchClientDetailsResponsesAction(this.pageState);
 }
 
-class SetResponsesAction{
+class SetClientDetailsResponsesAction{
   final ClientDetailsPageState pageState;
   final List<Response> responses;
-  SetResponsesAction(this.pageState, this.responses);
+  SetClientDetailsResponsesAction(this.pageState, this.responses);
 }
 
 

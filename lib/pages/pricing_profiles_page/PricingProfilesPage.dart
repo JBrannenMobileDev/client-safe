@@ -38,13 +38,13 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
             Scaffold(
               body: Container(
                 decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
                 child: CustomScrollView(
                   slivers: <Widget>[
                     SliverAppBar(
                       iconTheme: IconThemeData(
-                        color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                        color: Color(ColorConstants.getPrimaryColor()), //change your color here
                       ),
                       brightness: Brightness.light,
                       backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
@@ -58,7 +58,7 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                             fontSize: 26.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
-                            color: const Color(ColorConstants.white),
+                            color: Color(ColorConstants.getPrimaryColor()),
                           ),
                         ),
                       ),
@@ -71,7 +71,7 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                             margin: EdgeInsets.only(right: 24.0),
                             height: 28.0,
                             width: 28.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryWhite()),),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryColor()),),
                           ),
                         ),
                       ],
@@ -98,7 +98,7 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                                 fontSize: 18.0,
                                 fontFamily: 'Raleway',
                                 fontWeight: FontWeight.w400,
-                                color: const Color(ColorConstants.white),
+                                color:  Color(ColorConstants.getPrimaryColor()),
                               ),
                             ),
                           ),
@@ -117,7 +117,7 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
       builder: (BuildContext context, PricingProfilesPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: PriceProfileListWidget(pageState.pricingProfiles.elementAt(index), pageState, onProfileSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
+            child: PriceProfileListWidget(pageState.pricingProfiles.elementAt(index), pageState, onProfileSelected, Color(ColorConstants.getPrimaryColor()), Color(ColorConstants.getPrimaryBlack())),
           ),
     );
   }

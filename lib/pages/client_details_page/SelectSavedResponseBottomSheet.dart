@@ -7,19 +7,20 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../utils/IntentLauncherUtil.dart';
+import '../responses_page/ResponsesPage.dart';
 import '../responses_page/widgets/ResponsesGroupListWidget.dart';
 import 'ClientDetailsPageActions.dart';
 import 'ClientDetailsPageState.dart';
 
 
-class SendMessageBottomSheet extends StatefulWidget {
+class SelectSavedResponseBottomSheet extends StatefulWidget {
   static const String TYPE_SMS = "Text";
   static const String TYPE_EMAIL = "Email";
 
   final String type;
   final String phoneOrEmail;
 
-  SendMessageBottomSheet(this.type, this.phoneOrEmail);
+  SelectSavedResponseBottomSheet(this.type, this.phoneOrEmail);
 
   @override
   State<StatefulWidget> createState() {
@@ -27,7 +28,7 @@ class SendMessageBottomSheet extends StatefulWidget {
   }
 }
 
-class _BottomSheetPageState extends State<SendMessageBottomSheet> with TickerProviderStateMixin {
+class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with TickerProviderStateMixin {
   ScrollController _controller;
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final String type;
@@ -43,7 +44,7 @@ class _BottomSheetPageState extends State<SendMessageBottomSheet> with TickerPro
     converter: (Store<AppState> store) => ClientDetailsPageState.fromStore(store),
     builder: (BuildContext context, ClientDetailsPageState pageState) =>
          Container(
-           height: 850,
+           height: pageState.showNoSavedResponsesError ? 384 : 850,
           decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
               color: Color(ColorConstants.getPrimaryWhite())),
@@ -64,7 +65,56 @@ class _BottomSheetPageState extends State<SendMessageBottomSheet> with TickerPro
                   ),
                 ),
               ),
-              Container(
+              pageState.showNoSavedResponsesError ? Container(
+                margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 16, bottom: 16),
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(16.0),
+                    border: Border.all(color: Color(ColorConstants.getPrimaryBackgroundGrey())),
+                    color: Color(ColorConstants.getPrimaryWhite())
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'You have not saved any responses yet. Go to your (Response Collection) page to save some response templates.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w400,
+                        color: Color(ColorConstants.getPrimaryGreyMedium()),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          new MaterialPageRoute(builder: (context) => ResponsesPage()),
+                        );
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 54,
+                        width: 200,
+                        margin: EdgeInsets.only(left: 0.0, right: 0.0, top: 16, bottom: 16),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(32.0),
+                            color: Color(ColorConstants.getBlueLight())
+                        ),
+                        child:Text(
+                          'Response Collection',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 22.0,
+                            fontFamily: 'simple',
+                            fontWeight: FontWeight.w400,
+                            color: Color(ColorConstants.getPrimaryBlack()),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ) : Container(
                 height: 774,
                 child: ListView.builder(
                     padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 64.0),

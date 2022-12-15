@@ -6,6 +6,7 @@ import 'package:sembast/sembast.dart';
 import '../../models/Response.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../client_details_page/ClientDetailsPageActions.dart';
 
 class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -28,15 +29,18 @@ class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
   void deleteResponse(Store<AppState> store, DeleteResponseAction action) async{
     await ResponseDao.delete(action.item.response.documentId);
     fetchResponses(store);
+    store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
   }
 
   void updateResponse(Store<AppState> store, UpdateResponseAction action) async{
     await ResponseDao.insertOrUpdate(action.responseItem.response);
+    store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
   }
 
   void saveNewResponse(Store<AppState> store, SaveNewResponseAction action, ) async{
     await ResponseDao.insertOrUpdate(action.response);
     fetchResponses(store);
+    store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
     EventSender().sendEvent(eventName: EventNames.CREATED_RESPONSE);
   }
 

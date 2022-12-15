@@ -39,15 +39,15 @@ class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMi
         converter: (Store<AppState> store) => ResponsesPageState.fromStore(store),
         builder: (BuildContext context, ResponsesPageState pageState) =>
             Scaffold(
-              backgroundColor: Color(ColorConstants.getBlueLight()),
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
                     iconTheme: IconThemeData(
-                      color: Color(ColorConstants.getPrimaryBlack()), //change your color here
+                      color: Color(ColorConstants.getBlueDark()), //change your color here
                     ),
                     brightness: Brightness.light,
-                    backgroundColor: Color(ColorConstants.getBlueLight()),
+                    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     centerTitle: true,
                     title: Text(
@@ -56,7 +56,7 @@ class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMi
                           fontSize: 26.0,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'simple',
-                          color: Color(ColorConstants.getPrimaryBlack()),
+                          color: Color(ColorConstants.getBlueDark()),
                         ),
                     ),
                     actions: <Widget>[

@@ -17,6 +17,7 @@ class ClientDetailsPageState {
   final String leadSource;
   final String customLeadSourceName;
   final String notes;
+  final bool showNoSavedResponsesError;
   final List<ResponsesListItem> items;
   final List<ImportantDate> importantDates;
   final Function(Client) onEditClientClicked;
@@ -58,6 +59,7 @@ class ClientDetailsPageState {
     @required this.onImportantDateRemoved,
     @required this.onSaveImportantDatesSelected,
     @required this.items,
+    @required this.showNoSavedResponsesError,
   });
 
   ClientDetailsPageState copyWith({
@@ -65,6 +67,7 @@ class ClientDetailsPageState {
     List<Job> clientJobs,
     String leadSource,
     String customLeadSourceName,
+    bool showNoSavedResponsesError,
     Function(Client) onEditClientClicked,
     Function() onDeleteClientClicked,
     Function() onCallClientClicked,
@@ -107,6 +110,7 @@ class ClientDetailsPageState {
       onImportantDateRemoved: onImportantDateRemoved ?? this.onImportantDateRemoved,
       onSaveImportantDatesSelected: onSaveImportantDatesSelected ?? this.onSaveImportantDatesSelected,
       items: items ?? this.items,
+      showNoSavedResponsesError: showNoSavedResponsesError ?? this.showNoSavedResponsesError,
     );
   }
 
@@ -133,6 +137,7 @@ class ClientDetailsPageState {
     onImportantDateAdded: null,
     onSaveImportantDatesSelected: null,
     items: [],
+    showNoSavedResponsesError: true,
   );
 
   factory ClientDetailsPageState.fromStore(Store<AppState> store) {
@@ -144,6 +149,7 @@ class ClientDetailsPageState {
       notes: store.state.clientDetailsPageState.notes,
       importantDates: store.state.clientDetailsPageState.importantDates,
       items: store.state.clientDetailsPageState.items,
+      showNoSavedResponsesError: store.state.clientDetailsPageState.showNoSavedResponsesError,
       onEditClientClicked: (client) => store.dispatch(LoadExistingClientData(store.state.newContactPageState, client)),
       onDeleteClientClicked: () => store.dispatch(DeleteClientAction(store.state.clientDetailsPageState)),
       onCallClientClicked: () => store.dispatch(null),
@@ -184,6 +190,7 @@ class ClientDetailsPageState {
     onImportantDateAdded.hashCode ^
     onSaveImportantDatesSelected.hashCode ^
     items.hashCode ^
+    showNoSavedResponsesError.hashCode ^
     onJobSelected.hashCode;
 
   @override
@@ -206,5 +213,6 @@ class ClientDetailsPageState {
           onImportantDateAdded == other.onImportantDateAdded &&
           onSaveImportantDatesSelected == other.onSaveImportantDatesSelected &&
           items == other.items &&
+          showNoSavedResponsesError == other.showNoSavedResponsesError &&
           onJobSelected == other.onJobSelected;
 }

@@ -38,13 +38,13 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
             Scaffold(
               body: Container(
                 decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPeachDark()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
                 child: CustomScrollView(
                   slivers: <Widget>[
                     SliverAppBar(
                       iconTheme: IconThemeData(
-                        color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                        color: Color(ColorConstants.getPeachDark()), //change your color here
                       ),
                       brightness: Brightness.light,
                       backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
@@ -58,7 +58,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                             fontSize: 26.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w600,
-                            color: const Color(ColorConstants.white),
+                            color: Color(ColorConstants.getPeachDark()),
                           ),
                         ),
                       ),
@@ -71,7 +71,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                             margin: EdgeInsets.only(right: 26.0),
                             height: 24.0,
                             width: 24.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryWhite()),),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
                           ),
                         ),
                       ],
@@ -98,7 +98,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                                 fontSize: 18.0,
                                 fontFamily: 'Raleway',
                                 fontWeight: FontWeight.w400,
-                                color: const Color(ColorConstants.white),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ),
                           ),
@@ -117,7 +117,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
       builder: (BuildContext context, JobTypesPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: JobTypesListWidget(pageState.jobTypes.elementAt(index), pageState, onJobTypeSelected, Colors.white, Color(ColorConstants.getPrimaryBlack()), index),
+            child: JobTypesListWidget(pageState.jobTypes.elementAt(index), pageState, onJobTypeSelected, Color(ColorConstants.getPeachDark()), Color(ColorConstants.getPrimaryBlack()), index),
           ),
     );
   }

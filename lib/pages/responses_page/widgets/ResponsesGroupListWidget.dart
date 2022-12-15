@@ -24,6 +24,19 @@ class ResponsesGroupListWidget extends StatelessWidget {
       Stack(
             children: [
               _buildItemDetailsWidget(pageState, index, context),
+              pageState.items.elementAt(index).itemType == ResponsesListItem.RESPONSE && pageState.items.elementAt(index).response.message.isEmpty ? Container(
+                margin: EdgeInsets.only(left: 32, top: 34),
+                child: Text(
+                  'message not set',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 16.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w400,
+                    color: Color(ColorConstants.error_red),
+                  ),
+                ),
+              ) : SizedBox(),
               pageState.items.elementAt(index).itemType == ResponsesListItem.RESPONSE && !pageState.isEditEnabled ? Container(
                 margin: EdgeInsets.only(right: 16, bottom: 8),
                 padding: EdgeInsets.only(right: 8),
@@ -55,7 +68,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
             margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 8),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
-                color: Color(ColorConstants.getBlueLight())
+                color: Color(ColorConstants.getPrimaryWhite())
             ),
             child:Text(
               pageState.items.elementAt(index).title,
@@ -64,7 +77,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
                 fontSize: 22.0,
                 fontFamily: 'simple',
                 fontWeight: FontWeight.w400,
-                color: Color(ColorConstants.getPrimaryBlack()),
+                color: Color(ColorConstants.getBlueDark()),
               ),
             ),
           ),
@@ -92,7 +105,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
                 padding: EdgeInsets.only(left: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8.0),
-                    color: Color(ColorConstants.getPrimaryWhite()).withOpacity(0.5)
+                    color: Color(ColorConstants.getBlueLight()).withOpacity(0.5),
                 ),
                 child: Text(
                   pageState.items.elementAt(index).title,
@@ -141,7 +154,7 @@ class ResponsesGroupListWidget extends StatelessWidget {
               padding: EdgeInsets.only(left: 8),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
-                  color: Color(ColorConstants.getBlueLight())
+                  color: Color(ColorConstants.getPrimaryWhite())
               ),
               child: Text(
                 '+ ' + pageState.items.elementAt(index).title,

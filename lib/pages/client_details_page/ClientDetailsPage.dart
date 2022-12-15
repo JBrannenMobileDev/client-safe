@@ -8,7 +8,8 @@ import 'package:dandylight/pages/client_details_page/JobHistoryWidget.dart';
 import 'package:dandylight/pages/client_details_page/LeadSourceSelectionWidget.dart';
 import 'package:dandylight/pages/client_details_page/LeadSourceWidget.dart';
 import 'package:dandylight/pages/client_details_page/NotesWidget.dart';
-import 'package:dandylight/pages/client_details_page/SendMessageBottomSheet.dart';
+import 'package:dandylight/pages/client_details_page/SelectSavedResponseBottomSheet.dart';
+import 'package:dandylight/pages/client_details_page/SendMessageOptionsBottomSheet.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPage.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
@@ -305,7 +306,7 @@ void onEmailPressed(String email, BuildContext context){
     backgroundColor: Colors.transparent,
     barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
     builder: (context) {
-      return SendMessageBottomSheet(SendMessageBottomSheet.TYPE_EMAIL, email);
+      return SelectSavedResponseBottomSheet(SelectSavedResponseBottomSheet.TYPE_EMAIL, email);
     },
   );
 }
@@ -317,7 +318,7 @@ void onSMSPressed(String phoneNum, BuildContext context){
     backgroundColor: Colors.transparent,
     barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
     builder: (context) {
-      return SendMessageBottomSheet(SendMessageBottomSheet.TYPE_SMS, phoneNum);
+      return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_SMS, phoneNum);
     },
   );
 }

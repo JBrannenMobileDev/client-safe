@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/pages/client_details_page/SendMessageOptionsBottomSheet.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
@@ -21,7 +22,7 @@ import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../utils/DandyToastUtil.dart';
-import '../../client_details_page/SendMessageBottomSheet.dart';
+import '../../client_details_page/SelectSavedResponseBottomSheet.dart';
 import '../../poses_page/PosesPage.dart';
 
 class StageItem extends StatefulWidget {
@@ -526,7 +527,7 @@ class _StageItemState extends State<StageItem>
         backgroundColor: Colors.transparent,
         barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
         builder: (context) {
-          return SendMessageBottomSheet(SendMessageBottomSheet.TYPE_SMS, phoneNum);
+          return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_SMS, phoneNum);
         },
       );
     } else {

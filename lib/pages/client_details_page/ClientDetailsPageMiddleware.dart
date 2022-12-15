@@ -47,7 +47,7 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchResponses(Store<AppState> store) async{
     List<Response> responses = await ResponseDao.getAll();
-    store.dispatch(SetResponsesAction(store.state.clientDetailsPageState, responses));
+    store.dispatch(SetClientDetailsResponsesAction(store.state.clientDetailsPageState, responses));
 
     (await ResponseDao.getResponseStream()).listen((snapshots) async {
       List<Response> streamResponses = [];
@@ -55,7 +55,7 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
         streamResponses.add(Response.fromMap(clientSnapshot.value));
       }
 
-      store.dispatch(SetResponsesAction(store.state.clientDetailsPageState, responses));
+      store.dispatch(SetClientDetailsResponsesAction(store.state.clientDetailsPageState, responses));
     });
   }
 

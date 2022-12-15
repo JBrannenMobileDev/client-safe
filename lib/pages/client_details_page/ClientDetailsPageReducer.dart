@@ -13,7 +13,7 @@ final clientDetailsPageReducer = combineReducers<ClientDetailsPageState>([
   TypedReducer<ClientDetailsPageState, SetNotesAction>(_setNotes),
   TypedReducer<ClientDetailsPageState, AddClientDetailsImportantDateAction>(_addImportantDate),
   TypedReducer<ClientDetailsPageState, RemoveClientDetailsImportantDateAction>(_removeImportantDate),
-  TypedReducer<ClientDetailsPageState, SetResponsesAction>(_setResponses),
+  TypedReducer<ClientDetailsPageState, SetClientDetailsResponsesAction>(_setResponses),
 ]);
 
 ClientDetailsPageState _removeImportantDate(ClientDetailsPageState previousState, RemoveClientDetailsImportantDateAction action) {
@@ -72,7 +72,7 @@ ClientDetailsPageState _setJobs(ClientDetailsPageState previousState, SetClientJ
   return previousState;
 }
 
-ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetResponsesAction action){
+ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetClientDetailsResponsesAction action){
   List<ResponsesListItem> result = [];
   List<ResponsesListItem> preBookingResponses = [];
   List<ResponsesListItem> prePhotoshootResponses = [];
@@ -107,21 +107,23 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetRe
     }
   }
 
-  //Add new message item
-  result.add(ResponsesListItem(
-      itemType: ResponsesListItem.NEW_RESPONSE,
-      title: 'NEW MESSAGE',
-      response: null,
-      groupName: null
-  ));
-
   //Add pre booking items
   result.add(ResponsesListItem(
       itemType: ResponsesListItem.GROUP_TITLE,
       title: Response.GROUP_TITLE_PRE_BOOKING
   ));
+  int preBookingCount = 0;
   for(ResponsesListItem response in preBookingResponses) {
-    result.add(response);
+    if(response.response.message != null && response.response.message.isNotEmpty) {
+      result.add(response);
+      preBookingCount++;
+    }
+  }
+  if(preBookingCount == 0) {
+    result.add(ResponsesListItem(
+      itemType: ResponsesListItem.NO_SAVED_RESPONSES,
+      groupName: Response.GROUP_TITLE_PRE_BOOKING
+    ));
   }
 
   //Add pre photoshoot items
@@ -129,8 +131,18 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetRe
       itemType: ResponsesListItem.GROUP_TITLE,
       title: Response.GROUP_TITLE_PRE_PHOTOSHOOT
   ));
+  int prePhotoshootCount = 0;
   for(ResponsesListItem response in prePhotoshootResponses) {
-    result.add(response);
+    if(response.response.message != null && response.response.message.isNotEmpty) {
+      result.add(response);
+      prePhotoshootCount++;
+    }
+  }
+  if(prePhotoshootCount == 0) {
+    result.add(ResponsesListItem(
+        itemType: ResponsesListItem.NO_SAVED_RESPONSES,
+        groupName: Response.GROUP_TITLE_PRE_PHOTOSHOOT
+    ));
   }
 
   //Add post photoshoot items
@@ -138,11 +150,22 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetRe
       itemType: ResponsesListItem.GROUP_TITLE,
       title: Response.GROUP_TITLE_POST_PHOTOSHOOT
   ));
+  int postPhotoshootCount = 0;
   for(ResponsesListItem response in postPhotoshootResponses) {
-    result.add(response);
+    if(response.response.message != null && response.response.message.isNotEmpty) {
+      result.add(response);
+      postPhotoshootCount++;
+    }
+  }
+  if(postPhotoshootCount == 0) {
+    result.add(ResponsesListItem(
+        itemType: ResponsesListItem.NO_SAVED_RESPONSES,
+        groupName: Response.GROUP_TITLE_POST_PHOTOSHOOT
+    ));
   }
 
   return previousState.copyWith(
     items: result,
+    showNoSavedResponsesError: (preBookingCount + prePhotoshootCount + postPhotoshootCount) == 0,
   );
 }

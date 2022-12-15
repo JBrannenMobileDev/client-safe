@@ -39,7 +39,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
             Scaffold(
               body: Container(
                 decoration: BoxDecoration(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
                 child: CustomScrollView(
                   slivers: <Widget>[
@@ -118,7 +118,7 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
       builder: (BuildContext context, RemindersPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: ReminderListWidget(pageState.reminders.elementAt(index), pageState, onReminderSelected, Colors.white, Color(ColorConstants.getPrimaryBlack())),
+            child: ReminderListWidget(pageState.reminders.elementAt(index), pageState, onReminderSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack())),
           ),
     );
   }
