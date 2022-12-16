@@ -6,9 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
-import '../../utils/IntentLauncherUtil.dart';
 import '../responses_page/ResponsesPage.dart';
-import '../responses_page/widgets/ResponsesGroupListWidget.dart';
 import 'ClientDetailsPageActions.dart';
 import 'ClientDetailsPageState.dart';
 
@@ -44,7 +42,7 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
     converter: (Store<AppState> store) => ClientDetailsPageState.fromStore(store),
     builder: (BuildContext context, ClientDetailsPageState pageState) =>
          Container(
-           height: pageState.showNoSavedResponsesError ? 384 : 850,
+           height: pageState.showNoSavedResponsesError ? 384 : getHeight(pageState.items.length),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
               color: Color(ColorConstants.getPrimaryWhite())),
@@ -115,9 +113,8 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
                   ],
                 ),
               ) : Container(
-                height: 774,
                 child: ListView.builder(
-                    padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 64.0),
+                    padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
                     itemCount: pageState.items.length,
                     controller: _controller,
                     physics: AlwaysScrollableScrollPhysics(),
@@ -133,5 +130,37 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
 
   Widget _buildItem(BuildContext context, int index) {
     return ResponsesListItemWidget(index, type, phoneOrEmail);
+  }
+
+  getHeight(int length) {
+    double result = 850;
+
+    switch(length) {
+      case 1:
+        result = 300;
+        break;
+      case 2:
+        result = 356;
+        break;
+      case 3:
+        result = 412;
+        break;
+      case 4:
+        result = 468;
+        break;
+      case 5:
+        result = 524;
+        break;
+      case 6:
+        result = 580;
+        break;
+      case 7:
+        result = 636;
+        break;
+      case 8:
+        result = 792;
+        break;
+    }
+    return result;
   }
 }

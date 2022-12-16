@@ -2,6 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
+import 'package:dandylight/pages/new_job_page/widgets/NewJobPriceProfileListWidget.dart';
 import 'package:dandylight/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -181,15 +182,12 @@ class _PricingProfileSelectionFormState
               ),
             ],
           ),
-        ) : PriceProfileListWidget(
+        ) : NewJobPriceProfileListWidget(
               pageState.pricingProfiles.elementAt(index - 1),
               pageState,
               onProfileSelected,
-              pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index -1 ) && pageState.oneTimePrice.isEmpty
-                  ? Color(ColorConstants.getBlueDark())
-                  : Colors.white,pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index - 1) && pageState.oneTimePrice.isEmpty
-              ? Color(ColorConstants.getPrimaryWhite())
-              : Color(ColorConstants.getPrimaryBlack())),
+              pageState.selectedPriceProfile == pageState.pricingProfiles.elementAt(index -1 ) && pageState.oneTimePrice.isEmpty ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Colors.white,
+              Color(ColorConstants.getPrimaryBlack())),
       ),
     );
   }

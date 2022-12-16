@@ -66,28 +66,28 @@ class DandyLightTextField extends StatelessWidget {
               hintText: hintText,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(8.0),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryColor()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(8.0),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryColor()),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(8.0),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryColor()),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(8.0),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPrimaryColor()),
                   width: 1.0,

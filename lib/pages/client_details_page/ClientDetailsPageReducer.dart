@@ -108,60 +108,68 @@ ClientDetailsPageState _setResponses(ClientDetailsPageState previousState, SetCl
   }
 
   //Add pre booking items
-  result.add(ResponsesListItem(
-      itemType: ResponsesListItem.GROUP_TITLE,
-      title: Response.GROUP_TITLE_PRE_BOOKING
-  ));
   int preBookingCount = 0;
   for(ResponsesListItem response in preBookingResponses) {
     if(response.response.message != null && response.response.message.isNotEmpty) {
-      result.add(response);
       preBookingCount++;
     }
   }
-  if(preBookingCount == 0) {
+  if(preBookingCount > 0) {
     result.add(ResponsesListItem(
-      itemType: ResponsesListItem.NO_SAVED_RESPONSES,
-      groupName: Response.GROUP_TITLE_PRE_BOOKING
+        itemType: ResponsesListItem.GROUP_TITLE,
+        title: Response.GROUP_TITLE_PRE_BOOKING
     ));
   }
+  for(ResponsesListItem response in preBookingResponses) {
+    if(response.response.message != null && response.response.message.isNotEmpty) {
+      result.add(response);
+    }
+  }
+
+
+
+
 
   //Add pre photoshoot items
-  result.add(ResponsesListItem(
-      itemType: ResponsesListItem.GROUP_TITLE,
-      title: Response.GROUP_TITLE_PRE_PHOTOSHOOT
-  ));
   int prePhotoshootCount = 0;
   for(ResponsesListItem response in prePhotoshootResponses) {
     if(response.response.message != null && response.response.message.isNotEmpty) {
-      result.add(response);
       prePhotoshootCount++;
     }
   }
-  if(prePhotoshootCount == 0) {
+  if(prePhotoshootCount > 0) {
     result.add(ResponsesListItem(
-        itemType: ResponsesListItem.NO_SAVED_RESPONSES,
-        groupName: Response.GROUP_TITLE_PRE_PHOTOSHOOT
+        itemType: ResponsesListItem.GROUP_TITLE,
+        title: Response.GROUP_TITLE_PRE_PHOTOSHOOT
     ));
   }
+  for(ResponsesListItem response in prePhotoshootResponses) {
+    if(response.response.message != null && response.response.message.isNotEmpty) {
+      result.add(response);
+    }
+  }
+
+
+
+
 
   //Add post photoshoot items
-  result.add(ResponsesListItem(
-      itemType: ResponsesListItem.GROUP_TITLE,
-      title: Response.GROUP_TITLE_POST_PHOTOSHOOT
-  ));
   int postPhotoshootCount = 0;
   for(ResponsesListItem response in postPhotoshootResponses) {
     if(response.response.message != null && response.response.message.isNotEmpty) {
-      result.add(response);
       postPhotoshootCount++;
     }
   }
-  if(postPhotoshootCount == 0) {
+  if(postPhotoshootCount > 0) {
     result.add(ResponsesListItem(
-        itemType: ResponsesListItem.NO_SAVED_RESPONSES,
-        groupName: Response.GROUP_TITLE_POST_PHOTOSHOOT
+        itemType: ResponsesListItem.GROUP_TITLE,
+        title: Response.GROUP_TITLE_POST_PHOTOSHOOT
     ));
+  }
+  for(ResponsesListItem response in postPhotoshootResponses) {
+    if(response.response.message != null && response.response.message.isNotEmpty) {
+      result.add(response);
+    }
   }
 
   return previousState.copyWith(

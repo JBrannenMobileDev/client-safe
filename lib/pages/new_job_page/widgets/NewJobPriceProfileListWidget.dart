@@ -7,20 +7,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
-class PriceProfileListWidget extends StatelessWidget {
+class NewJobPriceProfileListWidget extends StatelessWidget {
   final PriceProfile priceProfile;
   var pageState;
   final Function onProfileSelected;
   final Color backgroundColor;
   final Color textColor;
 
-  PriceProfileListWidget(this.priceProfile, this.pageState, this.onProfileSelected, this.backgroundColor, this.textColor);
+  NewJobPriceProfileListWidget(this.priceProfile, this.pageState, this.onProfileSelected, this.backgroundColor, this.textColor);
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
         style: Styles.getButtonStyle(
-          color: backgroundColor.withOpacity(0.5),
+          color: backgroundColor,
           shape: RoundedRectangleBorder(
             borderRadius: new BorderRadius.circular(8.0),
           ),
@@ -73,19 +73,6 @@ class PriceProfileListWidget extends StatelessWidget {
                                       fontFamily: 'simple',
                                       fontWeight: FontWeight.w400,
                                       color: textColor,
-                                    ),
-                                  ),
-                                  Container(
-                                    margin: EdgeInsets.only(right: 24.0),
-                                    child: Text(
-                                      (priceProfile.deposit != null ? priceProfile.deposit > 0 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w400,
-                                        color: textColor,
-                                      ),
                                     ),
                                   ),
                                 ],

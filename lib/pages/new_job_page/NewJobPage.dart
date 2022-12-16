@@ -76,6 +76,14 @@ class _NewJobPageState extends State<NewJobPage> {
         store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
         store.dispatch(SetLastKnowInitialPosition(store.state.newJobPageState));
       },
+      onWillChange: (previous, current) {
+        if(!previous.isSelectedClientNew && current.isSelectedClientNew) {
+          setState(() {
+            currentPageIndex = 1;
+            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+          });
+        }
+      },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           WillPopScope(

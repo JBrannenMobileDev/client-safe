@@ -80,11 +80,11 @@ class _JobTypeSelection extends State<JobTypeSelection>
       TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(32.0),
+                borderRadius: new BorderRadius.circular(8.0),
               ),
               color: pageState.selectedJobType != null &&
                   pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Color(
-                  ColorConstants.getBlueDark()) : Colors.transparent,
+                  ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
             ),
             onPressed: () {
               pageState.onJobTypeSelected(
@@ -92,13 +92,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
             },
             child: Row(
               children: <Widget>[
-                pageState.selectedJobType != null &&
-                    pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Container(
-                  margin: EdgeInsets.only(left: 4.0, right: 16.0),
-                  height: 32.0,
-                  width: 32.0,
-                  child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
-                ) : Container(
+                Container(
                   margin: EdgeInsets.only(left: 4.0, right: 16.0),
                   height: 32.0,
                   width: 32.0,
@@ -120,10 +114,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                               fontSize: 20.0,
                               fontFamily: 'simple',
                               fontWeight: FontWeight.w600,
-                              color: pageState.selectedJobType != null &&
-                                  pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Color(
-                                  ColorConstants.getPrimaryWhite()) : Color(
-                                  ColorConstants.getPrimaryBlack()),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

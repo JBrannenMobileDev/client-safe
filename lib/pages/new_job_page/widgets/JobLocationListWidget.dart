@@ -100,9 +100,7 @@ class JobLocationListWidget extends StatelessWidget {
                   fontSize: 20.0,
                   fontWeight: FontWeight.w600,
                   fontFamily: 'simple',
-                  color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
-                      ? const Color(ColorConstants.primary_black)
-                      : Color(ColorConstants.getPrimaryColor()),
+                  color: const Color(ColorConstants.primary_black),
                 ),
               ),
             ),

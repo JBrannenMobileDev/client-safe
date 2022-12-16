@@ -18,9 +18,9 @@ class NewJobClientListWidget extends StatelessWidget {
           TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(32.0),
+                borderRadius: new BorderRadius.circular(8.0),
               ),
-              color: Colors.transparent,
+              color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
             ),
         onPressed: () {
           pageState.onClientSelected(pageState.filteredClients.elementAt(clientIndex));

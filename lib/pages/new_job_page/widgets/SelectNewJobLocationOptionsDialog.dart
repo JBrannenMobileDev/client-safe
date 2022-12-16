@@ -56,76 +56,55 @@ class _SelectNewJobLocationOptionsDialog extends State<SelectNewJobLocationOptio
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                GestureDetector(
-                  onTap: () {
-                    UserOptionsUtil.showNewLocationDialog(context);
-                  },
-                  child: Column(
-
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: 8.0),
-                        padding: EdgeInsets.all(24.0),
-                        height: MediaQuery.of(context).size.width/4,
-                        width: MediaQuery.of(context).size.width/4,
-                        decoration: BoxDecoration(
-                          color: Color(ColorConstants.getBlueDark()),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.asset('assets/images/icons/collections_icon_white.png'),
-                      ),
-                      Text(
-                        'My Locations',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
-                      ),
-                    ],
-                  ),
-
+            GestureDetector(
+              onTap: () {
+                UserOptionsUtil.showNewLocationDialog(context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 56,
+                width: 250,
+                margin: EdgeInsets.only(bottom: 8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(ColorConstants.getBlueDark())
                 ),
-                GestureDetector(
-                  onTap: () {
-                    NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
-                    // UserOptionsUtil.showNewJobSelectFromMapDialog(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
-                  },
-                  child: Column(
-
-                    children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(bottom: 8.0),
-                        padding: EdgeInsets.all(24.0),
-                        height: MediaQuery.of(context).size.width/4,
-                        width: MediaQuery.of(context).size.width/4,
-                        decoration: BoxDecoration(
-                          color: Color(ColorConstants.getBlueDark()),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Image.asset(
-                            'assets/images/icons/location_icon_white.png'),
-                      ),
-                      Text(
-                        'Map Location',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
-                      ),
-                    ],
+                child: Text(
+                  'New Saved Location',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                 ),
-              ],
-            )
+              ),
+            ),
+            GestureDetector(
+              onTap: () {
+                NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 56,
+                width: 250,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Color(ColorConstants.getBlueDark())
+                ),
+                child: Text(
+                  'New One-time Location',
+                  textAlign: TextAlign.start,
+                  style: TextStyle(
+                    fontSize: 20.0,
+                    fontFamily: 'simple',
+                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
           ),

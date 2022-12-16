@@ -68,7 +68,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   height: 54.0,
                   width: 200,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(32),
+                    borderRadius: BorderRadius.circular(8),
                     color: Color(ColorConstants.getBlueDark()),
                   ),
                   child: TextButton(
@@ -118,7 +118,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                         child: ListView.builder(
                           reverse: false,
                           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                          padding: new EdgeInsets.fromLTRB(0.0, 0.0, 8.0, 64.0),
+                          padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
                           shrinkWrap: true,
                           controller: _controller,
                           physics: ClampingScrollPhysics(),

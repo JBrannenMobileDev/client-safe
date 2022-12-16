@@ -49,10 +49,7 @@ class _LocationSelectionFormState
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 0.0),
-                    child: Text(
-                      pageState.selectedLocation != null
-                          ? pageState.selectedLocation.locationName
-                          : pageState.oneTimeLocation != null ? pageState.oneTimeLocation.locationName : "",
+                    child: Text(pageState.selectedLocation != null ? pageState.selectedLocation.locationName : pageState.oneTimeLocation != null ? pageState.oneTimeLocation.locationName : "",
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         fontSize: 22.0,

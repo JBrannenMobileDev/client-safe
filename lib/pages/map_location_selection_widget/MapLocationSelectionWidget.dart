@@ -122,7 +122,15 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                   onTap: () {
                     if(onMapLocationSaved != null) onMapLocationSaved(LatLng(pageState.lat, pageState.lng));
                     if(saveSelectedLocation != null) {
-                      saveSelectedLocation(pageState.selectedSearchLocation);
+                      if(pageState.selectedSearchLocation != null) {
+                        saveSelectedLocation(pageState.selectedSearchLocation);
+                      }else {
+                        saveSelectedLocation(Location(
+                            latitude: pageState.lat,
+                            longitude: pageState.lng,
+                          locationName: 'One-Time Location'
+                        ));
+                      }
                       Navigator.of(context).pop(true);
                     }
                     Navigator.of(context).pop(true);

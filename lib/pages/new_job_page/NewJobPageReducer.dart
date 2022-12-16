@@ -45,6 +45,7 @@ NewJobPageState _setSelectedClientFromNewContactPage(NewJobPageState previousSta
     filteredClients: action.pageState.allClients,
     selectedClient: action.selectedClient,
     isSelectedClientNew: true,
+    pageViewIndex: 1,
   );
 }
 
