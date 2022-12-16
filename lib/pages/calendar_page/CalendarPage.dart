@@ -71,7 +71,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
 
     return StoreConnector<AppState, CalendarPageState>(
       onInit: (store) async {
-        store.dispatch(FetchAllJobsAction(store.state.calendarPageState));
+        store.dispatch(FetchAllCalendarJobsAction(store.state.calendarPageState));
         if(!store.state.dashboardPageState.profile.calendarEnabled) {
           Future.microtask(() => UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState.onCalendarEnabled));
         } else {

@@ -20,9 +20,9 @@ class SetDeviceEventsAction {
   SetDeviceEventsAction(this.pageState, this.deviceEvents);
 }
 
-class FetchAllJobsAction{
+class FetchAllCalendarJobsAction{
   final CalendarPageState calendarPageState;
-  FetchAllJobsAction(this.calendarPageState);
+  FetchAllCalendarJobsAction(this.calendarPageState);
 }
 
 class FetchDeviceEvents{

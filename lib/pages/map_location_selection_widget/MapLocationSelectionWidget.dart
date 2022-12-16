@@ -131,7 +131,6 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                           locationName: 'One-Time Location'
                         ));
                       }
-                      Navigator.of(context).pop(true);
                     }
                     Navigator.of(context).pop(true);
                   },

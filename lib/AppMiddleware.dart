@@ -98,12 +98,14 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DrivingDirectionsSelected>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ShareLocationSelected>(LocationsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewPricePackageAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewJobTypeAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetNotificationsToSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, FetchAllJobsAction>(CalendarPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchAllCalendarJobsAction>(CalendarPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchDeviceEvents>(CalendarPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedDateAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SetSelectedLocation>(NewJobPageMiddleware()));

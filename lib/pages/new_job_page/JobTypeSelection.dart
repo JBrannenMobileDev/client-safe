@@ -83,7 +83,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                 borderRadius: new BorderRadius.circular(8.0),
               ),
               color: pageState.selectedJobType != null &&
-                  pageState.selectedJobType == pageState.jobTypes.elementAt(index) ? Color(
+                  pageState.selectedJobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
                   ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
             ),
             onPressed: () {

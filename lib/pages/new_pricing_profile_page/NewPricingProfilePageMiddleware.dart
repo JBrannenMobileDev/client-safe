@@ -40,7 +40,8 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       EventNames.PRICE_PACKAGE_PARAM_DEPOSIT : priceProfile.deposit,
     });
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
-    store.dispatch(prefix0.FetchAllAction(store.state.newJobPageState));
+    PriceProfile newProfileWithDocumentId = await PriceProfileDao.getByNameAndPrice(priceProfile.profileName, priceProfile.flatRate);
+    store.dispatch(prefix0.UpdateWithNewPricePackageAction(store.state.newJobPageState, newProfileWithDocumentId));
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{

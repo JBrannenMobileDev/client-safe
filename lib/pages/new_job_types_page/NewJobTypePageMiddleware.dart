@@ -55,7 +55,9 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
     });
 
     store.dispatch(FetchJobTypesAction(store.state.jobTypesPageState));
-    store.dispatch(FetchAllAction(store.state.newJobPageState));
+
+    JobType jobTypeWithDocumentId = await JobTypeDao.getByName(newJobType.title);
+    store.dispatch(UpdateWithNewJobTypeAction(store.state.newJobPageState, jobTypeWithDocumentId));
   }
 
   void _deleteJobType(Store<AppState> store, DeleteJobTypeAction action, NextDispatcher next) async{

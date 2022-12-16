@@ -29,6 +29,8 @@ class NewJobPageState {
   final bool comingFromClientDetails;
   final bool isFinishedFetchingClients;
   final bool isSelectedClientNew;
+  final bool isSelectedPriceProfileNew;
+  final bool isSelectedJobTypeNew;
   final String errorState;
   final Client selectedClient;
   final String clientFirstName;
@@ -133,6 +135,8 @@ class NewJobPageState {
     @required this.oneTimeLocation,
     @required this.isSelectedClientNew,
     @required this.onCalendarEnabled,
+    @required this.isSelectedPriceProfileNew,
+    @required this.isSelectedJobTypeNew,
   });
 
   NewJobPageState copyWith({
@@ -145,6 +149,8 @@ class NewJobPageState {
     bool shouldClear,
     bool isFinishedFetchingClients,
     bool isSelectedClientNew,
+    bool isSelectedPriceProfileNew,
+    bool isSelectedJobTypeNew,
     String errorState,
     Client selectedClient,
     String clientFirstName,
@@ -247,6 +253,8 @@ class NewJobPageState {
       oneTimeLocation: oneTimeLocation ?? this.oneTimeLocation,
       isSelectedClientNew: isSelectedClientNew ?? this.isSelectedClientNew,
       onCalendarEnabled: onCalendarEnabled ?? this.onCalendarEnabled,
+      isSelectedPriceProfileNew: isSelectedPriceProfileNew ?? this.isSelectedPriceProfileNew,
+      isSelectedJobTypeNew: isSelectedJobTypeNew ?? this.isSelectedJobTypeNew,
     );
   }
 
@@ -308,7 +316,9 @@ class NewJobPageState {
         lon: 0.0,
         oneTimeLocation: null,
         isSelectedClientNew: false,
+        isSelectedPriceProfileNew: false,
         onCalendarEnabled: null,
+        isSelectedJobTypeNew: false,
       );
   }
 
@@ -350,6 +360,8 @@ class NewJobPageState {
       lat: store.state.newJobPageState.lat,
       lon: store.state.newJobPageState.lon,
       isSelectedClientNew: store.state.newJobPageState.isSelectedClientNew,
+      isSelectedJobTypeNew: store.state.newJobPageState.isSelectedJobTypeNew,
+      isSelectedPriceProfileNew: store.state.newJobPageState.isSelectedPriceProfileNew,
       onSavePressed: () => store.dispatch(SaveNewJobAction(store.state.newJobPageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.newJobPageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.newJobPageState)),
@@ -387,11 +399,13 @@ class NewJobPageState {
       clientSearchText.hashCode ^
       allClients.hashCode ^
       deviceEvents.hashCode ^
+      isSelectedJobTypeNew.hashCode ^
       selectedPriceProfile.hashCode ^
       selectedLocation.hashCode ^
       filteredClients.hashCode ^
       pricingProfiles.hashCode ^
       locations.hashCode ^
+      isSelectedPriceProfileNew.hashCode ^
       selectedDate.hashCode ^
       selectedStartTime.hashCode ^
       sunsetDateTime.hashCode ^
@@ -446,8 +460,10 @@ class NewJobPageState {
           selectedPriceProfile == other.selectedPriceProfile &&
           selectedLocation == other.selectedLocation &&
           pricingProfiles == other.pricingProfiles &&
+          isSelectedJobTypeNew == other.isSelectedJobTypeNew &&
           locations == other.locations &&
           selectedDate == other.selectedDate &&
+          isSelectedPriceProfileNew == other.isSelectedPriceProfileNew &&
           selectedStartTime == other.selectedStartTime &&
           sunsetDateTime == other.sunsetDateTime &&
           jobType == other.jobType &&

@@ -209,4 +209,12 @@ class JobTypeDao extends Equatable{
     List<JobType> reminders = await getAll();
     _deleteAllLocalJobTypes(reminders);
   }
+
+  static getByName(String title) async {
+    List<JobType> all = await getAll();
+    for(JobType type in all) {
+      if(type.title == title) return type;
+    }
+    return null;
+  }
 }

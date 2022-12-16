@@ -34,8 +34,28 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, SetOneTimePriceTextAction>(_setOneTimePrice),
   TypedReducer<NewJobPageState, SetInitialMapLatLng>(_setInitMapLatLng),
   TypedReducer<NewJobPageState, LoadAndSelectNewContactAction>(_setSelectedClientFromNewContactPage),
-
+  TypedReducer<NewJobPageState, SetPriceProfilesAndSelectedAction>(setPricePackagesAndSelectedPackage),
+  TypedReducer<NewJobPageState, SetJobTypeAndSelectedAction>(setJobTypeAndSelected),
 ]);
+
+NewJobPageState setJobTypeAndSelected(NewJobPageState previousState, SetJobTypeAndSelectedAction action){
+  return previousState.copyWith(
+    jobTypes: action.jobTypes,
+    selectedJobType: action.jobType,
+    isSelectedJobTypeNew: true,
+    pageViewIndex: 2,
+  );
+}
+
+NewJobPageState setPricePackagesAndSelectedPackage(NewJobPageState previousState, SetPriceProfilesAndSelectedAction action){
+  return previousState.copyWith(
+    oneTimePrice: '',
+    pricingProfiles: action.priceProfiles,
+    selectedPriceProfile: action.priceProfile,
+    isSelectedPriceProfileNew: true,
+    pageViewIndex: 3,
+  );
+}
 
 NewJobPageState _setSelectedClientFromNewContactPage(NewJobPageState previousState, LoadAndSelectNewContactAction action){
   action.pageState.allClients.insert(0, action.selectedClient);
@@ -170,6 +190,8 @@ NewJobPageState _setSelectedOneTimeLocation(NewJobPageState previousState, SetSe
       oneTimeLocation: action.location,
       selectedLocation: action.location,
       locations: allLocations,
+      pageViewIndex: 4,
+
   );
 }
 

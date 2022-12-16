@@ -191,3 +191,29 @@ class UpdateComingFromClientDetails{
   UpdateComingFromClientDetails(this.pageState, this.isComingFromClientDetails);
 }
 
+class UpdateWithNewPricePackageAction{
+  final NewJobPageState pageState;
+  final PriceProfile priceProfile;
+  UpdateWithNewPricePackageAction(this.pageState, this.priceProfile);
+}
+
+class SetPriceProfilesAndSelectedAction{
+  final NewJobPageState pageState;
+  final PriceProfile priceProfile;
+  final List<PriceProfile> priceProfiles;
+  SetPriceProfilesAndSelectedAction(this.pageState, this.priceProfile, this.priceProfiles);
+}
+
+class UpdateWithNewJobTypeAction{
+  final NewJobPageState pageState;
+  final JobType jobType;
+  UpdateWithNewJobTypeAction(this.pageState, this.jobType);
+}
+
+class SetJobTypeAndSelectedAction{
+  final NewJobPageState pageState;
+  final JobType jobType;
+  final List<JobType> jobTypes;
+  SetJobTypeAndSelectedAction(this.pageState, this.jobType, this.jobTypes);
+}
+

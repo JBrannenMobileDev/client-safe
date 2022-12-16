@@ -17,6 +17,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/NavigationUtil.dart';
 import 'PricingProfileSelectionForm.dart';
 
 class NewJobPage extends StatefulWidget {
@@ -83,7 +84,25 @@ class _NewJobPageState extends State<NewJobPage> {
             controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
           });
         }
-      },
+        if(!previous.isSelectedPriceProfileNew && current.isSelectedPriceProfileNew) {
+          setState(() {
+            currentPageIndex = 3;
+            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+          });
+        }
+        if(!previous.isSelectedJobTypeNew && current.isSelectedJobTypeNew) {
+          setState(() {
+            currentPageIndex = 2;
+            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+          });
+        }
+
+        if(previous.oneTimeLocation == null && current.oneTimeLocation != null) {
+          setState(() {
+            currentPageIndex = 4;
+            controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+          });
+        }      },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) =>
           WillPopScope(
@@ -133,7 +152,7 @@ class _NewJobPageState extends State<NewJobPage> {
                           onTap: () {
                             if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
                             if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
-                            if(pageState.pageViewIndex == 3) UserOptionsUtil.showNewJobSelectLocationOptionsDialog(context);
+                            if(pageState.pageViewIndex == 3) NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
                           },
                           child: Container(
                             margin: EdgeInsets.only(right: 24.0),

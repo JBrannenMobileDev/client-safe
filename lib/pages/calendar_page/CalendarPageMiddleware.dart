@@ -18,7 +18,7 @@ class CalendarPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is FetchAllJobsAction) {
+    if(action is FetchAllCalendarJobsAction) {
       _loadAll(store, action, next);
     }
     if(action is FetchDeviceEvents) {

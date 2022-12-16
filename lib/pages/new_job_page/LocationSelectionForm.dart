@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../utils/NavigationUtil.dart';
+
 class LocationSelectionForm extends StatefulWidget {
   @override
   _LocationSelectionFormState createState() {
@@ -119,7 +121,7 @@ class _LocationSelectionFormState
                       ),
                     ),
                     onPressed: () {
-                      UserOptionsUtil.showNewJobSelectLocationOptionsDialog(context);
+                      NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
                     },
                     child: Container(
                       width: 150.0,
@@ -131,7 +133,7 @@ class _LocationSelectionFormState
                             color: Color(ColorConstants.white),
                             tooltip: 'Add',
                             onPressed: () {
-                              UserOptionsUtil.showNewJobSelectLocationOptionsDialog(context);
+                              NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
                             },
                           ),
                           Text(

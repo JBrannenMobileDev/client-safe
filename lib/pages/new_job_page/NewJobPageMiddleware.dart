@@ -36,6 +36,7 @@ import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/UserPermissionsUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
+import '../calendar_page/CalendarPageActions.dart' as calendar;
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class NewJobPageMiddleware extends MiddlewareClass<AppState> {
@@ -63,6 +64,22 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetLastKnowInitialPosition){
       setLocationData(store, next, action);
     }
+    if(action is UpdateWithNewPricePackageAction){
+      fetchPriceProfilesAndSetSelected(store, action, next);
+    }
+    if(action is UpdateWithNewJobTypeAction){
+      fetchJobTypeAndSetSelected(store, action, next);
+    }
+  }
+
+  void fetchJobTypeAndSetSelected(Store<AppState> store, UpdateWithNewJobTypeAction action, NextDispatcher next) async {
+    List<JobType> jobTypes = await JobTypeDao.getAll();
+    store.dispatch(SetJobTypeAndSelectedAction(store.state.newJobPageState, action.jobType, jobTypes));
+  }
+
+  void fetchPriceProfilesAndSetSelected(Store<AppState> store, UpdateWithNewPricePackageAction action, NextDispatcher next) async {
+    List<PriceProfile> priceProfiles = await PriceProfileDao.getAllSortedByName();
+    store.dispatch(SetPriceProfilesAndSelectedAction(store.state.newJobPageState, action.priceProfile, priceProfiles));
   }
 
   void _fetchDeviceEventsForMonth(Store<AppState> store, FetchNewJobDeviceEvents action, NextDispatcher next) async {
@@ -187,6 +204,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.clientDetailsPageState.client));
+    store.dispatch(calendar.FetchAllCalendarJobsAction(store.state.calendarPageState));
   }
 
   void _createJobReminders(Store<AppState> store, Client jobClient) async {

@@ -114,11 +114,12 @@ class ReminderNotificationsPage extends StatelessWidget{
                                               ),
                                             ),
                                             Container(
+                                              width: MediaQuery.of(context).size.width - 120,
                                               child: Text(
                                                 pageState.reminders.elementAt(index).reminder.description,
                                                 textAlign: TextAlign.start,
                                                 overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
+                                                maxLines: 1,
                                                 style: TextStyle(
                                                   fontSize: 16.0,
                                                   fontFamily: 'simple',

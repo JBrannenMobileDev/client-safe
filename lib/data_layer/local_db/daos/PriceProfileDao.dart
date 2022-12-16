@@ -209,4 +209,12 @@ class PriceProfileDao extends Equatable{
     List<PriceProfile> profiles = await getAllSortedByName();
     _deleteAllLocalPriceProfiles(profiles);
   }
+
+  static getByNameAndPrice(String profileName, double flatRate) async {
+    List<PriceProfile> all = await getAllSortedByName();
+    for(PriceProfile profile in all) {
+      if(profile.profileName == profileName && profile.flatRate == flatRate) return profile;
+    }
+    return null;
+  }
 }
