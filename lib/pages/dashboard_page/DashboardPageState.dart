@@ -20,6 +20,7 @@ class DashboardPageState {
   final bool isMinimized;
   final bool isLeadsMinimized;
   final bool shouldShowNewMileageExpensePage;
+  final bool hasSeenShowcase;
   final int leadConversionRate;
   final int unconvertedLeadCount;
   final List<Action> actionItems;
@@ -47,6 +48,7 @@ class DashboardPageState {
   final Function() onViewAllHideLeadsSelected;
   final Function() onNotificationsSelected;
   final Function() onNotificationViewClosed;
+  final Function() onShowcaseSeen;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -80,12 +82,15 @@ class DashboardPageState {
     this.jobTypePieChartRowData,
     this.leadSourcePieChartRowData,
     this.profile,
+    this.hasSeenShowcase,
+    this.onShowcaseSeen,
   });
 
   DashboardPageState copyWith({
     String jobsProfitTotal,
     bool isMinimized,
     bool isLeadsMinimized,
+    bool hasSeenShowcase,
     int leadConversionRate,
     int unconvertedLeadCount,
     List<Action> actionItems,
@@ -108,6 +113,7 @@ class DashboardPageState {
     Function(JobReminder) onReminderSelected,
     Function() onNotificationsSelected,
     Function() onNotificationViewClosed,
+    Function() onShowcaseSeen,
     bool shouldShowNewMileageExpensePage,
     List<PieChartSectionData> jobTypeBreakdownData,
     List<PieChartSectionData> leadSourcesData,
@@ -147,6 +153,8 @@ class DashboardPageState {
       jobTypePieChartRowData: jobTypePieChartRowData ?? this.jobTypePieChartRowData,
       leadSourcePieChartRowData: leadSourcePieChartRowData ?? this.leadSourcePieChartRowData,
       profile: profile ?? this.profile,
+      hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
+      onShowcaseSeen: onShowcaseSeen ?? this.onShowcaseSeen,
     );
   }
 
@@ -176,6 +184,7 @@ class DashboardPageState {
       jobTypePieChartRowData: store.state.dashboardPageState.jobTypePieChartRowData,
       leadSourcePieChartRowData: store.state.dashboardPageState.leadSourcePieChartRowData,
       profile: store.state.dashboardPageState.profile,
+      hasSeenShowcase: store.state.dashboardPageState.hasSeenShowcase,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -183,6 +192,7 @@ class DashboardPageState {
       onReminderSelected:  (reminder) => store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId)),
       onNotificationsSelected: () => store.dispatch(SetNotificationsToSeen(store.state.dashboardPageState)),
       onNotificationViewClosed: () => store.dispatch(UpdateNotificationIconAction(store.state.dashboardPageState)),
+      onShowcaseSeen: () => store.dispatch(UpdateProfileWithShowcaseSeen(store.state.dashboardPageState)),
     );
   }
 

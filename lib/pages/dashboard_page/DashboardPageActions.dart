@@ -86,3 +86,8 @@ class UpdateNotificationIconAction {
   final DashboardPageState pageState;
   UpdateNotificationIconAction(this.pageState);
 }
+
+class UpdateProfileWithShowcaseSeen {
+  final DashboardPageState pageState;
+  UpdateProfileWithShowcaseSeen(this.pageState);
+}

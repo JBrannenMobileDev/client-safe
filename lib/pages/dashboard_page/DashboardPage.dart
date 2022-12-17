@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
@@ -52,7 +53,6 @@ class DashboardPage extends StatelessWidget {
       },
       blurValue: 2,
       builder: Builder(builder: (context) => HolderPage(comingFromLogin: comingFromLogin)),
-      autoPlayDelay: const Duration(seconds: 3),
     );
   }
 }
@@ -83,12 +83,14 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   Tween<Offset> offsetUpTween;
   Tween<Offset> offsetDownTween;
 
+  void _startShowcase() {
+    Future.delayed(Duration(milliseconds: 3000), () {
+      ShowCaseWidget.of(context).startShowCase([_one, _two, _three]);
+    });
+  }
+
   initState() {
     super.initState();
-
-    WidgetsBinding.instance.addPostFrameCallback((_) async =>
-        ShowCaseWidget.of(context).startShowCase([_one, _two, _three])
-    );
 
     _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500));
 
@@ -179,6 +181,10 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
             UserOptionsUtil.showNewMileageExpenseSelected(context);
           }
+          if(!current.hasSeenShowcase) {
+            _startShowcase();
+            current.onShowcaseSeen();
+          }
         },
         onDispose: (store) => store.dispatch(new DisposeDataListenersActions(store.state.homePageState)),
         converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
@@ -189,7 +195,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               key: _one,
               targetPadding: EdgeInsets.only(right: 0, left: 0, bottom: 0, top: 0),
               targetShapeBorder: CircleBorder(),
-              description: 'Start a new job or add a new contact here!',
+              description: 'Start a new job or \nadd a new contact here!',
               descTextStyle: TextStyle(
                 fontSize: 22.0,
                 fontFamily: 'simple',
@@ -294,7 +300,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                           key: _three,
                           targetPadding: EdgeInsets.only(right: -12, left: 12, bottom: 55, top: -55),
                           targetShapeBorder: CircleBorder(),
-                          description: 'Get started here!  This is your collections page where you can setup the details for your business',
+                          description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
                           descTextStyle: TextStyle(
                             fontSize: 22.0,
                             fontFamily: 'simple',

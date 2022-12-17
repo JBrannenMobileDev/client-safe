@@ -39,6 +39,15 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateNotificationIconAction) {
       _loadJobReminders(store, action, next);
     }
+    if(action is UpdateProfileWithShowcaseSeen) {
+      _updateProfileWithShowcaseSeen(store, action, next);
+    }
+  }
+
+  Future<void> _updateProfileWithShowcaseSeen(Store<AppState> store, UpdateProfileWithShowcaseSeen action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.hasSeenShowcase = true;
+    ProfileDao.update(profile);
   }
 
   Future<void> _setNotificationsToSeen(Store<AppState> store, SetNotificationsToSeen action) async {

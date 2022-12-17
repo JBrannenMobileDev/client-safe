@@ -23,6 +23,7 @@ class Profile{
   bool showNewMileageExpensePage = false;
   bool termsOfServiceAndPrivacyPolicyChecked = false;
   bool showRequestPaymentLinksDialog = true;
+  bool hasSeenShowcase = false;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -84,6 +85,7 @@ class Profile{
     this.termsOfServiceAndPrivacyPolicyChecked,
     this.showRequestPaymentLinksDialog,
     this.responsesLastChangeDate,
+    this.hasSeenShowcase,
   });
 
   Profile copyWith({
@@ -109,6 +111,7 @@ class Profile{
     bool showNewMileageExpensePage,
     bool termsOfServiceAndPrivacyPolicyChecked,
     bool showRequestPaymentLinksDialog,
+    bool hasSeenShowcase,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -171,6 +174,7 @@ class Profile{
       termsOfServiceAndPrivacyPolicyChecked: termsOfServiceAndPrivacyPolicyChecked ?? this.termsOfServiceAndPrivacyPolicyChecked,
       showRequestPaymentLinksDialog: showRequestPaymentLinksDialog ?? this.showRequestPaymentLinksDialog,
       responsesLastChangeDate: responsesLastChangeDate ?? this.responsesLastChangeDate,
+      hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
     );
   }
 
@@ -198,6 +202,7 @@ class Profile{
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
+      'hasSeenShowcase' : hasSeenShowcase ?? false,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -243,6 +248,7 @@ class Profile{
       calendarEnabled: map['calendarEnabled'],
       salesTaxRate: map['salesTaxRate'],
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
+      hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
