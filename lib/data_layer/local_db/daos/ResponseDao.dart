@@ -101,11 +101,13 @@ class ResponseDao extends Equatable{
     if((await getAll()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', documentId));
       final recordSnapshots = await _responseStore.find(await _db, finder: finder);
-      return recordSnapshots.map((snapshot) {
+      List<Response> responses = recordSnapshots.map((snapshot) {
         final expense = Response.fromMap(snapshot.value);
         expense.id = snapshot.key;
         return expense;
-      }).toList().elementAt(0);
+      }).toList();
+      if(responses.length > 0) return responses.elementAt(0);
+      return null;
     } else {
       return null;
     }

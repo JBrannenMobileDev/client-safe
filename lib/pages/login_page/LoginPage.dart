@@ -106,7 +106,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 350), curve: Curves.ease);
       } else {
         currentPageIndex = 0;
-        controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+        if(controller.hasClients) controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
       }
 
       print('Tick: ${timer.tick}');
@@ -394,7 +394,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             _controllerErrorShake.reset();
             _controllerErrorShake.forward();
           }
-          if(pageState.shouldShowAccountCreatedDialog){
+          if(!prev.shouldShowAccountCreatedDialog && pageState.shouldShowAccountCreatedDialog){
             UserOptionsUtil.showAccountCreatedDialog(context, pageState.user);
             pageState.resetShouldShowSuccessDialog();
             _onBackPressed(pageState);
@@ -679,12 +679,12 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ),
               ) : SizedBox(),
-          !pageState.isUserVerified ? pageState.showResendMessage ? SlideTransition(
+          !pageState.isUserVerified ? (pageState.showResendMessage && !pageState.mainButtonsVisible) ? SlideTransition(
             position: lightPeachMountainsStep1,
             child:Container(
                 height: MediaQuery.of(context).size.height,
                       alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(bottom: 380.0),
+                      margin: EdgeInsets.only(bottom: 342.0),
                       child: ScaleTransition(
                         scale: Tween(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(
@@ -720,7 +720,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 margin: EdgeInsets.only(left: 8.0),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryColor()),
+                                    color: Color(ColorConstants.getBlueDark()),
                                     borderRadius: BorderRadius.circular(24.0)),
                                 child: Text(
                                   'Resend',

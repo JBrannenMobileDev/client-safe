@@ -32,7 +32,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadAllJobs(store, action, next);
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
-      await _setupDeepLinkObserver(store, action);
     }
     if(action is SetNotificationsToSeen) {
       _setNotificationsToSeen(store, action);
@@ -40,22 +39,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateNotificationIconAction) {
       _loadJobReminders(store, action, next);
     }
-  }
-
-  Future<void> _setupDeepLinkObserver(Store<AppState> store, LoadJobsAction action) async {
-    (await ProfileDao.getProfileStream()).listen((snapshots) async {
-      List<Profile> streamProfiles = [];
-      for(RecordSnapshot clientSnapshot in snapshots) {
-        streamProfiles.add(Profile.fromMap(clientSnapshot.value));
-      }
-      Profile profile = streamProfiles.elementAt(0);
-      if(profile.showNewMileageExpensePage ?? false) {
-        await store.dispatch(SetShowNewMileageExpensePageAction(store.state.dashboardPageState, true));
-        profile.showNewMileageExpensePage = false;
-        await ProfileDao.update(profile);
-        await store.dispatch(SetShowNewMileageExpensePageAction(store.state.dashboardPageState, false));
-      }
-    });
   }
 
   Future<void> _setNotificationsToSeen(Store<AppState> store, SetNotificationsToSeen action) async {

@@ -79,6 +79,7 @@ dependencies:
   mixpanel_flutter: ^2.0.0
   device_info_plus: ^8.0.0
   package_info_plus: ^3.0.2
+  showcaseview: ^2.0.0+1
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git

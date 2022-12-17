@@ -114,8 +114,53 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             if (fireStoreProfile.nextInvoiceNumberLastChangeDate != null)
               fireStoreProfile.nextInvoiceNumberLastChangeDate = DateTime(1970);
             await ProfileDao.insertLocal(fireStoreProfile);
-            await FireStoreSync().dandyLightAppInitializationSync(
-                authResult.user.uid);
+            await FireStoreSync().dandyLightAppInitializationSync(authResult.user.uid);
+            if(await ResponseDao.getAll() == 0) {
+              List<Response> defaultResponses = [];
+              defaultResponses.add(Response(
+                title: 'Reply to initial inquiry',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+              ));
+              defaultResponses.add(Response(
+                title: 'I am unavailable on that date',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+              ));
+              defaultResponses.add(Response(
+                title: 'Confirm deposit paid',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+              ));
+              defaultResponses.add(Response(
+                title: 'What to expect',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+              ));
+              defaultResponses.add(Response(
+                title: 'What to wear',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+              ));
+              defaultResponses.add(Response(
+                title: 'Upcoming photoshoot reminder',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+              ));
+              defaultResponses.add(Response(
+                title: 'Thank you',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+              ));
+              defaultResponses.add(Response(
+                title: 'Your photos are ready',
+                message: '',
+                parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+              ));
+              for(Response response in defaultResponses) {
+                await ResponseDao.insertOrUpdate(response);
+              }
+            }
           }
         }
         if (authResult.user != null && authResult.user.emailVerified) {
@@ -192,7 +237,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, store.state.loginPageState.businessName);
       }
       if(user != null && !user.emailVerified){
-        await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
         List<Profile> userProfiles = await ProfileDao.getAll();
         if(userProfiles.isNotEmpty) {
           for(Profile profile in userProfiles) {
@@ -210,78 +254,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             pushNotificationsEnabled: false,
           );
         await ProfileDao.insertOrUpdate(newProfile);
-
-        List<Response> defaultResponses = [];
-        defaultResponses.add(Response(
-          title: Response.GROUP_TITLE_PRE_BOOKING,
-          message: '',
-          parentGroup: '',
-        ));
-        defaultResponses.add(Response(
-          title: 'Reply to initial inquiry',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
-        ));
-        defaultResponses.add(Response(
-          title: 'I am unavailable on that date',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
-        ));
-        defaultResponses.add(Response(
-          buttonName: 'Add another',
-          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
-        ));
-        defaultResponses.add(Response(
-          title: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-          message: '',
-          parentGroup: '',
-        ));
-        defaultResponses.add(Response(
-          title: 'Confirm deposit paid',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-        ));
-        defaultResponses.add(Response(
-          title: 'What to expect',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-        ));
-        defaultResponses.add(Response(
-          title: 'What to wear',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-        ));
-        defaultResponses.add(Response(
-          title: 'Upcoming photoshoot reminder',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-        ));
-        defaultResponses.add(Response(
-          buttonName: 'Add another',
-          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-        ));
-        defaultResponses.add(Response(
-          title: Response.GROUP_TITLE_POST_PHOTOSHOOT,
-          message: '',
-          parentGroup: '',
-        ));
-        defaultResponses.add(Response(
-          title: 'Thank you',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
-        ));
-        defaultResponses.add(Response(
-          title: 'Your photos are ready',
-          message: '{Your personal message goes here}',
-          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
-        ));
-        defaultResponses.add(Response(
-          buttonName: 'Add another',
-          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
-        ));
-        for(Response response in defaultResponses) {
-          await ResponseDao.insertOrUpdate(response);
-        }
+        await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
       }
     }
   }
