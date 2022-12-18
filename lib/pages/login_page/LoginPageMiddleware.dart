@@ -115,52 +115,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               fireStoreProfile.nextInvoiceNumberLastChangeDate = DateTime(1970);
             await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync(authResult.user.uid);
-            if(await ResponseDao.getAll() == 0) {
-              List<Response> defaultResponses = [];
-              defaultResponses.add(Response(
-                title: 'Reply to initial inquiry',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
-              ));
-              defaultResponses.add(Response(
-                title: 'I am unavailable on that date',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
-              ));
-              defaultResponses.add(Response(
-                title: 'Confirm deposit paid',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-              ));
-              defaultResponses.add(Response(
-                title: 'What to expect',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-              ));
-              defaultResponses.add(Response(
-                title: 'What to wear',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-              ));
-              defaultResponses.add(Response(
-                title: 'Upcoming photoshoot reminder',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
-              ));
-              defaultResponses.add(Response(
-                title: 'Thank you',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
-              ));
-              defaultResponses.add(Response(
-                title: 'Your photos are ready',
-                message: '',
-                parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
-              ));
-              for(Response response in defaultResponses) {
-                await ResponseDao.insertOrUpdate(response);
-              }
-            }
           }
         }
         if (authResult.user != null && authResult.user.emailVerified) {

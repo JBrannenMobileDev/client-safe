@@ -298,7 +298,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                         width: MediaQuery.of(context).size.width,
                         child: Showcase(
                           key: _three,
-                          targetPadding: EdgeInsets.only(right: -12, left: 12, bottom: 55, top: -55),
+                          targetPadding: EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
                           targetShapeBorder: CircleBorder(),
                           description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
                           descTextStyle: TextStyle(

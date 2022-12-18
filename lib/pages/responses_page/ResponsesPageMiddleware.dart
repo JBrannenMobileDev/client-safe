@@ -46,6 +46,55 @@ class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchResponses(Store<AppState> store) async{
     List<Response> responses = await ResponseDao.getAll();
+
+    if(responses.length == 0) {
+      List<Response> defaultResponses = [];
+      defaultResponses.add(Response(
+        title: 'Reply to initial inquiry',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+      ));
+      defaultResponses.add(Response(
+        title: 'I am unavailable on that date',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+      ));
+      defaultResponses.add(Response(
+        title: 'Confirm deposit paid',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+      ));
+      defaultResponses.add(Response(
+        title: 'What to expect',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+      ));
+      defaultResponses.add(Response(
+        title: 'What to wear',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+      ));
+      defaultResponses.add(Response(
+        title: 'Upcoming photoshoot reminder',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+      ));
+      defaultResponses.add(Response(
+        title: 'Thank you',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+      ));
+      defaultResponses.add(Response(
+        title: 'Your photos are ready',
+        message: '',
+        parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+      ));
+      for(Response response in defaultResponses) {
+        await ResponseDao.insertOrUpdate(response);
+      }
+      responses = await ResponseDao.getAll();
+    }
+
     store.dispatch(SetResponsesAction(store.state.responsesPageState, responses));
 
     (await ResponseDao.getResponseStream()).listen((snapshots) async {

@@ -36,7 +36,7 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
 DashboardPageState _setProfile(DashboardPageState previousState, SetProfileDashboardAction action) {
   return previousState.copyWith(
     profile: action.profile,
-    hasSeenShowcase: action.profile.hasSeenShowcase,
+    hasSeenShowcase: action.profile?.hasSeenShowcase,
   );
 }
 

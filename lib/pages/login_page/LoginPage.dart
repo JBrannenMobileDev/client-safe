@@ -108,8 +108,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         currentPageIndex = 0;
         if(controller.hasClients) controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
       }
-
-      print('Tick: ${timer.tick}');
     });
 
     loginEmailFocusNode.addListener(() {

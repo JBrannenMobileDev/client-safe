@@ -194,7 +194,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile
           : store.state.newJobPageState.oneTimePrice.isNotEmpty ? PriceProfile(rateType: Invoice.RATE_TYPE_FLAT_RATE, profileName: 'Photoshoot Price', flatRate: double.parse(store.state.newJobPageState.oneTimePrice), icon: ImageUtil.getRandomPriceProfileIcon()) : null,
       createdDate: DateTime.now(),
-      depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit.toInt() : 0,
+      depositAmount: store.state.newJobPageState.selectedPriceProfile != null ? store.state.newJobPageState.selectedPriceProfile.deposit?.toInt() : 0,
       );
 
     await JobDao.insertOrUpdate(jobToSave);
