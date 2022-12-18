@@ -23,9 +23,9 @@ class ReminderNotificationsPage extends StatelessWidget{
       backgroundColor: Colors.white,
       body: Listener(
         onPointerMove: (moveEvent){
-          if(moveEvent.delta.dx > 0) {
-            pageState.onNotificationsSelected();
-          }
+          // if(moveEvent.delta.dx > 0) {
+          //   pageState.onNotificationsSelected();
+          // }
         },
         child: Stack(
             alignment: AlignmentDirectional.centerEnd,
@@ -53,7 +53,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                       color: Color(ColorConstants.getPrimaryColor()),
                       tooltip: 'Close',
                       onPressed: () {
-                        pageState.onNotificationsSelected();
+                        // pageState.onNotificationsSelected();
                         pageState.onNotificationViewClosed();
                         Navigator.of(context).pop();
                       },

@@ -55,8 +55,18 @@ class FileStorage {
   static Future<File> getLocationImageFile(Location location) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildLocationImagePath(location));
-    String imageUrl = await cloudFilePath.getDownloadURL();
-    return await DandylightCacheManager.instance.getSingleFile(imageUrl);
+    String imageUrl = null;
+    try{
+      imageUrl = await cloudFilePath.getDownloadURL();
+    } catch(ex) {
+      imageUrl = null;
+    }
+
+    if(imageUrl != null) {
+      return await DandylightCacheManager.instance.getSingleFile(imageUrl);
+    } else {
+      return null;
+    }
   }
 
   static Future<File> getPoseImageFile(Pose pose, PoseGroup group) async {

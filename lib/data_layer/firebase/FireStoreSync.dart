@@ -33,6 +33,7 @@ import 'package:dandylight/models/Response.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
+import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
 import '../local_db/daos/JobTypeDao.dart';
 import '../local_db/daos/ResponseDao.dart';
@@ -40,31 +41,29 @@ import '../local_db/daos/ResponseDao.dart';
 class FireStoreSync {
     
     Future<void> dandyLightAppInitializationSync(String uid) async {
-        List<Profile> users = await ProfileDao.getAll();
-        if(users.length > 0) {
-                Profile userLocalDb = users.elementAt(0);
-                Profile userFireStoreDb = await UserCollection().getUser(UidUtil().getUid());
-                if(userLocalDb != null && userFireStoreDb != null) {
-                    await _syncClients(userLocalDb, userFireStoreDb);
-                    await _syncInvoices(userLocalDb, userFireStoreDb);
-                    await _syncJobs(userLocalDb, userFireStoreDb);
-                    await _syncLocations(userLocalDb, userFireStoreDb);
-                    await _syncMileageExpenses(userLocalDb, userFireStoreDb);
-                    await _syncPriceProfiles(userLocalDb, userFireStoreDb);
-                    await _syncRecurringExpenses(userLocalDb, userFireStoreDb);
-                    await _syncSingleExpenses(userLocalDb, userFireStoreDb);
-                    await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
-                    await _syncProfile(userLocalDb, userFireStoreDb);
-                    await _syncReminders(userLocalDb, userFireStoreDb);
-                    await _syncJobReminders(userLocalDb, userFireStoreDb);
-                    await _syncJobTypes(userLocalDb, userFireStoreDb);
-                    await _syncContracts(userLocalDb, userFireStoreDb);
-                    await _syncPoses(userLocalDb, userFireStoreDb);
-                    await _syncPoseGroups(userLocalDb, userFireStoreDb);
-                    await _syncResponses(userLocalDb, userFireStoreDb);
-                }
+        Profile userLocalDb = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+        Profile userFireStoreDb = await UserCollection().getUser(UidUtil().getUid());
+        if(userLocalDb != null && userFireStoreDb != null) {
+            await _syncClients(userLocalDb, userFireStoreDb);
+            await _syncInvoices(userLocalDb, userFireStoreDb);
+            await _syncJobs(userLocalDb, userFireStoreDb);
+            await _syncLocations(userLocalDb, userFireStoreDb);
+            await _syncMileageExpenses(userLocalDb, userFireStoreDb);
+            await _syncPriceProfiles(userLocalDb, userFireStoreDb);
+            await _syncRecurringExpenses(userLocalDb, userFireStoreDb);
+            await _syncSingleExpenses(userLocalDb, userFireStoreDb);
+            await _syncNextInvoiceNumber(userLocalDb, userFireStoreDb);
+            await _syncProfile(userLocalDb, userFireStoreDb);
+            await _syncReminders(userLocalDb, userFireStoreDb);
+            await _syncJobReminders(userLocalDb, userFireStoreDb);
+            await _syncJobTypes(userLocalDb, userFireStoreDb);
+            await _syncContracts(userLocalDb, userFireStoreDb);
+            await _syncPoses(userLocalDb, userFireStoreDb);
+            await _syncPoseGroups(userLocalDb, userFireStoreDb);
+            await _syncResponses(userLocalDb, userFireStoreDb);
         }
         setupFireStoreListeners();
+        automateJobStages();
     }
 
     Profile getMatchingProfile(List<Profile> profiles, String uid) {
@@ -503,5 +502,74 @@ class FireStoreSync {
                 }
             }
         }
+    }
+
+  void automateJobStages() {
+        checkForJobComplete();
+  }
+
+  void checkForJobComplete() async {
+    List<Job> allJobs = await JobDao.getAllJobs();
+    for(Job job in allJobs) {
+        if(containsStage(job.type.stages, JobStage.STAGE_7_SESSION_COMPLETE)) {
+            if(!containsStage(job.completedStages, JobStage.STAGE_7_SESSION_COMPLETE)) {
+                DateTime now = DateTime.now();
+                DateTime selectedDateAndTime = DateTime(job.selectedDate.year, job.selectedDate.month, job.selectedDate.day, job.selectedTime.hour, job.selectedTime.minute);
+                if(now.isAfter(selectedDateAndTime)){
+                    updateJobToSessionCompleted(job);
+                }
+            }
+        }
+    }
+  }
+
+  bool containsStage(List<JobStage> stages, String stage) {
+        for(JobStage jobStage in stages) {
+            if(jobStage.stage == stage) return true;
+        }
+        return false;
+  }
+
+  void updateJobToSessionCompleted(Job job) async {
+      List<JobStage> completedJobStages = job.completedStages.toList();
+      JobStage stageToComplete = job.type.stages.firstWhere((stage) => stage == JobStage.STAGE_7_SESSION_COMPLETE);
+      int stageIndex = null;
+
+      for(int index = 0; index < job.type.stages.length; index++) {
+          if(job.type.stages.elementAt(index) == JobStage.STAGE_7_SESSION_COMPLETE) {
+              stageIndex = index;
+          }
+      }
+
+      if(stageToComplete != null && stageIndex != null) {
+          completedJobStages.add(stageToComplete);
+          job.completedStages = completedJobStages;
+          job.stage = _getNextUncompletedStage(stageIndex, job.completedStages, job);
+          Job jobToSave = job.copyWith(
+              completedStages: completedJobStages,
+              stage: job.stage,
+          );
+          await JobDao.insertOrUpdate(jobToSave);
+      }
+  }
+
+    JobStage _getNextUncompletedStage(int stageIndex, List<JobStage> completedStages, Job job) {
+        if(job.type.stages.elementAt(stageIndex).stage != JobStage.STAGE_14_JOB_COMPLETE) {
+            JobStage nextStage = job.type.stages.elementAt(stageIndex++);
+            while(_completedStagesContainsNextStage(completedStages, nextStage)){
+                nextStage = JobStage.getNextStage(nextStage, job.type.stages);
+            }
+            return nextStage;
+        }
+        return job.type.stages.elementAt(stageIndex);
+    }
+
+    bool _completedStagesContainsNextStage(List<JobStage> completedStages, JobStage nextStage) {
+        if(nextStage.stage == JobStage.STAGE_COMPLETED_CHECK) return false;
+        bool containsNextStage = false;
+        for(JobStage completedStage in completedStages){
+            if(completedStage.stage == nextStage.stage) return true;
+        }
+        return containsNextStage;
     }
 }

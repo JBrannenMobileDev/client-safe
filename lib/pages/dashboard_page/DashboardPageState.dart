@@ -189,8 +189,11 @@ class DashboardPageState {
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
       onViewAllHideLeadsSelected: () => store.dispatch(UpdateShowHideLeadsState(store.state.dashboardPageState)),
-      onReminderSelected:  (reminder) => store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId)),
-      onNotificationsSelected: () => store.dispatch(SetNotificationsToSeen(store.state.dashboardPageState)),
+      onReminderSelected:  (reminder) {
+        store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId));
+        store.dispatch(SetNotificationToSeen(store.state.dashboardPageState, reminder));
+      },
+      onNotificationsSelected: () => null,
       onNotificationViewClosed: () => store.dispatch(UpdateNotificationIconAction(store.state.dashboardPageState)),
       onShowcaseSeen: () => store.dispatch(UpdateProfileWithShowcaseSeen(store.state.dashboardPageState)),
     );

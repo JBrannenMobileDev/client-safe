@@ -33,8 +33,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
     }
-    if(action is SetNotificationsToSeen) {
-      _setNotificationsToSeen(store, action);
+    if(action is SetNotificationToSeen) {
+      _setNotificationToSeen(store, action);
     }
     if(action is UpdateNotificationIconAction) {
       _loadJobReminders(store, action, next);
@@ -50,14 +50,12 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     ProfileDao.update(profile);
   }
 
-  Future<void> _setNotificationsToSeen(Store<AppState> store, SetNotificationsToSeen action) async {
-    List<JobReminder> reminders = action.pageState.reminders;
-    if(reminders != null && reminders.isNotEmpty) {
-      for(JobReminder reminder in reminders) {
-        reminder.hasBeenSeen = true;
-        await JobReminderDao.update(reminder);
-      }
-    }
+  Future<void> _setNotificationToSeen(Store<AppState> store, SetNotificationToSeen action) async {
+    action.reminder.hasBeenSeen = true;
+    JobReminderDao.update(action.reminder);
+    int unseenCount = action.pageState.unseenNotificationCount;
+    unseenCount--;
+    store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, await JobReminderDao.getTriggeredReminders()));
   }
 
   Future<void> _loadJobReminders(Store<AppState> store, action, NextDispatcher next) async {
@@ -69,21 +67,6 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
     store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
-
-    (await JobReminderDao.getReminderStream()).listen((snapshots) async {
-      List<JobReminder> streamReminders = [];
-      for(RecordSnapshot clientSnapshot in snapshots) {
-        streamReminders.add(JobReminder.fromMap(clientSnapshot.value));
-      }
-      int unseenCount = 0;
-      for(JobReminder reminder in reminders) {
-        if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
-          unseenCount++;
-        }
-      }
-      store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
-    });
-
 
     List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
     for(JobReminder reminder in pendingReminders) {

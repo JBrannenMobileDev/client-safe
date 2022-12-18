@@ -102,7 +102,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewJobTypeAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SetNotificationsToSeen>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetNotificationToSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateNotificationIconAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileWithShowcaseSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));

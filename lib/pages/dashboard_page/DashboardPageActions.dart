@@ -77,9 +77,10 @@ class UpdateShowHideLeadsState{
   UpdateShowHideLeadsState(this.pageState);
 }
 
-class SetNotificationsToSeen{
+class SetNotificationToSeen{
   final DashboardPageState pageState;
-  SetNotificationsToSeen(this.pageState);
+  final JobReminder reminder;
+  SetNotificationToSeen(this.pageState, this.reminder);
 }
 
 class UpdateNotificationIconAction {
