@@ -20,6 +20,7 @@ import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -32,11 +33,13 @@ import '../../models/JobStage.dart';
 import '../../models/Profile.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/CalendarSyncUtil.dart';
+import '../../utils/GlobalKeyUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
 import '../../utils/UserPermissionsUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 import '../calendar_page/CalendarPageActions.dart' as calendar;
+import '../job_details_page/JobDetailsActions.dart' as jobDetails;
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class NewJobPageMiddleware extends MiddlewareClass<AppState> {
@@ -205,6 +208,13 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, store.state.clientDetailsPageState.client));
     store.dispatch(calendar.FetchAllCalendarJobsAction(store.state.calendarPageState));
+
+    Job jobWithDocumentId = await JobDao.getJobBycreatedDate(jobToSave.createdDate);
+    if(jobWithDocumentId != null) {
+      store.dispatch(jobDetails.SetJobInfo(store.state.jobDetailsPageState, jobWithDocumentId));
+    } else {
+      GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+    }
   }
 
   void _createJobReminders(Store<AppState> store, Client jobClient) async {

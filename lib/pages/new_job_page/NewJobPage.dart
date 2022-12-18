@@ -302,6 +302,7 @@ class _NewJobPageState extends State<NewJobPage> {
   void onFlareCompleted(String unused, ) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
+    NavigationUtil.onJobTapped(context);
   }
 
   void onBackPressed(NewJobPageState pageState) {

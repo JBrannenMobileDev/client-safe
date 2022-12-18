@@ -25,21 +25,6 @@ class LineItemWidget extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              pageState.pageViewIndex != 3 ? GestureDetector(
-                onTap: () {
-                  onDelete(index);
-                },
-                child: Text(
-                  'X  ',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w800,
-                    color: Color(ColorConstants.getPeachDark()),
-                  ),
-                ),
-              ) : SizedBox(),
               Text(
                 lineItem.itemName,
                 textAlign: TextAlign.start,
@@ -75,6 +60,20 @@ class LineItemWidget extends StatelessWidget {
                   color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
+              pageState.pageViewIndex != 3 ? GestureDetector(
+                onTap: () {
+                  onDelete(index);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(left: 16, bottom: 2),
+                  child: Image.asset(
+                    'assets/images/icons/trash_icon_white.png',
+                    color: Color(ColorConstants.getPeachDark()),
+                    height: 26,
+                  )
+                ),
+
+              ) : SizedBox(),
             ],
           )
         ],

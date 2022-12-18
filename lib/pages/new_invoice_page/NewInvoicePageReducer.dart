@@ -258,7 +258,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
       );
       lineItems.add(addOnLineItem);
     }
-    remainingBalance = _calculateSubtotalByLineItem(lineItems) - (action.selectedJob.isDepositPaid() ? action.selectedJob.depositAmount : 0);
+    remainingBalance = _calculateSubtotalByLineItem(lineItems) - (action.selectedJob.isDepositPaid() ? action.selectedJob.depositAmount != null ? action.selectedJob.depositAmount : 0 : 0);
   } else {
     total = _calculateSubtotal(previousState);
     discountAmount = calculateDiscount(previousState, _calculateSubtotal(previousState));

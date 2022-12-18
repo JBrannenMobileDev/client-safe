@@ -407,7 +407,7 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
 }
 
 List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, List<JobType> allJobTypes) {
-  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate.year == DateTime.now().year).toList();
+  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate?.year == DateTime.now().year).toList();
   var groupedList = <String, List<Job>>{};
   List<PieChartSectionData> result = [];
 

@@ -304,7 +304,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
         reminder: ReminderDandyLight(
           description: 'Have you entered your mileage expense?',
           when: WhenSelectionWidget.ON,
-          time: jobToSave.selectedEndTime.add(Duration(hours: 1)) ?? jobToSave.selectedTime.add(Duration(hours: 1)),
+          time: jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2)),
         ),
         hasBeenSeen: false,
       ));

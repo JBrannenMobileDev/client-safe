@@ -41,7 +41,7 @@ class ViewInvoiceDepositRowWidget extends StatelessWidget{
             (invoice.depositPaid
                 ? '-'
                 : '') + '\$' +
-                job.depositAmount.toInt().toString(),
+                (job.depositAmount != null ? job.depositAmount.toInt().toString() : '0'),
             textAlign: TextAlign.start,
             style: TextStyle(
               fontSize: 24.0,

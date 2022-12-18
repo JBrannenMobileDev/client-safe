@@ -112,7 +112,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
           pageStateLocal = pageState;
         },
         builder: (BuildContext context, JobDetailsPageState pageState) {
-          if(pageState.newStagAnimationIndex != -1 || scrollPosition == -2) {
+          if((pageState.newStagAnimationIndex != -1 || scrollPosition == -2) && _stagesScrollController.hasClients) {
             Timer(Duration(milliseconds: 150), () => {
               _stagesScrollController.animateTo(
                 _getScrollToOffset(pageState),

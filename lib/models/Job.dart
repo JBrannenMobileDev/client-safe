@@ -25,7 +25,7 @@ class Job {
   JobType type;
   JobStage stage;
   Invoice invoice;
-  int depositAmount;
+  int depositAmount = 0;
   double addOnCost;
   int tipAmount = 0;
   List<JobStage> completedStages;

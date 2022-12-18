@@ -228,4 +228,12 @@ class JobDao extends Equatable{
     List<Job> jobs = await getAllJobs();
     _deleteAllLocalJobs(jobs);
   }
+
+  static getJobBycreatedDate(DateTime createdDate) async {
+    List<Job> allJobs = await getAllJobs();
+    for(Job job in allJobs){
+      if(job.createdDate.millisecondsSinceEpoch == createdDate.millisecondsSinceEpoch) return job;
+    }
+    return null;
+  }
 }

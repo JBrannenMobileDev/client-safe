@@ -73,8 +73,8 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                           Navigator.of(context).pop();
                         },
                         child: Container(
-                          height: 64.0,
-                          width: 64.0,
+                          height: 96.0,
+                          width: 96.0,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
@@ -97,8 +97,8 @@ class _SendInvoicePromptDialogState extends State<SendInvoicePromptDialog>
                           Navigator.of(context).pop();
                         },
                         child: Container(
-                          height: 64.0,
-                          width: 64.0,
+                          height: 96.0,
+                          width: 96.0,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
