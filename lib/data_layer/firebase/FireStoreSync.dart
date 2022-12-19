@@ -511,7 +511,7 @@ class FireStoreSync {
   void checkForJobComplete() async {
     List<Job> allJobs = await JobDao.getAllJobs();
     for(Job job in allJobs) {
-        if(containsStage(job.type.stages, JobStage.STAGE_7_SESSION_COMPLETE)) {
+        if(job.selectedTime != null && containsStage(job.type.stages, JobStage.STAGE_7_SESSION_COMPLETE)) {
             if(!containsStage(job.completedStages, JobStage.STAGE_7_SESSION_COMPLETE)) {
                 DateTime now = DateTime.now();
                 DateTime selectedDateAndTime = DateTime(job.selectedDate.year, job.selectedDate.month, job.selectedDate.day, job.selectedTime.hour, job.selectedTime.minute);
@@ -532,11 +532,11 @@ class FireStoreSync {
 
   void updateJobToSessionCompleted(Job job) async {
       List<JobStage> completedJobStages = job.completedStages.toList();
-      JobStage stageToComplete = job.type.stages.firstWhere((stage) => stage == JobStage.STAGE_7_SESSION_COMPLETE);
+      JobStage stageToComplete = job.type.stages.firstWhere((stage) => stage.stage == JobStage.STAGE_7_SESSION_COMPLETE);
       int stageIndex = null;
 
       for(int index = 0; index < job.type.stages.length; index++) {
-          if(job.type.stages.elementAt(index) == JobStage.STAGE_7_SESSION_COMPLETE) {
+          if(job.type.stages.elementAt(index).stage == JobStage.STAGE_7_SESSION_COMPLETE) {
               stageIndex = index;
           }
       }
