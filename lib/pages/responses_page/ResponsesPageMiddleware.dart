@@ -28,12 +28,16 @@ class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
 
   void deleteResponse(Store<AppState> store, DeleteResponseAction action) async{
     await ResponseDao.delete(action.item.response.documentId);
+    if(await ResponseDao.getResponseById(action.item.response.documentId) != null) {
+      await ResponseDao.delete(action.item.response.documentId);
+    }
     fetchResponses(store);
     store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
   }
 
   void updateResponse(Store<AppState> store, UpdateResponseAction action) async{
     await ResponseDao.insertOrUpdate(action.responseItem.response);
+    fetchResponses(store);
     store.dispatch(FetchClientDetailsResponsesAction(store.state.clientDetailsPageState));
   }
 
@@ -94,16 +98,6 @@ class ResponsesPageMiddleware extends MiddlewareClass<AppState> {
       }
       responses = await ResponseDao.getAll();
     }
-
     store.dispatch(SetResponsesAction(store.state.responsesPageState, responses));
-
-    (await ResponseDao.getResponseStream()).listen((snapshots) async {
-      List<Response> streamResponses = [];
-      for(RecordSnapshot clientSnapshot in snapshots) {
-        streamResponses.add(Response.fromMap(clientSnapshot.value));
-      }
-
-      store.dispatch(SetResponsesAction(store.state.responsesPageState, responses));
-    });
   }
 }
