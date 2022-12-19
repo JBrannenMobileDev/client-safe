@@ -47,81 +47,95 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
               color: Color(ColorConstants.getPrimaryWhite())),
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 24, bottom: 24.0),
-                child: Text(
-                  'Select a message to send',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: [
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Icon(Icons.close, color: Color(ColorConstants.getPeachDark()),),
                 ),
               ),
-              pageState.showNoSavedResponsesError ? Container(
-                margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 16, bottom: 16),
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.0),
-                    border: Border.all(color: Color(ColorConstants.getPrimaryBackgroundGrey())),
-                    color: Color(ColorConstants.getPrimaryWhite())
-                ),
-                child: Column(
-                  children: [
-                    Text(
-                      'You have not saved any responses yet. Go to your (Response Collection) page to save some response templates.',
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 24, bottom: 24.0),
+                    child: Text(
+                      'Select a message to send',
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 22.0,
+                        fontSize: 24.0,
                         fontFamily: 'simple',
-                        fontWeight: FontWeight.w400,
-                        color: Color(ColorConstants.getPrimaryGreyMedium()),
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          new MaterialPageRoute(builder: (context) => ResponsesPage()),
-                        );
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 54,
-                        width: 200,
-                        margin: EdgeInsets.only(left: 0.0, right: 0.0, top: 16, bottom: 16),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(32.0),
-                            color: Color(ColorConstants.getBlueLight())
-                        ),
-                        child:Text(
-                          'Response Collection',
+                  ),
+                  pageState.showNoSavedResponsesError ? Container(
+                    margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 16, bottom: 16),
+                    padding: EdgeInsets.all(16.0),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16.0),
+                        border: Border.all(color: Color(ColorConstants.getPrimaryBackgroundGrey())),
+                        color: Color(ColorConstants.getPrimaryWhite())
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          'You have not saved any responses yet. Go to your (Response Collection) page to save some response templates.',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 22.0,
                             fontFamily: 'simple',
                             fontWeight: FontWeight.w400,
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                            color: Color(ColorConstants.getPrimaryGreyMedium()),
                           ),
                         ),
-                      ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              new MaterialPageRoute(builder: (context) => ResponsesPage()),
+                            );
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 54,
+                            width: 200,
+                            margin: EdgeInsets.only(left: 0.0, right: 0.0, top: 16, bottom: 16),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(32.0),
+                                color: Color(ColorConstants.getBlueLight())
+                            ),
+                            child:Text(
+                              'Response Collection',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 22.0,
+                                fontFamily: 'simple',
+                                fontWeight: FontWeight.w400,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ) : Container(
-                child: ListView.builder(
-                    padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
-                    itemCount: pageState.items.length,
-                    controller: _controller,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    key: _listKey,
-                    shrinkWrap: true,
-                    reverse: false,
-                    itemBuilder: _buildItem),
+                  ) : Container(
+                    child: ListView.builder(
+                        padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 64.0),
+                        itemCount: pageState.items.length,
+                        controller: _controller,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        key: _listKey,
+                        shrinkWrap: true,
+                        reverse: false,
+                        itemBuilder: _buildItem),
+                  ),
+                ],
               ),
             ],
           ),

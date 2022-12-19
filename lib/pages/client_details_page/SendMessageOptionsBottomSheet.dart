@@ -51,87 +51,101 @@ class _BottomSheetPageState extends State<SendMessageOptionsBottomSheet> with Ti
               borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
               color: Color(ColorConstants.getPrimaryWhite())),
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                margin: EdgeInsets.only(top: 24, bottom: 24.0),
-                child: Text(
-                  'Select a message to send',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  switch(type) {
-                    case SelectSavedResponseBottomSheet.TYPE_SMS:
-                      IntentLauncherUtil.sendSMS(phoneOrEmail);
-                      EventSender().sendEvent(eventName: EventNames.BT_SEND_TEXT);
-                      break;
-                    case SelectSavedResponseBottomSheet.TYPE_EMAIL:
-                      IntentLauncherUtil.sendEmail(phoneOrEmail, '', '');
-                      EventSender().sendEvent(eventName: EventNames.BT_SEND_EMAIL);
-                      break;
-                  }
-                },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 56,
-                  margin: EdgeInsets.only(left: 0.0, right: 0.0, bottom: 16),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Color(ColorConstants.getPeachDark())
-                  ),
-                  child: Text(
-                    'New Message',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
-                  ),
-                ),
-              ),
+          child: Stack(
+            alignment: Alignment.topRight,
+            children: [
               GestureDetector(
                 onTap: () {
                   Navigator.pop(context);
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-                    builder: (context) {
-                      return SelectSavedResponseBottomSheet(type == SelectSavedResponseBottomSheet.TYPE_SMS ? SelectSavedResponseBottomSheet.TYPE_SMS : SelectSavedResponseBottomSheet.TYPE_EMAIL, phoneOrEmail);
-                    },
-                  );
                 },
-                child: Container(
-                  alignment: Alignment.center,
-                  height: 56,
-                  margin: EdgeInsets.only(left: 0.0, right: 0.0, bottom: 32),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.0),
-                      color: Color(ColorConstants.getPeachDark())
-                  ),
-                  child: Text(
-                    'Select Saved Response',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryWhite()),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 8),
+                  child: Icon(Icons.close, color: Color(ColorConstants.getPeachDark()),),
+                ),
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                    margin: EdgeInsets.only(top: 24, bottom: 24.0),
+                    child: Text(
+                      'Select a message to send',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: 24.0,
+                        fontFamily: 'simple',
+                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.primary_black),
+                      ),
                     ),
                   ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      switch(type) {
+                        case SelectSavedResponseBottomSheet.TYPE_SMS:
+                          IntentLauncherUtil.sendSMS(phoneOrEmail);
+                          EventSender().sendEvent(eventName: EventNames.BT_SEND_TEXT);
+                          break;
+                        case SelectSavedResponseBottomSheet.TYPE_EMAIL:
+                          IntentLauncherUtil.sendEmail(phoneOrEmail, '', '');
+                          EventSender().sendEvent(eventName: EventNames.BT_SEND_EMAIL);
+                          break;
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 56,
+                      margin: EdgeInsets.only(left: 0.0, right: 0.0, bottom: 16),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Color(ColorConstants.getPeachDark())
+                      ),
+                      child: Text(
+                        'New Message',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+                        builder: (context) {
+                          return SelectSavedResponseBottomSheet(type == SelectSavedResponseBottomSheet.TYPE_SMS ? SelectSavedResponseBottomSheet.TYPE_SMS : SelectSavedResponseBottomSheet.TYPE_EMAIL, phoneOrEmail);
+                        },
+                      );
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      height: 56,
+                      margin: EdgeInsets.only(left: 0.0, right: 0.0, bottom: 32),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.0),
+                          color: Color(ColorConstants.getPeachDark())
+                      ),
+                      child: Text(
+                        'Select Saved Response',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 22.0,
+                          fontFamily: 'simple',
+                          fontWeight: FontWeight.w600,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

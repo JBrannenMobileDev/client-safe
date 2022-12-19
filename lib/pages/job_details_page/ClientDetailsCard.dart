@@ -10,6 +10,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../client_details_page/SelectSavedResponseBottomSheet.dart';
+import '../client_details_page/SendMessageOptionsBottomSheet.dart';
+
 class ClientDetailsCard extends StatelessWidget {
   ClientDetailsCard({this.pageState});
 
@@ -87,7 +90,15 @@ class ClientDetailsCard extends StatelessWidget {
                     GestureDetector(
                         onTap: () {
                           if(pageState.client.phone != null && pageState.client.phone.length > 0){
-                            onSMSPressed(pageState.client.phone);
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+                              builder: (context) {
+                                return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_SMS, pageState.client.phone);
+                              },
+                            );
                           }else{
                             DandyToastUtil.showErrorToast('No phone number saved yet');
                           }
@@ -142,9 +153,5 @@ class ClientDetailsCard extends StatelessWidget {
 
   void onEmailPressed(String email){
     if(email.isNotEmpty) IntentLauncherUtil.sendEmail(email, "", "");
-  }
-
-  void onSMSPressed(String sms){
-    if(sms.isNotEmpty) IntentLauncherUtil.sendSMS(sms);
   }
 }
