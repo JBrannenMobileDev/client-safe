@@ -3,11 +3,14 @@ import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 import '../../../models/Pose.dart';
+import '../../../utils/EnvironmentUtil.dart';
 
 class PoseCollection {
   Future<void> createPose(Pose pose) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poses')
@@ -19,6 +22,8 @@ class PoseCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('poses')
@@ -31,6 +36,8 @@ class PoseCollection {
 
   Stream<QuerySnapshot> getPosesStream() {
     return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poses')
@@ -40,6 +47,8 @@ class PoseCollection {
   Future<Pose> getPose(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poses')
@@ -55,6 +64,8 @@ class PoseCollection {
   Future<List<Pose>> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poses')
@@ -68,6 +79,8 @@ class PoseCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('poses')

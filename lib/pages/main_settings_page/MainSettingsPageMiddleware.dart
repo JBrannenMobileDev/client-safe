@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
+import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -107,7 +108,10 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   void sendSuggestion(Store<AppState> store, SendSuggestionAction action, NextDispatcher next) async{
     Suggestion suggestion = Suggestion(message: action.suggestion, userId: UidUtil().getUid(), dateSubmitted: DateTime.now());
     final databaseReference = FirebaseFirestore.instance;
-    await databaseReference.collection('suggestions')
+    await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
+        .collection('suggestions')
         .doc(suggestion.userId)
         .set(suggestion.toMap());
   }

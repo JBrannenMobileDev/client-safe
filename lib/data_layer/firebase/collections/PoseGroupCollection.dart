@@ -2,10 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/PoseGroup.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
+import '../../../utils/EnvironmentUtil.dart';
+
 class PoseGroupCollection {
   Future<void> createPoseGroup(PoseGroup group) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poseGroups')
@@ -17,6 +21,8 @@ class PoseGroupCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('poseGroups')
@@ -29,6 +35,8 @@ class PoseGroupCollection {
 
   Stream<QuerySnapshot> getPoseGroupStream() {
     return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poseGroups')
@@ -38,6 +46,8 @@ class PoseGroupCollection {
   Future<PoseGroup> getPoseGroup(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poseGroups')
@@ -53,6 +63,8 @@ class PoseGroupCollection {
   Future<List<PoseGroup>> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('poseGroups')
@@ -66,6 +78,8 @@ class PoseGroupCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('poseGroups')

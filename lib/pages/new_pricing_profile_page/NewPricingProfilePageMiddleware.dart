@@ -31,7 +31,7 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       profileName: store.state.pricingProfilePageState.profileName,
       flatRate: store.state.pricingProfilePageState.flatRate.toDouble(),
       icon: ImageUtil.getRandomPriceProfileIcon(),
-      deposit: store.state.pricingProfilePageState.deposit,
+      deposit: store.state.pricingProfilePageState.deposit != null ? store.state.pricingProfilePageState.deposit.toDouble() : 0,
     );
     await PriceProfileDao.insertOrUpdate(priceProfile);
     EventSender().sendEvent(eventName: EventNames.CREATED_PRICE_PACKAGE, properties: {
@@ -42,11 +42,13 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
     PriceProfile newProfileWithDocumentId = await PriceProfileDao.getByNameAndPrice(priceProfile.profileName, priceProfile.flatRate);
     store.dispatch(prefix0.UpdateWithNewPricePackageAction(store.state.newJobPageState, newProfileWithDocumentId));
+    store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
   }
 
   void _deletePricingProfile(Store<AppState> store, action, NextDispatcher next) async{
     await PriceProfileDao.delete(PriceProfile(id: store.state.pricingProfilePageState.id, documentId: store.state.pricingProfilePageState.documentId));
     store.dispatch(FetchPricingProfilesAction(store.state.pricingProfilesPageState));
+    store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 }

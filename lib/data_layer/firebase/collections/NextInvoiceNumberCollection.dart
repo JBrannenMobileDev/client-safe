@@ -3,11 +3,16 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/NextInvoiceNumber.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
+import '../../../utils/EnvironmentUtil.dart';
+
 class NextInvoiceNumberCollection {
   static const String singletonItemId = 'singletonItem';
   Future<void> updateNextInvoiceNumber(NextInvoiceNumber number) async {
     final databaseReference = FirebaseFirestore.instance;
-    await databaseReference.collection('users')
+    await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
+        .collection('users')
         .doc(UidUtil().getUid())
         .collection('nextInvoiceNumber')
         .doc(singletonItemId)
@@ -16,6 +21,8 @@ class NextInvoiceNumberCollection {
 
   Stream<DocumentSnapshot> getStream() {
     return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('nextInvoiceNumber')
@@ -25,7 +32,10 @@ class NextInvoiceNumberCollection {
 
   Future<void> setStartingValue(int startingValue) async {
     final databaseReference = FirebaseFirestore.instance;
-    await databaseReference.collection('users')
+    await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
+        .collection('users')
         .doc(UidUtil().getUid())
         .collection('nextInvoiceNumber')
         .doc(singletonItemId)
@@ -35,6 +45,8 @@ class NextInvoiceNumberCollection {
   Future<NextInvoiceNumber> getNextInvoiceNumber(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await  databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(uid)
         .collection('nextInvoiceNumber')

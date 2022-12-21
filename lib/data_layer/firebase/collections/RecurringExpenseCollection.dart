@@ -2,10 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
+import '../../../utils/EnvironmentUtil.dart';
+
 class RecurringExpenseCollection {
   Future<void> createRecurringExpense(RecurringExpense expense) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('recurringExpenses')
@@ -17,6 +21,8 @@ class RecurringExpenseCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('recurringExpenses')
@@ -29,6 +35,8 @@ class RecurringExpenseCollection {
 
   Stream<QuerySnapshot> getExpensesStream() {
     return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('recurringExpenses')
@@ -38,6 +46,8 @@ class RecurringExpenseCollection {
   Future<RecurringExpense> getRecurringExpense(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('recurringExpenses')
@@ -53,6 +63,8 @@ class RecurringExpenseCollection {
   Future<List<RecurringExpense>> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('recurringExpenses')
@@ -66,6 +78,8 @@ class RecurringExpenseCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('recurringExpenses')

@@ -2,11 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
 import '../../../models/Contract.dart';
+import '../../../utils/EnvironmentUtil.dart';
 
 class ContractCollection {
   Future<void> createContract(Contract contract) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('contracts')
@@ -18,6 +21,8 @@ class ContractCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('contracts')
@@ -30,6 +35,8 @@ class ContractCollection {
 
   Stream<QuerySnapshot> getContractsStream() {
     return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('contracts')
@@ -39,6 +46,8 @@ class ContractCollection {
   Future<Contract> getContract(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('contracts')
@@ -54,6 +63,8 @@ class ContractCollection {
   Future<List<Contract>> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('contracts')
@@ -67,6 +78,8 @@ class ContractCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('contracts')

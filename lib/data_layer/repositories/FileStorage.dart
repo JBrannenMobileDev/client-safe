@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/models/Contract.dart';
+import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -244,14 +245,14 @@ class FileStorage {
   }
 
   static String _buildLocationImagePath(Location location) {
-    return "/images/${UidUtil().getUid()}/locations/${location.documentId}.jpg";
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/locations/${location.documentId}.jpg";
   }
 
   static String _buildPoseImagePath(Pose pose) {
-    return "/images/${UidUtil().getUid()}/poses/${pose.documentId}.jpg";
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/poses/${pose.documentId}.jpg";
   }
 
   static String _buildContractFilePath(Contract contract) {
-    return "/files/${UidUtil().getUid()}/contracts/${contract.documentId}.pdf";
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/files/${UidUtil().getUid()}/contracts/${contract.documentId}.pdf";
   }
 }

@@ -52,7 +52,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                 Container(
                   margin: EdgeInsets.only(bottom: 0.0, left: 8.0),
                   child: Text(
-                    "Select what reminders you want for this job type.",
+                    "Select what reminders you want for this job type. You may also add your own.",
                     textAlign: TextAlign.start,
                     style: TextStyle(
                       fontSize: 20.0,

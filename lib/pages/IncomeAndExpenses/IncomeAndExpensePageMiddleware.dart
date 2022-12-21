@@ -16,6 +16,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -65,11 +66,20 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetPaymentRequestAsSeen) {
       _setPaymentRequestAsSeen(store, action);
     }
+    if(action is SetIncomeInfoSeenAction) {
+      _setInfoScreenAsSeen(store, action);
+    }
   }
 
   void _setPaymentRequestAsSeen(Store<AppState> store, SetPaymentRequestAsSeen action) async{
    action.pageState.profile.showRequestPaymentLinksDialog = false;
    ProfileDao.update(action.pageState.profile);
+  }
+
+  void _setInfoScreenAsSeen(Store<AppState> store, SetIncomeInfoSeenAction action) async{
+    action.pageState.profile.hasSeenIncomeInfo = true;
+    ProfileDao.update(action.pageState.profile);
+    store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, action.pageState.profile));
   }
 
   void _fetchCompletedJobs(Store<AppState> store, UpdateSelectedYearAction action) async{
@@ -196,14 +206,7 @@ class IncomeAndExpensePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchInvoices(Store<AppState> store, NextDispatcher next) async{
-      List<Profile> profiles = await ProfileDao.getAll();
-      if(profiles != null && profiles.length > 0) {
-        store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profiles.elementAt(0)));
-      }else {
-        Profile profile = Profile(latDefaultHome: 0.0, lngDefaultHome: 0.0);
-        await ProfileDao.insertOrUpdate(profile);
-        store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, profile));
-      }
+      store.dispatch(SetProfileAction(store.state.incomeAndExpensesPageState, await ProfileDao.getMatchingProfile(UidUtil().getUid())));
       store.dispatch(SetAllInvoicesAction(store.state.incomeAndExpensesPageState, await InvoiceDao.getAllSortedByDueDate()));
 
       (await InvoiceDao.getInvoiceStream()).listen((invoiceSnapshots) async {

@@ -2,10 +2,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
+import '../../../utils/EnvironmentUtil.dart';
+
 class InvoiceCollection {
   Future<void> createInvoice(Invoice invoice) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('invoices')
@@ -17,6 +21,8 @@ class InvoiceCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('invoices')
@@ -29,6 +35,8 @@ class InvoiceCollection {
 
   Stream<QuerySnapshot> getInvoiceStream() {
     return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('invoices')
@@ -38,6 +46,8 @@ class InvoiceCollection {
   Future<Invoice> getInvoice(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('invoices')
@@ -49,6 +59,8 @@ class InvoiceCollection {
   Future<List<Invoice>> getAllInvoicesSortedByDate(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('invoices')
@@ -59,6 +71,8 @@ class InvoiceCollection {
   Future<void> replaceInvoice(Invoice invoice) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('invoices')
@@ -70,6 +84,8 @@ class InvoiceCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('invoices')
@@ -93,6 +109,8 @@ class InvoiceCollection {
   Future<Invoice> getInvoiceByInvoiceNumber(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('invoices')

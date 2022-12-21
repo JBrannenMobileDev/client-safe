@@ -36,7 +36,7 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
               child: Text(
-                "Enter a simple and descriptive name for this price profile. \n\ne.g. (One Hour Price) or (Fall Special Price)",
+                "Enter a simple and descriptive name for this price profile. \n\n(Example: One Hour Price, Fall Special Price)",
                 textAlign: TextAlign.start,
                 style: TextStyle(
                   fontSize: 20.0,

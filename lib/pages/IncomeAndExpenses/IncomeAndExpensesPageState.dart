@@ -81,6 +81,7 @@ class IncomeAndExpensesPageState {
   final double totalMilesDriven;
   final Function(MileageExpense) onMileageExpenseItemSelected;
   final Function() setPaymentRequestAsSeen;
+  final Function() onIncomeInfoSeen;
 
   IncomeAndExpensesPageState({
     @required this.filterType,
@@ -144,6 +145,7 @@ class IncomeAndExpensesPageState {
     @required this.thisMonthLastYearIncome,
     @required this.lineChartMonthData,
     @required this.setPaymentRequestAsSeen,
+    @required this.onIncomeInfoSeen,
   });
 
   IncomeAndExpensesPageState copyWith({
@@ -208,6 +210,7 @@ class IncomeAndExpensesPageState {
     int thisMonthLastYearIncome,
     List<LineChartMonthData> lineChartMonthData,
     Function() setPaymentRequestAsSeen,
+    Function() onIncomeInfoSeen,
   }){
     return IncomeAndExpensesPageState(
       filterType: filterType?? this.filterType,
@@ -271,6 +274,7 @@ class IncomeAndExpensesPageState {
       thisMonthLastYearIncome: thisMonthLastYearIncome ?? this.thisMonthLastYearIncome,
       lineChartMonthData: lineChartMonthData ?? this.lineChartMonthData,
       setPaymentRequestAsSeen: setPaymentRequestAsSeen ?? this.setPaymentRequestAsSeen,
+      onIncomeInfoSeen: onIncomeInfoSeen ?? this.onIncomeInfoSeen,
     );
   }
 
@@ -336,6 +340,7 @@ class IncomeAndExpensesPageState {
     thisMonthLastYearIncome: 0,
     lineChartMonthData: [],
     setPaymentRequestAsSeen: null,
+    onIncomeInfoSeen: null,
   );
 
   factory IncomeAndExpensesPageState.fromStore(Store<AppState> store) {
@@ -404,6 +409,7 @@ class IncomeAndExpensesPageState {
       onResumeRecurringSubscriptionSelected: (expense) => store.dispatch(SaveResumedSubscriptionAction(store.state.incomeAndExpensesPageState, expense)),
       onMileageExpenseItemSelected: (expense) => store.dispatch(LoadExistingMileageExpenseAction(store.state.newMileageExpensePageState, expense)),
       setPaymentRequestAsSeen: () => store.dispatch(SetPaymentRequestAsSeen(store.state.incomeAndExpensesPageState)),
+      onIncomeInfoSeen: () => store.dispatch(SetIncomeInfoSeenAction(store.state.incomeAndExpensesPageState)),
     );
   }
 
@@ -441,6 +447,7 @@ class IncomeAndExpensesPageState {
       paidInvoices.hashCode ^
       totalTips.hashCode ^
       totalMilesDriven.hashCode ^
+      onIncomeInfoSeen.hashCode ^
       mileageExpensesForSelectedYearTotal.hashCode ^
       allMileageExpenses.hashCode ^
       mileageExpensesForSelectedYear.hashCode ^
@@ -523,5 +530,6 @@ class IncomeAndExpensesPageState {
               lastMonthIncome == other.lastMonthIncome &&
               thisMonthLastYearIncome == other.thisMonthLastYearIncome &&
               lineChartMonthData == other.lineChartMonthData &&
+              onIncomeInfoSeen == other.onIncomeInfoSeen &&
               onYearChanged == other.onYearChanged;
 }

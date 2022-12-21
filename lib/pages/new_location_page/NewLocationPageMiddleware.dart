@@ -97,6 +97,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     if(location != null) {
       await LocationDao.delete(action.pageState.documentId);
     }
+    await Future.delayed(Duration(seconds: 1));
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }

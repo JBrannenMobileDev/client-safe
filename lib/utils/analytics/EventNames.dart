@@ -147,4 +147,7 @@ class EventNames {
   static const String BUSINESS_NAME_ENTERED = "business_name_entered";
   static const String PASSWORD_ENTERED = "password_entered";
 
+  //Api results
+  static const String API_CREATE_ACCOUNT_SUCCESS = "api_create_account_success";
+
 }

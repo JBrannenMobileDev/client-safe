@@ -3,10 +3,14 @@ import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 
+import '../../../utils/EnvironmentUtil.dart';
+
 class ReminderCollection {
   Future<void> createReminder(ReminderDandyLight reminder) async {
     final databaseReference = FirebaseFirestore.instance;
     await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('reminders')
@@ -20,6 +24,8 @@ class ReminderCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('reminders')
@@ -32,6 +38,8 @@ class ReminderCollection {
 
   Stream<QuerySnapshot> getReminderStream() {
     return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('reminders')
@@ -41,6 +49,8 @@ class ReminderCollection {
   Future<ReminderDandyLight> getReminder(String documentId) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('reminders')
@@ -56,6 +66,8 @@ class ReminderCollection {
   Future<List<ReminderDandyLight>> getAll(String uid) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
         .collection('users')
         .doc(UidUtil().getUid())
         .collection('reminders')
@@ -69,6 +81,8 @@ class ReminderCollection {
     try {
       final databaseReference = FirebaseFirestore.instance;
       await databaseReference
+          .collection('env')
+          .doc(EnvironmentUtil().getCurrentEnvironment())
           .collection('users')
           .doc(UidUtil().getUid())
           .collection('reminders')

@@ -29,9 +29,9 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   final GlobalKey<ScaffoldState> scaffoldKey;
   OverlayEntry overlayEntry;
   final FocusNode flatRateInputFocusNode = new FocusNode();
-  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
+  var flatRateTextController = TextEditingController();
   final FocusNode depositInputFocusNode = new FocusNode();
-  var depositTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '', thousandSeparator: ',', precision: 0);
+  var depositTextController = TextEditingController();
   int selectorIndex = 0;
 
   _RateTypeSelection(this.scaffoldKey);
@@ -41,19 +41,15 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
     super.build(context);
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (appState) {
-        if(appState.state.pricingProfilePageState.flatRate.toInt() == 0) {
-          flatRateTextController.text = '';
-        } else {
-          flatRateTextController.text = '\$' + appState.state.pricingProfilePageState.flatRate.toInt().toString();
+        if(appState.state.pricingProfilePageState.flatRate != null) {
+          flatRateTextController.text = ('\$ ' + appState.state.pricingProfilePageState.flatRate.toString());
+          flatRateTextController.selection = TextSelection.collapsed(offset: flatRateTextController.text.length);
         }
-        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
 
-        if(appState.state.pricingProfilePageState.deposit.toInt() == 0) {
-          depositTextController.text = '';
-        } else {
-          depositTextController.text = '\$' + appState.state.pricingProfilePageState.deposit.toInt().toString();
+        if(appState.state.pricingProfilePageState.deposit != null) {
+          depositTextController.text = ('\$ ' + appState.state.pricingProfilePageState.deposit.toString());
+          depositTextController.selection = TextSelection.collapsed(offset: depositTextController.text.length);
         }
-        depositTextController.selection = TextSelection.fromPosition(TextPosition(offset: depositTextController.text.length));
 
        KeyboardVisibilityNotification().addNewListener(
             onShow: () {
@@ -82,6 +78,17 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
             removeOverlay();
         });
       },
+      onDidChange: (prev, curr) {
+        if(curr.flatRate != null) {
+          flatRateTextController.text = ('\$ ' + curr.flatRate.toString());
+          flatRateTextController.selection = TextSelection.collapsed(offset: flatRateTextController.text.length);
+        }
+
+        if(curr.deposit != null) {
+          depositTextController.text = ('\$ ' + curr.deposit.toString());
+          depositTextController.selection = TextSelection.collapsed(offset: depositTextController.text.length);
+        }
+      },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           Stack(
@@ -108,7 +115,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     padding: EdgeInsets.only(left: 24.0, right: 24.0),
                     child: DandyLightTextField(
                       controller: flatRateTextController,
-                      hintText: "Price",
+                      hintText: "\$ 0",
                       labelText: "Price",
                       inputType: TextInputType.number,
                       focusNode: flatRateInputFocusNode,
@@ -122,7 +129,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     padding: EdgeInsets.only(left: 24.0, right: 24.0),
                     child: DandyLightTextField(
                       controller: depositTextController,
-                      hintText: "Deposit",
+                      hintText: "\$ 0",
                       labelText: "Deposit",
                       inputType: TextInputType.number,
                       focusNode: depositInputFocusNode,

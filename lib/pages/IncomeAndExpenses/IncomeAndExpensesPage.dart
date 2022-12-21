@@ -3,6 +3,7 @@ import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageActions.
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeInsights.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/MileageExpensesCard.dart';
+import 'package:dandylight/pages/IncomeAndExpenses/PageExplainationBottomSheet.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/PaidInvoiceCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpensesCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseCard.dart';
@@ -41,6 +42,20 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
   Map<int, Widget> tabs;
   bool isFabExpanded = false;
 
+  void _showInfoSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return PageExplainationBottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     tabs = <int, Widget>{
@@ -65,6 +80,11 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(FetchRecurringExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchMileageExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(UpdateSelectedYearAction(appState.state.incomeAndExpensesPageState, DateTime.now().year));
+        if(!appState.state.dashboardPageState.profile.hasSeenIncomeInfo) {
+          Future.delayed(Duration(seconds: 1), () {
+            _showInfoSheet(context);
+          });
+        }
       },
         converter: (store) => IncomeAndExpensesPageState.fromStore(store),
         builder: (BuildContext context, IncomeAndExpensesPageState pageState) => Stack(

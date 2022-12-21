@@ -214,3 +214,8 @@ class SetProfileAction{
   final Profile profile;
   SetProfileAction(this.pageState, this.profile);
 }
+
+class SetIncomeInfoSeenAction{
+  final IncomeAndExpensesPageState pageState;
+  SetIncomeInfoSeenAction(this.pageState);
+}

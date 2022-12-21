@@ -103,50 +103,13 @@ class _LocationSelectionFormState
                   Padding(
                     padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
                     child: Text(
-                      "You do ot have any locations saved to your collection. Select the + Location button to create a new location.",
+                      "You don't have any locations saved to your collection. Select the + icon to create a new location.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 20.0,
                         fontFamily: 'simple',
                         fontWeight: FontWeight.w600,
                         color: Color(ColorConstants.primary_black),
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    style: Styles.getButtonStyle(
-                      color: Color(ColorConstants.getPrimaryColor()),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(24.0),
-                      ),
-                    ),
-                    onPressed: () {
-                      NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
-                    },
-                    child: Container(
-                      width: 150.0,
-                      child: Row(
-
-                        children: <Widget>[
-                          IconButton(
-                            icon: const Icon(Icons.add),
-                            color: Color(ColorConstants.white),
-                            tooltip: 'Add',
-                            onPressed: () {
-                              NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
-                            },
-                          ),
-                          Text(
-                            "Location",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ),

@@ -18,7 +18,7 @@ class NewPricingProfilePageState {
   final String profileName;
   final String profileIcon;
   final int flatRate;
-  final double deposit;
+  final int deposit;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -62,7 +62,7 @@ class NewPricingProfilePageState {
     String profileIcon,
     String rateType,
     int flatRate,
-    double deposit,
+    int deposit,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -105,7 +105,7 @@ class NewPricingProfilePageState {
         shouldClear: true,
         profileName: "",
         profileIcon: 'assets/images/collection_icons/pricing_profile_icons/piggy_bank_icon_gold.png',
-        flatRate: 0,
+        flatRate: null,
         onSavePressed: null,
         onCancelPressed: null,
         onNextPressed: null,
@@ -116,7 +116,7 @@ class NewPricingProfilePageState {
         onFilterChanged: null,
         onFlatRateTextChanged: null,
         onDepositTextChanged: null,
-        deposit: 0,
+        deposit: null,
       );
 
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {

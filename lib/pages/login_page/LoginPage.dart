@@ -98,17 +98,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       currentPageIndex = controller.page.toInt();
     });
 
-    final duration = Duration(seconds: 8);
-    Timer.periodic(duration, (timer) {
-      // Stop the timer when it matches a condition
-      if (controller.hasClients && currentPageIndex < pageCount - 1) {
-        currentPageIndex = currentPageIndex + 1;
-        controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 350), curve: Curves.ease);
-      } else {
-        currentPageIndex = 0;
-        if(controller.hasClients) controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
-      }
-    });
+    // final duration = Duration(seconds: 8);
+    // Timer.periodic(duration, (timer) {
+    //   // Stop the timer when it matches a condition
+    //   if (controller.hasClients && currentPageIndex < pageCount - 1) {
+    //     currentPageIndex = currentPageIndex + 1;
+    //     controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 350), curve: Curves.ease);
+    //   } else {
+    //     currentPageIndex = 0;
+    //     if(controller.hasClients) controller.animateToPage(currentPageIndex, duration: Duration(milliseconds: 150), curve: Curves.ease);
+    //   }
+    // });
 
     loginEmailFocusNode.addListener(() {
       if(loginEmailFocusNode.hasFocus || loginPasswordFocusNode.hasFocus){

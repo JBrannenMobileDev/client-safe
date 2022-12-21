@@ -27,7 +27,7 @@ NewPricingProfilePageState _updateDepositAmount(NewPricingProfilePageState previ
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
   return previousState.copyWith(
-    deposit: doubleCost,
+    deposit: doubleCost.toInt(),
   );
 }
 

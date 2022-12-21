@@ -184,6 +184,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         VibrateUtil.vibrateMultiple();
       });
       if(user != null) {
+        await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS);
         await EventSender().setUserIdentity(user.uid);
         await EventSender().setUserProfileData(EventNames.FIRST_NAME, store.state.loginPageState.firstName);
         await EventSender().setUserProfileData(EventNames.LAST_NAME, store.state.loginPageState.lastName);

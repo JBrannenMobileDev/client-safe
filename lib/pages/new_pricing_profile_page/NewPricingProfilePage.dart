@@ -264,7 +264,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
         return Device.get().isIos ?
         CupertinoAlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          content: new Text('This price package will permanently deleted.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
@@ -282,7 +282,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
           ],
         ) : AlertDialog(
           title: new Text('Are you sure?'),
-          content: new Text('This price package will be gone for good!'),
+          content: new Text('This price package will permanently deleted.'),
           actions: <Widget>[
             TextButton(
               style: Styles.getButtonStyle(),
