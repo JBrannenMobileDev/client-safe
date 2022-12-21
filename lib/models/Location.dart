@@ -6,6 +6,7 @@ class Location {
   double longitude;
   String address;
   int numOfSessionsAtThisLocation;
+  String imageUrl;
 
 
   Location({
@@ -15,7 +16,8 @@ class Location {
     this.latitude,
     this.longitude,
     this.address,
-    this.numOfSessionsAtThisLocation
+    this.numOfSessionsAtThisLocation,
+    this.imageUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,7 +27,8 @@ class Location {
       'latitude' : latitude,
       'longitude' : longitude,
       'address' : address,
-      'numOfSessionsAtThisLocation' : numOfSessionsAtThisLocation
+      'numOfSessionsAtThisLocation' : numOfSessionsAtThisLocation,
+      'imageUrl' : imageUrl,
     };
   }
 
@@ -36,7 +39,8 @@ class Location {
       latitude: map['latitude'],
       longitude: map['longitude'],
       address: map['address'],
-      numOfSessionsAtThisLocation: map['numOfSessionsAtThisLocation']
+      numOfSessionsAtThisLocation: map['numOfSessionsAtThisLocation'],
+      imageUrl: map['imageUrl'],
     );
   }
 }

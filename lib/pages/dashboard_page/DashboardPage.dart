@@ -84,9 +84,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   Tween<Offset> offsetDownTween;
 
   void _startShowcase() {
-    Future.delayed(Duration(milliseconds: 3000), () {
-      ShowCaseWidget.of(context).startShowCase([_one, _two, _three]);
-    });
+    ShowCaseWidget.of(context).startShowCase([_one, _two, _three]);
   }
 
   initState() {

@@ -58,154 +58,156 @@ class _NewLocationPageState extends State<NewLocationPage> {
       },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
-          Dialog(
+          Scaffold(
                 backgroundColor: Colors.transparent,
-                child: Container(
-                  width: 375.0,
-                  padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
-                  decoration: new BoxDecoration(
-                      color: Color(ColorConstants.white),
-                      borderRadius: new BorderRadius.all(Radius.circular(16.0))),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 16.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            !pageState.shouldClear ? GestureDetector(
-                              onTap: () {
-                                _ackAlert(context, pageState);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(left: 32.0),
-                                height: 24.0,
-                                width: 24.0,
-                                child: Image.asset(
-                                    'assets/images/icons/trash_icon_blue.png'),
-                              ),
-                            ) : SizedBox(),
-                            Text(
-                              pageState.shouldClear ? "New Location" : "Edit Location",
-                              textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 26.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
-                            ),
-                            !pageState.shouldClear ? Container(
-                              margin: EdgeInsets.only(right: 18.0),
-                              child: IconButton(
-                                icon: const Icon(Icons.save),
-                                tooltip: 'Save',
-                                color: Color(ColorConstants.getBlueDark()),
-                                onPressed: () {
-                                  showSuccessAnimation();
-                                  pageState.onSaveLocationSelected();
+                body: Center(
+                  child: Container(
+                    width: 375,
+                    padding: EdgeInsets.only(top: 26.0, bottom: 18.0),
+                    decoration: new BoxDecoration(
+                        color: Color(ColorConstants.white),
+                        borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              !pageState.shouldClear ? GestureDetector(
+                                onTap: () {
+                                  _ackAlert(context, pageState);
                                 },
+                                child: Container(
+                                  margin: EdgeInsets.only(left: 32.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset(
+                                      'assets/images/icons/trash_icon_blue.png'),
+                                ),
+                              ) : SizedBox(),
+                              Text(
+                                pageState.shouldClear ? "New Location" : "Edit Location",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                  fontSize: 26.0,
+                                  fontFamily: 'simple',
+                                  fontWeight: FontWeight.w600,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
                               ),
-                            ) : SizedBox(),
-                          ],
+                              !pageState.shouldClear ? Container(
+                                margin: EdgeInsets.only(right: 18.0),
+                                child: IconButton(
+                                  icon: const Icon(Icons.save),
+                                  tooltip: 'Save',
+                                  color: Color(ColorConstants.getBlueDark()),
+                                  onPressed: () {
+                                    showSuccessAnimation();
+                                    pageState.onSaveLocationSelected();
+                                  },
+                                ),
+                              ) : SizedBox(),
+                            ],
+                          ),
                         ),
-                      ),
-                      Container(
-                        height: 200.0,
-                        child: PageView(
-                          physics: NeverScrollableScrollPhysics(),
-                          controller: controller,
-                          pageSnapping: true,
-                          children: <Widget>[
-                            NewLocationName(),
-                            NewLocationMapViewPage(showMapIcon),
-                            NewLocationImage(),
-                          ],
+                        Container(
+                          height: 200.0,
+                          child: PageView(
+                            physics: NeverScrollableScrollPhysics(),
+                            controller: controller,
+                            pageSnapping: true,
+                            children: <Widget>[
+                              NewLocationName(),
+                              NewLocationMapViewPage(showMapIcon),
+                              NewLocationImage(),
+                            ],
+                          ),
                         ),
-                      ),
-                      pageState.pageViewIndex == 2 && pageState.imagePath != null ? Container(
-                        decoration: BoxDecoration(
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                          borderRadius: new BorderRadius.circular(16.0),
-                        ),
-                        height: 150.0,
-                        width: 200.0,
+                        pageState.pageViewIndex == 2 && pageState.imagePath != null ? Container(
+                          decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            borderRadius: new BorderRadius.circular(16.0),
+                          ),
+                          height: 150.0,
+                          width: 200.0,
 
-                        child: pageState.imagePath!= null ? Container(
-                            decoration: BoxDecoration(
-                              borderRadius: new BorderRadius.circular(16.0),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: getSavedImage(pageState),
-                              ),
-                            )
+                          child: pageState.imagePath!= null ? Container(
+                              decoration: BoxDecoration(
+                                borderRadius: new BorderRadius.circular(16.0),
+                                image: DecorationImage(
+                                  fit: BoxFit.cover,
+                                  image: getSavedImage(pageState),
+                                ),
+                              )
+                          ) : SizedBox(),
                         ) : SizedBox(),
-                      ) : SizedBox(),
-                      Padding(
-                        padding: EdgeInsets.only(left: 26.0, right: 26.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            TextButton(
-                              style: Styles.getButtonStyle(
-                                color: Colors.white,
-                                textColor: Color(ColorConstants.primary_black),
-                                left: 8.0,
-                                top: 8.0,
-                                right: 8.0,
-                                bottom: 8.0,
-                              ),
-                              // disabledColor: Colors.white,
-                              // disabledTextColor:
-                              // Color(ColorConstants.primary_bg_grey),
-                              // splashColor: Color(ColorConstants.getPrimaryColor()),
-                              onPressed: () {
-                                onBackPressed(pageState);
-                              },
-                              child: Text(
-                                pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                        Padding(
+                          padding: EdgeInsets.only(left: 26.0, right: 26.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Colors.white,
+                                  textColor: Color(ColorConstants.primary_black),
+                                  left: 8.0,
+                                  top: 8.0,
+                                  right: 8.0,
+                                  bottom: 8.0,
+                                ),
+                                // disabledColor: Colors.white,
+                                // disabledTextColor:
+                                // Color(ColorConstants.primary_bg_grey),
+                                // splashColor: Color(ColorConstants.getPrimaryColor()),
+                                onPressed: () {
+                                  onBackPressed(pageState);
+                                },
+                                child: Text(
+                                  pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                            TextButton(
-                              style: Styles.getButtonStyle(
-                                color: Colors.white,
-                                textColor: Color(ColorConstants.primary_black),
-                                left: 8.0,
-                                top: 8.0,
-                                right: 8.0,
-                                bottom: 8.0,
-                              ),
-                              // disabledColor: Colors.white,
-                              // disabledTextColor:
-                              // Color(ColorConstants.primary_bg_grey),
-                              // splashColor: Color(ColorConstants.getPrimaryColor()),
-                              onPressed: () {
-                                onNextPressed(pageState);
-                              },
-                              child: Text(
-                                pageState.pageViewIndex == pageCount ? 'Save' : 'Next',
-                                textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
+                              TextButton(
+                                style: Styles.getButtonStyle(
+                                  color: Colors.white,
+                                  textColor: Color(ColorConstants.primary_black),
+                                  left: 8.0,
+                                  top: 8.0,
+                                  right: 8.0,
+                                  bottom: 8.0,
+                                ),
+                                // disabledColor: Colors.white,
+                                // disabledTextColor:
+                                // Color(ColorConstants.primary_bg_grey),
+                                // splashColor: Color(ColorConstants.getPrimaryColor()),
+                                onPressed: () {
+                                  onNextPressed(pageState);
+                                },
+                                child: Text(
+                                  pageState.pageViewIndex == pageCount ? 'Save' : 'Next',
+                                  textAlign: TextAlign.start,
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.primary_black),
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -241,6 +243,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
     }
 
     if (pageState.pageViewIndex == pageCount) {
+      Navigator.of(context).pop();
       showSuccessAnimation();
       pageState.onSaveLocationSelected();
     }
@@ -255,16 +258,16 @@ class _NewLocationPageState extends State<NewLocationPage> {
           title: new Text('Are you sure?'),
           content: new Text('This location will be gone for good!'),
           actions: <Widget>[
-        TextButton(
+            TextButton(
             style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
+              onPressed: () => Navigator.of(context).pop(),
               child: new Text('No'),
             ),
             TextButton(
               style: Styles.getButtonStyle(),
               onPressed: () {
+                Navigator.of(context).pop();
                 pageState.onDeleteSelected();
-                Navigator.of(context).pop(true);
               },
               child: new Text('Yes'),
             ),
@@ -311,7 +314,6 @@ class _NewLocationPageState extends State<NewLocationPage> {
   }
 
   void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
   }
 

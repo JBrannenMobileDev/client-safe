@@ -21,9 +21,9 @@ import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 
 class LocationListWidget extends StatelessWidget {
-  final int locationIndex;
+  final int index;
 
-  LocationListWidget(this.locationIndex);
+  LocationListWidget(this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -33,26 +33,20 @@ class LocationListWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              pageState.isLoadingImages ? Container(
-                margin: EdgeInsets.only(bottom: 28.0),
-                decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                  borderRadius: new BorderRadius.circular(16.0),
-                ),
-              ) : Container(
+              pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty) ?
+           Container(
                 margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getPrimaryWhite()),
                   borderRadius: new BorderRadius.circular(16.0),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: pageState.locationImages.isNotEmpty && locationIndex < pageState.locationImages.length
-                        ? FileImage(pageState.locationImages.elementAt(locationIndex))
+                    image: pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index).path.isNotEmpty
+                        ? FileImage(pageState.locationImages.elementAt(index))
                         : AssetImage("assets/images/backgrounds/image_background.png"),
                   ),
                 ),
-              ),
-              pageState.isLoadingImages ? Container(
+              ) : Container(
                   margin: EdgeInsets.only(bottom: 28.0),
                   height: double.infinity,
                 width: double.infinity,
@@ -64,8 +58,8 @@ class LocationListWidget extends StatelessWidget {
                   color: Color(ColorConstants.getBlueDark()),
                   size: 32,
                 ),
-              ) : SizedBox(),
-              pageState.isLoadingImages ? SizedBox() : Container(
+              ),
+              pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty)  ? Container(
                 height: 96.0,
                 margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
@@ -82,8 +76,8 @@ class LocationListWidget extends StatelessWidget {
                           0.0,
                           1.0
                         ])),
-              ),
-              pageState.isLoadingImages ? SizedBox() :Container(
+              ) : SizedBox(),
+              pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty) ? Container(
                 margin: EdgeInsets.only(bottom: 32.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -92,39 +86,39 @@ class LocationListWidget extends StatelessWidget {
                     IconButton(
                       iconSize: 26.0,
                       icon: const Icon(Icons.directions),
-                      color: Color(pageState.locations.elementAt(locationIndex) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
+                      color: Color(pageState.locations.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Driving Directions',
                       onPressed: () {
-                        pageState.onDrivingDirectionsSelected(pageState.locations.elementAt(locationIndex));
+                        pageState.onDrivingDirectionsSelected(pageState.locations.elementAt(index));
                         EventSender().sendEvent(eventName: EventNames.BT_DRIVING_DIRECTIONS);
                       },
                     ),
                     IconButton(
                       iconSize: 26.0,
                       icon: Icon(Device.get().isIos ? CupertinoIcons.share_solid : Icons.share),
-                      color: Color(pageState.locations.elementAt(locationIndex) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
+                      color: Color(pageState.locations.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Share',
                       onPressed: () {
-                        pageState.onShareLocationSelected(pageState.locations.elementAt(locationIndex));
+                        pageState.onShareLocationSelected(pageState.locations.elementAt(index));
                         EventSender().sendEvent(eventName: EventNames.BT_SHARE_LOCATION);
                       },
                     ),
                     IconButton(
                       iconSize: 26.0,
                       icon: Icon(Device.get().isIos ? CupertinoIcons.pen : Icons.edit),
-                      color: Color(pageState.locations.elementAt(locationIndex) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
+                      color: Color(pageState.locations.elementAt(index) != null ? ColorConstants.white : ColorConstants.getBlueDark()),
                       tooltip: 'Edit',
                       onPressed: () {
-                        pageState.onLocationSelected(pageState.locations.elementAt(locationIndex));
+                        pageState.onLocationSelected(pageState.locations.elementAt(index));
                         UserOptionsUtil.showNewLocationDialog(context);
                       },
                     ),
                   ],
                 ),
-              ) ,
+              ) : SizedBox(),
               Container(
                 child: Text(
-                  pageState.locations.elementAt(locationIndex).locationName,
+                  pageState.locations.elementAt(index).locationName,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
                   style: TextStyle(

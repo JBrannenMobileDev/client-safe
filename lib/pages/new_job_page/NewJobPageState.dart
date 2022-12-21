@@ -46,7 +46,6 @@ class NewJobPageState {
   final DateTime sunsetDateTime;
   final DateTime initialTimeSelectorTime;
   final JobStage currentJobStage;
-  final JobType jobType;
   final JobType selectedJobType;
   final List<Client> allClients;
   final List<Client> filteredClients;
@@ -95,7 +94,6 @@ class NewJobPageState {
     @required this.selectedDate,
     @required this.selectedStartTime,
     @required this.sunsetDateTime,
-    @required this.jobType,
     @required this.selectedJobType,
     @required this.onSavePressed,
     @required this.onCancelPressed,
@@ -218,7 +216,6 @@ class NewJobPageState {
       selectedDate: selectedDate?? this.selectedDate,
       selectedStartTime: selectedStartTime?? this.selectedStartTime,
       sunsetDateTime: sunsetDateTime?? this.sunsetDateTime,
-      jobType: jobType?? this.jobType,
       selectedJobType: selectedJobType?? this.selectedJobType,
       currentJobStage: currentJobStage?? this.currentJobStage,
       eventList: eventList?? this.eventList,
@@ -285,7 +282,6 @@ class NewJobPageState {
         selectedStartTime: null,
         selectedEndTime: null,
         sunsetDateTime: null,
-        jobType: null,
         selectedJobType: null,
         eventList: [],
         jobs: [],
@@ -344,7 +340,6 @@ class NewJobPageState {
       selectedDate: store.state.newJobPageState.selectedDate,
       selectedStartTime: store.state.newJobPageState.selectedStartTime,
       sunsetDateTime: store.state.newJobPageState.sunsetDateTime,
-      jobType: store.state.newJobPageState.jobType,
       selectedJobType: store.state.newJobPageState.selectedJobType,
       currentJobStage: store.state.newJobPageState.currentJobStage,
       eventList: store.state.newJobPageState.eventList,
@@ -409,7 +404,6 @@ class NewJobPageState {
       selectedDate.hashCode ^
       selectedStartTime.hashCode ^
       sunsetDateTime.hashCode ^
-      jobType.hashCode ^
       selectedJobType.hashCode ^
       currentJobStage.hashCode ^
       onSavePressed.hashCode ^
@@ -466,7 +460,6 @@ class NewJobPageState {
           isSelectedPriceProfileNew == other.isSelectedPriceProfileNew &&
           selectedStartTime == other.selectedStartTime &&
           sunsetDateTime == other.sunsetDateTime &&
-          jobType == other.jobType &&
           deviceEvents == other.deviceEvents &&
           selectedJobType == other.selectedJobType &&
           currentJobStage == other.currentJobStage &&

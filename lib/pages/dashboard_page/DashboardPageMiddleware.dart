@@ -8,6 +8,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
@@ -16,6 +17,7 @@ import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/MileageExpense.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
+import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -23,6 +25,7 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../models/SingleExpense.dart';
+import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -92,6 +95,17 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
+    if(allJobs.length == 0 && (await ReminderDao.getAll()).length == 0) {
+      DateTime now = DateTime.now();
+      ReminderDandyLight chargeCameraReminder = ReminderDandyLight(description: 'Charge Camera', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
+      ReminderDandyLight cleanCameraReminder = ReminderDandyLight(description: 'Clean Lenses', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
+      ReminderDandyLight oneWeekCheckInReminder = ReminderDandyLight(description: '1 Week Check-in', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
+
+      await ReminderDao.insertOrUpdate(chargeCameraReminder);
+      await ReminderDao.insertOrUpdate(cleanCameraReminder);
+      await ReminderDao.insertOrUpdate(oneWeekCheckInReminder);
+    }
 
     (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
       List<Profile> profiles = [];

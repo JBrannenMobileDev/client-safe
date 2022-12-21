@@ -46,12 +46,14 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
         } else {
           flatRateTextController.text = '\$' + appState.state.pricingProfilePageState.flatRate.toInt().toString();
         }
+        flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
 
         if(appState.state.pricingProfilePageState.deposit.toInt() == 0) {
           depositTextController.text = '';
         } else {
           depositTextController.text = '\$' + appState.state.pricingProfilePageState.deposit.toInt().toString();
         }
+        depositTextController.selection = TextSelection.fromPosition(TextPosition(offset: depositTextController.text.length));
 
        KeyboardVisibilityNotification().addNewListener(
             onShow: () {
@@ -107,6 +109,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     child: DandyLightTextField(
                       controller: flatRateTextController,
                       hintText: "Price",
+                      labelText: "Price",
                       inputType: TextInputType.number,
                       focusNode: flatRateInputFocusNode,
                       height: 66.0,
@@ -120,6 +123,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                     child: DandyLightTextField(
                       controller: depositTextController,
                       hintText: "Deposit",
+                      labelText: "Deposit",
                       inputType: TextInputType.number,
                       focusNode: depositInputFocusNode,
                       height: 66.0,

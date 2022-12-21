@@ -4,7 +4,8 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationActions.dart' as newLocation;
+import 'package:dandylight/pages/new_location_page/NewLocationActions.dart'
+    as newLocation;
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:geolocator/geolocator.dart';
@@ -16,25 +17,23 @@ import 'package:share_plus/share_plus.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 
 class LocationsPageMiddleware extends MiddlewareClass<AppState> {
-
   @override
-  void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is FetchLocationsAction){
+  void call(Store<AppState> store, action, NextDispatcher next) {
+    if (action is FetchLocationsAction) {
       fetchLocations(store, next);
     }
-    if(action is DeleteLocationAction){
-      _deleteLocation(store, action, next);
-    }
-    if(action is DrivingDirectionsSelected){
+    if (action is DrivingDirectionsSelected) {
       _launchDrivingDirections(store, action);
     }
-    if(action is ShareLocationSelected){
+    if (action is ShareLocationSelected) {
       _shareDirections(store, action);
     }
   }
 
-  void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsSelected action)async{
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  void _launchDrivingDirections(
+      Store<AppState> store, DrivingDirectionsSelected action) async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
     IntentLauncherUtil.launchDrivingDirections(
         position.latitude.toString(),
         position.longitude.toString(),
@@ -42,40 +41,43 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
         action.location.longitude.toString());
   }
 
-  void _shareDirections(Store<AppState> store, ShareLocationSelected action){
-    Share.share('Here are the driving directions. \nLocation: ${action.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${action.location.latitude},${action.location.longitude}');
+  void _shareDirections(Store<AppState> store, ShareLocationSelected action) {
+    Share.share(
+        'Here are the driving directions. \nLocation: ${action.location.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${action.location.latitude},${action.location.longitude}');
   }
 
-  void fetchLocations(Store<AppState> store, NextDispatcher next) async{
+  void fetchLocations(Store<AppState> store, NextDispatcher next) async {
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
-    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles, false));
+    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
 
-    for(Location location in locations) {
-      imageFiles.add(await FileStorage.getLocationImageFile(location));
-      store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles, false));
+    for (int index = 0; index < locations.length; index++) {
+      if (locations.isNotEmpty && locations.elementAt(index).imageUrl?.isNotEmpty == true) {
+        imageFiles.insert(index, await FileStorage.getLocationImageFile(locations.elementAt(index)));
+      } else {
+        imageFiles.insert(index, File(''));
+      }
     }
+    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
 
-    next(SetLocationsAction(store.state.locationsPageState, locations, imageFiles, true));
+    (await LocationDao.getLocationsStream()).listen((snapshots) async {
+      List<Location> streamLocations = [];
+      for(RecordSnapshot clientSnapshot in snapshots) {
+        streamLocations.add(Location.fromMap(clientSnapshot.value));
+      }
 
-    (await LocationDao.getLocationsStream()).listen((locationSnapshots) async {
-      List<Location> locations = [];
-      List<File> imageFiles = [];
-      for(RecordSnapshot locationSnapshot in locationSnapshots) {
-        locations.add(Location.fromMap(locationSnapshot.value));
+      List<File> StreamImageFiles = [];
+
+      store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations, StreamImageFiles));
+
+      for(int index=0; index < streamLocations.length; index++) {
+        if(streamLocations.isNotEmpty && streamLocations.elementAt(index).imageUrl?.isNotEmpty == true){
+          StreamImageFiles.insert(index, await FileStorage.getLocationImageFile(streamLocations.elementAt(index)));
+        } else {
+          StreamImageFiles.insert(index, File(''));
+        }
       }
-      for(Location location in locations) {
-        imageFiles.add(await FileStorage.getLocationImageFile(location));
-      }
-      store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles, true));
+      store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations, StreamImageFiles));
     });
-
-
-  }
-
-  void _deleteLocation(Store<AppState> store, DeleteLocationAction action, NextDispatcher next) async{
-    await LocationDao.delete(action.location.documentId);
-    store.dispatch(FetchLocationsAction(store.state.locationsPageState));
-    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 }

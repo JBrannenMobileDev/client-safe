@@ -94,7 +94,7 @@ class LocationsPage extends StatelessWidget {
                           child: Container(
                             height: (MediaQuery.of(context).size.height),
                             child: GridView.builder(
-                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 64.0),
+                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 250.0),
                               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 200,
                               childAspectRatio: 2 / 2.75,

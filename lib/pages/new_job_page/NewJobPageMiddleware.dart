@@ -190,8 +190,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       selectedDate: store.state.newJobPageState.selectedDate,
       selectedTime: store.state.newJobPageState.selectedStartTime,
       selectedEndTime: store.state.newJobPageState.selectedEndTime,
-      type: store.state.newJobPageState.jobType,
-      stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState.jobType.stages),
+      type: store.state.newJobPageState.selectedJobType,
+      stage: JobStage.getNextStage(JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED), store.state.newJobPageState.selectedJobType.stages),
       completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
       location: store.state.newJobPageState.selectedLocation,
       priceProfile: store.state.newJobPageState.selectedPriceProfile != null && store.state.newJobPageState.oneTimePrice.isEmpty ? store.state.newJobPageState.selectedPriceProfile

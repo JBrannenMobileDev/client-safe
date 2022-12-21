@@ -43,7 +43,7 @@ class _PricingProfileSelectionFormState
               removeOverlay();
             }
         );
-        flatRateTextController.text = '\$' + (store.state.newJobPageState.oneTimePrice.isNotEmpty && (int.parse(store.state.newJobPageState.oneTimePrice) > 0) ? store.state.newJobPageState.oneTimePrice : '');
+        flatRateTextController.text = '\$' + (store.state.newJobPageState.oneTimePrice.isNotEmpty ? store.state.newJobPageState.oneTimePrice : '');
         flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
         flatRateInputFocusNode.addListener(() {
           flatRateTextController.selection = TextSelection.fromPosition(TextPosition(offset: flatRateTextController.text.length));
@@ -124,9 +124,9 @@ class _PricingProfileSelectionFormState
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 64.0),
+                    padding: EdgeInsets.only(bottom: 64.0, top: 32),
                     child: Text(
-                      "You do not have any pricing packages setup. "
+                      "You do not have any price packages saved yet. "
                       "Select the + to create a new pricing package.",
                       textAlign: TextAlign.center,
                       style: TextStyle(

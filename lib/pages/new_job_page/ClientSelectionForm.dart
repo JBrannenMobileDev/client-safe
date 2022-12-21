@@ -100,7 +100,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                 ),
                 NewJobTextField(
                   controller: firstNameTextController,
-                  hintText: 'Search Your Contacts',
+                  hintText: 'Search DandyLight Contacts',
                   inputType: TextInputType.text,
                   height: 64.0,
                   onTextInputChanged: pageState.onClientFirstNameTextChanged,

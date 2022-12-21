@@ -62,7 +62,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                     ),
                   ),
                 ),
-                Row(
+                pageState.allDandyLightReminders.length > 0 ? Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     Padding(
@@ -90,7 +90,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                       ),
                     ),
                   ],
-                ),
+                ) : SizedBox(),
                 pageState.allDandyLightReminders.length > 0
                     ? ConstrainedBox(
                   constraints: BoxConstraints(

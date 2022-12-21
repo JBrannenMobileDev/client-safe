@@ -88,6 +88,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(locations.FetchLocationsAction(store.state.locationsPageState));
     store.dispatch(jobs.FetchAllAction(store.state.newJobPageState));
     store.dispatch(LoadNewMileageLocationsAction(store.state.newMileageExpensePageState));
+    GlobalKeyUtil.instance.navigatorKey.currentState.pop();
   }
 
   void _deleteLocation(Store<AppState> store, DeleteLocation action, NextDispatcher next) async{
