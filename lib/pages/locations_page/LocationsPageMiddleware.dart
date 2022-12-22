@@ -49,7 +49,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
   void fetchLocations(Store<AppState> store, NextDispatcher next) async {
     List<Location> locations = await LocationDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];
-    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
+    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles, false));
 
     for (int index = 0; index < locations.length; index++) {
       if (locations.isNotEmpty && locations.elementAt(index).imageUrl?.isNotEmpty == true) {
@@ -58,7 +58,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
         imageFiles.insert(index, File(''));
       }
     }
-    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles));
+    store.dispatch(SetLocationsAction(store.state.locationsPageState, locations, imageFiles, true));
 
     (await LocationDao.getLocationsStream()).listen((snapshots) async {
       List<Location> streamLocations = [];
@@ -68,7 +68,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
 
       List<File> StreamImageFiles = [];
 
-      store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations, StreamImageFiles));
+      store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations, StreamImageFiles, false));
 
       for(int index=0; index < streamLocations.length; index++) {
         if(streamLocations.isNotEmpty && streamLocations.elementAt(index).imageUrl?.isNotEmpty == true){
@@ -77,7 +77,7 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
           StreamImageFiles.insert(index, File(''));
         }
       }
-      store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations, StreamImageFiles));
+      store.dispatch(SetLocationsAction(store.state.locationsPageState, streamLocations, StreamImageFiles, true));
     });
   }
 }

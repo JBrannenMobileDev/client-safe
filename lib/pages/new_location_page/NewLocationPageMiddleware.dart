@@ -76,6 +76,7 @@ class NewLocationPageMiddleware extends MiddlewareClass<AppState> {
     location.longitude = action.pageState.newLocationLongitude;
 
     Location locationWithId = await LocationDao.insertOrUpdate(location);
+
     await FileStorage.saveLocationImageFile(action.pageState.imagePath, locationWithId);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_LOCATION, properties: {

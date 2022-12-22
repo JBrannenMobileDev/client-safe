@@ -13,6 +13,7 @@ class LocationsPageState{
 
   final List<Location> locations;
   final bool shouldClear;
+  final bool isLoadingImages;
   final Function(Location) onLocationSelected;
   final Function(Location) onDrivingDirectionsSelected;
   final Function(Location) onShareLocationSelected;
@@ -28,6 +29,7 @@ class LocationsPageState{
     @required this.onShareLocationSelected,
     @required this.clearNewLocationState,
     @required this.locationImages,
+    @required this.isLoadingImages,
   });
 
   LocationsPageState copyWith({
@@ -38,6 +40,7 @@ class LocationsPageState{
     Function(Location) onShareLocationSelected,
     Function() clearNewLocationState,
     List<File> locationImages,
+    bool isLoadingImages,
   }){
     return LocationsPageState(
       locations: locations?? this.locations,
@@ -47,6 +50,7 @@ class LocationsPageState{
       onShareLocationSelected: onShareLocationSelected?? this.onShareLocationSelected,
       clearNewLocationState: clearNewLocationState ?? this.clearNewLocationState,
       locationImages: locationImages ?? this.locationImages,
+      isLoadingImages: isLoadingImages ?? this.isLoadingImages,
     );
   }
 
@@ -57,6 +61,7 @@ class LocationsPageState{
     onDrivingDirectionsSelected: null,
     onShareLocationSelected: null,
     clearNewLocationState: null,
+    isLoadingImages: true,
     locationImages: [],
   );
 
@@ -65,6 +70,7 @@ class LocationsPageState{
       locations: store.state.locationsPageState.locations,
       shouldClear: store.state.locationsPageState.shouldClear,
       locationImages: store.state.locationsPageState.locationImages,
+      isLoadingImages: store.state.locationsPageState.isLoadingImages,
       onLocationSelected: (location) => store.dispatch(LoadExistingLocationData(store.state.newLocationPageState, location)),
       onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsSelected(store.state.locationsPageState, location)),
       onShareLocationSelected: (location) => store.dispatch(ShareLocationSelected(store.state.locationsPageState, location)),
@@ -80,6 +86,7 @@ class LocationsPageState{
       onDrivingDirectionsSelected.hashCode ^
       clearNewLocationState.hashCode ^
       locationImages.hashCode ^
+      isLoadingImages.hashCode ^
       onShareLocationSelected.hashCode;
 
   @override
@@ -92,5 +99,6 @@ class LocationsPageState{
               onLocationSelected == other.onLocationSelected &&
               onDrivingDirectionsSelected == other.onDrivingDirectionsSelected &&
               locationImages == other.locationImages &&
+              isLoadingImages == other.isLoadingImages &&
               onShareLocationSelected == other.onShareLocationSelected;
 }
