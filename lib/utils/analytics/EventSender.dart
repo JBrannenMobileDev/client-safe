@@ -19,12 +19,9 @@ class EventSender {
   }
 
   String _getToken() {
-    //Override Logic
-    return _mixpanelTokenBeta;
-
     switch(EnvironmentUtil().getCurrentEnvironment()) {
       case EnvironmentUtil.PROD:
-        return _mixpanelTokenProd;
+        return _mixpanelTokenBeta;
         break;
       case EnvironmentUtil.STAGE:
         return _mixpanelTokenStage;

@@ -242,7 +242,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               decoration: BoxDecoration(
                   border: Border.all()),
-              child: Text('Vintage Vibes Photography Invoice',
+              child: Text(profile.businessName + ' Invoice',
                   style: Theme.of(context)
                       .defaultTextStyle
                       .copyWith(color: PdfColors.grey)));
@@ -263,7 +263,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text('Vintage Vibes Photography', textScaleFactor: 2.0),
+                    Text(profile.businessName, textScaleFactor: 2.0),
                   ])),
           Padding(
             padding: EdgeInsets.only(top: 32.0),
