@@ -92,6 +92,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
     currentPageIndex = 0;
 
     controller.addListener(() {
@@ -245,6 +246,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       begin: 150,
       end: 0,
     );
+
+    EventSender().sendEvent(eventName: EventNames.APP_OPENED);
   }
 
   @override
