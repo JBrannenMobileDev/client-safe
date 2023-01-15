@@ -57,7 +57,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
                   margin: EdgeInsets.only(top: 64.0),
                   padding: EdgeInsets.only(left: 32.0, right: 32.0),
                   child: Text(
-                    'You have not saved any job types. To create a new job type please select the plus icon. \n\nJob types will help simplify your job management.  \n\n(Example: Wedding, Engagement, Family, etc...)',
+                    'You have not saved any job types. To create a new job type please select the plus icon.\n\n(Example: Wedding, Engagement, Family, etc...)',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 20.0,

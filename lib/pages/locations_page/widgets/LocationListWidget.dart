@@ -33,7 +33,7 @@ class LocationListWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty) ?
+              !pageState.isLoadingImages || pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty) ?
            Container(
                 margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(

@@ -253,7 +253,7 @@ class _NewJobPageState extends State<NewJobPage> {
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
         case 0:
-          canProgress = pageState.selectedClient != null || pageState.clientFirstName.isNotEmpty;
+          canProgress = pageState.selectedClient != null;
           break;
         case 1:
           canProgress = pageState.selectedJobType != null;

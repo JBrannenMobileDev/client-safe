@@ -92,7 +92,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                           Padding(
                             padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
                             child: Text(
-                              "Create your own job types here to help save time managing your jobs.",
+                              "Create your own job types here to help save time managing your jobs.\n\n(Wedding, Engagement, Family, etc...)",
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 18.0,
