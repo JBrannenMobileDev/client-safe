@@ -7,6 +7,7 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobReminder.dart';
@@ -23,6 +24,7 @@ class DashboardPageState {
   final bool hasSeenShowcase;
   final int leadConversionRate;
   final int unconvertedLeadCount;
+  final purchases.CustomerInfo subscriptionState;
   final List<Action> actionItems;
   final List<Client> recentLeads;
   final List<JobStage> allUserStages;
@@ -84,6 +86,7 @@ class DashboardPageState {
     this.profile,
     this.hasSeenShowcase,
     this.onShowcaseSeen,
+    this.subscriptionState,
   });
 
   DashboardPageState copyWith({
@@ -120,6 +123,7 @@ class DashboardPageState {
     List<JobTypePieChartRowData> jobTypePieChartRowData,
     List<LeadSourcePieChartRowData> leadSourcePieChartRowData,
     Profile profile,
+    purchases.CustomerInfo subscriptionState,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -155,6 +159,7 @@ class DashboardPageState {
       profile: profile ?? this.profile,
       hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
       onShowcaseSeen: onShowcaseSeen ?? this.onShowcaseSeen,
+      subscriptionState: subscriptionState ?? this.subscriptionState,
     );
   }
 
@@ -185,6 +190,7 @@ class DashboardPageState {
       leadSourcePieChartRowData: store.state.dashboardPageState.leadSourcePieChartRowData,
       profile: store.state.dashboardPageState.profile,
       hasSeenShowcase: store.state.dashboardPageState.hasSeenShowcase,
+      subscriptionState: store.state.dashboardPageState.subscriptionState,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
@@ -231,6 +237,7 @@ class DashboardPageState {
     jobTypePieChartRowData: [],
     leadSourcePieChartRowData: [],
     profile: null,
+    subscriptionState: null,
   );
 
   @override
@@ -258,6 +265,7 @@ class DashboardPageState {
       onNotificationsSelected.hashCode ^
       onNotificationViewClosed.hashCode ^
       jobsThisWeek.hashCode ^
+      subscriptionState.hashCode ^
       leadConversionRate.hashCode ^
       unconvertedLeadCount.hashCode ^
       jobTypeBreakdownData.hashCode ^
@@ -289,6 +297,7 @@ class DashboardPageState {
               onViewAllHideSelected == other.onViewAllHideSelected &&
               lineChartMonthData == other.lineChartMonthData &&
               reminders == other.reminders &&
+              subscriptionState == other.subscriptionState &&
               shouldShowNewMileageExpensePage == other.shouldShowNewMileageExpensePage &&
               onReminderSelected == other.onReminderSelected &&
               onNotificationsSelected == other.onNotificationsSelected &&

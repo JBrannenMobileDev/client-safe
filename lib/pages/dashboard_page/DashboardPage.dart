@@ -13,6 +13,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
@@ -27,6 +28,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:showcaseview/showcaseview.dart';
@@ -37,8 +39,7 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({Key key, this.destination, this.comingFromLogin})
-      : super(key: key);
+  const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
   final DashboardPage destination;
   final bool comingFromLogin;
 
@@ -73,6 +74,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   ScrollController _scrollController;
   bool dialVisible = true;
   bool isFabExpanded = false;
+  bool hasNavigatedToSubscriptionPage = false;
   bool comingFromLogin;
 
   _DashboardPageState(this.comingFromLogin);
@@ -176,15 +178,45 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           }
         },
         onDidChange: (previous, current) async {
-          if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
-            UserOptionsUtil.showNewMileageExpenseSelected(context);
-          }
-          if(!current.hasSeenShowcase) {
-            _startShowcase();
-            current.onShowcaseSeen();
+          print(current.subscriptionState);
+          print("previous " + previous.subscriptionState.toString());
+          print("current " + current.subscriptionState.toString());
+          if(previous.subscriptionState == null && current.subscriptionState != null) {
+            if(current.subscriptionState.entitlements.all['standard'] != null) {
+              if(current.subscriptionState.entitlements.all['standard'].isActive) {
+                if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+                  UserOptionsUtil.showNewMileageExpenseSelected(context);
+                }
+                if(!current.hasSeenShowcase) {
+                  _startShowcase();
+                  current.onShowcaseSeen();
+                }
+              } else {
+                if(!hasNavigatedToSubscriptionPage) {
+                  NavigationUtil.onManageSubscriptionSelected(context, current.profile, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED);
+                  hasNavigatedToSubscriptionPage = true;
+                }
+              }
+            } else {
+              bool freeTrialExpired = true;
+              if(freeTrialExpired) {
+                NavigationUtil.onManageSubscriptionSelected(context, current.profile, ManageSubscriptionPage.FREE_TRIAL_ENDED);
+                hasNavigatedToSubscriptionPage = true;
+              } else {
+                //do nothing
+              }
+            }
+          } else {
+            if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+              UserOptionsUtil.showNewMileageExpenseSelected(context);
+            }
+            if(!current.hasSeenShowcase) {
+              _startShowcase();
+              current.onShowcaseSeen();
+            }
           }
         },
-        onDispose: (store) => store.dispatch(new DisposeDataListenersActions(store.state.homePageState)),
+
         converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
         builder: (BuildContext context, DashboardPageState pageState) =>
             Scaffold(

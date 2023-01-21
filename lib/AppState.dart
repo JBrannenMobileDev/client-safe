@@ -3,7 +3,6 @@ import 'package:dandylight/pages/calendar_page/CalendarPageState.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageState.dart';
-import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
@@ -11,6 +10,7 @@ import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:dandylight/pages/login_page/LoginPageState.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetState.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
@@ -24,14 +24,12 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageS
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
-import 'package:dandylight/pages/onboarding_flow_pages/OnboardingFlowPageState.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
-import 'package:dandylight/pages/search_page/SearchPageState.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:meta/meta.dart';
@@ -46,14 +44,12 @@ class AppState {
   final PricingProfilesPageState pricingProfilesPageState;
   final NewJobPageState newJobPageState;
   final NewContactPageState newContactPageState;
-  final HomePageState homePageState;
   final DashboardPageState dashboardPageState;
   final ClientsPageState clientsPageState;
   final ClientDetailsPageState clientDetailsPageState;
   final JobsPageState jobsPageState;
   final CollectionsPageState collectionsPageState;
   final MainSettingsPageState mainSettingsPageState;
-  final SearchPageState searchPageState;
   final CalendarPageState calendarPageState;
   final JobDetailsPageState jobDetailsPageState;
   final NewInvoicePageState newInvoicePageState;
@@ -75,8 +71,8 @@ class AppState {
   final CalendarSelectionPageState calendarSelectionPageState;
   final IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState;
   final PaymentRequestInfoPageState paymentRequestInfoPageState;
-  final OnBoardingFlowPageState onBoardingFlowPageState;
   final ResponsesPageState responsesPageState;
+  final ManageSubscriptionPageState manageSubscriptionPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -84,14 +80,12 @@ class AppState {
     @required this.pricingProfilePageState,
     @required this.pricingProfilesPageState,
     @required this.newContactPageState,
-    @required this.homePageState,
     @required this.dashboardPageState,
     @required this.clientsPageState,
     @required this.clientDetailsPageState,
     @required this.jobsPageState,
     @required this.collectionsPageState,
     @required this.mainSettingsPageState,
-    @required this.searchPageState,
     @required this.newJobPageState,
     @required this.calendarPageState,
     @required this.jobDetailsPageState,
@@ -114,8 +108,8 @@ class AppState {
     @required this.calendarSelectionPageState,
     @required this.incomeAndExpenseSettingsPageState,
     @required this.paymentRequestInfoPageState,
-    @required this.onBoardingFlowPageState,
     @required this.responsesPageState,
+    @required this.manageSubscriptionPageState,
   });
 
   factory AppState.initial() {
@@ -125,14 +119,12 @@ class AppState {
       pricingProfilePageState: NewPricingProfilePageState.initial(),
       pricingProfilesPageState: PricingProfilesPageState.initial(),
       newContactPageState: NewContactPageState.initial(),
-      homePageState: HomePageState.initial(),
       dashboardPageState: DashboardPageState.initial(),
       clientsPageState: ClientsPageState.initial(),
       clientDetailsPageState: ClientDetailsPageState.initial(),
       jobsPageState: JobsPageState.initial(),
       collectionsPageState: CollectionsPageState.initial(),
       mainSettingsPageState: MainSettingsPageState.initial(),
-      searchPageState: SearchPageState.initial(),
       newJobPageState: NewJobPageState.initial(),
       calendarPageState: CalendarPageState.initial(),
       jobDetailsPageState: JobDetailsPageState.initial(),
@@ -155,8 +147,8 @@ class AppState {
       calendarSelectionPageState: CalendarSelectionPageState.initial(),
       incomeAndExpenseSettingsPageState: IncomeAndExpenseSettingsPageState.initial(),
       paymentRequestInfoPageState: PaymentRequestInfoPageState.initial(),
-      onBoardingFlowPageState: OnBoardingFlowPageState.initial(),
       responsesPageState: ResponsesPageState.initial(),
+      manageSubscriptionPageState: ManageSubscriptionPageState.initial(),
     );
   }
 
@@ -166,14 +158,12 @@ class AppState {
     NewPricingProfilePageState pricingProfilePageState,
     PricingProfilesPageState pricingProfilesPageState,
     NewContactPageState newContactPageState,
-    HomePageState homePageState,
     DashboardPageState dashboardPageState,
     ClientsPageState clientsPageState,
     ClientDetailsPageState clientDetailsPageState,
     JobsPageState jobsPageState,
     CollectionsPageState collectionsPageState,
     MainSettingsPageState settingsPageState,
-    SearchPageState searchPageState,
     NewJobPageState newJobPageState,
     CalendarPageState calendarPageState,
     JobDetailsPageState jobDetailsPageState,
@@ -196,8 +186,8 @@ class AppState {
     CalendarSelectionPageState calendarSelectionPageState,
     IncomeAndExpenseSettingsPageState incomeAndExpenseSettingsPageState,
     PaymentRequestInfoPageState paymentRequestInfoPageState,
-    OnBoardingFlowPageState onBoardingFlowPageState,
     ResponsesPageState responsesPageState,
+    ManageSubscriptionPageState manageSubscriptionPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -205,14 +195,12 @@ class AppState {
       pricingProfilePageState: pricingProfilePageState ?? this.pricingProfilePageState,
       pricingProfilesPageState: pricingProfilesPageState ?? this.pricingProfilesPageState,
       newContactPageState: newContactPageState ?? this.newContactPageState,
-      homePageState: homePageState ?? this.homePageState,
       dashboardPageState: dashboardPageState ?? this.dashboardPageState,
       clientsPageState: clientsPageState ?? this.clientsPageState,
       clientDetailsPageState: clientDetailsPageState?? this.clientDetailsPageState,
       jobsPageState: jobsPageState ?? this.jobsPageState,
       collectionsPageState: collectionsPageState ?? this.collectionsPageState,
       mainSettingsPageState: settingsPageState ?? this.mainSettingsPageState,
-      searchPageState: searchPageState ?? this.searchPageState,
       newJobPageState: newJobPageState ?? this.newJobPageState,
       calendarPageState: calendarPageState ?? this.calendarPageState,
       jobDetailsPageState: jobDetailsPageState ?? this.jobDetailsPageState,
@@ -235,8 +223,8 @@ class AppState {
       calendarSelectionPageState: calendarSelectionPageState ?? this.calendarSelectionPageState,
       incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageState ?? this.incomeAndExpenseSettingsPageState,
       paymentRequestInfoPageState: paymentRequestInfoPageState ?? this.paymentRequestInfoPageState,
-      onBoardingFlowPageState: onBoardingFlowPageState ?? this.onBoardingFlowPageState,
       responsesPageState: responsesPageState ?? this.responsesPageState,
+      manageSubscriptionPageState: manageSubscriptionPageState ?? this.manageSubscriptionPageState,
     );
   }
 
@@ -247,14 +235,12 @@ class AppState {
     pricingProfilePageState.hashCode ^
     pricingProfilesPageState.hashCode ^
     newContactPageState.hashCode ^
-    homePageState.hashCode ^
     dashboardPageState.hashCode ^
     clientsPageState.hashCode ^
     clientDetailsPageState.hashCode ^
     jobsPageState.hashCode ^
     collectionsPageState.hashCode ^
     mainSettingsPageState.hashCode ^
-    searchPageState.hashCode ^
     newJobPageState.hashCode ^
     jobDetailsPageState.hashCode ^
     calendarPageState.hashCode ^
@@ -276,8 +262,8 @@ class AppState {
     calendarSelectionPageState.hashCode ^
     incomeAndExpenseSettingsPageState.hashCode ^
     paymentRequestInfoPageState.hashCode ^
-    onBoardingFlowPageState.hashCode ^
     responsesPageState.hashCode ^
+    manageSubscriptionPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -289,14 +275,12 @@ class AppState {
               pricingProfilePageState == other.pricingProfilePageState &&
               pricingProfilesPageState == other.pricingProfilesPageState &&
               newContactPageState == other.newContactPageState &&
-              homePageState == other.homePageState &&
               dashboardPageState == other.dashboardPageState &&
               clientsPageState == other.clientsPageState &&
               clientDetailsPageState == other.clientDetailsPageState &&
               jobsPageState == other.jobsPageState &&
               collectionsPageState == other.collectionsPageState &&
               mainSettingsPageState == other.mainSettingsPageState &&
-              searchPageState == other.searchPageState &&
               newJobPageState == other.newJobPageState &&
               jobDetailsPageState == other.jobDetailsPageState &&
               calendarPageState == other.calendarPageState &&
@@ -318,7 +302,7 @@ class AppState {
               calendarSelectionPageState == other.calendarSelectionPageState &&
               incomeAndExpenseSettingsPageState == other.incomeAndExpenseSettingsPageState &&
               paymentRequestInfoPageState == other.paymentRequestInfoPageState &&
-              onBoardingFlowPageState == other.onBoardingFlowPageState &&
               responsesPageState == other.responsesPageState &&
+              manageSubscriptionPageState == other.manageSubscriptionPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/services.dart';
 
@@ -15,14 +16,20 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
-class ManageSubscriptionPage extends StatefulWidget {
-  final Profile profile;
+import 'ManageSubscriptionPageActions.dart';
 
-  ManageSubscriptionPage(this.profile);
+class ManageSubscriptionPage extends StatefulWidget {
+  static const String FREE_TRIAL_ENDED = "free_trial_ended";
+  static const String SUBSCRIPTION_EXPIRED = "subscription_expired";
+  static const String DEFAULT_SUBSCRIBE = "default_subscribe";
+  final Profile profile;
+  final String uiState;
+
+  ManageSubscriptionPage(this.profile, this.uiState);
 
   @override
   State<StatefulWidget> createState() {
-    return _ManageSubscriptionPageState();
+    return _ManageSubscriptionPageState(uiState, profile);
   }
 }
 
@@ -30,6 +37,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
     with TickerProviderStateMixin {
   TextEditingController referralCodeTextController = TextEditingController();
   final referralCodeFocusNode = FocusNode();
+  final String uiState;
+  final Profile profile;
+
+  _ManageSubscriptionPageState(this.uiState, this.profile);
 
   // state variable
   double _result = 0.0;
@@ -51,40 +62,24 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, MainSettingsPageState>(
-      onInit: (appState) {},
+    return StoreConnector<AppState, ManageSubscriptionPageState>(
+      onInit: (store) {
+        store.dispatch(FetchInitialDataAction(store.state.manageSubscriptionPageState, profile));
+      },
       converter: (Store<AppState> store) =>
-          MainSettingsPageState.fromStore(store),
-      builder: (BuildContext context, MainSettingsPageState pageState) =>
-          Scaffold(
+          ManageSubscriptionPageState.fromStore(store),
+      builder: (BuildContext context, ManageSubscriptionPageState pageState) =>
+    WillPopScope(
+    onWillPop: () async => uiState == ManageSubscriptionPage.DEFAULT_SUBSCRIBE ? true : false,
+    child: Scaffold(
             extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
         backgroundColor: Color(ColorConstants.getBlueLight()),
         body: Stack(
           alignment: Alignment.topCenter,
           children: <Widget>[
-            Container(
-              height: 130.0,
-              width:  260.0,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(130.0), bottomRight: Radius.circular(130.0)),
-                color: Color(ColorConstants.getPrimaryColor()),
-              ),
-            ),
             CustomScrollView(
               slivers: <Widget>[
-                SliverAppBar(
-                  iconTheme: IconThemeData(
-                    color: Color(
-                        ColorConstants.getPrimaryWhite()), //change your color here
-                  ),
-                  brightness: Brightness.light,
-                  backgroundColor: Colors.transparent,
-                  pinned: true,
-                  centerTitle: true,
-                  elevation: 0.0,
-                ),
                 SliverList(
                   delegate: new SliverChildListDelegate(
                     <Widget>[
@@ -95,7 +90,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                           alignment: Alignment.topCenter,
                           children: <Widget>[
                             Container(
-                              margin: EdgeInsets.only(top: 34.0),
+                              margin: EdgeInsets.only(top: 48.0),
                               child: AnimatedDefaultTextStyle(
                                 style: TextStyle(
                                   fontSize: 72.0,
@@ -112,22 +107,34 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                               ),
                             ),
                             Container(
-                                width: 175.0,
-                                margin: EdgeInsets.only(top: 124.0),
-                                child: Text(
-                                  'Capture the moment We\'ll do the rest',
+                                width: uiState == ManageSubscriptionPage.DEFAULT_SUBSCRIBE ? 175 : MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.only(top: 148.0),
+                                child: Text(_getMessageText(uiState),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 22.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(
-                                        ColorConstants.getPrimaryWhite()),
+                                        ColorConstants.getBlueDark()),
                                   ),
                                 )
                             ),
                             Container(
-                              margin: EdgeInsets.only(left: 114.0),
+                                margin: EdgeInsets.only(top: 242.0),
+                                child: Text('Beta tester discount applied',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 22.0,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(
+                                        ColorConstants.getPeachDark()),
+                                  ),
+                                )
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(left: 114.0, top: 14),
                               height: 150.0,
                               decoration: BoxDecoration(
                                 color: Colors.transparent,
@@ -142,7 +149,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
                                 Container(
-                                  margin: EdgeInsets.only(top: 216.0),
+                                  margin: EdgeInsets.only(top: profile.isBetaTester ? 272.0 : 248),
                                   padding: EdgeInsets.only(left: 4.0, right: 20.0),
                                   height: 64.0,
                                   decoration: BoxDecoration(
@@ -179,7 +186,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           Container(
                                             margin: EdgeInsets.only(left: 8.0),
                                             child: Text(
-                                              '(save \$20)',
+                                              profile.isBetaTester ? '(-50%)' : '',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
                                                 fontSize: 22.0,
@@ -198,7 +205,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           Row(
                                             children: <Widget>[
                                               DandyLightTextWidget(
-                                                amount: 99.99,
+                                                amount: pageState.annualPrice,
                                                 textSize: 28.0,
                                                 textColor: Color(_radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                                 fontWeight: FontWeight.w600,
@@ -232,7 +239,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 ),
                                               ),
                                               DandyLightTextWidget(
-                                                amount: 8.33,
+                                                amount: pageState.annualPrice/12,
                                                 textSize: 16.0,
                                                 textColor: Color(_radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                                 fontWeight: FontWeight.w600,
@@ -291,12 +298,26 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               Color(_radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             ),
                                           ),
+                                          Container(
+                                            margin: EdgeInsets.only(left: 8.0),
+                                            child: Text(
+                                              profile.isBetaTester ? '(-50%)' : '',
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 22.0,
+                                                fontFamily: 'simple',
+                                                fontWeight: FontWeight.w600,
+                                                color:
+                                                Color(_radioValue == 1 ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
+                                              ),
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       Row(
                                         children: <Widget>[
                                           DandyLightTextWidget(
-                                            amount: 9.99,
+                                            amount: pageState.monthlyPrice,
                                             textSize: 28.0,
                                             textColor: Color(_radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             fontWeight: FontWeight.w600,
@@ -353,7 +374,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         borderRadius: BorderRadius.circular(32.0)
                                     ),
                                     child: Text(
-                                      'Continue',
+                                      'Subscribe',
                                       textAlign: TextAlign.center,
                                       softWrap: true,
                                       style: TextStyle(
@@ -446,6 +467,23 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           ],
         ),
       ),
+    ),
     );
+  }
+
+  String _getMessageText(String uiState) {
+    String message = '';
+    switch(uiState) {
+      case ManageSubscriptionPage.DEFAULT_SUBSCRIBE:
+        message = 'Capture the moment We\'ll do the rest';
+        break;
+      case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:
+        message = 'Your subscription has expired. Please resubscribe to regain access to your account.';
+        break;
+      case ManageSubscriptionPage.FREE_TRIAL_ENDED:
+        message = 'Your free trial has ended. Please select a subscription option to continue using DandyLight.';
+        break;
+    }
+    return message;
   }
 }

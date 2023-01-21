@@ -1,7 +1,7 @@
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/pages/home_page/HomePageState.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
@@ -16,14 +16,15 @@ class InitDashboardPageAction{
   InitDashboardPageAction(this.item);
 }
 
-class DisposeDataListenersActions{
-  final HomePageState item;
-  DisposeDataListenersActions(this.item);
-}
-
 class LoadJobsAction{
   final DashboardPageState pageState;
   LoadJobsAction(this.pageState);
+}
+
+class SetSubscriptionStateAction{
+  final DashboardPageState pageState;
+  final CustomerInfo subscriptionState;
+  SetSubscriptionStateAction(this.pageState, this.subscriptionState);
 }
 
 class SetJobToStateAction{

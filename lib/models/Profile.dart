@@ -25,6 +25,7 @@ class Profile{
   bool showRequestPaymentLinksDialog = true;
   bool hasSeenShowcase = false;
   bool hasSeenIncomeInfo = false;
+  bool isBetaTester = false;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -88,6 +89,7 @@ class Profile{
     this.responsesLastChangeDate,
     this.hasSeenShowcase,
     this.hasSeenIncomeInfo,
+    this.isBetaTester,
   });
 
   Profile copyWith({
@@ -115,6 +117,7 @@ class Profile{
     bool showRequestPaymentLinksDialog,
     bool hasSeenShowcase,
     bool hasSeenIncomeInfo,
+    bool isBetaTester,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -174,6 +177,7 @@ class Profile{
       venmoLink: venmoLink ?? this.venmoLink,
       cashAppLink: cashAppLink ?? this.cashAppLink,
       applePayPhone: applePayPhone ?? this.applePayPhone,
+      isBetaTester: isBetaTester ?? this.isBetaTester,
       termsOfServiceAndPrivacyPolicyChecked: termsOfServiceAndPrivacyPolicyChecked ?? this.termsOfServiceAndPrivacyPolicyChecked,
       showRequestPaymentLinksDialog: showRequestPaymentLinksDialog ?? this.showRequestPaymentLinksDialog,
       responsesLastChangeDate: responsesLastChangeDate ?? this.responsesLastChangeDate,
@@ -207,6 +211,7 @@ class Profile{
       'calendarEnabled' : calendarEnabled,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
       'hasSeenShowcase' : hasSeenShowcase ?? false,
+      'isBetaTester' : isBetaTester ?? false,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -254,6 +259,7 @@ class Profile{
       salesTaxRate: map['salesTaxRate'],
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
       hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
+      isBetaTester: map['isBetaTester'] != null ? map['isBetaTester'] : false,
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,

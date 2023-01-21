@@ -11,6 +11,7 @@ import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
+import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -78,6 +79,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void removeDeviceToken(Store<AppState> store, RemoveDeviceTokenAction action, NextDispatcher next) async{
     List<Profile> profiles = await ProfileDao.getAll();
+    await purchases.Purchases.logIn(profiles.elementAt(0).uid);
     if(profiles != null && profiles.isNotEmpty) {
       Profile profile = profiles.elementAt(0);
       // profile.removeDeviceToken(await PushNotificationsManager().getToken());

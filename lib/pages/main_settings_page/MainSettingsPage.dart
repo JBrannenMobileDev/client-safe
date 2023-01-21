@@ -3,6 +3,7 @@ import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
@@ -174,7 +175,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               TextButton(
                                 style: Styles.getButtonStyle(),
                                 onPressed: () {
-                                  NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                                  NavigationUtil.onManageSubscriptionSelected(context, pageState.profile, ManageSubscriptionPage.DEFAULT_SUBSCRIBE);
                                 },
                                 child: SizedBox(
                                   height: 48.0,

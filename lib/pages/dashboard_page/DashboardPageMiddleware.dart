@@ -21,6 +21,8 @@ import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:flutter/services.dart';
+import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -35,6 +37,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadAllJobs(store, action, next);
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
+      await _fetchSubscriptionState(store, next);
     }
     if(action is SetNotificationToSeen) {
       _setNotificationToSeen(store, action);
@@ -45,6 +48,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProfileWithShowcaseSeen) {
       _updateProfileWithShowcaseSeen(store, action, next);
     }
+  }
+
+  Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
+    purchases.CustomerInfo subscriptionState = await _getSubscriptionState();
+    store.dispatch(SetSubscriptionStateAction(store.state.dashboardPageState, subscriptionState));
   }
 
   Future<void> _updateProfileWithShowcaseSeen(Store<AppState> store, UpdateProfileWithShowcaseSeen action, NextDispatcher next) async {
@@ -95,6 +103,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, mileageExpenses));
     store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, profile));
+
+    await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
 
     if(allJobs.length == 0 && (await ReminderDao.getAll()).length == 0) {
       DateTime now = DateTime.now();
@@ -178,5 +188,15 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       }
       store.dispatch(SetClientsDashboardAction(store.state.dashboardPageState, clients));
     });
+  }
+
+  Future<purchases.CustomerInfo> _getSubscriptionState() async {
+    purchases.CustomerInfo currentInfo = null;
+    try {
+      currentInfo = await purchases.Purchases.getCustomerInfo();
+    } on PlatformException catch (e) {
+      // Error fetching customer info
+    }
+    return currentInfo;
   }
 }

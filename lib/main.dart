@@ -4,7 +4,6 @@ import 'package:dandylight/AppMiddleware.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/ClientSafeApp.dart';
 import 'package:dandylight/AppReducers.dart';
-import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/analytics/DeviceInfo.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -14,6 +13,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
+import 'package:purchases_flutter/purchases_flutter.dart' as revenuecat;
 import 'package:redux/redux.dart';
 
 import 'firebase_options.dart';
@@ -25,6 +25,8 @@ main() async {
   );
 
   await initializingMixPanel();
+  await initSubscriptions();
+
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   final store = Store<AppState>(
@@ -33,6 +35,17 @@ main() async {
       middleware: createAppMiddleware());
 
   initializeDateFormatting().then((_) => runApp(new ClientSafeApp(store)));
+}
+
+Future<void> initSubscriptions() async {
+  await revenuecat.Purchases.setDebugLogsEnabled(true);
+  revenuecat.PurchasesConfiguration configuration;
+  if (Platform.isAndroid) {
+    configuration = revenuecat.PurchasesConfiguration("goog_hHOtMzChjzMLkuWrwvcHpNIVaKn");
+  } else if (Platform.isIOS) {
+    configuration = revenuecat.PurchasesConfiguration("appl_nGYkHELZrcYyxKnkcRDQfccLFrK");
+  }
+  await revenuecat.Purchases.configure(configuration);
 }
 
 void initializingMixPanel() async {
