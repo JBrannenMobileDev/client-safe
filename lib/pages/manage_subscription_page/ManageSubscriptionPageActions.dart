@@ -16,9 +16,23 @@ class RestoreSubscriptionAction{
 class SetManageSubscriptionStateAction{
   final ManageSubscriptionPageState pageState;
   final CustomerInfo subscriptionState;
+  final Offerings offerings;
+  final Profile profile;
   final double monthlyPrice;
   final double annualPrice;
-  SetManageSubscriptionStateAction(this.pageState, this.subscriptionState, this.monthlyPrice, this.annualPrice);
+  SetManageSubscriptionStateAction(this.pageState, this.subscriptionState, this.monthlyPrice, this.annualPrice, this.offerings, this.profile);
+}
+
+class SetLoadingState {
+  final ManageSubscriptionPageState pageState;
+  final bool isLoading;
+  SetLoadingState(this.pageState, this.isLoading);
+}
+
+class SetManageSubscriptionUiState {
+  final ManageSubscriptionPageState pageState;
+  final String uiState;
+  SetManageSubscriptionUiState(this.pageState, this.uiState);
 }
 
 class SetInitialDataAction{
@@ -38,4 +52,15 @@ class SubscriptionSelectedAction{
   final ManageSubscriptionPageState pageState;
   final Package package;
   SubscriptionSelectedAction(this.pageState, this.package);
+}
+
+class ResetErrorMsgAction {
+  final ManageSubscriptionPageState pageState;
+  ResetErrorMsgAction(this.pageState);
+}
+
+class SetErrorMsgAction {
+  final ManageSubscriptionPageState pageState;
+  final String errorMsg;
+  SetErrorMsgAction(this.pageState, this.errorMsg);
 }

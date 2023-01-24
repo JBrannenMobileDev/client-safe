@@ -17,7 +17,8 @@ class Styles {
       backgroundColor: color,
       padding: EdgeInsets.fromLTRB(left, top, right, bottom),
       shape: shape,
-      primary: color,
+      foregroundColor: color,
+      splashFactory: NoSplash.splashFactory,
       textStyle: TextStyle(
       fontSize: 20.0,
       fontFamily: 'simple',
