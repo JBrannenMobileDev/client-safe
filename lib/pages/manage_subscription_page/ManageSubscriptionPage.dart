@@ -106,7 +106,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                               child: AnimatedDefaultTextStyle(
                                 style: TextStyle(
                                   fontSize: 72.0,
-                                  fontFamily: 'simple',
+                                  fontFamily: 'dandy',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.getPrimaryWhite())
                                       .withOpacity(1.0),
@@ -119,12 +119,12 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                               ),
                             ),
                             Container(
-                                width: pageState.uiState == ManageSubscriptionPage.DEFAULT_SUBSCRIBE || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 175 : MediaQuery.of(context).size.width,
+                                width: pageState.uiState == ManageSubscriptionPage.DEFAULT_SUBSCRIBE || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 224 : MediaQuery.of(context).size.width,
                                 margin: EdgeInsets.only(top: 164.0),
                                 child: Text(_getMessageText(pageState.uiState),
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 22.0,
+                                    fontSize: 18.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(
@@ -137,9 +137,9 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 child: Text('Beta tester discount applied',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w700,
+                                    fontSize: 18.0,
+                                    fontFamily: 'simpleMedium',
+                                    fontWeight: FontWeight.w500,
                                     color: Color(
                                         ColorConstants.getPeachDark()),
                                   ),
@@ -150,7 +150,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 child: Text('Subscription Active',
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                    fontSize: 22.0,
+                                    fontSize: 18.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w700,
                                     color: Color(
@@ -211,7 +211,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               'Annual',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                fontSize: 28.0,
+                                                fontSize: 24.0,
                                                 fontFamily: 'simple',
                                                 fontWeight: FontWeight.w600,
                                                 color:
@@ -224,9 +224,9 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 profile.isBetaTester ? '(-50%)' : '',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  fontSize: 22.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18.0,
+                                                  fontFamily: 'simpleMedium',
+                                                  fontWeight: FontWeight.w500,
                                                   color:
                                                   Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
                                                 ),
@@ -241,7 +241,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               children: <Widget>[
                                                 DandyLightTextWidget(
                                                   amount: pageState.annualPrice,
-                                                  textSize: 28.0,
+                                                  textSize: 24.0,
                                                   textColor: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                                   fontWeight: FontWeight.w600,
                                                   decimalPlaces: 2,
@@ -251,7 +251,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                   '/yr',
                                                   textAlign: TextAlign.center,
                                                   style: TextStyle(
-                                                    fontSize: 28.0,
+                                                    fontSize: 24.0,
                                                     fontFamily: 'simple',
                                                     fontWeight: FontWeight.w600,
                                                     color:
@@ -337,7 +337,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               'Monthly',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                fontSize: 28.0,
+                                                fontSize: 24.0,
                                                 fontFamily: 'simple',
                                                 fontWeight: FontWeight.w600,
                                                 color:
@@ -350,9 +350,9 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 profile.isBetaTester ? '(-50%)' : '',
                                                 textAlign: TextAlign.center,
                                                 style: TextStyle(
-                                                  fontSize: 22.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18.0,
+                                                  fontFamily: 'simpleMedium',
+                                                  fontWeight: FontWeight.w500,
                                                   color:
                                                   Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
                                                 ),
@@ -364,7 +364,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           children: <Widget>[
                                             DandyLightTextWidget(
                                               amount: pageState.monthlyPrice,
-                                              textSize: 28.0,
+                                              textSize: 24.0,
                                               textColor: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                               fontWeight: FontWeight.w600,
                                               decimalPlaces: 2,
@@ -374,7 +374,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               '/mo',
                                               textAlign: TextAlign.center,
                                               style: TextStyle(
-                                                fontSize: 28.0,
+                                                fontSize: 24.0,
                                                 fontFamily: 'simple',
                                                 fontWeight: FontWeight.w600,
                                                 color:
@@ -399,7 +399,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                       textAlign: TextAlign.center,
                                       softWrap: true,
                                       style: TextStyle(
-                                        fontSize: 22.0,
+                                        fontSize: 18.0,
                                         fontFamily: 'simple',
                                         fontWeight: FontWeight.w600,
                                         color: Color(ColorConstants.getBlueDark()),
@@ -444,7 +444,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           textAlign: TextAlign.center,
                                           softWrap: true,
                                           style: TextStyle(
-                                            fontSize: 28.0,
+                                            fontSize: 24.0,
                                             fontFamily: 'simple',
                                             fontWeight: FontWeight.w600,
                                             color: Color(ColorConstants.getBlueDark()),
@@ -471,7 +471,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   textAlign: TextAlign.center,
                                   softWrap: true,
                                   style: TextStyle(
-                                    fontSize: 16.0,
+                                    fontSize: 14.0,
                                     fontFamily: 'simple',
                                     fontWeight: FontWeight.w600,
                                     color: Color(ColorConstants.getBlueDark()),
@@ -484,7 +484,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     textAlign: TextAlign.center,
                                     softWrap: true,
                                     style: TextStyle(
-                                      fontSize: 16.0,
+                                      fontSize: 14.0,
                                       fontFamily: 'simple',
                                       fontWeight: FontWeight.w600,
                                       color: Color(ColorConstants.getBlueDark()),
@@ -505,7 +505,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           textAlign: TextAlign.center,
                                           softWrap: true,
                                           style: TextStyle(
-                                            fontSize: 18.0,
+                                            fontSize: 16.0,
                                             fontFamily: 'simple',
                                             fontWeight: FontWeight.w600,
                                             color: Color(ColorConstants.getBlueDark()),
@@ -524,7 +524,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           textAlign: TextAlign.center,
                                           softWrap: true,
                                           style: TextStyle(
-                                            fontSize: 18.0,
+                                            fontSize: 16.0,
                                             fontFamily: 'simple',
                                             fontWeight: FontWeight.w600,
                                             color: Color(ColorConstants.getBlueDark()),
