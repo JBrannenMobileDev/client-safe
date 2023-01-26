@@ -19,12 +19,6 @@ class Styles {
       shape: shape,
       foregroundColor: color,
       splashFactory: NoSplash.splashFactory,
-      textStyle: TextStyle(
-      fontSize: 20.0,
-      fontFamily: 'simple',
-      fontWeight: FontWeight.w600,
-      color: Color(ColorConstants.primary_black),
-      ),
     );
   }
 }

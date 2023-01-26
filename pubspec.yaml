@@ -372,13 +372,13 @@ flutter:
     - family: numbersFont
       fonts:
         - asset: assets/fonts/Nocturne.ttf
-    - family: dandy
-      fonts:
-        - asset: assets/fonts/simplicity.ttf
     - family: simple
       fonts:
+        - asset: assets/fonts/simplicity.ttf
+    - family: montserrat
+      fonts:
         - asset: assets/fonts/Montserrat.ttf
-    - family: simpleMedium
+    - family: montserratMedium
       fonts:
       - asset: assets/fonts/Montserrat-Medium.ttf
     - family: Raleway

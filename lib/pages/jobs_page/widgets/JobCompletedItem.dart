@@ -1,8 +1,6 @@
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

@@ -1,5 +1,5 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/JobCompletedItem.dart';
+import 'package:dandylight/pages/jobs_page/widgets/JobCompletedItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/pages/jobs_page/widgets/JobsPageActiveJobsItem.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';

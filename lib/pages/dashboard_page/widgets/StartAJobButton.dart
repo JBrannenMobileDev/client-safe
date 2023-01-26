@@ -1,12 +1,10 @@
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/BaseHomeCardInProgress.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../utils/NavigationUtil.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 

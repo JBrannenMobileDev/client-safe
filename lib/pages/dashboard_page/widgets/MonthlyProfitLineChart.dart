@@ -3,9 +3,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../../utils/styles/Styles.dart';
+import '../../../widgets/TextDandyLight.dart';
 import 'BarChartWidget.dart';
-import 'LeadItem.dart';
 
 class MonthlyProfitLineChart extends StatelessWidget{
   MonthlyProfitLineChart({this.pageState});
@@ -27,15 +26,11 @@ class MonthlyProfitLineChart extends StatelessWidget{
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                  child: Text(
-                    'Monthly Net Profit',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Monthly Net Profit',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 BarChartWidget(monthsData: pageState.lineChartMonthData),

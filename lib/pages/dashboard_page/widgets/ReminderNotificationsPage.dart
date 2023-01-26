@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:swipedetector/swipedetector.dart';
 
 import '../../../AppState.dart';
 import '../../../models/JobReminder.dart';
 import '../../../utils/NavigationUtil.dart';
 import '../../../utils/styles/Styles.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class ReminderNotificationsPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -39,14 +39,10 @@ class ReminderNotificationsPage extends StatelessWidget{
                     floating: false,
                     forceElevated: false,
                     centerTitle: true,
-                    title: Text(
-                      'Notifications',
-                      style: TextStyle(
-                        fontSize: 26.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: const Color(ColorConstants.primary_black),
-                      ),
+                    title: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Notifications',
+                      color: const Color(ColorConstants.primary_black),
                     ),
                     leading: IconButton(
                       icon: const Icon(Icons.close),
@@ -100,32 +96,24 @@ class ReminderNotificationsPage extends StatelessWidget{
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
-                                              child: Text(
-                                                pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
+                                              child: TextDandyLight(
+                                                type: TextDandyLight.SMALL_TEXT,
+                                                text: pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
                                                 textAlign: TextAlign.start,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                style: TextStyle(
-                                                  fontSize: 20.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
-                                                ),
+                                                color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                               ),
                                             ),
                                             Container(
                                               width: MediaQuery.of(context).size.width - 120,
-                                              child: Text(
-                                                pageState.reminders.elementAt(index).reminder.description,
+                                              child: TextDandyLight(
+                                                type: TextDandyLight.SMALL_TEXT,
+                                                text: pageState.reminders.elementAt(index).reminder.description,
                                                 textAlign: TextAlign.start,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
-                                                style: TextStyle(
-                                                  fontSize: 16.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
-                                                ),
+                                                color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                               ),
                                             )
                                           ],

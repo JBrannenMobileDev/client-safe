@@ -37,6 +37,7 @@ import '../../models/Profile.dart';
 import '../../utils/NotificationHelper.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage({Key key, this.destination, this.comingFromLogin}) : super(key: key);
@@ -227,9 +228,9 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               targetShapeBorder: CircleBorder(),
               description: 'Start a new job or \nadd a new contact here!',
               descTextStyle: TextStyle(
-                fontSize: 22.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
               child:
@@ -273,14 +274,10 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(21.0),
                       ),
-                      child: Text(
-                        'Start new job',
-                        style: TextStyle(
-                          fontFamily: 'simple',
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Start new job',
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     onTap: () {
@@ -300,14 +297,10 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(21.0),
                       ),
-                      child: Text(
-                        'New contact',
-                        style: TextStyle(
-                          fontFamily: 'simple',
-                          fontSize: 22.0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'New contact',
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     onTap: () {
@@ -332,9 +325,9 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                           targetShapeBorder: CircleBorder(),
                           description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
                           descTextStyle: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontWeight: TextDandyLight.getFontWeight(),
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                           child:SizedBox(
@@ -369,9 +362,9 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                               targetShapeBorder: CircleBorder(),
                               description: 'Sunset & Weather',
                               descTextStyle: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
+                                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                fontFamily: TextDandyLight.getFontFamily(),
+                                fontWeight: TextDandyLight.getFontWeight(),
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                               child: SlideTransition(
@@ -530,15 +523,11 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                                     position: offsetAnimationUp,
                                     child:  Padding(
                                       padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                      child: Text(
-                                        'Business Insights - ' + DateTime.now().year.toString(),
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        text: 'Business Insights - ' + DateTime.now().year.toString(),
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 24.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     )
                                 ),
@@ -578,7 +567,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
         children: [
           Container(
             width: (MediaQuery.of(context).size.width / 2) - (25),
-            height: 120.0,
+            height: 132.0,
             decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(24.0))),
@@ -587,26 +576,22 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    'Lead Conversion Rate',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.SMALL_TEXT,
+                    text: 'Lead\n Conversion Rate',
+                    textAlign: TextAlign.center,
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 42.0),
+                  padding: EdgeInsets.only(top: 58.0),
                   child: Text(
                     pageState.leadConversionRate.toString() + '%',
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 42.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w500,
+                      fontSize: 38,
+                      fontFamily: TextDandyLight.getFontFamily(),
+                      fontWeight: TextDandyLight.getFontWeight(),
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),
@@ -616,7 +601,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           ),
           Container(
             width: (MediaQuery.of(context).size.width / 2) - (25),
-            height: 120.0,
+            height: 132.0,
             decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: new BorderRadius.all(Radius.circular(24.0))),
@@ -625,26 +610,22 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 8.0),
-                  child: Text(
-                    'Unconverted Leads',
-                    textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.SMALL_TEXT,
+                    text: 'Leads\nUnconverted',
+                    textAlign: TextAlign.center,
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: 42.0),
+                  padding: EdgeInsets.only(top: 58.0),
                   child: Text(
                     pageState.unconvertedLeadCount.toString(),
                     textAlign: TextAlign.start,
                     style: TextStyle(
-                      fontSize: 42.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w500,
+                      fontSize: 38,
+                      fontFamily: TextDandyLight.getFontFamily(),
+                      fontWeight: TextDandyLight.getFontWeight(),
                       color: Color(ColorConstants.primary_black),
                     ),
                   ),

@@ -16,6 +16,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'ManageSubscriptionPageActions.dart';
 
 class ManageSubscriptionPage extends StatefulWidget {
@@ -106,7 +107,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                               child: AnimatedDefaultTextStyle(
                                 style: TextStyle(
                                   fontSize: 72.0,
-                                  fontFamily: 'dandy',
+                                  fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
                                   color: Color(ColorConstants.getPrimaryWhite())
                                       .withOpacity(1.0),
@@ -119,43 +120,30 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                               ),
                             ),
                             Container(
-                                width: pageState.uiState == ManageSubscriptionPage.DEFAULT_SUBSCRIBE || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 224 : MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.only(top: 164.0),
-                                child: Text(_getMessageText(pageState.uiState),
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(
-                                        ColorConstants.getBlueDark()),
-                                  ),
+                                margin: EdgeInsets.only(top: 178.0),
+                                child: TextDandyLight(
+                                    text: _getMessageText(pageState.uiState),
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getBlueDark())
                                 )
                             ),
                             pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : Container(
                                 margin: EdgeInsets.only(top: 258.0),
-                                child: Text('Beta tester discount applied',
+                                child: TextDandyLight(
+                                  text: 'Beta tester discount applied',
+                                  type: TextDandyLight.MEDIUM_TEXT,
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'simpleMedium',
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(
-                                        ColorConstants.getPeachDark()),
-                                  ),
+                                  color: Color(ColorConstants.getBlueDark())
                                 )
                             ),
                             pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
-                                child: Text('Subscription Active',
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(
-                                        ColorConstants.getPeachDark()),
-                                  ),
+                                child: TextDandyLight(
+                                    text: 'Subscription Active',
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getPeachDark())
                                 )
                             ) : SizedBox(),
                             Container(
@@ -207,29 +195,18 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 }
                                               },
                                             ),
-                                            Text(
-                                              'Annual',
-                                              textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 24.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color:
-                                                Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                              ),
+                                            TextDandyLight(
+                                                text: 'Annual',
+                                                type: TextDandyLight.LARGE_TEXT,
+                                                textAlign: TextAlign.center,
+                                                color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             ),
                                             Container(
                                               margin: EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                profile.isBetaTester ? '(-50%)' : '',
-                                                textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 18.0,
-                                                  fontFamily: 'simpleMedium',
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                  Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
-                                                ),
+                                              child: TextDandyLight(
+                                                text: profile.isBetaTester ? '(-50%)' : '',
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                               ),
                                             ),
                                           ],
@@ -239,58 +216,39 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                           children: <Widget>[
                                             Row(
                                               children: <Widget>[
-                                                DandyLightTextWidget(
+                                                TextDandyLight(
+                                                  type: TextDandyLight.LARGE_TEXT,
                                                   amount: pageState.annualPrice,
-                                                  textSize: 24.0,
-                                                  textColor: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                                  fontWeight: FontWeight.w600,
-                                                  decimalPlaces: 2,
+                                                  color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                                   isCurrency: true,
                                                 ),
-                                                Text(
-                                                  '/yr',
+                                                TextDandyLight(
+                                                  text: '/yr',
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 24.0,
-                                                    fontFamily: 'simple',
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                    Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                                  ),
+                                                  type: TextDandyLight.LARGE_TEXT,
+                                                  color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                                 ),
                                               ],
                                             ),
                                             Row(
                                               children: <Widget>[
-                                                Text(
-                                                  '(',
+                                                TextDandyLight(
+                                                  text: '(',
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    fontFamily: 'simple',
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                    Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                                  ),
+                                                  type: TextDandyLight.MEDIUM_TEXT,
+                                                  color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                                 ),
-                                                DandyLightTextWidget(
+                                                TextDandyLight(
+                                                  type: TextDandyLight.MEDIUM_TEXT,
                                                   amount: pageState.annualPrice/12,
-                                                  textSize: 16.0,
-                                                  textColor: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                                  fontWeight: FontWeight.w600,
-                                                  decimalPlaces: 2,
+                                                  color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                                   isCurrency: true,
                                                 ),
-                                                Text(
-                                                  '/mo)',
+                                                TextDandyLight(
+                                                  text: '/mo)',
                                                   textAlign: TextAlign.center,
-                                                  style: TextStyle(
-                                                    fontSize: 16.0,
-                                                    fontFamily: 'simple',
-                                                    fontWeight: FontWeight.w600,
-                                                    color:
-                                                    Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                                  ),
+                                                  type: TextDandyLight.MEDIUM_TEXT,
+                                                  color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                                 ),
                                               ],
                                             ),
@@ -333,53 +291,36 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 }
                                               },
                                             ),
-                                            Text(
-                                              'Monthly',
+                                            TextDandyLight(
+                                              text: 'Monthly',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 24.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color:
-                                                Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                              ),
+                                              type: TextDandyLight.LARGE_TEXT,
+                                              color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             ),
                                             Container(
                                               margin: EdgeInsets.only(left: 8.0),
-                                              child: Text(
-                                                profile.isBetaTester ? '(-50%)' : '',
+                                              child: TextDandyLight(
+                                                text: profile.isBetaTester ? '(-50%)' : '',
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 18.0,
-                                                  fontFamily: 'simpleMedium',
-                                                  fontWeight: FontWeight.w500,
-                                                  color:
-                                                  Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryColor() : ColorConstants.getPeachDark()),
-                                                ),
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                               ),
                                             ),
                                           ],
                                         ),
                                         Row(
                                           children: <Widget>[
-                                            DandyLightTextWidget(
+                                            TextDandyLight(
+                                              type: TextDandyLight.LARGE_TEXT,
                                               amount: pageState.monthlyPrice,
-                                              textSize: 24.0,
-                                              textColor: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                              fontWeight: FontWeight.w600,
-                                              decimalPlaces: 2,
                                               isCurrency: true,
+                                              color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             ),
-                                            Text(
-                                              '/mo',
+                                            TextDandyLight(
+                                              type: TextDandyLight.LARGE_TEXT,
+                                              text: '/mo',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 24.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color:
-                                                Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
-                                              ),
+                                              color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getBlueDark()),
                                             ),
                                           ],
                                         ),
@@ -394,16 +335,11 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   },
                                   child: Container(
                                     margin: EdgeInsets.only(top: 8),
-                                    child: Text(
-                                      'Enter Referral Code',
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Enter Referral Code',
                                       textAlign: TextAlign.center,
-                                      softWrap: true,
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getBlueDark()),
-                                      ),
+                                      color: Color(ColorConstants.getBlueDark())
                                     ),
                                   ),
                                 ),
@@ -434,21 +370,16 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         alignment: Alignment.center,
                                         margin: EdgeInsets.only(bottom: 16.0, top: 16.0),
                                         height: 48.0,
-                                        width: pageState.isLoading ? '' : pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 264 : 200.0,
+                                        width: pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 264 : 200.0,
                                         decoration: BoxDecoration(
                                             color: Color(ColorConstants.getPrimaryWhite()),
                                             borderRadius: BorderRadius.circular(32.0)
                                         ),
-                                        child: Text(
-                                          pageState.isLoading ? '' : pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 'Cancel Subscription' : 'Subscribe',
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.LARGE_TEXT,
+                                          text: pageState.isLoading ? '' : pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 'Cancel Subscription' : 'Subscribe',
                                           textAlign: TextAlign.center,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(ColorConstants.getBlueDark()),
-                                          ),
+                                          color: Color(ColorConstants.getBlueDark()),
                                         ),
                                       ),
                                     ),
@@ -466,29 +397,19 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ) : SizedBox(),
                                   ],
                                 ),
-                                Text(
-                                  'You can cancel your subscription at any time.',
+                                TextDandyLight(
+                                  type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                  text: 'You can cancel your subscription at any time.',
                                   textAlign: TextAlign.center,
-                                  softWrap: true,
-                                  style: TextStyle(
-                                    fontSize: 14.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getBlueDark()),
-                                  ),
+                                  color: Color(ColorConstants.getBlueDark()),
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 32.0, bottom: 16.0),
-                                  child: Text(
-                                    'Payment will be charged to your ' + (Device.get().isIos ? 'iTunes' : 'GooglePlay') + ' account, and your account will be charged for renewal 24-hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the App Store after purchase.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                    text: 'Payment will be charged to your ' + (Device.get().isIos ? 'iTunes' : 'GooglePlay') + ' account, and your account will be charged for renewal 24-hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the App Store after purchase.',
                                     textAlign: TextAlign.center,
-                                    softWrap: true,
-                                    style: TextStyle(
-                                      fontSize: 14.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getBlueDark()),
-                                    ),
+                                    color: Color(ColorConstants.getBlueDark()),
                                   ),
                                 ),
                                 Row(
@@ -497,38 +418,28 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     TextButton(
                                       style: Styles.getButtonStyle(),
                                       onPressed: () {
-
+                                        _launchTermsOfServiceURL();
                                       },
                                       child: Container(
-                                        child: Text(
-                                          'Terms of service',
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: 'Terms of service',
                                           textAlign: TextAlign.center,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(ColorConstants.getBlueDark()),
-                                          ),
+                                          color: Color(ColorConstants.getBlueDark()),
                                         ),
                                       ),
                                     ),
                                     TextButton(
                                       style: Styles.getButtonStyle(),
                                       onPressed: () {
-
+                                        _launchPrivacyPolicyURL();
                                       },
                                       child: Container(
-                                        child: Text(
-                                          'Privacy policy',
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: 'Privacy Policy',
                                           textAlign: TextAlign.center,
-                                          softWrap: true,
-                                          style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(ColorConstants.getBlueDark()),
-                                          ),
+                                          color: Color(ColorConstants.getBlueDark()),
                                         ),
                                       ),
                                     ),
@@ -571,7 +482,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
     switch(uiState) {
       case ManageSubscriptionPage.DEFAULT_SUBSCRIBE:
       case ManageSubscriptionPage.SUBSCRIBED:
-        message = 'Capture the moment We\'ll do the rest';
+        message = 'Capture the moment\n We\'ll do the rest';
         break;
       case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:
         message = 'Your subscription has expired. Please resubscribe to regain access to your account.';
@@ -582,4 +493,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
     }
     return message;
   }
+
+  void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
+  void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
 }

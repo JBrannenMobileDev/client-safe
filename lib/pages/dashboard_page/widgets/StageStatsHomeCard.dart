@@ -1,6 +1,5 @@
 
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/BaseHomeCardInProgress.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';

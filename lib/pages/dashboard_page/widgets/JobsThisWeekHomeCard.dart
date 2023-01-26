@@ -9,6 +9,7 @@ import '../../../AppState.dart';
 import '../../../utils/NavigationUtil.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class JobsThisWeekHomeCard extends StatelessWidget {
 
@@ -44,15 +45,11 @@ class JobsThisWeekHomeCard extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text(
-                      'Jobs This Week',
+                    TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Jobs This Week',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ],
                 ),
@@ -60,15 +57,11 @@ class JobsThisWeekHomeCard extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(right: 16.0),
-                      child: Text(
-                        pageState.jobsThisWeek != null ? pageState.jobsThisWeek.length.toString() : '',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.jobsThisWeek != null ? pageState.jobsThisWeek.length.toString() : '',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Container(
