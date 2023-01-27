@@ -3,12 +3,10 @@ import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
-import '../../../utils/styles/Styles.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class StageStatsItem extends StatelessWidget{
   final List<Job> jobs;
@@ -37,15 +35,11 @@ class StageStatsItem extends StatelessWidget{
                     ),
                   ),
                 ),
-                Text(
-                  JobStage.getStageText(stage),
+                TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: JobStage.getStageText(stage),
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ],
             ),
@@ -53,15 +47,11 @@ class StageStatsItem extends StatelessWidget{
               children: [
                 Padding(
                   padding: EdgeInsets.only(right: 16.0),
-                  child: Text(
-                    jobs.length.toString(),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: jobs.length.toString(),
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 Container(

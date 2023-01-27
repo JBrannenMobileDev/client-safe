@@ -1,6 +1,5 @@
 import 'dart:ui';
 import 'package:dandylight/models/Profile.dart';
-import 'package:dandylight/pages/common_widgets/DandyLightTextWidget.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/services.dart';

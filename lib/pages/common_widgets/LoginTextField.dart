@@ -1,10 +1,9 @@
-import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class LoginTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -70,15 +69,20 @@ class LoginTextField extends StatelessWidget {
             decoration: InputDecoration.collapsed(
               hintText: hintText,
               fillColor: Colors.white,
+              hintStyle: new TextStyle(
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                  fontWeight: TextDandyLight.getFontWeight(),
+                  color: Color(ColorConstants.getPrimaryBlack())),
             ),
             keyboardType: inputType,
             textCapitalization: capitalization,
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
-                fontFamily: 'simple',
-                fontSize: 22.0,
-                fontWeight: FontWeight.w600,
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),
             textAlignVertical: TextAlignVertical.center,
           )

@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class DandyLightTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -61,6 +63,9 @@ class DandyLightTextField extends StatelessWidget {
               alignLabelWithHint: true,
               labelText: labelText,
               labelStyle: TextStyle(
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryColor()), //<-- SEE HERE
               ),
               hintText: hintText,
@@ -99,9 +104,9 @@ class DandyLightTextField extends StatelessWidget {
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
-                fontFamily: 'simple',
-                fontSize: 24.0,
-                fontWeight: FontWeight.w600,
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),
           )
     );

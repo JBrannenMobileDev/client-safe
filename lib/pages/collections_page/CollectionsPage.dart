@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../poses_page/PosesPage.dart';
 import '../responses_page/ResponsesPage.dart';
 
@@ -39,14 +40,10 @@ class _CollectionsPageState extends State<CollectionsPage> {
               pinned: true,
               centerTitle: true,
               title: Center(
-                child: Text(
-                  "My Collections",
-                  style: TextStyle(
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'simple',
-                    color: const Color(ColorConstants.primary_black),
-                  ),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: "My Collections",
+                  color: const Color(ColorConstants.primary_black),
                 ),
               ),
             ),
@@ -82,14 +79,11 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                 Center(
                                   child: Container(
                                     padding: EdgeInsets.only(top: 4.0),
-                                    child: Text(
-                                      ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: ImageUtil.getCollectionIconName(collectionIcons.elementAt(index)),
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontFamily: 'simple',
-                                        color: const Color(ColorConstants.primary_black),
-                                      ),
+                                      color: const Color(ColorConstants.primary_black),
                                     ),
                                   ),
                                 ),

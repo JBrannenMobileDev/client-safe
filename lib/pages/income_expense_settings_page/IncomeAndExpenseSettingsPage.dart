@@ -13,6 +13,7 @@ import 'package:redux/redux.dart';
 import 'dart:io' show Platform;
 
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 
 
 class IncomeAndExpenseSettingsPage extends StatefulWidget {
@@ -47,15 +48,11 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                       pinned: true,
                       centerTitle: true,
                       elevation: 0.0,
-                      title: Text(
-                          "Settings",
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
+                      title: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Settings",
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
                     ),
                     SliverList(
                       delegate: new SliverChildListDelegate(
@@ -94,16 +91,11 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                               width: 28.0,
                                               child: Image.asset('assets/images/collection_icons/pricing_profile_icons/wallet_icon_gold.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
-                                            Text(
-                                              'Payment request info',
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Payment request info',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 22.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(ColorConstants
-                                                    .getPrimaryBlack()),
-                                              ),
+                                              color: Color(ColorConstants.getPrimaryBlack()),
                                             ),
                                           ],
                                         ),
@@ -145,16 +137,11 @@ class _IncomeAndExpenseSettingsPageState extends State<IncomeAndExpenseSettingsP
                                                 width: 28.0,
                                                 child: Icon(Platform.isIOS ? CupertinoIcons.share : Icons.share, color: Color(ColorConstants.getPrimaryBlack()),),
                                               ),
-                                              Text(
-                                                'Generate income\nand expense report',
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Generate income\nand expense report',
                                                 textAlign: TextAlign.start,
-                                                style: TextStyle(
-                                                  fontSize: 22.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Color(ColorConstants
-                                                      .getPrimaryBlack()),
-                                                ),
+                                                color: Color(ColorConstants.getPrimaryBlack()),
                                               ),
                                             ],
                                           ),

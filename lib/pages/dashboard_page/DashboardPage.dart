@@ -513,11 +513,11 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                                         : StartAJobButton(pageState: pageState)),
                                 SlideTransition(
                                     position: offsetAnimationUp,
-                                    child: StageStatsHomeCard(pageState: pageState)
+                                    child: ActiveJobsHomeCard()
                                 ),
                                 SlideTransition(
                                     position: offsetAnimationUp,
-                                    child: ActiveJobsHomeCard()
+                                    child: StageStatsHomeCard(pageState: pageState)
                                 ),
                                 SlideTransition(
                                     position: offsetAnimationUp,

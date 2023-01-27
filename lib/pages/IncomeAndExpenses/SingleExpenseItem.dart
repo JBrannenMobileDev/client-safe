@@ -1,17 +1,13 @@
-
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
-import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class SingleExpenseItem extends StatelessWidget{
   final SingleExpense singleExpense;
@@ -84,13 +80,11 @@ class SingleExpenseItem extends StatelessWidget{
                                 color: Color(ColorConstants.primary_black),
                               ),
                             ),
-                            DandyLightTextWidget(
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
                               amount: singleExpense.charge.chargeAmount,
-                              textSize: 18.0,
-                              textColor: Color(ColorConstants.getPrimaryBlack()),
-                              fontWeight: FontWeight.w600,
-                              isCurrency: true,
-                              decimalPlaces: 2,
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                              isCurrency: true
                             ),
                           ],
                         ),

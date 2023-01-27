@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class JobCalendarItem extends StatelessWidget{
   final Job job;
@@ -57,15 +58,11 @@ class JobCalendarItem extends StatelessWidget{
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                            child: Text(
-                              job != null ? job.jobTitle : eventDandyLight.eventTitle,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: job != null ? job.jobTitle : eventDandyLight.eventTitle,
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(job != null ? ColorConstants.primary_black : ColorConstants.primary_bg_grey_dark),
-                              ),
+                              color: Color(job != null ? ColorConstants.primary_black : ColorConstants.primary_bg_grey_dark),
                             ),
                           ),
                           job != null ? (job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
@@ -79,36 +76,23 @@ class JobCalendarItem extends StatelessWidget{
                           )) : SizedBox(),
                         ],
                       ),
-                      job != null ? Text(
-                        'Stage: ' + job.stage.stage,
+                      job != null ? TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Stage: ' + job.stage.stage,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ) : SizedBox(),
-                      job != null ? Text(
-                        _getSubtext(job),
+                      job != null ? TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: _getSubtext(job),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
-                              ? FontWeight.w400 : FontWeight.w800,
-                          color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
-                              ? Color(ColorConstants.primary_black) : Color(ColorConstants.getPeachDark()),
-                        ),
-                      ) : Text(
-                        DateFormat('EEE, MMM d').format(eventDandyLight.start) + ' · ' + DateFormat('h:mm a').format(eventDandyLight.start) + ' - ' + DateFormat('h:mm a').format(eventDandyLight.end),
+                        color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                            ? Color(ColorConstants.primary_black) : Color(ColorConstants.getPeachDark()),
+                      ) : TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: DateFormat('EEE, MMM d').format(eventDandyLight.start) + ' · ' + DateFormat('h:mm a').format(eventDandyLight.start) + ' - ' + DateFormat('h:mm a').format(eventDandyLight.end),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.primary_bg_grey_dark),
-                        ),
+                        color: Color(ColorConstants.primary_bg_grey_dark),
                       ),
                     ],
                   ),

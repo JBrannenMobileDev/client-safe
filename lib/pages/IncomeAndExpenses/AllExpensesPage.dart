@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class AllExpensesPage extends StatefulWidget {
   static const String FILTER_TYPE_MILEAGE_EXPENSES = "Mileage";
   static const String FILTER_TYPE_SINGLE_EXPENSES = "Single";
@@ -29,69 +31,53 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
   @override
   Widget build(BuildContext context) {
     filterNames = <int, Widget>{
-      0: Text(
-        AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),
+      0: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES,
+        color: Color(selectorIndex == 0
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
       ),
-      1: Text(AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      2: Text(AllExpensesPage.FILTER_TYPE_RECURRING_EXPENSES,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 2 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 2
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
+      1: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES,
+        color: Color(selectorIndex == 1
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
+      2: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: AllExpensesPage.FILTER_TYPE_RECURRING_EXPENSES,
+        color: Color(selectorIndex == 2
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
     };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
         onInit: (store) {
           selectorIndex = store.state.incomeAndExpensesPageState.allExpensesFilterType == AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES ? 0 : store.state.incomeAndExpensesPageState.allExpensesFilterType == AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES ? 1 : 2;
           filterNames = <int, Widget>{
-            0: Text(
-              AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES,
-              style: TextStyle(
-                fontFamily: 'simple',
-                fontSize: 20.0,
-                fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-                color: Color(selectorIndex == 0
-                    ? ColorConstants.getPrimaryWhite()
-                    : ColorConstants.getPrimaryBlack()),
-              ),
+            0: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: AllExpensesPage.FILTER_TYPE_MILEAGE_EXPENSES,
+              color: Color(selectorIndex == 0
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
             ),
-            1: Text(AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES,
-              style: TextStyle(
-                fontFamily: 'simple',
-                fontSize: 20.0,
-                fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-                color: Color(selectorIndex == 1
-                    ? ColorConstants.getPrimaryWhite()
-                    : ColorConstants.getPrimaryBlack()),
-              ),),
-            2: Text(AllExpensesPage.FILTER_TYPE_RECURRING_EXPENSES,
-              style: TextStyle(
-                fontFamily: 'simple',
-                fontSize: 20.0,
-                fontWeight: selectorIndex == 2 ? FontWeight.w800 : FontWeight.w600,
-                color: Color(selectorIndex == 2
-                    ? ColorConstants.getPrimaryWhite()
-                    : ColorConstants.getPrimaryBlack()),
-              ),),
+            1: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: AllExpensesPage.FILTER_TYPE_SINGLE_EXPENSES,
+              color: Color(selectorIndex == 1
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
+            ),
+            2: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: AllExpensesPage.FILTER_TYPE_RECURRING_EXPENSES,
+              color: Color(selectorIndex == 2
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
+            ),
           };
           store.dispatch(FetchClientData(store.state.clientsPageState));
         },
@@ -108,14 +94,10 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                         backgroundColor: Colors.white,
                         pinned: true,
                         centerTitle: true,
-                        title: Text(
-                            'All Expenses (' + pageState.selectedYear.toString() + ')',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(ColorConstants.primary_black),
-                            ),
+                        title: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'All Expenses (' + pageState.selectedYear.toString() + ')',
+                          color: const Color(ColorConstants.primary_black),
                         ),
                         actions: <Widget>[
 

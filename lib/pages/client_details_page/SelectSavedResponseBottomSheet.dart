@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../responses_page/ResponsesPage.dart';
 import 'ClientDetailsPageActions.dart';
 import 'ClientDetailsPageState.dart';
@@ -64,15 +65,11 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 24, bottom: 24.0),
-                    child: Text(
-                      'Select a message to send',
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Select a message to send',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   pageState.showNoSavedResponsesError ? Container(
@@ -85,15 +82,11 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
                     ),
                     child: Column(
                       children: [
-                        Text(
-                          'You have not saved any responses yet. Go to your (Response Collection) page to save some response templates.',
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'You have not saved any responses yet. Go to your (Response Collection) page to save some response templates.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w400,
-                            color: Color(ColorConstants.getPrimaryGreyMedium()),
-                          ),
+                          color: Color(ColorConstants.getPrimaryGreyMedium()),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -110,15 +103,11 @@ class _BottomSheetPageState extends State<SelectSavedResponseBottomSheet> with T
                                 borderRadius: BorderRadius.circular(32.0),
                                 color: Color(ColorConstants.getBlueLight())
                             ),
-                            child:Text(
-                              'Response Collection',
+                            child:TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Response Collection',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w400,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ),

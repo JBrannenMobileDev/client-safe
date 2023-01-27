@@ -1,18 +1,13 @@
-
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
-import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/MileageExpense.dart';
-import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class MileageExpenseItem extends StatelessWidget{
   final MileageExpense mileageExpense;
@@ -57,15 +52,11 @@ class MileageExpenseItem extends StatelessWidget{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              DateFormat('MMM dd, yyyy').format(mileageExpense.charge.chargeDate),
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: DateFormat('MMM dd, yyyy').format(mileageExpense.charge.chargeDate),
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ],
                         ),
@@ -75,31 +66,24 @@ class MileageExpenseItem extends StatelessWidget{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            DandyLightTextWidget(
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
                               amount: mileageExpense.totalMiles,
-                              textSize: 18.0,
-                              textColor: Color(ColorConstants.getPrimaryBlack()),
-                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
                               isCurrency: false,
                               decimalPlaces: 1,
                             ),
-                            Text(
-                              'mi  •  ',
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: 'mi  •  ',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
-                            DandyLightTextWidget(
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
                               amount: mileageExpense.charge.chargeAmount,
-                              textSize: 18.0,
-                              textColor: Color(ColorConstants.getPrimaryBlack()),
-                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.getPrimaryBlack()),
                               isCurrency: true,
-                              decimalPlaces: 2,
                             )
                           ],
                         ),

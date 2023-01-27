@@ -2,15 +2,13 @@
 import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/MileageExpenseItem.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class MileageExpensesCard extends StatelessWidget {
   MileageExpensesCard({this.pageState});
@@ -77,11 +75,10 @@ class MileageExpensesCard extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      child: DandyLightTextWidget(
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                         amount: pageState.mileageExpensesForSelectedYearTotal,
-                        textSize: 48.0,
-                        textColor: Color(ColorConstants.getPeachDark()),
-                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPeachDark()),
                         isCurrency: true,
                         decimalPlaces: 0,
                       ),
@@ -101,11 +98,10 @@ class MileageExpensesCard extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    DandyLightTextWidget(
+                                    TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
                                       amount: pageState.totalMilesDriven,
-                                      textSize: 26.0,
-                                      textColor: Color(ColorConstants.getPrimaryBlack()),
-                                      fontWeight: FontWeight.w600,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                       isCurrency: false,
                                       decimalPlaces: 1,
                                     ),
@@ -133,11 +129,10 @@ class MileageExpensesCard extends StatelessWidget {
                               Row(
 
                                 children: [
-                                  DandyLightTextWidget(
+                                  TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
                                     amount: 0.575,
-                                    textSize: 26.0,
-                                    textColor: Color(ColorConstants.getPrimaryBlack()),
-                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                     isCurrency: true,
                                   ),
                                   Container(

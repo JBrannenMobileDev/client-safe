@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import '../utils/TextFormatterUtil.dart';
 
 class TextDandyLight extends StatelessWidget {
+  static const String EXTRA_EXTRA_LARGE_TEXT = 'extra_extra_large_text';
+  static const String EXTRA_LARGE_TEXT = 'extra_large_text';
   static const String LARGE_TEXT = 'large_text';
   static const String MEDIUM_TEXT = 'medium_text';
   static const String SMALL_TEXT = 'small_text';
@@ -21,6 +23,12 @@ class TextDandyLight extends StatelessWidget {
   static getFontSize(String type) {
     double size = 18;
     switch(type) {
+      case EXTRA_EXTRA_LARGE_TEXT:
+        size = 48;
+        break;
+      case EXTRA_LARGE_TEXT:
+        size = 32;
+        break;
       case LARGE_TEXT:
         size = 22;
         break;
@@ -55,7 +63,6 @@ class TextDandyLight extends StatelessWidget {
   TextDandyLight({
     @required this.type,
     this.text,
-    this.size,
     this.fontFamily,
     this.isBold,
     this.color,
@@ -66,6 +73,7 @@ class TextDandyLight extends StatelessWidget {
     this.isCurrency,
     this.overflow,
     this.maxLines,
+    this.decimalPlaces,
   });
 
   @override
@@ -77,41 +85,29 @@ class TextDandyLight extends StatelessWidget {
     if(isCurrency == null) isCurrency = false;
     if(isNumber == null) isNumber = false;
     fontFamily = isBold ? 'montserratMedium' : 'montserrat';
+    if(isNumber) {
+      text = NumberFormat("###,###,###,###").format(amount);
+    }
+    if(isCurrency) {
+      text = TextFormatterUtil.formatDecimalDigitsCurrency(amount, decimalPlaces);
+    }
     switch(type) {
+      case EXTRA_EXTRA_LARGE_TEXT:
+        size = 48;
+        break;
+      case EXTRA_LARGE_TEXT:
+        size = 32;
+        break;
       case LARGE_TEXT:
-        if(isNumber) {
-          text = NumberFormat("###,###,###,###").format(amount);
-        }
-        if(isCurrency) {
-          text = TextFormatterUtil.formatDecimalDigitsCurrency(amount, decimalPlaces);
-        }
         size = 22;
         break;
       case MEDIUM_TEXT:
-        if(isNumber) {
-          text = NumberFormat("###,###,###,###").format(amount);
-        }
-        if(isCurrency) {
-          text = TextFormatterUtil.formatDecimalDigitsCurrency(amount, decimalPlaces);
-        }
         size = 18;
         break;
       case SMALL_TEXT:
-        if(isNumber) {
-          text = NumberFormat("###,###,###,###").format(amount);
-        }
-        if(isCurrency) {
-          text = TextFormatterUtil.formatDecimalDigitsCurrency(amount, decimalPlaces);
-        }
         size = 16;
         break;
       case EXTRA_SMALL_TEXT:
-        if(isNumber) {
-          text = NumberFormat("###,###,###,###").format(amount);
-        }
-        if(isCurrency) {
-          text = TextFormatterUtil.formatDecimalDigitsCurrency(amount, decimalPlaces);
-        }
         size = 14;
         break;
     }

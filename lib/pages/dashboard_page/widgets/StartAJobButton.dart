@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class StartAJobButton extends StatelessWidget {
   StartAJobButton({this.pageState});
@@ -27,15 +28,11 @@ class StartAJobButton extends StatelessWidget {
         decoration: new BoxDecoration(
             color: Color(ColorConstants.getBlueDark()),
             borderRadius: new BorderRadius.all(Radius.circular(24.0))),
-        child: Text(
-          'START NEW JOB',
+        child: TextDandyLight(
+          type: TextDandyLight.LARGE_TEXT,
+          text: 'START NEW JOB',
           textAlign: TextAlign.center,
-          style: TextStyle(
-            fontSize: 26.0,
-            fontFamily: 'simple',
-            fontWeight: FontWeight.w600,
-            color: Color(ColorConstants.getPrimaryWhite()),
-          ),
+          color: Color(ColorConstants.getPrimaryWhite()),
         ),
       ),
     );

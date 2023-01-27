@@ -11,6 +11,8 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class ImportantDates extends StatefulWidget {
   @override
@@ -40,27 +42,12 @@ class _ImportantDates extends State<ImportantDates> {
 
   @override
   Widget build(BuildContext context) {
-    DateTime selectedDate = DateTime.now();
-
-    Future<Null> _selectDate(BuildContext context,
-        ClientDetailsPageState pageState, String type, int chipIndex) async {
-//      final DateTime picked = await RoundedDatePicker.show(context,
-//          initialDate: DateTime.now(),
-//          firstDate: DateTime(DateTime.now().year - 2),
-//          lastDate: DateTime(DateTime.now().year + 10),
-//          borderRadius: 16);
-//      if (picked != null && picked != selectedDate)
-//        _onConfirmedImportantDate(picked, pageState, type, chipIndex);
-//      setState(() {
-//        selectedDate = picked;
-//      });
-    }
 
     return StoreConnector<AppState, ClientDetailsPageState>(
       converter: (store) => ClientDetailsPageState.fromStore(store),
       builder: (BuildContext context, ClientDetailsPageState pageState) => Container(
         padding: EdgeInsets.only(top: 4.0, left: 20, right: 20),
-        height: 416,
+        height: 448,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
             color: Color(ColorConstants.getPrimaryWhite())),
@@ -70,75 +57,49 @@ class _ImportantDates extends State<ImportantDates> {
             Container(
                 margin: EdgeInsets.only(top: 4.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Cancel',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Done',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        pageState.onSaveImportantDatesSelected();
-                        Navigator.of(context).pop();
-                      },
-                      child: Text(
-                        'Save',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],
                 )),
             Container(
               margin: EdgeInsets.only(top: 0, bottom: 32.0),
-              child: Text(
-                'Important Dates',
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Important Dates',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
-              ),
-            ),
-            Text(
-              "Do you know any important dates for " +
-                  pageState.client.firstName +
-                  "?",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
                 color: Color(ColorConstants.primary_black),
               ),
             ),
-            Text(
-              "These will be used to help remind you of job opportunities.",
-              textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
-                color: Color(ColorConstants.primary_black),
-              ),
+            Container(
+              margin: EdgeInsets.only(top: 0, bottom: 16.0),
+              child:  TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "Do you know any important dates for " +
+                        pageState.client.firstName +
+                        "?",
+                    textAlign: TextAlign.start,
+                    color: Color(ColorConstants.primary_black),
+                  ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 0, bottom: 16.0),
+              child:  TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "These will be used to help remind you of job opportunities.",
+                    textAlign: TextAlign.start,
+                    color: Color(ColorConstants.primary_black),
+                  ),
             ),
             Container(
               child: Wrap(
@@ -154,24 +115,16 @@ class _ImportantDates extends State<ImportantDates> {
                             label: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: <Widget>[
-                                Text(
-                                  _chipLabels.elementAt(index),
+                                TextDandyLight(
+                                  type: TextDandyLight.SMALL_TEXT,
+                                  text: _chipLabels.elementAt(index),
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 18.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: isSelected(index, pageState)
-                                        ? FontWeight.w600
-                                        : FontWeight.w400,
-                                    color: isSelected(index, pageState)
-                                        ? Colors.white
-                                        : Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                                 isSelected(index, pageState)
                                     ? Padding(
                                         padding: EdgeInsets.only(left: 4.0),
-                                        child: Icon(Icons.close),
+                                        child: Icon(Icons.close, size: 20,),
                                       )
                                     : SizedBox(),
                               ],
@@ -183,9 +136,7 @@ class _ImportantDates extends State<ImportantDates> {
                             onSelected: (bool selected) {
                               setState(() {
                                 if (selected) {
-//                                  HostDetectionUtil.isIos(context)
-                                  true
-                                      ? DatePicker.showDatePicker(context,
+                                DatePicker.showDatePicker(context,
                                           showTitleActions: true,
                                           minTime: DateTime(
                                               DateTime.now().year - 115),
@@ -201,9 +152,7 @@ class _ImportantDates extends State<ImportantDates> {
                                               index);
                                         },
                                           currentTime: DateTime.now(),
-                                          locale: LocaleType.en)
-                                      : _selectDate(context, pageState,
-                                          _chipLabels.elementAt(index), index);
+                                          locale: LocaleType.en);
                                 } else {
                                   pageState.onImportantDateRemoved(index);
                                 }
@@ -214,15 +163,11 @@ class _ImportantDates extends State<ImportantDates> {
                         isSelected(index, pageState)
                             ? Container(
                                 margin: EdgeInsets.only(top: 52.0),
-                                child: Text(
-                                  ImportantDates.getDateForChipIndex(
+                                child: TextDandyLight(
+                                  type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                  text: ImportantDates.getDateForChipIndex(
                                       index, pageState),
-                                  style: TextStyle(
-                                    fontSize: 16.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w400,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               )
                             : Container(

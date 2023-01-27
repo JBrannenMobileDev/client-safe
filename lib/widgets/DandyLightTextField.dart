@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import 'TextDandyLight.dart';
+
 class DandyLightTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -37,9 +39,9 @@ class DandyLightTextField extends StatelessWidget {
                 decoration: InputDecoration(
                   alignLabelWithHint: true,
                   labelStyle: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
+                      fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                      fontFamily: TextDandyLight.getFontFamily(),
+                      fontWeight: TextDandyLight.getFontWeight(),
                       color: Color(ColorConstants.getPrimaryBlack())
                   ),
                   hintText: hintText,
@@ -56,9 +58,9 @@ class DandyLightTextField extends StatelessWidget {
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
+                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                    fontFamily: TextDandyLight.getFontFamily(),
+                    fontWeight: TextDandyLight.getFontWeight(),
                     color: textFieldEnabled ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey())
                 ),
               ),

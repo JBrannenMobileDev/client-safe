@@ -15,6 +15,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../utils/InputDoneView.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
 class PricePackageChangeDialog extends StatefulWidget {
@@ -170,41 +171,56 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
-                    child: Text(
-                      "Select a Price Package for this job",
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                    padding: EdgeInsets.only(bottom: 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        TextButton(
+                          style: Styles.getButtonStyle(),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'Cancel',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: 'simple',
+                              fontWeight: FontWeight.w600,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 32.0),
-                    child: Text(
-                      "A pricing package includes information on price, length of session, "
-                          "and number of edits. You do not have any pricing packages setup. "
+                    padding: EdgeInsets.only(bottom: 16.0, top: 0.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Select a Price Package for this job",
+                      textAlign: TextAlign.center,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 32.0, left: 24, right: 24),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "You do not have any pricing packages setup. "
                           "Select the button below to create a new pricing package.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   ClientSafeButton(
-                    height: 64.0,
-                    width: double.infinity,
+                    height: 48.0,
+                    width: 224,
                     text: "Pricing Package",
                     marginLeft: 32.0,
                     marginTop: 0.0,
                     marginRight: 32.0,
-                    marginBottom: 0.0,
+                    marginBottom: 32.0,
                     onPressed: () {
                       UserOptionsUtil.showNewPriceProfileDialog(context);
                     },

@@ -18,6 +18,7 @@ import '../../utils/CalendarUtil.dart';
 import '../../utils/UserPermissionsUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class CalendarPage extends StatefulWidget {
   @override
@@ -115,14 +116,10 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               child: Container(
                 margin: EdgeInsets.only(top: 16.0),
                 alignment: Alignment.topCenter,
-                child: Text(
-                  "Calendar",
-                  style: TextStyle(
-                    fontFamily: 'simple',
-                    color: const Color(ColorConstants.primary_black),
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.w800,
-                  ),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: "Calendar",
+                  color: const Color(ColorConstants.primary_black),
                 ),
               ),
             ),
@@ -180,52 +177,52 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark),
-          fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
         ),
         defaultTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
         selectedTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
         disabledTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
         todayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
       ),
       headerStyle: HeaderStyle(
         titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
       ),
       calendarBuilders: CalendarBuilders(
         selectedBuilder: (context, date, _) {
@@ -243,9 +240,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
               child: Text(
                 '${date.day}',
                 style: TextStyle().copyWith(
-                    fontSize: 16.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
                 ),
               ),
             ),
@@ -264,9 +261,9 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             child: Text(
               '${date.day}',
               style: TextStyle().copyWith(
-                  fontSize: 16.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontWeight: TextDandyLight.getFontWeight(),
               ),
             ),
           );

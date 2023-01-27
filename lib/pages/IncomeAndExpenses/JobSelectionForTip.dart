@@ -2,9 +2,6 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/AddTipJobListItem.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoiceJobListItem.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -15,6 +12,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class JobSelectionForTip extends StatefulWidget {
   @override
@@ -42,15 +40,11 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "What job is the tip for?",
+                TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: "What job is the tip for?",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
                 Stack(
                   alignment: Alignment.center,
@@ -101,9 +95,9 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           style: new TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
+                              fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                              fontFamily: TextDandyLight.getFontFamily(),
+                              fontWeight: TextDandyLight.getFontWeight(),
                               color: Color(ColorConstants.primary_black)),
                         )),
                   ],

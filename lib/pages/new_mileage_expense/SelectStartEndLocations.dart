@@ -1,5 +1,4 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -7,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class SelectStartEndLocationsPage extends StatefulWidget {
   static const String FILTER_TYPE_ONE_WAY = "One Way";
@@ -215,11 +216,10 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          DandyLightTextWidget(
+                          TextDandyLight(
+                            type: TextDandyLight.EXTRA_LARGE_TEXT,
                             amount: pageState.isOneWay ? pageState.milesDrivenOneWay : pageState.milesDrivenRoundTrip,
-                            textSize: 36.0,
-                            textColor: Color(ColorConstants.getPrimaryBlack()),
-                            fontWeight: FontWeight.w600,
+                            color: Color(ColorConstants.getPrimaryBlack()),
                             isCurrency: false,
                             decimalPlaces: 1,
                           ),
@@ -259,13 +259,11 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                      child: DandyLightTextWidget(
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
                         amount: pageState.expenseCost,
-                        textSize: 36.0,
-                        textColor: Color(ColorConstants.getPrimaryBlack()),
-                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPrimaryBlack()),
                         isCurrency: true,
-                        decimalPlaces: 2,
                       ),
                     ),
                   ],

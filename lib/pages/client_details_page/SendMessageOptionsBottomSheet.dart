@@ -9,6 +9,7 @@ import '../../../AppState.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../responses_page/widgets/ResponsesGroupListWidget.dart';
 import 'ClientDetailsPageActions.dart';
 import 'ClientDetailsPageState.dart';
@@ -68,15 +69,11 @@ class _BottomSheetPageState extends State<SendMessageOptionsBottomSheet> with Ti
                 children: <Widget>[
                   Container(
                     margin: EdgeInsets.only(top: 24, bottom: 24.0),
-                    child: Text(
-                      'Select a message to send',
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Select a message to send',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   GestureDetector(
@@ -100,15 +97,11 @@ class _BottomSheetPageState extends State<SendMessageOptionsBottomSheet> with Ti
                           borderRadius: BorderRadius.circular(8.0),
                           color: Color(ColorConstants.getPeachDark())
                       ),
-                      child: Text(
-                        'New Message',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'New Message',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),
@@ -133,15 +126,11 @@ class _BottomSheetPageState extends State<SendMessageOptionsBottomSheet> with Ti
                           borderRadius: BorderRadius.circular(8.0),
                           color: Color(ColorConstants.getPeachDark())
                       ),
-                      child: Text(
-                        'Select Saved Response',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Select Saved Response',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),

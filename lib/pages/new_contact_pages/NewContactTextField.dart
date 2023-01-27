@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewContactTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -51,9 +53,9 @@ class NewContactTextField extends StatelessWidget {
                   alignLabelWithHint: true,
                   labelText: hintText,
                   labelStyle: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
+                      fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                      fontFamily: TextDandyLight.getFontFamily(),
+                      fontWeight: TextDandyLight.getFontWeight(),
                       color: Color(ColorConstants.getPrimaryBlack())
                   ),
                   hintText: hintText,
@@ -107,9 +109,9 @@ class NewContactTextField extends StatelessWidget {
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
+                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                    fontFamily: TextDandyLight.getFontFamily(),
+                    fontWeight: TextDandyLight.getFontWeight(),
                     color: textFieldEnabled ? Color(ColorConstants.getPrimaryBlack()) : Color(ColorConstants.getPrimaryBackgroundGrey())
                 ),
               )),

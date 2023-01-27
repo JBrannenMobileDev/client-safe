@@ -1,12 +1,12 @@
 import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseItem.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 
 class SingleExpenseCard extends StatelessWidget{
@@ -73,11 +73,10 @@ class SingleExpenseCard extends StatelessWidget{
                 pageState.singleExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 8.0),
-                  child: DandyLightTextWidget(
+                  child: TextDandyLight(
+                    type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                     amount: pageState.singleExpensesForSelectedYearTotal,
-                    textSize: 48.0,
-                    textColor: Color(ColorConstants.getPeachDark()),
-                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPeachDark()),
                     isCurrency: true,
                     decimalPlaces: 0,
                   ),

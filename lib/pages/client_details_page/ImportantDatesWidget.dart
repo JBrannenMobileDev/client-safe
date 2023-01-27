@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class ImportantDatesWidget extends StatelessWidget {
   @override
@@ -38,15 +39,11 @@ class ImportantDatesWidget extends StatelessWidget {
                 margin: EdgeInsets.only(top: 16),
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(left: 24.0, bottom: 8.0, right: 24),
-                child: Text(
-                  'Important Dates',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Important Dates',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Row(
@@ -66,15 +63,11 @@ class ImportantDatesWidget extends StatelessWidget {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                          child: Text(
-                            pageState.client.importantDates.length == 1 ? '1 Date' : pageState.client.importantDates.length.toString() + ' Dates',
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: pageState.client.importantDates.length == 1 ? '1 Date' : pageState.client.importantDates.length.toString() + ' Dates',
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         Container(
