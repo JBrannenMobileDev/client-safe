@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewRecurringExpenseCostTextField extends StatelessWidget {
   final TextEditingController _controller;
   final String hintText;
@@ -47,6 +49,9 @@ class NewRecurringExpenseCostTextField extends StatelessWidget {
                   hintText: hintText,
                   fillColor: Colors.white,
                   labelStyle: TextStyle(
+                      fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_LARGE_TEXT),
+                      fontFamily: TextDandyLight.getFontFamily(),
+                      fontWeight: TextDandyLight.getFontWeight(),
                       color: Color(ColorConstants.getPrimaryColor())
                   ),
                   focusedBorder: OutlineInputBorder(
@@ -82,9 +87,9 @@ class NewRecurringExpenseCostTextField extends StatelessWidget {
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
-                    fontSize: 32.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
+                    fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_LARGE_TEXT),
+                    fontFamily: TextDandyLight.getFontFamily(),
+                    fontWeight: TextDandyLight.getFontWeight(),
                     color: Color(ColorConstants.primary_black)),
               )
     );

@@ -52,15 +52,11 @@ class SingleExpenseItem extends StatelessWidget{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              (singleExpense.expenseName != null ? singleExpense.expenseName : 'Item name'),
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: (singleExpense.expenseName != null ? singleExpense.expenseName : 'Item name'),
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ],
                         ),
@@ -70,15 +66,11 @@ class SingleExpenseItem extends StatelessWidget{
                         child: Row(
 
                           children: [
-                            Text(
-                              DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ',
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: DateFormat('MMM dd, yyyy').format(singleExpense.charge.chargeDate) + '  •  ',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.SMALL_TEXT,

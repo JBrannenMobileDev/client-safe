@@ -14,6 +14,7 @@ import 'package:table_calendar/table_calendar.dart';
 
 import '../../utils/CalendarUtil.dart';
 import '../../utils/UserOptionsUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'NewJobPageActions.dart';
 
 class DateForm extends StatefulWidget {
@@ -78,15 +79,11 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 4.0),
-              child: Text(
-                "Select a date for this job.",
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: "Select a date for this job.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             _buildTableCalendarWithBuilders(pageState),
@@ -131,53 +128,63 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark),
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
         ),
         defaultTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         selectedTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         disabledTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         todayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
 
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
       ),
       headerStyle: HeaderStyle(
         titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),),
       ),
       calendarBuilders: CalendarBuilders(
         selectedBuilder: (context, date, _) {
@@ -195,9 +202,10 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
               child: Text(
                 '${date.day}',
                 style: TextStyle().copyWith(
-                    fontSize: 16.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
+                ),
               ),
             ),
           );
@@ -215,9 +223,9 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
             child: Text(
               '${date.day}',
               style: TextStyle().copyWith(
-                  fontSize: 16.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontWeight: TextDandyLight.getFontWeight(),
               ),
             ),
           );

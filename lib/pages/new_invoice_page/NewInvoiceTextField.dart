@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewInvoiceTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -63,9 +65,9 @@ class NewInvoiceTextField extends StatelessWidget {
               alignLabelWithHint: true,
               labelText: labelText,
               labelStyle: new TextStyle(
-                  fontFamily: 'simple',
-                  fontSize: 22.0,
-                  fontWeight: FontWeight.w600,
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                  fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.getPrimaryBlack())),
               hintText: hintText,
               fillColor: Colors.white,
@@ -103,9 +105,9 @@ class NewInvoiceTextField extends StatelessWidget {
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
-                fontFamily: 'simple',
-                fontSize: 22.0,
-                fontWeight: FontWeight.w600,
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),
           )),
     );

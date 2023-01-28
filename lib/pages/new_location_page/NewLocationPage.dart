@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationImage.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationMapPage.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationMapViewPage.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationName.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
@@ -19,6 +18,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:path_provider/path_provider.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class NewLocationPage extends StatefulWidget {
   @override
@@ -88,15 +89,11 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                       'assets/images/icons/trash_icon_blue.png'),
                                 ),
                               ) : SizedBox(),
-                              Text(
-                                pageState.shouldClear ? "New Location" : "Edit Location",
+                              TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: pageState.shouldClear ? "New Location" : "Edit Location",
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 26.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                               !pageState.shouldClear ? Container(
                                 margin: EdgeInsets.only(right: 18.0),
@@ -165,15 +162,11 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                 onPressed: () {
                                   onBackPressed(pageState);
                                 },
-                                child: Text(
-                                  pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                               TextButton(
@@ -192,15 +185,11 @@ class _NewLocationPageState extends State<NewLocationPage> {
                                 onPressed: () {
                                   onNextPressed(pageState);
                                 },
-                                child: Text(
-                                  pageState.pageViewIndex == pageCount ? 'Save' : 'Next',
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: pageState.pageViewIndex == pageCount ? 'Save' : 'Next',
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                             ],

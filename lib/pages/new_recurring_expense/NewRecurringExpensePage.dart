@@ -21,6 +21,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewRecurringExpensePage extends StatefulWidget {
   @override
   _NewRecurringExpensePageState createState() {
@@ -76,15 +78,11 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: <Widget>[
-                          Text(
-                            pageState.shouldClear ? "New Recurring Expense" : "Edit Recurring Expense",
+                          TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: pageState.shouldClear ? "New Recurring Expense" : "Edit Recurring Expense",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                           !pageState.shouldClear ? GestureDetector(
                             onTap: () {
@@ -150,15 +148,11 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                             onPressed: () {
                               onBackPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == 0 ? "Cancel" : "Back",
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           TextButton(
@@ -177,17 +171,13 @@ class _NewRecurringExpensePageState extends State<NewRecurringExpensePage> {
                             onPressed: () {
                               onNextPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == pageCount
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == pageCount
                                   ? "Save"
                                   : "Next",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

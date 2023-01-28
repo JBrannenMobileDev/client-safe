@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class TipChangePage extends StatefulWidget {
   @override
@@ -36,28 +37,20 @@ class _TipChangePageState extends State<TipChangePage>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(bottom: 24.0),
-                        child: Text(
-                          "Select the tip amount received.",
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Select the tip amount received.",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          "\$" + pageState.unsavedTipAmount.toString(),
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
+                          text: "\$" + pageState.unsavedTipAmount.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 52.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Row(
@@ -82,25 +75,17 @@ class _TipChangePageState extends State<TipChangePage>
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                    Text(
-                                      "+",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "+",
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w200,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
-                                    Text(
-                                      "\$1",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "\$1",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   ],
                                 ),
@@ -126,25 +111,17 @@ class _TipChangePageState extends State<TipChangePage>
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                   children: <Widget>[
-                                    Text(
-                                      "+",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "+",
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w200,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
-                                    Text(
-                                      "\$5",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "\$5",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   ],
                                 ),
@@ -177,25 +154,17 @@ class _TipChangePageState extends State<TipChangePage>
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Text(
-                                        "+",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "+",
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w200,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
-                                      Text(
-                                        "\$25",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "\$25",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ],
                                   ),
@@ -221,25 +190,17 @@ class _TipChangePageState extends State<TipChangePage>
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                     children: <Widget>[
-                                      Text(
-                                        "+",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "+",
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w200,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
-                                      Text(
-                                        "\$100",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "\$100",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ],
                                   ),

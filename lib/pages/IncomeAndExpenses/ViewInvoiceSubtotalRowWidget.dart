@@ -2,6 +2,8 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class ViewInvoiceSubtotalRowWidget extends StatelessWidget{
   final Invoice invoice;
 
@@ -17,28 +19,18 @@ class ViewInvoiceSubtotalRowWidget extends StatelessWidget{
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 112.0),
-            child: Text(
-              'Subtotal',
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: 'Subtotal',
               textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w800,
-                color: Color(
-                    ColorConstants.getPrimaryBlack()),
-              ),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ),
-          Text(
-            '\$' + invoice.total.toInt().toString(),
+          TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: '\$' + invoice.total.toInt().toString(),
             textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 24.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
-              color: Color(
-                  ColorConstants.getPrimaryBlack()),
-            ),
+            color: Color(ColorConstants.getPrimaryBlack()),
           ),
         ],
       ),

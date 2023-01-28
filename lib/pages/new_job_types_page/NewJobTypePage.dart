@@ -14,6 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../utils/UserOptionsUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'JobTypeNameSelectionWidget.dart';
 import 'ReminderSelectionWidget.dart';
 
@@ -109,15 +110,11 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: <Widget>[
-                          Text(
-                            pageState.shouldClear ? "New Job Type" : "Edit Job Type",
+                          TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: pageState.shouldClear ? "New Job Type" : "Edit Job Type",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                           !pageState.shouldClear ? GestureDetector(
                             onTap: () {
@@ -193,15 +190,11 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                           onPressed: () {
                             onBackPressed(pageState);
                             },
-                            child: Text(
-                              currentPageIndex == 0 ? 'Cancel' : 'Back',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: currentPageIndex == 0 ? 'Cancel' : 'Back',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         TextButton(
@@ -216,15 +209,11 @@ class _NewJobTypePageState extends State<NewJobTypePage> {
                             onPressed: () {
                               onNextPressed(pageState);
                             },
-                            child: Text(
-                              currentPageIndex == 2 ? 'Save' : 'Next',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: currentPageIndex == 2 ? 'Save' : 'Next',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

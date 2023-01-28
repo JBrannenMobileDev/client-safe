@@ -11,6 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../utils/InputDoneView.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
 class PricingProfileSelectionForm extends StatefulWidget {
@@ -63,15 +64,11 @@ class _PricingProfileSelectionFormState
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 8.0, bottom: 0.0),
-                    child: Text(
-                      "Input a one time price.\nOr select a price package for this job.",
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Input a one time price.\nOr select a price package for this job.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   ConstrainedBox(
@@ -98,15 +95,11 @@ class _PricingProfileSelectionFormState
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: 32.0, top: 8.0),
-                    child: Text(
-                      "Input a one time price.\nOr select a Price Package for this job.",
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Input a one time price.\nOr select a Price Package for this job.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Container(
@@ -116,7 +109,7 @@ class _PricingProfileSelectionFormState
                       hintText: "\$",
                       inputType: TextInputType.number,
                       focusNode: flatRateInputFocusNode,
-                      height: 66.0,
+                      height: 60.0,
                       onTextInputChanged: pageState.onOneTimePriceChanged,
                       capitalization: TextCapitalization.none,
                       keyboardAction: TextInputAction.done,
@@ -125,16 +118,12 @@ class _PricingProfileSelectionFormState
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 64.0, top: 32),
-                    child: Text(
-                      "You do not have any price packages saved yet. "
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "You do not have any price packages saved yet. "
                       "Select the + to create a new pricing package.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                 ],
@@ -166,15 +155,11 @@ class _PricingProfileSelectionFormState
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 4.0, top: 8.0),
-                child: Text(
-                  "Or",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "Or",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
             ],

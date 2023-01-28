@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class JobDetailsCalendarItem extends StatelessWidget{
   final Job job;
   final double paddingLeft;
@@ -52,15 +54,11 @@ class JobDetailsCalendarItem extends StatelessWidget{
                         children: <Widget>[
                           Padding(
                             padding: EdgeInsets.only(bottom: 4.0, top: 4.0),
-                            child: Text(
-                              job.jobTitle,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: job.jobTitle,
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
@@ -74,27 +72,18 @@ class JobDetailsCalendarItem extends StatelessWidget{
                           ),
                         ],
                       ),
-                      Text(
-                        'Stage: ' + JobStage.getStageText(job.stage),
+                      TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Stage: ' + JobStage.getStageText(job.stage),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
-                      Text(
-                        _getSubtext(job),
+                      TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: _getSubtext(job),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
-                              ? FontWeight.w400 : FontWeight.w800,
-                          color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
-                              ? Color(ColorConstants.primary_black) : Color(ColorConstants.getPeachDark()),
-                        ),
+                        color: job.selectedDate != null && job.selectedTime != null && job.location != null && job.priceProfile != null
+                            ? Color(ColorConstants.primary_black) : Color(ColorConstants.getPeachDark()),
                       ),
                     ],
                   ),

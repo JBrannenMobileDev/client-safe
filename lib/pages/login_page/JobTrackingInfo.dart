@@ -1,16 +1,11 @@
-import 'dart:async';
 import 'dart:ui';
 
-import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/ImportantDate.dart';
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 
 class JobTrackingInfo extends StatefulWidget {
@@ -35,15 +30,11 @@ class _JobTrackingInfo extends State<JobTrackingInfo> {
               children: [
                 Container(
                   margin: EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Job Tracking',
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Job Tracking',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(
@@ -67,15 +58,11 @@ class _JobTrackingInfo extends State<JobTrackingInfo> {
                   ),
                 ),
                 Container(
-                  child: Text(
-                    'Organize and track each stage of your jobs. Save contact and job information.',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Organize and track each stage of your jobs. Save contact and job information.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],

@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewContactDeviceContactListWidget extends StatelessWidget {
   final int clientIndex;
 
@@ -43,15 +45,11 @@ class NewContactDeviceContactListWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        pageState.filteredDeviceContacts.elementAt(clientIndex).displayName?? 'Name not available',
+                      TextDandyLight(
+                        type: TextDandyLight.EXTRA_SMALL_TEXT,
+                        text: pageState.filteredDeviceContacts.elementAt(clientIndex).displayName?? 'Name not available',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          fontFamily: 'Raleway',
-                          fontWeight: FontWeight.w600,
-                          color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Colors.white : Color(ColorConstants.primary_black),
-                        ),
+                        color: pageState.filteredDeviceContacts.elementAt(clientIndex).identifier == pageState.selectedDeviceContact?.identifier ? Colors.white : Color(ColorConstants.primary_black),
                       ),
                     ],
                   ),

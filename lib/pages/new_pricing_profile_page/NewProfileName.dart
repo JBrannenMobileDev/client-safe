@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class NewProfileName extends StatefulWidget {
   @override
@@ -35,15 +37,11 @@ class _NewProfileName extends State<NewProfileName> with AutomaticKeepAliveClien
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
-              child: Text(
-                "Enter a simple and descriptive name for this price profile. \n\n(Example: One Hour Price, Fall Special Price)",
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: "Enter a simple and descriptive name for this price profile. \n\n(Example: One Hour Price, Fall Special Price)",
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             DandyLightTextField(

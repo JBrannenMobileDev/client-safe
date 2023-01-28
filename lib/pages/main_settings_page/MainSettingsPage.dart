@@ -5,9 +5,7 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/PushNotificationsManager.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,7 +17,7 @@ import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'FeedbackPage.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'SuggestionsPage.dart';
 
 class MainSettingsPage extends StatefulWidget {
@@ -54,15 +52,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                       pinned: true,
                       centerTitle: true,
                       elevation: 0.0,
-                      title: Text(
-                          "Settings",
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
+                      title: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Settings",
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
                     ),
                     SliverList(
                       delegate: new SliverChildListDelegate(
@@ -97,16 +91,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                                 width: 28.0,
                                                 child: Image.asset('assets/images/icons/profile_icon_black.png'),
                                               ),
-                                              Text(
-                                                'Edit profile',
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Edit profile',
                                                 textAlign: TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 22.0,
-                                                  fontFamily: 'simple',
-                                                  fontWeight: FontWeight.w600,
-                                                  color:
-                                                  Color(ColorConstants.getPrimaryBlack()),
-                                                ),
+                                                color: Color(ColorConstants.getPrimaryBlack()),
                                               )
                                             ],
                                           ),
@@ -123,11 +112,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               TextButton(
                                 style: Styles.getButtonStyle(),
                                 onPressed: () {
-                                  Share.share('Hey you should try this app.'
+                                  Share.share('Hey checkout this app.'
                                       '\n\nDandyLight - Photography Business Management'
-                                      '\n\nUse this referral code when signing up so your friend can get 3 months free.'
-                                      '\n\nCode: ' + pageState.profile.referralUid +
-                                      '\n\nDandyLight.com');
+                                      // '\n\nUse this referral code when signing up so your friend can get 3 months free.'
+                                      // '\n\nCode: ' + pageState.profile.referralUid +
+                                      '\n\nhttps://linktr.ee/dandylight');
                                 },
                                 child: SizedBox(
                                   height: 48.0,
@@ -148,16 +137,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             width: 28.0,
                                             child: Image.asset('assets/images/icons/file_upload.png', color: Color(ColorConstants.getPrimaryBlack()),),
                                           ),
-                                          Text(
-                                            'Share DandyLight',
+                                          TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Share DandyLight',
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
+                                            color: Color(ColorConstants
+                                                .getPrimaryBlack()),
                                           ),
                                         ],
                                       ),
@@ -197,16 +182,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             child: Image.asset(
                                                 'assets/images/icons/manage_subscription_icon_black.png'),
                                           ),
-                                          Text(
-                                            'Manage Subscription',
+                                          TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Manage Subscription',
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
+                                            color: Color(ColorConstants
+                                                .getPrimaryBlack()),
                                           ),
                                         ],
                                       ),
@@ -248,16 +229,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                             child: Image.asset(
                                                 'assets/images/icons/suggestions_icon_black.png'),
                                           ),
-                                          Text(
-                                            'Suggestions',
+                                          TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Suggestions',
                                             textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants
-                                                  .getPrimaryBlack()),
-                                            ),
+                                            color: Color(ColorConstants
+                                                .getPrimaryBlack()),
                                           ),
                                         ],
                                       ),
@@ -290,15 +267,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Push Notifications',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Push Notifications',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 22.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                       Device.get().isIos?
                                       CupertinoSwitch(
@@ -322,15 +295,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 ),
                                 Container(
                                   padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 32.0),
-                                  child: Text(
-                                    'Enable push notifications to get notified of job reminders, expenses, invoices and contracts.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Enable push notifications to get notified of job reminders, expenses, invoices and contracts.',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                                 Container(
@@ -339,15 +308,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Calendar',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Calendar',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 22.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                       Device.get().isIos?
                                       CupertinoSwitch(
@@ -379,15 +344,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 ),
                                 Container(
                                   padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 8.0, bottom: 16.0),
-                                  child: Text(
-                                    'Enable DandyLight to sync your jobs with your personal device calendars.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Enable DandyLight to sync your jobs with your personal device calendars.',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ),
                               ],
@@ -426,16 +387,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               width: 28.0,
                                               child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
-                                            Text(
-                                              'Privacy Policy',
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Privacy Policy',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 22.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(ColorConstants
-                                                    .getPrimaryBlack()),
-                                              ),
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
                                             ),
                                           ],
                                         ),
@@ -474,16 +431,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               width: 28.0,
                                               child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
-                                            Text(
-                                              'Terms and Conditions',
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text:'Terms and Conditions',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 22.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(ColorConstants
-                                                    .getPrimaryBlack()),
-                                              ),
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
                                             ),
                                           ],
                                         ),
@@ -524,16 +477,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                               width: 28.0,
                                               child: Image.asset('assets/images/icons/trash_icon_white.png', color: Color(ColorConstants.getPrimaryBlack(),)),
                                             ),
-                                            Text(
-                                              'Delete Account',
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Delete Account',
                                               textAlign: TextAlign.center,
-                                              style: TextStyle(
-                                                fontSize: 22.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w600,
-                                                color: Color(ColorConstants
-                                                    .getPrimaryBlack()),
-                                              ),
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
                                             ),
                                           ],
                                         ),
@@ -566,15 +515,11 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 color: Color(ColorConstants.getPeachDark()),
                                 borderRadius: BorderRadius.circular(32.0),
                               ),
-                              child: Text(
-                                'Sign out',
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: 'Sign out',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 26.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                ),
+                                color: Color(ColorConstants.getPrimaryWhite()),
                               ),
                             ),
                           ),

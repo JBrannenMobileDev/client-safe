@@ -10,6 +10,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'JobsPageActions.dart';
 
 class JobsPage extends StatefulWidget {
@@ -38,24 +39,20 @@ class _JobsPageState extends State<JobsPage> {
   @override
   Widget build(BuildContext context) {
     jobTypes = <int, Widget>{
-      0: Text(JobsPage.FILTER_TYPE_ACTIVE_JOBS,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'simple',
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      1: Text(JobsPage.FILTER_TYPE_COMPETED,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'simple',
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
+      0: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: JobsPage.FILTER_TYPE_ACTIVE_JOBS,
+        color: Color(selectorIndex == 0
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
+      1: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: JobsPage.FILTER_TYPE_COMPETED,
+        color: Color(selectorIndex == 1
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
     };
     return StoreConnector<AppState, JobsPageState>(
         converter: (store) => JobsPageState.fromStore(store),
@@ -78,14 +75,10 @@ class _JobsPageState extends State<JobsPage> {
                         pinned: true,
                         centerTitle: true,
                         title: Container(
-                          child: Text(
-                            "Jobs",
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'simple',
-                              color: const Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: "Jobs",
+                            color: const Color(ColorConstants.primary_black),
                           ),
                         ),
                         actions: <Widget>[

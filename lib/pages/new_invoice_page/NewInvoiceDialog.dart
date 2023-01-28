@@ -24,6 +24,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class NewInvoiceDialog extends StatefulWidget {
   final Function onSendInvoiceSelected;
@@ -93,15 +94,11 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                       ),
                       Padding(
                         padding: EdgeInsets.only(right: 16.0),
-                        child: Text(
-                          "Invoice " + pageState.invoiceNumber.toString(),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Invoice " + pageState.invoiceNumber.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w400,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
@@ -138,15 +135,11 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 onPressed: () {
                                   onBackPressed(pageState);
                                 },
-                                child: Text(
-                                  pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: pageState.pageViewIndex == 0 || ((pageState.pageViewIndex == 1) && hasJumpToBeenCalled) || ((pageState.pageViewIndex == 1) && (!pageState.shouldClear && !hasJumpToBeenCalled)) ? 'Cancel' : 'Back',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                               TextButton(
@@ -154,17 +147,13 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
                                 onPressed: () {
                                   onNextPressed(pageState);
                                 },
-                                child: Text(
-                                  pageState.pageViewIndex == pageCount - 1
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: pageState.pageViewIndex == pageCount - 1
                                       ? 'Save'
                                       : 'Next',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                             ],

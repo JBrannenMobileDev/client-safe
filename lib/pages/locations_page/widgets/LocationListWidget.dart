@@ -1,24 +1,17 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class LocationListWidget extends StatelessWidget {
   final int index;
@@ -117,16 +110,12 @@ class LocationListWidget extends StatelessWidget {
                 ),
               ) : SizedBox(),
               Container(
-                child: Text(
-                  pageState.locations.elementAt(index).locationName,
+                child: TextDandyLight(
+                  type: TextDandyLight.SMALL_TEXT,
+                  text: pageState.locations.elementAt(index).locationName,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18.0,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'simple',
-                    color: Color(ColorConstants.getPrimaryWhite()),
-                  ),
+                  color: Color(ColorConstants.getPrimaryWhite()),
                 ),
               ),
             ],

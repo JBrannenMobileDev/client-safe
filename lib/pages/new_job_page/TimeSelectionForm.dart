@@ -15,6 +15,7 @@ import '../../utils/NavigationUtil.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../sunset_weather_page/SunsetWeatherPage.dart';
 
 class TimeSelectionForm extends StatefulWidget {
@@ -41,15 +42,11 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
-            Text(
-                "Select a start and end time for this job.",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+            TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: "Select a start and end time for this job.",
+              textAlign: TextAlign.center,
+              color: Color(ColorConstants.primary_black),
             ),
             pageState.sunsetDateTime != null ? Padding(
               padding: EdgeInsets.only(top: 8.0, bottom: 32.0),
@@ -74,18 +71,14 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Text(
-                      "Sunset is at " +
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Sunset is at " +
                           (pageState.sunsetDateTime != null
                               ? DateFormat('h:mm a').format(pageState.sunsetDateTime)
                               : ""),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w800,
-                        color: Color(ColorConstants.getPeachDark()),
-                      ),
+                      color: Color(ColorConstants.getPeachDark()),
                     ),
                   )
                 ],
@@ -98,7 +91,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
               },
               child: Container(
                 alignment: Alignment.center,
-                width: MediaQuery.of(context).size.width / 4 + 100,
+                width: 250,
                 padding: EdgeInsets.symmetric(horizontal: 16.0),
                 height: 48.0,
                 decoration: BoxDecoration(
@@ -106,18 +99,13 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                     color: Color(ColorConstants.getPeachDark())),
                 child:
                     Container(
-                      child: Text(
-                        pageState.selectedStartTime != null ? 'Start - ' + DateFormat('h:mm a').format(pageState.selectedStartTime) : 'Start time',
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: pageState.selectedStartTime != null ? 'Start - ' + DateFormat('h:mm a').format(pageState.selectedStartTime) : 'Start time',
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.fade,
                         maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color:
-                          Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                 ),
               ),
@@ -132,25 +120,21 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                 },
                 child: Container(
                   alignment: Alignment.center,
-                  width: MediaQuery.of(context).size.width / 4 + 100,
+                  width: 250,
                   padding: EdgeInsets.symmetric(horizontal: 16.0),
                   height: 48.0,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(26.0),
                       color: Color(ColorConstants.getPeachDark())),
                   child: Container(
-                        child: Text(
-                          pageState.selectedEndTime != null ? 'End - ' + DateFormat('h:mm a').format(pageState.selectedEndTime) : 'End time',
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: pageState.selectedEndTime != null ? 'End - ' + DateFormat('h:mm a').format(pageState.selectedEndTime) : 'End time',
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(
-                                ColorConstants.getPrimaryWhite()),
-                          ),
+                          color: Color(
+                              ColorConstants.getPrimaryWhite()),
                         ),
                   ),
                 ),
@@ -197,18 +181,14 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Cancel',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Cancel',
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants
-                              .getPrimaryBlack()),
-                        ),
+                        color: Color(ColorConstants
+                            .getPrimaryBlack()),
                       ),
                     ),
                     pageState.sunsetDateTime != null ? Row(
@@ -223,17 +203,13 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                         ),
                         Container(
                           padding: EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            DateFormat('h:mm a').format(pageState.sunsetDateTime),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: DateFormat('h:mm a').format(pageState.sunsetDateTime),
                             textAlign: TextAlign.start,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPeachDark()),
-                            ),
+                            color: Color(ColorConstants.getPeachDark()),
                           ),
                         ),
                       ],
@@ -249,17 +225,13 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                         VibrateUtil.vibrateHeavy();
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Done',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Done',
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                   ],

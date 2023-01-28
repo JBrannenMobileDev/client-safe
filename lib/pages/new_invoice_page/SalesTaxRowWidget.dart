@@ -7,6 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../AppState.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class SalesTaxRowWidget extends StatefulWidget{
 
@@ -40,16 +41,12 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
           Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(
-                  'Sales tax',
+                TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Sales tax',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w400,
-                    color: Color(
-                        ColorConstants.getPrimaryBlack()),
-                  ),
+                  color: Color(
+                      ColorConstants.getPrimaryBlack()),
                 ),
                 pageState.pageViewIndex != 3 ? Checkbox(
                   value: pageState.isSalesTaxChecked,
@@ -82,31 +79,23 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
                   onPressed: () {
                     UserOptionsUtil.showSelectSalesTaxRateDialog(context);
                   },
-                  child: Text(
-                      pageState.salesTaxPercent > 0 ? pageState.salesTaxPercent.toString() + '%' : '0%',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                      text: pageState.salesTaxPercent > 0 ? pageState.salesTaxPercent.toString() + '%' : '0%',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                 ),
               ) : SizedBox(),
-              pageState.isSalesTaxChecked ? Text(
-                pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatSimpleCurrency((pageState.total * (pageState.salesTaxPercent/100)).toInt()) : '\$0',
+              pageState.isSalesTaxChecked ? TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatSimpleCurrency((pageState.total * (pageState.salesTaxPercent/100)).toInt()) : '\$0',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(
-                      pageState.salesTaxPercent > 0.0
-                          ? ColorConstants.getPrimaryBlack()
-                          : ColorConstants
-                          .getPrimaryBackgroundGrey()),
-                ),
+                color: Color(
+                    pageState.salesTaxPercent > 0.0
+                        ? ColorConstants.getPrimaryBlack()
+                        : ColorConstants
+                        .getPrimaryBackgroundGrey()),
               ) : SizedBox(),
             ],
           ),

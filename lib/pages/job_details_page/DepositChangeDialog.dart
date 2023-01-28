@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class AddOnCostChangeDialog extends StatefulWidget {
   @override
   _AddOnCostChangeDialogState createState() {
@@ -45,7 +47,7 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                 children: <Widget>[
 
                   Padding(
-                    padding: EdgeInsets.only(top: 134.0, right: 16.0),
+                    padding: EdgeInsets.only(top: 146.0, right: 16.0),
                     child: GestureDetector(
                       onTap: () {
                         pageState.onClearUnsavedDeposit();
@@ -74,41 +76,29 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          "Select the Add-on cost amount",
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: "Select the Add-on cost amount",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 24.0),
-                        child: Text(
-                          "This amount will be added to the current price of this job.",
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "This amount will be added to the current price of this job.",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          "\$" + pageState.unsavedAddOnCostAmount.toString(),
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
+                          text: "\$" + pageState.unsavedAddOnCostAmount.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 52.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Row(
@@ -128,30 +118,23 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                               },
                               child: Container(
                                 alignment: Alignment.center,
-                                width: 78.0,
+                                width: 100.0,
                                 height: 64.0,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    Text(
-                                      "+",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "+",
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w200,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
-                                    Text(
-                                      "\$1",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "\$1",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   ],
                                 ),
@@ -172,30 +155,22 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                               },
                               child: Container(
                                 alignment: Alignment.center,
-                                width: 78.0,
+                                width: 100.0,
                                 height: 64.0,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text(
-                                      "+",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "+",
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w200,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
-                                    Text(
-                                      "\$5",
+                                    TextDandyLight(
+                                      type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                      text: "\$5",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   ],
                                 ),
@@ -223,30 +198,22 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
-                                  width: 78.0,
+                                  width: 100.0,
                                   height: 64.0,
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        "+",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "+",
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w200,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
-                                      Text(
-                                        "\$25",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "\$25",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ],
                                   ),
@@ -267,30 +234,22 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
-                                  width: 78.0,
+                                  width: 100.0,
                                   height: 64.0,
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        "+",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "+",
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w200,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
-                                      Text(
-                                        "\$100",
+                                      TextDandyLight(
+                                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                        text: "\$100",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ],
                                   ),
@@ -310,15 +269,11 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Cancel',
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             TextButton(
@@ -328,15 +283,11 @@ class _AddOnCostChangeDialogState extends State<AddOnCostChangeDialog>
                                 VibrateUtil.vibrateHeavy();
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Save',
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: 'Save',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

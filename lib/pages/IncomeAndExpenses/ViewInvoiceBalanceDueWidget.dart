@@ -2,6 +2,8 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class ViewInvoiceBalanceDueWidget extends StatelessWidget{
   final Invoice invoice;
 
@@ -17,28 +19,19 @@ class ViewInvoiceBalanceDueWidget extends StatelessWidget{
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(right: 112.0),
-            child: Text(
-              'Balance Due' ,
+            child: TextDandyLight(
+              type: TextDandyLight.LARGE_TEXT,
+              text: 'Balance Due' ,
               textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 24.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w800,
-                color: Color(
-                    ColorConstants.getPrimaryBlack()),
-              ),
-            ),
-          ),
-          Text(
-            '\$' +
-                invoice.unpaidAmount.toInt().toString(),
-            textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 24.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
               color: Color(ColorConstants.getPrimaryBlack()),
             ),
+          ),
+          TextDandyLight(
+            type: TextDandyLight.LARGE_TEXT,
+            text: '\$' +
+                invoice.unpaidAmount.toInt().toString(),
+            textAlign: TextAlign.start,
+            color: Color(ColorConstants.getPrimaryBlack()),
           ),
         ],
       ),

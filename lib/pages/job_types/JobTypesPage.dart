@@ -8,6 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/JobType.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'JobTypesActions.dart';
 import 'JobTypesListWidget.dart';
 
@@ -52,14 +53,10 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                       centerTitle: true,
                       elevation: 0.0,
                       title: Center(
-                        child: Text(
-                          "Job Types",
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: "Job Types",
+                          color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),
                       actions: <Widget>[
@@ -90,16 +87,12 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                             itemBuilder: _buildItem,
                           ) :
                           Padding(
-                            padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
-                            child: Text(
-                              "Create your own job types here to help save time managing your jobs.\n\n(Wedding, Engagement, Family, etc...)",
+                            padding: EdgeInsets.only(left: 48.0, top: 48.0, right: 48.0),
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: "Create your own job types here to help save time managing your jobs.\n\n(Wedding, Engagement, Family, etc...)",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w400,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

@@ -23,11 +23,14 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class JobDetailsPage extends StatefulWidget {
   const JobDetailsPage({Key key, this.destination}) : super(key: key);
@@ -140,7 +143,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                   overlayOpacity: 0.5,
                   tooltip: 'Speed Dial',
                   heroTag: 'speed-dial-hero-tag',
-                  backgroundColor: Color(ColorConstants.getPrimaryColor()),
+                  backgroundColor: Color(ColorConstants.getBlueDark()),
                   foregroundColor: Colors.black,
                   elevation: 8.0,
                   shape: CircleBorder(),
@@ -168,14 +171,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Text(
-                            'Tip',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Tip',
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
@@ -252,14 +251,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Text(
-                            'Reminder',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Reminder',
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
@@ -280,14 +275,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Text(
-                            'Invoice',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Invoice',
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),
@@ -353,18 +344,14 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       slivers: <Widget>[
                         new SliverAppBar(
                           iconTheme: IconThemeData(
-                            color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                            color: Color(ColorConstants.getBlueDark()), //change your color here
                           ),
-                          brightness: Brightness.light,
-                          title: Text(
-                            pageState.job.jobTitle,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              overflow: TextOverflow.fade,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                          systemOverlayStyle: SystemUiOverlayStyle.light,
+                          title: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: pageState.job.jobTitle,
+                            color: Color(ColorConstants.getBlueDark()),
+                            overflow: TextOverflow.fade,
                           ),
                           centerTitle: true,
                           titleSpacing: 48.0,
@@ -391,15 +378,11 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                                   padding: EdgeInsets.only(top: 56.0),
                                   alignment: Alignment.topCenter,
                                   child: SafeArea(
-                                    child: Text(
-                                      'Job Stages',
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Job Stages',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getBlueDark()),
                                     ),
                               ),
                             ),

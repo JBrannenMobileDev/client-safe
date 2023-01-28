@@ -11,6 +11,8 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class RateTypeSelection extends StatefulWidget {
   static const String SELECTOR_TYPE_FLAT_RATE = "Flat rate";
   static const String SELECTOR_TYPE_HOURLY = "Hourly";
@@ -100,15 +102,11 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
-                    child: Text(
-                      'How much do you want to charge for this price package?',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'How much do you want to charge for this price package?',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Container(

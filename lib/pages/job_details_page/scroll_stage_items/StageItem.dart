@@ -8,7 +8,6 @@ import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
@@ -22,6 +21,7 @@ import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../utils/DandyToastUtil.dart';
+import '../../../widgets/TextDandyLight.dart';
 import '../../client_details_page/SelectSavedResponseBottomSheet.dart';
 import '../../poses_page/PosesPage.dart';
 
@@ -165,11 +165,11 @@ class _StageItemState extends State<StageItem>
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _mainTextSize = Tween<double>(begin: 22.0, end: 20.0).animate(CurvedAnimation(
+    _mainTextSize = Tween<double>(begin: 20.0, end: 18.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _subtextSize = Tween<double>(begin: 18.0, end: 14.0).animate(CurvedAnimation(
+    _subtextSize = Tween<double>(begin: 16.0, end: 12.0).animate(CurvedAnimation(
       parent: _stageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
@@ -205,7 +205,7 @@ class _StageItemState extends State<StageItem>
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
-    _mainTextSizeReversed = Tween<double>(begin: 20.0, end: 22.0).animate(CurvedAnimation(
+    _mainTextSizeReversed = Tween<double>(begin: 18.0, end: 20.0).animate(CurvedAnimation(
       parent: _newStageCompleteAnimation,
       curve: Curves.fastOutSlowIn,
     ));
@@ -403,8 +403,7 @@ class _StageItemState extends State<StageItem>
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: isCurrentStage ? _mainTextSize.value : _mainTextSizeReversed.value,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w900,
+                            fontFamily: 'montserratMedium',
                             color: isCurrentStage ? _textColor.value : _textColorReversed.value,
                           ),
                         ),
@@ -494,16 +493,11 @@ class _StageItemState extends State<StageItem>
                               borderRadius: new BorderRadius.circular(18.0),
                               color: Color(ColorConstants.getBlueDark()),
                             ),
-                            child: Text(
-                              actionButtonText,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: actionButtonText,
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-
+                              color: Colors.white,
                             ),
                           ),
                         ),) : SizedBox(),

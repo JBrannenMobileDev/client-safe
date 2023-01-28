@@ -17,6 +17,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class LocationsPage extends StatelessWidget {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -45,33 +47,13 @@ class LocationsPage extends StatelessWidget {
                     pinned: true,
                     centerTitle: true,
                     title: Center(
-                      child: Text(
-                        "Locations",
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'simple',
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Locations",
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                     actions: <Widget>[
-                      // GestureDetector(
-                      //   onTap: () {
-                      //
-                      //   },
-                      //   child: Container(
-                      //     margin: EdgeInsets.only(right: 22.0),
-                      //     height: 24.0,
-                      //     width: 24.0,
-                      //     child: Icon(
-                      //       Device.get().isIos
-                      //           ? CupertinoIcons.share
-                      //           : Icons.share,
-                      //       size: 24.0,
-                      //     ),
-                      //   ),
-                      // ),
                       GestureDetector(
                         onTap: () {
                           UserOptionsUtil.showNewLocationDialog(context);
@@ -111,16 +93,12 @@ class LocationsPage extends StatelessWidget {
                         ) :
                         Padding(
                           padding: EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
-                          child: Text(
-                            "Save locations you regularly use here. \n\nThese locations can be added to your jobs to help make mileage tracking easier and enabling you to share the driving directions with your clients.\n\nYour locations will never be shared with other photographers. They will remain private to you.",
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: "Save locations you regularly use here. \n\nThese locations can be added to your jobs to help make mileage tracking easier and enabling you to share the driving directions with your clients.\n\nYour locations will never be shared with other photographers. They will remain private to you.",
                             // \n\nYou can also share your saved locations with a client to help them decide what location they want.
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ],

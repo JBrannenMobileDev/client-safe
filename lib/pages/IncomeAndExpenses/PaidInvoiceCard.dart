@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 
 class PaidInvoiceCard extends StatelessWidget{
@@ -36,15 +37,11 @@ class PaidInvoiceCard extends StatelessWidget{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        'Paid Invoices',
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Paid Invoices',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                       pageState.paidInvoices != null && pageState.paidInvoices.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -56,14 +53,10 @@ class PaidInvoiceCard extends StatelessWidget{
                         },
                         child: Container(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            'View all (' + pageState.paidInvoices.length.toString() + ')',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'View all (' + pageState.paidInvoices.length.toString() + ')',
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ) : SizedBox(),
@@ -82,15 +75,11 @@ class PaidInvoiceCard extends StatelessWidget{
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 0.0, bottom: 0.0, left: 16.0, right: 16.0),
                   height: 64.0,
-                  child: Text(
-                    'You have zero paid invoices.',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'You have zero paid invoices.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
               ],

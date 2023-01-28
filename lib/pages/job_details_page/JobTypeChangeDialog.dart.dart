@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/UserOptionsUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class JobTypeChangeDialog extends StatefulWidget {
   @override
@@ -50,15 +51,11 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                       ),
                       Container(
                         margin: EdgeInsets.only(bottom: 16.0, top: 16.0),
-                        child: Text(
-                          'Select a job type',
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Select a job type',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       GestureDetector(
@@ -68,7 +65,7 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                         child: Container(
                           height: 28.0,
                           width: 28.0,
-                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryColor()),),
+                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
                         ),
                       ),
                     ],
@@ -95,15 +92,11 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text(
-                            'Cancel',
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Cancel',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         TextButton(
@@ -113,15 +106,11 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },
-                          child: Text(
-                            'Save',
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Save',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ],
@@ -155,35 +144,32 @@ class _JobTypeChangeDialogState extends State<JobTypeChangeDialog>
             child: Row(
               children: <Widget>[
                 pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Container(
-                  margin: EdgeInsets.only(right: 16.0),
+                  margin: EdgeInsets.only(left: 8, right: 16.0),
                   height: 28.0,
                   width: 28.0,
                   child: Image.asset('assets/images/icons/briefcase_icon_white.png'),
                 ) : Container(
-                  margin: EdgeInsets.only(right: 16.0),
+                  margin: EdgeInsets.only(left: 8, right: 16.0),
                   height: 28.0,
                   width: 28.0,
                   child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png'),
                 ),
                 Expanded(
                   child: Container(
-                    height: 64.0,
+                    height: 54.0,
                     margin: EdgeInsets.only(right: 32.0),
                     child: Container(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(pageState.jobTypes.elementAt(index).title,
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: pageState.jobTypes.elementAt(index).title,
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
-                                  ColorConstants.getPrimaryWhite()) : Color(
-                                  ColorConstants.getPeachDark()),
-                            ),
+                            color: pageState.jobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
+                                ColorConstants.getPrimaryWhite()) : Color(
+                                ColorConstants.getPeachDark()),
                           ),
                         ],
                       ),

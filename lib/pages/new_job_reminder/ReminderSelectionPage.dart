@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'NewReminderListWidget.dart';
 
 class ReminderSelectionPage extends StatefulWidget {
@@ -36,15 +37,11 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    "Select from your collection of reminders.",
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "Select from your collection of reminders.",
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 pageState.allReminders.length > 0
@@ -67,16 +64,12 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 64.0, right: 64.0, top: 64.0),
-                      child: Text(
-                        pageState.hasNotCreatedAnyReminders ?
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.hasNotCreatedAnyReminders ?
                         "You have not created any collection reminders yet." : "All of your reminders are already added to this job.",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     ClientSafeButton(

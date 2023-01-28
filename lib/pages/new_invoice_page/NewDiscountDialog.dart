@@ -13,6 +13,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewDiscountDialog extends StatefulWidget {
   static const String SELECTOR_TYPE_FIXED = "Fixed";
   static const String SELECTOR_TYPE_PERCENTAGE = "Percentage";
@@ -39,22 +41,20 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
     super.build(context);
     if(rateTextController.text.length == 0) rateTextController = TextEditingController(text: '\$');
     breakdownTypes = <int, Widget>{
-      0: Text(NewDiscountDialog.SELECTOR_TYPE_FIXED,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      1: Text(NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE,
-        style: TextStyle(
-          fontSize: 20.0,
-          fontFamily: 'simple',
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
+      0: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: NewDiscountDialog.SELECTOR_TYPE_FIXED,
+        color: Color(selectorIndex == 0
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
+      1: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE,
+        color: Color(selectorIndex == 1
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
     };
     return StoreConnector<AppState, NewInvoicePageState>(
       converter: (store) => NewInvoicePageState.fromStore(store),
@@ -103,16 +103,11 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 32.0),
-                        child: Text(
-                          'New Discount',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'New Discount',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(
-                                ColorConstants.getPrimaryBlack()),
-                          ),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -176,15 +171,11 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                                 pageState.onNewDiscountCancelSelected();
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Cancel',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             TextButton(
@@ -193,15 +184,11 @@ class _NewDiscountDialogState extends State<NewDiscountDialog>
                                 pageState.onNewDiscountSavedSelected();
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Save',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Save',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

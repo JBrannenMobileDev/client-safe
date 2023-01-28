@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class DepositRowWidget extends StatefulWidget{
 
@@ -35,16 +36,12 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget> with TickerProv
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(
-                  'Deposit',
+                TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Deposit',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w400,
-                    color: Color(
-                        ColorConstants.getPrimaryBlack()),
-                  ),
+                  color: Color(
+                      ColorConstants.getPrimaryBlack()),
                 ),
                 pageState.pageViewIndex != 3 ? Padding(
                   padding: EdgeInsets.only(left: 13.0),
@@ -60,21 +57,17 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget> with TickerProv
               ],
             ),
           ),
-          Text(
-            (pageState.selectedJob.isDepositPaid()
+          TextDandyLight(
+            type: TextDandyLight.LARGE_TEXT,
+            text: (pageState.selectedJob.isDepositPaid()
                 ? '-'
                 : '') + TextFormatterUtil.formatSimpleCurrency(pageState.depositValue.toInt()),
             textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 24.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
-              color: Color(
-                  pageState.selectedJob.isDepositPaid()
-                      ? ColorConstants.getPrimaryBlack()
-                      : ColorConstants
-                      .getPrimaryBackgroundGrey()),
-            ),
+            color: Color(
+                pageState.selectedJob.isDepositPaid()
+                    ? ColorConstants.getPrimaryBlack()
+                    : ColorConstants
+                    .getPrimaryBackgroundGrey()),
           ),
         ],
       ),

@@ -8,6 +8,8 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewJobTypeStagesListWidget extends StatelessWidget {
   final int index;
 
@@ -53,15 +55,11 @@ class NewJobTypeStagesListWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        ImageUtil.getJobStageText(pageState.allJobStages.elementAt(index).imageLocation),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: ImageUtil.getJobStageText(pageState.allJobStages.elementAt(index).imageLocation),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ],
                   ),

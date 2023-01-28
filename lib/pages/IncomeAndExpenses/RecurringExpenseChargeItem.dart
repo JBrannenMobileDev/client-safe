@@ -90,15 +90,11 @@ class RecurringExpenseChargeItem extends StatelessWidget{
                       },
                     ),
                   ),
-                  Text(
-                    charge.isPaid ? 'Paid' : 'Unpaid',
+                  TextDandyLight(
+                    type: TextDandyLight.SMALL_TEXT,
+                    text: charge.isPaid ? 'Paid' : 'Unpaid',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
-                    ),
+                    color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
                   ),
                 ],
               ),

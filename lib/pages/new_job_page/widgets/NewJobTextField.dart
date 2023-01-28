@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../../widgets/TextDandyLight.dart';
+
 class NewJobTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -57,15 +59,15 @@ class NewJobTextField extends StatelessWidget {
               alignLabelWithHint: true,
               labelText: hintText,
               labelStyle: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.primary_black)),
               hintText: hintText,
               hintStyle: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.primary_black)),
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
@@ -101,9 +103,9 @@ class NewJobTextField extends StatelessWidget {
             textCapitalization: capitalization,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: TextStyle(
-              fontSize: 20.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
+              fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+              fontFamily: TextDandyLight.getFontFamily(),
+              fontWeight: TextDandyLight.getFontWeight(),
               color: Color(ColorConstants.primary_black),
             ),
           )),

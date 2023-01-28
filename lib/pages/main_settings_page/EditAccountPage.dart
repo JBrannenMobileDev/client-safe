@@ -6,13 +6,11 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/widgets/login_animations/TranslationImage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class EditAccountPage extends StatefulWidget {
   final Profile profile;
@@ -63,14 +61,10 @@ class _EditAccountPageState extends State<EditAccountPage>
                   pinned: true,
                   centerTitle: true,
                   elevation: 0.0,
-                  title: Text(
-                    "My Profile",
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                  title: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: "My Profile",
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 SliverList(
@@ -84,14 +78,10 @@ class _EditAccountPageState extends State<EditAccountPage>
                                   Container(
                                     margin: EdgeInsets.only(left: 56.0),
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'First name',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                      text: 'First name',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
                                   LoginTextField(
@@ -119,14 +109,10 @@ class _EditAccountPageState extends State<EditAccountPage>
                                   Container(
                                     margin: EdgeInsets.only(left: 56.0, top: 8.0),
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Last name',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                      text: 'Last name',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
                                   LoginTextField(
@@ -154,14 +140,10 @@ class _EditAccountPageState extends State<EditAccountPage>
                                   Container(
                                     margin: EdgeInsets.only(left: 56.0, top: 8.0),
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Business name',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                      text: 'Business name',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                   ),
                                   LoginTextField(
@@ -191,19 +173,15 @@ class _EditAccountPageState extends State<EditAccountPage>
                                     child: Container(
                                       margin: EdgeInsets.only(top: 32.0, left: 84.0, right: 84.0),
                                       alignment: Alignment.center,
-                                      height: 64.0,
+                                      height: 54.0,
                                       decoration: BoxDecoration(
                                           color: Color(ColorConstants.getBlueDark()),
                                           borderRadius: BorderRadius.circular(32.0)),
-                                      child: Text(
-                                        'Save',
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        text: 'Save',
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 24.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ),
                                   ),

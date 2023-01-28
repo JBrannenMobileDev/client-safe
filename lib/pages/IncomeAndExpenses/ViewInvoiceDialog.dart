@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
@@ -15,7 +13,6 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/PdfUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +21,7 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'ViewSalesTaxRowWidget.dart';
 
 class ViewInvoiceDialog extends StatefulWidget {
@@ -121,22 +119,18 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                     children: <Widget>[
                       IconButton(
                         icon: ImageIcon(ImageUtil.getTrashIconPeach(), color: Color(ColorConstants.getPeachDark()),),
-                        tooltip: 'Delete Job',
+                        tooltip: 'Delete Invoice',
                         onPressed: () {
                           _ackAlert(context, pageState);
                         },
                       ),
                       Padding(
                         padding: EdgeInsets.only(right: 16.0),
-                        child: Text(
-                          "Invoice " + invoice.invoiceId.toString(),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Invoice " + invoice.invoiceId.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w400,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
@@ -160,29 +154,21 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                   Container(
                                     margin: EdgeInsets.only(bottom: 26.0),
                                     alignment: Alignment.center,
-                                    child: Text(
-                                      'Invoice review',
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Invoice review',
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
+                                      color: Color(ColorConstants.primary_black),
                                     ),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(left: 16.0, bottom: 0.0),
                                     alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      'Line items',
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
+                                      text: 'Line items',
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 24.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w800,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
+                                      color: Color(ColorConstants.primary_black),
                                     ),
                                   ),
                                   VewInvoiceLineItemListWidget(invoice, true),
@@ -198,25 +184,17 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          'Due date:',
+                                        TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Due date:',
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(ColorConstants.primary_black),
-                                          ),
+                                          color: Color(ColorConstants.primary_black),
                                         ),
-                                        Text(
-                                          DateFormat('MMM dd, yyyy').format(invoice.dueDate),
+                                        TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: DateFormat('MMM dd, yyyy').format(invoice.dueDate),
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 24.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            color: Color(ColorConstants.primary_black),
-                                          ),
+                                          color: Color(ColorConstants.primary_black),
                                         ),
                                       ],
                                     ),
@@ -237,25 +215,19 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
                                               padding: EdgeInsets.all(12.0),
                                               height: 54.0,
-                                              width: 200.0,
+                                              width: 250.0,
                                               decoration: BoxDecoration(
                                                   color: Color(ColorConstants.getPeachDark()),
                                                   borderRadius: BorderRadius.circular(36.0)
                                               ),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Image.asset(
-                                                      'assets/images/icons/pdf_icon_white.png'),
-                                                  Text(
-                                                    'View PDF',
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'View PDF',
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 22.0,
-                                                      fontFamily: 'simple',
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                                    ),
+                                                    color: Color(ColorConstants.getPrimaryWhite()),
                                                   )
                                                 ],
                                               ),
@@ -271,25 +243,19 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
                                               padding: EdgeInsets.all(12.0),
                                               height: 54.0,
-                                              width: 200.0,
+                                              width: 250.0,
                                               decoration: BoxDecoration(
                                                   color: Color(ColorConstants.getPeachDark()),
                                                   borderRadius: BorderRadius.circular(36.0)
                                               ),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Image.asset(
-                                                      'assets/images/icons/sms_icon_white.png'),
-                                                  Text(
-                                                    invoice.sentDate != null ? 'Resend' : 'Send'+ ' invoice',
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: invoice.sentDate != null ? 'Resend' : 'Send'+ ' invoice',
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 22.0,
-                                                      fontFamily: 'simple',
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                                    ),
+                                                    color: Color(ColorConstants.getPrimaryWhite()),
                                                   )
                                                 ],
                                               ),
@@ -305,23 +271,19 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                                               margin: EdgeInsets.only(top: 4.0, bottom: 4.0),
                                               padding: EdgeInsets.all(12.0),
                                               height: 54.0,
-                                              width: 200.0,
+                                              width: 250.0,
                                               decoration: BoxDecoration(
                                                   color: Color(ColorConstants.getPeachDark()),
                                                   borderRadius: BorderRadius.circular(36.0)
                                               ),
                                               child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                mainAxisAlignment: MainAxisAlignment.center,
                                                 children: <Widget>[
-                                                  Text(
-                                                    'Share Payment Links',
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'Share Payment Links',
                                                     textAlign: TextAlign.center,
-                                                    style: TextStyle(
-                                                      fontSize: 22.0,
-                                                      fontFamily: 'simple',
-                                                      fontWeight: FontWeight.w600,
-                                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                                    ),
+                                                    color: Color(ColorConstants.getPrimaryWhite()),
                                                   )
                                                 ],
                                               ),
@@ -344,15 +306,11 @@ class _ViewInvoiceDialogState extends State<ViewInvoiceDialog> with AutomaticKee
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Cancel',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

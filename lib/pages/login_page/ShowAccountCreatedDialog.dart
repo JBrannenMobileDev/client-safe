@@ -1,19 +1,10 @@
-import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Invoice.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPage.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/IntentLauncherUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class ShowAccountCreatedDialog extends StatelessWidget {
   final User user;
@@ -42,15 +33,11 @@ class ShowAccountCreatedDialog extends StatelessWidget {
 
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-                child: Text(
-                  'Success!',
+                child: TextDandyLight(
+                  type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
+                  text: 'Success!',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 42.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.getPrimaryColor()),
-                  ),
+                  color: Color(ColorConstants.getPrimaryColor()),
                 ),
               ),
               Container(
@@ -60,33 +47,24 @@ class ShowAccountCreatedDialog extends StatelessWidget {
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-                child: Text(
-                  'Next we will send you a verification email. After verification is complete you will be able to sign in to DandyLight.',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Next we will send you a verification email. After verification is complete you will be able to sign in to DandyLight.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               GestureDetector(
                 onTap: () {
-                  user.sendEmailVerification();
                   Navigator.of(context).pop();
                 },
                 child: Container(
                   alignment: Alignment.centerRight,
-                  child: Text(
-                    'OK',
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'OK',
                     textAlign: TextAlign.end,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w800,
-                      color: Color(ColorConstants.getPeachDark()),
-                    ),
+                    color: Color(ColorConstants.getPeachDark()),
                   ),
                 ),
               ),

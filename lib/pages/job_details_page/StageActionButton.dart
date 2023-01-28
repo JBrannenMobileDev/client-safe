@@ -3,6 +3,8 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class StageActionButton extends StatelessWidget{
   final double height;
   final double width;
@@ -55,13 +57,10 @@ class StageActionButton extends StatelessWidget{
                 color: Color(ColorConstants.getPrimaryColor()),
                 onPressed: null,
               ) : SizedBox(),
-              text.isNotEmpty ? Text(
-                text,
-                style: TextStyle(
-                  fontSize: 16.0,
-                  fontFamily: 'Raleway',
-                  color: Colors.white,
-                ),
+              text.isNotEmpty ? TextDandyLight(
+                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                text: text,
+                color: Color(ColorConstants.getPrimaryWhite()),
               ) : SizedBox(),
             ],
           ),

@@ -8,6 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class RecurringExpenseDetailsPage extends StatefulWidget {
   final RecurringExpense selectedExpense;
   RecurringExpenseDetailsPage(this.selectedExpense);
@@ -42,14 +44,10 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                         backgroundColor: Colors.white,
                         pinned: true,
                         centerTitle: true,
-                        title: Text(
-                            selectedExpense.expenseName + ' Charges',
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.w600,
-                              fontFamily: 'simple',
-                              color: const Color(ColorConstants.primary_black),
-                            ),
+                        title: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: selectedExpense.expenseName + ' Charges',
+                          color: const Color(ColorConstants.primary_black),
                         ),
                         actions: <Widget>[
                           GestureDetector(
@@ -104,15 +102,11 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Image.asset(selectedExpense.cancelDate != null ? 'assets/images/icons/start_icon_white.png' : 'assets/images/icons/cancel_icon_white.png'),
-                              Text(
-                                selectedExpense.cancelDate == null ? 'Cancel Subscription' : 'Resume Subscription',
+                              TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: selectedExpense.cancelDate == null ? 'Cancel Subscription' : 'Resume Subscription',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                ),
+                                color: Color(ColorConstants.getPrimaryWhite()),
                               )
                             ],
                           ),

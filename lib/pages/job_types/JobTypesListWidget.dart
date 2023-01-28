@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import '../../models/JobType.dart';
 import '../../models/PriceProfile.dart';
 import '../../utils/ColorConstants.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class JobTypesListWidget extends StatelessWidget {
   final JobType jobType;
@@ -51,15 +52,11 @@ class JobTypesListWidget extends StatelessWidget {
                         child: Image.asset('assets/images/icons/briefcase_icon_peach_dark.png', color: Color(ColorConstants.getPrimaryBlack()),),
                       ),
                       Container(
-                        child: Text(
-                          jobType.title,
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: jobType.title,
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: textColor,
-                          ),
+                          color: textColor,
                         ),
                       ),
                     ],

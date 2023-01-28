@@ -15,6 +15,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/Shadows.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class NewLocationMapPage extends StatefulWidget {
   @override
@@ -116,14 +117,10 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                             boxShadow: ElevationToShadow[2],
                             borderRadius: BorderRadius.circular(26.0),
                             color: Color(ColorConstants.getPrimaryColor())),
-                        child: Text(
-                          'Save',
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryWhite()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Save',
+                          color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                       ),
                     ),
@@ -155,6 +152,11 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                           }
                           pageState.onSearchInputChanged(text);
                         },
+                        style: TextStyle(
+                          fontFamily: TextDandyLight.getFontFamily(),
+                          fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                          fontWeight: TextDandyLight.getFontWeight(),
+                        ),
                         onEditingComplete: () {
                           _searchFocus.unfocus();
                         },
@@ -175,7 +177,12 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                             disabledBorder: InputBorder.none,
                             contentPadding:
                             EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                            hintText: 'Search'
+                            hintText: 'Search',
+                          hintStyle: TextStyle(
+                            fontFamily: TextDandyLight.getFontFamily(),
+                            fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                            fontWeight: TextDandyLight.getFontWeight(),
+                          )
                         ),
                       ),
                     ),
@@ -221,31 +228,23 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Flexible(
-                                        child: Text(
-                                          pageState.locationsResults.elementAt(index).name,
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: pageState.locationsResults.elementAt(index).name,
                                           maxLines: 1,
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            overflow: TextOverflow.visible,
-                                            color: Color(ColorConstants.getPrimaryBlack()),
-                                          ),
+                                          overflow: TextOverflow.visible,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
                                         ),
                                       ),
                                       Expanded(
-                                        child: Text(
-                                          pageState.locationsResults.elementAt(index).address,
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: pageState.locationsResults.elementAt(index).address,
                                           maxLines: 1,
                                           textAlign: TextAlign.start,
-                                          style: TextStyle(
-                                            fontSize: 18.0,
-                                            fontFamily: 'simple',
-                                            fontWeight: FontWeight.w600,
-                                            overflow: TextOverflow.visible,
-                                            color: Color(ColorConstants.getPrimaryBlack()),
-                                          ),
+                                          overflow: TextOverflow.visible,
+                                          color: Color(ColorConstants.getPrimaryBlack()),
                                         ),
                                       ),
                                     ],

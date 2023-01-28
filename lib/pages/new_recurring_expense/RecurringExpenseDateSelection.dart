@@ -9,6 +9,8 @@ import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_pic
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class RecurringExpenseDateSelection extends StatefulWidget {
 
   @override
@@ -32,15 +34,11 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(left: 16.0),
-                child: Text(
-                  'Select the date when you started paying for this recurring expense',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Select the date when you started paying for this recurring expense',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
@@ -84,14 +82,10 @@ class _RecurringExpenseDateSelectionState extends State<RecurringExpenseDateSele
                               color: Color(ColorConstants.getPeachDark())
                           ),
                         ),
-                        child: Text(
-                          DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
-                          style: TextStyle(
-                            fontFamily: 'simple',
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
+                          color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),
                     ],

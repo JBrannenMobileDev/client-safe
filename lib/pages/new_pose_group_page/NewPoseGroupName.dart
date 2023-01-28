@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'NewPoseGroupTextField.dart';
 
 
@@ -36,15 +37,11 @@ class _NewPoseGroupName extends State<NewPoseGroupName> with AutomaticKeepAliveC
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
-              child: Text(
-                "Enter a simple and descriptive name for this pose collection. ",
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: "Enter a simple and descriptive name for this pose collection. ",
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             NewPoseGroupTextField(

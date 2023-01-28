@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import '../client_details_page/SelectSavedResponseBottomSheet.dart';
 import '../client_details_page/SendMessageOptionsBottomSheet.dart';
 
@@ -41,15 +42,11 @@ class ClientDetailsCard extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 16.0),
-                  child: Text(
-                    pageState.client?.getClientFullName(),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: pageState.client?.getClientFullName(),
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 24.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 Row(

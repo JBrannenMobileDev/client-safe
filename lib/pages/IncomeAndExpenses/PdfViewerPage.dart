@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class PdfViewerPage extends StatelessWidget {
   final String path;
   const PdfViewerPage({Key key, this.path}) : super(key: key);
@@ -16,13 +18,11 @@ class PdfViewerPage extends StatelessWidget {
             color: Color(ColorConstants.getPrimaryWhite()), //change your color here
           ),
           backgroundColor: Color(ColorConstants.getPrimaryColor()),
-          title: Text("Document",
-            style: TextStyle(
-            fontSize: 26.0,
-            fontFamily: 'simple',
-            fontWeight: FontWeight.w600,
+          title: TextDandyLight(
+            type: TextDandyLight.LARGE_TEXT,
+            text: "Document",
             color: Color(ColorConstants.getPrimaryWhite()),
-          ),),
+          ),
         ),
         path: path
     );

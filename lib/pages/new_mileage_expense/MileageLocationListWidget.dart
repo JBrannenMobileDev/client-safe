@@ -2,21 +2,14 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
-import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:image_picker/image_picker.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class MileageLocationListWidget extends StatelessWidget {
   final int locationIndex;
@@ -103,17 +96,13 @@ class MileageLocationListWidget extends StatelessWidget {
           Center(
             child: Container(
               margin: EdgeInsets.only(top: 4.0),
-              child: Text(
-                pageState.locations.elementAt(locationIndex).locationName,
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: pageState.locations.elementAt(locationIndex).locationName,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'simple',
-                  color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
-                      ? const Color(ColorConstants.primary_black)
-                      : Color(ColorConstants.getPrimaryColor()),
-                ),
+                color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
+                    ? const Color(ColorConstants.primary_black)
+                    : Color(ColorConstants.getPrimaryColor()),
               ),
             ),
           ),

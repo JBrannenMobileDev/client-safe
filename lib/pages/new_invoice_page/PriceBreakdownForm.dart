@@ -14,6 +14,7 @@ import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'BalanceDueWidget.dart';
 import 'DepositRowWidget.dart';
 import 'DiscountRowWidget.dart';
@@ -76,29 +77,21 @@ class _PriceBreakdownFormState extends State<PriceBreakdownForm> with AutomaticK
       Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(
-                'Price Breakdown',
+              TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: 'Price Breakdown',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
               Container(
                 alignment: Alignment.centerLeft,
                 margin: EdgeInsets.only(left: 16.0, top: 24.0),
-                child: Text(
-                  'Line Items',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Line Items',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w800,
-                    color: Color(
-                        ColorConstants.getPrimaryBlack()),
-                  ),
+                  color: Color(
+                      ColorConstants.getPrimaryBlack()),
                 ),
               ),
               Column(

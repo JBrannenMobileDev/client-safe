@@ -75,6 +75,11 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                           decoration: InputDecoration(
                             alignLabelWithHint: true,
                             hintText: "Job name",
+                            hintStyle: new TextStyle(
+                                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                fontFamily: TextDandyLight.getFontFamily(),
+                                fontWeight: TextDandyLight.getFontWeight(),
+                                color: Color(ColorConstants.primary_black)),
                             fillColor: Colors.white,
                             contentPadding: EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
@@ -144,17 +149,13 @@ class _JobSelectionForTipState extends State<JobSelectionForTip> with AutomaticK
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
-                      child: Text(
-                        pageState.allJobs.length > 0
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.allJobs.length > 0
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     ClientSafeButton(

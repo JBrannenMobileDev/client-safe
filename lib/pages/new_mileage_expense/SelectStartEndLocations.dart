@@ -26,18 +26,16 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
   @override
   Widget build(BuildContext context) {
     tabs = <int, Widget>{
-      0: Text(SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY, style: TextStyle(
-        fontSize: 20.0,
-        fontFamily: 'simple',
-        fontWeight: FontWeight.w400,
+      0: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: SelectStartEndLocationsPage.FILTER_TYPE_ONE_WAY,
         color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
-      ),),
-      1: Text(SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP, style: TextStyle(
-        fontSize: 20.0,
-        fontFamily: 'simple',
-        fontWeight: FontWeight.w400,
+      ),
+      1: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP,
         color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
-      ),),
+      ),
     };
     super.build(context);
     return StoreConnector<AppState, NewMileageExpensePageState>(
@@ -54,28 +52,20 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-              child: Text(
-                'Select the start and end locations for this mileage trip.',
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Select the start and end locations for this mileage trip.',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 8.0, top: 16.0),
-              child: Text(
-                'Start location:',
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Start location:',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             GestureDetector(
@@ -104,15 +94,11 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                       child: Image.asset('assets/images/icons/location_icon_white.png'),
                     ),
                     Container(
-                      child: Text(
-                        pageState.startLocationName.isNotEmpty ? pageState.startLocationName : pageState.selectedHomeLocationName.isNotEmpty ? pageState.selectedHomeLocationName : 'Select a location',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.startLocationName.isNotEmpty ? pageState.startLocationName : pageState.selectedHomeLocationName.isNotEmpty ? pageState.selectedHomeLocationName : 'Select a location',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ],
@@ -121,15 +107,11 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 8.0, top: 16.0),
-              child: Text(
-                'End location:',
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'End location:',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             GestureDetector(
@@ -158,17 +140,13 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                       child: Image.asset('assets/images/icons/location_icon_white.png'),
                     ),
                     Container(
-                      child: Text(
-                        pageState.endLocationName.isEmpty ? 'Select a location' : pageState.endLocationName,
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.endLocationName.isEmpty ? 'Select a location' : pageState.endLocationName,
                         textAlign: TextAlign.start,
                         overflow: TextOverflow.fade,
                         maxLines: 1,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ],
@@ -200,15 +178,11 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 24.0),
-                      child: Text(
-                        'Miles driven',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Miles driven',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Padding(
@@ -225,15 +199,11 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                           ),
                           Container(
                             padding: EdgeInsets.only(bottom: 4.0),
-                            child: Text(
-                              'mi',
+                            child: TextDandyLight(
+                              type: TextDandyLight.LARGE_TEXT,
+                              text: 'mi',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 24.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],
@@ -246,15 +216,11 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 24.0),
-                      child: Text(
-                        'Potential deduction',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Potential deduction',
                         textAlign: TextAlign.end,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Padding(

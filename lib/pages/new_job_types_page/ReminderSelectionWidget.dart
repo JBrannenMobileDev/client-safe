@@ -1,7 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/common_widgets/ClientSafeButton.dart';
 import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageActions.dart';
-import 'package:dandylight/pages/new_job_reminder/NewJobReminderPageState.dart';
 import 'package:dandylight/pages/new_job_types_page/NewJobTypePageState.dart';
 import 'package:dandylight/pages/new_job_types_page/ReminderSelectionListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -10,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 
 class ReminderSelectionWidget extends StatefulWidget {
@@ -51,15 +52,11 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(bottom: 0.0, left: 8.0),
-                  child: Text(
-                    "Select what reminders you want for this job type. You may also add your own.",
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "Select what reminders you want for this job type. You may also add your own.",
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 pageState.allDandyLightReminders.length > 0 ? Row(
@@ -67,15 +64,11 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 8.0, right: 8.0),
-                      child: Text(
-                        'Check All',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Check All',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Container(
@@ -112,15 +105,11 @@ class _ReminderSelectionPageState extends State<ReminderSelectionWidget> with Au
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
-                      child: Text(
-                        "You have not created any reminders yet.",
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: "You have not created any reminders yet.",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     ClientSafeButton(

@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../AppState.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/ColorConstants.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'NewReminderPage.dart';
 import 'NewReminderPageState.dart';
 
@@ -53,15 +54,11 @@ class _TimeSelectionWidgetState extends State<TimeSelectionWidget> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
-                        child: Text(
-                          "Select a time for this job reminder.",
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Select a time for this job reminder.",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],

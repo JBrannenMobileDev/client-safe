@@ -22,6 +22,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewContactPage extends StatefulWidget {
   final bool comingFromNewJob;
   NewContactPage({this.comingFromNewJob});
@@ -115,15 +117,11 @@ class _NewContactPageState extends State<NewContactPage> {
                       Stack(
                         alignment: Alignment.center,
                         children: <Widget>[
-                          Text(
-                            pageState.shouldClear ? "New Contact" : "Edit Contact",
+                          TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: pageState.shouldClear ? "New Contact" : "Edit Contact",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 28.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                           Container(
                             margin: EdgeInsets.only(right: 300.0),
@@ -184,15 +182,11 @@ class _NewContactPageState extends State<NewContactPage> {
                             onPressed: () {
                               onBackPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == 0 ? "Cancel" : "Back",
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           TextButton(
@@ -209,17 +203,13 @@ class _NewContactPageState extends State<NewContactPage> {
                             onPressed: () {
                               onNextPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == pageCount
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == pageCount
                                   ? "Save"
                                   : "Next",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],
@@ -241,7 +231,7 @@ class _NewContactPageState extends State<NewContactPage> {
       case 1:
         return 256.0;
       case 2:
-        return 350.0;
+        return 364.0;
     }
     return 256.0;
   }

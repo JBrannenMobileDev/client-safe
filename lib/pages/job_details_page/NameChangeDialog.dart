@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NameChangeDialog extends StatefulWidget {
   @override
   _NameChangeDialogState createState() {
@@ -46,15 +48,11 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-                      child: Text(
-                        "Enter a simple and descriptive name for this job.",
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: "Enter a simple and descriptive name for this job.",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     NewJobTextField(
@@ -74,15 +72,11 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text(
-                            'Cancel',
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Cancel',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         TextButton(
@@ -92,15 +86,11 @@ class _NameChangeDialogState extends State<NameChangeDialog>
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },
-                          child: Text(
-                            'Save',
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Save',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ],

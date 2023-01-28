@@ -23,6 +23,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'BusinessAnalyticsInfo.dart';
 import 'InfoContainerWidget.dart';
 import 'InvoiceInfo.dart';
@@ -396,6 +397,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             _controllerErrorShake.forward();
           }
           if(!prev.shouldShowAccountCreatedDialog && pageState.shouldShowAccountCreatedDialog){
+            pageState.user.sendEmailVerification();
             UserOptionsUtil.showAccountCreatedDialog(context, pageState.user);
             pageState.resetShouldShowSuccessDialog();
             _onBackPressed(pageState);
@@ -620,15 +622,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                               color: Color(ColorConstants.getPeachDark()),
                               borderRadius: BorderRadius.circular(36.0)),
-                          child: Text(
-                            'Start Free Trial',
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: '14 Day Free Trial',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),
@@ -646,14 +644,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             }
                             pageState.onClearErrorMessages();
                           },
-                          child: Text(
-                            pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Start Free Trial'),
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Start Free Trial'),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ),
@@ -665,14 +659,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             pageState.onClearErrorMessages();
                             EventSender().sendEvent(eventName: EventNames.BT_FORGOT_PASSWORD);
                           },
-                          child: Text(
-                            'Forgot password ?',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Forgot password ?',
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ),
@@ -701,14 +691,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Text(
-                              'Verification is incomplete.',
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: 'Verification is incomplete.',
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                             GestureDetector(
                               onTap: () {
@@ -723,15 +709,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 decoration: BoxDecoration(
                                     color: Color(ColorConstants.getBlueDark()),
                                     borderRadius: BorderRadius.circular(24.0)),
-                                child: Text(
-                                  'Resend',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color:
-                                        Color(ColorConstants.getPrimaryWhite()),
-                                  ),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Resend',
+                                  color: Color(ColorConstants.getPrimaryWhite()),
                                 ),
                               ),
                             ),
@@ -754,15 +735,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     children: [
                       SlideTransition(
                         position: showLoginButtonsStep,
-                        child: Text(
-                          pageState.loginErrorMessage,
+                        child: TextDandyLight(
+                          type: TextDandyLight.SMALL_TEXT,
+                          text: pageState.loginErrorMessage,
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.error_red),
-                          ),
+                          color: Color(ColorConstants.error_red),
                         ),
                       ),
                       !pageState.showLoginLoadingAnimation ? SlideTransition(
@@ -836,15 +813,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                 ? Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: <Widget>[
-                                Text(
-                                  'Signing In',
+                                TextDandyLight(
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  text: 'Signing In',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 26.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                  ),
+                                  color: Color(ColorConstants.getPrimaryWhite()),
                                 ),
                                 Container(
                                   alignment: Alignment.center,
@@ -855,24 +828,16 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ],
-                            ) : pageState.isForgotPasswordViewVisible ? Text(
-                              'Reset Password',
+                            ) : pageState.isForgotPasswordViewVisible ? TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Reset Password',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
-                            ) : Text(
-                              'Sign in',
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                            ) : TextDandyLight(
+                              type: TextDandyLight.LARGE_TEXT,
+                              text: 'Sign in',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 26.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                         ),
@@ -949,16 +914,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               pageState.mainButtonsVisible && selectedButton != CREATE_ACCOUNT ? Container(
                                   width: 175.0,
                                   margin: EdgeInsets.only(top: 225.0),
-                                  child: Text(
-                                    'Capture the moment We\'ll do the rest',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Capture the moment We\'ll do the rest',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 22.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(
-                                          ColorConstants.getPrimaryWhite()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryWhite()),
                                   )
                               ) : SizedBox(),
                             ],
@@ -972,14 +932,10 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               selectedButton != null ? SafeArea(
                 child: Container(
                   margin: EdgeInsets.only(top: 96.0),
-                  child: Text(
-                    selectedButton,
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: selectedButton,
+                    color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                 ),
               ) : SizedBox(),
@@ -1001,15 +957,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           borderRadius: BorderRadius.circular(32.0)),
                       child: pageState.showCreateAccountLoadingAnimation
                           ? Center(child: LoginLoadingWidget())
-                          : Text(
-                        'Submit',
+                          : TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Submit',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),
@@ -1028,15 +980,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.getPeachDark()),
                           borderRadius: BorderRadius.circular(32.0)),
-                      child: Text(
-                        'Sign in with Google',
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Sign in with Google',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),
@@ -1212,15 +1160,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                   child: Container(
                 margin: EdgeInsets.only(top: 8.0, left: 42.0, right: 42.0, bottom: 128.0),
-                child: Text(
-                  'Error: ' + (pageState.createAccountErrorMessage.isNotEmpty ? pageState.createAccountErrorMessage : 'Password must be at least 8 characters long, include one upper case and one lower case letter, one number, and one special character.'),
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Error: ' + (pageState.createAccountErrorMessage.isNotEmpty ? pageState.createAccountErrorMessage : 'Password must be at least 8 characters long, include one upper case and one lower case letter, one number, and one special character.'),
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(pageState.createAccountErrorMessage.isNotEmpty ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
-                  ),
+                  color: Color(pageState.createAccountErrorMessage.isNotEmpty ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
                 ),
               ),
               ) : SizedBox()),

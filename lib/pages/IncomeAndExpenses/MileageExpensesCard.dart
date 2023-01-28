@@ -36,15 +36,11 @@ class MileageExpensesCard extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        'Mileage Deduction (' + pageState.selectedYear.toString() + ')',
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Mileage Deduction (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                       pageState.mileageExpensesForSelectedYear != null && pageState.mileageExpensesForSelectedYear.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -56,14 +52,10 @@ class MileageExpensesCard extends StatelessWidget {
                         },
                         child: Container(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            'View all(' + pageState.mileageExpensesForSelectedYear.length.toString() + ')',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'View all(' + pageState.mileageExpensesForSelectedYear.length.toString() + ')',
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ) : SizedBox(),
@@ -107,15 +99,11 @@ class MileageExpensesCard extends StatelessWidget {
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(bottom: 2.0),
-                                      child: Text(
-                                        ' miles driven',
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: ' miles driven',
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.primary_black),
-                                        ),
+                                        color: Color(ColorConstants.primary_black),
                                       ),
                                     ),
                                   ],
@@ -137,15 +125,11 @@ class MileageExpensesCard extends StatelessWidget {
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 3.0),
-                                    child: Text(
-                                      '/mi',
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: '/mi',
                                       textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
+                                      color: Color(ColorConstants.primary_black),
                                     ),
                                   ),
                                 ],
@@ -169,15 +153,11 @@ class MileageExpensesCard extends StatelessWidget {
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
                   height: 64.0,
-                  child: Text(
-                    'You have not added any trips yet. Select the + button to add a trip. ',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'You have not added any trips yet. Select the + button to add a trip. ',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
               ],
