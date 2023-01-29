@@ -16,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'GroupImage.dart';
 
 class SingleImageViewPager extends StatefulWidget {
@@ -125,14 +126,10 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        groupName,
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'simple',
-                          color: Color(ColorConstants.getPeachLight()),
-                        ),
+                      TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: groupName,
+                        color: Color(ColorConstants.getPeachLight()),
                       ),
                       Row(
                         children: [

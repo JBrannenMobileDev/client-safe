@@ -10,6 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'ReminderListWidget.dart';
 
 class RemindersPage extends StatefulWidget {
@@ -53,14 +54,10 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                       centerTitle: true,
                       elevation: 0.0,
                       title: Center(
-                        child: Text(
-                          "Reminders",
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: "Reminders",
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       actions: <Widget>[
@@ -92,15 +89,11 @@ class _RemindersPageState extends State<RemindersPage> with TickerProviderStateM
                           ) :
                           Padding(
                             padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
-                            child: Text(
-                              "You have not created any reminders yet. To create a new reminder, select the plus icon.",
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: "You have not created any reminders yet. To create a new reminder, select the plus icon.",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w400,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ],

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../widgets/TextDandyLight.dart';
 import '../ResponsesPageState.dart';
 import 'EditResponseBottomSheet.dart';
 import 'NewResponseBottomSheet.dart';
@@ -26,15 +27,11 @@ class ResponsesGroupListWidget extends StatelessWidget {
               _buildItemDetailsWidget(pageState, index, context),
               pageState.items.elementAt(index).itemType == ResponsesListItem.RESPONSE && pageState.items.elementAt(index).response.message.isEmpty ? Container(
                 margin: EdgeInsets.only(left: 32, top: 34),
-                child: Text(
-                  'message not set',
+                child: TextDandyLight(
+                  type: TextDandyLight.EXTRA_SMALL_TEXT,
+                  text: 'message not set',
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w400,
-                    color: Color(ColorConstants.error_red),
-                  ),
+                  color: Color(ColorConstants.error_red),
                 ),
               ) : SizedBox(),
               pageState.items.elementAt(index).itemType == ResponsesListItem.RESPONSE && !pageState.isEditEnabled ? Container(
@@ -70,15 +67,11 @@ class ResponsesGroupListWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 color: Color(ColorConstants.getPrimaryWhite())
             ),
-            child:Text(
-              pageState.items.elementAt(index).title,
+            child:TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: pageState.items.elementAt(index).title,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w400,
-                color: Color(ColorConstants.getBlueDark()),
-              ),
+              color: Color(ColorConstants.getBlueDark()),
             ),
           ),
         );
@@ -107,15 +100,11 @@ class ResponsesGroupListWidget extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8.0),
                     color: Color(ColorConstants.getBlueLight()).withOpacity(0.5),
                 ),
-                child: Text(
-                  pageState.items.elementAt(index).title,
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: pageState.items.elementAt(index).title,
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w400,
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                  ),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
               pageState.isEditEnabled ? GestureDetector(
@@ -156,15 +145,11 @@ class ResponsesGroupListWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8.0),
                   color: Color(ColorConstants.getPrimaryWhite())
               ),
-              child: Text(
-                '+ ' + pageState.items.elementAt(index).title,
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: '+ ' + pageState.items.elementAt(index).title,
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 22.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.getBlueDark()),
-                ),
+                color: Color(ColorConstants.getBlueDark()),
               ),
           ),
         );

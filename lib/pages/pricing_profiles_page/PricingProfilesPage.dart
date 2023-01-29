@@ -4,12 +4,13 @@ import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.da
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/widgets/PriceProfileListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class PricingProfilesPage extends StatefulWidget {
   @override
@@ -52,14 +53,10 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                       centerTitle: true,
                       elevation: 0.0,
                       title: Center(
-                        child: Text(
-                          "Pricing Packages",
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryColor()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: "Pricing Packages",
+                          color: Color(ColorConstants.getPrimaryColor()),
                         ),
                       ),
                       actions: <Widget>[
@@ -91,15 +88,11 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                           ) :
                           Padding(
                             padding: EdgeInsets.only(left: 64.0, top: 48.0, right: 64.0),
-                            child: Text(
-                              "You have not created any pricing package yet. To create a new pricing package, select the plus icon.",
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: "You have not created any pricing package yet. To create a new pricing package, select the plus icon.",
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'Raleway',
-                                fontWeight: FontWeight.w400,
-                                color:  Color(ColorConstants.getPrimaryColor()),
-                              ),
+                              color:  Color(ColorConstants.getPrimaryColor()),
                             ),
                           ),
                         ],

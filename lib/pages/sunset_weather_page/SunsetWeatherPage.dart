@@ -15,6 +15,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class SunsetWeatherPage extends StatefulWidget {
   static const String FILTER_TYPE_EVENING = "Evening";
   static const String FILTER_TYPE_MORNING = "Morning";
@@ -61,14 +63,10 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                     },
                   ),
                   title: Container(
-                    child: Text(
-                      "Sunset & Weather",
-                      style: TextStyle(
-                        fontFamily: 'simple',
-                        fontSize: 26.0,
-                        fontWeight: FontWeight.w600,
-                        color: const Color(ColorConstants.primary_black),
-                      ),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: "Sunset & Weather",
+                      color: const Color(ColorConstants.primary_black),
                     ),
                   ),
                 ),
@@ -77,19 +75,15 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                     <Widget>[
                       Container(
                         margin: EdgeInsets.only(top: 8.0, left: 0.0, bottom: 8),
-                        child: Text(
-                          DateFormat('EEEE').format(pageState.selectedDate) +
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: DateFormat('EEEE').format(pageState.selectedDate) +
                               ' - ' +
                               pageState.weatherDescription,
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       pageState.isWeatherDataLoading
@@ -101,16 +95,12 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                   height:
                                       (MediaQuery.of(context).size.width / 4) +
                                           16,
-                                  child: Text(
-                                    'Weather data is not available yet for the date selected. Check back within 7 days of your desired date.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Weather data is not available yet for the date selected. Check back within 7 days of your desired date.',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w800,
-                                      color:
-                                          Color(ColorConstants.getPeachDark()),
-                                    ),
+                                    color:
+                                    Color(ColorConstants.getPeachDark()),
                                   ),
                                 )
                               : Container(
@@ -120,18 +110,14 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        'Loading weather data',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Loading weather data',
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPeachDark()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPeachDark()),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(top: 32.0),
@@ -168,20 +154,16 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                         children: <Widget>[
                                           Container(
                                             width: 88.0,
-                                            child: Text(
-                                              pageState.tempHigh +
+                                            child: TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: pageState.tempHigh +
                                                   '° - ' +
                                                   pageState.tempLow +
                                                   '°',
                                               textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.w800,
-                                                fontFamily: 'simple',
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
+                                              color: const Color(
+                                                  ColorConstants
+                                                      .primary_black),
                                             ),
                                           ),
                                         ],
@@ -191,33 +173,25 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                             MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-
-                                            child: Text(
-                                              'Chance of rain:',
+                                            child: TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Chance of rain:',
                                               textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontFamily: 'simple',
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
+                                              color: const Color(
+                                                  ColorConstants
+                                                      .primary_black),
                                             ),
                                           ),
                                           Container(
-                                            child: Text(
-                                              ' ' +
+                                            child: TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: ' ' +
                                                   pageState.chanceOfRain +
                                                   '%',
                                               textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontWeight: FontWeight.w800,
-                                                fontFamily: 'simple',
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
+                                              color: const Color(
+                                                  ColorConstants
+                                                      .primary_black),
                                             ),
                                           ),
                                         ],
@@ -227,32 +201,25 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                             MainAxisAlignment.end,
                                         children: <Widget>[
                                           Container(
-                                            child: Text(
-                                              'Cloud coverage:',
+                                            child: TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Cloud coverage:',
                                               textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontFamily: 'simple',
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
+                                              color: const Color(
+                                                  ColorConstants
+                                                      .primary_black),
                                             ),
                                           ),
                                           Container(
-                                            child: Text(
-                                              ' ' +
+                                            child: TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: ' ' +
                                                   pageState.cloudCoverage +
                                                   '%',
                                               textAlign: TextAlign.end,
-                                              style: TextStyle(
-                                                fontSize: 20.0,
-                                                fontFamily: 'simple',
-                                                fontWeight: FontWeight.w800,
-                                                color: const Color(
-                                                    ColorConstants
-                                                        .primary_black),
-                                              ),
+                                              color: const Color(
+                                                  ColorConstants
+                                                      .primary_black),
                                             ),
                                           ),
                                         ],
@@ -269,8 +236,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                           UserOptionsUtil.showSelectLocationDialog(context);
                         },
                         child: Container(
-                          width: MediaQuery.of(context).size.width / 4 + 200,
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          margin: EdgeInsets.only(left: 16, right: 16),
                           height: 48.0,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(26.0),
@@ -286,18 +252,13 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     'assets/images/icons/location_icon_white.png'),
                               ),
                               Container(
-                                child: Text(
-                                  pageState.locationName,
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: pageState.locationName,
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.fade,
                                   maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color:
-                                        Color(ColorConstants.getPrimaryWhite()),
-                                  ),
+                                  color: Color(ColorConstants.getPrimaryWhite()),
                                 ),
                               ),
                             ],
@@ -318,8 +279,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             });
                           },
                           child: Container(
-                            width: MediaQuery.of(context).size.width / 4 + 200,
-                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            margin: EdgeInsets.only(left: 16, right: 16),
                             height: 48.0,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(26.0),
@@ -335,19 +295,15 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                       'assets/images/icons/calendar_bold_white.png'),
                                 ),
                                 Container(
-                                  child: Text(
-                                    DateFormat('MMM dd, yyy')
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: DateFormat('MMM dd, yyy')
                                         .format(pageState.selectedDate),
                                     textAlign: TextAlign.start,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(
-                                          ColorConstants.getPrimaryWhite()),
-                                    ),
+                                    color: Color(
+                                        ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
                               ],
@@ -364,16 +320,12 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                   height:
                                       (MediaQuery.of(context).size.width / 4) +
                                           16,
-                                  child: Text(
-                                    'Hourly weather data is only available for the current day.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Hourly weather data is only available for the current day.',
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w800,
-                                      color:
-                                          Color(ColorConstants.getPeachDark()),
-                                    ),
+                                    color:
+                                    Color(ColorConstants.getPeachDark()),
                                   ),
                                 )
                               : Container(
@@ -381,18 +333,14 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        'Loading hourly weather data',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Loading hourly weather data',
                                         textAlign: TextAlign.center,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPeachDark()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPeachDark()),
                                       ),
                                       Container(
                                         margin: EdgeInsets.only(top: 32.0),
@@ -419,32 +367,24 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                         height:
                         (MediaQuery.of(context).size.width / 4) +
                             16,
-                        child: Text(
-                          'Hourly weather data is only available for the current day.',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Hourly weather data is only available for the current day.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color:
-                            Color(ColorConstants.getPeachDark()),
-                          ),
+                          color:
+                          Color(ColorConstants.getPeachDark()),
                         ),
                       ),
                       Container(
                         margin:
                             EdgeInsets.only(top: 0.0, bottom: 8.0, left: 0.0),
-                        child: Text(
-                          'Evening',
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Evening',
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       pageState.isSunsetDataLoading
@@ -454,18 +394,14 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                    'Loading sunset data',
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Loading sunset data',
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w800,
-                                      color:
-                                          Color(ColorConstants.getPeachDark()),
-                                    ),
+                                    color:
+                                    Color(ColorConstants.getPeachDark()),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 32.0),
@@ -483,31 +419,23 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Golden Hour',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Golden Hour',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPrimaryColor()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPrimaryColor()),
                                       ),
-                                      Text(
-                                        pageState.eveningGoldenHour,
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: pageState.eveningGoldenHour,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPrimaryColor()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPrimaryColor()),
                                       )
                                     ],
                                   ),
@@ -519,31 +447,23 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Sunset',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Sunset',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPeachDark()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPeachDark()),
                                       ),
-                                      Text(
-                                        pageState.sunset,
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: pageState.sunset,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPeachDark()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPeachDark()),
                                       )
                                     ],
                                   ),
@@ -555,31 +475,23 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Blue Hour',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Blue Hour',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getBlueLight()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getBlueLight()),
                                       ),
-                                      Text(
-                                        pageState.eveningBlueHour,
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: pageState.eveningBlueHour,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getBlueLight()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getBlueLight()),
                                       )
                                     ],
                                   ),
@@ -589,17 +501,13 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                       Container(
                         margin:
                             EdgeInsets.only(top: 16.0, bottom: 8.0, left: 0.0),
-                        child: Text(
-                          'Morning',
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Morning',
                           textAlign: TextAlign.center,
                           overflow: TextOverflow.fade,
                           maxLines: 1,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w800,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       pageState.isSunsetDataLoading
@@ -609,18 +517,13 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: <Widget>[
-                                  Text(
-                                    'Loading sunset data',
+                                  TextDandyLight(
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Loading sunset data',
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.fade,
                                     maxLines: 1,
-                                    style: TextStyle(
-                                      fontSize: 20.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w800,
-                                      color:
-                                          Color(ColorConstants.getPeachDark()),
-                                    ),
+                                    color: Color(ColorConstants.getPeachDark()),
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 32.0),
@@ -638,31 +541,23 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Blue Hour',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Blue Hour',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getBlueLight()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getBlueLight()),
                                       ),
-                                      Text(
-                                        pageState.morningBlueHour,
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: pageState.morningBlueHour,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getBlueLight()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getBlueLight()),
                                       )
                                     ],
                                   ),
@@ -674,31 +569,23 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Sunrise',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Sunrise',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPeachDark()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPeachDark()),
                                       ),
-                                      Text(
-                                        pageState.sunrise,
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: pageState.sunrise,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPeachDark()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPeachDark()),
                                       )
                                     ],
                                   ),
@@ -710,31 +597,23 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: <Widget>[
-                                      Text(
-                                        'Golden hour',
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Golden hour',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPrimaryColor()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPrimaryColor()),
                                       ),
-                                      Text(
-                                        pageState.morningGoldenHour,
+                                      TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: pageState.morningGoldenHour,
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.fade,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w800,
-                                          color: Color(
-                                              ColorConstants.getPrimaryColor()),
-                                        ),
+                                        color: Color(
+                                            ColorConstants.getPrimaryColor()),
                                       )
                                     ],
                                   ),
@@ -748,9 +627,9 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                             text: TextSpan(
                               text: 'Sunrise - Sunset data is provided by ',
                               style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
+                                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                fontFamily: TextDandyLight.getFontFamily(),
+                                fontWeight: TextDandyLight.getFontWeight(),
                                 color: Color(
                                     ColorConstants.getPrimaryBlack()),
                               ),
@@ -762,9 +641,9 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                       _launchURL();
                                     },
                                   style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                    fontFamily: TextDandyLight.getFontFamily(),
+                                    fontWeight: TextDandyLight.getFontWeight(),
                                     color: Color(
                                         ColorConstants.getPeachDark()),
                                   ),
@@ -805,15 +684,11 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              _getHourText(pageState.hoursForecast.elementAt(index).dateTime),
+            TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: _getHourText(pageState.hoursForecast.elementAt(index).dateTime),
               textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
-                color: Color(ColorConstants.getPrimaryBlack()),
-              ),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
             Container(
               margin: EdgeInsets.only(top: 16, bottom: 16.0),
@@ -824,18 +699,14 @@ Widget _buildSingleDayForecastItem(BuildContext context, int index) {
               ),
               child: Image.asset(getWeatherIcon(pageState.hoursForecast.elementAt(index).weatherIcon), color: Color(ColorConstants.getBlueLight()),),
             ),
-            Text(
-              pageState.hoursForecast
+            TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: pageState.hoursForecast
                       .elementAt(index)
                       .temperature.value.toInt().toString() +
                   '°',
               textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
-                color: Color(ColorConstants.getPrimaryBlack()),
-              ),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ],
         ),

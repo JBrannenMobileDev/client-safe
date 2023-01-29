@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class SelectLocationDialog extends StatefulWidget {
   @override
   _SelectLocationDialogState createState() {
@@ -55,15 +57,11 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                            "Select a Location",
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                            text: "Select a Location",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Container(
@@ -99,15 +97,11 @@ class _SelectLocationDialogState extends State<SelectLocationDialog> {
                               onPressed: () {
                                 onBackPressed(pageState);
                               },
-                              child: Text(
-                                'Cancel',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Cancel',
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

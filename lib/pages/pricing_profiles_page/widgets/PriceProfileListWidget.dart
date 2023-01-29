@@ -1,4 +1,3 @@
-import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -6,6 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+
+import '../../../widgets/TextDandyLight.dart';
 
 class PriceProfileListWidget extends StatelessWidget {
   final PriceProfile priceProfile;
@@ -52,40 +53,28 @@ class PriceProfileListWidget extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisSize: MainAxisSize.max,
                             children: <Widget>[
-                              Text(
-                                priceProfile.profileName,
+                              TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: priceProfile.profileName,
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: textColor,
-                                ),
+                                color: textColor,
                               ),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Text(
-                                    'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.flatRate),
+                                  TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.flatRate),
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w400,
-                                      color: textColor,
-                                    ),
+                                    color: textColor,
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(right: 24.0),
-                                    child: Text(
-                                      (priceProfile.deposit != null ? priceProfile.deposit > 0 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.SMALL_TEXT,
+                                      text: (priceProfile.deposit != null ? priceProfile.deposit > 0 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 18.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w400,
-                                        color: textColor,
-                                      ),
+                                      color: textColor,
                                     ),
                                   ),
                                 ],

@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
@@ -15,8 +14,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 
-import '../../utils/ColorConstants.dart';
 import '../../utils/Shadows.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class SunsetWeatherMapPage extends StatefulWidget {
   @override
@@ -121,14 +120,10 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                         boxShadow: ElevationToShadow[2],
                         borderRadius: BorderRadius.circular(26.0),
                         color: Color(ColorConstants.getPeachDark())),
-                    child: Text(
-                      'Save',
-                      style: TextStyle(
-                        fontSize: 26.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Save',
+                      color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                   ),
                 ),
@@ -226,31 +221,23 @@ class _SunsetWeatherMapPage extends State<SunsetWeatherMapPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Flexible(
-                                      child: Text(
-                                        pageState.locationsResults.elementAt(index).name,
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.SMALL_TEXT,
+                                        text: pageState.locationsResults.elementAt(index).name,
                                         maxLines: 1,
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          overflow: TextOverflow.visible,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
-                                        ),
+                                        overflow: TextOverflow.visible,
+                                        color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                     ),
                                     Expanded(
-                                      child: Text(
-                                        pageState.locationsResults.elementAt(index).address,
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.SMALL_TEXT,
+                                        text: pageState.locationsResults.elementAt(index).address,
                                         maxLines: 1,
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 18.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          overflow: TextOverflow.visible,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
-                                        ),
+                                        overflow: TextOverflow.visible,
+                                        color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                     ),
                                   ],

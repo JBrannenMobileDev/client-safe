@@ -7,7 +7,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../../AppState.dart';
 import '../../../models/Response.dart';
-import '../../../models/ResponsesListItem.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 
 class NewResponseBottomSheet extends StatefulWidget {
@@ -58,15 +58,11 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text(
-                          'Cancel',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Cancel',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       TextButton(
@@ -74,45 +70,33 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                           modalPageState.onSaveNewResponseSelected(response);
                           Navigator.of(context).pop();
                         },
-                        child: Text(
-                          'Save',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Save',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
                   )),
               Container(
                 margin: EdgeInsets.only(top: 0, bottom: 16.0),
-                child: Text(
-                  'New $parentGroup Response',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'New $parentGroup Response',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(bottom: 8),
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(left: 8.0),
-                child: Text(
-                  'Title',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Title',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
@@ -141,15 +125,11 @@ class _NewResponsePageState extends State<NewResponseBottomSheet> {
                 margin: EdgeInsets.only(top: 32, bottom: 8),
                 alignment: Alignment.topLeft,
                 padding: EdgeInsets.only(left: 8.0),
-                child: Text(
-                  'Response',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Response',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(

@@ -14,6 +14,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/Shadows.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'ResponsesActions.dart';
 
 class ResponsesPage extends StatefulWidget {
@@ -50,14 +51,10 @@ class _ResponsePageState extends State<ResponsesPage> with TickerProviderStateMi
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     centerTitle: true,
-                    title: Text(
-                        "Responses",
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'simple',
-                          color: Color(ColorConstants.getBlueDark()),
-                        ),
+                    title: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                        text: "Responses",
+                      color: Color(ColorConstants.getBlueDark()),
                     ),
                     actions: <Widget>[
                       GestureDetector(
