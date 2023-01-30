@@ -5,6 +5,7 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -62,7 +63,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                       delegate: new SliverChildListDelegate(
                         <Widget>[
                           Container(
-                              margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0),
+                              margin: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 16),
                               padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                               decoration: BoxDecoration(
                                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -160,7 +161,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               TextButton(
                                 style: Styles.getButtonStyle(),
                                 onPressed: () {
-                                  NavigationUtil.onManageSubscriptionSelected(context, pageState.profile, ManageSubscriptionPage.DEFAULT_SUBSCRIBE);
+                                  NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
                                 },
                                 child: SizedBox(
                                   height: 48.0,
@@ -249,6 +250,51 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                   ),
                                 ),
                               ),
+                                  TextButton(
+                                    style: Styles.getButtonStyle(),
+                                    onPressed: () {
+                                      _sendIssueReportEmail(pageState);
+                                    },
+                                    child: SizedBox(
+                                      height: 48.0,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        children: <Widget>[
+                                          Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            children: <Widget>[
+                                              Container(
+                                                margin:
+                                                EdgeInsets.only(right: 16.0),
+                                                height: 32.0,
+                                                width: 32.0,
+                                                child: Image.asset(
+                                                    'assets/images/icons/alert_icon_circle.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                                              ),
+                                              TextDandyLight(
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Report an Issue',
+                                                textAlign: TextAlign.center,
+                                                color: Color(ColorConstants
+                                                    .getPrimaryBlack()),
+                                              ),
+                                            ],
+                                          ),
+                                          Container(
+                                            child: Icon(
+                                              Icons.chevron_right,
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBackgroundGrey()),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
                             ],
                           ),
                       ),
@@ -534,6 +580,8 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
               ),
             ),
       );
+
+  void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
   void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
 }

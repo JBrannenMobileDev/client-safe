@@ -153,7 +153,7 @@ class _LocationSelectionDialogState
                         },
                         icon: Icon(Icons.add, color: Colors.white),
                         urlText: "",
-                        color: ColorConstants.getPrimaryColor()
+                        color: ColorConstants.getBlueDark()
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 8.0),

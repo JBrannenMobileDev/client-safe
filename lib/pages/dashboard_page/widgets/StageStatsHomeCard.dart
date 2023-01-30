@@ -33,7 +33,7 @@ class StageStatsHomeCard extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
             child: TextDandyLight(
-              type: TextDandyLight.LARGE_TEXT,
+              type: TextDandyLight.MEDIUM_TEXT,
               text: 'Active Stages',
               textAlign: TextAlign.start,
               color: Color(ColorConstants.primary_black),

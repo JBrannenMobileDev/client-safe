@@ -1,4 +1,6 @@
 
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
+
 class Profile{
   int id;
   String uid;
@@ -26,6 +28,7 @@ class Profile{
   bool hasSeenShowcase = false;
   bool hasSeenIncomeInfo = false;
   bool isBetaTester = false;
+  DateTime accountCreatedDate;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -90,6 +93,7 @@ class Profile{
     this.hasSeenShowcase,
     this.hasSeenIncomeInfo,
     this.isBetaTester,
+    this.accountCreatedDate,
   });
 
   Profile copyWith({
@@ -137,6 +141,7 @@ class Profile{
     DateTime posesLastChangeDate,
     DateTime poseGroupsLastChangeDate,
     DateTime responsesLastChangeDate,
+    DateTime accountCreatedDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -183,6 +188,7 @@ class Profile{
       responsesLastChangeDate: responsesLastChangeDate ?? this.responsesLastChangeDate,
       hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
       hasSeenIncomeInfo: hasSeenIncomeInfo ?? this.hasSeenIncomeInfo,
+      accountCreatedDate: accountCreatedDate ?? this.accountCreatedDate,
     );
   }
 
@@ -231,6 +237,7 @@ class Profile{
       'posesLastChangeDate' : posesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'poseGroupsLastChangeDate' : poseGroupsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'responsesLastChangeDate' : responsesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
     };
@@ -281,6 +288,7 @@ class Profile{
       posesLastChangeDate: map['posesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['posesLastChangeDate']) : null,
       poseGroupsLastChangeDate: map['poseGroupsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseGroupsLastChangeDate']) : null,
       responsesLastChangeDate: map['responsesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['responsesLastChangeDate']) : null,
+      accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1), 
     );
   }
 
@@ -302,5 +310,12 @@ class Profile{
     }
     if(!alreadyExists) deviceTokens.add(deviceToken);
     return !alreadyExists;
+  }
+
+  bool isFreeTrialExpired() {
+    bool expired = false;
+    DateTime expirationDate = accountCreatedDate.add(Duration(days: 14));
+    if(DateTime.now().isAfter(expirationDate)) return true;
+    return expired;
   }
 }

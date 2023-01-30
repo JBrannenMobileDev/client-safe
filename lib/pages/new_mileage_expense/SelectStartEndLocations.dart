@@ -194,7 +194,7 @@ class _SelectStartEndLocationsPage extends State<SelectStartEndLocationsPage> wi
                             type: TextDandyLight.EXTRA_LARGE_TEXT,
                             amount: pageState.isOneWay ? pageState.milesDrivenOneWay : pageState.milesDrivenRoundTrip,
                             color: Color(ColorConstants.getPrimaryBlack()),
-                            isCurrency: false,
+                            isNumber: true,
                             decimalPlaces: 1,
                           ),
                           Container(

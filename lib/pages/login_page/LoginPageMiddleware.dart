@@ -8,6 +8,7 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
@@ -191,6 +192,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await EventSender().setUserProfileData(EventNames.LAST_NAME, store.state.loginPageState.lastName);
         await EventSender().setUserProfileData(EventNames.EMAIL, store.state.loginPageState.emailAddress);
         await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, store.state.loginPageState.businessName);
+        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
       }
       if(user != null && !user.emailVerified){
         List<Profile> userProfiles = await ProfileDao.getAll();
@@ -208,6 +210,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             email: store.state.loginPageState.emailAddress,
             calendarEnabled: false,
             pushNotificationsEnabled: false,
+            accountCreatedDate: DateTime.now(),
           );
         await ProfileDao.insertOrUpdate(newProfile);
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));

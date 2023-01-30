@@ -21,16 +21,15 @@ import 'ManageSubscriptionPageActions.dart';
 class ManageSubscriptionPage extends StatefulWidget {
   static const String FREE_TRIAL_ENDED = "free_trial_ended";
   static const String SUBSCRIPTION_EXPIRED = "subscription_expired";
-  static const String DEFAULT_SUBSCRIBE = "default_subscribe";
+  static const String FREE_TRIAL = "free_trial";
   static const String SUBSCRIBED = "subscribed";
   final Profile profile;
-  final String uiState;
 
-  ManageSubscriptionPage(this.profile, this.uiState);
+  ManageSubscriptionPage(this.profile);
 
   @override
   State<StatefulWidget> createState() {
-    return _ManageSubscriptionPageState(uiState, profile);
+    return _ManageSubscriptionPageState(profile);
   }
 }
 
@@ -38,10 +37,9 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
     with TickerProviderStateMixin {
   TextEditingController referralCodeTextController = TextEditingController();
   final referralCodeFocusNode = FocusNode();
-  final String uiState;
   final Profile profile;
 
-  _ManageSubscriptionPageState(this.uiState, this.profile);
+  _ManageSubscriptionPageState(this.profile);
 
   @override
   Widget build(BuildContext context) {
@@ -82,7 +80,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           ManageSubscriptionPageState.fromStore(store),
       builder: (BuildContext context, ManageSubscriptionPageState pageState) =>
     WillPopScope(
-    onWillPop: () async => pageState.uiState == ManageSubscriptionPage.DEFAULT_SUBSCRIBE || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? true : false,
+    onWillPop: () async => pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? true : false,
     child: Scaffold(
             extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
@@ -127,7 +125,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ),
-                            pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : Container(
+                            pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: 'Beta tester discount applied',
@@ -135,7 +133,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   textAlign: TextAlign.center,
                                   color: Color(ColorConstants.getBlueDark())
                                 )
-                            ),
+                            ) : SizedBox(),
                             pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
@@ -167,7 +165,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     }
                                   },
                                   child: Container(
-                                    margin: EdgeInsets.only(top: profile.isBetaTester ? 288.0 : 264),
+                                    margin: EdgeInsets.only(top: 288.0),
                                     padding: EdgeInsets.only(left: 4.0, right: 20.0),
                                     height: 64.0,
                                     decoration: BoxDecoration(
@@ -357,7 +355,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                                 launchUrl(Uri.parse('https://play.google.com/store/account/subscriptions?sku=pro.monthly.testsku&package=com.dandylight.mobile'));
                                               }
                                               break;
-                                            case ManageSubscriptionPage.DEFAULT_SUBSCRIBE:
+                                            case ManageSubscriptionPage.FREE_TRIAL:
                                             case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:
                                             case ManageSubscriptionPage.FREE_TRIAL_ENDED:
                                               pageState.onSubscribeSelected();
@@ -454,7 +452,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                 ),
               ],
             ),
-            (pageState.uiState == ManageSubscriptionPage.DEFAULT_SUBSCRIBE || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ?
+            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ?
             Positioned(
               top: 0.0,
               left: 0.0,
@@ -479,7 +477,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
   String _getMessageText(String uiState) {
     String message = '';
     switch(uiState) {
-      case ManageSubscriptionPage.DEFAULT_SUBSCRIBE:
+      case ManageSubscriptionPage.FREE_TRIAL:
       case ManageSubscriptionPage.SUBSCRIBED:
         message = 'Capture the moment\n We\'ll do the rest';
         break;

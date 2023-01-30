@@ -30,19 +30,19 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
       Stack(
         children: <Widget>[
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 16.0),
+                margin: EdgeInsets.only(left: 32.0, right: 32),
                 child: TextDandyLight(
-                  type: TextDandyLight.LARGE_TEXT,
+                  type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Select the date that this expense was charged.',
                   textAlign: TextAlign.start,
                   color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 32.0),
+                margin: EdgeInsets.only(top: 48.0),
                 alignment: Alignment.center,
                 child: TextButton(
                   style: Styles.getButtonStyle(),
@@ -62,8 +62,8 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.all(16.0),
-                        height: 72.0,
-                        width: 72.0,
+                        height: 76.0,
+                        width: 76.0,
                         decoration: BoxDecoration(
                           color: Color(ColorConstants.getBlueLight()),
                           shape: BoxShape.circle,
@@ -83,7 +83,7 @@ class _SelectExpenseDatePageState extends State<SelectExpenseDatePage> with Auto
                           ),
                         ),
                         child: TextDandyLight(
-                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          type: TextDandyLight.LARGE_TEXT,
                           text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
                           color: Color(ColorConstants.getPeachDark()),
                         ),

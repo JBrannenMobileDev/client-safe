@@ -92,19 +92,18 @@ class _RecurringExpenseDetailsPageState extends State<RecurringExpenseDetailsPag
                         child: Container(
                           padding: EdgeInsets.all(12.0),
                           height: 64.0,
-                          width: 250.0,
+                          width: 272.0,
                           decoration: BoxDecoration(
-                              color: Color(selectedExpense.cancelDate != null ? ColorConstants.getBlueLight() : ColorConstants.getPeachDark()),
+                              color: Color(selectedExpense.cancelDate != null ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
                               borderRadius: BorderRadius.circular(36.0)
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
-                              Image.asset(selectedExpense.cancelDate != null ? 'assets/images/icons/start_icon_white.png' : 'assets/images/icons/cancel_icon_white.png'),
                               TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: selectedExpense.cancelDate == null ? 'Cancel Subscription' : 'Resume Subscription',
+                                text: selectedExpense.cancelDate == null ? 'Stop Recurring Expense' : 'Resume Recurring Expense',
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPrimaryWhite()),
                               )

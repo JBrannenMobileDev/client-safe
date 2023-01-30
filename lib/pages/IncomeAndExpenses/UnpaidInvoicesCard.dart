@@ -94,11 +94,11 @@ class UnpaidInvoicesCard extends StatelessWidget{
     if(length == 0) {
       return 162.0;
     }else if(length == 1) {
-      return 142.0;
+      return 129.0;
     }else if(length == 2) {
-      return 216.0;
+      return 197.0;
     }else {
-      return 304.0;
+      return 285.0;
     }
   }
 

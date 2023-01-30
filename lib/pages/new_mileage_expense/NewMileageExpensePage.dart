@@ -103,7 +103,7 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                           children: <Widget>[
                             TextDandyLight(
                               type: TextDandyLight.LARGE_TEXT,
-                              text: pageState.shouldClear ? "New Mileage Tip" : "Edit Mileage Tip",
+                              text: pageState.shouldClear ? "New Mileage Trip" : "Edit Mileage Trip",
                               textAlign: TextAlign.start,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -272,7 +272,8 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteMileageExpenseSelected();
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: new Text('Yes'),
             ),
@@ -290,7 +291,8 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteMileageExpenseSelected();
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: new Text('Yes'),
             ),

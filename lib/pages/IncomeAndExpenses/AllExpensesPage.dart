@@ -94,6 +94,10 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                         backgroundColor: Colors.white,
                         pinned: true,
                         centerTitle: true,
+                        leading: IconButton(
+                          icon: Icon(Icons.arrow_back, color: Color(ColorConstants.getPrimaryBlack())),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
                         title: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           text: 'All Expenses (' + pageState.selectedYear.toString() + ')',
@@ -108,7 +112,7 @@ class _AllExpensesPageState extends State<AllExpensesPage> {
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getPrimaryColor()),
+                              thumbColor: Color(ColorConstants.getPeachDark()),
                               children: filterNames,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {

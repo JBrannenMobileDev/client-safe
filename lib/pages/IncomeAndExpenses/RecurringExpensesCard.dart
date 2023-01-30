@@ -33,7 +33,7 @@ class RecurringExpensesCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, pageState.recurringExpensesForSelectedYear.length > 3 ? 4 : 16.0, 0.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -111,15 +111,15 @@ class RecurringExpensesCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 178.0;
+      return 160.0;
     }else if(length == 1) {
-      return 246.0;
+      return 240.0;
     }else if(length == 2) {
-      return 330.0;
+      return 314.0;
     }else if(length == 3) {
-      return 395.0;
+      return 388.0;
     }else {
-      return 414.0;
+      return 403;
     }
   }
 

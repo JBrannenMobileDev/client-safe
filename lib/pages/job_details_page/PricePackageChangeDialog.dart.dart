@@ -190,7 +190,7 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                     },
                     icon: Icon(Icons.add, color: Colors.white),
                     urlText: "",
-                      color: ColorConstants.getPrimaryColor()
+                      color: ColorConstants.getBlueDark()
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 0.0),

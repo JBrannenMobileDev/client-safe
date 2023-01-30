@@ -78,7 +78,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(FetchRecurringExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchMileageExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(UpdateSelectedYearAction(appState.state.incomeAndExpensesPageState, DateTime.now().year));
-        if(!appState.state.dashboardPageState.profile.hasSeenIncomeInfo) {
+        if(appState.state.dashboardPageState.profile != null && !appState.state.dashboardPageState.profile.hasSeenIncomeInfo) {
           Future.delayed(Duration(seconds: 1), () {
             _showInfoSheet(context);
           });

@@ -70,7 +70,7 @@ class MileageExpenseItem extends StatelessWidget{
                               type: TextDandyLight.SMALL_TEXT,
                               amount: mileageExpense.totalMiles,
                               color: Color(ColorConstants.getPrimaryBlack()),
-                              isCurrency: false,
+                              isNumber: true,
                               decimalPlaces: 1,
                             ),
                             TextDandyLight(

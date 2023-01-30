@@ -87,7 +87,7 @@ class ManageSubscriptionPageState {
   }
 
   factory ManageSubscriptionPageState.initial() => ManageSubscriptionPageState(
-    uiState: ManageSubscriptionPage.DEFAULT_SUBSCRIBE,
+    uiState: ManageSubscriptionPage.FREE_TRIAL,
     selectedSubscription: null,
     profile: null,
     offerings: null,

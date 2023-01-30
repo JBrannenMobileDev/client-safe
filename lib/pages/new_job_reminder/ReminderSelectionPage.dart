@@ -82,7 +82,7 @@ class _ReminderSelectionPageState extends State<ReminderSelectionPage> with Auto
                       marginTop: 32.0,
                       onPressed: onAddNewReminderSelected,
                       urlText: "",
-                      color: ColorConstants.getPrimaryColor(),
+                      color: ColorConstants.getBlueDark(),
                     ),
                   ],
                 ),

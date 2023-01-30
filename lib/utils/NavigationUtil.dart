@@ -55,8 +55,8 @@ class NavigationUtil {
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
   }
-  static onManageSubscriptionSelected(BuildContext context, Profile profile, String UIState) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile, UIState)));
+  static onManageSubscriptionSelected(BuildContext context, Profile profile) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));
   }
   static onStageStatsSelected(BuildContext context, DashboardPageState pageState, String title, JobStage stage, bool isActiveJobs) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobListPage(pageState: pageState, pageTitle: title, stage: stage, isActiveJobs: isActiveJobs)));

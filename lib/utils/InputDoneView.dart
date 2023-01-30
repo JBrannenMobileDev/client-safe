@@ -4,6 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../widgets/TextDandyLight.dart';
+
 class InputDoneView extends StatelessWidget {
 
   @override
@@ -27,14 +29,10 @@ class InputDoneView extends StatelessWidget {
               color: Color(ColorConstants.getPeachDark()),
               borderRadius: BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
             ),
-            child: Text(
-              "Done",
-              style: TextStyle(
-                color: Color(ColorConstants.getPrimaryWhite()),
-                fontSize: 24.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
-              ),
+            child: TextDandyLight(
+              type: TextDandyLight.LARGE_TEXT,
+              text: "Done",
+              color: Color(ColorConstants.getPrimaryWhite()),
             ),
           ),
         ),

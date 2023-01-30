@@ -47,13 +47,15 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
 
   Package selectedSubscription = offering.annual;
   int radioValue = 0;
-  if(action.subscriptionState.entitlements.all['standard'].isActive) {
-    if(action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_standard_subscription')) {
-      selectedSubscription = offering.monthly;
-      radioValue = 1;
-    } else if(action.subscriptionState.activeSubscriptions.contains('dandylight_annual_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_annual_subscription')) {
-      selectedSubscription = offering.annual;
-      radioValue = 0;
+  if(action.subscriptionState.entitlements.all['standard'] != null) {
+    if(action.subscriptionState.entitlements.all['standard'].isActive) {
+      if(action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_standard_subscription')) {
+        selectedSubscription = offering.monthly;
+        radioValue = 1;
+      } else if(action.subscriptionState.activeSubscriptions.contains('dandylight_annual_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_annual_subscription')) {
+        selectedSubscription = offering.annual;
+        radioValue = 0;
+      }
     }
   }
   return previousState.copyWith(
@@ -65,6 +67,7 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     offerings: action.offerings,
     selectedSubscription: selectedSubscription,
     radioValue: radioValue,
+    profile: action.profile,
   );
 }
 

@@ -32,7 +32,7 @@ class SingleExpenseCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, pageState.singleExpensesForSelectedYear.length > 3 ? 4 : 16.0, 0.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
@@ -110,15 +110,15 @@ class SingleExpenseCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 178.0;
+      return 160.0;
     }else if(length == 1) {
-      return 246.0;
+      return 240.0;
     }else if(length == 2) {
-      return 330.0;
+      return 314.0;
     }else if(length == 3) {
-      return 394.0;
+      return 388.0;
     }else {
-      return pageState.isSingleExpensesMinimized ? 390.0 : ((74*length) + 172).toDouble();
+      return 403;
     }
   }
 

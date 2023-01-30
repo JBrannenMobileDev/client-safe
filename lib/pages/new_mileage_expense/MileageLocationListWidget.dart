@@ -74,8 +74,8 @@ class MileageLocationListWidget extends StatelessWidget {
                               begin: FractionalOffset.center,
                               end: FractionalOffset.bottomCenter,
                               colors: [
-                                Color(ColorConstants.getPrimaryColor()).withOpacity(0.5),
-                                Color(ColorConstants.getPrimaryColor()).withOpacity(0.5),
+                                Color(ColorConstants.getPeachDark()).withOpacity(0.5),
+                                Color(ColorConstants.getPeachDark()).withOpacity(0.5),
                               ],
                               stops: [
                                 0.0,
@@ -102,7 +102,7 @@ class MileageLocationListWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
                     ? const Color(ColorConstants.primary_black)
-                    : Color(ColorConstants.getPrimaryColor()),
+                    : Color(ColorConstants.getPeachDark()),
               ),
             ),
           ),

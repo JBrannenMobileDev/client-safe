@@ -5,6 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+
 class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
@@ -33,14 +36,26 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
       }
     } on PlatformException catch (e) {
       store.dispatch(SetErrorMsgAction(store.state.manageSubscriptionPageState, e.message));
-      store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false));
     }
 
     if(subscriptionState.entitlements.all['standard'] != null) {
       if(subscriptionState.entitlements.all['standard'].isActive) {
         store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
+        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
+      } else {
+        store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED));
+        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED);
+      }
+    } else {
+      bool freeTrialExpired = action.profile.isFreeTrialExpired();
+      if(freeTrialExpired) {
+        store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.FREE_TRIAL_ENDED));
+        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL_ENDED);
+      } else {
+        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
       }
     }
+
     store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false));
     store.dispatch(SetManageSubscriptionStateAction(store.state.manageSubscriptionPageState, subscriptionState, monthlyPrice, annualPrice, offerings, action.profile));
   }

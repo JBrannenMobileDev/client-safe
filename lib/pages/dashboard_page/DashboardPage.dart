@@ -179,10 +179,9 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           }
         },
         onDidChange: (previous, current) async {
-          print(current.subscriptionState);
-          print("previous " + previous.subscriptionState.toString());
-          print("current " + current.subscriptionState.toString());
           if(previous.subscriptionState == null && current.subscriptionState != null) {
+            print("previous " + previous.subscriptionState.toString());
+            print("current " + current.subscriptionState.toString());
             if(current.subscriptionState.entitlements.all['standard'] != null) {
               if(current.subscriptionState.entitlements.all['standard'].isActive) {
                 if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
@@ -194,15 +193,15 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                 }
               } else {
                 if(!hasNavigatedToSubscriptionPage) {
-                  NavigationUtil.onManageSubscriptionSelected(context, current.profile, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED);
                   hasNavigatedToSubscriptionPage = true;
+                  NavigationUtil.onManageSubscriptionSelected(context, current.profile);
                 }
               }
             } else {
-              bool freeTrialExpired = true;
-              if(freeTrialExpired) {
-                NavigationUtil.onManageSubscriptionSelected(context, current.profile, ManageSubscriptionPage.FREE_TRIAL_ENDED);
+              bool freeTrialExpired = current.profile.isFreeTrialExpired();
+              if(freeTrialExpired && !hasNavigatedToSubscriptionPage) {
                 hasNavigatedToSubscriptionPage = true;
+                NavigationUtil.onManageSubscriptionSelected(context, current.profile);
               } else {
                 //do nothing
               }

@@ -42,7 +42,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
       builder: (BuildContext context, NewMileageExpensePageState pageState) => Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
-          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+          padding: EdgeInsets.only(left: 16.0, right: 16.0),
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.circular(16.0),
@@ -54,9 +54,9 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
+                padding: EdgeInsets.only(top: 24.0, bottom: 0.0),
                 child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
+                  type: TextDandyLight.LARGE_TEXT,
                   text: "Select a Location",
                   textAlign: TextAlign.center,
                   color: Color(ColorConstants.primary_black),
@@ -70,11 +70,11 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                       ? pageState.selectedLocation.locationName
                       : "",
                   textAlign: TextAlign.start,
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getPeachDark()),
                 ),
               ),
               Container(
-                height: (MediaQuery.of(context).size.height) - 208,
+                height: (MediaQuery.of(context).size.height) - 220,
                 child: GridView.builder(
                     padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -91,7 +91,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                     itemBuilder: _buildItem),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 26.0, right: 26.0),
+                padding: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -112,7 +112,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                         Navigator.of(context).pop();
                       },
                       child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
+                        type: TextDandyLight.LARGE_TEXT,
                         text: 'Cancel',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.primary_black),
@@ -138,7 +138,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                         }
                       },
                       child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
+                        type: TextDandyLight.LARGE_TEXT,
                         text: 'Save',
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.primary_black),

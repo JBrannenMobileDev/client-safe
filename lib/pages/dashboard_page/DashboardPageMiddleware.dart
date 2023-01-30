@@ -195,7 +195,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     try {
       currentInfo = await purchases.Purchases.getCustomerInfo();
     } on PlatformException catch (e) {
-      // Error fetching customer info
+      print(e);
     }
     return currentInfo;
   }
