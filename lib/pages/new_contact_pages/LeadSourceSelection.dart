@@ -119,7 +119,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                   TextCapitalization.words,
                   null,
                   true,
-                ColorConstants.getPrimaryColor(),
+                ColorConstants.getBlueLight(),
               ) : SizedBox(),
             ),
           ],

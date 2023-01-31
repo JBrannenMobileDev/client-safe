@@ -101,7 +101,7 @@ class _JobsPageState extends State<JobsPage> {
                             margin: EdgeInsets.only(bottom: 16.0),
                             child: CupertinoSlidingSegmentedControl<int>(
                               backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-                              thumbColor: Color(ColorConstants.getPrimaryColor()),
+                              thumbColor: Color(ColorConstants.getBlueDark()),
                               children: jobTypes,
                               onValueChanged: (int filterTypeIndex) {
                                 setState(() {

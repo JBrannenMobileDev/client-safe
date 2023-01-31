@@ -62,7 +62,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     IconButton(
                       icon: Icon(
                         Icons.close,
-                        color: Color(ColorConstants.getPrimaryColor()),
+                        color: Color(ColorConstants.getPeachDark()),
                       ),
                       tooltip: 'Cancel',
                       onPressed: () => {
@@ -87,7 +87,7 @@ class _NameAndGenderState extends State<NameAndGender>
                           textInputAction: TextInputAction.go,
                           maxLines: 1,
                           autofocus: true,
-                          cursorColor: Color(ColorConstants.getPrimaryColor()),
+                          cursorColor: Color(ColorConstants.getBlueDark()),
                           controller: searchTextController,
                           onChanged: (text) {
                             pageState.onContactSearchTextChanged(text);
@@ -105,14 +105,14 @@ class _NameAndGenderState extends State<NameAndGender>
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
-                                color: Color(ColorConstants.getPrimaryColor()),
+                                color: Color(ColorConstants.getBlueDark()),
                                 width: 1.0,
                               ),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
-                                color: Color(ColorConstants.getPrimaryColor()),
+                                color: Color(ColorConstants.getBlueLight()),
                                 width: 1.0,
                               ),
                             ),
@@ -176,7 +176,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     TextCapitalization.words,
                     null,
                     true,
-                  ColorConstants.getPrimaryColor(),
+                    ColorConstants.getBlueLight(),
                 ),
                 NewContactTextField(
                     lastNameTextController,
@@ -191,7 +191,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     TextCapitalization.words,
                     null,
                     true,
-                  ColorConstants.getPrimaryColor(),
+                  ColorConstants.getBlueLight(),
                 )
               ],
             ),

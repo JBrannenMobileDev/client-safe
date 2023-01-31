@@ -26,7 +26,8 @@ class SetManageSubscriptionStateAction{
 class SetLoadingState {
   final ManageSubscriptionPageState pageState;
   final bool isLoading;
-  SetLoadingState(this.pageState, this.isLoading);
+  final bool shouldPopBack;
+  SetLoadingState(this.pageState, this.isLoading, this.shouldPopBack);
 }
 
 class SetManageSubscriptionUiState {

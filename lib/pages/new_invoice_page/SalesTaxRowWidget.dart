@@ -72,7 +72,7 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
                             .getPrimaryBackgroundGrey()),
                     borderRadius: BorderRadius.circular(24.0)
                 ),
-                width: 64.0,
+                width: 78.0,
                 height: 28.0,
                 child: TextButton(
                   style: Styles.getButtonStyle(),
@@ -89,7 +89,7 @@ class _SalesTaxRowWidgetPageState extends State<SalesTaxRowWidget> with TickerPr
               ) : SizedBox(),
               pageState.isSalesTaxChecked ? TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatSimpleCurrency((pageState.total * (pageState.salesTaxPercent/100)).toInt()) : '\$0',
+                text: pageState.salesTaxPercent > 0 ? TextFormatterUtil.formatDecimalDigitsCurrency((pageState.total * (pageState.salesTaxPercent/100)), 2) : '\$0',
                 textAlign: TextAlign.start,
                 color: Color(
                     pageState.salesTaxPercent > 0.0

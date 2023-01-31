@@ -542,7 +542,7 @@ class JobInfoCard extends StatelessWidget {
                                 child: TextDandyLight(
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.job.priceProfile == null ? 'Price package not selected' :
-                                  '\$' + pageState.job.priceProfile.flatRate.toInt().toString() + ' ' + pageState.job.priceProfile.profileName,
+                                  '\$' + pageState.job.priceProfile.flatRate.toString() + ' ' + pageState.job.priceProfile.profileName,
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,

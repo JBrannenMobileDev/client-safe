@@ -61,11 +61,11 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   color: Color(ColorConstants.primary_black),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 16, bottom: 4.0),
+                  margin: EdgeInsets.only(top: 16, bottom: 8.0),
                   height: 54.0,
                   width: 200,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(27),
                     color: Color(ColorConstants.getBlueDark()),
                   ),
                   child: TextButton(
@@ -81,11 +81,14 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     ),
                   ),
                 ),
-                TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'Or',
-                  textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                Container(
+                  margin: EdgeInsets.only(bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Or',
+                    textAlign: TextAlign.start,
+                    color: Color(ColorConstants.primary_black),
+                  ),
                 ),
                 NewJobTextField(
                   controller: firstNameTextController,

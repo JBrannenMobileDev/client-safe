@@ -141,19 +141,19 @@ class _CollectionsPageState extends State<CollectionsPage> {
         );
         break;
       case 6:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_CONTRACTS);
         break;
       case 7:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachDark()));
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachLight()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_AUTOMATED_BOOKING);
         break;
       case 8:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPrimaryColor()));
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getPeachDark()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_QUESTIONNAIRES);
         break;
       case 9:
-        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueDark()));
+        DandyToastUtil.showToast("Coming soon! \nThis feature is not ready yet.", Color(ColorConstants.getBlueLight()));
         EventSender().sendEvent(eventName: EventNames.NAV_TO_CLIENT_GUIDES);
         break;
     }
@@ -172,25 +172,25 @@ class _CollectionsPageState extends State<CollectionsPage> {
         color = Color(ColorConstants.getPeachDark());
         break;
       case 3:
-        color = Color(ColorConstants.getPrimaryColor());
-        break;
-      case 4:
-        color = Color(ColorConstants.getBlueDark());
-        break;
-      case 5:
         color = Color(ColorConstants.getBlueLight());
         break;
-      case 6:
+      case 4:
         color = Color(ColorConstants.getPeachLight());
         break;
-      case 7:
+      case 5:
         color = Color(ColorConstants.getPeachDark());
         break;
+      case 6:
+        color = Color(ColorConstants.getBlueLight());
+        break;
+      case 7:
+        color = Color(ColorConstants.getPeachLight());
+        break;
       case 8:
-        color = Color(ColorConstants.getPrimaryColor());
+        color = Color(ColorConstants.getPeachDark());
         break;
       case 9:
-        color = Color(ColorConstants.getBlueDark());
+        color = Color(ColorConstants.getBlueLight());
         break;
     }
     return color;

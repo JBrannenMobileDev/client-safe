@@ -35,22 +35,22 @@ class LocationsPage extends StatelessWidget {
         converter: (Store<AppState> store) => LocationsPageState.fromStore(store),
         builder: (BuildContext context, LocationsPageState pageState) =>
             Scaffold(
-              backgroundColor: Color(ColorConstants.getBlueDark()),
+              backgroundColor: Color(ColorConstants.getPrimaryWhite()),
               body: CustomScrollView(
                 slivers: <Widget>[
                   SliverAppBar(
                     iconTheme: IconThemeData(
-                      color: Color(ColorConstants.getPrimaryWhite()), //change your color here
+                      color: Color(ColorConstants.getBlueDark()), //change your color here
                     ),
                     brightness: Brightness.light,
-                    backgroundColor: Color(ColorConstants.getBlueDark()),
+                    backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     pinned: true,
                     centerTitle: true,
                     title: Center(
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
                         text: "Locations",
-                        color: Color(ColorConstants.getPrimaryWhite()),
+                        color: Color(ColorConstants.getBlueDark()),
                       ),
                     ),
                     actions: <Widget>[
@@ -63,7 +63,7 @@ class LocationsPage extends StatelessWidget {
                           margin: EdgeInsets.only(right: 26.0),
                           height: 24.0,
                           width: 24.0,
-                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryWhite()),),
+                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
                         ),
                       ),
                     ],
@@ -98,7 +98,7 @@ class LocationsPage extends StatelessWidget {
                             text: "Save locations you regularly use here. \n\nThese locations can be added to your jobs to help make mileage tracking easier and enabling you to share the driving directions with your clients.\n\nYour locations will never be shared with other photographers. They will remain private to you.",
                             // \n\nYou can also share your saved locations with a client to help them decide what location they want.
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                            color: Color(ColorConstants.getBlueDark()),
                           ),
                         ),
                       ],

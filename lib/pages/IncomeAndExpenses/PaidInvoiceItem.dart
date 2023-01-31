@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/TextFormatterUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
@@ -60,8 +61,8 @@ class PaidInvoiceItem extends StatelessWidget{
                       padding: EdgeInsets.only(top: 2.0),
                       child: TextDandyLight(
                         type: TextDandyLight.SMALL_TEXT,
-                        text: '\$' + (invoice.total - invoice.discount != null
-                                ? (invoice.total - invoice.discount).truncate().toString()
+                        text: (invoice.total - invoice.discount != null
+                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.total - invoice.discount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.primary_black),

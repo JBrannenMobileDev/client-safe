@@ -129,7 +129,7 @@ class _NewJobPageState extends State<NewJobPage> {
                           child: IconButton(
                             icon: const Icon(Icons.close),
                             tooltip: 'Delete',
-                            color: Color(ColorConstants.getPrimaryColor()),
+                            color: Color(ColorConstants.getPeachDark()),
                             onPressed: () {
                               pageState.onCancelPressed();
                               Navigator.of(context).pop(true);
@@ -155,7 +155,7 @@ class _NewJobPageState extends State<NewJobPage> {
                             margin: EdgeInsets.only(right: 24.0),
                             height: 28.0,
                             width: 28.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryColor()),),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ) : SizedBox(
                           height: 28.0,

@@ -49,7 +49,7 @@ class _LocationSelectionFormState
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: pageState.selectedLocation != null ? pageState.selectedLocation.locationName : pageState.oneTimeLocation != null ? pageState.oneTimeLocation.locationName : "",
                       textAlign: TextAlign.start,
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueDark()),
                     ),
                   ),
                   ConstrainedBox(

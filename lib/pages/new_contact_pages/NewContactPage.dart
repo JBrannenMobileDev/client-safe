@@ -128,7 +128,7 @@ class _NewContactPageState extends State<NewContactPage> {
                             child: IconButton(
                               icon: const Icon(Icons.close),
                               tooltip: 'Delete',
-                              color: Color(ColorConstants.getPrimaryColor()),
+                              color: Color(ColorConstants.getPeachDark()),
                               onPressed: () {
                                 pageState.onCancelPressed();
                                 Navigator.of(context).pop(true);

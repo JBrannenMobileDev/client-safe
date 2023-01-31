@@ -14,6 +14,7 @@ class ManageSubscriptionPageState {
   final double annualPrice;
   final double monthlyPrice;
   final bool isLoading;
+  final bool shouldPopBack;
   final purchases.CustomerInfo subscriptionState;
   final purchases.Package selectedSubscription;
   final purchases.Package monthlyPackage;
@@ -44,6 +45,7 @@ class ManageSubscriptionPageState {
     @required this.annualPackage,
     @required this.isLoading,
     @required this.radioValue,
+    @required this.shouldPopBack,
   });
 
   ManageSubscriptionPageState copyWith({
@@ -58,6 +60,7 @@ class ManageSubscriptionPageState {
     double annualPrice,
     double monthlyPrice,
     bool isLoading,
+    bool shouldPopBack,
     purchases.Offerings offerings,
     Function() onSubscribeSelected,
     Function() onRestoreSubscriptionSelected,
@@ -83,6 +86,7 @@ class ManageSubscriptionPageState {
       annualPackage: annualPackage ?? this.annualPackage,
       isLoading: isLoading ?? this.isLoading,
       radioValue: radioValue ?? this.radioValue,
+      shouldPopBack: shouldPopBack ?? this.shouldPopBack,
     );
   }
 
@@ -104,6 +108,7 @@ class ManageSubscriptionPageState {
     annualPackage: null,
     isLoading: false,
     radioValue: 0,
+    shouldPopBack: false,
   );
 
   factory ManageSubscriptionPageState.fromStore(Store<AppState> store) {
@@ -120,6 +125,7 @@ class ManageSubscriptionPageState {
       annualPackage: store.state.manageSubscriptionPageState.annualPackage,
       isLoading: store.state.manageSubscriptionPageState.isLoading,
       radioValue: store.state.manageSubscriptionPageState.radioValue,
+      shouldPopBack: store.state.manageSubscriptionPageState.shouldPopBack,
       onSubscribeSelected: () => store.dispatch(SubscribeSelectedAction(store.state.manageSubscriptionPageState)),
       onRestoreSubscriptionSelected: () => store.dispatch(RestoreSubscriptionAction(store.state.manageSubscriptionPageState)),
       onSubscriptionSelected: (package) => store.dispatch(SubscriptionSelectedAction(store.state.manageSubscriptionPageState, package)),
@@ -146,6 +152,7 @@ class ManageSubscriptionPageState {
       annualPackage.hashCode ^
       isLoading.hashCode ^
       radioValue.hashCode ^
+      shouldPopBack.hashCode ^
       onSubscriptionSelected.hashCode;
 
   @override
@@ -168,5 +175,6 @@ class ManageSubscriptionPageState {
           annualPackage == other.annualPackage &&
           isLoading == other.isLoading &&
           radioValue == other.radioValue &&
+          shouldPopBack == other.shouldPopBack &&
           onSubscriptionSelected == other.onSubscriptionSelected;
 }

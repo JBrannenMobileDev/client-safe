@@ -45,7 +45,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                   slivers: <Widget>[
                     SliverAppBar(
                       iconTheme: IconThemeData(
-                        color: Color(ColorConstants.getPeachDark()), //change your color here
+                        color: Color(ColorConstants.getBlueDark()), //change your color here
                       ),
                       brightness: Brightness.light,
                       backgroundColor: _isMinimized ? _getAppBarColor() : Colors.transparent,
@@ -56,7 +56,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           text: "Job Types",
-                          color: Color(ColorConstants.getPeachDark()),
+                          color: Color(ColorConstants.getBlueDark()),
                         ),
                       ),
                       actions: <Widget>[
@@ -68,7 +68,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
                             margin: EdgeInsets.only(right: 26.0),
                             height: 24.0,
                             width: 24.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ),
                       ],
@@ -110,7 +110,7 @@ class _JobTypesPageState extends State<JobTypesPage> with TickerProviderStateMix
       builder: (BuildContext context, JobTypesPageState pageState) =>
           Container(
             margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
-            child: JobTypesListWidget(pageState.jobTypes.elementAt(index), pageState, onJobTypeSelected, Color(ColorConstants.getPeachDark()), Color(ColorConstants.getPrimaryBlack()), index),
+            child: JobTypesListWidget(pageState.jobTypes.elementAt(index), pageState, onJobTypeSelected, Color(ColorConstants.getBlueLight()), Color(ColorConstants.getPrimaryBlack()), index),
           ),
     );
   }

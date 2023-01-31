@@ -21,7 +21,7 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchData(Store<AppState> store, NextDispatcher next, FetchInitialDataAction action) async{
-    store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, true));
+    store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, true, false));
     purchases.CustomerInfo subscriptionState = await _getSubscriptionState();
     double annualPrice = 0;
     double monthlyPrice = 0;
@@ -29,7 +29,7 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
     try {
       offerings = await purchases.Purchases.getOfferings();
       if (offerings != null) {
-        store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false));
+        store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
         String identifier = action.profile.isBetaTester ? 'Beta Discount Standard' : 'Standard';
         annualPrice = offerings?.getOffering(identifier)?.annual?.storeProduct?.price;
         monthlyPrice = offerings?.getOffering(identifier)?.monthly?.storeProduct?.price;
@@ -56,16 +56,16 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
-    store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false));
+    store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
     store.dispatch(SetManageSubscriptionStateAction(store.state.manageSubscriptionPageState, subscriptionState, monthlyPrice, annualPrice, offerings, action.profile));
   }
 
   void subscribe(Store<AppState> store, NextDispatcher next, SubscribeSelectedAction action) async{
-    store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, true));
+    store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, true, false));
     try {
       purchases.CustomerInfo purchaserInfo = await purchases.Purchases.purchasePackage(action.pageState.selectedSubscription);
       if (purchaserInfo.entitlements.all["standard"].isActive) {
-        store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false));
+        store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, true));
         store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
       }
     } on PlatformException catch (e) {
@@ -73,7 +73,7 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
       if (errorCode != purchases.PurchasesErrorCode.purchaseCancelledError) {
         store.dispatch(SetErrorMsgAction(store.state.manageSubscriptionPageState, errorCode.toString()));
       }
-      store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false));
+      store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
     }
   }
 

@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/TextFormatterUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 
@@ -66,8 +67,8 @@ class InvoiceItem extends StatelessWidget{
                                         DateFormat('MMM dd, yyyy')
                                             .format(invoice.dueDate))
                                     : 'no due date')
-                                : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null
-                                ? invoice.unpaidAmount.truncate().toString()
+                                : 'Unsent') + ' • ' + (invoice.unpaidAmount != null
+                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
                         color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(invoice.sentDate != null ? ColorConstants.primary_black : ColorConstants.getPeachDark()),

@@ -46,7 +46,7 @@ class LineItemWidget extends StatelessWidget {
               ),
               TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice.toInt() * lineItem.itemQuantity),
+                text: TextFormatterUtil.formatDecimalDigitsCurrency(lineItem.itemPrice * lineItem.itemQuantity, 2),
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),

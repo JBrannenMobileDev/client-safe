@@ -29,9 +29,9 @@ class NewPricingProfilePageMiddleware extends MiddlewareClass<AppState> {
       id: store.state.pricingProfilePageState.id,
       documentId: store.state.pricingProfilePageState.documentId,
       profileName: store.state.pricingProfilePageState.profileName,
-      flatRate: store.state.pricingProfilePageState.flatRate.toDouble(),
+      flatRate: store.state.pricingProfilePageState.flatRate,
       icon: ImageUtil.getRandomPriceProfileIcon(),
-      deposit: store.state.pricingProfilePageState.deposit != null ? store.state.pricingProfilePageState.deposit.toDouble() : 0,
+      deposit: store.state.pricingProfilePageState.deposit != null ? store.state.pricingProfilePageState.deposit : 0,
     );
     await PriceProfileDao.insertOrUpdate(priceProfile);
     EventSender().sendEvent(eventName: EventNames.CREATED_PRICE_PACKAGE, properties: {

@@ -30,7 +30,7 @@ class BalanceDueWidget extends StatelessWidget{
           ),
           TextDandyLight(
             type: TextDandyLight.LARGE_TEXT,
-            text: TextFormatterUtil.formatSimpleCurrency(pageState.unpaidAmount.toInt()),
+            text: TextFormatterUtil.formatDecimalDigitsCurrency(pageState.unpaidAmount, 2),
             textAlign: TextAlign.start,
             color: Color(ColorConstants.getPrimaryBlack()),
           ),

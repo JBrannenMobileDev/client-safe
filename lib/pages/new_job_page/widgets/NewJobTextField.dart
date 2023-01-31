@@ -43,6 +43,7 @@ class NewJobTextField extends StatelessWidget {
       builder: (BuildContext context, NewJobPageState pageState) => Container(
           margin: EdgeInsets.only(top: 8.0, bottom: 0.0),
           height: height,
+          color: Colors.transparent,
           child: TextFormField(
             focusNode: focusNode,
             textInputAction: keyboardAction,
@@ -54,7 +55,7 @@ class NewJobTextField extends StatelessWidget {
             onFieldSubmitted: (term) {
               onFocusAction();
             },
-            cursorColor: Color(ColorConstants.getPrimaryColor()),
+            cursorColor: Color(ColorConstants.getBlueDark()),
             decoration: InputDecoration(
               alignLabelWithHint: true,
               labelText: hintText,
@@ -71,30 +72,30 @@ class NewJobTextField extends StatelessWidget {
                   color: Color(ColorConstants.primary_black)),
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),

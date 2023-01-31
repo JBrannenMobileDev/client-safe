@@ -58,7 +58,6 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                           pageState.onStartNewJobSelected();
                           pageState.onCancelPressed();//just clears the pageState for cleanup.
                           Navigator.of(context).pop();
-                          Navigator.of(context).pop();
                           UserOptionsUtil.showNewJobDialog(context);
                           EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start job Prompt"});
                         },
@@ -68,7 +67,7 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Color(ColorConstants.getPrimaryColor())
+                              color: Color(ColorConstants.getBlueDark())
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.EXTRA_LARGE_TEXT,

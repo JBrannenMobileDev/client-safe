@@ -74,7 +74,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
       TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(8.0),
+                borderRadius: new BorderRadius.circular(25.0),
               ),
               color: pageState.selectedJobType != null &&
                   pageState.selectedJobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(

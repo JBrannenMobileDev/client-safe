@@ -116,7 +116,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                         decoration: BoxDecoration(
                             boxShadow: ElevationToShadow[2],
                             borderRadius: BorderRadius.circular(26.0),
-                            color: Color(ColorConstants.getPrimaryColor())),
+                            color: Color(ColorConstants.getBlueDark())),
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           text: 'Save',
@@ -188,7 +188,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                     ),
                   ),
                 ),
-                pageState.locationsResults.length > 0 ? SafeArea(
+                pageState.locationsResults.length > 0  && controller.value.text.isNotEmpty ? SafeArea(
                   child: Container(
                     height: 350.0,
                     margin: EdgeInsets.only(top: 64.0, left: 32.0, right: 32.0),
@@ -263,7 +263,8 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                     alignment: Alignment.topLeft,
                     child: Container(
                       margin: EdgeInsets.only(left: 8.0),
-                      alignment: Alignment.topLeft,
+                      padding: EdgeInsets.only(left: 10),
+                      alignment: Alignment.center,
                       height: 50.0,
                       width: 50.0,
                       decoration: BoxDecoration(

@@ -54,7 +54,7 @@ class LoginTextField extends StatelessWidget {
           ),
           child: TextFormField(
             obscureText: obscureText,
-            cursorColor: Color(ColorConstants.getPrimaryColor()),
+            cursorColor: Color(ColorConstants.getBlueDark()),
             enabled: enabled,
             focusNode: focusNode,
             textInputAction: keyboardAction,
@@ -73,7 +73,7 @@ class LoginTextField extends StatelessWidget {
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                   fontWeight: TextDandyLight.getFontWeight(),
-                  color: Color(ColorConstants.getPrimaryBlack())),
+                  color: Color(ColorConstants.getBlueLight())),
             ),
             keyboardType: inputType,
             textCapitalization: capitalization,

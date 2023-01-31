@@ -32,7 +32,7 @@ class DandyLightTextField extends StatelessWidget {
                 focusNode: focusNode,
                 textInputAction: keyboardAction,
                 controller: controller,
-                cursorColor: Color(ColorConstants.getPrimaryColor()),
+                cursorColor: Color(ColorConstants.getBlueDark()),
                 onChanged: (text) {
                   onTextInputChanged(text);
                 },

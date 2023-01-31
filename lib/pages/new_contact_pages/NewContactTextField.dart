@@ -41,7 +41,7 @@ class NewContactTextField extends StatelessWidget {
                 textInputAction: keyboardAction,
                 maxLines: 50,
                 controller: controller,
-                cursorColor: Color(ColorConstants.getPrimaryColor()),
+                cursorColor: Color(ColorConstants.getBlueDark()),
                 onChanged: (text) {
                   onTextInputChanged(text);
                   pageState.onErrorStateChanged(NewContactPageState.NO_ERROR);
@@ -67,7 +67,7 @@ class NewContactTextField extends StatelessWidget {
                           NewContactPageState.NO_ERROR &&
                           inputTypeError == pageState.errorState
                           ? Colors.red
-                          : textFieldEnabled ? Color(borderColor) : Color(ColorConstants.getPrimaryBackgroundGrey()),
+                          : textFieldEnabled ? Color(ColorConstants.getBlueDark()) : Color(ColorConstants.getPrimaryBackgroundGrey()),
                       width: 1.0,
                     ),
                   ),

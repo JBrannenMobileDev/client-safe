@@ -115,7 +115,7 @@ class LocationListWidget extends StatelessWidget {
                   text: pageState.locations.elementAt(index).locationName,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.center,
-                  color: Color(ColorConstants.getPrimaryWhite()),
+                  color: Color(ColorConstants.getBlueDark()),
                 ),
               ),
             ],

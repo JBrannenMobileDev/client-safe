@@ -64,7 +64,7 @@ class PriceProfileListWidget extends StatelessWidget {
                                 children: [
                                   TextDandyLight(
                                     type: TextDandyLight.SMALL_TEXT,
-                                    text: 'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.flatRate),
+                                    text: 'Price - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 2).format(priceProfile.flatRate),
                                     textAlign: TextAlign.start,
                                     color: textColor,
                                   ),
@@ -72,7 +72,7 @@ class PriceProfileListWidget extends StatelessWidget {
                                     margin: EdgeInsets.only(right: 24.0),
                                     child: TextDandyLight(
                                       type: TextDandyLight.SMALL_TEXT,
-                                      text: (priceProfile.deposit != null ? priceProfile.deposit > 0 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
+                                      text: (priceProfile.deposit != null ? priceProfile.deposit > 2 ? 'Deposit - ' + NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(priceProfile.deposit) : '' : ''),
                                       textAlign: TextAlign.start,
                                       color: textColor,
                                     ),

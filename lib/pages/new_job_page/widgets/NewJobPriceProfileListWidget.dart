@@ -24,7 +24,7 @@ class NewJobPriceProfileListWidget extends StatelessWidget {
         style: Styles.getButtonStyle(
           color: backgroundColor,
           shape: RoundedRectangleBorder(
-            borderRadius: new BorderRadius.circular(8.0),
+            borderRadius: new BorderRadius.circular(25.0),
           ),
         ),
         onPressed: () {

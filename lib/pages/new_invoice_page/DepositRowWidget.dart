@@ -61,7 +61,7 @@ class _DepositRowWidgetPageState extends State<DepositRowWidget> with TickerProv
             type: TextDandyLight.LARGE_TEXT,
             text: (pageState.selectedJob.isDepositPaid()
                 ? '-'
-                : '') + TextFormatterUtil.formatSimpleCurrency(pageState.depositValue.toInt()),
+                : '') + TextFormatterUtil.formatDecimalDigitsCurrency(pageState.depositValue, 2),
             textAlign: TextAlign.start,
             color: Color(
                 pageState.selectedJob.isDepositPaid()

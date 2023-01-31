@@ -76,7 +76,7 @@ class DiscountRowWidget extends StatelessWidget{
                 children: [
                   pageState.discountValue > 0.0 ? TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
-                    text: (pageState.discountValue.toInt() > 0 ? '-' : '') + TextFormatterUtil.formatSimpleCurrency (pageState.discountValue.toInt()),
+                    text: (pageState.discountValue.toInt() > 0 ? '-' : '') + TextFormatterUtil.formatDecimalDigitsCurrency (pageState.discountValue, 2),
                     textAlign: TextAlign.start,
                     color: Color(pageState.discountValue.toInt() > 0 ? ColorConstants
                         .getPrimaryBlack() : ColorConstants

@@ -82,7 +82,7 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                           ),
                         ),
                         child: TextDandyLight(
-                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          type: TextDandyLight.LARGE_TEXT,
                           text: DateFormat('MMM dd, yyyy').format(pageState.dueDate),
                           color: Color(ColorConstants.getPeachDark()),
                         ),

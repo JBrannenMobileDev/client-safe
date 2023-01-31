@@ -75,6 +75,9 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           );
           current.resetErrorMsg();
         }
+        if(current.shouldPopBack) {
+          Navigator.of(context).pop();
+        }
       },
       converter: (Store<AppState> store) =>
           ManageSubscriptionPageState.fromStore(store),
@@ -325,21 +328,21 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ),
                                   ),
                                 ),
-                                pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : TextButton(
-                                  style: Styles.getButtonStyle(),
-                                  onPressed: () {
-
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(top: 8),
-                                    child: TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      text: 'Enter Referral Code',
-                                      textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getBlueDark())
-                                    ),
-                                  ),
-                                ),
+                                // pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : TextButton(
+                                //   style: Styles.getButtonStyle(),
+                                //   onPressed: () {
+                                //
+                                //   },
+                                //   child: Container(
+                                //     margin: EdgeInsets.only(top: 8),
+                                //     child: TextDandyLight(
+                                //       type: TextDandyLight.MEDIUM_TEXT,
+                                //       text: 'Enter Referral Code',
+                                //       textAlign: TextAlign.center,
+                                //       color: Color(ColorConstants.getBlueDark())
+                                //     ),
+                                //   ),
+                                // ),
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [

@@ -90,6 +90,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   );
   int currentPageIndex = 0;
 
+  bool obscureText = true;
+
   @override
   void initState() {
     super.initState();
@@ -422,21 +424,6 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
           body: Stack(
             alignment: Alignment.topCenter,
             children: [
-              TranslationWidget(
-                controller: _controllerSunIn,
-                  animations: [
-                    sunStep2,
-                  ],
-                widget: Container(
-                  height: 130.0 * sunSize.value,
-                  width:  260.0 * sunSize.value,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.rectangle,
-                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(sunRadius.value), bottomRight: Radius.circular(sunRadius.value)),
-                    color: Color(ColorConstants.getPrimaryColor()),
-                  ),
-                ),
-              ),
               TranslationImage(
                 image: AssetImage(ImageUtil.LOGIN_BG_BLUE_MOUNTAIN),
                 controller: _controller,
@@ -560,7 +547,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       SlideTransition(
                         position: hideMainButtonsStep,
                         child: Container(
-                          height: 270.0,
+                          height: 257.0,
                           width: MediaQuery.of(context).size.width,
                           child: PageView(
                             controller: controller,
@@ -617,7 +604,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         child: Container(
                           margin: EdgeInsets.only(top: 16.0),
                           alignment: Alignment.center,
-                          height: 64.0,
+                          height: 54.0,
                           width: 250.0,
                           decoration: BoxDecoration(
                               color: Color(ColorConstants.getPeachDark()),
@@ -802,9 +789,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             }
                           },
                           child: Container(
-                            margin: EdgeInsets.only(top: 12.0, bottom: 10.0),
+                            margin: EdgeInsets.only(bottom: 6.0),
                             alignment: Alignment.center,
-                            height: 64.0,
+                            height: 54.0,
                             width: 250.0,
                             decoration: !pageState.showLoginLoadingAnimation ? BoxDecoration(
                                 color: Color(ColorConstants.getPeachDark()),
@@ -877,11 +864,11 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         offset: Offset(0.0, -marginTopCreateAccount.value),
                         child: Transform.translate(
                           offset: Offset(0.0, -marginTopLogoOut.value),
-                          child: Stack(
+                          child: selectedButton != CREATE_ACCOUNT ? Stack(
                             alignment: Alignment.topCenter,
                             children: [
                               Container(
-                                margin: EdgeInsets.only(top: 136),
+                                margin: EdgeInsets.only(top: 64),
                                 child: AnimatedDefaultTextStyle(
                                   style: TextStyle(
                                           fontSize: 72.0,
@@ -900,7 +887,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               ),
                               Container(
                                 margin: EdgeInsets.only(
-                                    bottom: 230.0, left: 114.0, top: 102.0),
+                                    bottom: 230.0, left: 114.0, top: 28.0),
                                 height: 150.0,
                                 decoration: BoxDecoration(
                                   color: Colors.transparent,
@@ -911,9 +898,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   ),
                                 ),
                               ),
-                              pageState.mainButtonsVisible && selectedButton != CREATE_ACCOUNT ? Container(
+                              selectedButton != CREATE_ACCOUNT ? Container(
                                   width: 175.0,
-                                  margin: EdgeInsets.only(top: 225.0),
+                                  margin: EdgeInsets.only(top: 153.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: 'Capture the moment We\'ll do the rest',
@@ -922,7 +909,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                   )
                               ) : SizedBox(),
                             ],
-                          ),
+                          ) : SizedBox(),
                         ),
                       ),
                     ),
@@ -931,7 +918,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
               ),
               selectedButton != null ? SafeArea(
                 child: Container(
-                  margin: EdgeInsets.only(top: 96.0),
+                  margin: EdgeInsets.only(top: 12.0),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: selectedButton,
@@ -1044,7 +1031,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     if(selectedButton != null) {
       return SafeArea(
         child: Container(
-          margin: EdgeInsets.only(top: 148.0),
+          margin: EdgeInsets.only(top: 64.0),
           child: ListView(
             children: <Widget>[
               LoginTextField(
@@ -1129,21 +1116,38 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 enabled: true,
                 obscureText: false,
               ),
-              selectedButton == CREATE_ACCOUNT ? LoginTextField(
-                maxLines: 1,
-                  controller: passwordTextController,
-                  hintText: 'Password',
-                  labelText: 'Password',
-                  inputType: TextInputType.visiblePassword,
-                  height: 64.0,                 inputTypeError: 'Password name is required',
-                  onTextInputChanged: (password) => pageState.onPasswordChanged(password),
-                  onEditingCompleted: null,
-                  keyboardAction: TextInputAction.done,
-                  focusNode: passwordFocusNode,
-                  onFocusAction: null,
-                  capitalization: TextCapitalization.none,
-                  enabled: true,
-                  obscureText: true,
+              selectedButton == CREATE_ACCOUNT ? Stack(
+                children: [
+                  LoginTextField(
+                    maxLines: 1,
+                    controller: passwordTextController,
+                    hintText: 'Password',
+                    labelText: 'Password',
+                    inputType: TextInputType.visiblePassword,
+                    height: 64.0,                 inputTypeError: 'Password name is required',
+                    onTextInputChanged: (password) => pageState.onPasswordChanged(password),
+                    onEditingCompleted: null,
+                    keyboardAction: TextInputAction.done,
+                    focusNode: passwordFocusNode,
+                    onFocusAction: null,
+                    capitalization: TextCapitalization.none,
+                    enabled: true,
+                    obscureText: obscureText,
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(right: 42),
+                    height: 78,
+                    alignment: Alignment.centerRight,
+                    child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          obscureText = !obscureText;
+                        });
+                      },
+                      icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility, color: Color(ColorConstants.getPeachDark()),),
+                    ),
+                  ),
+                ],
               ) : SizedBox(),
           Container(
             margin: EdgeInsets.only(bottom: 256.0),
@@ -1164,7 +1168,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   type: TextDandyLight.MEDIUM_TEXT,
                   text: 'Error: ' + (pageState.createAccountErrorMessage.isNotEmpty ? pageState.createAccountErrorMessage : 'Password must be at least 8 characters long, include one upper case and one lower case letter, one number, and one special character.'),
                   textAlign: TextAlign.start,
-                  color: Color(pageState.createAccountErrorMessage.isNotEmpty ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
+                  color: Color(pageState.createAccountErrorMessage.isNotEmpty ? ColorConstants.error_red : ColorConstants.getPrimaryWhite()),
                 ),
               ),
               ) : SizedBox()),
