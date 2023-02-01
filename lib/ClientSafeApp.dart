@@ -20,6 +20,7 @@ class ClientSafeApp extends StatelessWidget {
     return new StoreProvider<AppState>(
       store: store,
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         builder: (context, child) =>
             MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false), child: child),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,

@@ -32,7 +32,7 @@ class BarChartState extends State<BarChartWidget> {
       }
     }
     return AspectRatio(
-      aspectRatio: 1,
+      aspectRatio: 1.75,
       child: Padding(
               padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
               child: Column(
@@ -59,15 +59,13 @@ class BarChartState extends State<BarChartWidget> {
                       color: Color(ColorConstants.primary_black),
                     ),
                   ) : SizedBox(),
-                  Container(
-                    margin: EdgeInsets.only(top: 0.0),
-                    height: noData ? 50.0 : 175.0,
+                  Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      padding: const EdgeInsets.only(top: 8, bottom: 32),
                       child: !noData ? BarChart(
                         mainBarData(),
                         swapAnimationDuration: animDuration,
-                      ) : SizedBox(),
+                      ) : SizedBox(height: 50,),
                     ),
                   ),
                 ],

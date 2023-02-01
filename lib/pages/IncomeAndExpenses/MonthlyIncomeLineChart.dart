@@ -14,11 +14,7 @@ class MonthlyIncomeLineChart extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-    child:Stack(
-        alignment: Alignment.topCenter,
-        children: <Widget>[
-          Container(
-            height: 275.0,
+    child: Container(
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 24.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
@@ -37,8 +33,6 @@ class MonthlyIncomeLineChart extends StatelessWidget{
                 BarChartWidget(monthsData: pageState.lineChartMonthData),
               ],
             ),
-          ),
-        ],
     ),
     );
   }

@@ -453,7 +453,7 @@ List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, Li
 }
 
 List<JobTypePieChartRowData> buildJobTypeRowData(List<Job> jobsWithPaymentReceived, List<JobType> allJobTypes) {
-  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => job.paymentReceivedDate.year == DateTime.now().year).toList();
+  List<Job> jobsThisYearPaid = jobsWithPaymentReceived.where((job) => ((job.paymentReceivedDate != null ? job.paymentReceivedDate.year : job.selectedDate.year) == DateTime.now().year)).toList();
   var groupedList = <String, List<Job>>{};
   List<JobTypePieChartRowData> jobTypePieChartRowItems = [];
 
