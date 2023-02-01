@@ -1,12 +1,12 @@
 import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseItem.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 
 class SingleExpenseCard extends StatelessWidget{
@@ -32,19 +32,15 @@ class SingleExpenseCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, pageState.singleExpensesForSelectedYear.length > 3 ? 4 : 16.0, 0.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        'Single Expenses (' + pageState.selectedYear.toString() + ')',
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Single Expenses (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                       pageState.singleExpensesForSelectedYear != null && pageState.singleExpensesForSelectedYear.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -56,14 +52,10 @@ class SingleExpenseCard extends StatelessWidget{
                         },
                         child: Container(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            pageState.isSingleExpensesMinimized ? 'View all(' + pageState.singleExpensesForSelectedYear.length.toString() + ')' : 'Hide',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: pageState.isSingleExpensesMinimized ? 'View all(' + pageState.singleExpensesForSelectedYear.length.toString() + ')' : 'Hide',
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ) : SizedBox(),
@@ -73,11 +65,10 @@ class SingleExpenseCard extends StatelessWidget{
                 pageState.singleExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 8.0),
-                  child: DandyLightTextWidget(
+                  child: TextDandyLight(
+                    type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                     amount: pageState.singleExpensesForSelectedYearTotal,
-                    textSize: 48.0,
-                    textColor: Color(ColorConstants.getPeachDark()),
-                    fontWeight: FontWeight.w600,
+                    color: Color(ColorConstants.getPeachDark()),
                     isCurrency: true,
                     decimalPlaces: 0,
                   ),
@@ -94,15 +85,11 @@ class SingleExpenseCard extends StatelessWidget{
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 16.0, right: 16.0),
                   height: 64.0,
-                  child: Text(
-                    'You have zero single expenses.',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'You have zero single expenses.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
               ],
@@ -123,15 +110,15 @@ class SingleExpenseCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 178.0;
+      return 160.0;
     }else if(length == 1) {
-      return 246.0;
+      return 240.0;
     }else if(length == 2) {
-      return 330.0;
+      return 314.0;
     }else if(length == 3) {
-      return 394.0;
+      return 388.0;
     }else {
-      return pageState.isSingleExpensesMinimized ? 390.0 : ((74*length) + 172).toDouble();
+      return 403;
     }
   }
 

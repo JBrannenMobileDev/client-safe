@@ -393,7 +393,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                             width: 100.0,
                             alignment: Alignment.centerRight,
                             child: Text(
-                                '\$' + pageState.lineItems.elementAt(index).itemPrice.truncate().toString(),
+                                '\$' + pageState.lineItems.elementAt(index).itemPrice.toString(),
                                 textScaleFactor: 1.5,
                                 textAlign: TextAlign.right
                             ),
@@ -407,7 +407,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                             width: 100.0,
                             alignment: Alignment.centerRight,
                             child: Text(
-                              '\$' + pageState.lineItems.elementAt(index).getTotal().truncate().toString(),
+                              '\$' + pageState.lineItems.elementAt(index).getTotal().toString(),
                               textScaleFactor: 1.5,
                               textAlign: TextAlign.right,
                             ),
@@ -465,7 +465,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                     width: 100.0,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '\$' + pageState.total.truncate().toString(),
+                      '\$' + pageState.total.toString(),
                       textScaleFactor: 1.5,
                       textAlign: TextAlign.right,
                     ),
@@ -512,7 +512,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                     width: 100.0,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '-\$' + pageState.depositValue.truncate().toString(),
+                      '-\$' + pageState.depositValue.toString(),
                       textScaleFactor: 1.5,
                       textAlign: TextAlign.right,
                     ),
@@ -559,7 +559,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                     width: 100.0,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '-\$' + pageState.discountValue.truncate().toString(),
+                      '-\$' + pageState.discountValue.toString(),
                       textScaleFactor: 1.5,
                       textAlign: TextAlign.right,
                     ),
@@ -606,7 +606,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                     width: 100.0,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      TextFormatterUtil.formatSimpleCurrency((pageState.total * (pageState.salesTaxPercent/100)).toInt()),
+                      TextFormatterUtil.formatDecimalDigitsCurrency((pageState.total * (pageState.salesTaxPercent/100)), 2),
                       textScaleFactor: 1.5,
                       textAlign: TextAlign.right,
                     ),
@@ -674,7 +674,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                     width: 100.0,
                     alignment: Alignment.centerRight,
                     child: Text(
-                      '\$' + pageState.unpaidAmount.truncate().toString(),
+                      '\$' + pageState.unpaidAmount.toString(),
                       textScaleFactor: 1.5,
                       textAlign: TextAlign.right,
                     ),

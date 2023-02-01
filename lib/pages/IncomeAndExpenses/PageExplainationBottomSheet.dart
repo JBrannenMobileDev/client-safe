@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
+import '../../widgets/TextDandyLight.dart';
 
 
 class PageExplainationBottomSheet extends StatefulWidget {
@@ -36,28 +37,20 @@ class _BottomSheetPageState extends State<PageExplainationBottomSheet> with Tick
                  children: <Widget>[
                    Container(
                      margin: EdgeInsets.only(top: 24, bottom: 24.0),
-                     child: Text(
-                       'About this page',
+                     child: TextDandyLight(
+                       type: TextDandyLight.LARGE_TEXT,
+                       text: 'About this page',
                        textAlign: TextAlign.center,
-                       style: TextStyle(
-                         fontSize: 24.0,
-                         fontFamily: 'simple',
-                         fontWeight: FontWeight.w600,
-                         color: Color(ColorConstants.primary_black),
-                       ),
+                       color: Color(ColorConstants.primary_black),
                      ),
                    ),
                    Container(
                      margin: EdgeInsets.only(top: 8, bottom: 24.0, left: 24, right: 24),
-                     child: Text(
-                       'Your income is tracked automatically when your receive payment or complete a job.\n\nYou can generate a new invoice here or on your job details page.',
+                     child: TextDandyLight(
+                       type: TextDandyLight.MEDIUM_TEXT,
+                       text: 'Your income is tracked automatically when your receive payment or complete a job.\n\nYou can generate a new invoice here or on your job details page.',
                        textAlign: TextAlign.center,
-                       style: TextStyle(
-                         fontSize: 20.0,
-                         fontFamily: 'simple',
-                         fontWeight: FontWeight.w600,
-                         color: Color(ColorConstants.primary_black),
-                       ),
+                       color: Color(ColorConstants.primary_black),
                      ),
                    ),
                  ],
@@ -70,15 +63,11 @@ class _BottomSheetPageState extends State<PageExplainationBottomSheet> with Tick
                },
                child: Container(
                  margin: EdgeInsets.only(top: 16, right: 16.0),
-                 child: Text(
-                   'Ok',
+                 child: TextDandyLight(
+                   type: TextDandyLight.LARGE_TEXT,
+                   text: 'Ok',
                    textAlign: TextAlign.center,
-                   style: TextStyle(
-                     fontSize: 24.0,
-                     fontFamily: 'simple',
-                     fontWeight: FontWeight.w600,
-                     color: Color(ColorConstants.getPeachDark()),
-                   ),
+                   color: Color(ColorConstants.getPeachDark()),
                  ),
                ),
              ),

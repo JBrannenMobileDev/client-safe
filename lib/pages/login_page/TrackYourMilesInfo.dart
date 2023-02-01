@@ -12,6 +12,8 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class TrackYourMilesInfo extends StatefulWidget {
 
@@ -35,15 +37,11 @@ class _TrackYourMilesInfo extends State<TrackYourMilesInfo> {
               children: [
                 Container(
                   margin: EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Mileage Tracking',
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Mileage Tracking',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(
@@ -67,15 +65,11 @@ class _TrackYourMilesInfo extends State<TrackYourMilesInfo> {
                   ),
                 ),
                 Container(
-                  child: Text(
-                    'Easily track and save business mileage for your tax deduction using our distance calculator.',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Easily track and save business mileage for your tax deduction using our distance calculator.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],

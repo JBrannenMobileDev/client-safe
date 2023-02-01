@@ -18,6 +18,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewSingleExpensePage extends StatefulWidget {
   @override
   _NewSingleExpensePageState createState() {
@@ -69,15 +71,11 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: <Widget>[
-                          Text(
-                            pageState.shouldClear ? "New Single Expense" : "Edit Single Expense",
+                          TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: pageState.shouldClear ? "New Single Expense" : "Edit Single Expense",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                           !pageState.shouldClear ? GestureDetector(
                             onTap: () {
@@ -141,15 +139,11 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                             onPressed: () {
                               onBackPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == 0 ? "Cancel" : "Back",
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           TextButton(
@@ -168,17 +162,13 @@ class _NewSingleExpensePageState extends State<NewSingleExpensePage> {
                             onPressed: () {
                               onNextPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == pageCount
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == pageCount
                                   ? "Save"
                                   : "Next",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

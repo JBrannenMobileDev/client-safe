@@ -10,6 +10,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class ClientsPage extends StatefulWidget {
   static const String FILTER_TYPE_CLIENTS = "Clients";
@@ -39,35 +40,27 @@ class _ClientsPageState extends State<ClientsPage> {
   @override
   Widget build(BuildContext context) {
     genders = <int, Widget>{
-      0: Text(
-        ClientsPage.FILTER_TYPE_ALL,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),
+      0: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: ClientsPage.FILTER_TYPE_ALL,
+        color: Color(selectorIndex == 0
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
       ),
-      1: Text(ClientsPage.FILTER_TYPE_CLIENTS,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
-      2: Text(ClientsPage.FILTER_TYPE_LEADS,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 2 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 2
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
+      1: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: ClientsPage.FILTER_TYPE_CLIENTS,
+        color: Color(selectorIndex == 1
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
+      2: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: ClientsPage.FILTER_TYPE_LEADS,
+        color: Color(selectorIndex == 2
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
     };
     return StoreConnector<AppState, ClientsPageState>(
         onInit: (store) => store.dispatch(FetchClientData(store.state.clientsPageState)),
@@ -85,14 +78,10 @@ class _ClientsPageState extends State<ClientsPage> {
                         pinned: true,
                         centerTitle: true,
                         title: Container(
-                          child: Text(
-                            "Contacts",
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: "Contacts",
+                            color: const Color(ColorConstants.primary_black),
                           ),
                         ),
                         actions: <Widget>[

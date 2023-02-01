@@ -1,12 +1,5 @@
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationTextField.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
-import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherMapPage.dart';
-import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -15,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 
 class LocationOptionsMileageExpenseDialog extends StatefulWidget {
@@ -57,15 +50,11 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: 24.0, top: 32.0),
-                    child: Text(
-                      "Select from your collection of locations or select a new location from a map.",
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Select from your collection of locations or select a new location from a map.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Row(
@@ -90,15 +79,11 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                               ),
                               child: Image.asset('assets/images/icons/collections_icon_white.png'),
                             ),
-                            Text(
-                              'My Locations',
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'My Locations',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ],
                         ),
@@ -130,15 +115,11 @@ class _LocationOptionsMileageExpenseDialogState extends State<LocationOptionsMil
                               child: Image.asset(
                                   'assets/images/icons/location_icon_white.png'),
                             ),
-                            Text(
-                              'Map Location',
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Map Location',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ],
                         ),

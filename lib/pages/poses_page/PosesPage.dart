@@ -15,6 +15,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'PosesActions.dart';
 import 'PosesPageState.dart';
 
@@ -42,14 +43,10 @@ class PosesPage extends StatelessWidget {
                     pinned: true,
                     centerTitle: true,
                     title: Center(
-                      child: Text(
-                        "Poses",
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'simple',
-                          color: Color(ColorConstants.getPeachDark()),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Poses",
+                        color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
                     actions: <Widget>[
@@ -83,15 +80,11 @@ class PosesPage extends StatelessWidget {
                         ) :
                         Padding(
                           padding: EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
-                          child: Text(
-                            "Save your poses here. \nSelect the plus icon to create a new collection.",
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: "Save your poses here. \nSelect the plus icon to create a new collection.",
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.getPeachDark()),
-                            ),
+                            color: Color(ColorConstants.getPeachDark()),
                           ),
                         ),
                       ],

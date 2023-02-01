@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../../utils/styles/Styles.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class ClientListWidget extends StatelessWidget {
   final int clientIndex;
@@ -44,26 +45,17 @@ class ClientListWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        getClient(clientIndex, pageState).getClientFullName(),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: getClient(clientIndex, pageState).getClientFullName(),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: const Color(ColorConstants.primary_black),
-                        ),
+                        color: const Color(ColorConstants.primary_black),
                       ),
-                      Text(
-                        _buildSubtitleText(pageState, clientIndex),
+                      TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: _buildSubtitleText(pageState, clientIndex),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color:
-                              const Color(ColorConstants.primary_bg_grey_dark),
-                        ),
+                        color: const Color(ColorConstants.primary_bg_grey_dark),
                       ),
                     ],
                   ),

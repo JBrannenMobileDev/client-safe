@@ -11,6 +11,7 @@ import '../../../utils/ColorConstants.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'SelectSavedResponseBottomSheet.dart';
 
 class ResponsesListItemWidget extends StatelessWidget {
@@ -46,15 +47,11 @@ class ResponsesListItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 color: Color(ColorConstants.getPrimaryWhite())
             ),
-            child:Text(
-              pageState.items.elementAt(index).title,
+            child:TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: pageState.items.elementAt(index).title,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 22.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w400,
-                color: Color(ColorConstants.getPrimaryGreyMedium()),
-              ),
+              color: Color(ColorConstants.getPrimaryGreyMedium()),
             ),
           ),
         );
@@ -82,15 +79,11 @@ class ResponsesListItemWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8.0),
                 color: Color(ColorConstants.getBlueLight()).withOpacity(0.5)
             ),
-            child: Text(
-              pageState.items.elementAt(index).title,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: pageState.items.elementAt(index).title,
               textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w400,
-                color: Color(ColorConstants.getPrimaryBlack()),
-              ),
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           ),
         );

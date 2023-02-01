@@ -139,6 +139,7 @@ class EventNames {
   static const String BUSINESS_NAME = "business_name";
   static const String CALENDAR_SYNC_ENABLED = "calendar_sync_enabled";
   static const String NOTIFICATIONS_ENABLED = "notifications_enabled";
+  static const String SUBSCRIPTION_STATE = "subscription_state";
 
   //Login flow
   static const String FIRST_NAME_ENTERED = "first_name_entered";

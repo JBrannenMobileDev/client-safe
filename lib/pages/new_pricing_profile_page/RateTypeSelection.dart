@@ -11,6 +11,9 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../widgets/TextDandyLight.dart';
+import 'CostTextField.dart';
+
 class RateTypeSelection extends StatefulWidget {
   static const String SELECTOR_TYPE_FLAT_RATE = "Flat rate";
   static const String SELECTOR_TYPE_HOURLY = "Hourly";
@@ -29,9 +32,9 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   final GlobalKey<ScaffoldState> scaffoldKey;
   OverlayEntry overlayEntry;
   final FocusNode flatRateInputFocusNode = new FocusNode();
-  var flatRateTextController = TextEditingController();
+  var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
   final FocusNode depositInputFocusNode = new FocusNode();
-  var depositTextController = TextEditingController();
+  var depositTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
   int selectorIndex = 0;
 
   _RateTypeSelection(this.scaffoldKey);
@@ -41,15 +44,7 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
     super.build(context);
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (appState) {
-        if(appState.state.pricingProfilePageState.flatRate != null) {
-          flatRateTextController.text = ('\$ ' + appState.state.pricingProfilePageState.flatRate.toString());
-          flatRateTextController.selection = TextSelection.collapsed(offset: flatRateTextController.text.length);
-        }
-
-        if(appState.state.pricingProfilePageState.deposit != null) {
-          depositTextController.text = ('\$ ' + appState.state.pricingProfilePageState.deposit.toString());
-          depositTextController.selection = TextSelection.collapsed(offset: depositTextController.text.length);
-        }
+        flatRateTextController.updateValue(appState.state.pricingProfilePageState.flatRate);
 
        KeyboardVisibilityNotification().addNewListener(
             onShow: () {
@@ -78,17 +73,6 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
             removeOverlay();
         });
       },
-      onDidChange: (prev, curr) {
-        if(curr.flatRate != null) {
-          flatRateTextController.text = ('\$ ' + curr.flatRate.toString());
-          flatRateTextController.selection = TextSelection.collapsed(offset: flatRateTextController.text.length);
-        }
-
-        if(curr.deposit != null) {
-          depositTextController.text = ('\$ ' + curr.deposit.toString());
-          depositTextController.selection = TextSelection.collapsed(offset: depositTextController.text.length);
-        }
-      },
       converter: (store) => NewPricingProfilePageState.fromStore(store),
       builder: (BuildContext context, NewPricingProfilePageState pageState) =>
           Stack(
@@ -100,43 +84,45 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.fromLTRB(24.0, 0.0, 24.0, 16.0),
-                    child: Text(
-                      'How much do you want to charge for this price package?',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'How much do you want to charge for this price package?',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 24.0, right: 24.0),
-                    child: DandyLightTextField(
-                      controller: flatRateTextController,
-                      hintText: "\$ 0",
-                      labelText: "Price",
-                      inputType: TextInputType.number,
-                      focusNode: flatRateInputFocusNode,
-                      height: 66.0,
-                      onTextInputChanged: pageState.onFlatRateTextChanged,
-                      capitalization: TextCapitalization.none,
-                      keyboardAction: TextInputAction.done,
+                      child: CostTextField(
+                        flatRateTextController,
+                        "\$ 0.0",
+                        TextInputType.number,
+                        66.0,
+                        pageState.onFlatRateTextChanged,
+                        null,
+                        TextInputAction.next,
+                                          flatRateInputFocusNode,
+                        null,
+                        TextCapitalization.none,
+                        null,
+                        'Price'
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.only(left: 24.0, right: 24.0),
-                    child: DandyLightTextField(
-                      controller: depositTextController,
-                      hintText: "\$ 0",
-                      labelText: "Deposit",
-                      inputType: TextInputType.number,
-                      focusNode: depositInputFocusNode,
-                      height: 66.0,
-                      onTextInputChanged: pageState.onDepositTextChanged,
-                      capitalization: TextCapitalization.none,
-                      keyboardAction: TextInputAction.done,
+                    child: CostTextField(
+                        depositTextController,
+                        "\$ 0.0",
+                        TextInputType.number,
+                        66.0,
+                        pageState.onDepositTextChanged,
+                        null,
+                        TextInputAction.done,
+                        depositInputFocusNode,
+                        null,
+                        TextCapitalization.none,
+                        null,
+                        'Deposit'
                     ),
                   ),
                 ],

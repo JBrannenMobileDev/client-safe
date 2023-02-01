@@ -18,6 +18,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/NavigationUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'PricingProfileSelectionForm.dart';
 
 class NewJobPage extends StatefulWidget {
@@ -128,7 +129,7 @@ class _NewJobPageState extends State<NewJobPage> {
                           child: IconButton(
                             icon: const Icon(Icons.close),
                             tooltip: 'Delete',
-                            color: Color(ColorConstants.getPrimaryColor()),
+                            color: Color(ColorConstants.getPeachDark()),
                             onPressed: () {
                               pageState.onCancelPressed();
                               Navigator.of(context).pop(true);
@@ -137,15 +138,11 @@ class _NewJobPageState extends State<NewJobPage> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 4.0),
-                          child: Text(
-                            pageState.shouldClear ? "New Job" : pageState.comingFromClientDetails ? "New Job" : "Edit Job",
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: pageState.shouldClear ? "New Job" : pageState.comingFromClientDetails ? "New Job" : "Edit Job",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 28.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3 ? GestureDetector(
@@ -158,7 +155,7 @@ class _NewJobPageState extends State<NewJobPage> {
                             margin: EdgeInsets.only(right: 24.0),
                             height: 28.0,
                             width: 28.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryColor()),),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
                           ),
                         ) : SizedBox(
                           height: 28.0,
@@ -201,15 +198,11 @@ class _NewJobPageState extends State<NewJobPage> {
                             onPressed: () {
                               onBackPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == 0 ? "Cancel" : "Back",
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           TextButton(
@@ -224,16 +217,12 @@ class _NewJobPageState extends State<NewJobPage> {
                             onPressed: () {
                               onNextPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == pageCount
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == pageCount
                                   ? "Save" : getNextBtText(pageState),
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

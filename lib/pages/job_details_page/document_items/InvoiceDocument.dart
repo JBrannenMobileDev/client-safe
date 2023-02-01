@@ -2,6 +2,8 @@ import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.da
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 
+import '../../../widgets/TextDandyLight.dart';
+
 class InvoiceDocument implements DocumentItem {
   @override
   Widget buildIconItem(BuildContext context) {
@@ -20,15 +22,11 @@ class InvoiceDocument implements DocumentItem {
 
   @override
   Widget buildTitle(BuildContext context) {
-    return Text(
-      'Invoice',
+    return TextDandyLight(
+      type: TextDandyLight.MEDIUM_TEXT,
+      text: 'Invoice',
       textAlign: TextAlign.start,
-      style: TextStyle(
-        fontSize: 20.0,
-        fontFamily: 'simple',
-        fontWeight: FontWeight.w800,
-        color: Color(ColorConstants.getPrimaryBlack()),
-      ),
+      color: Color(ColorConstants.getPrimaryBlack()),
     );
   }
 

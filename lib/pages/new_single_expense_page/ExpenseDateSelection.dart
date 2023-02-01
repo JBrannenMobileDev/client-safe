@@ -9,6 +9,8 @@ import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_pic
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class ExpenseDateSelection extends StatefulWidget {
 
   @override
@@ -28,23 +30,19 @@ class _ExpenseDateSelectionState extends State<ExpenseDateSelection> with Automa
       Stack(
         children: <Widget>[
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                margin: EdgeInsets.only(left: 16.0),
-                child: Text(
-                  'Select the date that this expense was charged.',
+                margin: EdgeInsets.only(left: 32.0, right: 32),
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Select the date that this expense was charged.',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
-                margin: EdgeInsets.only(top: 32.0),
+                margin: EdgeInsets.only(top: 48.0),
                 alignment: Alignment.center,
                 child: TextButton(
                   style: Styles.getButtonStyle(),
@@ -64,8 +62,8 @@ class _ExpenseDateSelectionState extends State<ExpenseDateSelection> with Automa
                     children: <Widget>[
                       Container(
                         padding: EdgeInsets.all(16.0),
-                        height: 72.0,
-                        width: 72.0,
+                        height: 76.0,
+                        width: 76.0,
                         decoration: BoxDecoration(
                           color: Color(ColorConstants.getBlueLight()),
                           shape: BoxShape.circle,
@@ -84,14 +82,10 @@ class _ExpenseDateSelectionState extends State<ExpenseDateSelection> with Automa
                               color: Color(ColorConstants.getPeachDark())
                           ),
                         ),
-                        child: Text(
-                          DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
-                          style: TextStyle(
-                            fontFamily: 'simple',
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: DateFormat('MMM dd, yyyy').format(pageState.expenseDate),
+                          color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),
                     ],

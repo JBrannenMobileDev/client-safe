@@ -6,6 +6,8 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class LineItemListWidget extends StatelessWidget{
   final NewInvoicePageState pageState;
   final bool shrinkWrap;
@@ -44,16 +46,12 @@ class LineItemListWidget extends StatelessWidget{
             onPressed: () {
               UserOptionsUtil.showNewLineItemDialog(context);
             },
-            child: Text(
-              'Add line item',
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: 'Add line item',
               textAlign: TextAlign.start,
-              style: TextStyle(
-                fontSize: 20.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
-                color: Color(
-                    ColorConstants.getPrimaryWhite()),
-              ),
+              color: Color(
+                  ColorConstants.getPrimaryWhite()),
             ),
           ),
         ) : SizedBox(),

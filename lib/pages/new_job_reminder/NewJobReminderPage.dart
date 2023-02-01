@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'NewJobReminderPageActions.dart';
 
 class NewJobReminderPage extends StatefulWidget {
@@ -104,15 +105,11 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                           width: 52.0,
                         ),
                         Container(
-                          child: Text(
-                            'New Job Reminder',
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: 'New Job Reminder',
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 24.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         pageState.pageViewIndex == 0 ? GestureDetector(
@@ -166,15 +163,11 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                             onPressed: () {
                               onCancelSelected(pageState);
                             },
-                            child: Text(
-                              'Cancel',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Cancel',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           TextButton(
@@ -193,15 +186,11 @@ class _NewJobReminderPageState extends State<NewJobReminderPage> {
                             onPressed: () {
                               onSaveSelected(pageState);
                             },
-                            child: Text(
-                              'Save',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Save',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

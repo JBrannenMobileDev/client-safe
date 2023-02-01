@@ -13,6 +13,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class NewSingleExpenseCost extends StatefulWidget {
   @override
@@ -58,15 +60,11 @@ class _NewSingleExpenseCost extends State<NewSingleExpenseCost> with AutomaticKe
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 48.0, top: 16.0),
-              child: Text(
-                'Enter the total cost of this expense.',
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Enter the total cost of this expense.',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             NewSingleExpenseCostTextField(

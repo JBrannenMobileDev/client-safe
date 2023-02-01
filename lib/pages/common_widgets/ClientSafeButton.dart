@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class ClientSafeButton extends StatelessWidget{
   final double height;
@@ -58,14 +59,10 @@ class ClientSafeButton extends StatelessWidget{
                 color: Colors.white,
                 onPressed: null,
               ) : SizedBox(),
-              text.isNotEmpty ? Text(
-                text,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w800,
-                  fontFamily: 'simple',
-                  color: Colors.white,
-                ),
+              text.isNotEmpty ? TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: text,
+                color: Colors.white,
               ) : SizedBox(),
             ],
           ),

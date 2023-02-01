@@ -8,6 +8,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../utils/TextFormatterUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class IncomeInsights extends StatelessWidget {
   IncomeInsights({this.pageState});
@@ -37,28 +38,20 @@ class IncomeInsights extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'This Month',
+                        child: TextDandyLight(
+                          type: TextDandyLight.SMALL_TEXT,
+                          text: 'This Month',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 42.0),
-                        child: Text(
-                          TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthIncome),
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthIncome),
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 32.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
@@ -75,28 +68,20 @@ class IncomeInsights extends StatelessWidget {
                     children: [
                       Padding(
                         padding: EdgeInsets.only(top: 8.0),
-                        child: Text(
-                          'Last Month',
+                        child: TextDandyLight(
+                          type: TextDandyLight.SMALL_TEXT,
+                          text: 'Last Month',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 42.0),
-                        child: Text(
-                          TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthIncome),
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                          text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthIncome),
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 32.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
@@ -119,28 +104,20 @@ class IncomeInsights extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        'This Month Last Year',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'This Month \nLast Year',
+                        textAlign: TextAlign.center,
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 42.0),
-                      child: Text(
-                        TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthLastYearIncome),
+                      padding: EdgeInsets.only(top: 54.0),
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        text: TextFormatterUtil.formatSimpleCurrency(pageState.thisMonthLastYearIncome),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],
@@ -157,28 +134,20 @@ class IncomeInsights extends StatelessWidget {
                   children: [
                     Padding(
                       padding: EdgeInsets.only(top: 8.0),
-                      child: Text(
-                        'Last Month Last Year',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Last Month \nLast Year',
+                        textAlign: TextAlign.center,
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(top: 42.0),
-                      child: Text(
-                        TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthLastYearIncome),
+                      padding: EdgeInsets.only(top: 54.0),
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        text: TextFormatterUtil.formatSimpleCurrency(pageState.lastMonthLastYearIncome),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 32.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],

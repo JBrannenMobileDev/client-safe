@@ -11,6 +11,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class NewRecurringExpenseBillingPeriod extends StatefulWidget {
   @override
@@ -34,15 +36,11 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 32.0, top: 16.0),
-              child: Text(
-                'Select the billing period for this expense.',
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Select the billing period for this expense.',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             Row(
@@ -60,15 +58,11 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
                     shape: BoxShape.circle,
                     color: Color(pageState.billingPeriod == NewRecurringExpensePageState.BILLING_PERIOD_1MONTH ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryWhite())
                   ),
-                  child: Text(
-                    '1\nmonth',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: '1\nmonth',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 ),
@@ -84,15 +78,11 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
                         shape: BoxShape.circle,
                         color: Color(pageState.billingPeriod == NewRecurringExpensePageState.BILLING_PERIOD_3MONTHS ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryWhite())
                     ),
-                    child: Text(
-                      '3\nmonths',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '3\nmonths',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                 ),
@@ -113,15 +103,11 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
                         shape: BoxShape.circle,
                         color: Color(pageState.billingPeriod == NewRecurringExpensePageState.BILLING_PERIOD_6MONTHS ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryWhite())
                     ),
-                    child: Text(
-                      '6\nmonths',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '6\nmonths',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                 ),
@@ -137,15 +123,11 @@ class _NewRecurringExpenseBillingPeriod extends State<NewRecurringExpenseBilling
                         shape: BoxShape.circle,
                         color: Color(pageState.billingPeriod == NewRecurringExpensePageState.BILLING_PERIOD_1YEAR ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryWhite())
                     ),
-                    child: Text(
-                      '1\nyear',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: '1\nyear',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                 ),

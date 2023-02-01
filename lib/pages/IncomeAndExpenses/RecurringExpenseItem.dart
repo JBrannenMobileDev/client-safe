@@ -1,19 +1,12 @@
 
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
-import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
-import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
-
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class RecurringExpenseItem extends StatelessWidget{
   final RecurringExpense recurringExpense;
@@ -57,15 +50,11 @@ class RecurringExpenseItem extends StatelessWidget{
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
-                            Text(
-                              (recurringExpense.expenseName != null ? recurringExpense.expenseName : 'Item name') + (recurringExpense.cancelDate != null ? ' • Canceled' : ''),
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: (recurringExpense.expenseName != null ? recurringExpense.expenseName : 'Item name') + (recurringExpense.cancelDate != null ? ' • Canceled' : ''),
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
-                              ),
+                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                             ),
                           ],
                         ),
@@ -75,31 +64,23 @@ class RecurringExpenseItem extends StatelessWidget{
                         child: Row(
 
                           children: [
-                            DandyLightTextWidget(
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
                               amount: recurringExpense.cost,
-                              textSize: 18.0,
-                              textColor: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
-                              fontWeight: FontWeight.w600,
-                              isCurrency: true,
-                              decimalPlaces: 2,
+                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              isCurrency: true
                             ),
-                            Text(
-                              ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ',
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: ' x ' + recurringExpense.getCountOfChargesForYear(pageState.selectedYear).toString() + '  =  ',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
-                              ),
+                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
                             ),
-                            DandyLightTextWidget(
+                            TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
                               amount: recurringExpense.getTotalOfChargesForYear(pageState.selectedYear),
-                              textSize: 18.0,
-                              textColor: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
-                              fontWeight: FontWeight.w600,
-                              isCurrency: true,
-                              decimalPlaces: 2,
+                              color: Color(recurringExpense.cancelDate == null ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+                              isCurrency: true
                             ),
                           ],
                         ),

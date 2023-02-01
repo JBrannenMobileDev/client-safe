@@ -13,6 +13,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class JobSelectionForm extends StatefulWidget {
   @override
@@ -41,15 +42,11 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "What job is this invoice for?",
+                TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: "What job is this invoice for?",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
                 Stack(
                   alignment: Alignment.center,
@@ -100,9 +97,9 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                           keyboardType: TextInputType.text,
                           textCapitalization: TextCapitalization.words,
                           style: new TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
+                              fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                              fontFamily: TextDandyLight.getFontFamily(),
+                              fontWeight: TextDandyLight.getFontWeight(),
                               color: Color(ColorConstants.primary_black)),
                         )),
                   ],
@@ -133,29 +130,14 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 64.0),
-                      child: Text(
-                        pageState.allClients.length > 0
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.allClients.length > 0
                             ? "There are no matching jobs for the name entered."
                             : "You have not started any jobs yet.",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
-                    ),
-                    ClientSafeButton(
-                      height: 50.0,
-                      width: 200.0,
-                      text: "Start a new job",
-                      marginLeft: 0.0,
-                      marginRight: 0.0,
-                      marginBottom: 0.0,
-                      marginTop: 32.0,
-                      onPressed: onAddNewJobPressed,
-                      urlText: "",
                     ),
                   ],
                 ),

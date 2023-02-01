@@ -1,11 +1,11 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'NewJobTypePageState.dart';
 import 'NewJobTypeStagesListWidget.dart';
 
@@ -44,15 +44,11 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(top: 6.0, bottom: 8.0, left: 16.0, right: 16.0),
-                  child: Text(
-                    'Please select stages for this job type that you would like to track.',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Please select stages for this job type that you would like to track.',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Row(
@@ -60,15 +56,11 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 16.0, right: 8.0),
-                      child: Text(
-                        'Check All',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Check All',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Container(

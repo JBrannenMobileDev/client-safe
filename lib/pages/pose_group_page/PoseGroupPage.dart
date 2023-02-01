@@ -19,6 +19,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/PoseGroup.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPage extends StatefulWidget {
@@ -253,14 +254,10 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     centerTitle: true,
                     title: Container(
-                      child: Text(
-                        !isBottomSheetVisible ? poseGroup.groupName : "Select Photos",
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'simple',
-                          color: Color(ColorConstants.getPeachDark()),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: !isBottomSheetVisible ? poseGroup.groupName : "Select Photos",
+                        color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
                     actions: <Widget>[
@@ -340,16 +337,12 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                                   top: 48.0,
                                   right: 48.0,
                                   bottom: 32.0),
-                              child: Text(
-                                "You do not have any poses in this collection yet. Select the button below to add a pose.",
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: "You do not have any poses in this collection yet. Select the button below to add a pose.",
                                 // \n\nYou can also share your saved locations with a client to help them decide what location they want.
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
+                                color: Color(ColorConstants.getPeachDark()),
                               ),
                             ),
                             GestureDetector(
@@ -386,16 +379,12 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                                       right: 8.0,
                                       top: 8.0,
                                       bottom: 8.0),
-                                  child: Text(
-                                    "Select Images",
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: "Select Images",
                                     textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(
-                                          ColorConstants.getPrimaryWhite()),
-                                    ),
+                                    color: Color(
+                                        ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
                               ),
@@ -445,16 +434,12 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              "Select All",
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: "Select All",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(
-                                    selectAllChecked ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachLight()),
-                              ),
+                              color: Color(
+                                  selectAllChecked ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachLight()),
                             ),
                             Theme(
                               data: Theme.of(context).copyWith(

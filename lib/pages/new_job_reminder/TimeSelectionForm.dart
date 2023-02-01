@@ -2,13 +2,14 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageActions.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class TimeSelectionForm extends StatefulWidget {
   @override
@@ -32,15 +33,11 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-                "Select a time for this job.",
+            TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+                text: "Select a time for this job.",
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+              color: Color(ColorConstants.primary_black),
             ),
             pageState.sunsetDateTime != null ? Padding(
               padding: EdgeInsets.only(top: 8.0),
@@ -56,18 +53,14 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: Text(
-                      "Sunset is at " +
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Sunset is at " +
                           (pageState.sunsetDateTime != null
                               ? DateFormat('h:mm a').format(pageState.sunsetDateTime)
                               : ""),
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w800,
-                        color: Color(ColorConstants.getPeachDark()),
-                      ),
+                      color: Color(ColorConstants.getPeachDark()),
                     ),
                   )
                 ],

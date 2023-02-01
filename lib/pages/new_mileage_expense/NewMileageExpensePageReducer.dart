@@ -1,6 +1,7 @@
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpensePageState.dart';
 import 'package:dandylight/pages/new_mileage_expense/SelectStartEndLocations.dart';
+import 'package:dandylight/utils/NumberConstants.dart';
 import 'package:redux/redux.dart';
 
 final newMileageExpensePageReducer = combineReducers<NewMileageExpensePageState>([
@@ -56,7 +57,7 @@ NewMileageExpensePageState _setSelectedFilter(NewMileageExpensePageState previou
   return previousState.copyWith(
     filterType: action.selectedFilter,
     isOneWay: isOneWay,
-    expenseCost: (isOneWay ? previousState.milesDrivenOneWay * 0.575 : previousState.milesDrivenRoundTrip * 0.575),
+    expenseCost: (isOneWay ? previousState.milesDrivenOneWay * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE : previousState.milesDrivenRoundTrip * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
   );
 }
 
@@ -64,7 +65,7 @@ NewMileageExpensePageState _setMilesDriven(NewMileageExpensePageState previousSt
   return previousState.copyWith(
     milesDrivenOneWay: action.milesDriven,
     milesDrivenRoundTrip: action.milesDriven * 2,
-    expenseCost: (previousState.isOneWay ? 1 : 2) * (action.milesDriven * 0.575),
+    expenseCost: (previousState.isOneWay ? 1 : 2) * (action.milesDriven * NumberConstants.TAX_MILEAGE_DEDUCTION_RATE),
   );
 }
 

@@ -6,13 +6,13 @@ import 'package:dandylight/pages/client_details_page/ClientDetailsPageReducer.da
 import 'package:dandylight/pages/clients_page/ClientsPageReducer.dart';
 import 'package:dandylight/pages/collections_page/CollectionsPageReducer.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageReducer.dart';
-import 'package:dandylight/pages/home_page/HomePageReducer.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPageReducer.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsReducer.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageReducer.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageReducer.dart';
 import 'package:dandylight/pages/login_page/LoginPageReducer.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageReducer.dart';
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageReducer.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidgetReducer.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageReducer.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageReducer.dart';
@@ -26,7 +26,6 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageR
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageReducer.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageReducer.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
-import 'package:dandylight/pages/onboarding_flow_pages/OnBoardingFlowPageReducer.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageReducer.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageReducer.dart';
 import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
@@ -34,7 +33,6 @@ import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReduce
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
-import 'package:dandylight/pages/search_page/SearchPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) =>
@@ -45,14 +43,12 @@ AppState appReducers(AppState state, dynamic action) =>
         pricingProfilesPageState: pricingProfilesReducer(state.pricingProfilesPageState, action),
         newJobPageState: newJobPageReducer(state.newJobPageState, action),
         newContactPageState: newContactPageReducer(state.newContactPageState, action),
-        homePageState: homePageReducer(state.homePageState, action),
         dashboardPageState: dashboardPageReducer(state.dashboardPageState, action),
         clientsPageState: clientsPageReducer(state.clientsPageState, action),
         clientDetailsPageState: clientDetailsPageReducer(state.clientDetailsPageState, action),
         jobsPageState: jobsPageReducer(state.jobsPageState, action),
         collectionsPageState: collectionsPageReducer(state.collectionsPageState, action),
         mainSettingsPageState: mainSettingsPageReducer(state.mainSettingsPageState, action),
-        searchPageState: searchPageReducer(state.searchPageState, action),
         calendarPageState: calendarPageReducer(state.calendarPageState, action),
         jobDetailsPageState: jobDetailsReducer(state.jobDetailsPageState, action),
         newInvoicePageState: newInvoicePageReducer(state.newInvoicePageState, action),
@@ -74,6 +70,6 @@ AppState appReducers(AppState state, dynamic action) =>
         calendarSelectionPageState: calendarSelectionPageReducer(state.calendarSelectionPageState, action),
         incomeAndExpenseSettingsPageState: incomeAndExpenseSettingsPageReducer(state.incomeAndExpenseSettingsPageState, action),
         paymentRequestInfoPageState: paymentRequestInfoPageReducer(state.paymentRequestInfoPageState, action),
-        onBoardingFlowPageState: onBoardingPageReducer(state.onBoardingFlowPageState, action),
         responsesPageState: responsesReducer(state.responsesPageState, action),
+        manageSubscriptionPageState: manageSubscriptionPageReducer(state.manageSubscriptionPageState, action),
     );

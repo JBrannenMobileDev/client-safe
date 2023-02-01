@@ -16,6 +16,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'GroupImage.dart';
 
 class SingleImageViewPager extends StatefulWidget {
@@ -125,29 +126,10 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 16, right: 22.0),
-                          height: 48.0,
-                          width: 64.0,
-                          child: Icon(
-                            (Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back),
-                            size: 32.0,
-                            color: Color(ColorConstants.getPeachLight()),
-                          ),
-                        ),
-                      ),
-                      Text(
-                        groupName,
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                          fontFamily: 'simple',
-                          color: Color(ColorConstants.getPeachLight()),
-                        ),
+                      TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: groupName,
+                        color: Color(ColorConstants.getPeachLight()),
                       ),
                       Row(
                         children: [
@@ -188,6 +170,20 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                         ],
                       ),
                     ],
+                  ),
+                ),
+                Positioned(
+                  top: 0.0,
+                  left: 0.0,
+                  right: 0.0,
+                  child: AppBar(
+                    title: Text(''),// You can add title here
+                    leading: new IconButton(
+                      icon: new Icon((Device.get().isIos ? CupertinoIcons.back : Icons.arrow_back), color: Colors.white),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                    backgroundColor: Colors.transparent, //You can make this transparent
+                    elevation: 0.0, //No shadow
                   ),
                 ),
               ],

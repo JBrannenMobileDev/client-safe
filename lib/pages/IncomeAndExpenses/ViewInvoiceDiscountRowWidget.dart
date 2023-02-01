@@ -3,6 +3,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class ViewInvoiceDiscountRowWidget extends StatelessWidget{
   final Invoice invoice;
   ViewInvoiceDiscountRowWidget(this.invoice);
@@ -17,29 +19,21 @@ class ViewInvoiceDiscountRowWidget extends StatelessWidget{
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(left: 0.0, top: 0.0, right: 112.0),
-                child: Text(
-                  'Discount',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Discount',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w400,
-                    color: Color(ColorConstants.getPrimaryBlack()),
-                  ),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ),
-          invoice.discount > 0.0 ? Text(
-            (invoice.discount.toInt() > 0 ? '-' : '') + '\$' +
+          invoice.discount > 0.0 ? TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: (invoice.discount.toInt() > 0 ? '-' : '') + '\$' +
                 (invoice.discount.toInt().toString()),
             textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 24.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
-              color: Color(invoice.discount.toInt() > 0 ? ColorConstants
-                  .getPrimaryBlack() : ColorConstants
-                  .getPrimaryBackgroundGrey()),
-            ),
+            color: Color(invoice.discount.toInt() > 0 ? ColorConstants
+                .getPrimaryBlack() : ColorConstants
+                .getPrimaryBackgroundGrey()),
           ) : SizedBox(),
     ],
       ),

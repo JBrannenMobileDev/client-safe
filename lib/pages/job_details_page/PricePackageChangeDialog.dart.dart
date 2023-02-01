@@ -15,6 +15,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../utils/InputDoneView.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 
 class PricePackageChangeDialog extends StatefulWidget {
@@ -82,15 +83,11 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
-                        child: Text(
-                          "Input a one time price \nor select a price package",
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Input a one time price \nor select a price package",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       GestureDetector(
@@ -131,15 +128,11 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                           onPressed: () {
                             Navigator.of(context).pop();
                           },
-                          child: Text(
-                            'Cancel',
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Cancel',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         TextButton(
@@ -149,15 +142,11 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                             VibrateUtil.vibrateHeavy();
                             Navigator.of(context).pop();
                           },
-                          child: Text(
-                            'Save',
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Save',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ],
@@ -170,36 +159,27 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Padding(
-                    padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
-                    child: Text(
-                      "Select a Price Package for this job",
+                    padding: EdgeInsets.only(bottom: 24.0, top: 16.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: "Select a Price Package",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 32.0),
-                    child: Text(
-                      "A pricing package includes information on price, length of session, "
-                          "and number of edits. You do not have any pricing packages setup. "
+                    padding: EdgeInsets.only(bottom: 32.0, left: 24, right: 24),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "You do not have any pricing packages setup. "
                           "Select the button below to create a new pricing package.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   ClientSafeButton(
-                    height: 64.0,
-                    width: double.infinity,
+                    height: 48.0,
+                    width: 224,
                     text: "Pricing Package",
                     marginLeft: 32.0,
                     marginTop: 0.0,
@@ -210,7 +190,27 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
                     },
                     icon: Icon(Icons.add, color: Colors.white),
                     urlText: "",
-                      color: ColorConstants.getPrimaryColor()
+                      color: ColorConstants.getBlueDark()
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        TextButton(
+                          style: Styles.getButtonStyle(),
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Cancel',
+                            textAlign: TextAlign.center,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -250,15 +250,11 @@ class _PricePackageChangeDialogState extends State<PricePackageChangeDialog>
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 4.0, top: 8.0),
-                child: Text(
-                  "Or",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "Or",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
             ],

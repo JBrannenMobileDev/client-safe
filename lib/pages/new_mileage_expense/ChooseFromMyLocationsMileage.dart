@@ -12,6 +12,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class ChooseFromMyLocationsMileage extends StatefulWidget {
   final Function(LatLng) onLocationSaved;
@@ -40,7 +42,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
       builder: (BuildContext context, NewMileageExpensePageState pageState) => Scaffold(
         backgroundColor: Colors.transparent,
         body: Container(
-          padding: EdgeInsets.only(left: 8.0, right: 8.0),
+          padding: EdgeInsets.only(left: 16.0, right: 16.0),
           decoration: BoxDecoration(
             color: Color(ColorConstants.getPrimaryWhite()),
             borderRadius: BorderRadius.circular(16.0),
@@ -52,35 +54,27 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
             mainAxisSize: MainAxisSize.max,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                child: Text(
-                  "Select a Location",
+                padding: EdgeInsets.only(top: 24.0, bottom: 0.0),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: "Select a Location",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  pageState.selectedLocation != null
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: pageState.selectedLocation != null
                       ? pageState.selectedLocation.locationName
                       : "",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.getPrimaryColor()),
-                  ),
+                  color: Color(ColorConstants.getPeachDark()),
                 ),
               ),
               Container(
-                height: (MediaQuery.of(context).size.height) - 208,
+                height: (MediaQuery.of(context).size.height) - 220,
                 child: GridView.builder(
                     padding: new EdgeInsets.fromLTRB(4.0, 0.0, 4.0, 64.0),
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -97,7 +91,7 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                     itemBuilder: _buildItem),
               ),
               Padding(
-                padding: EdgeInsets.only(left: 26.0, right: 26.0),
+                padding: EdgeInsets.only(left: 26.0, right: 26.0, bottom: 12),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
@@ -117,15 +111,11 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Cancel',
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Cancel',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     TextButton(
@@ -147,15 +137,11 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                           Navigator.of(context).pop();
                         }
                       },
-                      child: Text(
-                        'Save',
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Save',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],
@@ -169,28 +155,20 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
-                child: Text(
-                  "Select a location for this job",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "Select a location for this job",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
-                child: Text(
-                  "You do ot have any locations saved to your collection.",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "You do ot have any locations saved to your collection.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               TextButton(
@@ -216,15 +194,11 @@ class _ChooseFromMyLocationsMileageState extends State<ChooseFromMyLocationsMile
                           UserOptionsUtil.showNewPriceProfileDialog(context);
                         },
                       ),
-                      Text(
-                        "Location",
+                      TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Location",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ],
                   ),

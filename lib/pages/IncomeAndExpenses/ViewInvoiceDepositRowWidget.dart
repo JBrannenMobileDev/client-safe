@@ -4,6 +4,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class ViewInvoiceDepositRowWidget extends StatelessWidget{
   final Invoice invoice;
   final Job job;
@@ -23,36 +25,27 @@ class ViewInvoiceDepositRowWidget extends StatelessWidget{
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(
-                  'Deposit  ',
+                TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Deposit  ',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w400,
-                    color: Color(
-                        ColorConstants.getPrimaryBlack()),
-                  ),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ],
             ),
           ),
-          Text(
-            (invoice.depositPaid
+          TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: (invoice.depositPaid
                 ? '-'
                 : '') + '\$' +
                 (job.depositAmount != null ? job.depositAmount.toInt().toString() : '0'),
             textAlign: TextAlign.start,
-            style: TextStyle(
-              fontSize: 24.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
-              color: Color(
-                  invoice.depositPaid
-                      ? ColorConstants.getPrimaryBlack()
-                      : ColorConstants
-                      .getPrimaryBackgroundGrey()),
-            ),
+            color: Color(
+                invoice.depositPaid
+                    ? ColorConstants.getPrimaryBlack()
+                    : ColorConstants
+                    .getPrimaryBackgroundGrey()),
           ),
         ],
       ),

@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../AppState.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/ColorConstants.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 import 'NewReminderActions.dart';
 import 'NewReminderPageState.dart';
@@ -45,15 +46,11 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                     children: <Widget>[
                       Container(
                         alignment: Alignment.center,
-                        child: Text(
-                          'What would you like to say in this reminder?',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'What would you like to say in this reminder?',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       DandyLightTextField(
@@ -62,7 +59,7 @@ class _ReminderDescriptionWidgetState extends State<ReminderDescriptionWidget> {
                         inputType: TextInputType.text,
                         focusNode: null,
                         onFocusAction: null,
-                        height: 132.0,
+                        height: 136.0,
                         onTextInputChanged: pageState.onReminderDescriptionChanged,
                         keyboardAction: TextInputAction.done,
                         capitalization: TextCapitalization.words,

@@ -16,6 +16,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class InvoiceReviewPage extends StatefulWidget {
 
   @override
@@ -41,29 +43,21 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               Container(
                 margin: EdgeInsets.only(bottom: 26.0),
                 alignment: Alignment.center,
-                child: Text(
-                  'Invoice review',
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Invoice review',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
                 margin: EdgeInsets.only(left: 16.0, bottom: 0.0),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'Line items',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Line items',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w800,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               LineItemListWidget(pageState, true),
@@ -78,15 +72,11 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
               pageState.dueDate != null ? Container(
                 margin: EdgeInsets.only(left: 16.0, bottom: 0.0),
                 alignment: Alignment.centerLeft,
-                child: Text(
-                  'Due date:   ' + DateFormat('MMM dd, yyyy').format(pageState.dueDate),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Due date:   ' + DateFormat('MMM dd, yyyy').format(pageState.dueDate),
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ) : SizedBox(),
               Expanded(
@@ -109,15 +99,11 @@ class _InvoiceReviewPageState extends State<InvoiceReviewPage> with AutomaticKee
                         children: <Widget>[
                           Image.asset(
                               'assets/images/icons/pdf_icon_white.png'),
-                          Text(
-                            'View PDF',
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'View PDF',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 22.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           )
                         ],
                       ),

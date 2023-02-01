@@ -1,12 +1,7 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPage.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,6 +9,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class StartJobPromptDialog extends StatefulWidget {
   @override
@@ -47,15 +43,11 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-                    child: Text(
-                      "Would you like to start a job for " + pageState.newContactFirstName + ' ' + pageState.newContactLastName + ' now ?',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Would you like to start a job for " + pageState.newContactFirstName + ' ' + pageState.newContactLastName + ' now ?',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Row(
@@ -66,7 +58,6 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                           pageState.onStartNewJobSelected();
                           pageState.onCancelPressed();//just clears the pageState for cleanup.
                           Navigator.of(context).pop();
-                          Navigator.of(context).pop();
                           UserOptionsUtil.showNewJobDialog(context);
                           EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start job Prompt"});
                         },
@@ -76,17 +67,13 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Color(ColorConstants.getPrimaryColor())
+                              color: Color(ColorConstants.getBlueDark())
                           ),
-                          child: Text(
-                            'YES',
+                          child: TextDandyLight(
+                            type: TextDandyLight.EXTRA_LARGE_TEXT,
+                            text: 'YES',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 36.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),
@@ -102,15 +89,11 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                               shape: BoxShape.circle,
                               color: Color(ColorConstants.getPeachDark())
                           ),
-                          child: Text(
-                            'NO',
+                          child: TextDandyLight(
+                            type: TextDandyLight.EXTRA_LARGE_TEXT,
+                            text: 'NO',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 36.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),

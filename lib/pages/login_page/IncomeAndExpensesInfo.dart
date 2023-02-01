@@ -12,6 +12,8 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class IncomeAndExpensesInfo extends StatefulWidget {
 
@@ -35,15 +37,11 @@ class _IncomeAndExpensesInfo extends State<IncomeAndExpensesInfo> {
               children: [
                 Container(
                   margin: EdgeInsets.only(bottom: 8),
-                  child: Text(
-                    'Income & Expenses',
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Income & Expenses',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 28.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
                 Container(
@@ -67,15 +65,11 @@ class _IncomeAndExpensesInfo extends State<IncomeAndExpensesInfo> {
                   ),
                 ),
                 Container(
-                  child: Text(
-                    'Automated income and expense tracking to make tax season a breeze.',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Automated income and expense tracking to make tax season a breeze.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryBlack()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
               ],

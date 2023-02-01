@@ -9,6 +9,7 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import '../new_job_types_page/DandyLightTextField.dart';
 import 'DandyLightSettingsTextField.dart';
 import 'PaymentRequestInfoPageActions.dart';
@@ -108,14 +109,10 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                       pinned: true,
                       centerTitle: true,
                       elevation: 0.0,
-                      title: Text(
-                          "Payment Link Info",
-                          style: TextStyle(
-                            fontSize: 26.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                      title: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                          text: "Payment Link Info",
+                        color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                     ),
                     SliverList(
@@ -123,15 +120,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                         <Widget>[
                           Container(
                             margin: EdgeInsets.only(left: 32.0, top: 16.0, right: 32.0, bottom: 16.0),
-                            child: Text(
-                              'Please select the payment services below that you use.  The provided payment information will be used to add a payment link to your DandyLight invoices.',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Please select the payment services below that you use.  The provided payment information will be used to add a payment link to your DandyLight invoices.',
                               textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                           Container(
@@ -146,15 +139,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Zelle',
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Zelle',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                     Device.get().isIos?
                                     CupertinoSwitch(
@@ -177,15 +166,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 ),
                                 pageState.zelleEnabled ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                                  child: Text(
-                                    'Please provide the mobile number or email associated with your Zelle account.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the mobile number or email associated with your Zelle account.',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
                                 pageState.zelleEnabled ? DandyLightSettingsTextField(
@@ -201,15 +186,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 ) : SizedBox(),
                                 pageState.zelleEnabled ? Container(
                                   margin: EdgeInsets.only(top: 24.0, bottom: 0.0),
-                                  child: Text(
-                                    'Please provide the full name associated with your Zelle account.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the full name associated with your Zelle account.',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
                                 pageState.zelleEnabled ? DandyLightSettingsTextField(
@@ -238,15 +219,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Venmo',
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Venmo',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                     Device.get().isIos?
                                     CupertinoSwitch(
@@ -269,15 +246,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 ),
                                 pageState.venmoEnabled ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                                  child: Text(
-                                    'Please provide the shareable payment link for your Venmo account.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the shareable payment link for your Venmo account.',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
                                 pageState.venmoEnabled ? DandyLightSettingsTextField(
@@ -306,15 +279,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Cash App',
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Cash App',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                     Device.get().isIos?
                                     CupertinoSwitch(
@@ -337,15 +306,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 ),
                                 pageState.cashAppEnabled ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                                  child: Text(
-                                    'Please provide the shareable payment link for your Cash App account.',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the shareable payment link for your Cash App account.',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
                                 pageState.cashAppEnabled ? DandyLightSettingsTextField(
@@ -374,15 +339,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text(
-                                      'Apple Pay',
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Apple Pay',
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 22.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryBlack()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryBlack()),
                                     ),
                                     Device.get().isIos?
                                     CupertinoSwitch(
@@ -405,15 +366,11 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                 ),
                                 pageState.applePayEnabled ? Container(
                                   margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                                  child: Text(
-                                    'Please provide the phone number associated with your Apple Pay',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'Please provide the phone number associated with your Apple Pay',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 18.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                    ),
+                                    color: Color(ColorConstants.getPrimaryBlack()),
                                   ),
                                 ) : SizedBox(),
                                 pageState.applePayEnabled ? DandyLightSettingsTextField(

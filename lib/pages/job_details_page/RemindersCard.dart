@@ -8,6 +8,7 @@ import 'package:flutter/widgets.dart';
 
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/UserOptionsUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../common_widgets/ClientSafeButton.dart';
 
 class RemindersCard extends StatelessWidget {
@@ -35,26 +36,21 @@ class RemindersCard extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 0.0),
-                      child: Text(
-                        'Reminders',
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Reminders',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                 ),
                 pageState.reminders.length > 0
                     ? ConstrainedBox(
                   constraints: BoxConstraints(
                     minHeight: 65.0,
-                    maxHeight: 335.0,
                   ),
                   child: ListView.builder(
                     reverse: false,
-                    padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
+                    padding: new EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 24.0),
                     shrinkWrap: true,
                     controller: _controller,
                     physics: ClampingScrollPhysics(),
@@ -67,15 +63,11 @@ class RemindersCard extends StatelessWidget {
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(left: 24.0, right: 24.0, top: 16.0, bottom: 16.0),
-                      child: Text(
-                        "You have not added any reminders to this job yet. Select the (+) icon to add a reminder.",
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: "You have not added any reminders to this job yet. Select the (+) icon to add a reminder.",
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],
@@ -114,17 +106,13 @@ class RemindersCard extends StatelessWidget {
                   Container(
                     width: MediaQuery.of(context).size.width - 130,
                     padding: EdgeInsets.only(left: 8.0),
-                    child: Text(
-                      jobReminder.reminder.description,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: jobReminder.reminder.description,
                       textAlign: TextAlign.start,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 3,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                 ],

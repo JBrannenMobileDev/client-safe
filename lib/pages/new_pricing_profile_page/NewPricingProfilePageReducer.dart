@@ -27,7 +27,7 @@ NewPricingProfilePageState _updateDepositAmount(NewPricingProfilePageState previ
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
   return previousState.copyWith(
-    deposit: doubleCost.toInt(),
+    deposit: doubleCost,
   );
 }
 
@@ -43,7 +43,7 @@ NewPricingProfilePageState _updateFlatRate(NewPricingProfilePageState previousSt
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
   return previousState.copyWith(
-    flatRate: doubleCost.toInt(),
+    flatRate: doubleCost,
   );
 }
 
@@ -61,7 +61,7 @@ NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previous
     profileName: action.profile.profileName,
     profileIcon: action.profile.icon,
     rateType: action.profile.rateType,
-    flatRate: action.profile.flatRate.toInt(),
+    flatRate: action.profile.flatRate,
   );
 }
 

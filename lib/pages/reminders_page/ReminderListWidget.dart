@@ -1,11 +1,11 @@
-import 'package:dandylight/models/Invoice.dart';
-import 'package:dandylight/models/PriceProfile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class ReminderListWidget extends StatelessWidget {
   final ReminderDandyLight reminder;
@@ -50,30 +50,22 @@ class ReminderListWidget extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             width: MediaQuery.of(context).size.width - 120,
-                            child: Text(
-                              reminder.description,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: reminder.description,
                               textAlign: TextAlign.start,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: textColor,
-                              ),
+                              color: textColor,
                             ),
                           ),
                           Container(
-                            child: Text(
-                              reminder.when == 'on' ? 'Day of shoot' :
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: reminder.when == 'on' ? 'Day of shoot' :
                               reminder.amount.toString() + ' ' + (reminder.amount == 1 ? reminder.daysWeeksMonths.substring(0, reminder.daysWeeksMonths.length - 1) : reminder.daysWeeksMonths) + ' ' + reminder.when,
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w400,
-                                color: textColor,
-                              ),
+                              color: textColor,
                             ),
                           ),
                         ],

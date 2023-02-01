@@ -5,6 +5,8 @@ import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../../widgets/TextDandyLight.dart';
+
 class NewJobClientListWidget extends StatelessWidget {
   final int clientIndex;
 
@@ -18,7 +20,7 @@ class NewJobClientListWidget extends StatelessWidget {
           TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(8.0),
+                borderRadius: new BorderRadius.circular(25.0),
               ),
               color: pageState.filteredClients.elementAt(clientIndex).documentId == pageState.selectedClient?.documentId ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Colors.transparent,
             ),
@@ -43,15 +45,11 @@ class NewJobClientListWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        pageState.filteredClients.elementAt(clientIndex).getClientFullName(),
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.filteredClients.elementAt(clientIndex).getClientFullName(),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ],
                   ),

@@ -5,6 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../../../widgets/TextDandyLight.dart';
 import 'LineChartMonthData.dart';
 
 
@@ -51,15 +52,11 @@ class BarChartState extends State<BarChartWidget> {
                   noData ? Container(
                     margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 16.0),
                     height: 65.0,
-                    child: Text(
-                      'No income data available. Receive payment to see income stats.',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'No income data available. Receive payment to see income stats.',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ) : SizedBox(),
                   Container(
@@ -155,18 +152,17 @@ class BarChartState extends State<BarChartWidget> {
               return BarTooltipItem(
                 weekDay + '\n',
                 TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.getPrimaryWhite()),
                 ),
                 children: <TextSpan>[
                   TextSpan(
                     text: NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format((rod.toY - 1) == 1 ? 0 : (rod.toY - 1)),
                     style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
+                      fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                      fontFamily: TextDandyLight.getFontFamily(),
                       color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                   ),
@@ -215,51 +211,59 @@ class BarChartState extends State<BarChartWidget> {
   }
 
   Widget getTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      fontSize: 20.0,
-      fontFamily: 'simple',
-      fontWeight: FontWeight.w400,
-      color: Color(ColorConstants.primary_black),
-    );
     Widget text;
     switch (value.toInt()) {
       case 0:
         DateTime currentMonth = DateTime.now();
         DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 5, currentMonth.day);
         String monthShort = _getMonthStringShort(resultMonth.month);
-        text = Text(monthShort, style: style);
+        text = TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: monthShort);
         break;
       case 1:
         DateTime currentMonth = DateTime.now();
         DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 4, currentMonth.day);
         String monthShort = _getMonthStringShort(resultMonth.month);
-        text = Text(monthShort, style: style);
+        text = TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: monthShort);
         break;
       case 2:
         DateTime currentMonth = DateTime.now();
         DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 3, currentMonth.day);
         String monthShort = _getMonthStringShort(resultMonth.month);
-        text = Text(monthShort, style: style);
+        text = TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: monthShort);
         break;
       case 3:
         DateTime currentMonth = DateTime.now();
         DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 2, currentMonth.day);
         String monthShort = _getMonthStringShort(resultMonth.month);
-        text = Text(monthShort, style: style);
+        text = TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: monthShort);
         break;
       case 4:
         DateTime currentMonth = DateTime.now();
         DateTime resultMonth = DateTime(currentMonth.year, currentMonth.month - 1, currentMonth.day);
         String monthShort = _getMonthStringShort(resultMonth.month);
-        text = Text(monthShort, style: style);
+        text = TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: monthShort);
         break;
       case 5:
         DateTime currentMonth = DateTime.now();
         String monthShort = _getMonthStringShort(currentMonth.month);
-        text = Text(monthShort, style: style);
+        text = TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: monthShort);
         break;
       default:
-        text = Text('', style: style);
+        text = TextDandyLight(
+            type: TextDandyLight.MEDIUM_TEXT,
+            text: '');
         break;
     }
     return SideTitleWidget(

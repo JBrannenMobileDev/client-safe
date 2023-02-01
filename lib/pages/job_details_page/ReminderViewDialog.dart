@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class ReminderViewDialog extends StatefulWidget {
   ReminderViewDialog({this.jobReminder});
 
@@ -50,16 +52,12 @@ class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticK
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
-                      child: Text(
-                        'Job Reminder',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Job Reminder',
                         textAlign: TextAlign.center,
                         maxLines: 4,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w700,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Container(
@@ -76,32 +74,24 @@ class _ReminderViewDialogState extends State<ReminderViewDialog> with AutomaticK
                         children: [
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            child: Text(
-                              jobReminder.reminder.description,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: jobReminder.reminder.description,
                               textAlign: TextAlign.start,
                               maxLines: 4,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           Container(
                             margin: EdgeInsets.only(top: 4.0),
                             width: MediaQuery.of(context).size.width,
-                            child: Text(
-                              jobReminder.reminder.when == 'on' ? 'Day of shoot' :
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: jobReminder.reminder.when == 'on' ? 'Day of shoot' :
                               jobReminder.reminder.amount.toString() + ' ' + (jobReminder.reminder.amount == 1 ? jobReminder.reminder.daysWeeksMonths.substring(0, jobReminder.reminder.daysWeeksMonths.length - 1) : jobReminder.reminder.daysWeeksMonths) + ' ' + jobReminder.reminder.when,
                               textAlign: TextAlign.start,
                               maxLines: 4,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w400,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           )
                         ],

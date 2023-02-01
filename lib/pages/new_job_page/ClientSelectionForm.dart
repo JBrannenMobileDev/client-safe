@@ -13,6 +13,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_contact_pages/NewContactPageState.dart';
 
 class ClientSelectionForm extends StatefulWidget {
@@ -53,22 +54,18 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Text(
-                  "Who is this job for?",
+                TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "Who is this job for?",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 16, bottom: 4.0),
+                  margin: EdgeInsets.only(top: 16, bottom: 8.0),
                   height: 54.0,
                   width: 200,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(27),
                     color: Color(ColorConstants.getBlueDark()),
                   ),
                   child: TextButton(
@@ -76,25 +73,20 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                       UserOptionsUtil.showNewContactDialog(context, true);
                       EventSender().sendEvent(eventName: EventNames.BT_ADD_NEW_CONTACT, properties: {EventNames.CONTACT_PARAM_COMING_FROM : "New Job Page"});
                     },
-                    child: Text(
-                      'Add New Contact',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Add New Contact',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                      ),
+                      color: Color(ColorConstants.getPrimaryWhite()),
                     ),
                   ),
                 ),
-                Text(
-                  'Or',
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
+                Container(
+                  margin: EdgeInsets.only(bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Or',
+                    textAlign: TextAlign.start,
                     color: Color(ColorConstants.primary_black),
                   ),
                 ),

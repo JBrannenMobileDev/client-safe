@@ -11,6 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'NewContactTextField.dart';
 
 class NameAndGender extends StatefulWidget {
@@ -61,7 +62,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     IconButton(
                       icon: Icon(
                         Icons.close,
-                        color: Color(ColorConstants.getPrimaryColor()),
+                        color: Color(ColorConstants.getPeachDark()),
                       ),
                       tooltip: 'Cancel',
                       onPressed: () => {
@@ -79,14 +80,14 @@ class _NameAndGenderState extends State<NameAndGender>
                         height: 45.0,
                         child: TextField(
                           style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
+                              fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                              fontFamily: TextDandyLight.getFontFamily(),
+                              fontWeight: TextDandyLight.getFontWeight(),
                               color: Color(ColorConstants.primary_black)),
                           textInputAction: TextInputAction.go,
                           maxLines: 1,
                           autofocus: true,
-                          cursorColor: Color(ColorConstants.getPrimaryColor()),
+                          cursorColor: Color(ColorConstants.getBlueDark()),
                           controller: searchTextController,
                           onChanged: (text) {
                             pageState.onContactSearchTextChanged(text);
@@ -95,23 +96,23 @@ class _NameAndGenderState extends State<NameAndGender>
                             alignLabelWithHint: true,
                             hintText: "Name",
                             labelStyle: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
+                                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                fontFamily: TextDandyLight.getFontFamily(),
+                                fontWeight: TextDandyLight.getFontWeight(),
                                 color: Color(ColorConstants.primary_black)),
                             fillColor: Colors.white,
                             contentPadding: EdgeInsets.all(10.0),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
-                                color: Color(ColorConstants.getPrimaryColor()),
+                                color: Color(ColorConstants.getBlueDark()),
                                 width: 1.0,
                               ),
                             ),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25.0),
                               borderSide: BorderSide(
-                                color: Color(ColorConstants.getPrimaryColor()),
+                                color: Color(ColorConstants.getBlueLight()),
                                 width: 1.0,
                               ),
                             ),
@@ -153,15 +154,11 @@ class _NameAndGenderState extends State<NameAndGender>
                         icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid, color: Color(ColorConstants.getPeachDark()),) : Icon(Icons.people, color: Color(ColorConstants.getPeachDark())),
                         tooltip: 'Search',
                       ),
-                      Text(
-                        "Import Device Contact",
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: "Import Device Contact",
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.getPeachDark()),
-                        ),
+                        color: Color(ColorConstants.getPeachDark()),
                       ),
                     ],
                   ),
@@ -179,7 +176,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     TextCapitalization.words,
                     null,
                     true,
-                  ColorConstants.getPrimaryColor(),
+                    ColorConstants.getBlueLight(),
                 ),
                 NewContactTextField(
                     lastNameTextController,
@@ -194,7 +191,7 @@ class _NameAndGenderState extends State<NameAndGender>
                     TextCapitalization.words,
                     null,
                     true,
-                  ColorConstants.getPrimaryColor(),
+                  ColorConstants.getBlueLight(),
                 )
               ],
             ),

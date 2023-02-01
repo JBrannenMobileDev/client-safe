@@ -6,6 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewReminderListWidget extends StatelessWidget {
   final ReminderDandyLight reminder;
   final NewJobReminderPageState pageState;
@@ -57,29 +59,21 @@ class NewReminderListWidget extends StatelessWidget {
                         children: <Widget>[
                           Container(
                             width: MediaQuery.of(context).size.width - 130,
-                            child: Text(
-                              reminder.description,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: reminder.description,
                               textAlign: TextAlign.start,
                               maxLines: 2,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: textColor,
-                              ),
+                              color: textColor,
                             ),
                           ),
                           Container(
-                            child: Text(
-                              reminder.when == 'on' ? 'Day of shoot' :
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: reminder.when == 'on' ? 'Day of shoot' :
                               reminder.amount.toString() + ' ' + (reminder.amount == 1 ? reminder.daysWeeksMonths.substring(0, reminder.daysWeeksMonths.length - 1) : reminder.daysWeeksMonths) + ' ' + reminder.when,
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w400,
-                                color: textColor,
-                              ),
+                              color: textColor,
                             ),
                           ),
                         ],

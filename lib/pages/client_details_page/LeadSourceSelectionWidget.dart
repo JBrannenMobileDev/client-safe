@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../../AppState.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_contact_pages/NewContactPageState.dart';
 import '../new_contact_pages/NewContactTextField.dart';
 
@@ -52,15 +53,11 @@ class LeadSourceSelectionWidget extends StatelessWidget {
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
-                        child: Text(
-                          'Cancel',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Cancel',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       TextButton(
@@ -68,30 +65,22 @@ class LeadSourceSelectionWidget extends StatelessWidget {
                           modalPageState.onSaveLeadSourceSelected();
                           Navigator.of(context).pop();
                         },
-                        child: Text(
-                          'Save',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Save',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
                   )),
               Container(
                 margin: EdgeInsets.only(top: 0, bottom: 32.0),
-                child: Text(
-                  'Select a lead source',
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Select a lead source',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               GridView.builder(
@@ -143,16 +132,11 @@ class LeadSourceSelectionWidget extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Text(
-                            ImageUtil.getLeadSourceText(
-                                leadSourceIconsWhite.elementAt(index)),
+                          TextDandyLight(
+                            type: TextDandyLight.EXTRA_SMALL_TEXT,
+                            text: ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ],
                       ),

@@ -31,7 +31,14 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetShowNewMileageExpensePageAction>(_setMileageExpenseEvent),
   TypedReducer<DashboardPageState, SetJobTypeChartData>(_setJobTypesChartData),
   TypedReducer<DashboardPageState, SetProfileDashboardAction>(_setProfile),
+  TypedReducer<DashboardPageState, SetSubscriptionStateAction>(_setSubscriptionState),
 ]);
+
+DashboardPageState _setSubscriptionState(DashboardPageState previousState, SetSubscriptionStateAction action) {
+  return previousState.copyWith(
+    subscriptionState: action.subscriptionState,
+  );
+}
 
 DashboardPageState _setProfile(DashboardPageState previousState, SetProfileDashboardAction action) {
   return previousState.copyWith(

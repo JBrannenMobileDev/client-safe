@@ -2,22 +2,9 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/JobSelectionForTip.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/TipChangePage.dart';
-import 'package:dandylight/pages/new_invoice_page/BalanceDueWidget.dart';
-import 'package:dandylight/pages/new_invoice_page/DepositRowWidget.dart';
-import 'package:dandylight/pages/new_invoice_page/DiscountRowWidget.dart';
-import 'package:dandylight/pages/new_invoice_page/DueDateSelectionPage.dart';
-import 'package:dandylight/pages/new_invoice_page/GrayDividerWidget.dart';
 import 'package:dandylight/pages/new_invoice_page/InputDoneViewNewInvoice.dart';
-import 'package:dandylight/pages/new_invoice_page/InvoiceReviewPage.dart';
-import 'package:dandylight/pages/new_invoice_page/JobSelectionForm.dart';
-import 'package:dandylight/pages/new_invoice_page/LineItemListWidget.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
-import 'package:dandylight/pages/new_invoice_page/PriceBreakdownForm.dart';
-import 'package:dandylight/pages/new_invoice_page/SubtotalRowWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class AddTipDialog extends StatefulWidget {
 
@@ -101,15 +89,11 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                               onPressed: () {
                                 onBackPressed(pageState);
                               },
-                              child: Text(
-                                pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.pageViewIndex == 0 ? 'Cancel' : 'Back',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             TextButton(
@@ -117,17 +101,13 @@ class _AddTipDialogState extends State<AddTipDialog> with AutomaticKeepAliveClie
                               onPressed: () {
                                 onNextPressed(pageState);
                               },
-                              child: Text(
-                                pageState.pageViewIndex == pageCount - 1
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.pageViewIndex == pageCount - 1
                                     ? 'Save'
                                     : 'Next',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

@@ -2,15 +2,14 @@
 import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/MileageExpenseItem.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/TextFormatterUtil.dart';
+import 'package:dandylight/utils/NumberConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class MileageExpensesCard extends StatelessWidget {
   MileageExpensesCard({this.pageState});
@@ -34,22 +33,18 @@ class MileageExpensesCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(20.0, pageState.mileageExpensesForSelectedYear.length > 3 ? 4 : 16.0, 8.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        'Mileage Deduction (' + pageState.selectedYear.toString() + ')',
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Mileage Deduction (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                       pageState.mileageExpensesForSelectedYear != null && pageState.mileageExpensesForSelectedYear.length > 3 ? TextButton(
-                        style: Styles.getButtonStyle(),
+                        style: Styles.getButtonStyle(top: 0),
                         onPressed: () {
                           pageState.onViewAllExpensesSelected(0);
                           Navigator.of(context).push(
@@ -58,14 +53,10 @@ class MileageExpensesCard extends StatelessWidget {
                         },
                         child: Container(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            'View all(' + pageState.mileageExpensesForSelectedYear.length.toString() + ')',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'View all(' + pageState.mileageExpensesForSelectedYear.length.toString() + ')',
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ) : SizedBox(),
@@ -77,18 +68,17 @@ class MileageExpensesCard extends StatelessWidget {
                   children: [
                     Container(
                       alignment: Alignment.center,
-                      child: DandyLightTextWidget(
+                      child: TextDandyLight(
+                        type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                         amount: pageState.mileageExpensesForSelectedYearTotal,
-                        textSize: 48.0,
-                        textColor: Color(ColorConstants.getPeachDark()),
-                        fontWeight: FontWeight.w600,
+                        color: Color(ColorConstants.getPeachDark()),
                         isCurrency: true,
                         decimalPlaces: 0,
                       ),
                     ),
                     Container(
                       width: 264.0,
-                      margin: EdgeInsets.only(top: 0.0, bottom: 16.0),
+                      margin: EdgeInsets.only(top: 0.0, bottom: 0.0),
                       padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,25 +91,20 @@ class MileageExpensesCard extends StatelessWidget {
                                 child: Row(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    DandyLightTextWidget(
+                                    TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
                                       amount: pageState.totalMilesDriven,
-                                      textSize: 26.0,
-                                      textColor: Color(ColorConstants.getPrimaryBlack()),
-                                      fontWeight: FontWeight.w600,
-                                      isCurrency: false,
+                                      color: Color(ColorConstants.getPeachDark()),
+                                      isNumber: true,
                                       decimalPlaces: 1,
                                     ),
                                     Container(
                                       padding: EdgeInsets.only(bottom: 2.0),
-                                      child: Text(
-                                        ' miles driven',
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: ' miles driven',
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 20.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.primary_black),
-                                        ),
+                                        color: Color(ColorConstants.getPeachDark()),
                                       ),
                                     ),
                                   ],
@@ -133,24 +118,20 @@ class MileageExpensesCard extends StatelessWidget {
                               Row(
 
                                 children: [
-                                  DandyLightTextWidget(
-                                    amount: 0.575,
-                                    textSize: 26.0,
-                                    textColor: Color(ColorConstants.getPrimaryBlack()),
-                                    fontWeight: FontWeight.w600,
+                                  TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    amount: NumberConstants.TAX_MILEAGE_DEDUCTION_RATE,
+                                    color: Color(ColorConstants.getPeachDark()),
                                     isCurrency: true,
+                                    decimalPlaces: 3,
                                   ),
                                   Container(
                                     margin: EdgeInsets.only(top: 3.0),
-                                    child: Text(
-                                      '/mi',
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: '/mi',
                                       textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.primary_black),
-                                      ),
+                                      color: Color(ColorConstants.getPeachDark()),
                                     ),
                                   ),
                                 ],
@@ -163,7 +144,7 @@ class MileageExpensesCard extends StatelessWidget {
                   ],
                 ) : SizedBox(),
                 pageState.mileageExpensesForSelectedYear.length > 0 ? ListView.builder(
-                  padding: EdgeInsets.only(top:16.0, bottom: 16.0),
+                  padding: EdgeInsets.only(top:16.0, bottom: 0.0),
                   reverse: false,
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
@@ -174,15 +155,11 @@ class MileageExpensesCard extends StatelessWidget {
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 26.0, right: 26.0),
                   height: 64.0,
-                  child: Text(
-                    'You have not added any trips yet. Select the + button to add a trip. ',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'You have not added any trips yet. Select the + button to add a trip. ',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
               ],
@@ -203,15 +180,15 @@ class MileageExpensesCard extends StatelessWidget {
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 175.0;
+      return 186.0;
     }else if(length == 1) {
-      return 300.0;
+      return 261.0;
     }else if(length == 2) {
-      return 375.0;
+      return 336.0;
     }else if(length == 3) {
-      return 450.0;
+      return 412.0;
     }else {
-      return 470.0;
+      return 432.0;
     }
   }
 

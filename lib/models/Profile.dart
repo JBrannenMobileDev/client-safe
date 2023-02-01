@@ -1,4 +1,6 @@
 
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
+
 class Profile{
   int id;
   String uid;
@@ -25,6 +27,8 @@ class Profile{
   bool showRequestPaymentLinksDialog = true;
   bool hasSeenShowcase = false;
   bool hasSeenIncomeInfo = false;
+  bool isBetaTester = false;
+  DateTime accountCreatedDate;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
   DateTime invoicesLastChangeDate;
@@ -88,6 +92,8 @@ class Profile{
     this.responsesLastChangeDate,
     this.hasSeenShowcase,
     this.hasSeenIncomeInfo,
+    this.isBetaTester,
+    this.accountCreatedDate,
   });
 
   Profile copyWith({
@@ -115,6 +121,7 @@ class Profile{
     bool showRequestPaymentLinksDialog,
     bool hasSeenShowcase,
     bool hasSeenIncomeInfo,
+    bool isBetaTester,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -134,6 +141,7 @@ class Profile{
     DateTime posesLastChangeDate,
     DateTime poseGroupsLastChangeDate,
     DateTime responsesLastChangeDate,
+    DateTime accountCreatedDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -174,11 +182,13 @@ class Profile{
       venmoLink: venmoLink ?? this.venmoLink,
       cashAppLink: cashAppLink ?? this.cashAppLink,
       applePayPhone: applePayPhone ?? this.applePayPhone,
+      isBetaTester: isBetaTester ?? this.isBetaTester,
       termsOfServiceAndPrivacyPolicyChecked: termsOfServiceAndPrivacyPolicyChecked ?? this.termsOfServiceAndPrivacyPolicyChecked,
       showRequestPaymentLinksDialog: showRequestPaymentLinksDialog ?? this.showRequestPaymentLinksDialog,
       responsesLastChangeDate: responsesLastChangeDate ?? this.responsesLastChangeDate,
       hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
       hasSeenIncomeInfo: hasSeenIncomeInfo ?? this.hasSeenIncomeInfo,
+      accountCreatedDate: accountCreatedDate ?? this.accountCreatedDate,
     );
   }
 
@@ -207,6 +217,7 @@ class Profile{
       'calendarEnabled' : calendarEnabled,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
       'hasSeenShowcase' : hasSeenShowcase ?? false,
+      'isBetaTester' : isBetaTester ?? false,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -226,6 +237,7 @@ class Profile{
       'posesLastChangeDate' : posesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'poseGroupsLastChangeDate' : poseGroupsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'responsesLastChangeDate' : responsesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
     };
@@ -254,6 +266,7 @@ class Profile{
       salesTaxRate: map['salesTaxRate'],
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
       hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
+      isBetaTester: map['isBetaTester'] != null ? map['isBetaTester'] : false,
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
@@ -275,6 +288,7 @@ class Profile{
       posesLastChangeDate: map['posesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['posesLastChangeDate']) : null,
       poseGroupsLastChangeDate: map['poseGroupsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseGroupsLastChangeDate']) : null,
       responsesLastChangeDate: map['responsesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['responsesLastChangeDate']) : null,
+      accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1), 
     );
   }
 
@@ -296,5 +310,12 @@ class Profile{
     }
     if(!alreadyExists) deviceTokens.add(deviceToken);
     return !alreadyExists;
+  }
+
+  bool isFreeTrialExpired() {
+    bool expired = false;
+    DateTime expirationDate = accountCreatedDate.add(Duration(days: 14));
+    if(DateTime.now().isAfter(expirationDate)) return true;
+    return expired;
   }
 }

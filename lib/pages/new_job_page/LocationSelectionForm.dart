@@ -2,14 +2,12 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
 import 'package:dandylight/pages/new_job_page/widgets/JobLocationListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../../utils/NavigationUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class LocationSelectionForm extends StatefulWidget {
   @override
@@ -38,27 +36,20 @@ class _LocationSelectionFormState
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: 0.0),
-                    child: Text(
-                      "Select a location for this job.",
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Select a location for this job.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(bottom: 0.0),
-                    child: Text(pageState.selectedLocation != null ? pageState.selectedLocation.locationName : pageState.oneTimeLocation != null ? pageState.oneTimeLocation.locationName : "",
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: pageState.selectedLocation != null ? pageState.selectedLocation.locationName : pageState.oneTimeLocation != null ? pageState.oneTimeLocation.locationName : "",
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 22.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryColor()),
-                      ),
+                      color: Color(ColorConstants.getBlueDark()),
                     ),
                   ),
                   ConstrainedBox(
@@ -89,28 +80,20 @@ class _LocationSelectionFormState
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
-                    child: Text(
-                      "Select a location for this job",
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "Select a location for this job",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
-                    child: Text(
-                      "You don't have any locations saved to your collection. Select the + icon to create a new location.",
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: "You don't have any locations saved to your collection. Select the + icon to create a new location.",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                 ],

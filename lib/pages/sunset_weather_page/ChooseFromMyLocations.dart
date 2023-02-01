@@ -1,10 +1,4 @@
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/JobLocationListWidget.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationTextField.dart';
-import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherLocationListWidget.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -14,8 +8,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 
 class ChooseFromMyLocations extends StatefulWidget {
@@ -51,30 +45,22 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                child: Text(
-                  "Select a Location",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "Select a Location",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(bottom: 8.0),
-                child: Text(
-                  pageState.selectedLocation != null
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: pageState.selectedLocation != null
                       ? pageState.selectedLocation.locationName
                       : "",
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 22.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.getPrimaryColor()),
-                  ),
+                  color: Color(ColorConstants.getPrimaryColor()),
                 ),
               ),
               Container(
@@ -115,15 +101,11 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Cancel',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Cancel',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     TextButton(
@@ -144,15 +126,11 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                         Navigator.of(context).pop();
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Save',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Save',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],
@@ -166,28 +144,20 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(bottom: 16.0, top: 8.0),
-                child: Text(
-                  "Select a location for this job",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "Select a location for this job",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Padding(
                 padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32.0, top: 16.0),
-                child: Text(
-                  "You do not have any locations saved to your collection. Select the + Location button to create a new location.",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "You do not have any locations saved to your collection. Select the + Location button to create a new location.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               TextButton(
@@ -213,15 +183,11 @@ class _ChooseFromMyLocationsState extends State<ChooseFromMyLocations>
                           UserOptionsUtil.showNewPriceProfileDialog(context);
                         },
                       ),
-                      Text(
-                        "Location",
+                      TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Location",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w400,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ],
                   ),

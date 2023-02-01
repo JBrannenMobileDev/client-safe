@@ -17,13 +17,8 @@ class Styles {
       backgroundColor: color,
       padding: EdgeInsets.fromLTRB(left, top, right, bottom),
       shape: shape,
-      primary: color,
-      textStyle: TextStyle(
-      fontSize: 20.0,
-      fontFamily: 'simple',
-      fontWeight: FontWeight.w600,
-      color: Color(ColorConstants.primary_black),
-      ),
+      foregroundColor: color,
+      splashFactory: NoSplash.splashFactory,
     );
   }
 }

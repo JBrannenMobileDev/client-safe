@@ -7,6 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../../widgets/TextDandyLight.dart';
+
 class NewJobTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -41,6 +43,7 @@ class NewJobTextField extends StatelessWidget {
       builder: (BuildContext context, NewJobPageState pageState) => Container(
           margin: EdgeInsets.only(top: 8.0, bottom: 0.0),
           height: height,
+          color: Colors.transparent,
           child: TextFormField(
             focusNode: focusNode,
             textInputAction: keyboardAction,
@@ -52,47 +55,47 @@ class NewJobTextField extends StatelessWidget {
             onFieldSubmitted: (term) {
               onFocusAction();
             },
-            cursorColor: Color(ColorConstants.getPrimaryColor()),
+            cursorColor: Color(ColorConstants.getBlueDark()),
             decoration: InputDecoration(
               alignLabelWithHint: true,
               labelText: hintText,
               labelStyle: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.primary_black)),
               hintText: hintText,
               hintStyle: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
                   color: Color(ColorConstants.primary_black)),
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
@@ -101,9 +104,9 @@ class NewJobTextField extends StatelessWidget {
             textCapitalization: capitalization,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: TextStyle(
-              fontSize: 20.0,
-              fontFamily: 'simple',
-              fontWeight: FontWeight.w600,
+              fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+              fontFamily: TextDandyLight.getFontFamily(),
+              fontWeight: TextDandyLight.getFontWeight(),
               color: Color(ColorConstants.primary_black),
             ),
           )),

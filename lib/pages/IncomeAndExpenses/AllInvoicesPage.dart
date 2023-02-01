@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class AllInvoicesPage extends StatefulWidget {
   static const String FILTER_TYPE_UNPAID = "Unpaid";
   static const String FILTER_TYPE_PAID = "Paid";
@@ -28,51 +30,39 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
   @override
   Widget build(BuildContext context) {
     filterNames = <int, Widget>{
-      0: Text(
-        AllInvoicesPage.FILTER_TYPE_UNPAID,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 0
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),
+      0: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: AllInvoicesPage.FILTER_TYPE_UNPAID,
+        color: Color(selectorIndex == 0
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
       ),
-      1: Text(AllInvoicesPage.FILTER_TYPE_PAID,
-        style: TextStyle(
-          fontFamily: 'simple',
-          fontSize: 20.0,
-          fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-          color: Color(selectorIndex == 1
-              ? ColorConstants.getPrimaryWhite()
-              : ColorConstants.getPrimaryBlack()),
-        ),),
+      1: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: AllInvoicesPage.FILTER_TYPE_PAID,
+        color: Color(selectorIndex == 1
+            ? ColorConstants.getPrimaryWhite()
+            : ColorConstants.getPrimaryBlack()),
+      ),
     };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
         onInit: (store) {
           selectorIndex = store.state.incomeAndExpensesPageState.allInvoicesFilterType == AllInvoicesPage.FILTER_TYPE_UNPAID ? 0 : 1;
           filterNames = <int, Widget>{
-            0: Text(
-              AllInvoicesPage.FILTER_TYPE_UNPAID,
-              style: TextStyle(
-                fontFamily: 'simple',
-                fontSize: 20.0,
-                fontWeight: selectorIndex == 0 ? FontWeight.w800 : FontWeight.w600,
-                color: Color(selectorIndex == 0
-                    ? ColorConstants.getPrimaryWhite()
-                    : ColorConstants.getPrimaryBlack()),
-              ),
+            0: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: AllInvoicesPage.FILTER_TYPE_UNPAID,
+              color: Color(selectorIndex == 0
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
             ),
-            1: Text(AllInvoicesPage.FILTER_TYPE_PAID,
-              style: TextStyle(
-                fontFamily: 'simple',
-                fontSize: 20.0,
-                fontWeight: selectorIndex == 1 ? FontWeight.w800 : FontWeight.w600,
-                color: Color(selectorIndex == 1
-                    ? ColorConstants.getPrimaryWhite()
-                    : ColorConstants.getPrimaryBlack()),
-              ),),
+            1: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: AllInvoicesPage.FILTER_TYPE_PAID,
+              color: Color(selectorIndex == 1
+                  ? ColorConstants.getPrimaryWhite()
+                  : ColorConstants.getPrimaryBlack()),
+            ),
           };
           store.dispatch(FetchClientData(store.state.clientsPageState));
         },
@@ -90,14 +80,10 @@ class _AllInvoicesPageState extends State<AllInvoicesPage> {
                         pinned: true,
                         centerTitle: true,
                         title: Center(
-                          child: Text(
-                            "All Invoices",
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.w600,
-                              color: const Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: "All Invoices",
+                            color: const Color(ColorConstants.primary_black),
                           ),
                         ),
                         actions: <Widget>[

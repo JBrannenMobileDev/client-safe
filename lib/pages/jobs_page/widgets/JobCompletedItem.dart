@@ -1,14 +1,13 @@
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 import '../../../utils/styles/Styles.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class JobCompletedItem extends StatelessWidget{
   final Job job;
@@ -48,26 +47,18 @@ class JobCompletedItem extends StatelessWidget{
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 4.0),
-                      child: Text(
-                        job.jobTitle,
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: job.jobTitle,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w800,
-                          color: Color(ColorConstants.primary_black),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.getJobCost()),
-                      textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w400,
                         color: Color(ColorConstants.primary_black),
                       ),
+                    ),
+                    TextDandyLight(
+                      type: TextDandyLight.SMALL_TEXT,
+                      text: NumberFormat.simpleCurrency(name: 'USD', decimalDigits: 0).format(job.getJobCost()),
+                      textAlign: TextAlign.start,
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ],
                 ),

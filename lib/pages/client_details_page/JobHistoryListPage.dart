@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../models/JobStage.dart';
 import '../../../utils/JobUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'ClientDetailsPageState.dart';
 
 class JobHistoryListPage extends StatelessWidget{
@@ -34,14 +35,10 @@ class JobHistoryListPage extends StatelessWidget{
                 floating: false,
                 forceElevated: false,
                 centerTitle: true,
-                title: Text(
-                  'Job History',
-                  style: TextStyle(
-                    fontSize: 26.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: const Color(ColorConstants.primary_black),
-                  ),
+                title: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Job History',
+                  color: const Color(ColorConstants.primary_black),
                 ),
                 leading: IconButton(
                   icon: const Icon(Icons.close),

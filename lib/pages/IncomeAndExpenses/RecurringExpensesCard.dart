@@ -1,12 +1,12 @@
 import 'package:dandylight/pages/IncomeAndExpenses/AllExpensesPage.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseItem.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 
 class RecurringExpensesCard extends StatelessWidget{
@@ -33,19 +33,15 @@ class RecurringExpensesCard extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Container(
-                  margin: EdgeInsets.fromLTRB(16.0, 16.0, 0.0, 8.0),
+                  margin: EdgeInsets.fromLTRB(16.0, pageState.recurringExpensesForSelectedYear.length > 3 ? 4 : 16.0, 0.0, 8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        'Recurring Expenses (' + pageState.selectedYear.toString() + ')',
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Recurring Expenses (' + pageState.selectedYear.toString() + ')',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                       pageState.recurringExpensesForSelectedYear != null && pageState.recurringExpensesForSelectedYear.length > 3 ? TextButton(
                         style: Styles.getButtonStyle(),
@@ -57,14 +53,10 @@ class RecurringExpensesCard extends StatelessWidget{
                         },
                         child: Container(
                           alignment: Alignment.centerRight,
-                          child: Text(
-                            'View all(' + pageState.recurringExpensesForSelectedYear.length.toString() + ')',
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'View all(' + pageState.recurringExpensesForSelectedYear.length.toString() + ')',
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                       ) : SizedBox(),
@@ -74,11 +66,10 @@ class RecurringExpensesCard extends StatelessWidget{
                 pageState.recurringExpensesForSelectedYear.length > 0 ? Container(
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 8.0),
-                  child: DandyLightTextWidget(
+                  child: TextDandyLight(
+                    type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                       amount: pageState.recurringExpensesForSelectedYearTotal,
-                      textSize: 48.0,
-                      textColor: Color(ColorConstants.getPeachDark()),
-                      fontWeight: FontWeight.w600,
+                      color: Color(ColorConstants.getPeachDark()),
                       isCurrency: true,
                       decimalPlaces: 0,
                     ),
@@ -95,15 +86,11 @@ class RecurringExpensesCard extends StatelessWidget{
                   alignment: Alignment.center,
                   margin: EdgeInsets.only(top: 0.0, bottom: 26.0, left: 16.0, right: 16.0),
                   height: 64.0,
-                  child: Text(
-                    'You have zero recurring expenses.',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'You have zero recurring expenses.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
               ],
@@ -124,15 +111,15 @@ class RecurringExpensesCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 178.0;
+      return 160.0;
     }else if(length == 1) {
-      return 246.0;
+      return 240.0;
     }else if(length == 2) {
-      return 330.0;
+      return 314.0;
     }else if(length == 3) {
-      return 395.0;
+      return 388.0;
     }else {
-      return 414.0;
+      return 403;
     }
   }
 

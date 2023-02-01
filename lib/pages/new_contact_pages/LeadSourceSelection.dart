@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
 import 'NewContactTextField.dart';
 
 class LeadSourceSelection extends StatefulWidget {
@@ -44,17 +45,13 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
           children: <Widget>[
             Container(
               margin: EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                "How did " +
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: "How did " +
                     pageState.newContactFirstName +
                     " hear about your business?",
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             GridView.builder(
@@ -97,22 +94,18 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                             ),
                           ],
                         ),
-                        Text(
-                          ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
+                        TextDandyLight(
+                          type: TextDandyLight.EXTRA_SMALL_TEXT,
+                          text: ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w400,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ],
                     ),
                   );
                 }),
             Container(
-              height: 84.0,
+
               child: pageState.leadSource == 'assets/images/icons/email_icon_white.png' ? NewContactTextField(
                   customLeadController,
                   "Custom Name",
@@ -126,7 +119,7 @@ class _LeadSourceSelection extends State<LeadSourceSelection>
                   TextCapitalization.words,
                   null,
                   true,
-                ColorConstants.getPrimaryColor(),
+                ColorConstants.getBlueLight(),
               ) : SizedBox(),
             ),
           ],

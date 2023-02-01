@@ -1,19 +1,15 @@
-import 'dart:async';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
-import 'package:dandylight/widgets/login_animations/TranslationImage.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class SuggestionsPage extends StatefulWidget {
 
@@ -47,27 +43,19 @@ class _SuggestionsPageState extends State<SuggestionsPage>
                     backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                     centerTitle: true,
                     elevation: 0.0,
-                    title: Text(
-                      "Suggestions",
-                      style: TextStyle(
-                        fontSize: 26.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
+                    title: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: "Suggestions",
+                      color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 16.0),
                     alignment: Alignment.topCenter,
-                    child: Text(
-                      'Thank you for using DandyLight. We are always striving to improve what we offer to you.\n\n We would be happy to consider any feedback you might have. Thank you!',
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.getPrimaryBlack()),
-                      ),
+                    child: TextDandyLight(
+                      type: TextDandyLight.EXTRA_SMALL_TEXT,
+                      text: 'Thank you for using DandyLight. We are always striving to improve what we offer to you.\n\n We would be happy to consider any feedback you might have. Thank you!',
+                      color: Color(ColorConstants.getPrimaryBlack()),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -113,15 +101,11 @@ class _SuggestionsPageState extends State<SuggestionsPage>
                       decoration: BoxDecoration(
                           color: Color(ColorConstants.getBlueDark()),
                           borderRadius: BorderRadius.circular(32.0)),
-                      child: Text(
-                        'Save',
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: 'Save',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   )

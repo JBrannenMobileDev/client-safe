@@ -16,6 +16,8 @@ import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../../widgets/TextDandyLight.dart';
+
 class JobLocationListWidget extends StatelessWidget {
   final int locationIndex;
 
@@ -93,15 +95,11 @@ class JobLocationListWidget extends StatelessWidget {
           Center(
             child: Container(
               margin: EdgeInsets.only(top: 4.0),
-              child: Text(
-                pageState.locations.elementAt(locationIndex).locationName,
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: pageState.locations.elementAt(locationIndex).locationName,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'simple',
-                  color: const Color(ColorConstants.primary_black),
-                ),
+                color: const Color(ColorConstants.primary_black),
               ),
             ),
           ),

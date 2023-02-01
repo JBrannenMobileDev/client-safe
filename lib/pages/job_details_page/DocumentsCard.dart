@@ -11,6 +11,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class DocumentsCard extends StatelessWidget {
   final Function onSendInvoiceSelected;
   final Function onDeleteInvoiceSelected;
@@ -39,15 +41,11 @@ class DocumentsCard extends StatelessWidget {
                   Container(
                     width: double.infinity,
                     margin: EdgeInsets.fromLTRB(26.0, 16.0, 26.0, 8.0),
-                    child: Text(
-                      'Documents',
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Documents',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
               ),
               pageState.documents.length > 0
@@ -63,15 +61,11 @@ class DocumentsCard extends StatelessWidget {
                   : Container(
                       margin: EdgeInsets.only(top: 4.0, bottom: 0.0, left: 26.0, right: 26.0),
                       height: 64.0,
-                      child: Text(
-                        'No documents have been added to this job yet.',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'No documents have been added to this job yet.',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
             ]),
@@ -104,17 +98,13 @@ class DocumentsCard extends StatelessWidget {
                 ),
                 Container(
                   padding: EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    item.getDocumentType(),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: item.getDocumentType(),
                     textAlign: TextAlign.start,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
               ],

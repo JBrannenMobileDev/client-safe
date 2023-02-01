@@ -1,11 +1,12 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/new_pose_group_page/NewPoseGroupPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../../widgets/TextDandyLight.dart';
 
 class NewResponseCategoryTextField extends StatelessWidget {
   final TextEditingController _controller;
@@ -81,9 +82,9 @@ class NewResponseCategoryTextField extends StatelessWidget {
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
+                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                    fontFamily: TextDandyLight.getFontFamily(),
+                    fontWeight: TextDandyLight.getFontWeight(),
                     color: Color(ColorConstants.primary_black)),
               )),
     );

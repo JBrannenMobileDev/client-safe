@@ -9,6 +9,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../../widgets/TextDandyLight.dart';
+
 class NewResponseCategoryPage extends StatefulWidget {
 
   @override
@@ -42,15 +44,11 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(bottom: 16.0),
-                          child: Text(
-                            "New Response Category",
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: "New Response Category",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         Container(
@@ -60,15 +58,11 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(bottom: 32.0),
-                                child: Text(
-                                  "Enter a simple and descriptive name for this response category.",
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: "Enter a simple and descriptive name for this response category.",
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                               NewResponseCategoryTextField(
@@ -103,15 +97,11 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                                 onPressed: () {
                                   onBackPressed(pageState);
                                 },
-                                child: Text(
-                                  'Cancel',
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Cancel',
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                               TextButton(
@@ -126,15 +116,11 @@ class _NewResponseCategoryPageState extends State<NewResponseCategoryPage> {
                                 onPressed: () {
                                   onNextPressed(pageState);
                                 },
-                                child: Text(
-                                  'Save',
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Save',
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                             ],

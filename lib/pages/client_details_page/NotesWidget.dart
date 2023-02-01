@@ -1,21 +1,13 @@
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/widgets/DandyLightTextField.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
 
 import '../../AppState.dart';
-import '../../utils/ImageUtil.dart';
-import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_contact_pages/NewContactPageState.dart';
-import '../new_contact_pages/NewContactTextField.dart';
 
 class NotesWidget extends StatefulWidget {
 
@@ -50,15 +42,11 @@ class _NotesWidgetPage extends State<NotesWidget> {
                   margin: EdgeInsets.only(top: 16),
                   alignment: Alignment.topLeft,
                   padding: EdgeInsets.only(left: 24.0),
-                  child: Text(
-                    'Notes',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Notes',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 Container(

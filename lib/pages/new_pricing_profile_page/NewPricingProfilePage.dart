@@ -16,6 +16,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewPricingProfilePage extends StatefulWidget {
   @override
   _NewPricingProfilePageState createState() {
@@ -98,15 +100,11 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                       child: Stack(
                         alignment: Alignment.center,
                         children: <Widget>[
-                          Text(
-                            pageState.shouldClear ? "New Price Package" : "Edit Price Package",
+                          TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: pageState.shouldClear ? "New Price Package" : "Edit Price Package",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                           !pageState.shouldClear ? GestureDetector(
                             onTap: () {
@@ -169,15 +167,11 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                             onPressed: () {
                               onBackPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == 0 ? "Cancel" : "Back",
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           TextButton(
@@ -196,17 +190,13 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                             onPressed: () {
                               onNextPressed(pageState);
                             },
-                            child: Text(
-                              pageState.pageViewIndex == pageCount
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.pageViewIndex == pageCount
                                   ? "Save"
                                   : "Next",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

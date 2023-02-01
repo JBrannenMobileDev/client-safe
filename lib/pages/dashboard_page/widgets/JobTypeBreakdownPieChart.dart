@@ -8,6 +8,7 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../utils/TextFormatterUtil.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class JobTypeBreakdownPieChart extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -25,15 +26,11 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                  child: Text(
-                    'Job Type Breakdown - ' + DateTime.now().year.toString(),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Job Type Breakdown - ' + DateTime.now().year.toString(),
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 pageState.jobTypeBreakdownData.length > 0 ? PieChartWidget(chartType: PieChartWidget.JOB_TYPE_BREAKDOWN,) :
@@ -47,15 +44,11 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                       Container(
                         margin: EdgeInsets.only(left: 36, right: 36),
                         height: 74,
-                        child: Text(
-                          'No data available. Receive payment to see stats.',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'No data available. Receive payment to see stats.',
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 22.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                     ],
@@ -86,30 +79,22 @@ class JobTypeBreakdownPieChart extends StatelessWidget{
                               ),
                               Container(
                                 margin: EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  pageState.jobTypePieChartRowData.elementAt(index).jobType + ' - ' + pageState.jobTypePieChartRowData.elementAt(index).count.toString(),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.SMALL_TEXT,
+                                  text: pageState.jobTypePieChartRowData.elementAt(index).jobType + ' - ' + pageState.jobTypePieChartRowData.elementAt(index).count.toString(),
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                             ],
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              TextFormatterUtil.formatSimpleCurrency(pageState.jobTypePieChartRowData.elementAt(index).totalIncomeForType),
+                            child: TextDandyLight(
+                              type: TextDandyLight.SMALL_TEXT,
+                              text: TextFormatterUtil.formatSimpleCurrency(pageState.jobTypePieChartRowData.elementAt(index).totalIncomeForType),
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

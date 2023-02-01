@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class InputDoneViewNewInvoice extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -34,14 +36,10 @@ class InputDoneViewNewInvoice extends StatelessWidget {
                 color: Color(ColorConstants.getPeachDark()),
                 borderRadius: BorderRadius.only(topLeft: Radius.circular(24.0), topRight: Radius.circular(24.0)),
               ),
-              child: Text(
-                "Done",
-                style: TextStyle(
+              child: TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: "Done",
                 color: Color(ColorConstants.getPrimaryWhite()),
-                fontSize: 24.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
-                ),
               ),
             ),
           ),

@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewLocationTextField extends StatelessWidget {
   final TextEditingController _controller;
   final String hintText;
@@ -34,7 +36,7 @@ class NewLocationTextField extends StatelessWidget {
               margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
               height: height,
               child: TextFormField(
-                cursorColor: Color(ColorConstants.getPrimaryColor()),
+                cursorColor: Color(ColorConstants.getBlueDark()),
                 focusNode: focusNode,
                 textInputAction: keyboardAction,
                 maxLines: 24,
@@ -49,35 +51,35 @@ class NewLocationTextField extends StatelessWidget {
                   alignLabelWithHint: true,
                   labelText: hintText,
                   labelStyle: TextStyle(
-                      color: Color(ColorConstants.getPrimaryColor())
+                      color: Color(ColorConstants.getBlueLight())
                   ),
                   hintText: hintText,
                   fillColor: Colors.white,
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
@@ -86,9 +88,9 @@ class NewLocationTextField extends StatelessWidget {
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
+                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                    fontFamily: TextDandyLight.getFontFamily(),
+                    fontWeight: TextDandyLight.getFontWeight(),
                     color: Color(ColorConstants.primary_black)),
               )),
     );

@@ -1,11 +1,11 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class AddTipJobListItem extends StatelessWidget {
   final int index;
@@ -49,15 +49,11 @@ class AddTipJobListItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Text(
-                        pageState.filteredJobs.elementAt(index).jobTitle,
+                      TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.filteredJobs.elementAt(index).jobTitle,
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Colors.white : Color(ColorConstants.primary_black),
-                        ),
+                        color: pageState.filteredJobs.elementAt(index).documentId == pageState.selectedJob?.documentId ? Colors.white : Color(ColorConstants.primary_black),
                       ),
                     ],
                   ),

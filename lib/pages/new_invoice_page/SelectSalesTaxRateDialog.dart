@@ -14,6 +14,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:keyboard_visibility/keyboard_visibility.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class SelectSalesTaxRateDialog extends StatefulWidget {
 
@@ -77,15 +78,11 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 16.0),
-                      child: Text(
-                        "Enter Sales Tax Rate",
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Enter Sales Tax Rate",
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 26.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Container(
@@ -118,15 +115,11 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            child: Text(
-                              'Cancel',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Cancel',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                           TextButton(
@@ -142,15 +135,11 @@ class _SelectSalesTaxRateDialog extends State<SelectSalesTaxRateDialog> with Aut
                               pageState.onSalesTaxRateChanged(enteredRate);
                               showSuccessAnimation();
                             },
-                            child: Text(
-                              'Save',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Save',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 22.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

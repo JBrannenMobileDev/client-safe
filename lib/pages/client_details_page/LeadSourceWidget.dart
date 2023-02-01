@@ -13,6 +13,7 @@ import 'package:intl/intl.dart';
 import '../../AppState.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_contact_pages/NewContactPageState.dart';
 import '../new_contact_pages/NewContactTextField.dart';
 import 'LeadSourceSelectionWidget.dart';
@@ -50,15 +51,11 @@ class LeadSourceWidget extends StatelessWidget {
                     alignment: Alignment.topLeft,
                     padding: EdgeInsets.only(
                         left: 24.0, bottom: 8.0, right: 24),
-                    child: Text(
-                      'Lead Source',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Lead Source',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Row(
@@ -80,16 +77,11 @@ class LeadSourceWidget extends StatelessWidget {
                             Padding(
                               padding: EdgeInsets.only(
                                   bottom: 4.0, top: 4.0),
-                              child: Text(
-                                _getLeadSourceName(pageState),
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: _getLeadSourceName(pageState),
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(
-                                      ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             Container(

@@ -6,6 +6,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import '../../AppState.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/ColorConstants.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'NewReminderPage.dart';
 import 'NewReminderPageState.dart';
 
@@ -60,15 +61,11 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                     Container(
                       margin: EdgeInsets.only(top: 16.0),
                       width: 24.0,
-                      child: Text(
-                        '1.',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: '1.',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     Container(
@@ -78,15 +75,11 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                         children: <Widget>[
                           Container(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              'When do you want this reminder to be sent?',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'When do you want this reminder to be sent?',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],
@@ -109,17 +102,13 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                           ? Color(ColorConstants.getBlueLight())
                           : Color(ColorConstants.getPrimaryWhite()),
                     ),
-                    child: Text(
-                      'Before shoot date',
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Before shoot date',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: pageState.when == WhenSelectionWidget.BEFORE
-                            ? Color(ColorConstants.getPrimaryWhite())
-                            : Color(ColorConstants.getPrimaryBlack()),
-                      ),
+                      color: pageState.when == WhenSelectionWidget.BEFORE
+                          ? Color(ColorConstants.getPrimaryWhite())
+                          : Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),
@@ -138,17 +127,13 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                           ? Color(ColorConstants.getBlueLight())
                           : Color(ColorConstants.getPrimaryWhite()),
                     ),
-                    child: Text(
-                      'On shoot date',
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'On shoot date',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: pageState.when == WhenSelectionWidget.ON
-                            ? Color(ColorConstants.getPrimaryWhite())
-                            : Color(ColorConstants.getPrimaryBlack()),
-                      ),
+                      color: pageState.when == WhenSelectionWidget.ON
+                          ? Color(ColorConstants.getPrimaryWhite())
+                          : Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),
@@ -167,17 +152,13 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                           ? Color(ColorConstants.getBlueLight())
                           : Color(ColorConstants.getPrimaryWhite()),
                     ),
-                    child: Text(
-                      'After shoot date',
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'After shoot date',
                       textAlign: TextAlign.start,
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: pageState.when == WhenSelectionWidget.AFTER
-                            ? Color(ColorConstants.getPrimaryWhite())
-                            : Color(ColorConstants.getPrimaryBlack()),
-                      ),
+                      color: pageState.when == WhenSelectionWidget.AFTER
+                          ? Color(ColorConstants.getPrimaryWhite())
+                          : Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),
@@ -189,15 +170,11 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                       Container(
                         margin: EdgeInsets.only(top: 48.0),
                         width: 24.0,
-                        child: Text(
-                          '2.',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: '2.',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Container(
@@ -205,17 +182,13 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                         width: MediaQuery.of(context).size.width - 95,
                         child: Column(
                           children: <Widget>[
-                            Text(
-                              'Select how far ' +
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Select how long ' +
                                   (pageState.when == WhenSelectionWidget.ON ? WhenSelectionWidget.BEFORE : pageState.when) +
                                   ' the shoot you want the reminder to be sent.',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ],
                         ),
@@ -248,41 +221,29 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                               children: <Widget>[
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    'Days',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Days',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    'Weeks',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Weeks',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    'Months',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Months',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                               ],
@@ -302,392 +263,272 @@ class _WhenSelectionWidgetState extends State<WhenSelectionWidget> {
                               children: <Widget>[
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '1',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '1',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '2',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '2',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '3',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '3',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '4',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '4',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '5',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '5',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '6',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '6',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '7',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '7',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '8',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '8',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '9',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '9',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '10',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '10',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '11',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '11',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '12',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '12',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '13',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '13',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '14',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '14',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '15',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '15',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '16',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '16',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '17',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '17',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '18',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '18',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '19',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '19',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '20',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '20',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '21',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '21',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '22',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '22',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '23',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '23',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '24',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '24',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '25',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '25',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '26',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '26',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '27',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '27',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '28',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '28',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '29',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '29',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                                 Container(
                                   height: 32.0,
-                                  child: Text(
-                                    '30',
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: '30',
                                     textAlign: TextAlign.start,
-                                    style: TextStyle(
-                                      fontSize: 24.0,
-                                      fontFamily: 'simple',
-                                      fontWeight: FontWeight.w600,
-                                      color: Color(ColorConstants.primary_black),
-                                    ),
+                                    color: Color(ColorConstants.primary_black),
                                   ),
                                 ),
                               ],

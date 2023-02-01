@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class SunsetWeatherLocationListWidget extends StatelessWidget {
   final int locationIndex;
 
@@ -70,17 +72,13 @@ class SunsetWeatherLocationListWidget extends StatelessWidget {
           Center(
             child: Container(
               margin: EdgeInsets.only(top: 4.0),
-              child: Text(
-                pageState.locations.elementAt(locationIndex).locationName,
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: pageState.locations.elementAt(locationIndex).locationName,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w600,
-                  fontFamily: 'simple',
-                  color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
-                      ? const Color(ColorConstants.primary_black)
-                      : Color(ColorConstants.getPrimaryColor()),
-                ),
+                color: pageState.selectedLocation != pageState.locations.elementAt(locationIndex)
+                    ? const Color(ColorConstants.primary_black)
+                    : Color(ColorConstants.getPrimaryColor()),
               ),
             ),
           ),

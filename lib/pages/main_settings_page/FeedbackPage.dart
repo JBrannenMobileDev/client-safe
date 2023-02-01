@@ -1,9 +1,9 @@
-import 'dart:async';
-import 'dart:math';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class FeedbackPage extends StatelessWidget {
   const FeedbackPage({Key key}) : super(key: key);
@@ -34,14 +34,10 @@ class FeedbackPage extends StatelessWidget {
                     ),
                   ),
                 ),
-                Text(
-                  'Feedback',
-                  style: TextStyle(
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.w600,
-                    fontFamily: 'simple',
-                    color: Color(ColorConstants.getPeachLight()),
-                  ),
+                TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Feedback',
+                  color: Color(ColorConstants.getPeachLight()),
                 ),
                 SizedBox(width: 48.0,)
               ],

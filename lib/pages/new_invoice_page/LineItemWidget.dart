@@ -5,6 +5,8 @@ import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class LineItemWidget extends StatelessWidget {
   final LineItem lineItem;
   final int index;
@@ -25,40 +27,28 @@ class LineItemWidget extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
-                lineItem.itemName,
+              TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: lineItem.itemName,
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w400,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x ' + TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice.toInt()) + ')   ') : '',
+              TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x ' + TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice.toInt()) + ')   ') : '',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w400,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
-              Text(
-                TextFormatterUtil.formatSimpleCurrency(lineItem.itemPrice.toInt() * lineItem.itemQuantity),
+              TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: TextFormatterUtil.formatDecimalDigitsCurrency(lineItem.itemPrice * lineItem.itemQuantity, 2),
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
               pageState.pageViewIndex != 3 ? GestureDetector(
                 onTap: () {

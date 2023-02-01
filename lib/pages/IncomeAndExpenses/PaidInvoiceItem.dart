@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/TextFormatterUtil.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class PaidInvoiceItem extends StatelessWidget{
   final Invoice invoice;
@@ -48,30 +50,22 @@ class PaidInvoiceItem extends StatelessWidget{
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 2.0),
-                      child: Text(
-                        (invoice.jobName != null ? invoice.jobName : 'Job name'),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: (invoice.jobName != null ? invoice.jobName : 'Job name'),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 2.0),
-                      child: Text(
-                        '\$' + (invoice.total - invoice.discount != null
-                                ? (invoice.total - invoice.discount).truncate().toString()
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: (invoice.total - invoice.discount != null
+                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.total - invoice.discount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],

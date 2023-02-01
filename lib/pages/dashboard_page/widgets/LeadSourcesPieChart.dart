@@ -8,6 +8,7 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../utils/TextFormatterUtil.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class LeadSourcesPieChart extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -25,15 +26,11 @@ class LeadSourcesPieChart extends StatelessWidget{
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                  child: Text(
-                    'Lead Sources - ' + DateTime.now().year.toString(),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Lead Sources - ' + DateTime.now().year.toString(),
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 pageState.leadSourcesData.length > 0 ? PieChartWidget(chartType: PieChartWidget.LEAD_SOURCES,) :
@@ -47,15 +44,11 @@ class LeadSourcesPieChart extends StatelessWidget{
                     Container(
                       margin: EdgeInsets.only(left: 36, right: 36),
                       height: 74,
-                      child: Text(
-                        'No data available. Add new contacts to see stats.',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'No data available. Add new contacts to see stats.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],
@@ -65,25 +58,17 @@ class LeadSourcesPieChart extends StatelessWidget{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        'Sources',
+                      TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Sources',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
-                      Text(
-                        'Conversion Rate',
+                      TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Conversion Rate',
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ],
                   ),
@@ -114,30 +99,22 @@ class LeadSourcesPieChart extends StatelessWidget{
                               ),
                               Container(
                                 margin: EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  pageState.leadSourcePieChartRowData.elementAt(index).sourceName + ' - ' + pageState.leadSourcePieChartRowData.elementAt(index).count.toString(),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: pageState.leadSourcePieChartRowData.elementAt(index).sourceName + ' - ' + pageState.leadSourcePieChartRowData.elementAt(index).count.toString(),
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                             ],
                           ),
                           Container(
                             margin: EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              pageState.leadSourcePieChartRowData.elementAt(index).conversionRate.toString() + '%',
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: pageState.leadSourcePieChartRowData.elementAt(index).conversionRate.toString() + '%',
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                           ),
                         ],

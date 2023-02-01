@@ -1,6 +1,3 @@
-
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/dashboard_page/widgets/BaseHomeCardInProgress.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -14,6 +11,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:intl/intl.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class JobInfoCard extends StatelessWidget {
   JobInfoCard({this.pageState});
@@ -30,7 +29,7 @@ class JobInfoCard extends StatelessWidget {
         alignment: Alignment.topCenter,
         children: <Widget>[
           Container(
-            height: 496.0,
+            height: 448.0,
             width: double.maxFinite,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             padding: EdgeInsets.only(left: 8.0, right: 8.0),
@@ -44,71 +43,11 @@ class JobInfoCard extends StatelessWidget {
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 8.0),
-                  child: Text(
-                          'Job Info',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                        ),
-                  ),
-                ),
-                TextButton(
-                  style: Styles.getButtonStyle(),
-                  onPressed: () {
-                    UserOptionsUtil.showNameChangeDialog(context);
-                  },
-                  child: Container(
-                    height: 48.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: <Widget>[
-                            Container(
-                              width: 58.0,
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                'Name:',
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                pageState.job.jobTitle,
-                                textAlign: TextAlign.start,
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                            margin: EdgeInsets.only(right: 12.0),
-                            height: 24.0,
-                            width: 24.0,
-                            child: Image.asset('assets/images/icons/edit_icon_peach.png'),
-                        ),
-                      ],
-                    ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: 'Job Info',
+                    textAlign: TextAlign.center,
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 TextButton(
@@ -127,32 +66,24 @@ class JobInfoCard extends StatelessWidget {
                             Container(
                               width: 58.0,
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                'Type:',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Type:',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                pageState.job.type.title,
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.job.type.title,
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],
@@ -196,19 +127,15 @@ class JobInfoCard extends StatelessWidget {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  (pageState.job.selectedDate != null
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: (pageState.job.selectedDate != null
                                       ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
                                       : 'Date not selected'),
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(pageState.job.selectedDate != null ? ColorConstants.primary_black : ColorConstants.error_red),
-                                  ),
+                                  color: Color(pageState.job.selectedDate != null ? ColorConstants.primary_black : ColorConstants.error_red),
                                 ),
                               ),
                             ],
@@ -257,18 +184,14 @@ class JobInfoCard extends StatelessWidget {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text(
-                                        'Cancel',
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Cancel',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 22.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBlack()),
-                                        ),
+                                        color: Color(ColorConstants
+                                            .getPrimaryBlack()),
                                       ),
                                     ),
                                     Row(
@@ -283,19 +206,15 @@ class JobInfoCard extends StatelessWidget {
                                         ),
                                         Container(
                                           padding: EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            (pageState.sunsetTime != null
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: (pageState.sunsetTime != null
                                                 ? DateFormat('h:mm a').format(pageState.sunsetTime)
                                                 : ''),
                                             textAlign: TextAlign.start,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
-                                            style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants.getPeachDark()),
-                                            ),
+                                            color: Color(ColorConstants.getPeachDark()),
                                           ),
                                         ),
                                       ],
@@ -307,17 +226,13 @@ class JobInfoCard extends StatelessWidget {
                                         VibrateUtil.vibrateHeavy();
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text(
-                                        'Done',
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Done',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 22.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                     ),
                                   ],
@@ -351,18 +266,14 @@ class JobInfoCard extends StatelessWidget {
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                (pageState.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.job.selectedTime)
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: (pageState.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.job.selectedTime)
                                     : 'Start time not selected'),
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(pageState.job.selectedTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
-                                ),
+                                color: Color(pageState.job.selectedTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
                               ),
                             ),
                             pageState.job.selectedTime != null && pageState.sunsetTime != null ? Container(
@@ -375,19 +286,15 @@ class JobInfoCard extends StatelessWidget {
                             ) : SizedBox(),
                             pageState.job.selectedTime != null && pageState.job.selectedDate != null ? Container(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                (pageState.sunsetTime != null
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: (pageState.sunsetTime != null
                                     ? DateFormat('h:mm a').format(pageState.sunsetTime)
                                     : ''),
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
+                                color: Color(ColorConstants.getPeachDark()),
                               ),
                             ) : SizedBox(),
                           ],
@@ -436,18 +343,14 @@ class JobInfoCard extends StatelessWidget {
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text(
-                                        'Cancel',
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Cancel',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 22.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants
-                                              .getPrimaryBlack()),
-                                        ),
+                                        color: Color(ColorConstants
+                                            .getPrimaryBlack()),
                                       ),
                                     ),
                                     Row(
@@ -462,19 +365,15 @@ class JobInfoCard extends StatelessWidget {
                                         ),
                                         Container(
                                           padding: EdgeInsets.only(left: 8.0),
-                                          child: Text(
-                                            (pageState.sunsetTime != null
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: (pageState.sunsetTime != null
                                                 ? DateFormat('h:mm a').format(pageState.sunsetTime)
                                                 : ''),
                                             textAlign: TextAlign.start,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
-                                            style: TextStyle(
-                                              fontSize: 22.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(ColorConstants.getPeachDark()),
-                                            ),
+                                            color: Color(ColorConstants.getPeachDark()),
                                           ),
                                         ),
                                       ],
@@ -486,17 +385,13 @@ class JobInfoCard extends StatelessWidget {
                                         VibrateUtil.vibrateHeavy();
                                         Navigator.of(context).pop();
                                       },
-                                      child: Text(
-                                        'Done',
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Done',
                                         textAlign: TextAlign.start,
                                         overflow: TextOverflow.ellipsis,
                                         maxLines: 1,
-                                        style: TextStyle(
-                                          fontSize: 22.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryBlack()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryBlack()),
                                       ),
                                     ),
                                   ],
@@ -530,17 +425,13 @@ class JobInfoCard extends StatelessWidget {
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                (pageState.job.selectedEndTime != null ? DateFormat('h:mm a').format(pageState.job.selectedEndTime) + ' - End time' : 'End time not selected'),
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: (pageState.job.selectedEndTime != null ? DateFormat('h:mm a').format(pageState.job.selectedEndTime) + ' - End time' : 'End time not selected'),
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(pageState.job.selectedEndTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
-                                ),
+                                color: Color(pageState.job.selectedEndTime != null ? ColorConstants.primary_black : ColorConstants.error_red),
                               ),
                             ),
                           ],
@@ -584,18 +475,14 @@ class JobInfoCard extends StatelessWidget {
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                pageState.job.location == null ? 'Location not selected' :
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.job.location == null ? 'Location not selected' :
                                 pageState.job.location.locationName,
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(pageState.job.location != null ? ColorConstants.primary_black : ColorConstants.error_red),
-                                ),
+                                color: Color(pageState.job.location != null ? ColorConstants.primary_black : ColorConstants.error_red),
                               ),
                             ),
                           ],
@@ -652,18 +539,14 @@ class JobInfoCard extends StatelessWidget {
                               ),
                               Container(
                                 padding: EdgeInsets.only(left: 8.0),
-                                child: Text(
-                                  pageState.job.priceProfile == null ? 'Price package not selected' :
-                                  '\$' + pageState.job.priceProfile.flatRate.toInt().toString() + ' ' + pageState.job.priceProfile.profileName,
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: pageState.job.priceProfile == null ? 'Price package not selected' :
+                                  '\$' + pageState.job.priceProfile.flatRate.toString() + ' ' + pageState.job.priceProfile.profileName,
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(pageState.job.priceProfile != null ? ColorConstants.primary_black : ColorConstants.error_red),
-                                  ),
+                                  color: Color(pageState.job.priceProfile != null ? ColorConstants.primary_black : ColorConstants.error_red),
                                 ),
                               ),
                             ],
@@ -702,17 +585,13 @@ class JobInfoCard extends StatelessWidget {
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                '\$' + (pageState.job.addOnCost != null ? pageState.job.addOnCost.toInt().toString() : '0') + ' (Add-on cost)',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: '\$' + (pageState.job.addOnCost != null ? pageState.job.addOnCost.toInt().toString() : '0') + ' (Add-on cost)',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],
@@ -754,18 +633,14 @@ class JobInfoCard extends StatelessWidget {
                             ),
                             Container(
                               padding: EdgeInsets.only(left: 8.0),
-                              child: Text(
-                                pageState.job.tipAmount == null ? '\$0 (tip)' :
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.job.tipAmount == null ? '\$0 (tip)' :
                                 '\$' + (pageState.job.tipAmount != null ? pageState.job.tipAmount.toInt().toString() : '0') + ' (tip)',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

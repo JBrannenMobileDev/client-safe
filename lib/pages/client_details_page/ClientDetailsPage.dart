@@ -2,15 +2,12 @@ import 'dart:async';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/pages/client_details_page/ClientJobItem.dart';
 import 'package:dandylight/pages/client_details_page/ImportantDatesWidget.dart';
 import 'package:dandylight/pages/client_details_page/JobHistoryWidget.dart';
-import 'package:dandylight/pages/client_details_page/LeadSourceSelectionWidget.dart';
 import 'package:dandylight/pages/client_details_page/LeadSourceWidget.dart';
 import 'package:dandylight/pages/client_details_page/NotesWidget.dart';
 import 'package:dandylight/pages/client_details_page/SelectSavedResponseBottomSheet.dart';
 import 'package:dandylight/pages/client_details_page/SendMessageOptionsBottomSheet.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPage.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
@@ -21,11 +18,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
-import '../../utils/ImageUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
-import 'ClientDetailsPageActions.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class ClientDetailsPage extends StatefulWidget {
   @override
@@ -55,14 +51,10 @@ class _ClientDetailsPage extends State<ClientDetailsPage> {
                   floating: false,
                   forceElevated: false,
                   centerTitle: true,
-                  title: Text(
-                    pageState.client?.getClientFullName() ?? "",
-                    style: TextStyle(
-                      fontSize: 26.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: const Color(ColorConstants.primary_black),
-                    ),
+                  title: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: pageState.client?.getClientFullName() ?? "",
+                    color: const Color(ColorConstants.primary_black),
                   ),
                   actions: <Widget>[
                     GestureDetector(

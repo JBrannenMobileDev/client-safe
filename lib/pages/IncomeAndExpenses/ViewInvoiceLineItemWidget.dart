@@ -1,8 +1,9 @@
 import 'package:dandylight/models/LineItem.dart';
-import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import '../../widgets/TextDandyLight.dart';
 
 class ViewInvoiceLineItemWidget extends StatelessWidget {
   final LineItem lineItem;
@@ -22,40 +23,28 @@ class ViewInvoiceLineItemWidget extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Text(
-                lineItem.itemName,
+              TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: lineItem.itemName,
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w400,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x \$' + lineItem.itemPrice.toInt().toString() + ')   ') : '',
+              TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: lineItem.itemQuantity > 1 ? ('(' + lineItem.itemQuantity.toString() + ' x \$' + lineItem.itemPrice.toInt().toString() + ')   ') : '',
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w400,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
-              Text(
-                '\$' + (lineItem.itemPrice.toInt() * lineItem.itemQuantity).toString(),
+              TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: '\$' + (lineItem.itemPrice.toInt() * lineItem.itemQuantity).toString(),
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.getPrimaryBlack()),
-                ),
+                color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ],
           )

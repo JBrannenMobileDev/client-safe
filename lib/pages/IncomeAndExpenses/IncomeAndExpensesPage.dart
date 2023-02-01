@@ -8,7 +8,6 @@ import 'package:dandylight/pages/IncomeAndExpenses/PaidInvoiceCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpensesCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/SingleExpenseCard.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/UnpaidInvoicesCard.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -23,6 +22,7 @@ import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'MonthlyIncomeLineChart.dart';
 
 class IncomeAndExpensesPage extends StatefulWidget {
@@ -59,18 +59,16 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
   @override
   Widget build(BuildContext context) {
     tabs = <int, Widget>{
-      0: Text(IncomeAndExpensesPage.FILTER_TYPE_INCOME, style: TextStyle(
-        fontSize: 20.0,
-        fontFamily: 'simple',
-        fontWeight: FontWeight.w800,
-        color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
-      ),),
-      1: Text(IncomeAndExpensesPage.FILTER_TYPE_EXPENSES, style: TextStyle(
-        fontSize: 20.0,
-        fontFamily: 'simple',
-        fontWeight: FontWeight.w800,
-        color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
-      ),),
+      0: TextDandyLight(
+          type: TextDandyLight.MEDIUM_TEXT,
+          text: IncomeAndExpensesPage.FILTER_TYPE_INCOME,
+          color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
+        ),
+      1: TextDandyLight(
+          type: TextDandyLight.MEDIUM_TEXT,
+          text: IncomeAndExpensesPage.FILTER_TYPE_EXPENSES,
+          color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
+      ),
     };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
       onInit: (appState) {
@@ -80,7 +78,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
         appState.dispatch(FetchRecurringExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(FetchMileageExpenses(appState.state.incomeAndExpensesPageState));
         appState.dispatch(UpdateSelectedYearAction(appState.state.incomeAndExpensesPageState, DateTime.now().year));
-        if(!appState.state.dashboardPageState.profile.hasSeenIncomeInfo) {
+        if(appState.state.dashboardPageState.profile != null && !appState.state.dashboardPageState.profile.hasSeenIncomeInfo) {
           Future.delayed(Duration(seconds: 1), () {
             _showInfoSheet(context);
           });
@@ -120,14 +118,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                         forceElevated: false,
                         expandedHeight: 275.0,
                         centerTitle: true,
-                        title: Text(
-                            'Income & Expenses',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 26.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                        title: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Income & Expenses',
+                          color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                         actions: <Widget>[
                           GestureDetector(
@@ -201,14 +195,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                           children: <Widget>[
                                             Container(
                                               margin: EdgeInsets.only(left: 16.0),
-                                              child: Text(
-                                                selectedIndex == 0 ? 'Income' : 'Expenses',
-                                                style: TextStyle(
-                                                  fontFamily: 'simple',
-                                                  fontSize: 26.0,
-                                                  fontWeight: FontWeight.w800,
-                                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                                ),
+                                              child: TextDandyLight(
+                                                type: TextDandyLight.LARGE_TEXT,
+                                                text: selectedIndex == 0 ? 'Income' : 'Expenses',
+                                                color: Color(ColorConstants.getPrimaryWhite()),
                                               ),
                                             ),
                                             Container(
@@ -234,14 +224,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                                     }
                                                   );
                                                 },
-                                                child: Text(
-                                                  pageState.selectedYear.toString(),
-                                                  style: TextStyle(
-                                                    fontFamily: 'simple',
-                                                    fontSize: 26.0,
-                                                    fontWeight: FontWeight.w800,
-                                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                                  ),
+                                                child: TextDandyLight(
+                                                  type: TextDandyLight.LARGE_TEXT,
+                                                  text: pageState.selectedYear.toString(),
+                                                  color: Color(ColorConstants.getPrimaryWhite()),
                                                 ),
                                               ),
                                             )
@@ -249,11 +235,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                                         ),
                                         Container(
                                           margin: EdgeInsets.only(left: 16.0),
-                                          child: DandyLightTextWidget(
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
                                                 amount: selectedIndex == 0 ? pageState.totalTips + pageState.incomeForSelectedYear : pageState.expensesForSelectedYear,
-                                                textSize: 48.0,
-                                                textColor: Color(ColorConstants.getPrimaryWhite()),
-                                                fontWeight: FontWeight.w600,
+                                                color: Color(ColorConstants.getPrimaryWhite()),
                                                 isCurrency: true,
                                                 decimalPlaces: 0,
                                               ),
@@ -274,15 +259,11 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                             selectedIndex == 0 ? PaidInvoiceCard(pageState: pageState) : SingleExpenseCard(pageState: pageState),
                             selectedIndex == 0 ? Padding(
                               padding: EdgeInsets.only(top: 32.0, bottom: 16.0),
-                              child: Text(
-                                'Income Insights',
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: 'Income Insights',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 24.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                ),
+                                color: Color(ColorConstants.getPrimaryWhite()),
                               ),
                             ) : SizedBox(),
                             selectedIndex == 0 ? MonthlyIncomeLineChart(pageState: pageState) : SizedBox(),
@@ -334,14 +315,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(21.0),
                         ),
-                        child: Text(
-                          'New invoice',
-                          style: TextStyle(
-                            fontFamily: 'simple',
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'New invoice',
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       onTap: () {
@@ -365,14 +342,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(21.0),
                         ),
-                        child: Text(
-                          'Tip',
-                          style: TextStyle(
-                            fontFamily: 'simple',
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Tip',
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       onTap: () {
@@ -392,14 +365,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(21.0),
                           ),
-                          child: Text(
-                            'Recurring Expense',
-                            style: TextStyle(
-                              fontFamily: 'simple',
-                              fontSize: 22.0,
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: 'Recurring Expense',
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         onTap: () {
@@ -418,14 +387,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(21.0),
                         ),
-                        child: Text(
-                          'Single Expense',
-                          style: TextStyle(
-                            fontFamily: 'simple',
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Single Expense',
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       onTap: () {
@@ -444,14 +409,10 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(21.0),
                         ),
-                        child: Text(
-                          'Mileage Trip',
-                          style: TextStyle(
-                            fontFamily: 'simple',
-                            fontSize: 22.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Mileage Trip',
+                          color: Color(ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       onTap: () {

@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class JobTypeSelection extends StatefulWidget {
   @override
   _JobTypeSelection createState() {
@@ -34,15 +36,11 @@ class _JobTypeSelection extends State<JobTypeSelection>
               children: <Widget>[
                 Container(
                   margin: EdgeInsets.only(bottom: 16.0),
-                  child: Text(
-                    'Select a job type',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Select a job type',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
                 pageState.jobTypes.length > 0 ? Container(
@@ -56,15 +54,11 @@ class _JobTypeSelection extends State<JobTypeSelection>
                 ) : Container(
                   margin: EdgeInsets.only(top: 64.0),
                   padding: EdgeInsets.only(left: 32.0, right: 32.0),
-                  child: Text(
-                    'You have not saved any job types. To create a new job type please select the plus icon.\n\n(Example: Wedding, Engagement, Family, etc...)',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'You have not saved any job types. To create a new job type please select the plus icon.\n\n(Example: Wedding, Engagement, Family, etc...)',
                     textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.primary_black),
-                    ),
+                    color: Color(ColorConstants.primary_black),
                   ),
                 ),
               ],
@@ -80,7 +74,7 @@ class _JobTypeSelection extends State<JobTypeSelection>
       TextButton(
             style: Styles.getButtonStyle(
               shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(8.0),
+                borderRadius: new BorderRadius.circular(25.0),
               ),
               color: pageState.selectedJobType != null &&
                   pageState.selectedJobType.documentId == pageState.jobTypes.elementAt(index).documentId ? Color(
@@ -107,15 +101,11 @@ class _JobTypeSelection extends State<JobTypeSelection>
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            pageState.jobTypes.elementAt(index).title,
+                          TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: pageState.jobTypes.elementAt(index).title,
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ],
                       ),

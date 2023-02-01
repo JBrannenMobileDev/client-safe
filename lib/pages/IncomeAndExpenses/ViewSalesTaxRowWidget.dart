@@ -8,6 +8,7 @@ import '../../AppState.dart';
 import '../../models/Invoice.dart';
 import '../../utils/UserOptionsUtil.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class ViewSalesTaxRowWidget extends StatelessWidget{
   final Invoice invoice;
@@ -23,16 +24,11 @@ class ViewSalesTaxRowWidget extends StatelessWidget{
           Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: <Widget>[
-                Text(
-                  'Sales tax',
+                TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Sales tax',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w400,
-                    color: Color(
-                        ColorConstants.getPrimaryBlack()),
-                  ),
+                  color: Color(ColorConstants.getPrimaryBlack()),
                 ),
               ],
           ),
@@ -53,28 +49,19 @@ class ViewSalesTaxRowWidget extends StatelessWidget{
                   onPressed: () {
                     UserOptionsUtil.showSelectSalesTaxRateDialog(context);
                   },
-                  child: Text(
-                      invoice.salesTaxRate.toString() + '%',
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                      text: invoice.salesTaxRate.toString() + '%',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                    ),
+                    color: Color(ColorConstants.getPrimaryWhite()),
                   ),
                 ),
               ),
-              Text(
-                TextFormatterUtil.formatSimpleCurrency(invoice.salesTaxAmount.toInt()),
+              TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: TextFormatterUtil.formatSimpleCurrency(invoice.salesTaxAmount.toInt()),
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(
-                      ColorConstants.getPrimaryBlack()
-                  ),
+                color: Color(ColorConstants.getPrimaryBlack(),
                 ),
               ),
             ],

@@ -8,7 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
+import '../../utils/TextFormatterUtil.dart';
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class InvoiceItem extends StatelessWidget{
   final Invoice invoice;
@@ -48,36 +50,28 @@ class InvoiceItem extends StatelessWidget{
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.only(bottom: 2.0),
-                      child: Text(
-                        (invoice.jobName != null ? invoice.jobName : 'Job name'),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: (invoice.jobName != null ? invoice.jobName : 'Job name'),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryBlack()),
-                        ),
+                        color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 2.0),
-                      child: Text(
-                        (invoice.isOverdue() ? 'OVERDUE' : invoice.sentDate != null
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: (invoice.isOverdue() ? 'OVERDUE' : invoice.sentDate != null
                                 ? (invoice.dueDate != null
                                     ? ('Due: ' +
                                         DateFormat('MMM dd, yyyy')
                                             .format(invoice.dueDate))
                                     : 'no due date')
-                                : 'Unsent') + ' • \$' + (invoice.unpaidAmount != null
-                                ? invoice.unpaidAmount.truncate().toString()
+                                : 'Unsent') + ' • ' + (invoice.unpaidAmount != null
+                                ? TextFormatterUtil.formatDecimalDigitsCurrency(invoice.unpaidAmount, 2)
                                 : '0'),
                         textAlign: TextAlign.start,
-                        style: TextStyle(
-                          fontSize: 18.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(invoice.sentDate != null ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
-                        ),
+                        color: invoice.isOverdue() ? Color(ColorConstants.getPeachDark()) : Color(invoice.sentDate != null ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
                       ),
                     ),
                   ],

@@ -1,8 +1,6 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/EventDandyLight.dart';
-import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsCalendarItem.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
@@ -13,6 +11,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../utils/CalendarUtil.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class NewDateSelectionDialog extends StatefulWidget {
   @override
@@ -79,15 +78,11 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
             children: <Widget>[
               Padding(
                 padding: EdgeInsets.only(top: 16.0, bottom: 0.0),
-                child: Text(
-                  "Select a new date for this job.",
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: "Select a new date for this job.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               _buildTableCalendarWithBuilders(pageState),
@@ -112,15 +107,11 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Cancel',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Cancel',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                     TextButton(
@@ -130,15 +121,11 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
                         VibrateUtil.vibrateHeavy();
                         Navigator.of(context).pop();
                       },
-                      child: Text(
-                        'Save',
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Save',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20.0,
-                          fontFamily: 'simple',
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.primary_black),
-                        ),
+                        color: Color(ColorConstants.primary_black),
                       ),
                     ),
                   ],
@@ -175,52 +162,70 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
         outsideDaysVisible: true,
         outsideTextStyle: TextStyle().copyWith(
           color: Color(ColorConstants.primary_bg_grey_dark),
-          fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
         ),
         defaultTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         selectedTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         disabledTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         todayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_bg_grey_dark), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_bg_grey_dark),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         weekendTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         holidayTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
       ),
       headerStyle: HeaderStyle(
         titleCentered: true,
         formatButtonVisible: false,
         titleTextStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: 18.0,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w600,),
+          color: Color(ColorConstants.primary_black),
+          fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: TextDandyLight.getFontWeight(),
+        ),
       ),
       calendarBuilders: CalendarBuilders(
         selectedBuilder: (context, date, _) {
@@ -235,13 +240,10 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
               ),
               width: 100,
               height: 100,
-              child: Text(
-                '${date.day}',
-                style: TextStyle().copyWith(
-                    fontSize: 16.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                ),
+              child: TextDandyLight(
+                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                text: '${date.day}',
+                color: Color(ColorConstants.primary_black),
               ),
             ),
           );
@@ -256,13 +258,10 @@ class _NewDateSelectionDialogState extends State<NewDateSelectionDialog> with Au
             ),
             width: 100,
             height: 100,
-            child: Text(
-              '${date.day}',
-              style: TextStyle().copyWith(
-                  fontSize: 16.0,
-                fontFamily: 'simple',
-                fontWeight: FontWeight.w600,
-              ),
+            child: TextDandyLight(
+              type: TextDandyLight.EXTRA_SMALL_TEXT,
+              text: '${date.day}',
+              color: Color(ColorConstants.getPrimaryBlack()),
             ),
           );
         },

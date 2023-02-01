@@ -242,6 +242,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
         jobDocumentId: thisJob.documentId,
         reminder: reminder,
         hasBeenSeen: false,
+        payload: thisJob.documentId,
       ));
     }
 

@@ -10,6 +10,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../models/JobStage.dart';
 import '../../../utils/JobUtil.dart';
+import '../../../widgets/TextDandyLight.dart';
 
 class JobListPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
@@ -51,14 +52,10 @@ class JobListPage extends StatelessWidget{
                 floating: false,
                 forceElevated: false,
                 centerTitle: true,
-                title: Text(
-                  pageTitle,
-                  style: TextStyle(
-                    fontSize: 26.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: const Color(ColorConstants.primary_black),
-                  ),
+                title: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: pageTitle,
+                  color: const Color(ColorConstants.primary_black),
                 ),
                 leading: IconButton(
                   icon: const Icon(Icons.close),

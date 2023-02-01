@@ -5,11 +5,13 @@ import 'package:dandylight/pages/dashboard_page/DashboardPage.dart';
 import 'package:dandylight/pages/jobs_page/JobsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
+import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 
 class HomePage extends StatefulWidget {
+
   @override
   State<StatefulWidget> createState() {
     return _HomeState();

@@ -12,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewLineItemDialog extends StatefulWidget {
   @override
   _NewLineItemDialogState createState() {
@@ -89,16 +91,12 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(top: 32.0),
-                        child: Text(
-                          'New Line Item',
+                        child: TextDandyLight(
+                          type: TextDandyLight.SMALL_TEXT,
+                          text: 'New Line Item',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            fontFamily: 'Raleway',
-                            fontWeight: FontWeight.w600,
-                            color: Color(
-                                ColorConstants.getPrimaryBlack()),
-                          ),
+                          color: Color(
+                              ColorConstants.getPrimaryBlack()),
                         ),
                       ),
                       Container(
@@ -185,15 +183,11 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                                 pageState.onNewLineItemCanceled();
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Cancel',
+                              child: TextDandyLight(
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             TextButton(
@@ -202,15 +196,11 @@ class _NewLineItemDialogState extends State<NewLineItemDialog>
                                 pageState.onNewLineItemSaveSelected();
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Save',
+                              child: TextDandyLight(
+                                type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                text: 'Save',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 16.0,
-                                  fontFamily: 'Raleway',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

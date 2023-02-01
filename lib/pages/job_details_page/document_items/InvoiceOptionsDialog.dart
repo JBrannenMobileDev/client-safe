@@ -1,16 +1,13 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPage.dart';
-import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+
+import '../../../widgets/TextDandyLight.dart';
 
 class InvoiceOptionsDialog extends StatefulWidget {
   final Function onSendInvoiceSelected;
@@ -50,19 +47,15 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(bottom: 8.0, top: 8.0),
-                    child: Text(
-                      'This job already has an invoice. Would you like to replace it with a new invoice?',
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'This job already has an invoice. Would you like to replace it with a new invoice?',
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 20.0,
-                        fontFamily: 'simple',
-                        fontWeight: FontWeight.w600,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                      color: Color(ColorConstants.primary_black),
                     ),
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       GestureDetector(
                         onTap: () {
@@ -78,15 +71,11 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                               shape: BoxShape.circle,
                               color: Color(ColorConstants.getPrimaryColor())
                           ),
-                          child: Text(
-                            'YES',
+                          child: TextDandyLight(
+                            type: TextDandyLight.EXTRA_LARGE_TEXT,
+                            text: 'YES',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 48.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),
@@ -102,15 +91,11 @@ class _InvoiceOptionsDialogState extends State<InvoiceOptionsDialog>
                               shape: BoxShape.circle,
                               color: Color(ColorConstants.getPeachDark())
                           ),
-                          child: Text(
-                            'NO',
+                          child: TextDandyLight(
+                            type: TextDandyLight.EXTRA_LARGE_TEXT,
+                            text: 'NO',
                             textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 48.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w800,
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       ),

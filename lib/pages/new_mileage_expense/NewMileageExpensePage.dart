@@ -16,6 +16,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewMileageExpensePage extends StatefulWidget {
 
   @override
@@ -99,15 +101,11 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                         child: Stack(
                           alignment: Alignment.center,
                           children: <Widget>[
-                            Text(
-                              pageState.shouldClear ? "New Mileage Tip" : "Edit Mileage Tip",
+                            TextDandyLight(
+                              type: TextDandyLight.LARGE_TEXT,
+                              text: pageState.shouldClear ? "New Mileage Trip" : "Edit Mileage Trip",
                               textAlign: TextAlign.start,
-                              style: TextStyle(
-                                fontSize: 26.0,
-                                fontFamily: 'simple',
-                                fontWeight: FontWeight.w600,
-                                color: Color(ColorConstants.primary_black),
-                              ),
+                              color: Color(ColorConstants.primary_black),
                             ),
                             !pageState.shouldClear ? GestureDetector(
                               onTap: () {
@@ -170,15 +168,11 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                               onPressed: () {
                                 onBackPressed(pageState);
                               },
-                              child: Text(
-                                pageState.pageViewIndex == 0 ? "Cancel" : "Back",
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.pageViewIndex == 0 ? "Cancel" : "Back",
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             TextButton(
@@ -197,17 +191,13 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
                               onPressed: () {
                                 onNextPressed(pageState);
                               },
-                              child: Text(
-                                pageState.pageViewIndex == 0 && pageState.selectedHomeLocationName.isEmpty ? 'Skip' : currentPageIndex == pageCount
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.pageViewIndex == 0 && pageState.selectedHomeLocationName.isEmpty ? 'Skip' : currentPageIndex == pageCount
                                     ? "Save"
                                     : "Next",
                                 textAlign: TextAlign.start,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],
@@ -282,7 +272,8 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteMileageExpenseSelected();
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: new Text('Yes'),
             ),
@@ -300,7 +291,8 @@ class _NewMileageExpensePageState extends State<NewMileageExpensePage> {
               style: Styles.getButtonStyle(),
               onPressed: () {
                 pageState.onDeleteMileageExpenseSelected();
-                Navigator.of(context).pop(true);
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
               },
               child: new Text('Yes'),
             ),

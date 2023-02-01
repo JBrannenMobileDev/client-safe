@@ -1,20 +1,14 @@
 
-import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/models/Charge.dart';
-import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
-import 'package:dandylight/models/SingleExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/IncomeAndExpensesPageState.dart';
-import 'package:dandylight/pages/common_widgets/dandylightTextWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/TextFormatterUtil.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:intl/intl.dart';
 
 import '../../utils/styles/Styles.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class RecurringExpenseChargeItem extends StatelessWidget{
   final Charge charge;
@@ -72,13 +66,11 @@ class RecurringExpenseChargeItem extends StatelessWidget{
                           ],
                         ),
                       ),
-                      DandyLightTextWidget(
+                      TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
                           amount: charge.chargeAmount,
-                          textSize: 20.0,
-                          textColor: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
-                          fontWeight: FontWeight.w600,
-                          isCurrency: true,
-                          decimalPlaces: 2,
+                          color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
+                          isCurrency: true
                       ),
                     ],
                   ),
@@ -98,15 +90,11 @@ class RecurringExpenseChargeItem extends StatelessWidget{
                       },
                     ),
                   ),
-                  Text(
-                    charge.isPaid ? 'Paid' : 'Unpaid',
+                  TextDandyLight(
+                    type: TextDandyLight.SMALL_TEXT,
+                    text: charge.isPaid ? 'Paid' : 'Unpaid',
                     textAlign: TextAlign.start,
-                    style: TextStyle(
-                      fontSize: 18.0,
-                      fontFamily: 'simple',
-                      fontWeight: FontWeight.w600,
-                      color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
-                    ),
+                    color: Color(charge.isPaid ? ColorConstants.primary_black : ColorConstants.getPeachDark()),
                   ),
                 ],
               ),

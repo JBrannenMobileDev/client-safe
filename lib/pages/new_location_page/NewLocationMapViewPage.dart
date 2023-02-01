@@ -10,6 +10,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class NewLocationMapViewPage extends StatefulWidget {
   final bool showMapIcon;
@@ -54,15 +56,11 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 16.0),
-              child: Text(
-                "Select a map location to use for driving directions.",
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: "Select a map location to use for driving directions.",
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             GestureDetector(

@@ -8,6 +8,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class NewSingleExpenseCostTextField extends StatelessWidget {
   final TextEditingController _controller;
   final String hintText;
@@ -55,33 +57,36 @@ class NewSingleExpenseCostTextField extends StatelessWidget {
                   hintText: hintText,
                   fillColor: Colors.white,
                   labelStyle: TextStyle(
-                    color: Color(ColorConstants.getPrimaryColor())
+                    color: Color(ColorConstants.getBlueLight()),
+                    fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_LARGE_TEXT),
+                    fontFamily: TextDandyLight.getFontFamily(),
+                    fontWeight: TextDandyLight.getFontWeight(),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
                   disabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(25.0),
                     borderSide: BorderSide(
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getBlueLight()),
                       width: 1.0,
                     ),
                   ),
@@ -90,9 +95,9 @@ class NewSingleExpenseCostTextField extends StatelessWidget {
                 textCapitalization: capitalization,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: new TextStyle(
-                    fontSize: 32.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
+                    fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_LARGE_TEXT),
+                    fontFamily: TextDandyLight.getFontFamily(),
+                    fontWeight: TextDandyLight.getFontWeight(),
                     color: Color(ColorConstants.primary_black)),
               )),
     );

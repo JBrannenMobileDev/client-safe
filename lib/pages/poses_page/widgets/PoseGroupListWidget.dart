@@ -8,6 +8,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../utils/ColorConstants.dart';
+import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/PoseGroupPage.dart';
 import '../PosesPageState.dart';
 
@@ -75,27 +76,19 @@ class PoseGroupListWidget extends StatelessWidget {
                           children: [
                             Padding(
                               padding: EdgeInsets.only(bottom: 2.0),
-                              child: Text(
-                                pageState.poseGroups.elementAt(index).groupName,
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.poseGroups.elementAt(index).groupName,
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 22.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                             ), Padding(
                               padding: EdgeInsets.only(top: 2.0),
-                              child: Text(
-                                pageState.poseGroups.elementAt(index).poses.length.toString(),
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: pageState.poseGroups.elementAt(index).poses.length.toString(),
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w400,
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
+                                color: Color(ColorConstants.getPeachDark()),
                               ),
                             ),
                           ],

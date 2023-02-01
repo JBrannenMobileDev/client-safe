@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/KeyboardUtil.dart';
@@ -9,6 +6,7 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import '../../widgets/TextDandyLight.dart';
 import 'NewPoseGroupPageState.dart';
 import 'NewPoseGroupTextField.dart';
 
@@ -45,15 +43,11 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
                       children: <Widget>[
                         Padding(
                           padding: EdgeInsets.only(bottom: 16.0),
-                          child: Text(
-                            "New Collection",
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: "New Collection",
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 26.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              color: Color(ColorConstants.primary_black),
-                            ),
+                            color: Color(ColorConstants.primary_black),
                           ),
                         ),
                         Container(
@@ -63,15 +57,11 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
                             children: <Widget>[
                               Padding(
                                 padding: EdgeInsets.only(bottom: 32.0),
-                                child: Text(
-                                  "Enter a simple and descriptive name for this pose collection. ",
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: "Enter a simple and descriptive name for this pose collection. ",
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                               NewPoseGroupTextField(
@@ -106,15 +96,11 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
                                 onPressed: () {
                                   onBackPressed(pageState);
                                 },
-                                child: Text(
-                                  'Cancel',
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Cancel',
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                               TextButton(
@@ -129,15 +115,11 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
                                 onPressed: () {
                                   onNextPressed(pageState);
                                 },
-                                child: Text(
-                                  'Save',
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Save',
                                   textAlign: TextAlign.start,
-                                  style: TextStyle(
-                                    fontSize: 22.0,
-                                    fontFamily: 'simple',
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(ColorConstants.primary_black),
-                                  ),
+                                  color: Color(ColorConstants.primary_black),
                                 ),
                               ),
                             ],

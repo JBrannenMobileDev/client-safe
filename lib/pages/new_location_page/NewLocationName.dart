@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class NewLocationName extends StatefulWidget {
   @override
@@ -36,15 +38,11 @@ class _NewLocationName extends State<NewLocationName> with AutomaticKeepAliveCli
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 32.0),
-              child: Text(
-                "Enter a simple and descriptive name for this location. ",
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: "Enter a simple and descriptive name for this location. ",
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             NewLocationTextField(

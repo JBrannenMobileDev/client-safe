@@ -3,6 +3,7 @@ import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionAction
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionPageState.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -60,26 +61,18 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 24.0),
-                  child: Text(
-                    "Calendar Selection",
-                    style: TextStyle(
-                      fontFamily: 'simple',
-                      fontSize: 26.0,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(ColorConstants.primary_black),
-                    ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: "Calendar Selection",
+                    color: const Color(ColorConstants.primary_black),
                   ),
                 ),
                 Container(
                   margin: EdgeInsets.only(top: 56.0),
-                  child: Text(
-                    "Please select what calendars you would like to sync with the Dandylight calendar",
-                    style: TextStyle(
-                      fontFamily: 'simple',
-                      fontSize: 20.0,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(ColorConstants.primary_black),
-                    ),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "Please select what calendars you would like to sync with the DandyLight calendar",
+                    color: const Color(ColorConstants.primary_black),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -125,14 +118,10 @@ class _CalendarSelectionPageState extends State<CalendarSelectionPage> {
                           color: Color(ColorConstants.getPrimaryColor()),
                           borderRadius: BorderRadius.circular(27.0)
                       ),
-                      child: Text(
-                        "Save",
-                        style: TextStyle(
-                          fontFamily: 'simple',
-                          fontSize: 26.0,
-                          fontWeight: FontWeight.w600,
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                        ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.LARGE_TEXT,
+                        text: "Save",
+                        color: Color(ColorConstants.getPrimaryWhite()),
                       ),
                     ),
                   ),

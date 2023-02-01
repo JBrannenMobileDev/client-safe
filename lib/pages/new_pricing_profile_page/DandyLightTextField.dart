@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class DandyLightTextField extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
@@ -45,7 +47,7 @@ class DandyLightTextField extends StatelessWidget {
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           height: height,
           child: TextFormField(
-            cursorColor: Color(ColorConstants.getPrimaryColor()),
+            cursorColor: Color(ColorConstants.getBlueDark()),
             enabled: enabled,
             focusNode: focusNode,
             textInputAction: keyboardAction,
@@ -61,35 +63,38 @@ class DandyLightTextField extends StatelessWidget {
               alignLabelWithHint: true,
               labelText: labelText,
               labelStyle: TextStyle(
-                color: Color(ColorConstants.getPrimaryColor()), //<-- SEE HERE
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontWeight: TextDandyLight.getFontWeight(),
+                color: Color(ColorConstants.getBlueLight()), //<-- SEE HERE
               ),
               hintText: hintText,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
@@ -99,9 +104,9 @@ class DandyLightTextField extends StatelessWidget {
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
-                fontFamily: 'simple',
-                fontSize: 24.0,
-                fontWeight: FontWeight.w600,
+                fontFamily: TextDandyLight.getFontFamily(),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),
           )
     );

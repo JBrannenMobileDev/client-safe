@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class TipChangeDialog extends StatefulWidget {
   @override
   _TipChangeDialogState createState() {
@@ -45,7 +47,7 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                 children: <Widget>[
 
                   Padding(
-                    padding: EdgeInsets.only(top: 62.0, right: 16.0),
+                    padding: EdgeInsets.only(top: 74.0, right: 16.0),
                     child: GestureDetector(
                       onTap: () {
                         pageState.onClearUnsavedTip();
@@ -74,28 +76,20 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.only(bottom: 24.0),
-                        child: Text(
-                          "Select the tip amount received.",
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: "Select the tip amount",
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 24.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Container(
                         margin: EdgeInsets.only(bottom: 16.0),
-                        child: Text(
-                          "\$" + pageState.unsavedTipAmount.toString(),
+                        child: TextDandyLight(
+                          type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
+                          text: "\$" + pageState.unsavedTipAmount.toString(),
                           textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 52.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       Row(
@@ -115,30 +109,22 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                               },
                               child: Container(
                                 alignment: Alignment.center,
-                                width: 78.0,
-                                height: 64.0,
+                                width: 100.0,
+                                height: 54.0,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text(
-                                      "+",
+                                    TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
+                                      text: "+",
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w200,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
-                                    Text(
-                                      "\$1",
+                                    TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
+                                      text: "\$1",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   ],
                                 ),
@@ -159,30 +145,22 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                               },
                               child: Container(
                                 alignment: Alignment.center,
-                                width: 78.0,
-                                height: 64.0,
+                                width: 100.0,
+                                height: 54.0,
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    Text(
-                                      "+",
+                                    TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
+                                      text: "+",
                                       textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w200,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
-                                    Text(
-                                      "\$5",
+                                    TextDandyLight(
+                                      type: TextDandyLight.LARGE_TEXT,
+                                      text: "\$5",
                                       textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontSize: 32.0,
-                                        fontFamily: 'simple',
-                                        fontWeight: FontWeight.w600,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
-                                      ),
+                                      color: Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   ],
                                 ),
@@ -210,30 +188,22 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
-                                  width: 78.0,
-                                  height: 64.0,
+                                  width: 100.0,
+                                  height: 54.0,
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        "+",
+                                      TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        text: "+",
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w200,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
-                                      Text(
-                                        "\$25",
+                                      TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        text: "\$25",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ],
                                   ),
@@ -254,30 +224,22 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                 },
                                 child: Container(
                                   alignment: Alignment.center,
-                                  width: 78.0,
-                                  height: 64.0,
+                                  width: 100.0,
+                                  height: 54.0,
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: <Widget>[
-                                      Text(
-                                        "+",
+                                      TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        text: "+",
                                         textAlign: TextAlign.start,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w200,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
-                                      Text(
-                                        "\$100",
+                                      TextDandyLight(
+                                        type: TextDandyLight.LARGE_TEXT,
+                                        text: "\$100",
                                         textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontSize: 32.0,
-                                          fontFamily: 'simple',
-                                          fontWeight: FontWeight.w600,
-                                          color: Color(ColorConstants.getPrimaryWhite()),
-                                        ),
+                                        color: Color(ColorConstants.getPrimaryWhite()),
                                       ),
                                     ],
                                   ),
@@ -297,15 +259,11 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                               onPressed: () {
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Cancel',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Cancel',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                             TextButton(
@@ -315,15 +273,11 @@ class _TipChangeDialogState extends State<TipChangeDialog>
                                 VibrateUtil.vibrateHeavy();
                                 Navigator.of(context).pop();
                               },
-                              child: Text(
-                                'Save',
+                              child: TextDandyLight(
+                                type: TextDandyLight.MEDIUM_TEXT,
+                                text: 'Save',
                                 textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontFamily: 'simple',
-                                  fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.primary_black),
-                                ),
+                                color: Color(ColorConstants.primary_black),
                               ),
                             ),
                           ],

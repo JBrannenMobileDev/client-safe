@@ -94,7 +94,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                     _mobileFormatter,
                   ],
                   true,
-                ColorConstants.getPrimaryColor(),
+                ColorConstants.getBlueLight(),
               ),
               NewContactTextField(
                   emailTextController,
@@ -109,7 +109,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   TextCapitalization.none,
                   null,
                   true,
-                ColorConstants.getPrimaryColor(),
+                ColorConstants.getBlueLight(),
               ),
               NewContactTextField(
                   instagramUrlTextController,
@@ -124,7 +124,7 @@ class _PhoneEmailInstagramState extends State<PhoneEmailInstagram>
                   TextCapitalization.none,
                   null,
                   true,
-                ColorConstants.getPrimaryColor(),
+                ColorConstants.getBlueLight(),
               ),
             ],
           ),

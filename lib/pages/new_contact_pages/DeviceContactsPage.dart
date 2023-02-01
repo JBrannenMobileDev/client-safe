@@ -1,14 +1,9 @@
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageState.dart';
-import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-
-import 'NewContactTextField.dart';
 
 class DeviceContactsPage extends StatefulWidget {
   @override

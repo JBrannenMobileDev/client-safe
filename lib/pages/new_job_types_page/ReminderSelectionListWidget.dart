@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../utils/ColorConstants.dart';
+import '../../widgets/TextDandyLight.dart';
 
 class ReminderSelectionListWidget extends StatelessWidget {
   final NewJobTypePageState pageState;
@@ -57,31 +58,22 @@ class ReminderSelectionListWidget extends StatelessWidget {
                       children: <Widget>[
                         Container(
                           width: MediaQuery.of(context).size.width - 181,
-                          child: Text(
-                            pageState.allDandyLightReminders.elementAt(index).description,
+                          child: TextDandyLight(
+                            type: TextDandyLight.MEDIUM_TEXT,
+                            text: pageState.allDandyLightReminders.elementAt(index).description,
                             textAlign: TextAlign.start,
                             maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w600,
-                              overflow: TextOverflow.fade,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                            overflow: TextOverflow.fade,
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                         Container(
-                          child: Text(
-                            pageState.allDandyLightReminders.elementAt(index).when == 'on' ? 'Day of shoot' :
+                          child: TextDandyLight(
+                            type: TextDandyLight.EXTRA_SMALL_TEXT,
+                            text: pageState.allDandyLightReminders.elementAt(index).when == 'on' ? 'Day of shoot' :
                             pageState.allDandyLightReminders.elementAt(index).amount.toString() + ' ' + (pageState.allDandyLightReminders.elementAt(index).amount == 1 ? pageState.allDandyLightReminders.elementAt(index).daysWeeksMonths.substring(0, pageState.allDandyLightReminders.elementAt(index).daysWeeksMonths.length - 1) : pageState.allDandyLightReminders.elementAt(index).daysWeeksMonths) + ' ' + pageState.allDandyLightReminders.elementAt(index).when,
                             textAlign: TextAlign.start,
-                            style: TextStyle(
-                              fontSize: 16.0,
-                              fontFamily: 'simple',
-                              fontWeight: FontWeight.w400,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ],

@@ -4,6 +4,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
 import '../../utils/ColorConstants.dart';
+import '../../widgets/TextDandyLight.dart';
 import '../new_pricing_profile_page/DandyLightTextField.dart';
 import 'NewJobTypePageState.dart';
 
@@ -45,15 +46,11 @@ class _JobTypeNameSelectionWidgetState extends State<JobTypeNameSelectionWidget>
                       Container(
                         alignment: Alignment.center,
                         padding: EdgeInsets.only(bottom: 8.0),
-                        child: Text(
-                          'What do you want to name this Job Type?',
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'What do you want to name this Job Type?',
                           textAlign: TextAlign.start,
-                          style: TextStyle(
-                            fontSize: 20.0,
-                            fontFamily: 'simple',
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.primary_black),
-                          ),
+                          color: Color(ColorConstants.primary_black),
                         ),
                       ),
                       DandyLightTextField(

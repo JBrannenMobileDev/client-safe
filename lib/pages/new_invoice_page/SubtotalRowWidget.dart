@@ -3,6 +3,8 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class SubtotalRowWidget extends StatelessWidget{
   final NewInvoicePageState pageState;
 
@@ -19,27 +21,19 @@ class SubtotalRowWidget extends StatelessWidget{
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                  'Subtotal',
+              TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                  text: 'Subtotal',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w800,
-                    color: Color(
-                        ColorConstants.getPrimaryBlack()),
-                  ),
+                color: Color(
+                    ColorConstants.getPrimaryBlack()),
               ),
-              Text(
-                TextFormatterUtil.formatSimpleCurrency(pageState.total.toInt()),
+              TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: TextFormatterUtil.formatDecimalDigitsCurrency(pageState.total, 2),
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(
-                      ColorConstants.getPrimaryBlack()),
-                ),
+                color: Color(
+                    ColorConstants.getPrimaryBlack()),
               ),
             ],
           ),

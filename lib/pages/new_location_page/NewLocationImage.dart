@@ -9,6 +9,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 
 class NewLocationImage extends StatefulWidget {
   @override
@@ -37,15 +39,11 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(bottom: 26.0),
-              child: Text(
-                "Take a picture of this location to help you remember what it looks like.",
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: "Take a picture of this location to help you remember what it looks like.",
                 textAlign: TextAlign.start,
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'simple',
-                  fontWeight: FontWeight.w600,
-                  color: Color(ColorConstants.primary_black),
-                ),
+                color: Color(ColorConstants.primary_black),
               ),
             ),
             Row(

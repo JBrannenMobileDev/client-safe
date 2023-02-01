@@ -9,6 +9,8 @@ import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_pic
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
 
+import '../../widgets/TextDandyLight.dart';
+
 class DueDateSelectionPage extends StatefulWidget {
 
   @override
@@ -31,15 +33,11 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Center(
-                child: Text(
-                  'Select a Due Date',
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'Select a Due Date',
                   textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(ColorConstants.primary_black),
-                  ),
+                  color: Color(ColorConstants.primary_black),
                 ),
               ),
               Container(
@@ -83,14 +81,10 @@ class _DueDateSelectionPageState extends State<DueDateSelectionPage> with Automa
                               color: Color(ColorConstants.getPeachDark())
                           ),
                         ),
-                        child: Text(
-                          DateFormat('MMM dd, yyyy').format(pageState.dueDate),
-                          style: TextStyle(
-                            fontFamily: 'simple',
-                            fontSize: 32.0,
-                            fontWeight: FontWeight.w600,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: DateFormat('MMM dd, yyyy').format(pageState.dueDate),
+                          color: Color(ColorConstants.getPeachDark()),
                         ),
                       ),
                     ],
