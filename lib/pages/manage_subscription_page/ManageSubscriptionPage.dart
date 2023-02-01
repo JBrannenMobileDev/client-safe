@@ -38,6 +38,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
   TextEditingController referralCodeTextController = TextEditingController();
   final referralCodeFocusNode = FocusNode();
   final Profile profile;
+  String errorMsg = '';
 
   _ManageSubscriptionPageState(this.profile);
 
@@ -49,31 +50,35 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
       },
       onDidChange: (previous, current) {
         if(current.errorMsg.isNotEmpty) {
-          showModalBottomSheet(
-            context: context,
-            backgroundColor: Colors.transparent,
-            barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-            builder: (context) {
-              return Container(
-                margin: EdgeInsets.only(left: 64, right: 64.0, bottom: 64.0),
-                decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPeachDark()),
-                  borderRadius: BorderRadius.circular(16.0),
-                ),
-                child: Text(current.errorMsg,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 20.0,
-                    fontFamily: 'simple',
-                    fontWeight: FontWeight.w600,
-                    color: Color(
-                        ColorConstants.getPrimaryWhite()),
+          if(current.errorMsg != errorMsg) {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+              builder: (context) {
+                return Container(
+                  margin: EdgeInsets.only(left: 32, right: 32.0, bottom: 64.0),
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Color(ColorConstants.getPeachDark()),
+                    borderRadius: BorderRadius.circular(16.0),
                   ),
-                ),
-              );
-            },
-          );
-          current.resetErrorMsg();
+                  child: Text(current.errorMsg,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      fontFamily: 'simple',
+                      fontWeight: FontWeight.w600,
+                      color: Color(
+                          ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                );
+              },
+            );
+            errorMsg = current.errorMsg;
+            current.resetErrorMsg();
+          }
         }
         if(current.shouldPopBack) {
           Navigator.of(context).pop();

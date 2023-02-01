@@ -39,31 +39,52 @@ ManageSubscriptionPageState _resetErrorMsg(ManageSubscriptionPageState previousS
 
 ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState previousState, SetManageSubscriptionStateAction action){
   Offering offering = null;
+  double annualPrice = 0;
+  double monthlyPrice = 0;
+
   if(action.profile.isBetaTester) {
-    offering = action.offerings.getOffering('Beta Discount Standard');
+    if(action.offerings != null) {
+      offering = action.offerings.getOffering('Beta Discount Standard');
+    }
+    annualPrice = 49.99;
+    monthlyPrice = 4.99;
   } else {
-    offering = action.offerings.getOffering('Standard');
+    if(action.offerings != null) {
+      offering = action.offerings.getOffering('Standard');
+    }
+    annualPrice = 99.99;
+    monthlyPrice = 9.99;
   }
 
-  Package selectedSubscription = offering.annual;
+  Package selectedSubscription = null;
   int radioValue = 0;
-  if(action.subscriptionState.entitlements.all['standard'] != null) {
-    if(action.subscriptionState.entitlements.all['standard'].isActive) {
-      if(action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_standard_subscription')) {
-        selectedSubscription = offering.monthly;
-        radioValue = 1;
-      } else if(action.subscriptionState.activeSubscriptions.contains('dandylight_annual_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_annual_subscription')) {
-        selectedSubscription = offering.annual;
-        radioValue = 0;
+
+  if(offering != null) {
+    annualPrice = offering.annual.storeProduct.price;
+    monthlyPrice = offering.monthly.storeProduct.price;
+    selectedSubscription = offering.annual;
+
+    if(action.subscriptionState.entitlements.all['standard'] != null) {
+      if(action.subscriptionState.entitlements.all['standard'].isActive) {
+        if(action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_standard_subscription')) {
+          selectedSubscription = offering.monthly;
+          radioValue = 1;
+        } else if(action.subscriptionState.activeSubscriptions.contains('dandylight_annual_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_annual_subscription')) {
+          selectedSubscription = offering.annual;
+          annualPrice = offering.annual.storeProduct.price;
+          monthlyPrice = offering.monthly.storeProduct.price;
+          radioValue = 0;
+        }
       }
     }
   }
+
   return previousState.copyWith(
     subscriptionState: action.subscriptionState,
-    monthlyPrice: action.monthlyPrice,
-    monthlyPackage: offering.monthly,
-    annualPrice: action.annualPrice,
-    annualPackage: offering.annual,
+    monthlyPrice: monthlyPrice,
+    monthlyPackage: offering?.monthly,
+    annualPrice: annualPrice,
+    annualPackage: offering?.annual,
     offerings: action.offerings,
     selectedSubscription: selectedSubscription,
     radioValue: radioValue,

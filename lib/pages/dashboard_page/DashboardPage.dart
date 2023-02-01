@@ -155,11 +155,11 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   static void notificationTapBackground(NotificationResponse notificationResponse) async {
     print('notification(${notificationResponse.id}) action tapped: ''${notificationResponse.actionId} with'' payload: ${notificationResponse.payload}');
 
-    if((notificationResponse.payload?.isNotEmpty ?? false) && notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
-      Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-      profile.showNewMileageExpensePage = true;
-      ProfileDao.update(profile);
-    }
+    // if((notificationResponse.payload?.isNotEmpty ?? false) && notificationResponse.payload == JobReminder.MILEAGE_EXPENSE_ID) {
+    //   Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    //   profile.showNewMileageExpensePage = true;
+    //   ProfileDao.update(profile);
+    // }
   }
 
   @override

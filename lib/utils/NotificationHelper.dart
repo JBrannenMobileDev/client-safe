@@ -96,10 +96,7 @@ class NotificationHelper {
           scheduleNotification(
               index,
               'Reminder',
-              '(' +
-                  (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle +
-                  ')\n' +
-                  reminderToSchedule.reminder.description,
+              '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle + ')\n' + reminderToSchedule.reminder.description,
               reminderToSchedule.payload,
               reminderToSchedule.triggerTime,
           );
@@ -141,7 +138,12 @@ class NotificationHelper {
           scheduledNotificationDateTime,
           tz.local,
         ),
-        const NotificationDetails(),
+        const NotificationDetails(
+            android: AndroidNotificationDetails(
+          '1',
+          'Standard',
+          actions: <AndroidNotificationAction>[],
+        )),
         androidAllowWhileIdle: true,
         uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
         payload: payload,
