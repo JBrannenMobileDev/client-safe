@@ -38,7 +38,6 @@ class BarChartState extends State<BarChartWidget> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
-                mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   noData ? Container(
                     margin: EdgeInsets.only(top: 24.0, bottom: 18.0),

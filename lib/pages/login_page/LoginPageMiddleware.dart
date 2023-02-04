@@ -25,6 +25,7 @@ import 'package:redux/redux.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../models/Response.dart';
+import '../../utils/PushNotificationsManager.dart';
 import 'LoginPageActions.dart';
 
 class LoginPageMiddleware extends MiddlewareClass<AppState> {
@@ -84,7 +85,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       }
       ProfileDao.updateUserLoginTime(user.uid);
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-      // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+      bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
+      profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
       await ProfileDao.update(profile);
       await EventSender().setUserIdentity(user.uid);
     } else {
@@ -122,7 +124,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         if (authResult.user != null && authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
           profile = await ProfileDao.getMatchingProfile(authResult.user.uid);
-          // profile.addUniqueDeviceToken(await PushNotificationsManager().getToken());
+          bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
+          profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
           await ProfileDao.update(profile);
           store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
         } else if (authResult.user != null && !authResult.user.emailVerified) {
@@ -238,7 +241,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
         UidUtil().setUid(user.uid);
         await EventSender().setUserIdentity(user.uid);
-        await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) {
+        await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
           ProfileDao.updateUserLoginTime(user.uid);
           store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));

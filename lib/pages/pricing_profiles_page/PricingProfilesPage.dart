@@ -92,7 +92,7 @@ class _PricingProfilesPageState extends State<PricingProfilesPage> with TickerPr
                               type: TextDandyLight.SMALL_TEXT,
                               text: "You have not created any pricing package yet. To create a new pricing package, select the plus icon.",
                               textAlign: TextAlign.center,
-                              color:  Color(ColorConstants.getPrimaryColor()),
+                              color:  Color(ColorConstants.getBlueDark()),
                             ),
                           ),
                         ],

@@ -79,6 +79,20 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     }
   }
 
+  DateTime expirationTime = action.profile.accountCreatedDate.add(Duration(days: 14));
+  DateTime current = DateTime.now();
+
+  DateTime from = DateTime(current.year, current.month, current.day);
+  DateTime to = DateTime(expirationTime.year, expirationTime.month, expirationTime.day);
+  int daysBetween = (to.difference(from).inHours / 24).round();
+
+  if(current.isAfter(expirationTime)) {
+    daysBetween = 0;
+  }
+
+  String timeLeftMessage = daysBetween.toString() + (daysBetween == 1 ? ' day' : ' days') + ' remaining of your 14 day free trial. When the free trial ends you will not be charged. You will be required to subscribe at the end of the trial period to continue using our service.';
+
+
   return previousState.copyWith(
     subscriptionState: action.subscriptionState,
     monthlyPrice: monthlyPrice,
@@ -89,13 +103,28 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     selectedSubscription: selectedSubscription,
     radioValue: radioValue,
     profile: action.profile,
+    remainingTimeMessage: timeLeftMessage,
   );
 }
 
 ManageSubscriptionPageState _setInitialData(ManageSubscriptionPageState previousState, SetInitialDataAction action) {
+  DateTime expirationTime = action.profile.accountCreatedDate.add(Duration(days: 14));
+  DateTime current = DateTime.now();
+
+  DateTime from = DateTime(current.year, current.month, current.day);
+  DateTime to = DateTime(expirationTime.year, expirationTime.month, expirationTime.day);
+  int daysBetween = (to.difference(from).inHours / 24).round();
+
+  if(current.isAfter(expirationTime)) {
+    daysBetween = 0;
+  }
+
+  String timeLeftMessage = daysBetween.toString() + (daysBetween == 1 ? ' Day' : ' Days') + 'remaining of your 14 day free trial. When the free trial ends you will not be charged. Your will be required to subscribe at the end of the trial period to continue using our service.';
+
   return previousState.copyWith(
     profile: action.profile,
     subscriptionState: action.subscriptionState,
+    remainingTimeMessage: timeLeftMessage,
   );
 }
 

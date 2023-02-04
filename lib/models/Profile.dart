@@ -28,6 +28,7 @@ class Profile{
   bool hasSeenShowcase = false;
   bool hasSeenIncomeInfo = false;
   bool isBetaTester = false;
+  bool shouldShowRestoreSubscription = false;
   DateTime accountCreatedDate;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
@@ -94,6 +95,7 @@ class Profile{
     this.hasSeenIncomeInfo,
     this.isBetaTester,
     this.accountCreatedDate,
+    this.shouldShowRestoreSubscription,
   });
 
   Profile copyWith({
@@ -122,6 +124,7 @@ class Profile{
     bool hasSeenShowcase,
     bool hasSeenIncomeInfo,
     bool isBetaTester,
+    bool shouldShowRestoreSubscription,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -189,6 +192,7 @@ class Profile{
       hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
       hasSeenIncomeInfo: hasSeenIncomeInfo ?? this.hasSeenIncomeInfo,
       accountCreatedDate: accountCreatedDate ?? this.accountCreatedDate,
+      shouldShowRestoreSubscription: shouldShowRestoreSubscription ?? this.shouldShowRestoreSubscription,
     );
   }
 
@@ -215,6 +219,7 @@ class Profile{
       'showRequestPaymentLinksDialog' : showRequestPaymentLinksDialog,
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
+      'shouldShowRestoreSubscription' : shouldShowRestoreSubscription ?? false,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
       'hasSeenShowcase' : hasSeenShowcase ?? false,
       'isBetaTester' : isBetaTester ?? false,
@@ -267,6 +272,7 @@ class Profile{
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
       hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
       isBetaTester: map['isBetaTester'] != null ? map['isBetaTester'] : false,
+      shouldShowRestoreSubscription: map['shouldShowRestoreSubscription'] != null ? map['shouldShowRestoreSubscription'] : false,
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
@@ -310,6 +316,12 @@ class Profile{
     }
     if(!alreadyExists) deviceTokens.add(deviceToken);
     return !alreadyExists;
+  }
+
+  bool isFirstDevice() {
+    if(deviceTokens == null) deviceTokens = [];
+    deviceTokens = deviceTokens.toList();
+    return deviceTokens.length <= 1;
   }
 
   bool isFreeTrialExpired() {

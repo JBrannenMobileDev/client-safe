@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
@@ -453,7 +455,50 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                     ),
                                   ),
                                 ),
-                                TextButton(
+                                Platform.isIOS ?  TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    _launchAppleEULA();
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Image.asset('assets/images/icons/signature.png', color: Color(ColorConstants.getPrimaryBlack(),)),
+                                            ),
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text:'Terms of Use',
+                                              textAlign: TextAlign.center,
+                                              color: Color(ColorConstants
+                                                  .getPrimaryBlack()),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.chevron_right,
+                                            color: Color(ColorConstants
+                                                .getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ) : TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
                                     _launchTermsOfServiceURL();
@@ -580,8 +625,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
               ),
             ),
       );
-
   void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
   void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
+  void _launchAppleEULA() async => await canLaunchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) ? await launchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) : throw 'Could not launch';
+
 }

@@ -10,6 +10,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart'
 import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobsThisWeekHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LeadSourcesPieChart.dart';
+import 'package:dandylight/pages/dashboard_page/widgets/RestorePurchasesBottomSheet.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StageStatsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
@@ -162,6 +163,20 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
     // }
   }
 
+  void _showRestorePurchasesSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: false,
+      enableDrag: false,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return RestorePurchasesBottomSheet();
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
         onInit: (store) async {
@@ -176,6 +191,12 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           await notificationHelper.initNotifications();
           if(allReminders.length > 0) {
             NotificationHelper().createAndUpdatePendingNotifications();
+          }
+          if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription && store.state.dashboardPageState.subscriptionState!= null && store.state.dashboardPageState.subscriptionState == ManageSubscriptionPage.SUBSCRIBED) {
+            Future.delayed(Duration(seconds: 1), () {
+              _showRestorePurchasesSheet(context);
+              store.dispatch(UpdateProfileRestorePurchasesSeen(store.state.dashboardPageState));
+            });
           }
         },
         onDidChange: (previous, current) async {

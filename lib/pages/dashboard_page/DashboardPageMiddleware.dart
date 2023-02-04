@@ -48,6 +48,15 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProfileWithShowcaseSeen) {
       _updateProfileWithShowcaseSeen(store, action, next);
     }
+    if(action is UpdateProfileRestorePurchasesSeen) {
+      _updateProfileWithSeenRestorePurchases(store, action);
+    }
+  }
+
+  Future<void> _updateProfileWithSeenRestorePurchases(Store<AppState> store, UpdateProfileRestorePurchasesSeen action) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.shouldShowRestoreSubscription = false;
+    ProfileDao.update(profile);
   }
 
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {

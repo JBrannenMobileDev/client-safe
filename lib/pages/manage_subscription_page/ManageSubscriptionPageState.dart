@@ -11,6 +11,7 @@ class ManageSubscriptionPageState {
   final int radioValue;
   final String uiState;
   final String errorMsg;
+  final String remainingTimeMessage;
   final double annualPrice;
   final double monthlyPrice;
   final bool isLoading;
@@ -46,12 +47,14 @@ class ManageSubscriptionPageState {
     @required this.isLoading,
     @required this.radioValue,
     @required this.shouldPopBack,
+    @required this.remainingTimeMessage,
   });
 
   ManageSubscriptionPageState copyWith({
     int radioValue,
     String uiState,
     String errorMsg,
+    String remainingTimeMessage,
     purchases.Package selectedSubscription,
     purchases.Package monthlyPackage,
     purchases.Package annualPackage,
@@ -87,6 +90,7 @@ class ManageSubscriptionPageState {
       isLoading: isLoading ?? this.isLoading,
       radioValue: radioValue ?? this.radioValue,
       shouldPopBack: shouldPopBack ?? this.shouldPopBack,
+      remainingTimeMessage: remainingTimeMessage ?? this.remainingTimeMessage,
     );
   }
 
@@ -109,6 +113,7 @@ class ManageSubscriptionPageState {
     isLoading: false,
     radioValue: 0,
     shouldPopBack: false,
+    remainingTimeMessage: '',
   );
 
   factory ManageSubscriptionPageState.fromStore(Store<AppState> store) {
@@ -126,6 +131,7 @@ class ManageSubscriptionPageState {
       isLoading: store.state.manageSubscriptionPageState.isLoading,
       radioValue: store.state.manageSubscriptionPageState.radioValue,
       shouldPopBack: store.state.manageSubscriptionPageState.shouldPopBack,
+      remainingTimeMessage: store.state.manageSubscriptionPageState.remainingTimeMessage,
       onSubscribeSelected: () => store.dispatch(SubscribeSelectedAction(store.state.manageSubscriptionPageState)),
       onRestoreSubscriptionSelected: () => store.dispatch(RestoreSubscriptionAction(store.state.manageSubscriptionPageState)),
       onSubscriptionSelected: (package) => store.dispatch(SubscriptionSelectedAction(store.state.manageSubscriptionPageState, package)),
@@ -153,6 +159,7 @@ class ManageSubscriptionPageState {
       isLoading.hashCode ^
       radioValue.hashCode ^
       shouldPopBack.hashCode ^
+      remainingTimeMessage.hashCode ^
       onSubscriptionSelected.hashCode;
 
   @override
@@ -176,5 +183,6 @@ class ManageSubscriptionPageState {
           isLoading == other.isLoading &&
           radioValue == other.radioValue &&
           shouldPopBack == other.shouldPopBack &&
+          remainingTimeMessage == other.remainingTimeMessage &&
           onSubscriptionSelected == other.onSubscriptionSelected;
 }

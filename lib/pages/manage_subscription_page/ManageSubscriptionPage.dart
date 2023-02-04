@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
@@ -124,7 +125,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            Container(
+                            pageState.uiState != ManageSubscriptionPage.FREE_TRIAL && pageState.uiState != ManageSubscriptionPage.FREE_TRIAL_ENDED ? Container(
                                 margin: EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: _getMessageText(pageState.uiState),
@@ -132,7 +133,16 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getBlueDark())
                                 )
-                            ),
+                            ) : SizedBox(),
+                            pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED ? Container(
+                                margin: EdgeInsets.only(top: 164.0),
+                                child: TextDandyLight(
+                                    text: pageState.remainingTimeMessage,
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getBlueDark())
+                                )
+                            ) : SizedBox(),
                             pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
@@ -263,6 +273,15 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ),
                                   ),
                                 ),
+                                pageState.radioValue == 0 ? Container(
+                                  margin: EdgeInsets.only(top: 8),
+                                  child: TextDandyLight(
+                                    text: 'Full access to all features',
+                                    textAlign: TextAlign.center,
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    color: Color(ColorConstants.getBlueDark()),
+                                  ),
+                                ) : SizedBox(),
                                 GestureDetector(
                                   onTap: () {
                                     if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
@@ -333,6 +352,15 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ),
                                   ),
                                 ),
+                                pageState.radioValue == 1 ? Container(
+                                  margin: EdgeInsets.only(bottom: 8),
+                                  child: TextDandyLight(
+                                    text: 'Full access to all features',
+                                    textAlign: TextAlign.center,
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    color: Color(ColorConstants.getBlueDark()),
+                                  ),
+                                ) : SizedBox(),
                                 // pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : TextButton(
                                 //   style: Styles.getButtonStyle(),
                                 //   onPressed: () {
@@ -412,7 +440,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   margin: EdgeInsets.only(top: 32.0, bottom: 16.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_SMALL_TEXT,
-                                    text: 'Payment will be charged to your ' + (Device.get().isIos ? 'iTunes' : 'GooglePlay') + ' account, and your account will be charged for renewal 24-hours prior to the end of the current period. Auto-renewal may be turned off at any time by going to your settings in the App Store after purchase.',
+                                    text: 'Payment will be charged to your ' + (Device.get().isIos ? 'iTunes' : 'GooglePlay') + ' account at confirmation of purchase. Subscription automatically renews unless auto-renew is turned off at least 24-hours before the end of the current period. Account will be charged for renewal within 24-hours prior to the end of the current period, and identify the cost of the renewal. Subscriptions may be managed by the user and auto-renewal may be turned off by going to the user\'s Account Settings after purchase. Any unused portion of a free trial period, if offered, will be forfeited when the user purchases a subscription to that publication, where applicable.',
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getBlueDark()),
                                   ),
@@ -420,7 +448,20 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: <Widget>[
-                                    TextButton(
+                                    Platform.isIOS ? TextButton(
+                                      style: Styles.getButtonStyle(),
+                                      onPressed: () {
+                                        _launchTermsOfService();
+                                      },
+                                      child: Container(
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.SMALL_TEXT,
+                                          text: 'Terms of Use',
+                                          textAlign: TextAlign.center,
+                                          color: Color(ColorConstants.getBlueDark()),
+                                        ),
+                                      ),
+                                    ) : TextButton(
                                       style: Styles.getButtonStyle(),
                                       onPressed: () {
                                         _launchTermsOfServiceURL();
@@ -501,4 +542,5 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
 
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
   void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
+  void _launchTermsOfService() async => await canLaunchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) ? await launchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) : throw 'Could not launch';
 }

@@ -16,6 +16,11 @@ class InitDashboardPageAction{
   InitDashboardPageAction(this.item);
 }
 
+class UpdateProfileRestorePurchasesSeen {
+  final DashboardPageState pageState;
+  UpdateProfileRestorePurchasesSeen(this.pageState);
+}
+
 class LoadJobsAction{
   final DashboardPageState pageState;
   LoadJobsAction(this.pageState);

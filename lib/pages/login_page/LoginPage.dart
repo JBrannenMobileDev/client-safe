@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
@@ -22,7 +23,10 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../utils/DeviceType.dart';
+import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'BusinessAnalyticsInfo.dart';
 import 'InfoContainerWidget.dart';
@@ -568,7 +572,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           ),
                         ),
                       ),
-                    SlideTransition(
+                      DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
                     position: hideMainButtonsStep,
                       child: Container(
                         margin: EdgeInsets.only(bottom: 16.0),
@@ -586,7 +590,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                  SlideTransition(
+                    DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
                     position: hideMainButtonsStep,
                     child: GestureDetector(
                         onTap: () {
@@ -611,7 +615,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(36.0)),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: '14 Day Free Trial',
+                            text: 'Create Account',
                             textAlign: TextAlign.center,
                             color: Color(ColorConstants.getPrimaryWhite()),
                           ),
@@ -633,7 +637,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           },
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Start Free Trial'),
+                            text: pageState.mainButtonsVisible ? 'Sign in' : (pageState.isForgotPasswordViewVisible ? 'Sign in' : 'Create Account'),
                             color: Color(ColorConstants.primary_black),
                           ),
                         ),
@@ -715,6 +719,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 position: lightPeachMountainsStep1,
                 child: Container(
                   alignment: Alignment.bottomCenter,
+                  width: 424,
                   height: MediaQuery.of(context).size.height,
                   margin: EdgeInsets.only(bottom: 90.0),
                   child: Column(
@@ -729,7 +734,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           color: Color(ColorConstants.error_red),
                         ),
                       ),
-                      !pageState.showLoginLoadingAnimation ? SlideTransition(
+                      DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
                           maxLines: 1,
@@ -751,8 +756,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           enabled: true,
                           obscureText: false,
                         ),
-                      ) : SizedBox(),
-                      pageState.showLoginLoadingAnimation || pageState.isForgotPasswordViewVisible ? SizedBox() : SlideTransition(
+                      ),
+                      DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation || pageState.isForgotPasswordViewVisible ? SizedBox() : SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
                           maxLines: 1,
@@ -775,7 +780,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           obscureText: true,
                         ),
                       ),
-                      SlideTransition(
+                      DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
                         position: showLoginButtonsStep,
                         child: GestureDetector(
                           onTap: () {
@@ -867,7 +872,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           child: selectedButton != CREATE_ACCOUNT ? Stack(
                             alignment: Alignment.topCenter,
                             children: [
-                              Container(
+                              DeviceType.getDeviceType() == Type.Phone ? Container(
                                 margin: EdgeInsets.only(top: 64),
                                 child: AnimatedDefaultTextStyle(
                                   style: TextStyle(
@@ -884,8 +889,25 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     'DandyLight',
                                   ),
                                 ),
+                              ) : Container(
+                                margin: EdgeInsets.only(top: 78),
+                                child: AnimatedDefaultTextStyle(
+                                  style: TextStyle(
+                                    fontSize: 144,
+                                    fontFamily: 'simple',
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(ColorConstants
+                                        .getPrimaryWhite())
+                                        .withOpacity(1.0),
+                                  ),
+                                  duration: const Duration(milliseconds: 500),
+                                  curve: Curves.ease,
+                                  child: Text(
+                                    'DandyLight',
+                                  ),
+                                ),
                               ),
-                              Container(
+                              DeviceType.getDeviceType() == Type.Phone ? Container(
                                 margin: EdgeInsets.only(
                                     bottom: 230.0, left: 114.0, top: 28.0),
                                 height: 150.0,
@@ -897,12 +919,33 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                                     fit: BoxFit.fitHeight,
                                   ),
                                 ),
+                              ) : Container(
+                                margin: EdgeInsets.only(
+                                    bottom: 230.0, left: 229.0, top: 0.0),
+                                height: 300.0,
+                                decoration: BoxDecoration(
+                                  color: Colors.transparent,
+                                  image: DecorationImage(
+                                    image: AssetImage(
+                                        ImageUtil.LOGIN_BG_LOGO_FLOWER),
+                                    fit: BoxFit.fitHeight,
+                                  ),
+                                ),
                               ),
-                              selectedButton != CREATE_ACCOUNT ? Container(
+                              selectedButton != CREATE_ACCOUNT ? DeviceType.getDeviceType() == Type.Phone ? Container(
                                   width: 175.0,
                                   margin: EdgeInsets.only(top: 153.0),
                                   child: TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
+                                    text: 'Capture the moment We\'ll do the rest',
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  )
+                              ) : Container(
+                                  width: 350.0,
+                                  margin: EdgeInsets.only(top: 264.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.EXTRA_LARGE_TEXT,
                                     text: 'Capture the moment We\'ll do the rest',
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -1149,6 +1192,72 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                   ),
                 ],
               ) : SizedBox(),
+              Container(
+                width: 148.0,
+                margin: EdgeInsets.only(top: 32.0, left: 32, right: 32),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: '14 Day Free Trial',
+                  textAlign: TextAlign.center,
+                  color: Color(ColorConstants.getBlueDark()),
+                ),
+              ),
+            Container(
+                width: 175.0,
+                margin: EdgeInsets.only(top: 32.0, left: 32, right: 32, bottom: 16),
+                child: TextDandyLight(
+                  type: TextDandyLight.MEDIUM_TEXT,
+                  text: 'Creating an account will start your 14 day free trial. You will not be charged automatically at the end of the trial. To Continue using the app after the free trial a subscription will be required.',
+                  textAlign: TextAlign.center,
+                  color: Color(ColorConstants.getBlueDark()),
+                ),
+            ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Platform.isIOS ? TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () {
+                      _launchAppleEULA();
+                    },
+                    child: Container(
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Terms of Use',
+                        textAlign: TextAlign.center,
+                        color: Color(ColorConstants.getBlueDark()),
+                      ),
+                    ),
+                  ) : TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () {
+                      _launchTermsOfServiceURL();
+                    },
+                    child: Container(
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Terms of service',
+                        textAlign: TextAlign.center,
+                        color: Color(ColorConstants.getBlueDark()),
+                      ),
+                    ),
+                  ),
+                  TextButton(
+                    style: Styles.getButtonStyle(),
+                    onPressed: () {
+                      _launchPrivacyPolicyURL();
+                    },
+                    child: Container(
+                      child: TextDandyLight(
+                        type: TextDandyLight.SMALL_TEXT,
+                        text: 'Privacy Policy',
+                        textAlign: TextAlign.center,
+                        color: Color(ColorConstants.getBlueDark()),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
           Container(
             margin: EdgeInsets.only(bottom: 256.0),
             child: selectedButton == CREATE_ACCOUNT ? ScaleTransition(
@@ -1190,4 +1299,8 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
     if(pageState.emailAddress.isNotEmpty)loginEmailTextController.text = pageState.emailAddress;
     if(pageState.password.isNotEmpty)loginPasswordTextController.text = pageState.password;
   }
+
+  void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
+  void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
+  void _launchAppleEULA() async => await canLaunchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) ? await launchUrl(Uri.parse('https://www.apple.com/legal/internet-services/itunes/dev/stdeula/')) : throw 'Could not launch';
 }
