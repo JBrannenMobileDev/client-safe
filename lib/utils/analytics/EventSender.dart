@@ -11,7 +11,6 @@ class EventSender {
   DeviceInfo _deviceInfo;
   String _mixpanelTokenProd = "b68c6458df27e9e215eafc6e5e8d5019";
   String _mixpanelTokenStage = "b68c6458df27e9e215eafc6e5e8d5019";
-  String _mixpanelTokenBeta = "f156e5fde740c93e410d132b71a6426b";
   String _mixpanelTokenDev = "efb6a18dfd40f8417215c7e506109913";
 
   factory EventSender() {
@@ -21,7 +20,7 @@ class EventSender {
   String _getToken() {
     switch(EnvironmentUtil().getCurrentEnvironment()) {
       case EnvironmentUtil.PROD:
-        return _mixpanelTokenBeta;
+        return _mixpanelTokenProd;
         break;
       case EnvironmentUtil.STAGE:
         return _mixpanelTokenStage;

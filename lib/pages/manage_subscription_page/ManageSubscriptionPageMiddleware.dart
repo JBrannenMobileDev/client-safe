@@ -3,6 +3,7 @@ import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageActions.dart';
 import 'package:dandylight/utils/analytics/DeviceInfo.dart';
 import 'package:flutter/services.dart';
+import 'package:purchases_flutter/errors.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 
@@ -36,7 +37,13 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
         monthlyPrice = offerings?.getOffering(identifier)?.monthly?.storeProduct?.price;
       }
     } on PlatformException catch (e) {
-      store.dispatch(SetErrorMsgAction(store.state.manageSubscriptionPageState, 'Something went wrong our our end. We are currently working on fixing it!'));
+      var errorCode = PurchasesErrorHelper.getErrorCode(e);
+
+      if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+        //do nothing
+      } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
+        store.dispatch(SetErrorMsgAction(store.state.manageSubscriptionPageState, errorCode.name));
+      }
     }
 
     if(subscriptionState.entitlements.all['standard'] != null) {
@@ -70,7 +77,13 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
       }
     } on PlatformException catch (e) {
-      store.dispatch(SetErrorMsgAction(store.state.manageSubscriptionPageState, 'Something went wrong our our end. We are currently working on fixing it!'));
+      var errorCode = PurchasesErrorHelper.getErrorCode(e);
+
+      if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+        //do nothing
+      } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
+        store.dispatch(SetErrorMsgAction(store.state.manageSubscriptionPageState, errorCode.name));
+      }
       store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
     }
   }

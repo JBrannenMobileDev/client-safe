@@ -163,7 +163,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
     // }
   }
 
-  void _showRestorePurchasesSheet(BuildContext context) {
+  void _showRestorePurchasesSheet(BuildContext context, String restoreMessage) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -172,7 +172,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
-        return RestorePurchasesBottomSheet();
+        return RestorePurchasesBottomSheet(restoreMessage);
       },
     );
   }
@@ -192,11 +192,32 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           if(allReminders.length > 0) {
             NotificationHelper().createAndUpdatePendingNotifications();
           }
-          if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription && store.state.dashboardPageState.subscriptionState!= null && store.state.dashboardPageState.subscriptionState == ManageSubscriptionPage.SUBSCRIBED) {
-            Future.delayed(Duration(seconds: 1), () {
-              _showRestorePurchasesSheet(context);
-              store.dispatch(UpdateProfileRestorePurchasesSeen(store.state.dashboardPageState));
-            });
+          if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {
+            String restoreMessage = null;
+
+            if(store.state.dashboardPageState.subscriptionState!= null) {
+              if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null) {
+                if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'].isActive) {
+                  restoreMessage = ManageSubscriptionPage.SUBSCRIBED;
+                } else {
+                  //Subscription expired - do nothing
+                }
+              } else {
+                bool freeTrialExpired = store.state.dashboardPageState.profile.isFreeTrialExpired();
+                if(freeTrialExpired) {
+                  //Free trial ended - do nothing
+                } else {
+                  restoreMessage = ManageSubscriptionPage.FREE_TRIAL;
+                }
+              }
+            }
+
+            if(restoreMessage != null) {
+              Future.delayed(Duration(seconds: 1), () {
+                _showRestorePurchasesSheet(context, restoreMessage);
+                store.dispatch(UpdateProfileRestorePurchasesSeen(store.state.dashboardPageState));
+              });
+            }
           }
         },
         onDidChange: (previous, current) async {

@@ -615,7 +615,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(36.0)),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: 'Create Account',
+                            text: 'Let\'s Get Started!',
                             textAlign: TextAlign.center,
                             color: Color(ColorConstants.getPrimaryWhite()),
                           ),
@@ -1197,7 +1197,17 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(top: 32.0, left: 32, right: 32),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: '14 Day Free Trial',
+                  text: '14 - Day Free Trial',
+                  textAlign: TextAlign.center,
+                  color: Color(ColorConstants.getBlueDark()),
+                ),
+              ),
+              Container(
+                width: 148.0,
+                margin: EdgeInsets.only(top: 32.0, left: 32, right: 32),
+                child: TextDandyLight(
+                  type: TextDandyLight.LARGE_TEXT,
+                  text: 'No credit card required',
                   textAlign: TextAlign.center,
                   color: Color(ColorConstants.getBlueDark()),
                 ),
@@ -1207,7 +1217,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(top: 32.0, left: 32, right: 32, bottom: 16),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'Creating an account will start your 14 day free trial. You will not be charged automatically at the end of the trial. To Continue using the app after the free trial a subscription will be required.',
+                  text: 'Creating an account will start your 14 day free trial. You will not be charged automatically at the end of the trial. To Continue using DandyLight after the free trial ends, a subscription will be required.',
                   textAlign: TextAlign.center,
                   color: Color(ColorConstants.getBlueDark()),
                 ),

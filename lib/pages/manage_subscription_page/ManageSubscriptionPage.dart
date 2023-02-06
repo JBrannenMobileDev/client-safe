@@ -273,15 +273,6 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ),
                                   ),
                                 ),
-                                pageState.radioValue == 0 ? Container(
-                                  margin: EdgeInsets.only(top: 8),
-                                  child: TextDandyLight(
-                                    text: 'Full access to all features',
-                                    textAlign: TextAlign.center,
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    color: Color(ColorConstants.getBlueDark()),
-                                  ),
-                                ) : SizedBox(),
                                 GestureDetector(
                                   onTap: () {
                                     if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
@@ -352,15 +343,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ),
                                   ),
                                 ),
-                                pageState.radioValue == 1 ? Container(
-                                  margin: EdgeInsets.only(bottom: 8),
-                                  child: TextDandyLight(
-                                    text: 'Full access to all features',
-                                    textAlign: TextAlign.center,
-                                    type: TextDandyLight.MEDIUM_TEXT,
-                                    color: Color(ColorConstants.getBlueDark()),
-                                  ),
-                                ) : SizedBox(),
+
                                 // pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : TextButton(
                                 //   style: Styles.getButtonStyle(),
                                 //   onPressed: () {
@@ -430,6 +413,142 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     ) : SizedBox(),
                                   ],
                                 ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 16),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Both plans include',
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getBlueDark()),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 16, left: 32, right: 32),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Unlimited jobs & invoices',
+                                          textAlign: TextAlign.start,
+                                          maxLines: 2,
+                                          color: Color(ColorConstants.getBlueDark()),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Mileage & expense tracking',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Income tracking',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Business analytics',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Synced calendar',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Custom reminders',
+                                          textAlign: TextAlign.start,
+                                          maxLines: 2,
+                                          color: Color(ColorConstants.getBlueDark()),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32, bottom: 32),
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'Unlimited locations, poses\n& responses',
+                                            textAlign: TextAlign.start,
+                                            maxLines: 2,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 TextDandyLight(
                                   type: TextDandyLight.EXTRA_SMALL_TEXT,
                                   text: 'You can cancel your subscription at any time.',
@@ -445,51 +564,54 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark()),
                                   ),
                                 ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    Platform.isIOS ? TextButton(
-                                      style: Styles.getButtonStyle(),
-                                      onPressed: () {
-                                        _launchTermsOfService();
-                                      },
-                                      child: Container(
-                                        child: TextDandyLight(
-                                          type: TextDandyLight.SMALL_TEXT,
-                                          text: 'Terms of Use',
-                                          textAlign: TextAlign.center,
-                                          color: Color(ColorConstants.getBlueDark()),
+                                Container(
+                                  margin: EdgeInsets.only(bottom: 32),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      Platform.isIOS ? TextButton(
+                                        style: Styles.getButtonStyle(),
+                                        onPressed: () {
+                                          _launchTermsOfService();
+                                        },
+                                        child: Container(
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.SMALL_TEXT,
+                                            text: 'Terms of Use',
+                                            textAlign: TextAlign.center,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
+                                        ),
+                                      ) : TextButton(
+                                        style: Styles.getButtonStyle(),
+                                        onPressed: () {
+                                          _launchTermsOfServiceURL();
+                                        },
+                                        child: Container(
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.SMALL_TEXT,
+                                            text: 'Terms of service',
+                                            textAlign: TextAlign.center,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
                                         ),
                                       ),
-                                    ) : TextButton(
-                                      style: Styles.getButtonStyle(),
-                                      onPressed: () {
-                                        _launchTermsOfServiceURL();
-                                      },
-                                      child: Container(
-                                        child: TextDandyLight(
-                                          type: TextDandyLight.SMALL_TEXT,
-                                          text: 'Terms of service',
-                                          textAlign: TextAlign.center,
-                                          color: Color(ColorConstants.getBlueDark()),
+                                      TextButton(
+                                        style: Styles.getButtonStyle(),
+                                        onPressed: () {
+                                          _launchPrivacyPolicyURL();
+                                        },
+                                        child: Container(
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.SMALL_TEXT,
+                                            text: 'Privacy Policy',
+                                            textAlign: TextAlign.center,
+                                            color: Color(ColorConstants.getBlueDark()),
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    TextButton(
-                                      style: Styles.getButtonStyle(),
-                                      onPressed: () {
-                                        _launchPrivacyPolicyURL();
-                                      },
-                                      child: Container(
-                                        child: TextDandyLight(
-                                          type: TextDandyLight.SMALL_TEXT,
-                                          text: 'Privacy Policy',
-                                          textAlign: TextAlign.center,
-                                          color: Color(ColorConstants.getBlueDark()),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
