@@ -98,3 +98,8 @@ class UpdateProfileWithShowcaseSeen {
   final DashboardPageState pageState;
   UpdateProfileWithShowcaseSeen(this.pageState);
 }
+
+class MarkAllAsSeenAction {
+  final DashboardPageState pageState;
+  MarkAllAsSeenAction(this.pageState);
+}

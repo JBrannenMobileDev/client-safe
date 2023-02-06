@@ -4,6 +4,7 @@ import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
@@ -23,9 +24,7 @@ class ReminderNotificationsPage extends StatelessWidget{
       backgroundColor: Colors.white,
       body: Listener(
         onPointerMove: (moveEvent){
-          // if(moveEvent.delta.dx > 0) {
-          //   pageState.onNotificationsSelected();
-          // }
+
         },
         child: Stack(
             alignment: AlignmentDirectional.centerEnd,
@@ -46,14 +45,24 @@ class ReminderNotificationsPage extends StatelessWidget{
                     ),
                     leading: IconButton(
                       icon: const Icon(Icons.close),
-                      color: Color(ColorConstants.getPrimaryColor()),
+                      color: Color(ColorConstants.getPeachDark()),
                       tooltip: 'Close',
                       onPressed: () {
-                        // pageState.onNotificationsSelected();
                         pageState.onNotificationViewClosed();
                         Navigator.of(context).pop();
                       },
                     ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            pageState.markAllAsSeen();
+                          },
+                          child: Icon(
+                            Icons.done_all,
+                            color: Color(ColorConstants.getBlueDark()),
+                          )
+                        ),
+                    ],
                   ),
                   SliverList(
                     delegate: new SliverChildListDelegate(
@@ -73,9 +82,9 @@ class ReminderNotificationsPage extends StatelessWidget{
                                 if(pageState.reminders.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
                                   UserOptionsUtil.showNewMileageExpenseSelected(context);
                                 } else {
-                                  pageState.onReminderSelected(pageState.reminders.elementAt(index));
                                   NavigationUtil.onJobTapped(context);
                                 }
+                                pageState.onReminderSelected(pageState.reminders.elementAt(index));
                               },
                               child: Padding(
                                 padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
@@ -96,6 +105,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Container(
+                                              width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
                                                 text: pageState.allJobs.where((job) => job.documentId == pageState.reminders.elementAt(index).jobDocumentId).first.jobTitle,
@@ -106,10 +116,21 @@ class ReminderNotificationsPage extends StatelessWidget{
                                               ),
                                             ),
                                             Container(
-                                              width: MediaQuery.of(context).size.width - 120,
+                                              width: MediaQuery.of(context).size.width - 126,
                                               child: TextDandyLight(
                                                 type: TextDandyLight.SMALL_TEXT,
                                                 text: pageState.reminders.elementAt(index).reminder.description,
+                                                textAlign: TextAlign.start,
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                                color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ),
+                                            Container(
+                                              width: MediaQuery.of(context).size.width - 126,
+                                              child: TextDandyLight(
+                                                type: TextDandyLight.SMALL_TEXT,
+                                                text: DateFormat('EEE, MMMM d  (h:mm aaa)').format(pageState.reminders.elementAt(index).triggerTime),
                                                 textAlign: TextAlign.start,
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
