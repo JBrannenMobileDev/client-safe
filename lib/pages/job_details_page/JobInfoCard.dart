@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/job_details_page/JobDetailsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -542,7 +543,7 @@ class JobInfoCard extends StatelessWidget {
                                 child: TextDandyLight(
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.job.priceProfile == null ? 'Price package not selected' :
-                                  '\$' + pageState.job.priceProfile.flatRate.toString() + ' ' + pageState.job.priceProfile.profileName,
+                                  TextFormatterUtil.formatDecimalCurrency(pageState.job.priceProfile.flatRate) + ' ' + pageState.job.priceProfile.profileName,
                                   textAlign: TextAlign.start,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
@@ -587,7 +588,7 @@ class JobInfoCard extends StatelessWidget {
                               padding: EdgeInsets.only(left: 8.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: '\$' + (pageState.job.addOnCost != null ? pageState.job.addOnCost.toInt().toString() : '0') + ' (Add-on cost)',
+                                text: (pageState.job.addOnCost != null ? TextFormatterUtil.formatDecimalCurrency(pageState.job.addOnCost) : '\$0.00') + ' (Add-on cost)',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,
@@ -635,8 +636,8 @@ class JobInfoCard extends StatelessWidget {
                               padding: EdgeInsets.only(left: 8.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.job.tipAmount == null ? '\$0 (tip)' :
-                                '\$' + (pageState.job.tipAmount != null ? pageState.job.tipAmount.toInt().toString() : '0') + ' (tip)',
+                                text: pageState.job.tipAmount == null ? '\$0.00 (tip)' :
+                                (pageState.job.tipAmount != null ? TextFormatterUtil.formatDecimalCurrency(pageState.job.tipAmount.toDouble()) : '\$0.00') + ' (tip)',
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,

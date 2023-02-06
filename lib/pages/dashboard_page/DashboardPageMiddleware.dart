@@ -115,6 +115,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
 
+
+    //This initializes the reminders collection with default reminders.
     if(allJobs.length == 0 && (await ReminderDao.getAll()).length == 0) {
       DateTime now = DateTime.now();
       ReminderDandyLight chargeCameraReminder = ReminderDandyLight(description: 'Charge Camera', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
