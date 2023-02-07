@@ -51,7 +51,7 @@ class FetchInitialDataAction{
 
 class SubscriptionSelectedAction{
   final ManageSubscriptionPageState pageState;
-  final Package package;
+  final String package;
   SubscriptionSelectedAction(this.pageState, this.package);
 }
 

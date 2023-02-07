@@ -43,7 +43,8 @@ Future<void> initSubscriptions() async {
   if (Platform.isAndroid) {
     configuration = revenuecat.PurchasesConfiguration("goog_hHOtMzChjzMLkuWrwvcHpNIVaKn");
   } else if (Platform.isIOS) {
-    configuration = revenuecat.PurchasesConfiguration("appl_nGYkHELZrcYyxKnkcRDQfccLFrK");
+    configuration = revenuecat.PurchasesConfiguration("appl_nGYkHELZrcYyxKnkcRDQfccLFrK", );
+    configuration.usesStoreKit2IfAvailable = true;
   }
   await revenuecat.Purchases.configure(configuration);
 }

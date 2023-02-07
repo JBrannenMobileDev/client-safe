@@ -1,3 +1,4 @@
+import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageActions.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 import 'package:redux/redux.dart';
@@ -56,21 +57,21 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     monthlyPrice = 9.99;
   }
 
-  Package selectedSubscription = null;
+  String selectedSubscription = null;
   int radioValue = 0;
 
   if(offering != null) {
     annualPrice = offering.annual.storeProduct.price;
     monthlyPrice = offering.monthly.storeProduct.price;
-    selectedSubscription = offering.annual;
+    selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
 
     if(action.subscriptionState.entitlements.all['standard'] != null) {
       if(action.subscriptionState.entitlements.all['standard'].isActive) {
         if(action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_standard_subscription')) {
-          selectedSubscription = offering.monthly;
+          selectedSubscription = ManageSubscriptionPage.PACKAGE_MONTHLY;
           radioValue = 1;
         } else if(action.subscriptionState.activeSubscriptions.contains('dandylight_annual_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_annual_subscription')) {
-          selectedSubscription = offering.annual;
+          selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
           annualPrice = offering.annual.storeProduct.price;
           monthlyPrice = offering.monthly.storeProduct.price;
           radioValue = 0;
@@ -131,6 +132,6 @@ ManageSubscriptionPageState _setInitialData(ManageSubscriptionPageState previous
 ManageSubscriptionPageState _setSelectedSubscription(ManageSubscriptionPageState previousState, SubscriptionSelectedAction action) {
   return previousState.copyWith(
     selectedSubscription: action.package,
-    radioValue: action.package == action.pageState.annualPackage ? 0 : 1,
+    radioValue: action.package == ManageSubscriptionPage.PACKAGE_ANNUAL ? 0 : 1,
   );
 }

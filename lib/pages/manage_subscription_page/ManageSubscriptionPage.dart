@@ -24,6 +24,8 @@ class ManageSubscriptionPage extends StatefulWidget {
   static const String SUBSCRIPTION_EXPIRED = "subscription_expired";
   static const String FREE_TRIAL = "free_trial";
   static const String SUBSCRIBED = "subscribed";
+  static const String PACKAGE_MONTHLY = 'package_monthly';
+  static const String PACKAGE_ANNUAL = 'package_annual';
   final Profile profile;
 
   ManageSubscriptionPage(this.profile);
@@ -179,7 +181,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 GestureDetector(
                                   onTap: () {
                                     if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                      pageState.onSubscriptionSelected(pageState.annualPackage);
+                                      pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_ANNUAL);
                                     }
                                   },
                                   child: Container(
@@ -206,7 +208,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               groupValue: pageState.radioValue,
                                               onChanged: (value) {
                                                 if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                                  pageState.onSubscriptionSelected(pageState.annualPackage);
+                                                  pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_ANNUAL);
                                                 }
                                               },
                                             ),
@@ -276,7 +278,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 GestureDetector(
                                   onTap: () {
                                     if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                      pageState.onSubscriptionSelected(pageState.monthlyPackage);
+                                      pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_MONTHLY);
                                     }
                                   },
                                   child: Container(
@@ -302,7 +304,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               groupValue: pageState.radioValue,
                                               onChanged: (value) {
                                                 if(pageState.uiState != ManageSubscriptionPage.SUBSCRIBED) {
-                                                  pageState.onSubscriptionSelected(pageState.monthlyPackage);
+                                                  pageState.onSubscriptionSelected(ManageSubscriptionPage.PACKAGE_MONTHLY);
                                                 }
                                               },
                                             ),

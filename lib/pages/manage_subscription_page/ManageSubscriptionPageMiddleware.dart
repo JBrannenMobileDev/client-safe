@@ -71,7 +71,16 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
   void subscribe(Store<AppState> store, NextDispatcher next, SubscribeSelectedAction action) async{
     store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, true, false));
     try {
-      purchases.CustomerInfo purchaserInfo = await purchases.Purchases.purchasePackage(action.pageState.selectedSubscription);
+      purchases.Package package = action.pageState.annualPackage;
+      switch(action.pageState.selectedSubscription) {
+        case ManageSubscriptionPage.PACKAGE_ANNUAL:
+          package = action.pageState.annualPackage;
+          break;
+        case ManageSubscriptionPage.PACKAGE_MONTHLY:
+          package = action.pageState.monthlyPackage;
+          break;
+      }
+      purchases.CustomerInfo purchaserInfo = await purchases.Purchases.purchasePackage(package);
       if (purchaserInfo.entitlements.all["standard"].isActive) {
         store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, true));
         store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));

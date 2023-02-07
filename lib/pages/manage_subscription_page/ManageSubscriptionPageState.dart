@@ -17,14 +17,14 @@ class ManageSubscriptionPageState {
   final bool isLoading;
   final bool shouldPopBack;
   final purchases.CustomerInfo subscriptionState;
-  final purchases.Package selectedSubscription;
+  final String selectedSubscription;
   final purchases.Package monthlyPackage;
   final purchases.Package annualPackage;
   final Profile profile;
   final purchases.Offerings offerings;
   final Function() onSubscribeSelected;
   final Function() onRestoreSubscriptionSelected;
-  final Function(purchases.Package) onSubscriptionSelected;
+  final Function(String) onSubscriptionSelected;
   final Function() resetErrorMsg;
   final Function(String) setErrorMsg;
 
@@ -55,7 +55,7 @@ class ManageSubscriptionPageState {
     String uiState,
     String errorMsg,
     String remainingTimeMessage,
-    purchases.Package selectedSubscription,
+    String selectedSubscription,
     purchases.Package monthlyPackage,
     purchases.Package annualPackage,
     Profile profile,
@@ -67,7 +67,7 @@ class ManageSubscriptionPageState {
     purchases.Offerings offerings,
     Function() onSubscribeSelected,
     Function() onRestoreSubscriptionSelected,
-    Function(purchases.Package) onSubscriptionSelected,
+    Function(String) onSubscriptionSelected,
     Function() resetErrorMsg,
     Function(String) setErrorMsg,
   }){
