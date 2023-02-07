@@ -794,7 +794,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             }
                           },
                           child: Container(
-                            margin: EdgeInsets.only(bottom: 6.0),
+                            margin: EdgeInsets.only(bottom: 6.0, top: 8),
                             alignment: Alignment.center,
                             height: 54.0,
                             width: 250.0,

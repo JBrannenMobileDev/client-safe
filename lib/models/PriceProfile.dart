@@ -10,6 +10,8 @@ class PriceProfile{
   double itemRate;
   double deposit;
   String icon;
+  bool includeSalesTax;
+  double salesTaxPercent;
 
   PriceProfile({
     this.id,
@@ -21,6 +23,8 @@ class PriceProfile{
     this.itemRate,
     this.icon,
     this.deposit,
+    this.includeSalesTax,
+    this.salesTaxPercent,
   });
 
   Map<String, dynamic> toMap() {
@@ -33,6 +37,8 @@ class PriceProfile{
       'itemRate' : itemRate,
       'icon' : icon,
       'deposit' : deposit,
+      'includeSalesTax' : includeSalesTax,
+      'salesTaxPercent' : salesTaxPercent,
     };
   }
 
@@ -46,6 +52,8 @@ class PriceProfile{
       itemRate: map['itemRate'],
       icon: map['icon'],
       deposit: map['deposit'],
+      includeSalesTax: map['includeSalesTax'] != null ? map['includeSalesTax'] : false,
+      salesTaxPercent: map['salesTaxPercent'] != null ? map['salesTaxPercent'] : 0.0,
     );
   }
 

@@ -292,6 +292,9 @@ NewInvoicePageState _clearState(NewInvoicePageState previousState, ClearStateAct
 
 NewInvoicePageState _setJobs(NewInvoicePageState previousState, SetAllJobsAction action) {
   action.allJobs.retainWhere((job) => job.priceProfile != null);
+  if(action.includeSalesTax) {
+
+  }
   return previousState.copyWith(
     jobs: action.allJobs,
     filteredJobs: action.allJobs,
@@ -299,6 +302,7 @@ NewInvoicePageState _setJobs(NewInvoicePageState previousState, SetAllJobsAction
     invoiceNumber: action.newInvoiceNumber,
     isFinishedFetchingClients: true,
     salesTaxPercent: action.salesTaxRate,
+    isSalesTaxChecked: action.includeSalesTax,
   );
 }
 

@@ -29,6 +29,7 @@ class Profile{
   bool hasSeenIncomeInfo = false;
   bool isBetaTester = false;
   bool shouldShowRestoreSubscription = false;
+  bool usesSalesTax = false;
   DateTime accountCreatedDate;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
@@ -96,6 +97,7 @@ class Profile{
     this.isBetaTester,
     this.accountCreatedDate,
     this.shouldShowRestoreSubscription,
+    this.usesSalesTax,
   });
 
   Profile copyWith({
@@ -125,6 +127,7 @@ class Profile{
     bool hasSeenIncomeInfo,
     bool isBetaTester,
     bool shouldShowRestoreSubscription,
+    bool usesSalesTax,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -183,6 +186,7 @@ class Profile{
       zelleFullName: zelleFullName ?? this.zelleFullName,
       zellePhoneEmail: zellePhoneEmail ?? this.zellePhoneEmail,
       venmoLink: venmoLink ?? this.venmoLink,
+      usesSalesTax: usesSalesTax ?? this.usesSalesTax,
       cashAppLink: cashAppLink ?? this.cashAppLink,
       applePayPhone: applePayPhone ?? this.applePayPhone,
       isBetaTester: isBetaTester ?? this.isBetaTester,
@@ -223,6 +227,7 @@ class Profile{
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
       'hasSeenShowcase' : hasSeenShowcase ?? false,
       'isBetaTester' : isBetaTester ?? false,
+      'usesSalesTax' : usesSalesTax ?? false,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -272,6 +277,7 @@ class Profile{
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
       hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
       isBetaTester: map['isBetaTester'] != null ? map['isBetaTester'] : false,
+      usesSalesTax: map['usesSalesTax'] != null ? map['usesSalesTax'] : false,
       shouldShowRestoreSubscription: map['shouldShowRestoreSubscription'] != null ? map['shouldShowRestoreSubscription'] : false,
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],

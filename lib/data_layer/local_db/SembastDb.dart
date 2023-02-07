@@ -81,7 +81,9 @@ class SembastDb {
     await ContractDao.deleteAllLocal();
     await PoseDao.deleteAllLocal();
     await PoseGroupDao.deleteAllLocal();
-    await ProfileDao.deleteAllProfilesLocal();
     await ResponseDao.deleteAllLocal();
+
+    //Last step always
+    await ProfileDao.deleteAllProfilesLocal();
   }
 }
