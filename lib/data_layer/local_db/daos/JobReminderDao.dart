@@ -65,6 +65,12 @@ class JobReminderDao extends Equatable{
     }
   }
 
+  static Future updateAll(List<JobReminder> reminders) async {
+    for(JobReminder reminder in reminders) {
+      await update(reminder);
+    }
+  }
+
   static Future update(JobReminder reminder) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.

@@ -13,7 +13,29 @@ final newPricingProfilePageReducer = combineReducers<NewPricingProfilePageState>
   TypedReducer<NewPricingProfilePageState, UpdateFlatRateTextAction>(_updateFlatRate),
   TypedReducer<NewPricingProfilePageState, UpdateDepositAmountAction>(_updateDepositAmount),
   TypedReducer<NewPricingProfilePageState, ResetPageIndexAction>(_resetPageIndex),
+  TypedReducer<NewPricingProfilePageState, UpdateIncludeSalesTaxAction>(_updateIncludeSalesTax),
+  TypedReducer<NewPricingProfilePageState, UpdateTaxPercentAction>(_updateTaxPercent),
 ]);
+
+NewPricingProfilePageState _updateTaxPercent(NewPricingProfilePageState previousState, UpdateTaxPercentAction action){
+  double percent = double.parse(action.taxPercent.replaceAll('%', ''));
+  percent = double.parse(percent.toStringAsFixed(1));
+  double taxAmount = 0;
+  if(action.pageState.flatRate != 0 && percent != 0) {
+    taxAmount = (action.pageState.flatRate * percent) / 100;
+  }
+  return previousState.copyWith(
+    taxPercent: percent,
+    total: taxAmount + action.pageState.flatRate,
+    taxAmount: taxAmount,
+  );
+}
+
+NewPricingProfilePageState _updateIncludeSalesTax(NewPricingProfilePageState previousState, UpdateIncludeSalesTaxAction action){
+  return previousState.copyWith(
+    includeSalesTax: action.include,
+  );
+}
 
 NewPricingProfilePageState _resetPageIndex(NewPricingProfilePageState previousState, ResetPageIndexAction action){
   return previousState.copyWith(
@@ -42,8 +64,11 @@ NewPricingProfilePageState _updateFlatRate(NewPricingProfilePageState previousSt
   resultCost = resultCost.replaceAll(',', '');
   resultCost = resultCost.replaceAll(' ', '');
   double doubleCost = resultCost.isNotEmpty ? double.parse(resultCost) : 0.0;
+  double taxAmount = (doubleCost * action.pageState.taxPercent)/100;
   return previousState.copyWith(
     flatRate: doubleCost,
+    taxAmount: taxAmount,
+    total: (doubleCost + taxAmount),
   );
 }
 
@@ -54,6 +79,8 @@ NewPricingProfilePageState _updateName(NewPricingProfilePageState previousState,
 }
 
 NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previousState, LoadExistingPricingProfileData action){
+  double resultCost = action.profile.flatRate;
+  double taxAmount = (resultCost * action.profile.salesTaxPercent)/100;
   return previousState.copyWith(
     id: action.profile.id,
     documentId: action.profile.documentId,
@@ -62,6 +89,10 @@ NewPricingProfilePageState _loadPriceProfile(NewPricingProfilePageState previous
     profileIcon: action.profile.icon,
     rateType: action.profile.rateType,
     flatRate: action.profile.flatRate,
+    taxAmount: taxAmount,
+    total: (resultCost + taxAmount),
+    taxPercent: action.profile.salesTaxPercent,
+    includeSalesTax: action.profile.includeSalesTax,
   );
 }
 

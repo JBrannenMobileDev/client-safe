@@ -13,6 +13,11 @@ class SavePricingProfileAction{
   SavePricingProfileAction(this.pageState);
 }
 
+class InitializeProfileSettings {
+  final NewPricingProfilePageState pageState;
+  InitializeProfileSettings(this.pageState);
+}
+
 class SetProfileIconAction{
   final NewPricingProfilePageState pageState;
   final String profileIcon;
@@ -78,6 +83,18 @@ class UpdateItemRateTextAction{
   final NewPricingProfilePageState pageState;
   final String itemRateText;
   UpdateItemRateTextAction(this.pageState, this.itemRateText);
+}
+
+class UpdateIncludeSalesTaxAction {
+  final NewPricingProfilePageState pageState;
+  final bool include;
+  UpdateIncludeSalesTaxAction(this.pageState, this.include);
+}
+
+class UpdateTaxPercentAction {
+  final NewPricingProfilePageState pageState;
+  final String taxPercent;
+  UpdateTaxPercentAction(this.pageState, this.taxPercent);
 }
 
 

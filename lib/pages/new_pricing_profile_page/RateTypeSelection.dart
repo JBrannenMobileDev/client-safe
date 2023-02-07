@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/dandylightTextField.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/InputDoneView.dart';
+import 'package:dandylight/utils/TextFormatterUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,6 +38,8 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
   var flatRateTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
   final FocusNode depositInputFocusNode = new FocusNode();
   var depositTextController = MoneyMaskedTextController(leftSymbol: '\$ ', decimalSeparator: '.', thousandSeparator: ',');
+  final FocusNode taxPercentFocusNode = new FocusNode();
+  var taxPercentController = MoneyMaskedTextController(rightSymbol: '\%', decimalSeparator: '.', thousandSeparator: ',');
   int selectorIndex = 0;
 
   _RateTypeSelection(this.scaffoldKey);
@@ -45,6 +50,8 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
     return StoreConnector<AppState, NewPricingProfilePageState>(
       onInit: (appState) {
         flatRateTextController.updateValue(appState.state.pricingProfilePageState.flatRate);
+        depositTextController.updateValue(appState.state.pricingProfilePageState.deposit);
+        taxPercentController.updateValue(appState.state.pricingProfilePageState.taxPercent);
 
        KeyboardVisibilityNotification().addNewListener(
             onShow: () {
@@ -67,6 +74,15 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
         depositInputFocusNode.addListener(() {
 
           bool hasFocus = depositInputFocusNode.hasFocus;
+          if (hasFocus)
+            showOverlay(context);
+          else
+            removeOverlay();
+        });
+
+        taxPercentFocusNode.addListener(() {
+
+          bool hasFocus = taxPercentFocusNode.hasFocus;
           if (hasFocus)
             showOverlay(context);
           else
@@ -105,7 +121,9 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                         null,
                         TextCapitalization.none,
                         null,
-                        'Price'
+                        'Price',
+                        250,
+                        true
                     ),
                   ),
                   Container(
@@ -122,7 +140,84 @@ class _RateTypeSelection extends State<RateTypeSelection> with AutomaticKeepAliv
                         null,
                         TextCapitalization.none,
                         null,
-                        'Deposit'
+                        'Deposit',
+                        250,
+                      true
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 32.0, right: 32.0, top: 32),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: 'Include Sales Tax',
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPrimaryBlack()),
+                        ),
+                        Platform.isIOS?
+                        CupertinoSwitch(
+                          trackColor: Color(ColorConstants.getBlueLight()),
+                          activeColor: Color(ColorConstants.getBlueDark()),
+                          onChanged: (enabled) {
+                            pageState.onIncludesSalesTaxChanged(enabled);
+                          },
+                          value: pageState.includeSalesTax,
+                        ) : Switch(
+                          activeTrackColor: Color(ColorConstants.getBlueLight()),
+                          inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                          activeColor: Color(ColorConstants.getBlueDark()),
+                          onChanged: (enabled) {
+                            pageState.onIncludesSalesTaxChanged(enabled);
+                          },
+                          value: pageState.includeSalesTax,
+                        )
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left: 48.0, right: 48.0, top: 16),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CostTextField(
+                            taxPercentController,
+                            "0.0\%",
+                            TextInputType.number,
+                            66.0,
+                            pageState.onTaxPercentChanged,
+                            null,
+                            TextInputAction.done,
+                            taxPercentFocusNode,
+                            null,
+                            TextCapitalization.none,
+                            null,
+                            'Tax \%',
+                            116,
+                            pageState.includeSalesTax,
+                        ),
+                        TextDandyLight(
+                          color: Color(pageState.includeSalesTax ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: '=',
+                        ),
+                        TextDandyLight(
+                          color: Color(pageState.includeSalesTax ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: TextFormatterUtil.formatDecimalCurrency(pageState.taxAmount),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.only(left: 48.0, right: 48.0, top: 16),
+                    width: MediaQuery.of(context).size.width,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      color: Color(pageState.includeSalesTax ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueLight()),
+                      text: 'Total Price  =  ' + TextFormatterUtil.formatDecimalCurrency(pageState.total),
                     ),
                   ),
                 ],

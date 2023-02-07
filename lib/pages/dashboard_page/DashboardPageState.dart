@@ -51,6 +51,7 @@ class DashboardPageState {
   final Function() onNotificationsSelected;
   final Function() onNotificationViewClosed;
   final Function() onShowcaseSeen;
+  final Function() markAllAsSeen;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -87,6 +88,7 @@ class DashboardPageState {
     this.hasSeenShowcase,
     this.onShowcaseSeen,
     this.subscriptionState,
+    this.markAllAsSeen,
   });
 
   DashboardPageState copyWith({
@@ -117,6 +119,7 @@ class DashboardPageState {
     Function() onNotificationsSelected,
     Function() onNotificationViewClosed,
     Function() onShowcaseSeen,
+    Function() markAllAsSeen,
     bool shouldShowNewMileageExpensePage,
     List<PieChartSectionData> jobTypeBreakdownData,
     List<PieChartSectionData> leadSourcesData,
@@ -160,6 +163,7 @@ class DashboardPageState {
       hasSeenShowcase: hasSeenShowcase ?? this.hasSeenShowcase,
       onShowcaseSeen: onShowcaseSeen ?? this.onShowcaseSeen,
       subscriptionState: subscriptionState ?? this.subscriptionState,
+      markAllAsSeen: markAllAsSeen ?? this.markAllAsSeen,
     );
   }
 
@@ -196,12 +200,13 @@ class DashboardPageState {
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
       onViewAllHideLeadsSelected: () => store.dispatch(UpdateShowHideLeadsState(store.state.dashboardPageState)),
       onReminderSelected:  (reminder) {
-        store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId));
         store.dispatch(SetNotificationToSeen(store.state.dashboardPageState, reminder));
+        store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId));
       },
       onNotificationsSelected: () => null,
       onNotificationViewClosed: () => store.dispatch(UpdateNotificationIconAction(store.state.dashboardPageState)),
       onShowcaseSeen: () => store.dispatch(UpdateProfileWithShowcaseSeen(store.state.dashboardPageState)),
+      markAllAsSeen: () => store.dispatch(MarkAllAsSeenAction(store.state.dashboardPageState)),
     );
   }
 
@@ -238,6 +243,7 @@ class DashboardPageState {
     leadSourcePieChartRowData: [],
     profile: null,
     subscriptionState: null,
+    markAllAsSeen: null,
   );
 
   @override
@@ -262,6 +268,7 @@ class DashboardPageState {
       allUserStages.hashCode ^
       lineChartMonthData.hashCode^
       onReminderSelected.hashCode^
+      markAllAsSeen.hashCode ^
       onNotificationsSelected.hashCode ^
       onNotificationViewClosed.hashCode ^
       jobsThisWeek.hashCode ^
@@ -303,6 +310,7 @@ class DashboardPageState {
               onNotificationsSelected == other.onNotificationsSelected &&
               onNotificationViewClosed == other.onNotificationViewClosed &&
               jobsThisWeek == other.jobsThisWeek &&
+              markAllAsSeen == other.markAllAsSeen &&
               leadConversionRate == other.leadConversionRate &&
               unconvertedLeadCount == other.unconvertedLeadCount &&
               jobTypeBreakdownData == other.jobTypeBreakdownData &&

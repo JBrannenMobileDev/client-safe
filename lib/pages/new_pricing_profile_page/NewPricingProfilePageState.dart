@@ -15,10 +15,14 @@ class NewPricingProfilePageState {
   final int pageViewIndex;
   final bool saveButtonEnabled;
   final bool shouldClear;
+  final bool includeSalesTax;
   final String profileName;
   final String profileIcon;
   final double flatRate;
   final double deposit;
+  final double taxPercent;
+  final double taxAmount;
+  final double total;
   final Function() onSavePressed;
   final Function() onCancelPressed;
   final Function() onNextPressed;
@@ -29,6 +33,8 @@ class NewPricingProfilePageState {
   final Function(String) onFilterChanged;
   final Function(String) onFlatRateTextChanged;
   final Function(String) onDepositTextChanged;
+  final Function(bool) onIncludesSalesTaxChanged;
+  final Function(String) onTaxPercentChanged;
 
   NewPricingProfilePageState({
     @required this.id,
@@ -50,6 +56,12 @@ class NewPricingProfilePageState {
     @required this.onFlatRateTextChanged,
     @required this.onDepositTextChanged,
     @required this.deposit,
+    @required this.includeSalesTax,
+    @required this.taxPercent,
+    @required this.taxAmount,
+    @required this.total,
+    @required this.onIncludesSalesTaxChanged,
+    @required this.onTaxPercentChanged,
   });
 
   NewPricingProfilePageState copyWith({
@@ -58,11 +70,15 @@ class NewPricingProfilePageState {
     int pageViewIndex,
     saveButtonEnabled,
     bool shouldClear,
+    bool includeSalesTax,
     String profileName,
     String profileIcon,
     String rateType,
     double flatRate,
     double deposit,
+    double taxPercent,
+    double taxAmount,
+    double total,
     Function() onSavePressed,
     Function() onCancelPressed,
     Function() onNextPressed,
@@ -73,6 +89,8 @@ class NewPricingProfilePageState {
     Function(String) onFilterChanged,
     Function(String) onFlatRateTextChanged,
     Function(String) onDepositTextChanged,
+    Function(bool) onIncludesSalesTaxChanged,
+    Function(String) onTaxPercentChanged,
   }){
     return NewPricingProfilePageState(
       id: id?? this.id,
@@ -94,6 +112,12 @@ class NewPricingProfilePageState {
       documentId: documentId ?? this.documentId,
       onDepositTextChanged: onDepositTextChanged ?? this.onDepositTextChanged,
       deposit: deposit ?? this.deposit,
+      includeSalesTax: includeSalesTax ?? this.includeSalesTax,
+      taxAmount: taxAmount ?? this.taxAmount,
+      taxPercent: taxPercent ?? this.taxPercent,
+      total: total ?? this.total,
+      onIncludesSalesTaxChanged: onIncludesSalesTaxChanged ?? this.onIncludesSalesTaxChanged,
+      onTaxPercentChanged: onTaxPercentChanged ?? this.onTaxPercentChanged,
     );
   }
 
@@ -117,6 +141,12 @@ class NewPricingProfilePageState {
         onFlatRateTextChanged: null,
         onDepositTextChanged: null,
         deposit: 0.0,
+        includeSalesTax: false,
+        taxPercent: 0.0,
+        taxAmount: 0.00,
+        total: 0.00,
+        onTaxPercentChanged: null,
+        onIncludesSalesTaxChanged: null,
       );
 
   factory NewPricingProfilePageState.fromStore(Store<AppState> store) {
@@ -130,6 +160,10 @@ class NewPricingProfilePageState {
       flatRate: store.state.pricingProfilePageState.flatRate,
       documentId: store.state.pricingProfilePageState.documentId,
       deposit: store.state.pricingProfilePageState.deposit,
+      includeSalesTax: store.state.pricingProfilePageState.includeSalesTax,
+      taxAmount: store.state.pricingProfilePageState.taxAmount,
+      taxPercent: store.state.pricingProfilePageState.taxPercent,
+      total: store.state.pricingProfilePageState.total,
       onSavePressed: () => store.dispatch(SavePricingProfileAction(store.state.pricingProfilePageState)),
       onCancelPressed: () => store.dispatch(ClearStateAction(store.state.pricingProfilePageState)),
       onNextPressed: () => store.dispatch(IncrementPageViewIndex(store.state.pricingProfilePageState)),
@@ -140,6 +174,8 @@ class NewPricingProfilePageState {
       onFilterChanged: (rateType) => store.dispatch(SaveSelectedRateTypeAction(store.state.pricingProfilePageState, rateType)),
       onFlatRateTextChanged: (flatRateText) => store.dispatch(UpdateFlatRateTextAction(store.state.pricingProfilePageState, flatRateText)),
       onDepositTextChanged: (deposit) => store.dispatch(UpdateDepositAmountAction(store.state.pricingProfilePageState, deposit)),
+      onIncludesSalesTaxChanged: (include) => store.dispatch(UpdateIncludeSalesTaxAction(store.state.pricingProfilePageState, include)),
+      onTaxPercentChanged: (percent) => store.dispatch(UpdateTaxPercentAction(store.state.pricingProfilePageState, percent)),
     );
   }
 
@@ -159,9 +195,15 @@ class NewPricingProfilePageState {
       onProfileNameChanged.hashCode ^
       onProfileIconSelected.hashCode ^
       flatRate.hashCode ^
+      includeSalesTax.hashCode ^
       onFilterChanged.hashCode ^
       onDepositTextChanged.hashCode ^
       deposit.hashCode ^
+      taxPercent.hashCode ^
+      taxAmount.hashCode ^
+      total.hashCode ^
+      onIncludesSalesTaxChanged.hashCode ^
+      onTaxPercentChanged.hashCode ^
       onFlatRateTextChanged.hashCode ;
 
   @override
@@ -179,9 +221,14 @@ class NewPricingProfilePageState {
           onCancelPressed == other.onCancelPressed &&
           onNextPressed == other.onNextPressed &&
           onBackPressed == other.onBackPressed &&
+          includeSalesTax == other.includeSalesTax &&
           onProfileNameChanged == other.onProfileNameChanged &&
           onProfileIconSelected == other.onProfileIconSelected &&
           onDepositTextChanged == other.onDepositTextChanged &&
           deposit == other.deposit &&
+          taxAmount == other.taxAmount &&
+          taxPercent == other.taxPercent &&
+          onIncludesSalesTaxChanged == other.onIncludesSalesTaxChanged &&
+          onTaxPercentChanged == other.onTaxPercentChanged &&
           flatRate == other.flatRate ;
 }

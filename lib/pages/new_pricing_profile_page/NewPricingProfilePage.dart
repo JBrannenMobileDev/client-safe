@@ -73,6 +73,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
       onInit: (store) {
         if(store.state.pricingProfilePageState.shouldClear) {
           store.dispatch(ClearStateAction(store.state.pricingProfilePageState));
+          store.dispatch(InitializeProfileSettings(store.state.pricingProfilePageState));
         } else {
           store.dispatch(ResetPageIndexAction(store.state.pricingProfilePageState));
         }
@@ -135,7 +136,7 @@ class _NewPricingProfilePageState extends State<NewPricingProfilePage> {
                       ),
                     ),
                     Container(
-                      height: 228.0,
+                      height: pageState.pageViewIndex == 0 ? 228.0 : 448,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: controller,

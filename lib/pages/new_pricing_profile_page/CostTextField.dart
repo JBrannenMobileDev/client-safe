@@ -23,21 +23,21 @@ class CostTextField extends StatelessWidget {
   final Function onFocusAction;
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
+  final double width;
+  final bool enabled;
 
   CostTextField(this._controller, this.hintText, this.inputType,
       this.height, this.onTextInputChanged, this.inputTypeError, this.keyboardAction,
-      this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter, this.labelText);
+      this.focusNode, this.onFocusAction, this.capitalization, this.inputFormatter, this.labelText, this.width, this.enabled);
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, NewLocationPageState>(
-      converter: (store) => NewLocationPageState.fromStore(store),
-      builder: (BuildContext context, NewLocationPageState pageState) =>
-          Container(
+    return Container(
               margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
               height: height,
-              width: 250.0,
+              width: width == null ? 250 : width,
               child: TextFormField(
+                enabled: enabled,
                 cursorColor: Color(ColorConstants.getBlueDark()),
                 focusNode: focusNode,
                 textInputAction: keyboardAction,
@@ -99,8 +99,8 @@ class CostTextField extends StatelessWidget {
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.LARGE_TEXT),
                     fontFamily: TextDandyLight.getFontFamily(),
                     fontWeight: TextDandyLight.getFontWeight(),
-                    color: Color(ColorConstants.primary_black)),
-              )),
+                    color: Color(enabled ? ColorConstants.primary_black : ColorConstants.getBlueLight())),
+              )
     );
   }
 }

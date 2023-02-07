@@ -24,7 +24,8 @@ class SetAllJobsAction {
   final List<Client> allClients;
   final int newInvoiceNumber;
   final double salesTaxRate;
-  SetAllJobsAction(this.pageState, this.allJobs, this.allClients, this.newInvoiceNumber, this.salesTaxRate);
+  final bool includeSalesTax;
+  SetAllJobsAction(this.pageState, this.allJobs, this.allClients, this.newInvoiceNumber, this.salesTaxRate, this.includeSalesTax);
 }
 
 class IncrementPageViewIndex{

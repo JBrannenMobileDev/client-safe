@@ -100,7 +100,7 @@ class NotificationHelper {
               reminderToSchedule.payload,
               reminderToSchedule.triggerTime,
           );
-          print("Reminder has been scheduled. jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+          print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
         }
       }
     }

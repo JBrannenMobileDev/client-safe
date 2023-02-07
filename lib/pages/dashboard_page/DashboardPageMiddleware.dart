@@ -51,6 +51,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProfileRestorePurchasesSeen) {
       _updateProfileWithSeenRestorePurchases(store, action);
     }
+    if(action is MarkAllAsSeenAction) {
+      _markAllAsSeen(store, action);
+    }
   }
 
   Future<void> _updateProfileWithSeenRestorePurchases(Store<AppState> store, UpdateProfileRestorePurchasesSeen action) async {
@@ -72,10 +75,26 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _setNotificationToSeen(Store<AppState> store, SetNotificationToSeen action) async {
     action.reminder.hasBeenSeen = true;
-    JobReminderDao.update(action.reminder);
-    int unseenCount = action.pageState.unseenNotificationCount;
-    unseenCount--;
-    store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, await JobReminderDao.getTriggeredReminders()));
+    await JobReminderDao.update(action.reminder);
+
+    List<JobReminder> reminders = await JobReminderDao.getTriggeredReminders();
+    int unseenCount = 0;
+    for(JobReminder reminder in reminders) {
+      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
+        unseenCount++;
+      }
+    }
+    store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
+  }
+
+  Future<void> _markAllAsSeen(Store<AppState> store, MarkAllAsSeenAction action) async {
+    List<JobReminder> reminders = await JobReminderDao.getTriggeredReminders();
+    int unseenCount = 0;
+    for(JobReminder reminder in reminders) {
+      reminder.hasBeenSeen = true;
+    }
+    JobReminderDao.updateAll(reminders);
+    store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
   }
 
   Future<void> _loadJobReminders(Store<AppState> store, action, NextDispatcher next) async {
@@ -115,6 +134,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
 
+
+    //This initializes the reminders collection with default reminders.
     if(allJobs.length == 0 && (await ReminderDao.getAll()).length == 0) {
       DateTime now = DateTime.now();
       ReminderDandyLight chargeCameraReminder = ReminderDandyLight(description: 'Charge Camera', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));

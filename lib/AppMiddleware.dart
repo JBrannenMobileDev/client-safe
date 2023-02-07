@@ -86,6 +86,9 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveImportantDatesAction>(ClientDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchAllAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePricingProfileAction>(NewPricingProfilePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateTaxPercentAction>(NewPricingProfilePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateIncludeSalesTaxAction>(NewPricingProfilePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, InitializeProfileSettings>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPricingProfilesAction>(PricingProfilesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix0.DeletePriceProfileAction>(NewPricingProfilePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, prefix1.DeletePriceProfileAction>(PricingProfilesPageMiddleware()));
@@ -104,6 +107,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetNotificationToSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateNotificationIconAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileRestorePurchasesSeen>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, MarkAllAsSeenAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileWithShowcaseSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));

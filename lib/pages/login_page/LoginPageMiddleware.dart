@@ -24,6 +24,7 @@ import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../data_layer/local_db/SembastDb.dart';
 import '../../models/Response.dart';
 import '../../utils/PushNotificationsManager.dart';
 import 'LoginPageActions.dart';
@@ -82,14 +83,17 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     if (user != null && user.emailVerified && profile != null) {
       if(profiles != null && profiles.length > 0) {
         profile = getMatchingProfile(profiles, user.email);
+        ProfileDao.updateUserLoginTime(user.uid);
+        store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+        bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
+        profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
+        await ProfileDao.update(profile);
+        await EventSender().setUserIdentity(user.uid);
+      } else {
+
       }
-      ProfileDao.updateUserLoginTime(user.uid);
-      store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-      bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
-      profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
-      await ProfileDao.update(profile);
-      await EventSender().setUserIdentity(user.uid);
     } else {
+      await SembastDb.instance.deleteAllLocalData();
       store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
       await _auth.signInWithEmailAndPassword(
               email: store.state.loginPageState.emailAddress,
@@ -235,20 +239,25 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         profile = getMatchingProfile(deviceProfiles, user.email);
         if(profile != null) {
           store.dispatch(UpdateEmailAddressAction(store.state.loginPageState, profile.email));
-        }
-        store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
-        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
-        store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-        UidUtil().setUid(user.uid);
-        await EventSender().setUserIdentity(user.uid);
-        await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
+          store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
+          store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+          store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+          UidUtil().setUid(user.uid);
+          await EventSender().setUserIdentity(user.uid);
+          await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
+            store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
+            ProfileDao.updateUserLoginTime(user.uid);
+            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          });
+        } else {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
-          ProfileDao.updateUserLoginTime(user.uid);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-        });
+          _auth.signOut();
+          await SembastDb.instance.deleteAllLocalData();
+        }
       } else {
         store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
         _auth.signOut();
+        await SembastDb.instance.deleteAllLocalData();
       }
     }else if(user != null && !user.emailVerified){
       store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
