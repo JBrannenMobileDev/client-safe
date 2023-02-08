@@ -6,7 +6,7 @@ class EnvironmentUtil {
   static const String STAGE = "stage";
   static const String DEV = "dev";
 
-  String _currentEnvironment = DEV;
+  String _currentEnvironment = PROD;
 
   factory EnvironmentUtil() {
     return _environmentUtil;
