@@ -10,6 +10,7 @@ import 'package:dandylight/pages/dashboard_page/LeadSourcePieChartRowData.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/JobUtil.dart';
+import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -393,8 +394,8 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
         radius: 50,
         titleStyle: TextStyle(
           fontSize: 20,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w700,
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: FontWeight.w500,
           color: const Color(0xffffffff),
         ),
       ));
@@ -440,8 +441,8 @@ List<PieChartSectionData> buildJobTypeData(List<Job> jobsWithPaymentReceived, Li
         radius: 50,
         titleStyle: TextStyle(
           fontSize: 20,
-          fontFamily: 'simple',
-          fontWeight: FontWeight.w700,
+          fontFamily: TextDandyLight.getFontFamily(),
+          fontWeight: FontWeight.w500,
           color: const Color(0xffffffff),
         ),
       ));

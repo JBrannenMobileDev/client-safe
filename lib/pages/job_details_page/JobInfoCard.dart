@@ -539,6 +539,7 @@ class JobInfoCard extends StatelessWidget {
                                 ),
                               ),
                               Container(
+                                width: MediaQuery.of(context).size.width - 158,
                                 padding: EdgeInsets.only(left: 8.0),
                                 child: TextDandyLight(
                                   type: TextDandyLight.MEDIUM_TEXT,

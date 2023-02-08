@@ -380,7 +380,10 @@ flutter:
         - asset: assets/fonts/Montserrat.ttf
     - family: montserratMedium
       fonts:
-      - asset: assets/fonts/Montserrat-Medium.ttf
+        - asset: assets/fonts/Montserrat-Medium.ttf
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans.ttf
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway-Bold.ttf

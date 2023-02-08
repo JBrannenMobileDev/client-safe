@@ -421,4 +421,20 @@ class JobStage {
     allStages.add(JobStage(id: 13, stage: STAGE_13_FEEDBACK_RECEIVED, imageLocation: getImageLocation(STAGE_13_FEEDBACK_RECEIVED)));
     return allStages;
   }
+
+  static List<JobStage> exampleJobStages() {
+    List<JobStage> allStages = [];
+    allStages.add(JobStage(id: 1, stage: STAGE_1_INQUIRY_RECEIVED, imageLocation: getImageLocation(STAGE_1_INQUIRY_RECEIVED)));
+    allStages.add(JobStage(id: 2, stage: STAGE_2_FOLLOWUP_SENT, imageLocation: getImageLocation(STAGE_2_FOLLOWUP_SENT)));
+    allStages.add(JobStage(id: 3, stage: STAGE_3_PROPOSAL_SENT, imageLocation: getImageLocation(STAGE_3_PROPOSAL_SENT)));
+    allStages.add(JobStage(id: 4, stage: STAGE_4_PROPOSAL_SIGNED, imageLocation: getImageLocation(STAGE_4_PROPOSAL_SIGNED)));
+    allStages.add(JobStage(id: 6, stage: STAGE_6_PLANNING_COMPLETE, imageLocation: getImageLocation(STAGE_6_PLANNING_COMPLETE)));
+    allStages.add(JobStage(id: 7, stage: STAGE_7_SESSION_COMPLETE, imageLocation: getImageLocation(STAGE_7_SESSION_COMPLETE)));
+    allStages.add(JobStage(id: 8, stage: STAGE_8_PAYMENT_REQUESTED, imageLocation: getImageLocation(STAGE_8_PAYMENT_REQUESTED)));
+    allStages.add(JobStage(id: 9, stage: STAGE_9_PAYMENT_RECEIVED, imageLocation: getImageLocation(STAGE_9_PAYMENT_RECEIVED)));
+    allStages.add(JobStage(id: 10, stage: STAGE_10_EDITING_COMPLETE, imageLocation: getImageLocation(STAGE_10_EDITING_COMPLETE)));
+    allStages.add(JobStage(id: 11, stage: STAGE_11_GALLERY_SENT, imageLocation: getImageLocation(STAGE_11_GALLERY_SENT)));
+    allStages.add(JobStage(id: 14, stage: STAGE_14_JOB_COMPLETE, imageLocation: getImageLocation(STAGE_14_JOB_COMPLETE)));
+    return allStages;
+  }
 }

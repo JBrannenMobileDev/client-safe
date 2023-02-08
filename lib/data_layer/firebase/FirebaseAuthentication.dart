@@ -7,6 +7,8 @@ import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../utils/EnvironmentUtil.dart';
+
 class FirebaseAuthentication {
   Future<User> handleSignIn(String email, String password) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -46,11 +48,8 @@ class FirebaseAuthentication {
 
   Future deleteFirebaseData() async {
     final databaseReference = FirebaseFirestore.instance;
-    await databaseReference.collection('suggestions').doc(UidUtil().getUid()).delete();
-    await LocationDao.deleteAllRemote();
-    await PoseDao.deleteAllRemote();
-    await InvoiceDao.deleteAllRemote();
-    await ContractDao.deleteAllRemote();
-    await databaseReference.collection('users').doc(UidUtil().getUid()).delete();
+    await databaseReference.collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
+        .collection('users').doc(UidUtil().getUid()).delete();
   }
 }

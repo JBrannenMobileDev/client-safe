@@ -25,8 +25,20 @@ import 'package:redux/redux.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
+import '../../data_layer/local_db/daos/ClientDao.dart';
+import '../../data_layer/local_db/daos/JobDao.dart';
+import '../../data_layer/local_db/daos/JobTypeDao.dart';
+import '../../data_layer/local_db/daos/PriceProfileDao.dart';
+import '../../data_layer/local_db/daos/ReminderDao.dart';
+import '../../models/Client.dart';
+import '../../models/Job.dart';
+import '../../models/JobStage.dart';
+import '../../models/JobType.dart';
+import '../../models/PriceProfile.dart';
 import '../../models/Response.dart';
+import '../../utils/ImageUtil.dart';
 import '../../utils/PushNotificationsManager.dart';
+import '../new_reminder_page/WhenSelectionWidget.dart';
 import 'LoginPageActions.dart';
 
 class LoginPageMiddleware extends MiddlewareClass<AppState> {
@@ -193,6 +205,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         VibrateUtil.vibrateMultiple();
       });
       if(user != null) {
+        UidUtil().setUid(user.uid);
         await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS);
         await EventSender().setUserIdentity(user.uid);
         await EventSender().setUserProfileData(EventNames.FIRST_NAME, store.state.loginPageState.firstName);
@@ -220,6 +233,134 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             accountCreatedDate: DateTime.now(),
           );
         await ProfileDao.insertOrUpdate(newProfile);
+
+        //Creating responses
+        List<Response> defaultResponses = [];
+        defaultResponses.add(Response(
+          title: 'Reply to initial inquiry',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+        ));
+        defaultResponses.add(Response(
+          title: 'I am unavailable on that date',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_PRE_BOOKING,
+        ));
+        defaultResponses.add(Response(
+          title: 'Confirm deposit paid',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'What to expect',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'What to wear',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'Upcoming photoshoot reminder',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_PRE_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'Thank you',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+        ));
+        defaultResponses.add(Response(
+          title: 'Your photos are ready',
+          message: '',
+          parentGroup: Response.GROUP_TITLE_POST_PHOTOSHOOT,
+        ));
+        for(Response response in defaultResponses) {
+          await ResponseDao.insertOrUpdate(response);
+        }
+
+        //Creating Reminders
+        DateTime now = DateTime.now();
+        ReminderDandyLight chargeCameraReminder = ReminderDandyLight(description: 'Charge Camera', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
+        ReminderDandyLight cleanCameraReminder = ReminderDandyLight(description: 'Clean Lenses', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
+        ReminderDandyLight oneWeekCheckInReminder = ReminderDandyLight(description: '1 Week Check-in', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime(now.year, now.month, now.day, 8, 30));
+        await ReminderDao.insertOrUpdate(chargeCameraReminder);
+        await ReminderDao.insertOrUpdate(cleanCameraReminder);
+        await ReminderDao.insertOrUpdate(oneWeekCheckInReminder);
+
+        //Creating price packages
+        PriceProfile priceProfile = PriceProfile(
+          id: null,
+          documentId: '',
+          profileName: 'Standard Wedding (EXAMPLE)',
+          flatRate: 2500.00,
+          icon: ImageUtil.getRandomPriceProfileIcon(),
+          includeSalesTax: false,
+          salesTaxPercent: 0.0,
+          deposit: 0.0,
+        );
+        await PriceProfileDao.insertOrUpdate(priceProfile);
+
+        //Create job types
+        JobType newJobType = JobType(
+          id: null,
+          documentId: '',
+          title: 'Sample Job',
+          createdDate: DateTime.now(),
+          stages: JobStage.exampleJobStages(),
+          reminders: await ReminderDao.getAll(),
+        );
+        await JobTypeDao.insertOrUpdate(newJobType);
+
+        //Create contacts
+        Client client1 = Client(
+            id: null,
+            documentId: '',
+            firstName: 'Amanda',
+            lastName: 'Test',
+            email: 'sampleuser@dandylight.com',
+            phone: '(555)555-5555',
+            instagramProfileUrl: 'https://www.instagram.com/dandy.light/',
+            leadSource: ImageUtil.leadSourceIconsWhite.elementAt(0),
+            customLeadSourceName: '',
+            createdDate: DateTime.now()
+        );
+        Client client2 = Client(
+            id: null,
+            documentId: '',
+            firstName: 'Shawna',
+            lastName: 'Test',
+            email: 'sampleuser@dandylight.com',
+            phone: '(555)555-5555',
+            instagramProfileUrl: 'https://www.instagram.com/dandy.light/',
+            leadSource: ImageUtil.leadSourceIconsWhite.elementAt(1),
+            customLeadSourceName: '',
+            createdDate: DateTime.now()
+        );
+        await ClientDao.insertOrUpdate(client1);
+        await ClientDao.insertOrUpdate(client2);
+
+        //Create sample job
+        DateTime currentTime = DateTime.now();
+        Job jobToSave = Job(
+          id: null,
+          documentId: store.state.newJobPageState.documentId,
+          clientDocumentId: (await ClientDao.getAll()).first.documentId,
+          clientName: (await ClientDao.getAll()).first.getClientFullName(),
+          jobTitle: (await ClientDao.getAll()).first.firstName + ' - Example Job',
+          selectedDate: DateTime.now().add(Duration(days: 5)),
+          selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 10, 30),
+          selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 20, 00),
+          type: (await JobTypeDao.getAll()).first,
+          stage: JobStage.exampleJobStages().elementAt(1),
+          completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
+          priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
+          createdDate: DateTime.now(),
+          depositAmount: 0,
+        );
+        await JobDao.insertOrUpdate(jobToSave);
+
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
       }
     }

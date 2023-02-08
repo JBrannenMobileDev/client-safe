@@ -13,11 +13,11 @@ class TextDandyLight extends StatelessWidget {
   static const String EXTRA_SMALL_TEXT = 'extra_small_text';
 
   static getFontFamily() {
-    return 'montserrat';
+    return 'OpenSans';
   }
 
   static getFontWeight() {
-    return FontWeight.w600;
+    return FontWeight.w300;
   }
 
   static getFontSize(String type) {
@@ -84,7 +84,7 @@ class TextDandyLight extends StatelessWidget {
     if(decimalPlaces == null) decimalPlaces = 2;
     if(isCurrency == null) isCurrency = false;
     if(isNumber == null) isNumber = false;
-    fontFamily = isBold ? 'montserratMedium' : 'montserrat';
+    fontFamily = isBold ? 'OpenSans' : 'OpenSans';
     if(isNumber) {
       text = NumberFormat("###,###,###,###").format(amount);
     }
@@ -99,16 +99,16 @@ class TextDandyLight extends StatelessWidget {
         size = 32;
         break;
       case LARGE_TEXT:
-        size = 22;
+        size = 20;
         break;
       case MEDIUM_TEXT:
-        size = 18;
-        break;
-      case SMALL_TEXT:
         size = 16;
         break;
-      case EXTRA_SMALL_TEXT:
+      case SMALL_TEXT:
         size = 14;
+        break;
+      case EXTRA_SMALL_TEXT:
+        size = 12;
         break;
     }
     return Container(
@@ -135,7 +135,7 @@ class TextDandyLight extends StatelessWidget {
           maxLines: maxLines,
           style: TextStyle(
             fontSize: size,
-            fontWeight: isBold ? FontWeight.bold : FontWeight.w500,
+            fontWeight: isBold ? FontWeight.w400 : FontWeight.w300,
             color: color,
           ),
         ),
