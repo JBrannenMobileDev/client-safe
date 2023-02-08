@@ -24,10 +24,10 @@ class TextDandyLight extends StatelessWidget {
     double size = 18;
     switch(type) {
       case EXTRA_EXTRA_LARGE_TEXT:
-        size = 48;
+        size = 46;
         break;
       case EXTRA_LARGE_TEXT:
-        size = 32;
+        size = 30;
         break;
       case LARGE_TEXT:
         size = 22;
