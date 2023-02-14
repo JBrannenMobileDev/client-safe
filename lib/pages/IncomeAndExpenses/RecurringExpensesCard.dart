@@ -19,7 +19,7 @@ class RecurringExpensesCard extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 64.0),
+      margin: EdgeInsets.only(bottom: 148.0),
       height: getContainerHeight(pageState.recurringExpensesForSelectedYear.length, pageState),
     child:Stack(
         alignment: Alignment.topCenter,

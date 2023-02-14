@@ -113,7 +113,6 @@ class ProfileDao extends Equatable{
 
   static Future<List<Profile>> getAll() async {
     final recordSnapshots = await _profileStore.find(await _db);
-
     // Making a List<Client> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
       final profile = Profile.fromMap(snapshot.value);
@@ -121,6 +120,8 @@ class ProfileDao extends Equatable{
       return profile;
     }).toList();
   }
+
+
 
   static Future<void> updateUserLoginTime(String uid) async{
     List<Profile> userProfiles = await ProfileDao.getAll();

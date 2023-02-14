@@ -7,8 +7,10 @@ import 'package:dandylight/pages/reminders_page/RemindersPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
+import 'package:dandylight/utils/analytics/DeviceInfo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import '../../utils/DeviceType.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -56,20 +58,21 @@ class _CollectionsPageState extends State<CollectionsPage> {
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemCount: 10,
-                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: (DeviceType.getDeviceType() == Type.Tablet ? 150 : 112) / (DeviceType.getDeviceType() == Type.Tablet ? 150 : 124),
+                        ),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
                               onCollectionSelected(index);
                             },
-                            child: Opacity(
-                            opacity: 1.0,
-                            child:Column(
+                            child: Column(
                               children: <Widget>[
                                 Container(
-                                  padding: EdgeInsets.all(24.0),
-                                  height: 116.0,
-                                  width: 116.0,
+                                  padding: EdgeInsets.only(left: 24, top: 24, right: 24, bottom: 24),
+                                  height: DeviceType.getDeviceType() == Type.Tablet ? 150 : 112.0,
+                                  width: DeviceType.getDeviceType() == Type.Tablet ? 150 : 112.0,
                                   decoration: BoxDecoration(
                                     color: getCircleColor(index),
                                     shape: BoxShape.circle,
@@ -88,7 +91,6 @@ class _CollectionsPageState extends State<CollectionsPage> {
                                   ),
                                 ),
                               ],
-                            ),
                             ),
                           );
                         }),

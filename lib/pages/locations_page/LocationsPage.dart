@@ -95,7 +95,7 @@ class LocationsPage extends StatelessWidget {
                           padding: EdgeInsets.only(left: 32.0, top: 48.0, right: 32.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: "Save locations you regularly use here. \n\nThese locations can be added to your jobs to help make mileage tracking easier and enabling you to share the driving directions with your clients.\n\nYour locations will never be shared with other photographers. They will remain private to you.",
+                            text: "Save locations you regularly use here. \n\nThese locations can be added to your jobs to help make mileage tracking easier and enable you to share the driving directions with your clients.\n\nYour locations will never be shared with other photographers. They will remain private to you.",
                             // \n\nYou can also share your saved locations with a client to help them decide what location they want.
                             textAlign: TextAlign.center,
                             color: Color(ColorConstants.getBlueDark()),

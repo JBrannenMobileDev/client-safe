@@ -153,4 +153,10 @@ class EventNames {
 
   //App Launch
   static const String APP_OPENED = "app_opened";
+
+  //Debugging
+  static const String USER_SIGNED_IN_CHECK = "user_signed_in_check";
+  static const String SIGN_IN_CHECKED_PARAM_USER_UID = "sign_in_checked_param_user_uid";
+  static const String SIGN_IN_CHECKED_PARAM_PROFILE_UID = "sign_in_checked_param_profile_uid";
+
 }

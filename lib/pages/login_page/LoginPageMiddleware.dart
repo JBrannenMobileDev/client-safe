@@ -94,7 +94,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
     if (user != null && user.emailVerified && profile != null) {
       if(profiles != null && profiles.length > 0) {
-        profile = getMatchingProfile(profiles, user.email);
+        profile = getMatchingProfile(profiles, user);
         ProfileDao.updateUserLoginTime(user.uid);
         store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
         bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
@@ -293,8 +293,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         PriceProfile priceProfile = PriceProfile(
           id: null,
           documentId: '',
-          profileName: 'Standard Wedding (EXAMPLE)',
-          flatRate: 2500.00,
+          profileName: 'Standard 1hr (EXAMPLE)',
+          flatRate: 350.00,
           icon: ImageUtil.getRandomPriceProfileIcon(),
           includeSalesTax: false,
           salesTaxPercent: 0.0,
@@ -306,7 +306,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         JobType newJobType = JobType(
           id: null,
           documentId: '',
-          title: 'Sample Job',
+          title: 'Engagement - Example',
           createdDate: DateTime.now(),
           stages: JobStage.exampleJobStages(),
           reminders: await ReminderDao.getAll(),
@@ -317,8 +317,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         Client client1 = Client(
             id: null,
             documentId: '',
-            firstName: 'Amanda',
-            lastName: 'Test',
+            firstName: 'Example Client',
+            lastName: '',
             email: 'sampleuser@dandylight.com',
             phone: '(555)555-5555',
             instagramProfileUrl: 'https://www.instagram.com/dandy.light/',
@@ -326,20 +326,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
             customLeadSourceName: '',
             createdDate: DateTime.now()
         );
-        Client client2 = Client(
-            id: null,
-            documentId: '',
-            firstName: 'Shawna',
-            lastName: 'Test',
-            email: 'sampleuser@dandylight.com',
-            phone: '(555)555-5555',
-            instagramProfileUrl: 'https://www.instagram.com/dandy.light/',
-            leadSource: ImageUtil.leadSourceIconsWhite.elementAt(1),
-            customLeadSourceName: '',
-            createdDate: DateTime.now()
-        );
         await ClientDao.insertOrUpdate(client1);
-        await ClientDao.insertOrUpdate(client2);
 
         //Create sample job
         DateTime currentTime = DateTime.now();
@@ -377,24 +364,24 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
     if (user != null && user.emailVerified) {
       if(deviceProfiles.isNotEmpty){
-        profile = getMatchingProfile(deviceProfiles, user.email);
+        profile = getMatchingProfile(deviceProfiles, user);
         if(profile != null) {
           store.dispatch(UpdateEmailAddressAction(store.state.loginPageState, profile.email));
-          store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
-          store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
-          store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-          UidUtil().setUid(user.uid);
-          await EventSender().setUserIdentity(user.uid);
-          await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
-            store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
-            ProfileDao.updateUserLoginTime(user.uid);
-            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-          });
-        } else {
-          store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
-          _auth.signOut();
-          await SembastDb.instance.deleteAllLocalData();
         }
+        store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
+        store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
+        store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+        UidUtil().setUid(user.uid);
+        await EventSender().setUserIdentity(user.uid);
+        await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
+          store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
+          ProfileDao.updateUserLoginTime(user.uid);
+          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+        });
+        EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
+          EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
+          EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",
+        });
       } else {
         store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
         _auth.signOut();
@@ -422,10 +409,10 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     _sendEmailVerification(user, 'Email verification resent', store);
   }
 
-  Profile getMatchingProfile(List<Profile> profiles, String email) {
+  Profile getMatchingProfile(List<Profile> profiles, User user) {
     Profile result = null;
     for(Profile profile in profiles) {
-      if(profile.email == email) {
+      if(profile.uid == user.uid) {
         result = profile;
       }
     }
