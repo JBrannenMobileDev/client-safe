@@ -11,6 +11,8 @@ import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/locations_page/LocationsActions.dart' as locations;
 import 'package:dandylight/pages/new_mileage_expense/NewMileageExpenseActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:redux/redux.dart';
 import 'package:http/http.dart' as http;
 import 'package:sembast/sembast.dart';

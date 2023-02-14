@@ -31,6 +31,8 @@ class NewLocationPage extends StatefulWidget {
 class _NewLocationPageState extends State<NewLocationPage> {
   final int pageCount = 2;
   bool showMapIcon = false;
+  double lat = 0.0;
+  double lon = 0.0;
   final controller = PageController(
     initialPage: 0,
   );
@@ -51,9 +53,9 @@ class _NewLocationPageState extends State<NewLocationPage> {
       onInit: (store) async {
         if(store.state.newLocationPageState.newLocationLongitude == 0){
           showMapIcon = true;
-          Directory appDocDir = await getApplicationDocumentsDirectory();
-          String path = appDocDir.path;
           Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+          lat = positionLastKnown.latitude;
+          lon = positionLastKnown.longitude;
           store.dispatch(SetLatLongAction(store.state.newLocationPageState, positionLastKnown.latitude, positionLastKnown.longitude));
         }
       },
@@ -218,7 +220,7 @@ class _NewLocationPageState extends State<NewLocationPage> {
         canProgress = pageState.locationName.isNotEmpty;
         break;
       case 1:
-        canProgress = pageState.newLocationLongitude != 0;
+        canProgress = pageState.newLocationLongitude != lon && pageState.newLocationLatitude != lat;
         break;
       case 2:
         canProgress = false;
