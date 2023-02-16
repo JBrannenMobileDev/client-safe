@@ -240,13 +240,13 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                 }
               }
             } else {
-              bool freeTrialExpired = current.profile.isFreeTrialExpired();
-              if(freeTrialExpired && !hasNavigatedToSubscriptionPage) {
-                hasNavigatedToSubscriptionPage = true;
-                NavigationUtil.onManageSubscriptionSelected(context, current.profile);
-              } else {
-                //do nothing
-              }
+              // bool freeTrialExpired = current.profile.isFreeTrialExpired();
+              // if(freeTrialExpired && !hasNavigatedToSubscriptionPage) {
+              //   hasNavigatedToSubscriptionPage = true;
+              //   NavigationUtil.onManageSubscriptionSelected(context, current.profile);
+              // } else {
+              //   //do nothing
+              // }
             }
           } else {
             if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
