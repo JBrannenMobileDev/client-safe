@@ -28,6 +28,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
   bool searchHasFocus = false;
   final firstNameTextController = TextEditingController();
   final FocusNode _firstNameFocus = FocusNode();
+  bool searchSelected = false;
 
   ScrollController _controller = ScrollController();
 
@@ -54,15 +55,18 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: "Who is this job for?",
-                  textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: "Who is this job for?",
+                    textAlign: TextAlign.start,
+                    color: Color(ColorConstants.primary_black),
+                  ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 16, bottom: 8.0),
-                  height: 54.0,
+                  margin: EdgeInsets.only(top: 8, bottom: 8.0),
+                  height: 48.0,
                   width: 200,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(27),
@@ -90,9 +94,31 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                     color: Color(ColorConstants.primary_black),
                   ),
                 ),
-                NewJobTextField(
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8.0),
+                  height: 48.0,
+                  width: 248,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(27),
+                    color: Color(ColorConstants.getBlueDark()),
+                  ),
+                  child: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        searchSelected = true;
+                      });
+                    },
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Search DandyLight Contacts',
+                      textAlign: TextAlign.start,
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                ),
+                searchSelected ? NewJobTextField(
                   controller: firstNameTextController,
-                  hintText: 'Search DandyLight Contacts',
+                  hintText: 'Client Name',
                   inputType: TextInputType.text,
                   height: 64.0,
                   onTextInputChanged: pageState.onClientFirstNameTextChanged,
@@ -101,8 +127,8 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                   focusNode: _firstNameFocus,
                   onFocusAction: onFirstNameAction,
                   inputTypeError: NewContactPageState.ERROR_FIRST_NAME_MISSING,
-                ),
-                ConstrainedBox(
+                ) : SizedBox(),
+                searchSelected ? ConstrainedBox(
                         constraints: BoxConstraints(
                           minHeight: 65.0,
                           maxHeight: 371.0,
@@ -117,7 +143,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                           itemCount: pageState.filteredClients.length,
                           itemBuilder: _buildItem,
                         ),
-                ),
+                ) : SizedBox(),
               ],
             ),
           ),

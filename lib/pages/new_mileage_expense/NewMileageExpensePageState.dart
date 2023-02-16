@@ -198,7 +198,7 @@ class NewMileageExpensePageState {
     isOneWay: false,
     milesDrivenOneWay: 0.0,
     milesDrivenRoundTrip: 0.0,
-    deductionRate: 0.575,
+    deductionRate: 0.655,
     startLocation: null,
     endLocation: null,
     filterType: SelectStartEndLocationsPage.FILTER_TYPE_ROUND_TRIP,

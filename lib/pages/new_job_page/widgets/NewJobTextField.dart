@@ -57,6 +57,7 @@ class NewJobTextField extends StatelessWidget {
             },
             cursorColor: Color(ColorConstants.getBlueDark()),
             decoration: InputDecoration(
+              suffixIcon: Icon(Icons.search, color: Color(ColorConstants.getBlueLight()),),
               alignLabelWithHint: true,
               labelText: hintText,
               labelStyle: TextStyle(
@@ -69,7 +70,7 @@ class NewJobTextField extends StatelessWidget {
                   fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                   fontFamily: TextDandyLight.getFontFamily(),
                   fontWeight: TextDandyLight.getFontWeight(),
-                  color: Color(ColorConstants.primary_black)),
+                  color: Color(ColorConstants.getBlueLight())),
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
