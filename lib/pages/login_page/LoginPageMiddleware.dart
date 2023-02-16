@@ -367,6 +367,11 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         profile = getMatchingProfile(deviceProfiles, user);
         if(profile != null) {
           store.dispatch(UpdateEmailAddressAction(store.state.loginPageState, profile.email));
+          await EventSender().setUserIdentity(user.uid);
+          await EventSender().setUserProfileData(EventNames.FIRST_NAME, profile.firstName);
+          await EventSender().setUserProfileData(EventNames.LAST_NAME, profile.lastName);
+          await EventSender().setUserProfileData(EventNames.EMAIL, profile.email);
+          await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, profile.businessName);
         }
         store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));

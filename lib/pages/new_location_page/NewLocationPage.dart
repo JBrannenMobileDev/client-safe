@@ -59,6 +59,16 @@ class _NewLocationPageState extends State<NewLocationPage> {
           store.dispatch(SetLatLongAction(store.state.newLocationPageState, positionLastKnown.latitude, positionLastKnown.longitude));
         }
       },
+        onWillChange: (previous, current) {
+          if (!previous.locationUpdated && current.locationUpdated) {
+            setState(() {
+              currentPageIndex = 2;
+              controller.animateToPage(
+                  currentPageIndex, duration: Duration(milliseconds: 150),
+                  curve: Curves.ease);
+            });
+          }
+        },
       converter: (store) => NewLocationPageState.fromStore(store),
       builder: (BuildContext context, NewLocationPageState pageState) =>
           Scaffold(

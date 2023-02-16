@@ -41,7 +41,7 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
               padding: EdgeInsets.only(bottom: 26.0),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: "Take a picture of this location to help you remember what it looks like.",
+                text: "Take or select a picture of this location.",
                 textAlign: TextAlign.start,
                 color: Color(ColorConstants.primary_black),
               ),

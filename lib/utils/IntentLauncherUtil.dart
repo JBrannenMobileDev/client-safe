@@ -142,8 +142,7 @@ class IntentLauncherUtil{
                   origin + "&destination=" + destination + "&travelmode=driving&dir_action=navigate"),
           package: 'com.google.android.apps.maps');
       intent.launch();
-    }
-    else {
+    } else {
       String url = "https://www.google.com/maps/dir/?api=1&origin=" + origin + "&destination=" + destination + "&travelmode=driving&dir_action=navigate";
       if (await canLaunch(url)) {
     await launch(url, forceSafariVC: false);

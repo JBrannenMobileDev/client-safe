@@ -70,34 +70,15 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
                 );
               },
               child: Container(
-                padding: EdgeInsets.all((!pageState.locationUpdated) ? 24.0 : 0.0),
                 height: 116.0,
                 width: 116.0,
                 decoration: BoxDecoration(
                   color: Color(ColorConstants.getBlueDark()),
                   shape: BoxShape.circle,
                 ),
-                child: (!pageState.locationUpdated) ? Image.asset('assets/images/collection_icons/location_icon_white.png')
-                : ClipRRect(
-                  borderRadius: BorderRadius.circular(58.0),
-                  child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(pageState.newLocationLatitude, pageState.newLocationLongitude),
-                    zoom: 12,
-                  ),
-                  onMapCreated: (GoogleMapController controller) {
-                    _controller.complete(controller);
-                  },
-                  onTap: (latLng) {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => NewLocationMapPage()),
-                    );
-                  },
-                  mapToolbarEnabled: false,
-                  myLocationEnabled: false,
-                  compassEnabled: true,
-                  myLocationButtonEnabled: false,
-                ),
+                child: ClipOval(
+
+                  child: Image.asset('assets/images/google_placeholder.jpeg'),
                 ),
               ),
             ),

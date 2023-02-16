@@ -91,7 +91,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           ManageSubscriptionPageState.fromStore(store),
       builder: (BuildContext context, ManageSubscriptionPageState pageState) =>
     WillPopScope(
-    onWillPop: () async => pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? true : false,
+    onWillPop: () async => pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED ? true : false,
     child: Scaffold(
             extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
@@ -117,8 +117,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   fontSize: 72.0,
                                   fontFamily: 'simple',
                                   fontWeight: FontWeight.w600,
-                                  color: Color(ColorConstants.getPrimaryWhite())
-                                      .withOpacity(1.0),
+                                  color: Color(ColorConstants.getPrimaryWhite()).withOpacity(1.0),
                                 ),
                                 duration: const Duration(milliseconds: 500),
                                 curve: Curves.ease,
@@ -625,7 +624,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                 ),
               ],
             ),
-            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ?
+            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED) ?
             Positioned(
               top: 0.0,
               left: 0.0,

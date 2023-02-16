@@ -349,6 +349,7 @@ flutter:
     - assets/images/calendar.png
     - assets/images/clock.png
     - assets/images/alert.png
+    - assets/images/google_placeholder.jpeg
 
     - assets/images/reminders/camera.png
     - assets/images/reminders/welcome_hand.png

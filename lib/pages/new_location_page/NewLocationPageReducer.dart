@@ -103,6 +103,7 @@ NewLocationPageState _updateLocation(NewLocationPageState previousState, UpdateL
     newLocationLatitude: action.latLng.latitude,
     newLocationLongitude: action.latLng.longitude,
     locationUpdate: true,
+    pageViewIndex: 2,
   );
 }
 
