@@ -167,12 +167,12 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.primary_black), fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
         ),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black), fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.primary_black), fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),
         ),
