@@ -35,6 +35,8 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (store) {
         store.dispatch(FetchTimeOfSunsetAction(store.state.newJobPageState));
+        startTime = store.state.newJobPageState.initialTimeSelectorTime;
+        endTime = store.state.newJobPageState.initialTimeSelectorTime;
       },
       converter: (store) => NewJobPageState.fromStore(store),
       builder: (BuildContext context, NewJobPageState pageState) => Container(
