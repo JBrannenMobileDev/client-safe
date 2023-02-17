@@ -67,7 +67,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
       1: TextDandyLight(
           type: TextDandyLight.MEDIUM_TEXT,
           text: IncomeAndExpensesPage.FILTER_TYPE_EXPENSES,
-          color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
+          color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getBlueDark()),
       ),
     };
     return StoreConnector<AppState, IncomeAndExpensesPageState>(
