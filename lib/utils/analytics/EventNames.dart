@@ -42,6 +42,8 @@ class EventNames {
   static const String NAV_TO_SETTINGS_INCOME_EXPENSE = "nav_to_settings_income_expense";
   static const String NAV_TO_CONTACTS = "nav_to_contacts";
   static const String NAV_TO_INCOME = "nav_to_income";
+  static const String NAV_TO_MY_POSES = "nav_to_my_poses";
+  static const String NAV_TO_POSE_LIBRARY = "nav_to_pose_library";
   static const String NAV_TO_EXPENSES = "nav_to_expenses";
   static const String NAV_TO_JOBS = "nav_to_jobs";
   static const String NAV_TO_COLLECTIONS = "nav_to_collections";

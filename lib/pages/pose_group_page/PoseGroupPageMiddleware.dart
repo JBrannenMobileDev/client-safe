@@ -42,8 +42,8 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _deleteSelectedPoses(Store<AppState> store, DeleteSelectedPoses action) async{
-    List<GroupImage> allImages = action.pageState.poseImages;
-    List<Pose> allPoses = action.pageState.poseGroup.poses;
+    List<GroupImage> allImages = List.from(action.pageState.poseImages);
+    List<Pose> allPoses = List.from(action.pageState.poseGroup.poses);
     for(GroupImage selectedImage in action.pageState.selectedImages) {
       allImages.remove(selectedImage);
       allPoses.remove(selectedImage.pose);

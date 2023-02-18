@@ -12,10 +12,10 @@ import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/PoseGroupPage.dart';
 import '../PosesPageState.dart';
 
-class PoseGroupListWidget extends StatelessWidget {
+class PoseLibraryGroupListWidget extends StatelessWidget {
   final int index;
 
-  PoseGroupListWidget(this.index);
+  PoseLibraryGroupListWidget(this.index);
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class PoseGroupListWidget extends StatelessWidget {
       builder: (BuildContext context, PosesPageState pageState) =>
       InkWell(
         onTap: () {
-          Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index))),
-          );
+          // Navigator.of(context).push(
+          //   new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index))),
+          // );
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
@@ -39,7 +39,7 @@ class PoseGroupListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    pageState.poseGroups.elementAt(index).poses.length == 0 || (pageState.groupImages.isNotEmpty && pageState.groupImages.length > index && pageState.groupImages.elementAt(index).path.isNotEmpty) ?
+                    pageState.libraryGroups.elementAt(index).poses.length == 0 || (pageState.libraryGroupImages.isNotEmpty && pageState.libraryGroupImages.length > index && pageState.libraryGroupImages.elementAt(index).path.isNotEmpty) ?
                     Container(
                       height: 108.0,
                       width: 108.0,
@@ -48,8 +48,8 @@ class PoseGroupListWidget extends StatelessWidget {
                         borderRadius: new BorderRadius.circular(16.0),
                         image: DecorationImage(
                           fit: BoxFit.cover,
-                          image: pageState.groupImages.isNotEmpty && pageState.groupImages.length > index && pageState.groupImages.elementAt(index).path.isNotEmpty
-                              ? FileImage(pageState.groupImages.elementAt(index))
+                          image: pageState.libraryGroupImages.isNotEmpty && pageState.libraryGroupImages.length > index && pageState.libraryGroupImages.elementAt(index).path.isNotEmpty
+                              ? FileImage(pageState.libraryGroupImages.elementAt(index))
                               : AssetImage("assets/images/backgrounds/image_background.png"),
                         ),
                       ),
@@ -78,7 +78,7 @@ class PoseGroupListWidget extends StatelessWidget {
                               padding: EdgeInsets.only(bottom: 2.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.poseGroups.elementAt(index).groupName,
+                                text: pageState.libraryGroups.elementAt(index).groupName,
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
@@ -86,7 +86,7 @@ class PoseGroupListWidget extends StatelessWidget {
                               padding: EdgeInsets.only(top: 2.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.poseGroups.elementAt(index).poses.length.toString(),
+                                text: pageState.libraryGroups.elementAt(index).poses.length.toString(),
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPeachDark()),
                               ),

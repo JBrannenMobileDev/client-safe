@@ -48,6 +48,7 @@ class Profile{
   DateTime contractsLastChangeDate;
   DateTime posesLastChangeDate;
   DateTime poseGroupsLastChangeDate;
+  DateTime poseLibraryGroupLastChangeDate;
   DateTime responsesLastChangeDate;
 
   Profile({
@@ -98,6 +99,7 @@ class Profile{
     this.accountCreatedDate,
     this.shouldShowRestoreSubscription,
     this.usesSalesTax,
+    this.poseLibraryGroupLastChangeDate,
   });
 
   Profile copyWith({
@@ -148,6 +150,7 @@ class Profile{
     DateTime poseGroupsLastChangeDate,
     DateTime responsesLastChangeDate,
     DateTime accountCreatedDate,
+    DateTime poseLibraryGroupLastChangeDate,
   }){
     return Profile(
       id: id ?? this.id,
@@ -197,6 +200,7 @@ class Profile{
       hasSeenIncomeInfo: hasSeenIncomeInfo ?? this.hasSeenIncomeInfo,
       accountCreatedDate: accountCreatedDate ?? this.accountCreatedDate,
       shouldShowRestoreSubscription: shouldShowRestoreSubscription ?? this.shouldShowRestoreSubscription,
+      poseLibraryGroupLastChangeDate: poseLibraryGroupLastChangeDate ?? this.poseLibraryGroupLastChangeDate,
     );
   }
 
@@ -247,6 +251,7 @@ class Profile{
       'posesLastChangeDate' : posesLastChangeDate?.millisecondsSinceEpoch ?? null,
       'poseGroupsLastChangeDate' : poseGroupsLastChangeDate?.millisecondsSinceEpoch ?? null,
       'responsesLastChangeDate' : responsesLastChangeDate?.millisecondsSinceEpoch ?? null,
+      'poseLibraryGroupLastChangeDate' : poseLibraryGroupLastChangeDate?.millisecondsSinceEpoch ?? null,
       'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
@@ -300,7 +305,8 @@ class Profile{
       posesLastChangeDate: map['posesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['posesLastChangeDate']) : null,
       poseGroupsLastChangeDate: map['poseGroupsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseGroupsLastChangeDate']) : null,
       responsesLastChangeDate: map['responsesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['responsesLastChangeDate']) : null,
-      accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1), 
+      accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1),
+      poseLibraryGroupLastChangeDate: map['poseLibraryGroupLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseLibraryGroupLastChangeDate']) : null,
     );
   }
 

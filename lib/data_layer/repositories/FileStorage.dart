@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import 'package:dandylight/models/Contract.dart';
+import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -80,6 +82,28 @@ class FileStorage {
       _updatePoseImageUrl(pose, imageUrl, group);
     }
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
+  }
+
+  static Future<File> getPoseLibraryImageFile(Pose pose, PoseLibraryGroup group) async {
+    String imageUrl = pose.imageUrl;
+    if(imageUrl == null || imageUrl.isEmpty) {
+      final storageRef = FirebaseStorage.instance.ref();
+      final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
+      imageUrl = await cloudFilePath.getDownloadURL();
+      _updatePoseLibraryImageUrl(pose, imageUrl, group);
+    }
+    return await DandylightCacheManager.instance.getSingleFile(imageUrl);
+  }
+
+  static _updatePoseLibraryImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
+    poseToUpdate.imageUrl = imageUrl;
+    await PoseDao.update(poseToUpdate);
+    for(Pose pose in group.poses) {
+      if(pose.documentId == poseToUpdate.documentId) {
+        pose.imageUrl = imageUrl;
+      }
+    }
+    await PoseLibraryGroupDao.update(group);
   }
 
   static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group) async {
