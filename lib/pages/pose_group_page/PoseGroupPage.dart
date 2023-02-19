@@ -317,7 +317,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                                 gridDelegate:
                                 const SliverGridDelegateWithMaxCrossAxisExtent(
                                     maxCrossAxisExtent: 200,
-                                    childAspectRatio: 2 / 2.35,
+                                    childAspectRatio: 2 / 2.45,
                                     crossAxisSpacing: 16,
                                     mainAxisSpacing: 16),
                                 itemCount: pageState.poseImages.length,

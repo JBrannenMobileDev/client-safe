@@ -15,13 +15,17 @@ class Pose {
     this.numOfSaves,
   });
 
+  bool isLibraryPose() {
+    return instagramName.isNotEmpty && instagramUrl.isNotEmpty;
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'documentId' : documentId,
       'imageUrl' : imageUrl,
       'instagramUrl' : instagramUrl,
       'instagramName' : instagramName,
-      'numOfSaves' : numOfSaves,
+      'numOfSaves' : numOfSaves != null ? numOfSaves : 0,
     };
   }
 

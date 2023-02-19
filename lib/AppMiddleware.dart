@@ -60,6 +60,8 @@ import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPag
 import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageMiddleware.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
+import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupActions.dart';
+import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageMiddleware.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:dandylight/pages/poses_page/PosesPageMiddleware.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesActions.dart';
@@ -218,6 +220,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SavePosesToGroupAction>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPoseImagesFromStorage>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSelectedPoses>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveLibraryPosesToGroupAction>(LibraryPoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadLibraryPoseImagesFromStorage>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchWritableCalendars>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedAction>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPaymentSettingsFromProfile>(IncomeAndExpenseSettingsPageMiddleware()));

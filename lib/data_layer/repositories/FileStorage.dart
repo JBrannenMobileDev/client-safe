@@ -34,6 +34,10 @@ class FileStorage {
     await _uploadPoseImageFile(path, pose, group);
   }
 
+  static saveLibraryPoseImageFile(String path, Pose pose, PoseLibraryGroup group) async {
+    await _uploadLibraryPoseImageFile(path, pose, group);
+  }
+
   static saveContractFile(String contractPath, Contract contract) async {
     await _uploadContractFile(contractPath, contract);
   }
@@ -115,6 +119,17 @@ class FileStorage {
       }
     }
     await PoseGroupDao.update(group);
+  }
+
+  static _updateLibraryPoseImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
+    poseToUpdate.imageUrl = imageUrl;
+    await PoseDao.update(poseToUpdate);
+    for(Pose pose in group.poses) {
+      if(pose.documentId == poseToUpdate.documentId) {
+        pose.imageUrl = imageUrl;
+      }
+    }
+    await PoseLibraryGroupDao.update(group);
   }
 
   static _updateLocationImageUrl(Location locationToUpdate, String imageUrl) async {
@@ -224,6 +239,41 @@ class FileStorage {
           break;
       }
     });
+  }
+
+  static _uploadLibraryPoseImageFile(String imagePath, Pose pose, PoseLibraryGroup group) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final uploadTask = storageRef
+        .child(_buildPoseLibraryImagePath(pose))
+        .putFile(File(imagePath));
+
+    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSaveLibraryPoseImageDownloadUrl(pose, group);
+          break;
+      }
+    });
+  }
+
+  static _fetchAndSaveLibraryPoseImageDownloadUrl(Pose pose, PoseLibraryGroup group) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
+    _updateLibraryPoseImageUrl(pose, await cloudFilePath.getDownloadURL(), group);
   }
 
   static _fetchAndSavePoseImageDownloadUrl(Pose pose, PoseGroup group) async {

@@ -25,19 +25,12 @@ class PoseLibraryGroupDao extends Equatable{
     pose.documentId = Uuid().v1();
     pose.id = await _PoseLibraryGroupStore.add(await _db, pose.toMap());
     await PoseLibraryGroupsCollection().create(pose);
-    _updateLastChangedTime();
     return pose;
   }
 
   static Future insertLocalOnly(PoseLibraryGroup pose) async {
     pose.id = null;
     await _PoseLibraryGroupStore.add(await _db, pose.toMap());
-  }
-
-  static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
-    profile.poseLibraryGroupLastChangeDate = DateTime.now();
-    ProfileDao.update(profile);
   }
 
   static Future<PoseLibraryGroup> insertOrUpdate(PoseLibraryGroup pose) async {
@@ -90,7 +83,6 @@ class PoseLibraryGroupDao extends Equatable{
       finder: finder,
     );
     await PoseLibraryGroupsCollection().update(pose);
-    _updateLastChangedTime();
     return pose;
   }
 
@@ -114,7 +106,6 @@ class PoseLibraryGroupDao extends Equatable{
             (error, stackTrace) => null
     );
     await PoseLibraryGroupsCollection().delete(documentId);
-    _updateLastChangedTime();
   }
 
   static Future<List<PoseLibraryGroup>> getAllSortedMostFrequent() async {

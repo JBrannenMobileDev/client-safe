@@ -10,6 +10,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/PoseGroupPage.dart';
+import '../../pose_library_group_page/LibraryPoseGroupPage.dart';
 import '../PosesPageState.dart';
 
 class PoseLibraryGroupListWidget extends StatelessWidget {
@@ -24,9 +25,9 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
       builder: (BuildContext context, PosesPageState pageState) =>
       InkWell(
         onTap: () {
-          // Navigator.of(context).push(
-          //   new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index))),
-          // );
+          Navigator.of(context).push(
+            new MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.libraryGroups.elementAt(index))),
+          );
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),

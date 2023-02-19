@@ -33,7 +33,7 @@ class PoseListWidget extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(16.0),
+                  borderRadius: new BorderRadius.circular(8.0),
                   image: DecorationImage(
                     fit: BoxFit.cover,
                     image: pageState.poseImages.isNotEmpty ? FileImage(File(pageState.poseImages.elementAt(index).file.path))
@@ -43,7 +43,7 @@ class PoseListWidget extends StatelessWidget {
               ),
               isCurrentImageInSelectedImages(index, pageState) ? Container(
                 decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(16.0),
+                  borderRadius: new BorderRadius.circular(8.0),
                 ),
                 child: Align(
                   alignment: Alignment.bottomRight,

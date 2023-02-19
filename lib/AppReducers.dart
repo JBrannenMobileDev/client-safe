@@ -28,6 +28,7 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderPageReducer.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageReducer.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageReducer.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageReducer.dart';
+import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageReducer.dart';
 import 'package:dandylight/pages/poses_page/PosesPageReducer.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReducer.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
@@ -72,4 +73,5 @@ AppState appReducers(AppState state, dynamic action) =>
         paymentRequestInfoPageState: paymentRequestInfoPageReducer(state.paymentRequestInfoPageState, action),
         responsesPageState: responsesReducer(state.responsesPageState, action),
         manageSubscriptionPageState: manageSubscriptionPageReducer(state.manageSubscriptionPageState, action),
+        libraryPoseGroupPageState: libraryPoseGroupReducer(state.libraryPoseGroupPageState, action),
     );

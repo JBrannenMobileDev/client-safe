@@ -20,7 +20,7 @@ class PoseLibraryGroup {
       'documentId' : documentId,
       'groupName': groupName,
       'poses' : convertPosesToMap(poses),
-      'numOfSaves' : numOfSaves,
+      'numOfSaves' : numOfSaves != null ? numOfSaves : 0,
     };
   }
 
