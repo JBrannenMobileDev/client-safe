@@ -64,15 +64,13 @@ class _PosesPageState extends State<PosesPage> {
                   brightness: Brightness.light,
                   backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   centerTitle: true,
-                  title: Center(
-                    child: TextDandyLight(
+                  title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: "Poses",
                       color: Color(ColorConstants.getPeachDark()),
-                    ),
                   ),
                   actions: <Widget>[
-                    GestureDetector(
+                    selectedIndex == 0 ? GestureDetector(
                       onTap: () {
                         UserOptionsUtil.showNewPoseGroupDialog(context);
                       },
@@ -83,7 +81,7 @@ class _PosesPageState extends State<PosesPage> {
                         child: Image.asset('assets/images/icons/plus.png',
                           color: Color(ColorConstants.getPeachDark()),),
                       ),
-                    ),
+                    ) : SizedBox(),
                   ],
                   elevation: 0.0,
                   pinned: false,

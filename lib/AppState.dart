@@ -26,6 +26,7 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
+import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.dart';
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
@@ -73,6 +74,7 @@ class AppState {
   final PaymentRequestInfoPageState paymentRequestInfoPageState;
   final ResponsesPageState responsesPageState;
   final ManageSubscriptionPageState manageSubscriptionPageState;
+  final LibraryPoseGroupPageState libraryPoseGroupPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -110,6 +112,7 @@ class AppState {
     @required this.paymentRequestInfoPageState,
     @required this.responsesPageState,
     @required this.manageSubscriptionPageState,
+    @required this.libraryPoseGroupPageState,
   });
 
   factory AppState.initial() {
@@ -149,6 +152,7 @@ class AppState {
       paymentRequestInfoPageState: PaymentRequestInfoPageState.initial(),
       responsesPageState: ResponsesPageState.initial(),
       manageSubscriptionPageState: ManageSubscriptionPageState.initial(),
+      libraryPoseGroupPageState: LibraryPoseGroupPageState.initial(),
     );
   }
 
@@ -188,6 +192,7 @@ class AppState {
     PaymentRequestInfoPageState paymentRequestInfoPageState,
     ResponsesPageState responsesPageState,
     ManageSubscriptionPageState manageSubscriptionPageState,
+    LibraryPoseGroupPageState libraryPoseGroupPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -225,6 +230,7 @@ class AppState {
       paymentRequestInfoPageState: paymentRequestInfoPageState ?? this.paymentRequestInfoPageState,
       responsesPageState: responsesPageState ?? this.responsesPageState,
       manageSubscriptionPageState: manageSubscriptionPageState ?? this.manageSubscriptionPageState,
+      libraryPoseGroupPageState: libraryPoseGroupPageState ?? this.libraryPoseGroupPageState,
     );
   }
 
@@ -264,6 +270,7 @@ class AppState {
     paymentRequestInfoPageState.hashCode ^
     responsesPageState.hashCode ^
     manageSubscriptionPageState.hashCode ^
+    libraryPoseGroupPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -304,5 +311,6 @@ class AppState {
               paymentRequestInfoPageState == other.paymentRequestInfoPageState &&
               responsesPageState == other.responsesPageState &&
               manageSubscriptionPageState == other.manageSubscriptionPageState &&
+              libraryPoseGroupPageState == other.libraryPoseGroupPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

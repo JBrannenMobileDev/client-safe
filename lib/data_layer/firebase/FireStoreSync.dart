@@ -62,7 +62,6 @@ class FireStoreSync {
             await _syncPoses(userLocalDb, userFireStoreDb);
             await _syncPoseGroups(userLocalDb, userFireStoreDb);
             await _syncResponses(userLocalDb, userFireStoreDb);
-            await _syncPoseLibraryGroups(userLocalDb, userFireStoreDb);
         }
         setupFireStoreListeners();
         automateJobStages();
@@ -329,20 +328,6 @@ class FireStoreSync {
             if(userLocalDb.poseGroupsLastChangeDate != null && userFireStoreDb.poseGroupsLastChangeDate != null) {
                 if (userLocalDb.poseGroupsLastChangeDate.millisecondsSinceEpoch <
                     userFireStoreDb.poseGroupsLastChangeDate
-                        .millisecondsSinceEpoch) {
-                    await PoseGroupDao.syncAllFromFireStore();
-                } else {
-                    //do nothing localFirebase cache has not synced up to cloud yet.
-                }
-            }
-        }
-    }
-
-    Future<void> _syncPoseLibraryGroups(Profile userLocalDb, Profile userFireStoreDb) async {
-        if((userLocalDb.poseLibraryGroupLastChangeDate != userFireStoreDb.poseLibraryGroupLastChangeDate) || (userLocalDb.poseLibraryGroupLastChangeDate == null && userFireStoreDb.poseLibraryGroupLastChangeDate != null)) {
-            if(userLocalDb.poseLibraryGroupLastChangeDate != null && userFireStoreDb.poseLibraryGroupLastChangeDate != null) {
-                if (userLocalDb.poseLibraryGroupLastChangeDate.millisecondsSinceEpoch <
-                    userFireStoreDb.poseLibraryGroupLastChangeDate
                         .millisecondsSinceEpoch) {
                     await PoseGroupDao.syncAllFromFireStore();
                 } else {

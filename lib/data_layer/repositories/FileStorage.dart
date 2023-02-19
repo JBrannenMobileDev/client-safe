@@ -88,7 +88,7 @@ class FileStorage {
     String imageUrl = pose.imageUrl;
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
-      final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
+      final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
       imageUrl = await cloudFilePath.getDownloadURL();
       _updatePoseLibraryImageUrl(pose, imageUrl, group);
     }
@@ -274,6 +274,10 @@ class FileStorage {
 
   static String _buildPoseImagePath(Pose pose) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/poses/${pose.documentId}.jpg";
+  }
+
+  static String _buildPoseLibraryImagePath(Pose pose) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/libraryPoses/${pose.documentId}.jpg";
   }
 
   static String _buildContractFilePath(Contract contract) {

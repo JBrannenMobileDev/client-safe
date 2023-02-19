@@ -10,6 +10,7 @@ import 'package:sembast/sembast.dart';
 import '../../data_layer/local_db/daos/PoseGroupDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/PoseGroup.dart';
+import '../../utils/AdminCheckUtil.dart';
 
 class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -21,12 +22,14 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchPoseGroups(Store<AppState> store, NextDispatcher next) async{
+    store.dispatch(SetIsAdminAction(store.state.posesPageState, AdminCheckUtil.isAdmin(store.state.dashboardPageState.profile)));
     _fetchMyPoseGroups(store, next);
     _fetchLibraryPoseGroups(store, next);
   }
 }
 
 void _fetchLibraryPoseGroups(Store<AppState> store, NextDispatcher next) async {
+  await PoseLibraryGroupDao.syncAllFromFireStore();
   List<PoseLibraryGroup> groups = await PoseLibraryGroupDao.getAllSortedMostFrequent();
   List<File> imageFiles = [];
   store.dispatch(SetPoseLibraryGroupsAction(store.state.posesPageState, groups, imageFiles));

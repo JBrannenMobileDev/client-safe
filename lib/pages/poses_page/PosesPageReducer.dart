@@ -5,7 +5,14 @@ import 'package:redux/redux.dart';
 final posesReducer = combineReducers<PosesPageState>([
   TypedReducer<PosesPageState, SetPoseGroupsAction>(_setPoseGroups),
   TypedReducer<PosesPageState, SetPoseLibraryGroupsAction>(_setPoseLibraryGroups),
+  TypedReducer<PosesPageState, SetIsAdminAction>(_setIsAdmin),
 ]);
+
+PosesPageState _setIsAdmin(PosesPageState previousState, SetIsAdminAction action){
+  return previousState.copyWith(
+    isAdmin: action.isAdmin,
+  );
+}
 
 PosesPageState _setPoseGroups(PosesPageState previousState, SetPoseGroupsAction action){
   return previousState.copyWith(

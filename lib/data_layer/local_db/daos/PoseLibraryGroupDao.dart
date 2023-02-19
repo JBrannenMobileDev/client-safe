@@ -4,6 +4,7 @@ import 'package:dandylight/data_layer/firebase/collections/PoseLibraryGroupsColl
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
@@ -130,7 +131,7 @@ class PoseLibraryGroupDao extends Equatable{
       final pose = PoseLibraryGroup.fromMap(snapshot.value);
       pose.id = snapshot.key;
       return pose;
-    }).toList();
+    }).toList().reversed.toList();
   }
 
   static Future<void> syncAllFromFireStore() async {

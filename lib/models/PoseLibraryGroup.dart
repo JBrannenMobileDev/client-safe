@@ -4,6 +4,7 @@ class PoseLibraryGroup {
   int id;
   String documentId;
   String groupName;
+  int numOfSaves;
   List<Pose> poses;
 
   PoseLibraryGroup({
@@ -11,6 +12,7 @@ class PoseLibraryGroup {
     this.documentId,
     this.groupName,
     this.poses,
+    this.numOfSaves,
   });
 
   Map<String, dynamic> toMap() {
@@ -18,6 +20,7 @@ class PoseLibraryGroup {
       'documentId' : documentId,
       'groupName': groupName,
       'poses' : convertPosesToMap(poses),
+      'numOfSaves' : numOfSaves,
     };
   }
 
@@ -26,6 +29,7 @@ class PoseLibraryGroup {
       documentId: map['documentId'],
       groupName: map['groupName'],
       poses: convertMapsToPoses(map['poses']),
+      numOfSaves: map['numOfSaves'],
     );
   }
 

@@ -15,6 +15,7 @@ class PosesPageState{
   final List<File> groupImages;
   final List<File> libraryGroupImages;
   final bool shouldClear;
+  final bool isAdmin;
 
 
   PosesPageState({
@@ -23,6 +24,7 @@ class PosesPageState{
     @required this.groupImages,
     @required this.libraryGroups,
     @required this.libraryGroupImages,
+    @required this.isAdmin,
   });
 
   PosesPageState copyWith({
@@ -31,6 +33,7 @@ class PosesPageState{
     List<File> libraryGroupImages,
     bool shouldClear,
     List<File> groupImages,
+    bool isAdmin,
   }){
     return PosesPageState(
       poseGroups: poseGroups?? this.poseGroups,
@@ -38,6 +41,7 @@ class PosesPageState{
       groupImages: groupImages ?? this.groupImages,
       libraryGroups: libraryGroups ?? this.libraryGroups,
       libraryGroupImages: libraryGroupImages ?? this.libraryGroupImages,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
@@ -47,6 +51,7 @@ class PosesPageState{
     groupImages: [],
     libraryGroupImages: [],
     shouldClear: true,
+    isAdmin: false,
   );
 
   factory PosesPageState.fromStore(Store<AppState> store) {
@@ -56,6 +61,7 @@ class PosesPageState{
       shouldClear: store.state.posesPageState.shouldClear,
       libraryGroups: store.state.posesPageState.libraryGroups,
       libraryGroupImages: store.state.posesPageState.libraryGroupImages,
+      isAdmin: store.state.posesPageState.isAdmin,
     );
   }
 
@@ -65,6 +71,7 @@ class PosesPageState{
       shouldClear.hashCode ^
       groupImages.hashCode ^
       libraryGroups.hashCode ^
+      isAdmin.hashCode ^
       libraryGroupImages.hashCode;
   @override
   bool operator ==(Object other) =>
@@ -74,5 +81,6 @@ class PosesPageState{
               shouldClear == other.shouldClear &&
               groupImages == other.groupImages &&
               libraryGroups == other.libraryGroups &&
+              isAdmin == other.isAdmin &&
               libraryGroupImages == other.libraryGroupImages;
 }

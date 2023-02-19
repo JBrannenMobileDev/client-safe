@@ -24,3 +24,9 @@ class SetPoseLibraryGroupsAction{
   SetPoseLibraryGroupsAction(this.pageState, this.poseGroups, this.imageFiles);
 }
 
+class SetIsAdminAction {
+  final PosesPageState pageState;
+  final bool isAdmin;
+  SetIsAdminAction(this.pageState, this.isAdmin);
+}
+
