@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/pose_library_group_page/widgets/SaveToMyPosesBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,6 +43,20 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
 
   _LibrarySingleImageViewPagerState(this.poses, this.currentPageIndex, this.pageCount, this.controller, this.groupName);
 
+  void _showSaveToMyPosesBottomSheet(BuildContext context, imageIndex) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SaveToMyPosesBottomSheet(imageIndex);
+      },
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,33 +65,76 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
           Container(
             margin: EdgeInsets.only(top: 16),
             alignment: Alignment.topCenter,
-            child: Stack(
-              alignment: Alignment.bottomRight,
-              children: [
-                ClipRRect(
-                  borderRadius: new BorderRadius.circular(8.0),
-                  child: Image(
-                    fit: BoxFit.contain,
-                    image: image.file.path.isNotEmpty ? FileImage(File(image.file.path))
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      ClipRRect(
+                        borderRadius: new BorderRadius.circular(8.0),
+                        child: Image(
+                          fit: BoxFit.contain,
+                          image: image.file.path.isNotEmpty ? FileImage(File(image.file.path))
+                              : AssetImage("assets/images/backgrounds/image_background.png"),
+                        ),
+                      ),
+                      Container(
+                        height: 116.0,
+                        decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            borderRadius: new BorderRadius.circular(8.0),
+                            gradient: LinearGradient(
+                                begin: FractionalOffset.center,
+                                end: FractionalOffset.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.6),
+                                ],
+                                stops: [
+                                  0.0,
+                                  1.0
+                                ])),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(right: 16),
+                          alignment: Alignment.centerRight,
+                          height: 48,
+                          child: TextDandyLight(
+                            type: TextDandyLight.SMALL_TEXT,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            text: image.pose.instagramName,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(right: 16),
-                    alignment: Alignment.centerRight,
-                    height: 48,
-                    child: TextDandyLight(
-                      type: TextDandyLight.SMALL_TEXT,
-                      color: Color(ColorConstants.getPrimaryWhite()),
-                      text: image.pose.instagramName,
+                  GestureDetector(
+                    onTap: () {
+                      IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 16),
+                      height: 48,
+                      width: 200,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        color: Color(ColorConstants.getPeachLight()),
+                        text: 'Follow on Instagram',
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
         )
       );
@@ -122,7 +180,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                 ),
                 GestureDetector(
                   onTap: () {
-
+                    _showSaveToMyPosesBottomSheet(context, currentPageIndex);
                   },
                   child: Container(
                     margin: EdgeInsets.only(right: 16.0, left: 16),

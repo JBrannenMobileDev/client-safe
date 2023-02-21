@@ -45,7 +45,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
     converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
     builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
          Container(
-               height: 375,
+               height: 400,
                width: MediaQuery.of(context).size.width,
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -68,12 +68,19 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                        getDeviceImage(pageState);
                      },
                      child: Container(
+                       alignment: Alignment.center,
+                       height: 48,
+                       width: 216,
                        margin: EdgeInsets.only(bottom: 16),
+                       decoration: BoxDecoration(
+                         borderRadius: BorderRadius.circular(24),
+                         color: Color(images.length == 0 ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium()),
+                       ),
                        child: TextDandyLight(
                          type: TextDandyLight.LARGE_TEXT,
-                         text: images.length == 0 ? 'Select Images' : images.length.toString() + " Selected",
+                         text: images.length == 0 ? 'Select Images' : images.length.toString() + " images selected",
                          textAlign: TextAlign.center,
-                         color: Color(images.length == 0 ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium()),
+                         color: Color(images.length == 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                        ),
                      ),
                    ),
@@ -99,7 +106,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                        inputType: TextInputType.text,
                        focusNode: _urlFocusNode,
                        onFocusAction: onAction2,
-                       height: 64.0,
+                       height: 84.0,
                        onTextInputChanged: onUrlChanged,
                        keyboardAction: TextInputAction.next,
                        capitalization: TextCapitalization.words,
@@ -109,6 +116,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                      onTap: () {
                        if(images.length > 0 && NameController.text.isNotEmpty && urlController.text.isNotEmpty) {
                          pageState.onNewPoseImagesSelected(images, NameController.text, urlController.text);
+                         Navigator.of(context).pop();
                        }
                      },
                      child: Container(

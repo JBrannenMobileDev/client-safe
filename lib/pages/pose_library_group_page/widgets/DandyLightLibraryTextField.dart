@@ -51,6 +51,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
             textInputAction: keyboardAction,
             maxLines: 24,
             controller: controller,
+            cursorColor: Color(ColorConstants.getPeachDark()),
             onChanged: (text) {
               onTextInputChanged(text);
             },
@@ -65,28 +66,28 @@ class DandyLightLibraryTextField extends StatelessWidget {
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getPeachDark()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getPrimaryColor()),
+                  color: Color(ColorConstants.getBlueLight()),
                   width: 1.0,
                 ),
               ),

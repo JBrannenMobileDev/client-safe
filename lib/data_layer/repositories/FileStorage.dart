@@ -77,11 +77,11 @@ class FileStorage {
     }
   }
 
-  static Future<File> getPoseImageFile(Pose pose, PoseGroup group) async {
+  static Future<File> getPoseImageFile(Pose pose, PoseGroup group, bool isLibraryPose) async {
     String imageUrl = pose.imageUrl;
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
-      final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
+      final cloudFilePath = storageRef.child(isLibraryPose ? _buildPoseLibraryImagePath(pose) : _buildPoseImagePath(pose));
       imageUrl = await cloudFilePath.getDownloadURL();
       _updatePoseImageUrl(pose, imageUrl, group);
     }

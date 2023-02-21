@@ -1,21 +1,28 @@
 
 
+import 'dart:io';
+
 import 'package:dandylight/models/Job.dart';
+import 'package:dandylight/models/PoseGroup.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Pose.dart';
 import '../pose_group_page/GroupImage.dart';
 import 'LibraryPoseGroupActions.dart';
 
 class LibraryPoseGroupPageState{
   final PoseLibraryGroup poseGroup;
-  final Function(List<XFile>) onNewPoseImagesSelected;
+  final Function(List<XFile>, String, String) onNewPoseImagesSelected;
   final Function() onBackSelected;
   final List<GroupImage> poseImages;
-  final Function(GroupImage) onImageSaveSelected;
-  final Function(GroupImage, Job) onImageAddedToJobSelected;
+  final List<Job> activeJobs;
+  final List<PoseGroup> myPoseGroups;
+  final List<File> myPoseGroupImages;
+  final Function(GroupImage, PoseGroup) onImageSaveSelected;
+  final Function(Pose, Job) onImageAddedToJobSelected;
   final bool isLoadingNewImages;
   final bool isAdmin;
 
@@ -29,17 +36,23 @@ class LibraryPoseGroupPageState{
     @required this.onImageAddedToJobSelected,
     @required this.onImageSaveSelected,
     @required this.isAdmin,
+    @required this.activeJobs,
+    @required this.myPoseGroups,
+    @required this.myPoseGroupImages,
   });
 
   LibraryPoseGroupPageState copyWith({
     PoseLibraryGroup poseGroup,
-    Function(List<XFile>) onNewPoseImagesSelected,
+    Function(List<XFile>, String, String) onNewPoseImagesSelected,
     Function() onBackSelected,
     List<GroupImage> poseImages,
-    Function(GroupImage) onImageSaveSelected,
-    Function(GroupImage, Job) onImageAddedToJobSelected,
+    Function(GroupImage, PoseGroup) onImageSaveSelected,
+    Function(Pose, Job) onImageAddedToJobSelected,
     bool isLoadingNewImages,
     bool isAdmin,
+    List<Job> activeJobs,
+    List<PoseGroup> myPoseGroups,
+    List<File> myPoseGroupImages,
   }){
     return LibraryPoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -50,6 +63,9 @@ class LibraryPoseGroupPageState{
       onImageAddedToJobSelected: onImageAddedToJobSelected ?? this.onImageAddedToJobSelected,
       onImageSaveSelected: onImageSaveSelected ?? this.onImageSaveSelected,
       isAdmin: isAdmin ?? this.isAdmin,
+      activeJobs: activeJobs ?? this.activeJobs,
+      myPoseGroups: myPoseGroups ?? this.myPoseGroups,
+      myPoseGroupImages: myPoseGroupImages ?? this.myPoseGroupImages,
     );
   }
 
@@ -62,6 +78,9 @@ class LibraryPoseGroupPageState{
     onImageSaveSelected: null,
     onImageAddedToJobSelected: null,
     isAdmin: false,
+    activeJobs: [],
+    myPoseGroups: [],
+    myPoseGroupImages: [],
   );
 
   factory LibraryPoseGroupPageState.fromStore(Store<AppState> store) {
@@ -70,15 +89,18 @@ class LibraryPoseGroupPageState{
       poseImages: store.state.libraryPoseGroupPageState.poseImages,
       isLoadingNewImages: store.state.libraryPoseGroupPageState.isLoadingNewImages,
       isAdmin: store.state.libraryPoseGroupPageState.isAdmin,
-      onNewPoseImagesSelected: (poseImages) => {
+      activeJobs: store.state.libraryPoseGroupPageState.activeJobs,
+      myPoseGroups: store.state.libraryPoseGroupPageState.myPoseGroups,
+      myPoseGroupImages: store.state.libraryPoseGroupPageState.myPoseGroupImages,
+      onNewPoseImagesSelected: (poseImages, name, url) => {
         store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true)),
-        store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages)),
+        store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url)),
       },
       onBackSelected: () {
         store.dispatch(ClearLibraryPoseGroupState(store.state.libraryPoseGroupPageState));
       },
-      onImageSaveSelected: (groupImage) => null,
-      onImageAddedToJobSelected: (groupImage, job) => null,
+      onImageSaveSelected: (groupImage, poseGroup) => store.dispatch(SaveSelectedPoseToMyPosesAction(store.state.libraryPoseGroupPageState, groupImage, poseGroup)),
+      onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveSelectedImageToJobAction(store.state.libraryPoseGroupPageState, pose, job)),
     );
   }
 
@@ -91,6 +113,9 @@ class LibraryPoseGroupPageState{
       onImageSaveSelected.hashCode ^
       onImageAddedToJobSelected.hashCode ^
       isAdmin.hashCode ^
+      activeJobs.hashCode ^
+      myPoseGroups.hashCode ^
+      myPoseGroupImages.hashCode ^
       isLoadingNewImages.hashCode;
 
   @override
@@ -104,5 +129,8 @@ class LibraryPoseGroupPageState{
               onImageSaveSelected == other.onImageSaveSelected &&
               onImageAddedToJobSelected == other.onImageAddedToJobSelected &&
               isAdmin == other.isAdmin &&
+              activeJobs == other.activeJobs &&
+              myPoseGroups == other.myPoseGroups &&
+              myPoseGroupImages == other.myPoseGroupImages &&
               poseGroup == other.poseGroup;
 }

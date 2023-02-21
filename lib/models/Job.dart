@@ -4,6 +4,7 @@ import 'package:dandylight/models/Location.dart';
 import 'package:dandylight/models/PriceProfile.dart';
 
 import 'JobType.dart';
+import 'Pose.dart';
 
 class Job {
 
@@ -29,6 +30,7 @@ class Job {
   double addOnCost;
   int tipAmount = 0;
   List<JobStage> completedStages;
+  List<Pose> poses;
 
   Job({
     this.id,
@@ -53,6 +55,7 @@ class Job {
     this.paymentReceivedDate,
     this.depositReceivedDate,
     this.addOnCost,
+    this.poses,
   });
 
   Job copyWith({
@@ -78,6 +81,7 @@ class Job {
     DateTime paymentReceivedDate,
     DateTime depositReceivedDate,
     double addOnCost,
+    List<Pose> poses,
   }){
     return Job(
       id: id?? this.id,
@@ -102,6 +106,7 @@ class Job {
       createdDate: createdDate ?? this.createdDate,
       depositReceivedDate: depositReceivedDate ?? this.depositReceivedDate,
       addOnCost: addOnCost ?? this.addOnCost,
+      poses: poses ?? this.poses,
     );
   }
 
@@ -125,6 +130,7 @@ class Job {
       'priceProfile' : priceProfile?.toMap() ?? null,
       'invoice' : invoice?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
+      'poses' : convertPosesToMap(poses),
       'depositAmount' : depositAmount,
       'tipAmount' : tipAmount,
       'addOnCost' : addOnCost,
@@ -152,13 +158,14 @@ class Job {
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       completedStages: convertMapsToJobStages(map['completedStages']),
+      poses: convertMapsToPoses(map['poses']),
       depositAmount: map['depositAmount'],
       tipAmount: map['tipAmount'],
     );
   }
 
   List<Map<String, dynamic>> convertCompletedStagesToMap(List<JobStage> completedStages){
-    List<Map<String, dynamic>> listOfMaps = List();
+    List<Map<String, dynamic>> listOfMaps = [];
     for(JobStage jobStage in completedStages){
       listOfMaps.add(jobStage.toMap());
     }
@@ -166,11 +173,27 @@ class Job {
   }
 
   static List<JobStage> convertMapsToJobStages(List listOfMaps){
-    List<JobStage> listOfJobStages = List();
+    List<JobStage> listOfJobStages = [];
     for(Map map in listOfMaps){
       listOfJobStages.add(JobStage.fromMap(map));
     }
     return listOfJobStages;
+  }
+
+  List<Map<String, dynamic>> convertPosesToMap(List<Pose> poses){
+    List<Map<String, dynamic>> listOfMaps = [];
+    for(Pose pose in poses){
+      listOfMaps.add(pose.toMap());
+    }
+    return listOfMaps;
+  }
+
+  static List<Pose> convertMapsToPoses(List listOfMaps){
+    List<Pose> poses = [];
+    for(Map map in listOfMaps){
+      poses.add(Pose.fromMap(map));
+    }
+    return poses;
   }
 
   bool isDepositPaid () {

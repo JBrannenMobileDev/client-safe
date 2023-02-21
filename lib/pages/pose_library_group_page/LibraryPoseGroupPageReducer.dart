@@ -9,11 +9,26 @@ final libraryPoseGroupReducer = combineReducers<LibraryPoseGroupPageState>([
   TypedReducer<LibraryPoseGroupPageState, ClearLibraryPoseGroupState>(_clearState),
   TypedReducer<LibraryPoseGroupPageState, SetLoadingNewLibraryImagesState>(_setLoadingState),
   TypedReducer<LibraryPoseGroupPageState, SetIsAdminLibraryAction>(_setIsAdmin),
+  TypedReducer<LibraryPoseGroupPageState, SetActiveJobs>(_setActiveJobs),
+  TypedReducer<LibraryPoseGroupPageState, SetPoseGroupsLibraryAction>(_setPoseGroups),
 ]);
+
+LibraryPoseGroupPageState _setPoseGroups(LibraryPoseGroupPageState previousState, SetPoseGroupsLibraryAction action){
+  return previousState.copyWith(
+    myPoseGroups: action.poseGroups,
+    myPoseGroupImages: action.imageFiles,
+  );
+}
 
 LibraryPoseGroupPageState _setIsAdmin(LibraryPoseGroupPageState previousState, SetIsAdminLibraryAction action){
   return previousState.copyWith(
     isAdmin: action.isAdmin,
+  );
+}
+
+LibraryPoseGroupPageState _setActiveJobs(LibraryPoseGroupPageState previousState, SetActiveJobs action){
+  return previousState.copyWith(
+    activeJobs: action.activeJobs,
   );
 }
 

@@ -20,6 +20,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:uuid/uuid.dart';
@@ -213,6 +214,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await EventSender().setUserProfileData(EventNames.EMAIL, store.state.loginPageState.emailAddress);
         await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, store.state.loginPageState.businessName);
         await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
+        await EventSender().setUserProfileData(EventNames.BUILD_VERSION, (await PackageInfo.fromPlatform()).version);
+        await EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
       }
       if(user != null && !user.emailVerified){
         List<Profile> userProfiles = await ProfileDao.getAll();
@@ -372,6 +375,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           await EventSender().setUserProfileData(EventNames.LAST_NAME, profile.lastName);
           await EventSender().setUserProfileData(EventNames.EMAIL, profile.email);
           await EventSender().setUserProfileData(EventNames.BUSINESS_NAME, profile.businessName);
+          await EventSender().setUserProfileData(EventNames.BUILD_VERSION, (await PackageInfo.fromPlatform()).version);
+          await EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
         }
         store.dispatch(SetIsUserVerifiedAction(store.state.loginPageState, user.emailVerified));
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,11 +10,41 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../pose_group_page/GroupImage.dart';
 import '../LibraryPoseGroupPageState.dart';
+import 'SaveToJobBottomSheet.dart';
+import 'SaveToMyPosesBottomSheet.dart';
 
 class LibraryPoseListWidget extends StatelessWidget {
   final int index;
 
   LibraryPoseListWidget(this.index);
+
+  void _showSaveToMyPosesBottomSheet(BuildContext context, selectedIndex) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SaveToMyPosesBottomSheet(selectedIndex);
+      },
+    );
+  }
+
+  void _showSaveToJobBottomSheet(BuildContext context, selectedIndex) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SaveToJobBottomSheet(selectedIndex);
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,46 +64,62 @@ class LibraryPoseListWidget extends StatelessWidget {
                 ),
               ),
               Container(
+                height: 150.0,
                 decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(8.0),
-                ),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                      margin: EdgeInsets.only(left: 8.0, top: 8.0),
-                      child: Image.asset(
-                        'assets/images/icons/plus.png',
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        height: 24,
-                        width: 24,
-                      )
-                  ),
-                ),
+                    color: Color(ColorConstants.getPrimaryWhite()),
+                    borderRadius: new BorderRadius.circular(8.0),
+                    gradient: LinearGradient(
+                        begin: FractionalOffset.center,
+                        end: FractionalOffset.topCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.05),
+                        ],
+                        stops: [
+                          0.0,
+                          1.0
+                        ])),
               ),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(8.0),
-                ),
+              GestureDetector(
+                onTap: () {
+                  _showSaveToJobBottomSheet(context, index);
+                },
                 child: Align(
-                  alignment: Alignment.topRight,
-                  child: Container(
-                      margin: EdgeInsets.only(right: 8.0, top: 8.0),
-                      child: Image.asset(
-                        'assets/images/icons/ribbon.png',
-                        color: Color(ColorConstants.getPrimaryWhite()),
+                    alignment: Alignment.topLeft,
+                    child: Container(
                         height: 24,
                         width: 24,
-                      )
+                        margin: EdgeInsets.only(left: 8.0, top: 8.0),
+                        child: Image.asset(
+                          'assets/images/icons/plus.png',
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          height: 24,
+                          width: 24,
+                        )
+                    ),
                   ),
-                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  _showSaveToMyPosesBottomSheet(context, index);
+                },
+                child: Align(
+                    alignment: Alignment.topRight,
+                    child: Container(
+                      height: 24,
+                        width: 24,
+                        margin: EdgeInsets.only(right: 8.0, top: 8.0),
+                        child: Image.asset(
+                          'assets/images/icons/ribbon.png',
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          height: 24,
+                          width: 24,
+                        )
+                    ),
+                  ),
               ),
             ],
           ),
     );
-  }
-
-  isCurrentImageInSelectedImages(int index, PoseGroupPageState pageState) {
-    GroupImage currentImage = pageState.poseImages.elementAt(index);
-    return pageState.selectedImages.contains(currentImage);
   }
 }

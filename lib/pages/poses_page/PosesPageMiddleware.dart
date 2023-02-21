@@ -51,7 +51,11 @@ void _fetchMyPoseGroups(Store<AppState> store, NextDispatcher next) async {
 
   for(int index=0; index < groups.length; index++) {
     if(groups.elementAt(index).poses.isNotEmpty && groups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
-      imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index)));
+      if(groups.elementAt(index).poses.first.isLibraryPose()) {
+        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), true));
+      } else {
+        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false));
+      }
       next(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
     } else {
       imageFiles.insert(index, File(''));
@@ -68,7 +72,11 @@ void _fetchMyPoseGroups(Store<AppState> store, NextDispatcher next) async {
 
     for(int index=0; index < streamGroups.length; index++) {
       if(streamGroups.elementAt(index).poses.isNotEmpty && streamGroups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
-        imageFiles.insert(index, await FileStorage.getPoseImageFile(streamGroups.elementAt(index).poses.first, streamGroups.elementAt(index)));
+        if(groups.elementAt(index).poses.first.isLibraryPose()) {
+          imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), true));
+        } else {
+          imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false));
+        }
         if(index == streamGroups.length-1) {
           next(SetPoseGroupsAction(store.state.posesPageState, streamGroups, imageFiles));
         }

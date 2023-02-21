@@ -1,4 +1,4 @@
-class Pose {
+class Pose implements Comparable<Pose>{
   int id;
   String documentId;
   String imageUrl;
@@ -16,7 +16,7 @@ class Pose {
   });
 
   bool isLibraryPose() {
-    return instagramName.isNotEmpty && instagramUrl.isNotEmpty;
+    return instagramName != null && instagramName.isNotEmpty && instagramUrl != null && instagramUrl.isNotEmpty;
   }
 
   Map<String, dynamic> toMap() {
@@ -37,5 +37,16 @@ class Pose {
       instagramName: map['instagramName'],
       numOfSaves: map['numOfSaves'] != null ? map['numOfSaves'] : 0,
     );
+  }
+
+  @override
+  int compareTo(Pose other) {
+    if (numOfSaves < other.numOfSaves) {
+      return 1;
+    } else if (numOfSaves > other.numOfSaves) {
+      return -1;
+    } else {
+      return 0;
+    }
   }
 }
