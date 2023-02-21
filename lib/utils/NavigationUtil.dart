@@ -9,6 +9,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/ReminderNotificationsPag
 import 'package:dandylight/pages/home_page/HomePage.dart';
 import 'package:dandylight/pages/income_expense_settings_page/IncomeAndExpenseSettingsPage.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
+import 'package:dandylight/pages/job_details_page/JobPosesPage.dart';
 import 'package:dandylight/pages/login_page/LoginPage.dart';
 import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
@@ -69,6 +70,9 @@ class NavigationUtil {
   }
   static onNotificationsSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReminderNotificationsPage()));
+  }
+  static onJobPosesSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobPosesPage()));
   }
   static void onSuccessfulLogin(BuildContext context) {
     Navigator.pushReplacement(

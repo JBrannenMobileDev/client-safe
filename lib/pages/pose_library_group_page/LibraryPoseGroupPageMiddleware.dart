@@ -33,6 +33,19 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveSelectedPoseToMyPosesAction) {
       _saveSelectedPoseToMyPoseGroup(store, action);
     }
+    if(action is SaveSelectedImageToJobAction) {
+      _saveSelectedPoseToJob(store, action);
+    }
+  }
+
+  void _saveSelectedPoseToJob(Store<AppState> store, SaveSelectedImageToJobAction action) async {
+    Pose pose = action.selectedPose;
+    pose.numOfSaves++;
+    store.state.libraryPoseGroupPageState.poseGroup.numOfSaves++;
+    action.selectedJob.poses.add(pose);
+    await PoseDao.update(pose);
+    await PoseLibraryGroupDao.update(store.state.libraryPoseGroupPageState.poseGroup);
+    await JobDao.update(action.selectedJob);
   }
 
   void _saveSelectedPoseToMyPoseGroup(Store<AppState> store, SaveSelectedPoseToMyPosesAction action) async {
@@ -108,7 +121,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
     for(int index=0; index < groups.length; index++) {
       if(groups.elementAt(index).poses.isNotEmpty && groups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
-        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false));
+        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false, null));
         store.dispatch(SetPoseGroupsLibraryAction(store.state.libraryPoseGroupPageState, groups, imageFiles));
       } else {
         imageFiles.insert(index, File(''));
@@ -125,7 +138,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
       for(int index=0; index < streamGroups.length; index++) {
         if(streamGroups.elementAt(index).poses.isNotEmpty && streamGroups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
-          imageFiles.insert(index, await FileStorage.getPoseImageFile(streamGroups.elementAt(index).poses.first, streamGroups.elementAt(index), false));
+          imageFiles.insert(index, await FileStorage.getPoseImageFile(streamGroups.elementAt(index).poses.first, streamGroups.elementAt(index), false, null));
           if(index == streamGroups.length-1) {
             store.dispatch(SetPoseGroupsLibraryAction(store.state.libraryPoseGroupPageState, streamGroups, imageFiles));
           }

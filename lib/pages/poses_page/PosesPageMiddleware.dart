@@ -52,9 +52,9 @@ void _fetchMyPoseGroups(Store<AppState> store, NextDispatcher next) async {
   for(int index=0; index < groups.length; index++) {
     if(groups.elementAt(index).poses.isNotEmpty && groups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
       if(groups.elementAt(index).poses.first.isLibraryPose()) {
-        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), true));
+        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), true, null));
       } else {
-        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false));
+        imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false, null));
       }
       next(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
     } else {
@@ -73,9 +73,9 @@ void _fetchMyPoseGroups(Store<AppState> store, NextDispatcher next) async {
     for(int index=0; index < streamGroups.length; index++) {
       if(streamGroups.elementAt(index).poses.isNotEmpty && streamGroups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
         if(groups.elementAt(index).poses.first.isLibraryPose()) {
-          imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), true));
+          imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), true, null));
         } else {
-          imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false));
+          imageFiles.insert(index, await FileStorage.getPoseImageFile(groups.elementAt(index).poses.first, groups.elementAt(index), false, null));
         }
         if(index == streamGroups.length-1) {
           next(SetPoseGroupsAction(store.state.posesPageState, streamGroups, imageFiles));

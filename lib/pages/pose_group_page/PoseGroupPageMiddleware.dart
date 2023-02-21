@@ -122,7 +122,11 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   Future<List<GroupImage>> _getGroupImages(PoseGroup poseGroup) async {
     List<GroupImage> poseImages = [];
     for(Pose pose in poseGroup.poses) {
-      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, false)).path), pose: pose));
+      if(pose.isLibraryPose()) {
+        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, true, null)).path), pose: pose));
+      } else {
+        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, false, null)).path), pose: pose));
+      }
     }
     return poseImages;
   }

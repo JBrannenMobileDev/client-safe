@@ -12,6 +12,7 @@ import 'package:device_calendar/device_calendar.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
+import '../pose_group_page/GroupImage.dart';
 
 class SetJobInfo{
   final JobDetailsPageState pageState;
@@ -35,6 +36,12 @@ class SetJobDetailsSelectedDateAction{
   final JobDetailsPageState pageState;
   final DateTime selectedDate;
   SetJobDetailsSelectedDateAction(this.pageState, this.selectedDate);
+}
+
+class DeleteJobPoseAction {
+  final JobDetailsPageState pageState;
+  final int imageIndex;
+  DeleteJobPoseAction(this.pageState, this.imageIndex);
 }
 
 class SetDeviceEventsAction {
@@ -65,6 +72,12 @@ class SetAllJobTypesAction{
   SetAllJobTypesAction(this.pageState, this.jobTypes);
 }
 
+class SetPoseImagesAction {
+  final JobDetailsPageState pageState;
+  final List<GroupImage> poseImages;
+  SetPoseImagesAction(this.pageState, this.poseImages);
+}
+
 class DeleteReminderFromJobAction{
   final JobDetailsPageState pageState;
   final JobReminder reminder;
@@ -91,6 +104,11 @@ class SetSunsetTimeForJobAction{
 class FetchTimeOfSunsetJobAction{
   final JobDetailsPageState pageState;
   FetchTimeOfSunsetJobAction(this.pageState);
+}
+
+class FetchJobPosesAction {
+  final JobDetailsPageState pageState;
+  FetchJobPosesAction(this.pageState);
 }
 
 class JobInstagramSelectedAction{

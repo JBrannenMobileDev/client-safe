@@ -18,6 +18,7 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
+import '../pose_group_page/GroupImage.dart';
 
 class JobDetailsPageState {
   final Job job;
@@ -29,6 +30,7 @@ class JobDetailsPageState {
   final List<EventDandyLight> eventList;
   final List<Event> deviceEvents;
   final List<Job> jobs;
+  final List<GroupImage> poseImages;
   final JobType jobType;
   final List<JobReminder> reminders;
   final String jobTitleText;
@@ -78,6 +80,7 @@ class JobDetailsPageState {
   final Function(JobReminder) onDeleteReminderSelected;
   final Function(DateTime) onMonthChanged;
   final Function(DateTime) onNewDateSelected;
+  final Function(int) onDeletePoseSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -138,6 +141,8 @@ class JobDetailsPageState {
     @required this.jobType,
     @required this.jobTypes,
     @required this.onNewEndTimeSelected,
+    @required this.poseImages,
+    @required this.onDeletePoseSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -199,6 +204,8 @@ class JobDetailsPageState {
     Function(DateTime) onMonthChanged,
     Function(DateTime) onNewDateSelected,
     Function(DateTime) onNewEndTimeSelected,
+    List<GroupImage> poseImages,
+    Function(int) onDeletePoseSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -259,6 +266,8 @@ class JobDetailsPageState {
       imageFiles: imageFiles ?? this.imageFiles,
       jobTypes: jobTypes ?? this.jobTypes,
       onNewEndTimeSelected: onNewEndTimeSelected ?? this.onNewEndTimeSelected,
+      poseImages: poseImages ?? this.poseImages,
+      onDeletePoseSelected: onDeletePoseSelected ?? this.onDeletePoseSelected,
     );
   }
 
@@ -288,6 +297,7 @@ class JobDetailsPageState {
         imageFiles: store.state.jobDetailsPageState.imageFiles,
         jobType: store.state.jobDetailsPageState.jobType,
         jobTypes: store.state.jobDetailsPageState.jobTypes,
+        poseImages: store.state.jobDetailsPageState.poseImages,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -325,6 +335,7 @@ class JobDetailsPageState {
         onDeleteReminderSelected: (reminder) => store.dispatch(DeleteReminderFromJobAction(store.state.jobDetailsPageState, reminder)),
         onMonthChanged: (month) => store.dispatch(FetchJobDetailsDeviceEvents(store.state.jobDetailsPageState, month)),
         onNewDateSelected: (selectedDate) => store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, selectedDate)),
+        onDeletePoseSelected: (imageIndex) => store.dispatch(DeleteJobPoseAction(store.state.jobDetailsPageState, imageIndex)),
     );
   }
 
@@ -386,6 +397,8 @@ class JobDetailsPageState {
     imageFiles: [],
     jobTypes: [],
     onNewEndTimeSelected: null,
+    poseImages: [],
+    onDeletePoseSelected: null,
   );
 
   @override
@@ -441,6 +454,8 @@ class JobDetailsPageState {
       onClearUnsavedDeposit.hashCode ^
       imageFiles.hashCode ^
       onNewEndTimeSelected.hashCode ^
+      poseImages.hashCode ^
+      onDeletePoseSelected.hashCode ^
       reminders.hashCode;
 
   @override
@@ -496,5 +511,7 @@ class JobDetailsPageState {
               onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
               imageFiles == other.imageFiles &&
               onNewEndTimeSelected == other.onNewEndTimeSelected &&
+              poseImages == other.poseImages &&
+              onDeletePoseSelected == other.onDeletePoseSelected &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }

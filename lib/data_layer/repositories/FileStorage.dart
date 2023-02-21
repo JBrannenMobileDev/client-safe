@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
@@ -10,6 +11,7 @@ import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../models/Job.dart';
 import '../../models/Location.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
@@ -77,13 +79,13 @@ class FileStorage {
     }
   }
 
-  static Future<File> getPoseImageFile(Pose pose, PoseGroup group, bool isLibraryPose) async {
+  static Future<File> getPoseImageFile(Pose pose, PoseGroup group, bool isLibraryPose, Job job) async {
     String imageUrl = pose.imageUrl;
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = storageRef.child(isLibraryPose ? _buildPoseLibraryImagePath(pose) : _buildPoseImagePath(pose));
       imageUrl = await cloudFilePath.getDownloadURL();
-      _updatePoseImageUrl(pose, imageUrl, group);
+      _updatePoseImageUrl(pose, imageUrl, group, job);
     }
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
@@ -110,15 +112,27 @@ class FileStorage {
     await PoseLibraryGroupDao.update(group);
   }
 
-  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group) async {
+  static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group, Job job) async {
+    //update Pose
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.update(poseToUpdate);
-    for(Pose pose in group.poses) {
-      if(pose.documentId == poseToUpdate.documentId) {
-        pose.imageUrl = imageUrl;
+
+    //Update PoseGroup that includes this pose
+    if(group != null) {
+      for(Pose pose in group.poses) {
+        if(pose.documentId == poseToUpdate.documentId) {
+          pose.imageUrl = imageUrl;
+        }
       }
+      await PoseGroupDao.update(group);
     }
-    await PoseGroupDao.update(group);
+
+    //Update Job poses that include this pose
+    if(job != null) {
+      job.poses.removeWhere((pose) => pose.documentId == poseToUpdate.documentId);
+      job.poses.add(poseToUpdate);
+      JobDao.update(job);
+    }
   }
 
   static _updateLibraryPoseImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
@@ -279,7 +293,7 @@ class FileStorage {
   static _fetchAndSavePoseImageDownloadUrl(Pose pose, PoseGroup group) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildPoseImagePath(pose));
-    _updatePoseImageUrl(pose, await cloudFilePath.getDownloadURL(), group);
+    _updatePoseImageUrl(pose, await cloudFilePath.getDownloadURL(), group, null);
   }
 
   static _fetchAndSaveLocationImageDownloadUrl(Location location) async {

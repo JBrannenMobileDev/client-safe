@@ -10,6 +10,7 @@ class EventNames {
   static const String BT_RESEND_VERIFICATION_EMAIL = "bt_resend_verification_email";
   static const String BT_GENERATE_INCOME_EXPENSE_REPORT = "bt_generate_income_expense_report";
   static const String BT_SHARE_POSES = "bt_share_poses";
+  static const String BT_SHARE_JOB_POSES = "bt_share_job_poses";
   static const String BT_SHARE_POSE = "bt_share_pose";
   static const String BT_SHARE_LOCATION = "bt_share_location";
   static const String BT_DRIVING_DIRECTIONS = "bt_driving_directions";

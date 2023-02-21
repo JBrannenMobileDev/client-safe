@@ -201,6 +201,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteReminderFromJobAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobDetailsDeviceEvents>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllJobTypesAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchJobPosesAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DeleteJobPoseAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.FetchRemindersAction>(RemindersPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.DeleteReminderAction>(RemindersPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllRemindersAction>(NewJobReminderPageMiddleware()));
@@ -223,6 +225,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SaveLibraryPosesToGroupAction>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadLibraryPoseImagesFromStorage>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedPoseToMyPosesAction>(LibraryPoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveSelectedImageToJobAction>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchWritableCalendars>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedAction>(CalendarSelectionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPaymentSettingsFromProfile>(IncomeAndExpenseSettingsPageMiddleware()));

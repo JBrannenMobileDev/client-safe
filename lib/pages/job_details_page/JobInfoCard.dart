@@ -269,8 +269,7 @@ class JobInfoCard extends StatelessWidget {
                               padding: EdgeInsets.only(left: 8.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: (pageState.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.job.selectedTime)
-                                    : 'Start time not selected'),
+                                text: (pageState.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.job.selectedTime) + ' - Start time': 'Start time not selected'),
                                 textAlign: TextAlign.start,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 1,

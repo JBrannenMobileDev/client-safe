@@ -182,16 +182,20 @@ class Job {
 
   List<Map<String, dynamic>> convertPosesToMap(List<Pose> poses){
     List<Map<String, dynamic>> listOfMaps = [];
-    for(Pose pose in poses){
-      listOfMaps.add(pose.toMap());
+    if(poses != null) {
+      for(Pose pose in poses){
+        listOfMaps.add(pose.toMap());
+      }
     }
     return listOfMaps;
   }
 
   static List<Pose> convertMapsToPoses(List listOfMaps){
     List<Pose> poses = [];
-    for(Map map in listOfMaps){
-      poses.add(Pose.fromMap(map));
+    if(listOfMaps != null) {
+      for(Map map in listOfMaps){
+        poses.add(Pose.fromMap(map));
+      }
     }
     return poses;
   }

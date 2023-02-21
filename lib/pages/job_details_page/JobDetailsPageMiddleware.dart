@@ -25,6 +25,7 @@ import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:dandylight/utils/sunrise_sunset_library/sunrise_sunset.dart';
 import 'package:device_calendar/device_calendar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
@@ -33,11 +34,13 @@ import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
+import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
+import '../pose_group_page/GroupImage.dart';
 
 class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -118,6 +121,39 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchAllJobTypesAction) {
       _fetchJobTypes(store, action, next);
     }
+    if(action is FetchJobPosesAction) {
+      _fetchJobPoses(store, action, next);
+    }
+    if(action is DeleteJobPoseAction) {
+      _deletePose(store, action, next);
+    }
+  }
+
+  void _deletePose(Store<AppState> store, DeleteJobPoseAction action, NextDispatcher next) async {
+    store.state.jobDetailsPageState.job.poses.removeAt(action.imageIndex);
+    await JobDao.update(store.state.jobDetailsPageState.job);
+
+    List<GroupImage> poseImages = [];
+    for(Pose pose in store.state.jobDetailsPageState.job.poses) {
+      if(pose.isLibraryPose()) {
+        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, true, store.state.jobDetailsPageState.job)).path), pose: pose));
+      } else {
+        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, false, store.state.jobDetailsPageState.job)).path), pose: pose));
+      }
+    }
+    store.dispatch(SetPoseImagesAction(store.state.jobDetailsPageState, poseImages));
+  }
+
+  void _fetchJobPoses(Store<AppState> store, FetchJobPosesAction action, NextDispatcher next) async {
+    List<GroupImage> poseImages = [];
+    for(Pose pose in store.state.jobDetailsPageState.job.poses) {
+      if(pose.isLibraryPose()) {
+        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, true, store.state.jobDetailsPageState.job)).path), pose: pose));
+      } else {
+        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, false, store.state.jobDetailsPageState.job)).path), pose: pose));
+      }
+    }
+    store.dispatch(SetPoseImagesAction(store.state.jobDetailsPageState, poseImages));
   }
 
   void _fetchJobTypes(Store<AppState> store, FetchAllJobTypesAction action, NextDispatcher next) async {

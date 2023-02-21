@@ -40,13 +40,14 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
           GestureDetector(
             onTap: () {
               pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(libraryPoseIndex).pose, pageState.activeJobs.elementAt(index));
+              showSuccessAnimation();
             },
             child: Container(
               margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 8.0),
               height: 54.0,
               decoration: new BoxDecoration(
                   color: Color(ColorConstants.getPrimaryBackgroundGrey()).withOpacity(0.25),
-                  borderRadius: new BorderRadius.all(Radius.circular(16.0))),
+                  borderRadius: new BorderRadius.all(Radius.circular(32.0))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -75,7 +76,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
                   ),
                   Container(
                     height: 24,
-                    margin: EdgeInsets.only(right: 8.0),
+                    margin: EdgeInsets.only(right: 16.0),
                     child: Image.asset(
                       'assets/images/icons/plus.png',
                       color: Color(ColorConstants.getPeachDark()),
