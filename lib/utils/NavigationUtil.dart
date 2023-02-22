@@ -16,6 +16,7 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
+import 'package:dandylight/pages/poses_page/PosesSearchPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -78,6 +79,9 @@ class NavigationUtil {
   }
   static onPosesSelected(BuildContext context, Job job) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job)));
+  }
+  static onSearchPosesSelected(BuildContext context, Job job) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesSearchPage(job)));
   }
   static void onSuccessfulLogin(BuildContext context) {
     Navigator.pushReplacement(

@@ -14,7 +14,8 @@ class SaveLibraryPosesToGroupAction{
   final List<XFile> poseImages;
   final String name;
   final String url;
-  SaveLibraryPosesToGroupAction(this.pageState, this.poseImages, this.name, this.url);
+  final List<String> tags;
+  SaveLibraryPosesToGroupAction(this.pageState, this.poseImages, this.name, this.url, this.tags);
 }
 
 class SetActiveJobs {
@@ -39,6 +40,13 @@ class SetLibraryPoseImagesToState{
   final LibraryPoseGroupPageState pageState;
   final List<GroupImage> poseImages;
   SetLibraryPoseImagesToState(this.pageState, this.poseImages);
+}
+
+class SetInstagramAction {
+  final LibraryPoseGroupPageState pageState;
+  String instagramName;
+  String instagramUrl;
+  SetInstagramAction(this.pageState, this.instagramName, this.instagramUrl);
 }
 
 class ClearLibraryPoseGroupState{

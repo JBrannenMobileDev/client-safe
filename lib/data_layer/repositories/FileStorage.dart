@@ -104,12 +104,14 @@ class FileStorage {
   static _updatePoseLibraryImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.update(poseToUpdate);
-    for(Pose pose in group.poses) {
-      if(pose.documentId == poseToUpdate.documentId) {
-        pose.imageUrl = imageUrl;
+    if(group != null) {
+      for(Pose pose in group.poses) {
+        if(pose.documentId == poseToUpdate.documentId) {
+          pose.imageUrl = imageUrl;
+        }
       }
+      await PoseLibraryGroupDao.update(group);
     }
-    await PoseLibraryGroupDao.update(group);
   }
 
   static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group, Job job) async {

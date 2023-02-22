@@ -248,6 +248,7 @@ flutter:
     - assets/images/icons/clear_night.png
     - assets/images/icons/ribbon.png
     - assets/images/icons/trash.png
+    - assets/images/icons/search.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

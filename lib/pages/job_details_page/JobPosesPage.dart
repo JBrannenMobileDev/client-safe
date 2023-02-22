@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
+import 'package:dandylight/pages/job_details_page/JobDetailsSingleImageViewPager.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
@@ -84,7 +85,19 @@ class JobPosesPage extends StatelessWidget{
                                 shrinkWrap: true,
                                 reverse: false,
                               itemBuilder: (context, index) {
-                                return JobPoseListWidget(index);
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.of(context).push(
+                                      new MaterialPageRoute(builder: (context) => JobDetailsSingleImageViewPager(
+                                          pageState.poseImages,
+                                          index,
+                                          pageState.onDeletePoseSelected,
+                                          'Job Poses',
+                                      )),
+                                    );
+                                  },
+                                  child: JobPoseListWidget(index),
+                                );
                               },
                             ),
                           ),

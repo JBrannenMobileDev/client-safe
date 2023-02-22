@@ -67,6 +67,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       Pose newPose = Pose();
       newPose.instagramName = action.name;
       newPose.instagramUrl = action.url;
+      newPose.tags = action.tags;
       newPose = await PoseDao.insertOrUpdate(newPose);
       newPoses.add(newPose);
       await FileStorage.saveLibraryPoseImageFile(action.poseImages.elementAt(i).path, newPose, action.pageState.poseGroup);
@@ -87,6 +88,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     await store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, poseGroup));
     await store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, groupImages));
     store.dispatch(posesActions.FetchPoseGroupsAction(store.state.posesPageState));
+    store.dispatch(SetInstagramAction(store.state.libraryPoseGroupPageState, action.name, action.url));
   }
 
   void _loadPoseImages(Store<AppState> store, LoadLibraryPoseImagesFromStorage action) async{

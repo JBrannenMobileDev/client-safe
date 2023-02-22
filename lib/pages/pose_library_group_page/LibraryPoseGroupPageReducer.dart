@@ -11,7 +11,15 @@ final libraryPoseGroupReducer = combineReducers<LibraryPoseGroupPageState>([
   TypedReducer<LibraryPoseGroupPageState, SetIsAdminLibraryAction>(_setIsAdmin),
   TypedReducer<LibraryPoseGroupPageState, SetActiveJobs>(_setActiveJobs),
   TypedReducer<LibraryPoseGroupPageState, SetPoseGroupsLibraryAction>(_setPoseGroups),
+  TypedReducer<LibraryPoseGroupPageState, SetInstagramAction>(_setInstagram),
 ]);
+
+LibraryPoseGroupPageState _setInstagram(LibraryPoseGroupPageState previousState, SetInstagramAction action){
+  return previousState.copyWith(
+    instagramName: action.instagramName,
+    instagramUrl: action.instagramUrl,
+  );
+}
 
 LibraryPoseGroupPageState _setPoseGroups(LibraryPoseGroupPageState previousState, SetPoseGroupsLibraryAction action){
   return previousState.copyWith(

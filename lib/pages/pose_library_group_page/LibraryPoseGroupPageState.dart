@@ -15,7 +15,7 @@ import 'LibraryPoseGroupActions.dart';
 
 class LibraryPoseGroupPageState{
   final PoseLibraryGroup poseGroup;
-  final Function(List<XFile>, String, String) onNewPoseImagesSelected;
+  final Function(List<XFile>, String, String, List<String>) onNewPoseImagesSelected;
   final Function() onBackSelected;
   final List<GroupImage> poseImages;
   final List<Job> activeJobs;
@@ -25,6 +25,8 @@ class LibraryPoseGroupPageState{
   final Function(Pose, Job) onImageAddedToJobSelected;
   final bool isLoadingNewImages;
   final bool isAdmin;
+  final String instagramName;
+  final String instagramUrl;
 
 
   LibraryPoseGroupPageState({
@@ -39,11 +41,13 @@ class LibraryPoseGroupPageState{
     @required this.activeJobs,
     @required this.myPoseGroups,
     @required this.myPoseGroupImages,
+    @required this.instagramUrl,
+    @required this.instagramName,
   });
 
   LibraryPoseGroupPageState copyWith({
     PoseLibraryGroup poseGroup,
-    Function(List<XFile>, String, String) onNewPoseImagesSelected,
+    Function(List<XFile>, String, List<String>) onNewPoseImagesSelected,
     Function() onBackSelected,
     List<GroupImage> poseImages,
     Function(GroupImage, PoseGroup) onImageSaveSelected,
@@ -53,6 +57,8 @@ class LibraryPoseGroupPageState{
     List<Job> activeJobs,
     List<PoseGroup> myPoseGroups,
     List<File> myPoseGroupImages,
+    String instagramName,
+    String instagramUrl,
   }){
     return LibraryPoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -66,6 +72,8 @@ class LibraryPoseGroupPageState{
       activeJobs: activeJobs ?? this.activeJobs,
       myPoseGroups: myPoseGroups ?? this.myPoseGroups,
       myPoseGroupImages: myPoseGroupImages ?? this.myPoseGroupImages,
+      instagramName: instagramName ?? this.instagramName,
+      instagramUrl: instagramUrl ?? this.instagramUrl,
     );
   }
 
@@ -81,6 +89,8 @@ class LibraryPoseGroupPageState{
     activeJobs: [],
     myPoseGroups: [],
     myPoseGroupImages: [],
+    instagramUrl: '',
+    instagramName: '',
   );
 
   factory LibraryPoseGroupPageState.fromStore(Store<AppState> store) {
@@ -92,9 +102,11 @@ class LibraryPoseGroupPageState{
       activeJobs: store.state.libraryPoseGroupPageState.activeJobs,
       myPoseGroups: store.state.libraryPoseGroupPageState.myPoseGroups,
       myPoseGroupImages: store.state.libraryPoseGroupPageState.myPoseGroupImages,
-      onNewPoseImagesSelected: (poseImages, name, url) => {
+      instagramName: store.state.libraryPoseGroupPageState.instagramName,
+      instagramUrl: store.state.libraryPoseGroupPageState.instagramUrl,
+      onNewPoseImagesSelected: (poseImages, name, url, tags) => {
         store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true)),
-        store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url)),
+        store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url, tags)),
       },
       onBackSelected: () {
         store.dispatch(ClearLibraryPoseGroupState(store.state.libraryPoseGroupPageState));
@@ -116,6 +128,8 @@ class LibraryPoseGroupPageState{
       activeJobs.hashCode ^
       myPoseGroups.hashCode ^
       myPoseGroupImages.hashCode ^
+      instagramName.hashCode ^
+      instagramUrl.hashCode ^
       isLoadingNewImages.hashCode;
 
   @override
@@ -132,5 +146,7 @@ class LibraryPoseGroupPageState{
               activeJobs == other.activeJobs &&
               myPoseGroups == other.myPoseGroups &&
               myPoseGroupImages == other.myPoseGroupImages &&
+              instagramName == other.instagramName &&
+              instagramUrl == other.instagramUrl &&
               poseGroup == other.poseGroup;
 }

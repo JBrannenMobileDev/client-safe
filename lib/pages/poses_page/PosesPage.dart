@@ -4,6 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/MyPosesPage.dart';
 
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -86,6 +87,18 @@ class _PosesPageState extends State<PosesPage> {
                         height: 24.0,
                         width: 24.0,
                         child: Image.asset('assets/images/icons/plus.png',
+                          color: Color(ColorConstants.getPeachDark()),),
+                      ),
+                    ) : SizedBox(),
+                    selectedIndex == 1 ? GestureDetector(
+                      onTap: () {
+                        NavigationUtil.onSearchPosesSelected(context, job);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 26.0),
+                        height: 24.0,
+                        width: 24.0,
+                        child: Image.asset('assets/images/icons/search.png',
                           color: Color(ColorConstants.getPeachDark()),),
                       ),
                     ) : SizedBox(),
