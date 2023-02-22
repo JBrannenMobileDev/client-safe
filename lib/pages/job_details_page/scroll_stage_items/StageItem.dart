@@ -584,7 +584,7 @@ class _StageItemState extends State<StageItem>
         isStageCompleted = Job.containsStage(job.completedStages, JobStage.STAGE_6_PLANNING_COMPLETE);
         stageTitle = isStageCompleted ? 'Planning complete' : 'Planning complete?';
         stageSubtitle = '';
-        actionButtonText = 'Send poses';
+        actionButtonText = job.poses.length > 0 ? 'Send poses' : '';
         actionIcon = Icons.format_list_bulleted;
         break;
       case JobStage.STAGE_7_SESSION_COMPLETE:
