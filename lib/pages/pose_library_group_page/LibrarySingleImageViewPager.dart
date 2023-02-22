@@ -2,16 +2,21 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/pages/pose_library_group_page/widgets/SaveToJobBottomSheet.dart';
 import 'package:dandylight/pages/pose_library_group_page/widgets/SaveToMyPosesBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../models/Job.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -23,12 +28,13 @@ class LibrarySingleImageViewPager extends StatefulWidget {
   final List<GroupImage> poses;
   final int index;
   final String groupName;
+  final Job job;
 
-  LibrarySingleImageViewPager(this.poses, this.index, this.groupName);
+  LibrarySingleImageViewPager(this.poses, this.index, this.groupName, this.job);
 
   @override
   _LibrarySingleImageViewPagerState createState() {
-    return _LibrarySingleImageViewPagerState(poses, index, poses.length, PageController(initialPage: index), groupName);
+    return _LibrarySingleImageViewPagerState(poses, index, poses.length, PageController(initialPage: index), groupName, job);
   }
 }
 
@@ -40,8 +46,9 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
   final List<GroupImage> poses;
   final List<Container> pages = [];
   final String groupName;
+  final Job job;
 
-  _LibrarySingleImageViewPagerState(this.poses, this.currentPageIndex, this.pageCount, this.controller, this.groupName);
+  _LibrarySingleImageViewPagerState(this.poses, this.currentPageIndex, this.pageCount, this.controller, this.groupName, this.job);
 
   void _showSaveToMyPosesBottomSheet(BuildContext context, imageIndex) {
     showModalBottomSheet(
@@ -53,6 +60,20 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
         return SaveToMyPosesBottomSheet(imageIndex);
+      },
+    );
+  }
+
+  void _showSaveToJobBottomSheet(BuildContext context, imageIndex) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SaveToJobBottomSheet(imageIndex);
       },
     );
   }
@@ -167,7 +188,13 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
               actions: [
                 GestureDetector(
                   onTap: () {
-
+                    if(job == null) {
+                      _showSaveToJobBottomSheet(context, currentPageIndex);
+                    } else {
+                      pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(currentPageIndex).pose, job);
+                      VibrateUtil.vibrateMedium();
+                      DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
+                    }
                   },
                   child: Container(
                       child: Image.asset(

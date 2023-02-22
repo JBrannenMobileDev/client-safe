@@ -17,6 +17,7 @@ import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/JobUtil.dart';
+import '../job_details_page/JobDetailsActions.dart';
 import '../poses_page/PosesActions.dart' as posesActions;
 import 'LibraryPoseGroupActions.dart';
 
@@ -46,6 +47,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     await PoseDao.update(pose);
     await PoseLibraryGroupDao.update(store.state.libraryPoseGroupPageState.poseGroup);
     await JobDao.update(action.selectedJob);
+    store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
   }
 
   void _saveSelectedPoseToMyPoseGroup(Store<AppState> store, SaveSelectedPoseToMyPosesAction action) async {

@@ -29,4 +29,17 @@ class DandyToastUtil {
         fontSize: 16.0,
     );
   }
+
+  static void showToastWithGravity(String msg, Color color, ToastGravity gravity) {
+    HapticFeedback.heavyImpact();
+    Fluttertoast.showToast(
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: gravity,
+      timeInSecForIosWeb: 1,
+      backgroundColor: color,
+      textColor: Colors.white,
+      fontSize: 18.0,
+    );
+  }
 }

@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
+import 'package:dandylight/pages/dashboard_page/GoToJobPosesBottomSheet.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/ActiveJobsHomeCard.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobTypeBreakdownPieChart.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/JobsThisWeekHomeCard.dart';
@@ -34,6 +35,7 @@ import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:showcaseview/showcaseview.dart';
 
+import '../../models/Job.dart';
 import '../../models/Profile.dart';
 import '../../utils/NotificationHelper.dart';
 import '../../utils/analytics/EventNames.dart';
@@ -177,11 +179,26 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
     );
   }
 
+  void _showGoToJobPosesSheet(BuildContext context, Job job) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return GoToJobPosesBottomSheet(job);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, DashboardPageState>(
         onInit: (store) async {
           store.dispatch(new InitDashboardPageAction(store.state.dashboardPageState));
           store.dispatch(new LoadJobsAction(store.state.dashboardPageState));
+          store.dispatch(CheckForGoToJobAction(store.state.dashboardPageState));
           if(store.state.dashboardPageState.unseenNotificationCount > 0) {
             _runAnimation();
           }
@@ -221,6 +238,10 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           }
         },
         onDidChange: (previous, current) async {
+          if(!current.goToSeen && current.goToPosesJob != null){
+            _showGoToJobPosesSheet(context, current.goToPosesJob);
+            current.onGoToSeen();
+          }
           if(previous.subscriptionState == null && current.subscriptionState != null) {
             print("previous " + previous.subscriptionState.toString());
             print("current " + current.subscriptionState.toString());

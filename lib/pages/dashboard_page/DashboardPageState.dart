@@ -1,7 +1,6 @@
 import 'package:dandylight/models/Action.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/Notifications.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/widgets/LineChartMonthData.dart';
@@ -22,6 +21,8 @@ class DashboardPageState {
   final bool isLeadsMinimized;
   final bool shouldShowNewMileageExpensePage;
   final bool hasSeenShowcase;
+  final bool goToSeen;
+  final Job goToPosesJob;
   final int leadConversionRate;
   final int unconvertedLeadCount;
   final purchases.CustomerInfo subscriptionState;
@@ -52,6 +53,7 @@ class DashboardPageState {
   final Function() onNotificationViewClosed;
   final Function() onShowcaseSeen;
   final Function() markAllAsSeen;
+  final Function() onGoToSeen;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -89,6 +91,9 @@ class DashboardPageState {
     this.onShowcaseSeen,
     this.subscriptionState,
     this.markAllAsSeen,
+    this.goToPosesJob,
+    this.goToSeen,
+    this.onGoToSeen,
   });
 
   DashboardPageState copyWith({
@@ -96,7 +101,9 @@ class DashboardPageState {
     bool isMinimized,
     bool isLeadsMinimized,
     bool hasSeenShowcase,
+    bool goToSeen,
     int leadConversionRate,
+    Job goToPosesJob,
     int unconvertedLeadCount,
     List<Action> actionItems,
     List<Client> recentLeads,
@@ -127,6 +134,7 @@ class DashboardPageState {
     List<LeadSourcePieChartRowData> leadSourcePieChartRowData,
     Profile profile,
     purchases.CustomerInfo subscriptionState,
+    Function() onGoToSeen,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -164,6 +172,9 @@ class DashboardPageState {
       onShowcaseSeen: onShowcaseSeen ?? this.onShowcaseSeen,
       subscriptionState: subscriptionState ?? this.subscriptionState,
       markAllAsSeen: markAllAsSeen ?? this.markAllAsSeen,
+      goToPosesJob: goToPosesJob ?? this.goToPosesJob,
+      goToSeen: goToSeen ?? this.goToSeen,
+      onGoToSeen: onGoToSeen ?? this.onGoToSeen,
     );
   }
 
@@ -195,8 +206,14 @@ class DashboardPageState {
       profile: store.state.dashboardPageState.profile,
       hasSeenShowcase: store.state.dashboardPageState.hasSeenShowcase,
       subscriptionState: store.state.dashboardPageState.subscriptionState,
+      goToPosesJob: store.state.dashboardPageState.goToPosesJob,
+      goToSeen: store.state.dashboardPageState.goToSeen,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
-      onJobClicked: (job) => store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job)),
+      onJobClicked: (job) {
+        store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
+        store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
+        store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, null));
+      },
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
       onViewAllHideLeadsSelected: () => store.dispatch(UpdateShowHideLeadsState(store.state.dashboardPageState)),
       onReminderSelected:  (reminder) {
@@ -207,6 +224,7 @@ class DashboardPageState {
       onNotificationViewClosed: () => store.dispatch(UpdateNotificationIconAction(store.state.dashboardPageState)),
       onShowcaseSeen: () => store.dispatch(UpdateProfileWithShowcaseSeen(store.state.dashboardPageState)),
       markAllAsSeen: () => store.dispatch(MarkAllAsSeenAction(store.state.dashboardPageState)),
+      onGoToSeen: () => store.dispatch(SetGoToAsSeenAction(store.state.dashboardPageState)),
     );
   }
 
@@ -244,6 +262,9 @@ class DashboardPageState {
     profile: null,
     subscriptionState: null,
     markAllAsSeen: null,
+    goToPosesJob: null,
+    goToSeen: false,
+    onGoToSeen: null,
   );
 
   @override
@@ -280,6 +301,9 @@ class DashboardPageState {
       jobTypePieChartRowData.hashCode ^
       leadSourcePieChartRowData.hashCode ^
       profile.hashCode ^
+      goToPosesJob.hashCode ^
+      goToSeen.hashCode ^
+      onGoToSeen.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -318,5 +342,8 @@ class DashboardPageState {
               jobTypePieChartRowData == other.jobTypePieChartRowData &&
               leadSourcePieChartRowData == other.leadSourcePieChartRowData &&
               profile == other.profile &&
+              goToPosesJob == other.goToPosesJob &&
+              goToSeen == other.goToSeen &&
+              onGoToSeen == other.onGoToSeen &&
               isMinimized == other.isMinimized;
 }

@@ -11,6 +11,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Job.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -21,16 +22,22 @@ import 'PosesPageState.dart';
 class PosesPage extends StatefulWidget {
   static const String FILTER_TYPE_MY_POSES = "My Poses";
   static const String FILTER_TYPE_POSE_LIBRARY = "Pose Library";
+  final Job job;
+
+  PosesPage(this.job);
 
   @override
   State<StatefulWidget> createState() {
-    return _PosesPageState();
+    return _PosesPageState(job);
   }
 }
 
 class _PosesPageState extends State<PosesPage> {
   int selectedIndex = 0;
   Map<int, Widget> tabs;
+  Job job;
+
+  _PosesPageState(this.job);
 
   @override
   Widget build(BuildContext context) {
@@ -121,8 +128,8 @@ class _PosesPageState extends State<PosesPage> {
                 SliverList(
                   delegate: new SliverChildListDelegate(
                     <Widget>[
-                      selectedIndex == 0 ? MyPosesPage() :
-                      PoseLibraryPage(),
+                      selectedIndex == 0 ? MyPosesPage(job) :
+                      PoseLibraryPage(job),
                     ],
                   ),
                 ),

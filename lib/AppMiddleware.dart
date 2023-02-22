@@ -110,6 +110,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UpdateNotificationIconAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileRestorePurchasesSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, MarkAllAsSeenAction>(DashboardPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, CheckForGoToJobAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProfileWithShowcaseSeen>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GetDeviceContactsAction>(NewContactPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobsAction>(JobsPageMiddleware()));
@@ -222,6 +223,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SavePosesToGroupAction>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPoseImagesFromStorage>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSelectedPoses>(PoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveSelectedImageToJobFromPosesAction>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveLibraryPosesToGroupAction>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadLibraryPoseImagesFromStorage>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedPoseToMyPosesAction>(LibraryPoseGroupPageMiddleware()));

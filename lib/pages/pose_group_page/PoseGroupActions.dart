@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../models/Job.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import 'GroupImage.dart';
@@ -21,6 +22,19 @@ class DeletePoseGroupSelected{
 class SharePosesAction{
   final PoseGroupPageState pageState;
   SharePosesAction(this.pageState);
+}
+
+class SaveSelectedImageToJobFromPosesAction {
+  final PoseGroupPageState pageState;
+  final Pose selectedPose;
+  final Job selectedJob;
+  SaveSelectedImageToJobFromPosesAction(this.pageState, this.selectedPose, this.selectedJob);
+}
+
+class SetActiveJobsToPoses {
+  final PoseGroupPageState pageState;
+  final List<Job> activeJobs;
+  SetActiveJobsToPoses(this.pageState, this.activeJobs);
 }
 
 class SavePosesToGroupAction{

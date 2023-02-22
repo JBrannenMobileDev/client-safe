@@ -5,21 +5,28 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../AppState.dart';
+import '../../models/Job.dart';
 import '../../utils/ColorConstants.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'PosesPageState.dart';
 
 class PoseLibraryPage extends StatefulWidget {
+  final Job job;
+
+  PoseLibraryPage(this.job);
 
   @override
   State<StatefulWidget> createState() {
-    return _PoseLibraryPageState();
+    return _PoseLibraryPageState(job);
   }
 }
 
 class _PoseLibraryPageState extends State<PoseLibraryPage> {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final Job job;
+
+  _PoseLibraryPageState(this.job);
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +66,7 @@ class _PoseLibraryPageState extends State<PoseLibraryPage> {
     return StoreConnector<AppState, PosesPageState>(
       converter: (store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>
-          PoseLibraryGroupListWidget(index),
+          PoseLibraryGroupListWidget(index, job),
     );
   }
 }

@@ -11,7 +11,14 @@ final poseGroupReducer = combineReducers<PoseGroupPageState>([
   TypedReducer<PoseGroupPageState, SetSelectAllState>(_setSelectedImages),
   TypedReducer<PoseGroupPageState, SetSinglePoseSelected>(_setSelectedImage),
   TypedReducer<PoseGroupPageState, SetLoadingNewImagesState>(_setLoadingState),
+  TypedReducer<PoseGroupPageState, SetActiveJobsToPoses>(_setActiveJobs),
 ]);
+
+PoseGroupPageState _setActiveJobs(PoseGroupPageState previousState, SetActiveJobsToPoses action){
+  return previousState.copyWith(
+    activeJobs: action.activeJobs,
+  );
+}
 
 PoseGroupPageState _setSelectedImage(PoseGroupPageState previousState, SetSinglePoseSelected action){
   bool selectedImagesContainNewSelection = previousState.selectedImages.contains(action.selectedPose);

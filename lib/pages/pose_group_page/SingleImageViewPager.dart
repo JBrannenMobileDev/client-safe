@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
+import 'package:dandylight/pages/pose_group_page/widgets/SaveToJobBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
@@ -12,8 +13,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../models/Job.dart';
+import '../../utils/DandyToastUtil.dart';
+import '../../utils/IntentLauncherUtil.dart';
+import '../../utils/VibrateUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -24,12 +30,13 @@ class SingleImageViewPager extends StatefulWidget {
   final int index;
   final Function(GroupImage) onDelete;
   final String groupName;
+  final Job job;
 
-  SingleImageViewPager(this.poses, this.index, this.onDelete, this.groupName);
+  SingleImageViewPager(this.poses, this.index, this.onDelete, this.groupName, this.job);
 
   @override
   _SingleImageViewPagerState createState() {
-    return _SingleImageViewPagerState(poses, index, onDelete, poses.length, PageController(initialPage: index), groupName);
+    return _SingleImageViewPagerState(poses, index, onDelete, poses.length, PageController(initialPage: index), groupName, job);
   }
 }
 
@@ -42,26 +49,90 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
   final Function(GroupImage) onDelete;
   final List<Container> pages = [];
   final String groupName;
+  final Job job;
 
-  _SingleImageViewPagerState(this.poses, this.currentPageIndex, this.onDelete, this.pageCount, this.controller, this.groupName);
+  _SingleImageViewPagerState(this.poses, this.currentPageIndex, this.onDelete, this.pageCount, this.controller, this.groupName, this.job);
 
   @override
   void initState() {
     super.initState();
     for(GroupImage image in poses) {
       pages.add(
-        Container(
-          margin: EdgeInsets.only(top: 16),
-          alignment: Alignment.topCenter,
-          child: ClipRRect(
-            borderRadius: new BorderRadius.circular(16.0),
-            child: Image(
-              fit: BoxFit.contain,
-              image: image.file.path.isNotEmpty ? FileImage(File(image.file.path))
-                  : AssetImage("assets/images/backgrounds/image_background.png"),
+          Container(
+            margin: EdgeInsets.only(top: 16),
+            alignment: Alignment.topCenter,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  Stack(
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      ClipRRect(
+                        borderRadius: new BorderRadius.circular(8.0),
+                        child: Image(
+                          fit: BoxFit.contain,
+                          image: image.file.path.isNotEmpty ? FileImage(File(image.file.path))
+                              : AssetImage("assets/images/backgrounds/image_background.png"),
+                        ),
+                      ),
+                      image.pose.isLibraryPose() ? Container(
+                        height: 116.0,
+                        decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            borderRadius: new BorderRadius.circular(8.0),
+                            gradient: LinearGradient(
+                                begin: FractionalOffset.center,
+                                end: FractionalOffset.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withOpacity(0.6),
+                                ],
+                                stops: [
+                                  0.0,
+                                  1.0
+                                ])),
+                      ) : SizedBox(),
+                      image.pose.isLibraryPose() ? GestureDetector(
+                        onTap: () {
+                          IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(right: 16),
+                          alignment: Alignment.centerRight,
+                          height: 48,
+                          child: TextDandyLight(
+                            type: TextDandyLight.SMALL_TEXT,
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            text: image.pose.instagramName,
+                          ),
+                        ),
+                      ) : SizedBox(),
+                    ],
+                  ),
+                  image.pose.isLibraryPose() ? GestureDetector(
+                    onTap: () {
+                      IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(top: 16),
+                      height: 48,
+                      width: 200,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        color: Color(ColorConstants.getPeachLight()),
+                        text: 'Follow on Instagram',
+                      ),
+                    ),
+                  ) : SizedBox(),
+                ],
+              ),
             ),
           ),
-        ),
       );
     }
   }
@@ -99,6 +170,20 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
     });
   }
 
+  void _showSaveToJobBottomSheet(BuildContext context, selectedIndex) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SaveToJobBottomSheet(selectedIndex);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PoseGroupPageState>(
@@ -117,7 +202,13 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
               actions: [
                 GestureDetector(
                   onTap: () {
-
+                    if(job == null) {
+                      _showSaveToJobBottomSheet(context, currentPageIndex);
+                    } else {
+                      pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(currentPageIndex).pose, job);
+                      VibrateUtil.vibrateMedium();
+                      DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
+                    }
                   },
                   child: Container(
                     margin: EdgeInsets.only(right: 16.0),

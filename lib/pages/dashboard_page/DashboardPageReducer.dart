@@ -33,7 +33,21 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetJobTypeChartData>(_setJobTypesChartData),
   TypedReducer<DashboardPageState, SetProfileDashboardAction>(_setProfile),
   TypedReducer<DashboardPageState, SetSubscriptionStateAction>(_setSubscriptionState),
+  TypedReducer<DashboardPageState, SetGoToPosesJob>(_setGoToJobPoses),
+  TypedReducer<DashboardPageState, SetGoToAsSeenAction>(_setGoToAsSeen),
 ]);
+
+DashboardPageState _setGoToAsSeen(DashboardPageState previousState, SetGoToAsSeenAction action) {
+  return previousState.copyWith(
+    goToSeen: true,
+  );
+}
+
+DashboardPageState _setGoToJobPoses(DashboardPageState previousState, SetGoToPosesJob action) {
+  return previousState.copyWith(
+    goToPosesJob: action.goToPosesJob,
+  );
+}
 
 DashboardPageState _setSubscriptionState(DashboardPageState previousState, SetSubscriptionStateAction action) {
   return previousState.copyWith(

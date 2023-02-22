@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../models/Job.dart';
 import '../poses_page/PosesActions.dart';
 import 'GroupImage.dart';
 import 'PoseGroupActions.dart';
@@ -23,7 +24,8 @@ class PoseGroupPageState{
   final Function(GroupImage) onImageChecked;
   final Function() onDeletePosesSelected;
   final bool isLoadingNewImages;
-
+  final List<Job> activeJobs;
+  final Function(Pose, Job) onImageAddedToJobSelected;
 
   PoseGroupPageState({
     @required this.poseGroup,
@@ -38,6 +40,8 @@ class PoseGroupPageState{
     @required this.onImageChecked,
     @required this.onDeletePosesSelected,
     @required this.isLoadingNewImages,
+    @required this.activeJobs,
+    @required this.onImageAddedToJobSelected,
   });
 
   PoseGroupPageState copyWith({
@@ -53,6 +57,8 @@ class PoseGroupPageState{
     Function(GroupImage) onImageChecked,
     Function() onDeletePosesSelected,
     bool isLoadingNewImages,
+    List<Job> activeJobs,
+    Function(Pose, Job) onImageAddedToJobSelected,
   }){
     return PoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -67,6 +73,8 @@ class PoseGroupPageState{
       onImageChecked: onImageChecked ?? this.onImageChecked,
       onDeletePosesSelected: onDeletePosesSelected ?? this.onDeletePosesSelected,
       isLoadingNewImages: isLoadingNewImages ?? this.isLoadingNewImages,
+      activeJobs: activeJobs ?? this.activeJobs,
+      onImageAddedToJobSelected: onImageAddedToJobSelected ?? this.onImageAddedToJobSelected,
     );
   }
 
@@ -83,6 +91,8 @@ class PoseGroupPageState{
     onImageChecked: null,
     onDeletePosesSelected: null,
     isLoadingNewImages: false,
+    activeJobs: [],
+    onImageAddedToJobSelected: null,
   );
 
   factory PoseGroupPageState.fromStore(Store<AppState> store) {
@@ -91,6 +101,7 @@ class PoseGroupPageState{
       poseImages: store.state.poseGroupPageState.poseImages,
       selectedImages: store.state.poseGroupPageState.selectedImages,
       isLoadingNewImages: store.state.poseGroupPageState.isLoadingNewImages,
+      activeJobs: store.state.poseGroupPageState.activeJobs,
       onSelectAllSelected: (checked) => store.dispatch(SetSelectAllState(store.state.poseGroupPageState, checked)),
       onImageChecked: (image) => store.dispatch(SetSinglePoseSelected(store.state.poseGroupPageState, image)),
       onDeletePosesSelected: () => store.dispatch(DeleteSelectedPoses(store.state.poseGroupPageState)),
@@ -104,6 +115,7 @@ class PoseGroupPageState{
       onBackSelected: () {
         store.dispatch(ClearPoseGroupState(store.state.poseGroupPageState));
         },
+      onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveSelectedImageToJobFromPosesAction(store.state.poseGroupPageState, pose, job))
     );
   }
 
@@ -120,6 +132,8 @@ class PoseGroupPageState{
       onImageChecked.hashCode ^
       onDeletePosesSelected.hashCode ^
       isLoadingNewImages.hashCode ^
+      activeJobs.hashCode ^
+      onImageAddedToJobSelected.hashCode ^
       onDeletePoseGroupSelected.hashCode;
 
   @override
@@ -137,5 +151,7 @@ class PoseGroupPageState{
               onImageChecked == other.onImageChecked &&
               onDeletePosesSelected == other.onDeletePosesSelected &&
               isLoadingNewImages == other.isLoadingNewImages &&
+              activeJobs == other.activeJobs &&
+              onImageAddedToJobSelected == other.onImageAddedToJobSelected &&
               poseGroup == other.poseGroup;
 }

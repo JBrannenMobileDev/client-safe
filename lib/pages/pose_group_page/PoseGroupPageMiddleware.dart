@@ -7,14 +7,18 @@ import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
+import '../../data_layer/local_db/daos/JobDao.dart';
 import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/local_db/daos/PoseGroupDao.dart';
+import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/GlobalKeyUtil.dart';
+import '../../utils/JobUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../job_details_page/JobDetailsActions.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
@@ -39,6 +43,15 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteSelectedPoses) {
       _deleteSelectedPoses(store, action);
     }
+    if(action is SaveSelectedImageToJobFromPosesAction) {
+      _saveSelectedPoseToJob(store, action);
+    }
+  }
+
+  void _saveSelectedPoseToJob(Store<AppState> store, SaveSelectedImageToJobFromPosesAction action) async {
+    action.selectedJob.poses.add(action.selectedPose);
+    await JobDao.update(action.selectedJob);
+    store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
   }
 
   void _deleteSelectedPoses(Store<AppState> store, DeleteSelectedPoses action) async{
@@ -117,6 +130,7 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   void _loadPoseImages(Store<AppState> store, LoadPoseImagesFromStorage action) async{
     store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, await _getGroupImages(action.poseGroup)));
     store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, action.poseGroup));
+    store.dispatch(SetActiveJobsToPoses(store.state.poseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
   }
 
   Future<List<GroupImage>> _getGroupImages(PoseGroup poseGroup) async {

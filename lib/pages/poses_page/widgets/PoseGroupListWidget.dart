@@ -7,6 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../../models/Job.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/PoseGroupPage.dart';
@@ -14,8 +15,9 @@ import '../PosesPageState.dart';
 
 class PoseGroupListWidget extends StatelessWidget {
   final int index;
+  final Job job;
 
-  PoseGroupListWidget(this.index);
+  PoseGroupListWidget(this.index, this.job);
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class PoseGroupListWidget extends StatelessWidget {
       InkWell(
         onTap: () {
           Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index))),
+            new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index), job)),
           );
         },
         child: Padding(

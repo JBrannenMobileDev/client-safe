@@ -21,6 +21,12 @@ class UpdateProfileRestorePurchasesSeen {
   UpdateProfileRestorePurchasesSeen(this.pageState);
 }
 
+class SetGoToPosesJob {
+  final DashboardPageState pageState;
+  final Job goToPosesJob;
+  SetGoToPosesJob(this.pageState, this.goToPosesJob);
+}
+
 class LoadJobsAction{
   final DashboardPageState pageState;
   LoadJobsAction(this.pageState);
@@ -102,4 +108,14 @@ class UpdateProfileWithShowcaseSeen {
 class MarkAllAsSeenAction {
   final DashboardPageState pageState;
   MarkAllAsSeenAction(this.pageState);
+}
+
+class CheckForGoToJobAction {
+  final DashboardPageState pageState;
+  CheckForGoToJobAction(this.pageState);
+}
+
+class SetGoToAsSeenAction {
+  final DashboardPageState pageState;
+  SetGoToAsSeenAction(this.pageState);
 }

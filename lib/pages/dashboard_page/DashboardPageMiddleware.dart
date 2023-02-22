@@ -54,6 +54,32 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is MarkAllAsSeenAction) {
       _markAllAsSeen(store, action);
     }
+    if(action is CheckForGoToJobAction) {
+      _checkForGoToJob(store, action);
+    }
+  }
+
+  Future<void> _checkForGoToJob(Store<AppState> store, CheckForGoToJobAction action) async {
+    List<Job> allJobs = await JobDao.getAllJobs();
+    DateTime now = DateTime.now();
+    for(Job job in allJobs) {
+      if(job.selectedTime != null && job.selectedEndTime != null) {
+        DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
+        DateTime endTime = job.selectedEndTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
+        if(now.isAfter(startTime) && now.isBefore(endTime)) {
+          store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
+          break;
+        }
+      } else if(job.selectedTime != null && job.selectedEndTime == null) {
+        DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
+        DateTime endTime = DateTime(startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
+        endTime.add(Duration(hours: 1));
+        if(now.isAfter(job.selectedTime) && now.isBefore(endTime)) {
+          store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
+          break;
+        }
+      }
+    }
   }
 
   Future<void> _updateProfileWithSeenRestorePurchases(Store<AppState> store, UpdateProfileRestorePurchasesSeen action) async {
@@ -199,7 +225,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetClientsDashboardAction(store.state.dashboardPageState, clients));
 
     (await ClientDao.getClientsStream()).listen((clientSnapshots) {
-      List<Client> clients = List();
+      List<Client> clients = [];
       for(RecordSnapshot clientSnapshot in clientSnapshots) {
         clients.add(Client.fromMap(clientSnapshot.value));
       }

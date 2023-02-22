@@ -14,6 +14,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Job.dart';
 import '../../models/PoseLibraryGroup.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'LibraryPoseGroupActions.dart';
@@ -21,12 +22,13 @@ import 'LibrarySingleImageViewPager.dart';
 
 class LibraryPoseGroupPage extends StatefulWidget {
   final PoseLibraryGroup poseGroup;
+  final Job job;
 
-  LibraryPoseGroupPage(this.poseGroup);
+  LibraryPoseGroupPage(this.poseGroup, this.job);
 
   @override
   State<StatefulWidget> createState() {
-    return _LibraryPoseGroupPageState(poseGroup);
+    return _LibraryPoseGroupPageState(poseGroup, job);
   }
 }
 
@@ -35,8 +37,9 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
   final PoseLibraryGroup poseGroup;
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final Job job;
 
-  _LibraryPoseGroupPageState(this.poseGroup);
+  _LibraryPoseGroupPageState(this.poseGroup, this.job);
 
   Widget _buildItem(BuildContext context, int index) {
     return StoreConnector<AppState, LibraryPoseGroupPageState>(
@@ -49,10 +52,11 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                   pageState.poseImages,
                   index,
                   pageState.poseGroup.groupName,
+                  job
                 )),
               );
             },
-            child: LibraryPoseListWidget(index),
+            child: LibraryPoseListWidget(index, job),
           ),
     );
   }

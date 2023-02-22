@@ -115,7 +115,7 @@ class _CollectionsPageState extends State<CollectionsPage> {
       case 1:
         EventSender().sendEvent(eventName: EventNames.NAV_TO_COLLECTION_POSES);
         Navigator.of(context).push(
-          new MaterialPageRoute(builder: (context) => PosesPage()),
+          new MaterialPageRoute(builder: (context) => PosesPage(null)),
         );
         break;
       case 2:

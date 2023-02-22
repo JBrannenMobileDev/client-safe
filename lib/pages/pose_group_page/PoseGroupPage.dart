@@ -18,18 +18,20 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Job.dart';
 import '../../models/PoseGroup.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPage extends StatefulWidget {
   final PoseGroup poseGroup;
+  final Job job;
 
-  PoseGroupPage(this.poseGroup);
+  PoseGroupPage(this.poseGroup, this.job);
 
   @override
   State<StatefulWidget> createState() {
-    return _PoseGroupPageState(poseGroup);
+    return _PoseGroupPageState(poseGroup, job);
   }
 }
 
@@ -38,8 +40,9 @@ class _PoseGroupPageState extends State<PoseGroupPage>
   final PoseGroup poseGroup;
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  final Job job;
 
-  _PoseGroupPageState(this.poseGroup);
+  _PoseGroupPageState(this.poseGroup, this.job);
 
   Future getDeviceImage(PoseGroupPageState pageState) async {
     try{
@@ -67,11 +70,12 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                       index,
                       pageState.onDeletePoseSelected,
                       pageState.poseGroup.groupName,
+                      job
                   )),
                 );
               }
             },
-            child: PoseListWidget(index),
+            child: PoseListWidget(index, job),
           ),
     );
   }

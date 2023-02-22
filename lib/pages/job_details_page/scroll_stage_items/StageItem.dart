@@ -431,9 +431,11 @@ class _StageItemState extends State<StageItem>
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_5_DEPOSIT_RECEIVED});
                                 break;
                               case JobStage.STAGE_6_PLANNING_COMPLETE:
-                                Navigator.of(context).push(
-                                  new MaterialPageRoute(builder: (context) => PosesPage()),
-                                );
+                                List<String> filePaths = pageState.poseImages.map((groupImage) => groupImage.file.path).toList();
+                                Share.shareFiles(
+                                    filePaths,
+                                    subject: 'Example Poses');
+                                EventSender().sendEvent(eventName: EventNames.BT_SHARE_JOB_POSES);
                                 EventSender().sendEvent(eventName: EventNames.BT_STAGE_ACTION, properties: {EventNames.ACTIVE_STAGE_PARAM_NAME : JobStage.STAGE_6_PLANNING_COMPLETE});
                                 break;
                               case JobStage.STAGE_7_SESSION_COMPLETE:

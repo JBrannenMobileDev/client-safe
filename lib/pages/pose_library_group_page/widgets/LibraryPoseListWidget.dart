@@ -3,11 +3,15 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../../models/Job.dart';
 import '../../pose_group_page/GroupImage.dart';
 import '../LibraryPoseGroupPageState.dart';
 import 'SaveToJobBottomSheet.dart';
@@ -15,8 +19,9 @@ import 'SaveToMyPosesBottomSheet.dart';
 
 class LibraryPoseListWidget extends StatelessWidget {
   final int index;
+  final Job job;
 
-  LibraryPoseListWidget(this.index);
+  LibraryPoseListWidget(this.index, this.job);
 
   void _showSaveToMyPosesBottomSheet(BuildContext context, selectedIndex) {
     showModalBottomSheet(
@@ -82,7 +87,13 @@ class LibraryPoseListWidget extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () {
-                  _showSaveToJobBottomSheet(context, index);
+                  if(job == null) {
+                    _showSaveToJobBottomSheet(context, index);
+                  } else {
+                    pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
+                    VibrateUtil.vibrateMedium();
+                    DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
+                  }
                 },
                 child: Align(
                     alignment: Alignment.topLeft,

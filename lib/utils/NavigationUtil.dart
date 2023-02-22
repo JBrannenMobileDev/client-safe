@@ -21,9 +21,11 @@ import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
+import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/Location.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
+import '../pages/poses_page/PosesPage.dart';
 
 class NavigationUtil {
   static onClientTapped(BuildContext context) {
@@ -73,6 +75,9 @@ class NavigationUtil {
   }
   static onJobPosesSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobPosesPage()));
+  }
+  static onPosesSelected(BuildContext context, Job job) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job)));
   }
   static void onSuccessfulLogin(BuildContext context) {
     Navigator.pushReplacement(
