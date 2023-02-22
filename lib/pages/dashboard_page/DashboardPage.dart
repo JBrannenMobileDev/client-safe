@@ -80,6 +80,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   bool isFabExpanded = false;
   bool hasNavigatedToSubscriptionPage = false;
   bool comingFromLogin;
+  bool goToHasBeenSeen = false;
 
   _DashboardPageState(this.comingFromLogin);
 
@@ -238,8 +239,11 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           }
         },
         onDidChange: (previous, current) async {
-          if(!current.goToSeen && current.goToPosesJob != null){
+          if(!goToHasBeenSeen && !current.goToSeen && current.goToPosesJob != null){
             _showGoToJobPosesSheet(context, current.goToPosesJob);
+            setState(() {
+              goToHasBeenSeen = true;
+            });
             current.onGoToSeen();
           }
           if(previous.subscriptionState == null && current.subscriptionState != null) {
