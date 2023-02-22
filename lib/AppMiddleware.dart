@@ -216,6 +216,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LoadPricesPackagesAndRemindersAction>(NewJobTypePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobTypesAction>(JobTypesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchPoseGroupsAction>(PosesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SavePoseToMyPosesAction>(PosesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveImageToJobAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveAction>(NewPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeletePoseAction>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeletePoseGroupSelected>(PoseGroupPageMiddleware()));

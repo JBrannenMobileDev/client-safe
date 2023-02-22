@@ -57,7 +57,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
     builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
          Container(
                height: MediaQuery.of(context).viewInsets.bottom == 0
-                   ? 534
+                   ? 564
                    : MediaQuery.of(context).size.height - 64,
                width: MediaQuery.of(context).size.width,
                decoration: BoxDecoration(
@@ -100,7 +100,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
                      borderRadius: BorderRadius.circular(8.0),
                      child: Container(
                        margin: EdgeInsets.only(top: 0),
-                       height: 150,
+                       height: 100,
                        decoration: BoxDecoration(
                          image: DecorationImage(
                            fit: BoxFit.contain,

@@ -15,6 +15,7 @@ import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/JobUtil.dart';
+import '../job_details_page/JobDetailsActions.dart';
 
 class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -23,6 +24,30 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchPoseGroupsAction){
       fetchPoseGroups(store, next);
     }
+    if(action is SavePoseToMyPosesAction) {
+      _saveSelectedPoseToMyPoseGroup(store, action);
+    }
+    if(action is SaveImageToJobAction) {
+      _saveSelectedPoseToJob(store, action);
+    }
+  }
+
+  void _saveSelectedPoseToJob(Store<AppState> store, SaveImageToJobAction action) async {
+    Pose pose = action.selectedPose;
+    pose.numOfSaves++;
+    action.selectedJob.poses.add(pose);
+    await PoseDao.update(pose);
+    await JobDao.update(action.selectedJob);
+    store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
+  }
+
+  void _saveSelectedPoseToMyPoseGroup(Store<AppState> store, SavePoseToMyPosesAction action) async {
+    PoseGroup groupToUpdate = action.selectedGroup;
+    groupToUpdate.poses.add(action.selectedImage.pose);
+    action.selectedImage.pose.numOfSaves++;
+    await PoseDao.update(action.selectedImage.pose);
+    await PoseGroupDao.update(groupToUpdate);
+    store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
   }
 
   void fetchPoseGroups(Store<AppState> store, NextDispatcher next) async{

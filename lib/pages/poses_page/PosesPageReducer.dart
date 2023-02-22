@@ -36,22 +36,26 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
   List<GroupImage> searchResultsImages = [];
   List<Pose> allPoses = action.pageState.allLibraryPoses;
   List<File> allImages = action.pageState.allLibraryPoseImages;
+  List<Pose> poseDuplicateReference = [];
 
   for(String word in searchWords) {
-    for(int index = 0; index < allPoses.length; index++) {
-      for(String tag in allPoses.elementAt(index).tags) {
-        if(tag.toLowerCase().contains(word)) {
-          searchResultsImages.add(GroupImage(file: XFile(allImages.elementAt(index).path), pose: allPoses.elementAt(index)));
+    if(word.isNotEmpty) {
+      for(int index = 0; index < allPoses.length; index++) {
+        for(String tag in allPoses.elementAt(index).tags) {
+          if(tag.toLowerCase().contains(word)) {
+            if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
+              searchResultsImages.add(GroupImage(file: XFile(allImages.elementAt(index).path), pose: allPoses.elementAt(index)));
+              poseDuplicateReference.add(allPoses.elementAt(index));
+            }
+          }
         }
       }
     }
   }
 
-  // remove duplicates
-
   return previousState.copyWith(
     searchInput: action.searchInput,
-    searchResultsImages: searchResultsImages,
+    searchResultsImages: action.searchInput.isNotEmpty ? searchResultsImages : [],
   );
 }
 

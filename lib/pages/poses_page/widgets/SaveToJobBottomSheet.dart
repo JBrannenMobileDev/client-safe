@@ -91,9 +91,9 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
   }
 
   @override
-  Widget build(BuildContext context) => StoreConnector<AppState, LibraryPoseGroupPageState>(
-    converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
-    builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
+  Widget build(BuildContext context) => StoreConnector<AppState, PosesPageState>(
+    converter: (Store<AppState> store) => PosesPageState.fromStore(store),
+    builder: (BuildContext context, PosesPageState pageState) =>
          Container(
            height: pageState.activeJobs.length <= 4 ? 400 : pageState.activeJobs.length <= 5 ? 500 : 600,
            width: MediaQuery.of(context).size.width,
