@@ -119,7 +119,8 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     for(JobReminder reminder in reminders) {
       reminder.hasBeenSeen = true;
     }
-    JobReminderDao.updateAll(reminders);
+    await JobReminderDao.updateAll(reminders);
+    await JobReminderDao.updateAll(reminders);
     store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
   }
 
