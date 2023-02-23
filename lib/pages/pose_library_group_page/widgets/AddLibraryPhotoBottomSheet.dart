@@ -4,6 +4,7 @@ import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageSta
 import 'package:dandylight/pages/pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -56,7 +57,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
     converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
     builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
          Container(
-               height: MediaQuery.of(context).viewInsets.bottom == 0
+               height: KeyboardUtil.isVisible(context)
                    ? 564
                    : MediaQuery.of(context).size.height - 64,
                width: MediaQuery.of(context).size.width,

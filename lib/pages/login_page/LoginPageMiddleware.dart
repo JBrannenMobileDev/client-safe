@@ -29,6 +29,7 @@ import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
 import '../../data_layer/local_db/daos/JobTypeDao.dart';
+import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
 import '../../models/Client.dart';
@@ -136,6 +137,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
               fireStoreProfile.nextInvoiceNumberLastChangeDate = DateTime(1970);
             await ProfileDao.insertLocal(fireStoreProfile);
             await FireStoreSync().dandyLightAppInitializationSync(authResult.user.uid);
+            await PoseLibraryGroupDao.syncAllFromFireStore();
           }
         }
         if (authResult.user != null && authResult.user.emailVerified) {
@@ -351,6 +353,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         );
         await JobDao.insertOrUpdate(jobToSave);
 
+        await PoseLibraryGroupDao.syncAllFromFireStore();
+
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
       }
     }
@@ -388,6 +392,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           ProfileDao.updateUserLoginTime(user.uid);
           store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
         });
+        await PoseLibraryGroupDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
           EventNames.SIGN_IN_CHECKED_PARAM_USER_UID : user.uid,
           EventNames.SIGN_IN_CHECKED_PARAM_PROFILE_UID : profile?.uid ?? "profile = null",

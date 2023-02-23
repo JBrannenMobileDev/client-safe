@@ -60,7 +60,6 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 }
 
 void _fetchLibraryPoseGroups(Store<AppState> store, NextDispatcher next) async {
-  await PoseLibraryGroupDao.syncAllFromFireStore();
   List<PoseLibraryGroup> groups = await PoseLibraryGroupDao.getAllSortedMostFrequent();
   List<File> imageFiles = [];
   store.dispatch(SetPoseLibraryGroupsAction(store.state.posesPageState, groups, imageFiles));

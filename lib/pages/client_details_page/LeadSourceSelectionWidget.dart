@@ -1,23 +1,27 @@
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
-import 'package:dandylight/pages/job_details_page/JobDetailsPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/NavigationUtil.dart';
+import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
 
 import '../../AppState.dart';
 import '../../utils/ImageUtil.dart';
-import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../new_contact_pages/NewContactPageState.dart';
 import '../new_contact_pages/NewContactTextField.dart';
+import 'ClientDetailsTextField.dart';
 
-class LeadSourceSelectionWidget extends StatelessWidget {
+class LeadSourceSelectionWidget extends StatefulWidget {
+
+  @override
+  State<StatefulWidget> createState() {
+    return _LeadSourceSelectionWidget();
+  }
+}
+
+class _LeadSourceSelectionWidget extends State<LeadSourceSelectionWidget> {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final customLeadController = TextEditingController();
   final FocusNode _customLeadFocusNode = FocusNode();
 
@@ -35,72 +39,73 @@ class LeadSourceSelectionWidget extends StatelessWidget {
       converter: (store) => ClientDetailsPageState.fromStore(store),
       builder: (BuildContext context, ClientDetailsPageState modalPageState) =>
           Container(
-        height: 500,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
-            color: Color(ColorConstants.getPrimaryWhite())),
-        child: Container(
-          margin: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                  margin: EdgeInsets.only(top: 4.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: TextDandyLight(
-                          type: TextDandyLight.MEDIUM_TEXT,
-                          text: 'Cancel',
-                          textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          modalPageState.onSaveLeadSourceSelected();
-                          Navigator.of(context).pop();
-                        },
-                        child: TextDandyLight(
-                          type: TextDandyLight.MEDIUM_TEXT,
-                          text: 'Save',
-                          textAlign: TextAlign.start,
-                          color: Color(ColorConstants.primary_black),
-                        ),
-                      ),
-                    ],
-                  )),
-              Container(
-                margin: EdgeInsets.only(top: 0, bottom: 32.0),
-                child: TextDandyLight(
-                  type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'Select a lead source',
-                  textAlign: TextAlign.start,
-                  color: Color(ColorConstants.primary_black),
-                ),
-              ),
-              GridView.builder(
-                  shrinkWrap: true,
-                  itemCount: 8,
-                  gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 4, childAspectRatio: 0.8),
-                  itemBuilder: (BuildContext context, int index) {
-                    return GestureDetector(
-                      onTap: () {
-                        modalPageState.onLeadSourceSelected(
-                            leadSourceIconsWhite.elementAt(index));
-                      },
-                      child: Column(
-                        children: <Widget>[
-                          Stack(
-                            alignment: Alignment.center,
-                            children: <Widget>[
-                              modalPageState.leadSource != null && getIconPosition(modalPageState, leadSourceIconsWhite) == index
-                                  ? new Container(
+              height: KeyboardUtil.isVisible(context) ? MediaQuery.of(context).size.height-64 : 550,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
+                  color: Color(ColorConstants.getPrimaryWhite())),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(top: 4.0, left: 20, right: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Cancel',
+                              textAlign: TextAlign.start,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              modalPageState.onSaveLeadSourceSelected();
+                              Navigator.of(context).pop();
+                            },
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Save',
+                              textAlign: TextAlign.start,
+                              color: Color(ColorConstants.primary_black),
+                            ),
+                          ),
+                        ],
+                      )),
+                  Container(
+                    margin: EdgeInsets.only(top: 0, bottom: 32.0),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Select a lead source',
+                      textAlign: TextAlign.start,
+                      color: Color(ColorConstants.primary_black),
+                    ),
+                  ),
+                  Container(
+                    height: 232,
+                    padding: EdgeInsets.only(left: 24, right: 24),
+                    child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: 8,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: new SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 4, childAspectRatio: 0.8),
+                        itemBuilder: (BuildContext context, int index) {
+                          return GestureDetector(
+                            onTap: () {
+                              modalPageState.onLeadSourceSelected(
+                                  leadSourceIconsWhite.elementAt(index));
+                            },
+                            child: Column(
+                              children: <Widget>[
+                                Stack(
+                                  alignment: Alignment.center,
+                                  children: <Widget>[
+                                    modalPageState.leadSource != null && getIconPosition(modalPageState, leadSourceIconsWhite) == index
+                                        ? new Container(
                                       margin: EdgeInsets.only(bottom: 8.0),
                                       height: 46.0,
                                       width: 46.0,
@@ -108,67 +113,67 @@ class LeadSourceSelectionWidget extends StatelessWidget {
                                         color: Color(
                                             ColorConstants.getBlueLight()),
                                         borderRadius:
-                                            BorderRadius.circular(12.0),
+                                        BorderRadius.circular(12.0),
                                       ),
                                     )
-                                  : SizedBox(
+                                        : SizedBox(
                                       height: 54.0,
                                       width: 46.0,
                                     ),
-                              Container(
-                                margin: EdgeInsets.only(bottom: 8.0),
-                                height: 36.0,
-                                width: 36.0,
-                                child: Image.asset(
-                                  leadSourceIconsPeach.elementAt(index),
-                                  color: Color(
-                                      modalPageState.leadSource != null &&
-                                              getIconPosition(modalPageState,
-                                                      leadSourceIconsWhite) ==
-                                                  index
-                                          ? ColorConstants.getPrimaryWhite()
-                                          : ColorConstants.getPeachDark()),
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 8.0),
+                                      height: 36.0,
+                                      width: 36.0,
+                                      child: Image.asset(
+                                        leadSourceIconsPeach.elementAt(index),
+                                        color: Color(
+                                            modalPageState.leadSource != null &&
+                                                getIconPosition(modalPageState,
+                                                    leadSourceIconsWhite) ==
+                                                    index
+                                                ? ColorConstants.getPrimaryWhite()
+                                                : ColorConstants.getPeachDark()),
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
-                          ),
-                          TextDandyLight(
-                            type: TextDandyLight.EXTRA_SMALL_TEXT,
-                            text: ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
-                            textAlign: TextAlign.center,
-                            color: Color(ColorConstants.primary_black),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-              Container(
-                height: 82.0,
-                width: 275,
-                margin: EdgeInsets.only(bottom: 27.0),
-                child: modalPageState.leadSource ==
-                        'assets/images/icons/email_icon_white.png'
-                    ? NewContactTextField(
-                        customLeadController,
-                        "Custom Name",
-                        TextInputType.text,
-                        66.0,
-                        modalPageState.onCustomLeadSourceTextChanged,
-                        NewContactPageState.NO_ERROR,
-                        TextInputAction.done,
-                        _customLeadFocusNode,
-                        onAction,
-                        TextCapitalization.words,
-                        null,
-                        true,
-                        ColorConstants.getPrimaryColor(),
-                )
-                    : SizedBox(),
+                                TextDandyLight(
+                                  type: TextDandyLight.EXTRA_SMALL_TEXT,
+                                  text: ImageUtil.getLeadSourceText(leadSourceIconsWhite.elementAt(index)),
+                                  textAlign: TextAlign.center,
+                                  color: Color(ColorConstants.primary_black),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                  ),
+                  Container(
+                    height: 82.0,
+                    width: 275,
+                    child: modalPageState.leadSource == 'assets/images/icons/email_icon_white.png'
+                        ? ClientDetailsTextView(
+                      customLeadController,
+                      "Custom Name",
+                      TextInputType.text,
+                      66.0,
+                      modalPageState.onCustomLeadSourceTextChanged,
+                      NewContactPageState.NO_ERROR,
+                      TextInputAction.done,
+                      _customLeadFocusNode,
+                      () {
+                        _customLeadFocusNode.unfocus();
+                      },
+                      TextCapitalization.words,
+                      null,
+                      true,
+                      ColorConstants.getPrimaryColor(),
+                    )
+                        : SizedBox(),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -185,3 +190,4 @@ class LeadSourceSelectionWidget extends StatelessWidget {
     return leadSourceIconsWhite.indexOf(pageState.leadSource);
   }
 }
+

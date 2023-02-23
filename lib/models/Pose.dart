@@ -25,7 +25,7 @@ class Pose implements Comparable<Pose>{
 
   bool isNewPose() {
     if(createDate == null) return false;
-    DateTime endNewPoseDate = createDate.add(Duration(minutes: 60));
+    DateTime endNewPoseDate = createDate.add(Duration(days: 14));
     return DateTime.now().isBefore(endNewPoseDate);
   }
 
