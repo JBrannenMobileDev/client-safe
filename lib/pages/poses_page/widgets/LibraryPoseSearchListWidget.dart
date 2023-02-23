@@ -11,8 +11,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
+import '../../../widgets/TextDandyLight.dart';
 import 'SaveToJobBottomSheet.dart';
 
 class LibraryPoseSearchListWidget extends StatelessWidget {
@@ -83,6 +85,21 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                           1.0
                         ])),
               ),
+              pageState.searchResultsImages.elementAt(index).pose.isNewPose() ? Container(
+                alignment: Alignment.bottomRight,
+                child: CornerBanner(
+                  bannerPosition: CornerBannerPosition.bottomRight,
+                  bannerColor: Color(ColorConstants.getPeachDark()),
+                  child: Text(
+                    "NEW",
+                    style: TextStyle(
+                      fontFamily: TextDandyLight.getFontFamily(),
+                      fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                    ),
+                  ),
+                ),
+              ) : SizedBox(),
               GestureDetector(
                 onTap: () {
                   if(job == null) {

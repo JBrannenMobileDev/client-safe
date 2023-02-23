@@ -6,9 +6,11 @@ import 'package:dandylight/pages/poses_page/widgets/LibraryPoseSearchListWidget.
 import 'package:dandylight/pages/poses_page/widgets/PosesTextField.dart';
 
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -81,7 +83,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                         ColorConstants.getPeachDark()), //change your color here
                   ),
                   brightness: Brightness.light,
-                  backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+                  backgroundColor: Colors.transparent,
                   centerTitle: true,
                   title: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
@@ -92,7 +94,8 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                   pinned: false,
                   floating: false,
                   forceElevated: false,
-                  expandedHeight: 132,
+                  expandedHeight: 128,
+                  collapsedHeight: 64,
                   flexibleSpace: new FlexibleSpaceBar(
                     background: Column(
                       children: <Widget>[
@@ -102,7 +105,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                               margin: EdgeInsets.only(left: 24, right: 24, top: 56.0),
                               child: PosesTextField(
                                 controller: firstNameTextController,
-                                hintText: 'Descriptive Tag',
+                                hintText: 'Descriptive Words',
                                 inputType: TextInputType.text,
                                 height: 64.0,
                                 onTextInputChanged: pageState.onSearchInputChanged,
@@ -120,15 +123,22 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                     ),
                   ),
                 ),
-                SliverList(
-                  delegate: new SliverChildListDelegate(
-                    <Widget>[
-                      Padding(
+            SliverList(
+              delegate: new SliverChildListDelegate(
+                <Widget>[
+                  NotificationListener<ScrollNotification>(
+                    onNotification: (scrollNotification) {
+                      KeyboardUtil.closeKeyboard(context);
+                      return true;
+                    },
+                    child: SingleChildScrollView(
+                      child: Padding(
                         padding: EdgeInsets.only(left: 16.0, right: 16.0),
                         child: Container(
                           height: (MediaQuery.of(context).size.height),
                           child: GridView.builder(
-                              padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
+                              padding:
+                              new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
                               gridDelegate:
                               const SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: 200,
@@ -143,10 +153,12 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                               reverse: false,
                               itemBuilder: _buildItem),
                         ),
-                      )
-                    ],
+                      ),
+                    ),
                   ),
-                ),
+                ],
+              ),
+            ),
               ],
             ),
           ),

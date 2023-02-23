@@ -13,6 +13,11 @@ class FetchPoseGroupsAction{
   FetchPoseGroupsAction(this.pageState);
 }
 
+class ClearPoseSearchPageAction {
+  final PosesPageState pageState;
+  ClearPoseSearchPageAction(this.pageState);
+}
+
 class SetPoseGroupsAction{
   final PosesPageState pageState;
   final List<PoseGroup> poseGroups;

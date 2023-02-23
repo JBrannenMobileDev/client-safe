@@ -80,6 +80,7 @@ dependencies:
   package_info_plus: ^3.0.2
   showcaseview: ^2.0.0+1
   purchases_flutter: ^4.0.0
+  super_banners: ^0.0.1
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git

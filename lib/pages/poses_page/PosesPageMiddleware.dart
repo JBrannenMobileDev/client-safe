@@ -79,6 +79,19 @@ void _fetchAllLibraryPoses(Store<AppState> store, NextDispatcher next) async {
   List<Pose> libraryPoses = (await PoseDao.getAllSortedMostFrequent()).where((pose) => pose.isLibraryPose()).toList();
   List<File> imageFiles = [];
 
+  List<Pose> newPoses = [];
+  List<Pose> oldPoses = [];
+
+  for(Pose pose in libraryPoses) {
+    if(pose.isNewPose()){
+      newPoses.add(pose);
+    } else {
+      oldPoses.add(pose);
+    }
+  }
+
+  libraryPoses = newPoses + oldPoses;
+
   for(int index=0; index < libraryPoses.length; index++) {
     if(libraryPoses.elementAt(index).imageUrl?.isNotEmpty == true){
       imageFiles.insert(index, await FileStorage.getPoseLibraryImageFile(libraryPoses.elementAt(index), null));

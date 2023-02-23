@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dandylight/models/Pose.dart';
-import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:redux/redux.dart';
@@ -16,7 +15,12 @@ final posesReducer = combineReducers<PosesPageState>([
   TypedReducer<PosesPageState, UpdateSearchInputAction>(_setSearchInput),
   TypedReducer<PosesPageState, SetActiveJobsToPosesPage>(_setActiveJobs),
   TypedReducer<PosesPageState, SetAllPosesAction>(_setAllPoses),
+  TypedReducer<PosesPageState, ClearPoseSearchPageAction>(_clearState),
 ]);
+
+PosesPageState _clearState(PosesPageState previousState, ClearPoseSearchPageAction action){
+  return PosesPageState.initial();
+}
 
 PosesPageState _setAllPoses(PosesPageState previousState, SetAllPosesAction action){
   return previousState.copyWith(
@@ -44,8 +48,10 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
         for(String tag in allPoses.elementAt(index).tags) {
           if(tag.toLowerCase().contains(word)) {
             if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
-              searchResultsImages.add(GroupImage(file: XFile(allImages.elementAt(index).path), pose: allPoses.elementAt(index)));
-              poseDuplicateReference.add(allPoses.elementAt(index));
+              if(allImages != null && allImages.elementAt(index) != null) {
+                searchResultsImages.add(GroupImage(file: XFile(allImages.elementAt(index).path), pose: allPoses.elementAt(index)));
+                poseDuplicateReference.add(allPoses.elementAt(index));
+              }
             }
           }
         }

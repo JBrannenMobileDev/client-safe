@@ -52,8 +52,8 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
   void _saveSelectedPoseToMyPoseGroup(Store<AppState> store, SaveSelectedPoseToMyPosesAction action) async {
     PoseGroup groupToUpdate = action.selectedGroup;
-    groupToUpdate.poses.add(action.selectedImage.pose);
     action.selectedImage.pose.numOfSaves++;
+    groupToUpdate.poses.add(action.selectedImage.pose);
     store.state.libraryPoseGroupPageState.poseGroup.numOfSaves++;
     await PoseDao.update(action.selectedImage.pose);
     await PoseLibraryGroupDao.update(store.state.libraryPoseGroupPageState.poseGroup);
@@ -70,6 +70,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       newPose.tags = action.tags;
       newPose = await PoseDao.insertOrUpdate(newPose);
       newPoses.add(newPose);
+      newPose.createDate = DateTime.now();
       await FileStorage.saveLibraryPoseImageFile(action.poseImages.elementAt(i).path, newPose, action.pageState.poseGroup);
     }
 
@@ -103,6 +104,20 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     List<GroupImage> poseImages = [];
     List<Pose> sortedPoses = poseGroup.poses;
     sortedPoses.sort();
+
+    List<Pose> newPoses = [];
+    List<Pose> oldPoses = [];
+
+    for(Pose pose in sortedPoses) {
+      if(pose.isNewPose()){
+        newPoses.add(pose);
+      } else {
+        oldPoses.add(pose);
+      }
+    }
+
+    sortedPoses = newPoses + oldPoses;
+
     for(Pose pose in sortedPoses) {
       poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, poseGroup)).path), pose: pose));
     }
