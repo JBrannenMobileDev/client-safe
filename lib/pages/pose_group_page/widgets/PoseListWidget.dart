@@ -21,6 +21,8 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../../models/Job.dart';
 import '../../../utils/DandyToastUtil.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../GroupImage.dart';
 
 class PoseListWidget extends StatelessWidget {
@@ -109,6 +111,7 @@ class PoseListWidget extends StatelessWidget {
                     pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
                     VibrateUtil.vibrateMedium();
                     DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
+                    EventSender().sendEvent(eventName: EventNames.BT_SAVE_MY_POSE_TO_JOB_FROM_JOB);
                   }
                 },
                 child: Align(

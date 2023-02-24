@@ -14,6 +14,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class PosesCard extends StatelessWidget {
@@ -28,8 +30,10 @@ class PosesCard extends StatelessWidget {
       onTap: () {
         if(pageState.poseImages.length > 0) {
           NavigationUtil.onJobPosesSelected(context);
+          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_JOB_DETAILS);
         } else {
           NavigationUtil.onPosesSelected(context, pageState.job);
+          EventSender().sendEvent(eventName: EventNames.NAV_TO_POSES_ADD_POSE_TO_JOB);
         }
       },
       child: Container(

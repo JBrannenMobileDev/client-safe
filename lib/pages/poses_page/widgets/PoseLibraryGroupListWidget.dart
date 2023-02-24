@@ -9,6 +9,8 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../models/Job.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/PoseGroupPage.dart';
 import '../../pose_library_group_page/LibraryPoseGroupPage.dart';
@@ -30,6 +32,7 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
           Navigator.of(context).push(
             new MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.libraryGroups.elementAt(index), job)),
           );
+          EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_GROUP);
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),

@@ -11,6 +11,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../new_contact_pages/NewContactPageState.dart';
 
@@ -41,6 +43,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
             onTap: () {
               pageState.onImageSaveSelected(pageState.poseImages.elementAt(libraryPoseIndex), pageState.myPoseGroups.elementAt(index));
               showSuccessAnimation();
+              EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE, properties: {EventNames.SAVE_LIBRARY_POSE_PARAM_GROUP_NAME : pageState.poseGroup.groupName});
             },
             child: MyPoseGroupsListItemWidget(index),
           ),

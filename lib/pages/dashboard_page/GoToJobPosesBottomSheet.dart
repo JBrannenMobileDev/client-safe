@@ -10,6 +10,8 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../models/Job.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import 'DashboardPageState.dart';
 
 
@@ -57,6 +59,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          pageState.onJobClicked(job);
                          Navigator.of(context).pop();
                          NavigationUtil.onJobPosesSelected(context);
+                         EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
                        },
                        child: Container(
                          height: 48,
@@ -70,6 +73,28 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                            type: TextDandyLight.MEDIUM_TEXT,
                            color: Color(ColorConstants.getPrimaryWhite()),
                            text: 'GO TO JOB POSES',
+                         ),
+                       ),
+                     ),
+                     GestureDetector(
+                       onTap: () {
+                         pageState.onJobClicked(job);
+                         Navigator.of(context).pop();
+                         NavigationUtil.onJobTapped(context);
+                         EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
+                       },
+                       child: Container(
+                         height: 48,
+                         width: 250,
+                         alignment: Alignment.center,
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(32),
+                           color: Color(ColorConstants.getPeachDark()),
+                         ),
+                         child: TextDandyLight(
+                           type: TextDandyLight.MEDIUM_TEXT,
+                           color: Color(ColorConstants.getPrimaryWhite()),
+                           text: 'GO TO JOB DETAILS',
                          ),
                        ),
                      ),

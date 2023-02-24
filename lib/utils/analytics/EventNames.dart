@@ -34,8 +34,23 @@ class EventNames {
   static const String BT_ADD_NEW_CONTACT = "bt_add_new_contact";
   static const String CONTACT_PARAM_COMING_FROM = "contact_param_coming_from";
 
+  static const String BT_SAVE_LIBRARY_SEARCH_POSE = "bt_save_library_search_pose";
+
+  static const String BT_SAVE_LIBRARY_POSE = "bt_save_library_pose";
+  static const String SAVE_LIBRARY_POSE_PARAM_GROUP_NAME = "save_library_pose_param_group_name";
+
+  static const String BT_SAVE_LIBRARY_POSE_TO_JOB = "bt_save_library_pose_to_job";
+  static const String BT_SAVE_MY_POSE_TO_JOB = "bt_save_my_pose_to_job";
+  static const String BT_SAVE_LIBRARY_SEARCH_POSE_TO_JOB = "bt_save_library_search_pose_to_job";
+  static const String BT_SAVE_LIBRARY_POSE_TO_JOB_FROM_JOB = "bt_save_library_pose_to_job_from_job";
+  static const String BT_SAVE_MY_POSE_TO_JOB_FROM_JOB = "bt_save_my_pose_to_job_from_job";
+  static const String BT_SAVE_LIBRARY_SEARCH_POSE_TO_JOB_FROM_JOB = "bt_save_library_search_pose_to_job_from_job";
 
   //Navigate to names
+  static const String NAV_TO_POSES_ADD_POSE_TO_JOB = "bt_add_pose_to_job";
+  static const String NAV_TO_JOB_POSES_FROM_JOB_DETAILS = "bt_view_job_poses_from_job_details";
+  static const String NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET = "bt_view_job_poses_from_bottom_sheet";
+  static const String NAV_TO_JOB_DETAILS_FROM_BOTTOM_SHEET = "bt_view_job_poses_from_bottom_sheet";
   static const String NAV_TO_SUNSET_WEATHER = "nav_to_sunset_weather";
   static const String NAV_TO_NOTIFICATIONS = "nav_to_notifications";
   static const String NAV_TO_CALENDAR = "nav_to_calendar";
@@ -45,6 +60,8 @@ class EventNames {
   static const String NAV_TO_INCOME = "nav_to_income";
   static const String NAV_TO_MY_POSES = "nav_to_my_poses";
   static const String NAV_TO_POSE_LIBRARY = "nav_to_pose_library";
+  static const String NAV_TO_POSE_LIBRARY_GROUP = "nav_to_pose_library_group";
+  static const String NAV_TO_POSE_LIBRARY_SEARCH = "nave_to_pose_library_search";
   static const String NAV_TO_EXPENSES = "nav_to_expenses";
   static const String NAV_TO_JOBS = "nav_to_jobs";
   static const String NAV_TO_COLLECTIONS = "nav_to_collections";

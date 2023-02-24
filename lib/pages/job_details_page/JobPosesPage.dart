@@ -53,6 +53,7 @@ class JobPosesPage extends StatelessWidget{
                         GestureDetector(
                           onTap: () {
                             NavigationUtil.onPosesSelected(context, pageState.job);
+                            EventSender().sendEvent(eventName: EventNames.NAV_TO_POSES_ADD_POSE_TO_JOB);
                           },
                           child: Container(
                             margin: EdgeInsets.only(right: 20.0),

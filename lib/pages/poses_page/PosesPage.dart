@@ -93,6 +93,7 @@ class _PosesPageState extends State<PosesPage> {
                     selectedIndex == 1 ? GestureDetector(
                       onTap: () {
                         NavigationUtil.onSearchPosesSelected(context, job);
+                        EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 26.0),

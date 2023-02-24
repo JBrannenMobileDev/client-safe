@@ -14,6 +14,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 import 'SaveToJobBottomSheet.dart';
 
@@ -108,6 +110,7 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                     pageState.onImageAddedToJobSelected(pageState.searchResultsImages.elementAt(index).pose, job);
                     VibrateUtil.vibrateMedium();
                     DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
+                    EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE_TO_JOB_FROM_JOB);
                   }
                 },
                 child: Align(

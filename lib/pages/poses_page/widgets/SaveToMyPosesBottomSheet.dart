@@ -7,6 +7,8 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../PosesPageState.dart';
 
@@ -37,6 +39,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
             onTap: () {
               pageState.onImageSaveSelected(pageState.searchResultsImages.elementAt(libraryPoseIndex), pageState.poseGroups.elementAt(index));
               showSuccessAnimation();
+              EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE);
             },
             child: PosesMyPoseGroupsListItem(index),
           ),

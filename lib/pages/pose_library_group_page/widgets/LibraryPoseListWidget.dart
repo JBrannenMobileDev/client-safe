@@ -13,6 +13,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
+import '../../../utils/analytics/EventNames.dart';
+import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/GroupImage.dart';
 import '../LibraryPoseGroupPageState.dart';
@@ -111,6 +113,7 @@ class LibraryPoseListWidget extends StatelessWidget {
                     pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
                     VibrateUtil.vibrateMedium();
                     DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
+                    EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE_TO_JOB_FROM_JOB);
                   }
                 },
                 child: Align(
