@@ -109,7 +109,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                                 inputType: TextInputType.text,
                                 height: 64.0,
                                 onTextInputChanged: pageState.onSearchInputChanged,
-                                keyboardAction: TextInputAction.next,
+                                keyboardAction: TextInputAction.done,
                                 capitalization: TextCapitalization.words,
                                 focusNode: _firstNameFocus,
                                 onFocusAction: onFirstNameAction,

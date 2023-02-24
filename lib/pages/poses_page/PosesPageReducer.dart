@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dandylight/models/Pose.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
+import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 

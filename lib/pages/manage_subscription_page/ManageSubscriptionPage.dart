@@ -147,7 +147,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                             pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
-                                  text: 'Beta tester discount applied',
+                                  text: 'Discount applied',
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   textAlign: TextAlign.center,
                                   color: Color(ColorConstants.getBlueDark())
@@ -415,6 +415,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ],
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 16),
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
@@ -424,8 +425,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 16, left: 32, right: 32),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
@@ -442,8 +445,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
@@ -460,8 +465,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
@@ -478,8 +485,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
@@ -496,8 +505,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
@@ -514,8 +525,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 4, left: 32, right: 32),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
                                       Padding(
@@ -532,8 +545,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                                 Container(
+                                  alignment: Alignment.center,
                                   margin: EdgeInsets.only(top: 4, left: 32, right: 32, bottom: 32),
                                   child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),

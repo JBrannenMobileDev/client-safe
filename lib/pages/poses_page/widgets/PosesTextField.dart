@@ -58,7 +58,14 @@ class PosesTextField extends StatelessWidget {
             },
             cursorColor: Color(ColorConstants.getBlueDark()),
             decoration: InputDecoration(
-              suffixIcon: Icon(Icons.search, color: Color(ColorConstants.getBlueLight()),),
+              suffixIcon: IconButton(
+                icon: Icon(controller.text.length > 0 ? Icons.close : Icons.search, color: Color(ColorConstants.getBlueLight())),
+                onPressed: () {
+                  if(controller.text.length > 0) {
+                    controller.text = '';
+                  }
+                },
+              ),
               alignLabelWithHint: true,
               labelText: hintText,
               labelStyle: TextStyle(
