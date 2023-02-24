@@ -67,10 +67,10 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
 
     if(action.subscriptionState.entitlements.all['standard'] != null) {
       if(action.subscriptionState.entitlements.all['standard'].isActive) {
-        if(action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_standard_subscription')) {
+        if(action.subscriptionState.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState.activeSubscriptions.contains('monthly_subscription')) {
           selectedSubscription = ManageSubscriptionPage.PACKAGE_MONTHLY;
           radioValue = 1;
-        } else if(action.subscriptionState.activeSubscriptions.contains('dandylight_annual_subscription') || action.subscriptionState.activeSubscriptions.contains('dandylight_beta_tester_annual_subscription')) {
+        } else if(action.subscriptionState.activeSubscriptions.contains('annual') || action.subscriptionState.activeSubscriptions.contains('annual_half_off')) {
           selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
           annualPrice = offering.annual.storeProduct.price;
           monthlyPrice = offering.monthly.storeProduct.price;
