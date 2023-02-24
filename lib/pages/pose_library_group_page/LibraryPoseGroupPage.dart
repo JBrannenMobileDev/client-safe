@@ -143,7 +143,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                                     mainAxisSpacing: 16),
                                 itemCount: pageState.poseImages.length,
                                 controller: _controller,
-                                physics: AlwaysScrollableScrollPhysics(),
+                                physics: NeverScrollableScrollPhysics(),
                                 key: _listKey,
                                 shrinkWrap: true,
                                 reverse: false,

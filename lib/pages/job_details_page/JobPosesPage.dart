@@ -81,7 +81,7 @@ class JobPosesPage extends StatelessWidget{
                                     mainAxisSpacing: 16),
                                 itemCount: pageState.poseImages.length,
                                 controller: _controller,
-                                physics: AlwaysScrollableScrollPhysics(),
+                                physics: NeverScrollableScrollPhysics(),
                                 key: _listKey,
                                 shrinkWrap: true,
                                 reverse: false,

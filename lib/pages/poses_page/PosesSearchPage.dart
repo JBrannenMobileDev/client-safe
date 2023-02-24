@@ -137,17 +137,15 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                         child: Container(
                           height: (MediaQuery.of(context).size.height),
                           child: GridView.builder(
-                              padding:
-                              new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
-                              gridDelegate:
-                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                              padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
+                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: 200,
                                   childAspectRatio: 2 / 2.45,
                                   crossAxisSpacing: 16,
                                   mainAxisSpacing: 16),
                               itemCount: pageState.searchResultsImages.length,
                               controller: _controller,
-                              physics: AlwaysScrollableScrollPhysics(),
+                              physics: NeverScrollableScrollPhysics(),
                               key: _listKey,
                               shrinkWrap: true,
                               reverse: false,

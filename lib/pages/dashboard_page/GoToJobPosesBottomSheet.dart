@@ -1,5 +1,6 @@
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
     converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
     builder: (BuildContext context, DashboardPageState pageState) =>
          Container(
-           height: 200,
+           height: 332,
            width: MediaQuery.of(context).size.width,
            decoration: BoxDecoration(
                borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
@@ -46,9 +47,18 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                    mainAxisAlignment: MainAxisAlignment.start,
                    children: <Widget>[
                      Container(
-                       margin: EdgeInsets.only(top: 24, bottom: 32),
+                       margin: EdgeInsets.only(top: 24, bottom: 0),
                        child: TextDandyLight(
                          type: TextDandyLight.LARGE_TEXT,
+                         text: 'Current Photoshoot',
+                         textAlign: TextAlign.center,
+                         color: Color(ColorConstants.primary_black),
+                       ),
+                     ),
+                     Container(
+                       margin: EdgeInsets.only(top: 8, bottom: 32),
+                       child: TextDandyLight(
+                         type: TextDandyLight.MEDIUM_TEXT,
                          text: job.jobTitle,
                          textAlign: TextAlign.center,
                          color: Color(ColorConstants.primary_black),
@@ -72,7 +82,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          child: TextDandyLight(
                            type: TextDandyLight.MEDIUM_TEXT,
                            color: Color(ColorConstants.getPrimaryWhite()),
-                           text: 'GO TO JOB POSES',
+                           text: 'Job Poses',
                          ),
                        ),
                      ),
@@ -84,6 +94,7 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_BOTTOM_SHEET);
                        },
                        child: Container(
+                         margin: EdgeInsets.only(top: 16),
                          height: 48,
                          width: 250,
                          alignment: Alignment.center,
@@ -94,7 +105,31 @@ class _GoToJobPosesBottomSheetState extends State<GoToJobPosesBottomSheet> with 
                          child: TextDandyLight(
                            type: TextDandyLight.MEDIUM_TEXT,
                            color: Color(ColorConstants.getPrimaryWhite()),
-                           text: 'GO TO JOB DETAILS',
+                           text: 'Job Details',
+                         ),
+                       ),
+                     ),
+                     GestureDetector(
+                       onTap: () {
+                         if(job.location != null) {
+                           pageState.drivingDirectionsSelected(job.location);
+                         } else {
+                            DandyToastUtil.showErrorToast('No location set for this job.');
+                         }
+                       },
+                       child: Container(
+                         margin: EdgeInsets.only(top: 16),
+                         height: 48,
+                         width: 250,
+                         alignment: Alignment.center,
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(32),
+                           color: job.location != null ? Color(ColorConstants.getPeachDark()) : Color(ColorConstants.getPrimaryGreyMedium()),
+                         ),
+                         child: TextDandyLight(
+                           type: TextDandyLight.MEDIUM_TEXT,
+                           color: Color(ColorConstants.getPrimaryWhite()),
+                           text: 'Driving Directions',
                          ),
                        ),
                      ),

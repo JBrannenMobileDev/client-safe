@@ -41,7 +41,7 @@ class _MyPosesPageState extends State<MyPosesPage> {
             padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 250.0),
             itemCount: pageState.poseGroups.length,
             controller: _controller,
-            physics: AlwaysScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             key: _listKey,
             shrinkWrap: true,
             reverse: false,

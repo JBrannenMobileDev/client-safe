@@ -22,11 +22,13 @@ import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../models/SingleExpense.dart';
+import '../../utils/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
@@ -57,6 +59,18 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     if(action is CheckForGoToJobAction) {
       _checkForGoToJob(store, action);
     }
+    if(action is LaunchDrivingDirectionsAction) {
+      _launchDrivingDirections(store, action);
+    }
+  }
+
+  void _launchDrivingDirections(Store<AppState> store, LaunchDrivingDirectionsAction action) async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    IntentLauncherUtil.launchDrivingDirections(
+        position.latitude.toString(),
+        position.longitude.toString(),
+        action.location.latitude.toString(),
+        action.location.longitude.toString());
   }
 
   Future<void> _checkForGoToJob(Store<AppState> store, CheckForGoToJobAction action) async {
@@ -65,6 +79,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     for(Job job in allJobs) {
       if(job.selectedTime != null && job.selectedEndTime != null) {
         DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
+        startTime.add(Duration(hours: -1));
         DateTime endTime = job.selectedEndTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
         if(now.isAfter(startTime) && now.isBefore(endTime)) {
           store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
@@ -74,6 +89,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         DateTime startTime = job.selectedTime.copyWith(year: job.selectedDate.year, month: job.selectedDate.month, day: job.selectedDate.day);
         DateTime endTime = DateTime(startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
         endTime.add(Duration(hours: 1));
+        startTime.add(Duration(hours: -1));
         if(now.isAfter(job.selectedTime) && now.isBefore(endTime)) {
           store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
           break;

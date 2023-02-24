@@ -30,10 +30,8 @@ class LocationsPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _launchDrivingDirections(
-      Store<AppState> store, DrivingDirectionsSelected action) async {
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+  void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsSelected action) async {
+    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     IntentLauncherUtil.launchDrivingDirections(
         position.latitude.toString(),
         position.longitude.toString(),

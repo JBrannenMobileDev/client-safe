@@ -5,6 +5,7 @@ import 'package:purchases_flutter/purchases_flutter.dart';
 
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
+import '../../models/Location.dart';
 import '../../models/MileageExpense.dart';
 import '../../models/Profile.dart';
 import '../../models/RecurringExpense.dart';
@@ -118,4 +119,10 @@ class CheckForGoToJobAction {
 class SetGoToAsSeenAction {
   final DashboardPageState pageState;
   SetGoToAsSeenAction(this.pageState);
+}
+
+class LaunchDrivingDirectionsAction {
+  final DashboardPageState pageState;
+  final Location location;
+  LaunchDrivingDirectionsAction(this.pageState, this.location);
 }

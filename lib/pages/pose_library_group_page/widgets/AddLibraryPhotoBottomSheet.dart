@@ -57,9 +57,7 @@ class _BottomSheetPageState extends State<AddLibraryPhotoBottomSheet> with Ticke
     converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
     builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
          Container(
-               height: KeyboardUtil.isVisible(context)
-                   ? 564
-                   : MediaQuery.of(context).size.height - 64,
+               height: MediaQuery.of(context).size.height - 64,
                width: MediaQuery.of(context).size.width,
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),

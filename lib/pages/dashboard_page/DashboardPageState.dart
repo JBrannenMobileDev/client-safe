@@ -11,6 +11,7 @@ import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
+import '../../models/Location.dart';
 import '../../models/Profile.dart';
 import 'JobTypePieChartRowData.dart';
 import 'LeadSourcePieChartRowData.dart';
@@ -54,6 +55,7 @@ class DashboardPageState {
   final Function() onShowcaseSeen;
   final Function() markAllAsSeen;
   final Function() onGoToSeen;
+  final Function(Location) drivingDirectionsSelected;
 
   DashboardPageState({
     this.jobsProfitTotal,
@@ -94,6 +96,7 @@ class DashboardPageState {
     this.goToPosesJob,
     this.goToSeen,
     this.onGoToSeen,
+    this.drivingDirectionsSelected,
   });
 
   DashboardPageState copyWith({
@@ -135,6 +138,7 @@ class DashboardPageState {
     Profile profile,
     purchases.CustomerInfo subscriptionState,
     Function() onGoToSeen,
+    Function(Location) drivingDirectionsSelected,
   }){
     return DashboardPageState(
       jobsProfitTotal: jobsProfitTotal ?? this.jobsProfitTotal,
@@ -175,6 +179,7 @@ class DashboardPageState {
       goToPosesJob: goToPosesJob ?? this.goToPosesJob,
       goToSeen: goToSeen ?? this.goToSeen,
       onGoToSeen: onGoToSeen ?? this.onGoToSeen,
+      drivingDirectionsSelected: drivingDirectionsSelected ?? this.drivingDirectionsSelected,
     );
   }
 
@@ -225,6 +230,7 @@ class DashboardPageState {
       onShowcaseSeen: () => store.dispatch(UpdateProfileWithShowcaseSeen(store.state.dashboardPageState)),
       markAllAsSeen: () => store.dispatch(MarkAllAsSeenAction(store.state.dashboardPageState)),
       onGoToSeen: () => store.dispatch(SetGoToAsSeenAction(store.state.dashboardPageState)),
+      drivingDirectionsSelected: (location) => store.dispatch(LaunchDrivingDirectionsAction(store.state.dashboardPageState, location)),
     );
   }
 
@@ -265,6 +271,7 @@ class DashboardPageState {
     goToPosesJob: null,
     goToSeen: false,
     onGoToSeen: null,
+    drivingDirectionsSelected: null,
   );
 
   @override
@@ -283,6 +290,7 @@ class DashboardPageState {
       allJobs.hashCode ^
       reminders.hashCode ^
       activeJobs.hashCode ^
+      drivingDirectionsSelected.hashCode ^
       onViewAllHideSelected.hashCode ^
       isLeadsMinimized.hashCode ^
       onViewAllHideLeadsSelected.hashCode ^
@@ -345,5 +353,6 @@ class DashboardPageState {
               goToPosesJob == other.goToPosesJob &&
               goToSeen == other.goToSeen &&
               onGoToSeen == other.onGoToSeen &&
+              drivingDirectionsSelected == other.drivingDirectionsSelected &&
               isMinimized == other.isMinimized;
 }
