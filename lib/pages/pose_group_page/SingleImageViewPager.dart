@@ -112,6 +112,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                   image.pose.isLibraryPose() ? GestureDetector(
                     onTap: () {
                       IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                      EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 16),
