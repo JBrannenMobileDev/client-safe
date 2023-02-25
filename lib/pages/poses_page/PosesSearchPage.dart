@@ -123,40 +123,30 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                     ),
                   ),
                 ),
-            SliverList(
-              delegate: new SliverChildListDelegate(
-                <Widget>[
-                  NotificationListener<ScrollNotification>(
-                    onNotification: (scrollNotification) {
-                      KeyboardUtil.closeKeyboard(context);
-                      return true;
-                    },
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                        child: Container(
-                          height: (MediaQuery.of(context).size.height),
-                          child: GridView.builder(
-                              padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
-                              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 200,
-                                  childAspectRatio: 2 / 2.45,
-                                  crossAxisSpacing: 16,
-                                  mainAxisSpacing: 16),
-                              itemCount: pageState.searchResultsImages.length,
-                              controller: _controller,
-                              physics: NeverScrollableScrollPhysics(),
-                              key: _listKey,
-                              shrinkWrap: true,
-                              reverse: false,
-                              itemBuilder: _buildItem),
-                        ),
-                      ),
+                SliverPadding(
+                  padding: EdgeInsets.only(left: 16, top: 16, right: 16),
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 2 / 2.45,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16),
+                    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                        return NotificationListener<ScrollNotification>(
+                          onNotification: (scrollNotification) {
+                            KeyboardUtil.closeKeyboard(context);
+                            return true;
+                          },
+                          child: Container(
+                            height: (MediaQuery.of(context).size.height),
+                            child: _buildItem(context, index),
+                          ),
+                        );
+                      },
+                      childCount: pageState.searchResultsImages.length, // 1000 list items
                     ),
                   ),
-                ],
-              ),
-            ),
+                ),
               ],
             ),
           ),
