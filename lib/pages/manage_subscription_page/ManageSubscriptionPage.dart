@@ -16,6 +16,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../utils/AdminCheckUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ManageSubscriptionPageActions.dart';
 
@@ -91,7 +92,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           ManageSubscriptionPageState.fromStore(store),
       builder: (BuildContext context, ManageSubscriptionPageState pageState) =>
     WillPopScope(
-    onWillPop: () async => pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED ? true : false,
+      onWillPop: () async => (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile)) ? true : false,
     child: Scaffold(
             extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
@@ -639,7 +640,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                 ),
               ],
             ),
-            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED) ?
+            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile)) ?
             Positioned(
               top: 0.0,
               left: 0.0,
