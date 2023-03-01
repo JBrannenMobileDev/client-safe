@@ -17,6 +17,7 @@ import 'package:dandylight/pages/dashboard_page/widgets/MonthlyProfitLineChart.d
 import 'package:dandylight/pages/dashboard_page/widgets/StartAJobButton.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPage.dart';
+import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/ImageUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
@@ -266,7 +267,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               }
             } else {
               // bool freeTrialExpired = current.profile.isFreeTrialExpired();
-              // if(freeTrialExpired && !hasNavigatedToSubscriptionPage) {
+              // if(freeTrialExpired && !hasNavigatedToSubscriptionPage && !AdminCheckUtil.isAdmin(current.profile)) {
               //   hasNavigatedToSubscriptionPage = true;
               //   NavigationUtil.onManageSubscriptionSelected(context, current.profile);
               // } else {
