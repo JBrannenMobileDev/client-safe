@@ -1,4 +1,5 @@
 
+import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -53,7 +54,9 @@ class NewPoseGroupPageState{
       id: store.state.newPoseGroupPageState.id,
       documentId: store.state.newPoseGroupPageState.documentId,
       groupName: store.state.newPoseGroupPageState.groupName,
-      onSaveSelected: () => store.dispatch(SaveAction(store.state.newPoseGroupPageState)),
+      onSaveSelected: () {
+        store.dispatch(SaveAction(store.state.newPoseGroupPageState));
+      },
       onNameChanged: (name) => store.dispatch(UpdateName(store.state.newPoseGroupPageState, name)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newPoseGroupPageState))
     );

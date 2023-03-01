@@ -92,6 +92,7 @@ class FileStorage {
 
   static Future<File> getPoseLibraryImageFile(Pose pose, PoseLibraryGroup group) async {
     String imageUrl = pose.imageUrl;
+
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
@@ -103,7 +104,6 @@ class FileStorage {
 
   static _updatePoseLibraryImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
-    await PoseDao.update(poseToUpdate);
     if(group != null) {
       for(Pose pose in group.poses) {
         if(pose.documentId == poseToUpdate.documentId) {
@@ -117,7 +117,7 @@ class FileStorage {
   static _updatePoseImageUrl(Pose poseToUpdate, String imageUrl, PoseGroup group, Job job) async {
     //update Pose
     poseToUpdate.imageUrl = imageUrl;
-    await PoseDao.update(poseToUpdate);
+    await PoseDao.insertOrUpdate(poseToUpdate);
 
     //Update PoseGroup that includes this pose
     if(group != null) {
@@ -139,7 +139,6 @@ class FileStorage {
 
   static _updateLibraryPoseImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
-    await PoseDao.update(poseToUpdate);
     for(Pose pose in group.poses) {
       if(pose.documentId == poseToUpdate.documentId) {
         pose.imageUrl = imageUrl;

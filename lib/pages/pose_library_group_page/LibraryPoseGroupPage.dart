@@ -10,13 +10,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Job.dart';
 import '../../models/PoseLibraryGroup.dart';
+import '../../utils/DandyToastUtil.dart';
+import '../../utils/VibrateUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../poses_page/GoToJobPosesBottomSheet.dart';
 import 'LibraryPoseGroupActions.dart';
 import 'LibrarySingleImageViewPager.dart';
 
@@ -41,20 +47,26 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
 
   _LibraryPoseGroupPageState(this.poseGroup, this.job);
 
-  Widget _buildItem(BuildContext context, int index) {
+  Widget _buildItem(BuildContext context, int index, ) {
     return StoreConnector<AppState, LibraryPoseGroupPageState>(
       converter: (store) => LibraryPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           GestureDetector(
             onTap: () {
-              Navigator.of(context).push(
-                new MaterialPageRoute(builder: (context) => LibrarySingleImageViewPager(
-                  pageState.poseImages,
-                  index,
-                  pageState.poseGroup.groupName,
-                  job
-                )),
-              );
+              if(job == null) {
+                Navigator.of(context).push(
+                  new MaterialPageRoute(builder: (context) => LibrarySingleImageViewPager(
+                      pageState.poseImages,
+                      index,
+                      pageState.poseGroup.groupName
+                  )),
+                );
+              } else {
+                pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
+                VibrateUtil.vibrateMedium();
+                DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
+                EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE_TO_JOB_FROM_JOB);
+              }
             },
             child: LibraryPoseListWidget(index, job),
           ),
@@ -79,7 +91,10 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LibraryPoseGroupPageState>(
       onInit: (store) async {
-        store.dispatch(LoadLibraryPoseImagesFromStorage(store.state.libraryPoseGroupPageState, poseGroup));
+        store.dispatch(ClearLibraryGroupImagesAction(store.state.libraryPoseGroupPageState));
+        store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
+        store.dispatch(LoadMoreImagesAction(store.state.libraryPoseGroupPageState, poseGroup));
+        store.dispatch(LoadLibraryPoseGroup(store.state.libraryPoseGroupPageState, poseGroup));
       },
       converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
@@ -89,6 +104,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
           return Future.value(true);
         },
         child: Scaffold(
+          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, 3) : SizedBox(),
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
             children: [
@@ -101,6 +117,11 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                     ),
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     centerTitle: true,
+                    elevation: 4.0,
+                    pinned: true,
+                    snap: false,
+                    floating: true,
+                    forceElevated: false,
                     title: Container(
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
@@ -125,119 +146,31 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                       ) : SizedBox(),
                     ],
                   ),
-                  SliverList(
-                    delegate: new SliverChildListDelegate(
-                      <Widget>[
-                        pageState.poseImages.length > 0
-                            ? Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Container(
-                            height: (MediaQuery.of(context).size.height),
-                            child: GridView.builder(
-                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
-                                gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200,
-                                    childAspectRatio: 2 / 2.45,
-                                    crossAxisSpacing: 16,
-                                    mainAxisSpacing: 16),
-                                itemCount: pageState.poseImages.length,
-                                controller: _controller,
-                                physics: NeverScrollableScrollPhysics(),
-                                key: _listKey,
-                                shrinkWrap: true,
-                                reverse: false,
-                                itemBuilder: _buildItem),
-                          ),
-                        )
-                            : poseGroup.poses.length == 0 && !pageState.isLoadingNewImages && pageState.isAdmin ? Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(
-                                  left: 48.0,
-                                  top: 48.0,
-                                  right: 48.0,
-                                  bottom: 32.0),
-                              child: TextDandyLight(
-                                type: TextDandyLight.MEDIUM_TEXT,
-                                text: "You do not have any poses in this collection yet. Select the + button to add a pose.",
-                                // \n\nYou can also share your saved locations with a client to help them decide what location they want.
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPeachDark()),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _showAddImageBottomSheet(context);
-                              },
-                              child: Container(
-                                height: 64.0,
-                                width: 64.0,
-                                child: Image.asset(
-                                  'assets/images/icons/add_photo.png',
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(
-                                top: 32.0,
-                              ),
-                              child: TextButton(
-                                style: Styles.getButtonStyle(
-                                  color: Color(ColorConstants.getPeachDark()),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius:
-                                    new BorderRadius.circular(32.0),
-                                  ),
-                                ),
-                                onPressed: () {
-                                  _showAddImageBottomSheet(context);
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 8.0,
-                                      right: 8.0,
-                                      top: 8.0,
-                                      bottom: 8.0),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.LARGE_TEXT,
-                                    text: "Select Images",
-                                    textAlign: TextAlign.center,
-                                    color: Color(
-                                        ColorConstants.getPrimaryWhite()),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ) : !pageState.isLoadingNewImages ? Container(
-                              margin: EdgeInsets.only(top: 250.0),
-                              child: LoadingAnimationWidget.fourRotatingDots(
-                                color: Color(ColorConstants.getPeachLight()),
-                                size: 48,
-                              ),
-                        ) : SizedBox(),
-                      ],
+                  SliverPadding(
+                    padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),
+                    sliver: SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          childAspectRatio: 2 / 2.45,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16),
+                      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                        if(index >= pageState.poseImages.length - 1) {
+                          if(!pageState.isLoadingNewImages) {
+                            pageState.loadMoreImages();
+                          }
+                        }
+                        return Container(
+                          height: (MediaQuery.of(context).size.height),
+                          child: _buildItem(context, index),
+                        );
+                      },
+                        childCount: pageState.poseImages == null ? 0 : pageState.poseImages.length, // 1000 list items
+                      ),
                     ),
                   ),
                 ],
               ),
-              pageState.isLoadingNewImages ? Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: 64.0,
-                  width: 64.0,
-                  decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPeachLight()),
-                    borderRadius: new BorderRadius.circular(16.0),
-                  ),
-                  child: LoadingAnimationWidget.fourRotatingDots(
-                    color: Color(ColorConstants.getPrimaryWhite()),
-                    size: 32,
-                  ),
-                ),
-              ) : SizedBox(),
             ],
           ),
         ),

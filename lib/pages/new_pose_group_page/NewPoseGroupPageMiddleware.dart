@@ -6,6 +6,7 @@ import 'package:redux/redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../pose_library_group_page/LibraryPoseGroupActions.dart';
 import '../poses_page/PosesActions.dart';
 import 'NewPoseGroupActions.dart';
 
@@ -29,5 +30,7 @@ class NewPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     EventSender().sendEvent(eventName: EventNames.CREATED_POSE_GROUP, properties: {EventNames.POSE_GROUP_PARAM_NAME : poseGroup.groupName,});
 
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
+    store.dispatch(FetchMyPoseGroupsAction(store.state.posesPageState));
+    store.dispatch(FetchMyPoseGroupsForLibraryAction(store.state.libraryPoseGroupPageState));
   }
 }

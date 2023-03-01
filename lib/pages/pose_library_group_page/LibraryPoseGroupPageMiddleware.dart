@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:synchronized/synchronized.dart';
 
 import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/local_db/daos/PoseGroupDao.dart';
@@ -28,14 +29,20 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveLibraryPosesToGroupAction){
       _createAndSavePoses(store, action);
     }
-    if(action is LoadLibraryPoseImagesFromStorage) {
+    if(action is LoadLibraryPoseGroup) {
       _loadPoseImages(store, action);
+    }
+    if(action is LoadMoreImagesAction) {
+      _loadMoreImages(store, action, next);
     }
     if(action is SaveSelectedPoseToMyPosesAction) {
       _saveSelectedPoseToMyPoseGroup(store, action);
     }
     if(action is SaveSelectedImageToJobAction) {
       _saveSelectedPoseToJob(store, action);
+    }
+    if(action is FetchMyPoseGroupsForLibraryAction) {
+      _fetchMyPoseGroups(store);
     }
   }
 
@@ -92,23 +99,32 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetInstagramAction(store.state.libraryPoseGroupPageState, action.name, action.url));
   }
 
-  void _loadPoseImages(Store<AppState> store, LoadLibraryPoseImagesFromStorage action) async{
-    store.dispatch(SetIsAdminLibraryAction(store.state.libraryPoseGroupPageState, AdminCheckUtil.isAdmin(store.state.dashboardPageState.profile)));
-    store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, await _getGroupImages(action.poseGroup)));
-    store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, action.poseGroup));
-    store.dispatch(SetActiveJobs(store.state.libraryPoseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
-    _fetchMyPoseGroups(store);
+  void _loadMoreImages(Store<AppState> store, LoadMoreImagesAction action, NextDispatcher next) async{
+    var lock = Lock();
+    lock.synchronized(() async {
+      List<GroupImage> poseImages = action.pageState.poseImages;
+      List<Pose> sortedPoses = _sortPoses(action.poseGroup.poses);
+      final int PAGE_SIZE = 1;
+
+      int posesSize = poseImages.length;
+
+      for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
+        if(sortedPoses.length > startIndex) {
+          Pose pose = sortedPoses.elementAt(startIndex);
+          poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
+          store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, poseImages));
+          print('Loaded group pose');
+        }
+      }
+      store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, false));
+    });
   }
 
-  Future<List<GroupImage>> _getGroupImages(PoseLibraryGroup poseGroup) async {
-    List<GroupImage> poseImages = [];
-    List<Pose> sortedPoses = poseGroup.poses;
-    sortedPoses.sort();
-
+  List<Pose> _sortPoses(List<Pose> poses) {
     List<Pose> newPoses = [];
     List<Pose> oldPoses = [];
 
-    for(Pose pose in sortedPoses) {
+    for(Pose pose in poses) {
       if(pose.isNewPose()){
         newPoses.add(pose);
       } else {
@@ -116,12 +132,14 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
-    sortedPoses = newPoses + oldPoses;
+    return newPoses + oldPoses;
+  }
 
-    for(Pose pose in sortedPoses) {
-      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, poseGroup)).path), pose: pose));
-    }
-    return poseImages;
+  void _loadPoseImages(Store<AppState> store, LoadLibraryPoseGroup action) async{
+    store.dispatch(SetIsAdminLibraryAction(store.state.libraryPoseGroupPageState, AdminCheckUtil.isAdmin(store.state.dashboardPageState.profile)));
+    store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, action.poseGroup));
+    store.dispatch(SetActiveJobs(store.state.libraryPoseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
+    _fetchMyPoseGroups(store);
   }
 
   pathsDoNotMatch(String path, List<XFile> selectedImages) {

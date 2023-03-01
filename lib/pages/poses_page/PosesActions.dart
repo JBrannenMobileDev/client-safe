@@ -58,6 +58,11 @@ class SaveImageToJobAction {
   SaveImageToJobAction(this.pageState, this.selectedPose, this.selectedJob);
 }
 
+class FetchMyPoseGroupsAction {
+  final PosesPageState pageState;
+  FetchMyPoseGroupsAction(this.pageState);
+}
+
 class SetActiveJobsToPosesPage {
   final PosesPageState pageState;
   final List<Job> activeJobs;
@@ -67,7 +72,24 @@ class SetActiveJobsToPosesPage {
 class SetAllPosesAction {
   final PosesPageState pageState;
   final List<Pose> allPoses;
-  final List<File> allImages;
+  final List<GroupImage> allImages;
   SetAllPosesAction(this.pageState, this.allPoses, this.allImages);
+}
+
+class SetSearchResultPosesAction {
+  final PosesPageState pageState;
+  final List<GroupImage> searchResultImages;
+  SetSearchResultPosesAction(this.pageState, this.searchResultImages);
+}
+
+class SetLoadingNewSearchResultImagesState {
+  final PosesPageState pageState;
+  final bool isLoadingSearchImages;
+  SetLoadingNewSearchResultImagesState(this.pageState, this.isLoadingSearchImages);
+}
+
+class LoadMorePoseImagesAction {
+  final PosesPageState pageState;
+  LoadMorePoseImagesAction(this.pageState);
 }
 

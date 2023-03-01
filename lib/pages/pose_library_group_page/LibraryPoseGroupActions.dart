@@ -30,10 +30,10 @@ class SetLibraryPoseGroupData{
   SetLibraryPoseGroupData(this.pageState, this.poseGroup);
 }
 
-class LoadLibraryPoseImagesFromStorage{
+class LoadLibraryPoseGroup{
   final LibraryPoseGroupPageState pageState;
   final PoseLibraryGroup poseGroup;
-  LoadLibraryPoseImagesFromStorage(this.pageState, this.poseGroup);
+  LoadLibraryPoseGroup(this.pageState, this.poseGroup);
 }
 
 class SetLibraryPoseImagesToState{
@@ -72,6 +72,22 @@ class SetLoadingNewLibraryImagesState{
   final LibraryPoseGroupPageState pageState;
   final bool isLoading;
   SetLoadingNewLibraryImagesState(this.pageState, this.isLoading);
+}
+
+class ClearLibraryGroupImagesAction {
+  final LibraryPoseGroupPageState pageState;
+  ClearLibraryGroupImagesAction(this.pageState);
+}
+
+class LoadMoreImagesAction {
+  final LibraryPoseGroupPageState pageState;
+  final PoseLibraryGroup poseGroup;
+  LoadMoreImagesAction(this.pageState, this.poseGroup);
+}
+
+class FetchMyPoseGroupsForLibraryAction {
+  final LibraryPoseGroupPageState pageState;
+  FetchMyPoseGroupsForLibraryAction(this.pageState);
 }
 
 class SetIsAdminLibraryAction {

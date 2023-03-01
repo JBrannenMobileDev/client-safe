@@ -27,6 +27,7 @@ class LibraryPoseGroupPageState{
   final bool isAdmin;
   final String instagramName;
   final String instagramUrl;
+  final Function() loadMoreImages;
 
 
   LibraryPoseGroupPageState({
@@ -43,6 +44,7 @@ class LibraryPoseGroupPageState{
     @required this.myPoseGroupImages,
     @required this.instagramUrl,
     @required this.instagramName,
+    @required this.loadMoreImages,
   });
 
   LibraryPoseGroupPageState copyWith({
@@ -59,6 +61,7 @@ class LibraryPoseGroupPageState{
     List<File> myPoseGroupImages,
     String instagramName,
     String instagramUrl,
+    Function() loadMoreImages,
   }){
     return LibraryPoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -74,6 +77,7 @@ class LibraryPoseGroupPageState{
       myPoseGroupImages: myPoseGroupImages ?? this.myPoseGroupImages,
       instagramName: instagramName ?? this.instagramName,
       instagramUrl: instagramUrl ?? this.instagramUrl,
+      loadMoreImages: loadMoreImages ?? this.loadMoreImages,
     );
   }
 
@@ -82,7 +86,7 @@ class LibraryPoseGroupPageState{
     onNewPoseImagesSelected: null,
     onBackSelected: null,
     poseImages: [],
-    isLoadingNewImages: false,
+    isLoadingNewImages: true,
     onImageSaveSelected: null,
     onImageAddedToJobSelected: null,
     isAdmin: false,
@@ -91,6 +95,7 @@ class LibraryPoseGroupPageState{
     myPoseGroupImages: [],
     instagramUrl: '',
     instagramName: '',
+    loadMoreImages: null,
   );
 
   factory LibraryPoseGroupPageState.fromStore(Store<AppState> store) {
@@ -105,7 +110,6 @@ class LibraryPoseGroupPageState{
       instagramName: store.state.libraryPoseGroupPageState.instagramName,
       instagramUrl: store.state.libraryPoseGroupPageState.instagramUrl,
       onNewPoseImagesSelected: (poseImages, name, url, tags) => {
-        store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true)),
         store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url, tags)),
       },
       onBackSelected: () {
@@ -113,6 +117,10 @@ class LibraryPoseGroupPageState{
       },
       onImageSaveSelected: (groupImage, poseGroup) => store.dispatch(SaveSelectedPoseToMyPosesAction(store.state.libraryPoseGroupPageState, groupImage, poseGroup)),
       onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveSelectedImageToJobAction(store.state.libraryPoseGroupPageState, pose, job)),
+      loadMoreImages: () {
+        store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
+        store.dispatch(LoadMoreImagesAction(store.state.libraryPoseGroupPageState, store.state.libraryPoseGroupPageState.poseGroup));
+      }
     );
   }
 
@@ -125,6 +133,7 @@ class LibraryPoseGroupPageState{
       onImageSaveSelected.hashCode ^
       onImageAddedToJobSelected.hashCode ^
       isAdmin.hashCode ^
+      loadMoreImages.hashCode ^
       activeJobs.hashCode ^
       myPoseGroups.hashCode ^
       myPoseGroupImages.hashCode ^
@@ -143,6 +152,7 @@ class LibraryPoseGroupPageState{
               onImageSaveSelected == other.onImageSaveSelected &&
               onImageAddedToJobSelected == other.onImageAddedToJobSelected &&
               isAdmin == other.isAdmin &&
+              loadMoreImages == other.loadMoreImages &&
               activeJobs == other.activeJobs &&
               myPoseGroups == other.myPoseGroups &&
               myPoseGroupImages == other.myPoseGroupImages &&

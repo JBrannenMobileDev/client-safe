@@ -138,7 +138,6 @@ class _NewPoseGroupPageState extends State<NewPoseGroupPage> {
 
     showSuccessAnimation();
     pageState.onSaveSelected();
-
   }
 
   void showSuccessAnimation(){

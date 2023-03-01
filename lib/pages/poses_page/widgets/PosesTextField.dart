@@ -42,9 +42,8 @@ class PosesTextField extends StatelessWidget {
     return StoreConnector<AppState, PosesPageState>(
       converter: (store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) => Container(
-          margin: EdgeInsets.only(top: 8.0, bottom: 0.0),
+          margin: EdgeInsets.only(top: 0.0, bottom: 8.0),
           height: height,
-          color: Colors.transparent,
           child: TextFormField(
             focusNode: focusNode,
             textInputAction: keyboardAction,
@@ -63,6 +62,7 @@ class PosesTextField extends StatelessWidget {
                 onPressed: () {
                   if(controller.text.length > 0) {
                     controller.text = '';
+                    onTextInputChanged('');
                   }
                 },
               ),

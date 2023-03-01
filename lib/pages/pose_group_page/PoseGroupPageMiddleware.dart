@@ -128,12 +128,12 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadPoseImages(Store<AppState> store, LoadPoseImagesFromStorage action) async{
-    store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, await _getGroupImages(action.poseGroup)));
     store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, action.poseGroup));
+    await _getGroupImages(store, action.poseGroup);
     store.dispatch(SetActiveJobsToPoses(store.state.poseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
   }
 
-  Future<List<GroupImage>> _getGroupImages(PoseGroup poseGroup) async {
+  void _getGroupImages(Store<AppState> store, PoseGroup poseGroup) async {
     List<GroupImage> poseImages = [];
     for(Pose pose in poseGroup.poses) {
       if(pose.isLibraryPose()) {
@@ -141,8 +141,8 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       } else {
         poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, false, null)).path), pose: pose));
       }
+      store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, poseImages));
     }
-    return poseImages;
   }
 
   void _sharePoseImages(Store<AppState> store, SharePosesAction action) async {

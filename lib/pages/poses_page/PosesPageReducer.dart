@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:dandylight/models/Pose.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
-import 'package:flutter/material.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -16,17 +15,31 @@ final posesReducer = combineReducers<PosesPageState>([
   TypedReducer<PosesPageState, UpdateSearchInputAction>(_setSearchInput),
   TypedReducer<PosesPageState, SetActiveJobsToPosesPage>(_setActiveJobs),
   TypedReducer<PosesPageState, SetAllPosesAction>(_setAllPoses),
+  TypedReducer<PosesPageState, SetSearchResultPosesAction>(_setSearchResultPoses),
   TypedReducer<PosesPageState, ClearPoseSearchPageAction>(_clearState),
+  TypedReducer<PosesPageState, SetLoadingNewSearchResultImagesState>(_setLoadingState),
 ]);
+
+PosesPageState _setLoadingState(PosesPageState previousState, SetLoadingNewSearchResultImagesState action){
+  return previousState.copyWith(
+    isLoadingSearchImages: action.isLoadingSearchImages,
+  );
+}
 
 PosesPageState _clearState(PosesPageState previousState, ClearPoseSearchPageAction action){
   return PosesPageState.initial();
 }
 
+PosesPageState _setSearchResultPoses(PosesPageState previousState, SetSearchResultPosesAction action){
+  return previousState.copyWith(
+    searchResultsImages: action.searchResultImages,
+  );
+}
+
 PosesPageState _setAllPoses(PosesPageState previousState, SetAllPosesAction action){
   return previousState.copyWith(
     allLibraryPoses: action.allPoses,
-    allLibraryPoseImages: action.allImages,
+    searchResultsImages: action.allImages,
   );
 }
 
@@ -38,22 +51,36 @@ PosesPageState _setActiveJobs(PosesPageState previousState, SetActiveJobsToPoses
 
 PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAction action){
   List<String> searchWords = action.searchInput.split(' ').map((word) => word.toLowerCase()).toList();
-  List<GroupImage> searchResultsImages = [];
+  List<Pose> searchResultsPoses = [];
   List<Pose> allPoses = action.pageState.allLibraryPoses;
-  List<File> allImages = action.pageState.allLibraryPoseImages;
   List<Pose> poseDuplicateReference = [];
 
   for(String word in searchWords) {
-    if(word.isNotEmpty) {
+    if(word.length > 2) {
       for(int index = 0; index < allPoses.length; index++) {
+        //compare by tags
         for(String tag in allPoses.elementAt(index).tags) {
           if(tag.toLowerCase().contains(word)) {
             if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
-              if(allImages != null && allImages.elementAt(index) != null) {
-                searchResultsImages.add(GroupImage(file: XFile(allImages.elementAt(index).path), pose: allPoses.elementAt(index)));
-                poseDuplicateReference.add(allPoses.elementAt(index));
-              }
+              searchResultsPoses.add(allPoses.elementAt(index));
+              poseDuplicateReference.add(allPoses.elementAt(index));
             }
+          }
+        }
+
+        //Compare by Instagram Name
+        if(allPoses.elementAt(index).instagramName.toLowerCase().contains(word)) {
+          if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
+            searchResultsPoses.add(allPoses.elementAt(index));
+            poseDuplicateReference.add(allPoses.elementAt(index));
+          }
+        }
+
+        //Compare by Instagram Url
+        if(allPoses.elementAt(index).instagramUrl.toLowerCase().contains(word)) {
+          if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
+            searchResultsPoses.add(allPoses.elementAt(index));
+            poseDuplicateReference.add(allPoses.elementAt(index));
           }
         }
       }
@@ -62,7 +89,8 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
 
   return previousState.copyWith(
     searchInput: action.searchInput,
-    searchResultsImages: action.searchInput.isNotEmpty ? searchResultsImages : [],
+    searchResultPoses: action.searchInput.isNotEmpty ? searchResultsPoses : [],
+    searchResultsImages: [],
   );
 }
 

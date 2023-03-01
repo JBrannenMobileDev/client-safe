@@ -102,16 +102,9 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                   ),
                 ),
               ) : SizedBox(),
-              GestureDetector(
+              job == null ? GestureDetector(
                 onTap: () {
-                  if(job == null) {
-                    _showSaveToJobBottomSheet(context, index);
-                  } else {
-                    pageState.onImageAddedToJobSelected(pageState.searchResultsImages.elementAt(index).pose, job);
-                    VibrateUtil.vibrateMedium();
-                    DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
-                    EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE_TO_JOB_FROM_JOB);
-                  }
+                  _showSaveToJobBottomSheet(context, index);
                 },
                 child: Align(
                     alignment: Alignment.topLeft,
@@ -127,8 +120,8 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                         )
                     ),
                   ),
-              ),
-              GestureDetector(
+              ) : SizedBox(),
+              job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToMyPosesBottomSheet(context, index);
                 },
@@ -146,7 +139,7 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                         )
                     ),
                   ),
-              ),
+              ) : SizedBox(),
             ],
           ),
     );

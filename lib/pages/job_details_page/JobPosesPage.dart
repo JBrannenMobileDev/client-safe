@@ -25,6 +25,26 @@ class JobPosesPage extends StatelessWidget{
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final ScrollController _controller = ScrollController();
 
+  Widget _buildItem(BuildContext context, int index) {
+    return StoreConnector<AppState, JobDetailsPageState>(
+      converter: (store) => JobDetailsPageState.fromStore(store),
+      builder: (BuildContext context, JobDetailsPageState pageState) =>
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).push(
+                new MaterialPageRoute(builder: (context) => JobDetailsSingleImageViewPager(
+                  pageState.poseImages,
+                  index,
+                  pageState.onDeletePoseSelected,
+                  'Job Poses',
+                )),
+              );
+            },
+            child: JobPoseListWidget(index),
+          ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, JobDetailsPageState>(
       converter: (Store<AppState> store) => JobDetailsPageState.fromStore(store),
@@ -40,8 +60,9 @@ class JobPosesPage extends StatelessWidget{
                       color: Color(ColorConstants.getPeachDark()), //change your color here
                     ),
                     backgroundColor: Colors.white,
-                    pinned: true,
-                    floating: false,
+                    elevation: 4.0,
+                    snap: true,
+                    floating: true,
                     forceElevated: false,
                     centerTitle: true,
                     title: TextDandyLight(
@@ -64,46 +85,22 @@ class JobPosesPage extends StatelessWidget{
                         ),
                     ],
                   ),
-                  SliverList(
-                    delegate: new SliverChildListDelegate(
-                      <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Container(
-                            height: (MediaQuery.of(context).size.height),
-                            child: GridView.builder(
-                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
-                                gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200,
-                                    childAspectRatio: 2 / 2.45,
-                                    crossAxisSpacing: 16,
-                                    mainAxisSpacing: 16),
-                                itemCount: pageState.poseImages.length,
-                                controller: _controller,
-                                physics: NeverScrollableScrollPhysics(),
-                                key: _listKey,
-                                shrinkWrap: true,
-                                reverse: false,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      new MaterialPageRoute(builder: (context) => JobDetailsSingleImageViewPager(
-                                          pageState.poseImages,
-                                          index,
-                                          pageState.onDeletePoseSelected,
-                                          'Job Poses',
-                                      )),
-                                    );
-                                  },
-                                  child: JobPoseListWidget(index),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ],
+                  SliverPadding(
+                    padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 128),
+                    sliver: SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          childAspectRatio: 2 / 2.45,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16),
+                      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                        return Container(
+                          height: (MediaQuery.of(context).size.height),
+                          child: _buildItem(context, index),
+                        );
+                      },
+                        childCount: pageState.poseImages.length, // 1000 list items
+                      ),
                     ),
                   ),
                 ],

@@ -1,7 +1,7 @@
-import 'dart:async';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/poses_page/MyPosesPage.dart';
+import 'package:dandylight/pages/poses_page/GoToJobPosesBottomSheet.dart';
+import 'package:dandylight/pages/poses_page/widgets/PoseGroupListWidget.dart';
+import 'package:dandylight/pages/poses_page/widgets/PoseLibraryGroupListWidget.dart';
 
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
@@ -16,7 +16,6 @@ import '../../models/Job.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'PoseLibraryPage.dart';
 import 'PosesActions.dart';
 import 'PosesPageState.dart';
 
@@ -34,6 +33,8 @@ class PosesPage extends StatefulWidget {
 }
 
 class _PosesPageState extends State<PosesPage> {
+  final ScrollController _controller = ScrollController();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   int selectedIndex = 0;
   Map<int, Widget> tabs;
   Job job;
@@ -46,12 +47,16 @@ class _PosesPageState extends State<PosesPage> {
       0: TextDandyLight(
         type: TextDandyLight.MEDIUM_TEXT,
         text: PosesPage.FILTER_TYPE_MY_POSES,
-        color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+        color: Color(selectedIndex == 0
+            ? ColorConstants.getPrimaryBlack()
+            : ColorConstants.getPeachDark()),
       ),
       1: TextDandyLight(
         type: TextDandyLight.MEDIUM_TEXT,
         text: PosesPage.FILTER_TYPE_POSE_LIBRARY,
-        color: Color(selectedIndex == 1 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
+        color: Color(selectedIndex == 1
+            ? ColorConstants.getPrimaryBlack()
+            : ColorConstants.getPeachDark()),
       ),
     };
     return StoreConnector<AppState, PosesPageState>(
@@ -61,6 +66,9 @@ class _PosesPageState extends State<PosesPage> {
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
+            bottomSheet: job != null
+                ? GoToJobPosesBottomSheet(job, 2)
+                : SizedBox(),
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             body: CustomScrollView(
               slivers: <Widget>[
@@ -73,12 +81,12 @@ class _PosesPageState extends State<PosesPage> {
                   backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                   centerTitle: true,
                   title: TextDandyLight(
-                      type: TextDandyLight.LARGE_TEXT,
-                      text: "Poses",
-                      color: Color(ColorConstants.getPeachDark()),
+                    type: TextDandyLight.LARGE_TEXT,
+                    text: job != null ? 'Select Poses' : "Poses",
+                    color: Color(ColorConstants.getPeachDark()),
                   ),
                   actions: <Widget>[
-                    selectedIndex == 0 ? GestureDetector(
+                    selectedIndex == 0 && job == null ? GestureDetector(
                       onTap: () {
                         UserOptionsUtil.showNewPoseGroupDialog(context);
                       },
@@ -90,10 +98,11 @@ class _PosesPageState extends State<PosesPage> {
                           color: Color(ColorConstants.getPeachDark()),),
                       ),
                     ) : SizedBox(),
-                    selectedIndex == 1 ? GestureDetector(
+                    GestureDetector(
                       onTap: () {
                         NavigationUtil.onSearchPosesSelected(context, job);
-                        EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
+                        EventSender().sendEvent(
+                            eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 26.0),
@@ -102,7 +111,7 @@ class _PosesPageState extends State<PosesPage> {
                         child: Image.asset('assets/images/icons/search.png',
                           color: Color(ColorConstants.getPeachDark()),),
                       ),
-                    ) : SizedBox(),
+                    ),
                   ],
                   elevation: 0.0,
                   pinned: false,
@@ -126,8 +135,12 @@ class _PosesPageState extends State<PosesPage> {
                                   setState(() {
                                     selectedIndex = filterTypeIndex;
                                   });
-                                  if (filterTypeIndex == 0) EventSender().sendEvent(eventName: EventNames.NAV_TO_MY_POSES);
-                                  if (filterTypeIndex == 1) EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY);
+                                  if (filterTypeIndex == 0) EventSender()
+                                      .sendEvent(
+                                      eventName: EventNames.NAV_TO_MY_POSES);
+                                  if (filterTypeIndex == 1) EventSender()
+                                      .sendEvent(eventName: EventNames
+                                      .NAV_TO_POSE_LIBRARY);
                                 },
                                 groupValue: selectedIndex,
                               ),
@@ -140,10 +153,25 @@ class _PosesPageState extends State<PosesPage> {
                   ),
                 ),
                 SliverList(
+                  delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                    return selectedIndex == 0 ? PoseGroupListWidget(index, job) : PoseLibraryGroupListWidget(index, job);
+                  },
+                    childCount: selectedIndex == 0 ? pageState.poseGroups.length : pageState.libraryGroups.length, // 1000 list items
+                  ),
+                ),
+                SliverList(
                   delegate: new SliverChildListDelegate(
                     <Widget>[
-                      selectedIndex == 0 ? MyPosesPage(job) :
-                      PoseLibraryPage(job),
+                      selectedIndex == 0 && pageState.groupImages.length == 0 ? Padding(
+                        padding: EdgeInsets.only(
+                            left: 32.0, top: 48.0, right: 32.0),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Save your poses here. \nSelect the plus icon to create a new collection.",
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPeachDark()),
+                        ),
+                      ) : SizedBox(),
                     ],
                   ),
                 ),
@@ -151,6 +179,5 @@ class _PosesPageState extends State<PosesPage> {
             ),
           ),
     );
-
-    }
+  }
   }

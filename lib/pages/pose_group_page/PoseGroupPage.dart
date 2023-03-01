@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -20,7 +21,12 @@ import 'package:redux/redux.dart';
 
 import '../../models/Job.dart';
 import '../../models/PoseGroup.dart';
+import '../../utils/DandyToastUtil.dart';
+import '../../utils/VibrateUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import '../poses_page/GoToJobPosesBottomSheet.dart';
 import 'PoseGroupActions.dart';
 
 class PoseGroupPage extends StatefulWidget {
@@ -38,8 +44,6 @@ class PoseGroupPage extends StatefulWidget {
 class _PoseGroupPageState extends State<PoseGroupPage>
     with TickerProviderStateMixin {
   final PoseGroup poseGroup;
-  final ScrollController _controller = ScrollController();
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final Job job;
 
   _PoseGroupPageState(this.poseGroup, this.job);
@@ -61,18 +65,19 @@ class _PoseGroupPageState extends State<PoseGroupPage>
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           GestureDetector(
             onTap: () {
-              if(isBottomSheetVisible){
-                pageState.onImageChecked(pageState.poseImages.elementAt(index));
-              } else {
-                Navigator.of(context).push(
-                  new MaterialPageRoute(builder: (context) => SingleImageViewPager(
-                      pageState.poseImages,
-                      index,
-                      pageState.onDeletePoseSelected,
-                      pageState.poseGroup.groupName,
-                      job
-                  )),
+              if(job == null) {
+                Navigator.of(context).push(new MaterialPageRoute(builder: (context) => SingleImageViewPager(
+                    pageState.poseImages,
+                    index,
+                    pageState.onDeletePoseSelected,
+                    pageState.poseGroup.groupName,
+                )),
                 );
+              } else {
+                pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
+                VibrateUtil.vibrateMedium();
+                DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
+                EventSender().sendEvent(eventName: EventNames.BT_SAVE_MY_POSE_TO_JOB_FROM_JOB);
               }
             },
             child: PoseListWidget(index, job),
@@ -129,67 +134,6 @@ class _PoseGroupPageState extends State<PoseGroupPage>
     );
   }
 
-  Future<void> _ackAlertDeletePoses(BuildContext context, PoseGroupPageState pageState) {
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Device.get().isIos
-            ? CupertinoAlertDialog(
-          title: new Text('Are you sure?'),
-          content:
-          new Text('These poses will be deleted forever!'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () {
-                _controllerSlideUp.reverse();
-                pageState.onDeletePosesSelected();
-                pageState.onSelectAllSelected(false);
-                setState(() {
-                  isBottomSheetVisible = false;
-                  selectAllChecked = false;
-                });
-                Navigator.of(context).pop(true);
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        )
-            : AlertDialog(
-          title: new Text('Are you sure?'),
-          content:
-          new Text('These poses will be deleted forever!'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () {
-                _controllerSlideUp.reverse();
-                pageState.onDeletePosesSelected();
-                pageState.onSelectAllSelected(false);
-                setState(() {
-                  isBottomSheetVisible = false;
-                  selectAllChecked = false;
-                });
-                Navigator.of(context).pop(true);
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   AnimationController _controllerSlideUp;
   Tween<Offset> slideUpTween;
   bool isBottomSheetVisible = false;
@@ -231,20 +175,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
           return Future.value(true);
         },
         child: Scaffold(
-          floatingActionButton: !isBottomSheetVisible ? FloatingActionButton(
-            onPressed: () {
-              getDeviceImage(pageState);
-            },
-            backgroundColor: Color(ColorConstants.getPeachDark()),
-            child: Container(
-              height: 26.0,
-              width: 26.0,
-              child: Image.asset(
-                'assets/images/icons/plus.png',
-                color: Color(ColorConstants.getPrimaryWhite()),
-              ),
-            ),
-          ) : SizedBox(),
+          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, 3) : SizedBox(),
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
             children: [
@@ -257,42 +188,31 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                     ),
                     backgroundColor: Color(ColorConstants.getPrimaryWhite()),
                     centerTitle: true,
+                    elevation: 4.0,
+                    pinned: true,
+                    snap: false,
+                    floating: true,
+                    forceElevated: false,
                     title: Container(
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
-                        text: !isBottomSheetVisible ? poseGroup.groupName : "Select Photos",
+                        text: poseGroup.groupName,
                         color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
                     actions: <Widget>[
-                      GestureDetector(
+                      job == null ? GestureDetector(
                         onTap: () {
-                          if(!isBottomSheetVisible) {
-                            _controllerSlideUp.forward();
-                            setState(() {
-                              isBottomSheetVisible = true;
-                            });
-                          }else {
-                            _controllerSlideUp.reverse();
-                            setState(() {
-                              isBottomSheetVisible = false;
-                              selectAllChecked = false;
-                              pageState.onSelectAllSelected(false);
-                            });
-                          }
+                          getDeviceImage(pageState);
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 22.0),
                           height: 28.0,
                           width: 28.0,
-                          child: Icon(
-                            !isBottomSheetVisible ? (Device.get().isIos ? CupertinoIcons.share : Icons.share) : Device.get().isIos ? CupertinoIcons.clear : Icons.close,
-                            size: 28.0,
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
+                          child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPeachDark()),),
                         ),
-                      ),
-                      !isBottomSheetVisible ? GestureDetector(
+                      ) : SizedBox(),
+                      job == null ? GestureDetector(
                         onTap: () {
                           _ackAlert(context, pageState);
                         },
@@ -308,32 +228,28 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                       ) : SizedBox(),
                     ],
                   ),
+                  SliverPadding(
+                    padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),
+                    sliver: SliverGrid(
+                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200,
+                          childAspectRatio: 2 / 2.45,
+                          crossAxisSpacing: 16,
+                          mainAxisSpacing: 16),
+                      delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                        return Container(
+                          height: (MediaQuery.of(context).size.height),
+                          child: _buildItem(context, index),
+                        );
+                      },
+                        childCount: pageState.poseGroup != null ? pageState.poseGroup.poses.length : 0, // 1000 list items
+                      ),
+                    ),
+                  ),
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        pageState.poseImages.length > 0
-                            ? Padding(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          child: Container(
-                            height: (MediaQuery.of(context).size.height),
-                            child: GridView.builder(
-                                padding: new EdgeInsets.fromLTRB(0.0, 32.0, 0.0, 300.0),
-                                gridDelegate:
-                                const SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200,
-                                    childAspectRatio: 2 / 2.45,
-                                    crossAxisSpacing: 16,
-                                    mainAxisSpacing: 16),
-                                itemCount: pageState.poseImages.length,
-                                controller: _controller,
-                                physics: NeverScrollableScrollPhysics(),
-                                key: _listKey,
-                                shrinkWrap: true,
-                                reverse: false,
-                                itemBuilder: _buildItem),
-                          ),
-                        )
-                            : poseGroup.poses.length == 0 && !pageState.isLoadingNewImages ? Column(
+                        pageState.poseImages.length > 0 ? SizedBox() : poseGroup.poses.length == 0 && !pageState.isLoadingNewImages ? Column(
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
@@ -394,111 +310,12 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                               ),
                             ),
                           ],
-                        ) : !pageState.isLoadingNewImages ? Container(
-                              margin: EdgeInsets.only(top: 250.0),
-                              child: LoadingAnimationWidget.fourRotatingDots(
-                                color: Color(ColorConstants.getPeachLight()),
-                                size: 48,
-                              ),
                         ) : SizedBox(),
                       ],
                     ),
                   ),
                 ],
               ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: SlideTransition(
-                  position: slideUpAnimation,
-                  child: Container(
-                    alignment: Alignment.topCenter,
-                    padding: EdgeInsets.only(top: 8.0),
-                    color: Color(ColorConstants.getPeachDark()),
-                    height: 100.0,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            if(pageState.selectedImages.length > 0) {
-                              pageState.onSharePosesSelected();
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 26.0),
-                            height: 24.0,
-                            width: 24.0,
-                            child: Icon(
-                              Device.get().isIos ? CupertinoIcons.share : Icons.share,
-                              size: 24.0,
-                              color: Color(pageState.selectedImages.length > 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachLight()),
-                            ),
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: "Select All",
-                              textAlign: TextAlign.start,
-                              color: Color(
-                                  selectAllChecked ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachLight()),
-                            ),
-                            Theme(
-                              data: Theme.of(context).copyWith(
-                                unselectedWidgetColor: Color(ColorConstants.getPeachLight()),
-                              ),
-                              child: Checkbox(
-                                  checkColor: Color(ColorConstants.getPrimaryWhite()),
-                                  activeColor: Color(ColorConstants.getPeachDark()),
-                                  value: selectAllChecked,
-                                  onChanged: (bool checked) {
-                                    setState(() {
-                                      selectAllChecked = checked;
-                                      pageState.onSelectAllSelected(checked);
-                                    });
-                                  }
-                              ),
-                            ),
-                          ],
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if(pageState.selectedImages.length > 0) {
-                              _ackAlertDeletePoses(context, pageState);
-                            }
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 26.0),
-                            height: 24.0,
-                            width: 24.0,
-                            child: Image.asset(
-                              'assets/images/icons/trashcan.png',
-                              color: Color(pageState.selectedImages.length > 0 ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachLight()),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              pageState.isLoadingNewImages ? Align(
-                alignment: Alignment.center,
-                child: Container(
-                  height: 64.0,
-                  width: 64.0,
-                  decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPeachLight()),
-                    borderRadius: new BorderRadius.circular(16.0),
-                  ),
-                  child: LoadingAnimationWidget.fourRotatingDots(
-                    color: Color(ColorConstants.getPrimaryWhite()),
-                    size: 32,
-                  ),
-                ),
-              ) : SizedBox(),
             ],
           ),
         ),

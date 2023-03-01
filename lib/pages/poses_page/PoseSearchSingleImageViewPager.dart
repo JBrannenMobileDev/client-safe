@@ -2,16 +2,20 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/pose_library_group_page/widgets/SaveToJobBottomSheet.dart';
-import 'package:dandylight/pages/pose_library_group_page/widgets/SaveToMyPosesBottomSheet.dart';
+import 'package:dandylight/pages/poses_page/PosesPageState.dart';
+import 'package:dandylight/pages/poses_page/widgets/SaveToJobBottomSheet.dart';
+import 'package:dandylight/pages/poses_page/widgets/SaveToMyPosesBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../models/Job.dart';
 import '../../utils/IntentLauncherUtil.dart';
@@ -19,22 +23,21 @@ import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../pose_group_page/GroupImage.dart';
-import 'LibraryPoseGroupPageState.dart';
 
-class LibrarySingleImageViewPager extends StatefulWidget {
+class PoseSearchSingleImageViewPager extends StatefulWidget {
   final List<GroupImage> poses;
   final int index;
   final String groupName;
 
-  LibrarySingleImageViewPager(this.poses, this.index, this.groupName);
+  PoseSearchSingleImageViewPager(this.poses, this.index, this.groupName);
 
   @override
-  _LibrarySingleImageViewPagerState createState() {
-    return _LibrarySingleImageViewPagerState(poses, index, poses.length, PageController(initialPage: index), groupName);
+  _PoseSearchSingleImageViewPagerState createState() {
+    return _PoseSearchSingleImageViewPagerState(poses, index, poses.length, PageController(initialPage: index), groupName);
   }
 }
 
-class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPager> {
+class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageViewPager> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
   final int pageCount;
   int currentPageIndex;
@@ -43,7 +46,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
   final List<Container> pages = [];
   final String groupName;
 
-  _LibrarySingleImageViewPagerState(this.poses, this.currentPageIndex, this.pageCount, this.controller, this.groupName);
+  _PoseSearchSingleImageViewPagerState(this.poses, this.currentPageIndex, this.pageCount, this.controller, this.groupName);
 
   void _showSaveToMyPosesBottomSheet(BuildContext context, imageIndex) {
     showModalBottomSheet(
@@ -166,9 +169,9 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, LibraryPoseGroupPageState>(
-      converter: (store) => LibraryPoseGroupPageState.fromStore(store),
-      builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
+    return StoreConnector<AppState, PosesPageState>(
+      converter: (store) => PosesPageState.fromStore(store),
+      builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
             backgroundColor: Colors.black,

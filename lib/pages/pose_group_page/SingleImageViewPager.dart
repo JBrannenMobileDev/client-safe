@@ -11,10 +11,8 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../models/Job.dart';
 import '../../utils/DandyToastUtil.dart';
@@ -30,13 +28,12 @@ class SingleImageViewPager extends StatefulWidget {
   final int index;
   final Function(GroupImage) onDelete;
   final String groupName;
-  final Job job;
 
-  SingleImageViewPager(this.poses, this.index, this.onDelete, this.groupName, this.job);
+  SingleImageViewPager(this.poses, this.index, this.onDelete, this.groupName);
 
   @override
   _SingleImageViewPagerState createState() {
-    return _SingleImageViewPagerState(poses, index, onDelete, poses.length, PageController(initialPage: index), groupName, job);
+    return _SingleImageViewPagerState(poses, index, onDelete, poses.length, PageController(initialPage: index), groupName);
   }
 }
 
@@ -49,9 +46,8 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
   final Function(GroupImage) onDelete;
   final List<Container> pages = [];
   final String groupName;
-  final Job job;
 
-  _SingleImageViewPagerState(this.poses, this.currentPageIndex, this.onDelete, this.pageCount, this.controller, this.groupName, this.job);
+  _SingleImageViewPagerState(this.poses, this.currentPageIndex, this.onDelete, this.pageCount, this.controller, this.groupName);
 
   @override
   void initState() {
@@ -203,13 +199,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
               actions: [
                 GestureDetector(
                   onTap: () {
-                    if(job == null) {
-                      _showSaveToJobBottomSheet(context, currentPageIndex);
-                    } else {
-                      pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(currentPageIndex).pose, job);
-                      VibrateUtil.vibrateMedium();
-                      DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
-                    }
+                    _showSaveToJobBottomSheet(context, currentPageIndex);
                   },
                   child: Container(
                     margin: EdgeInsets.only(right: 16.0),

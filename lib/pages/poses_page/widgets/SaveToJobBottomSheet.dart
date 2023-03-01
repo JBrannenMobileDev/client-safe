@@ -8,10 +8,12 @@ import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
+import '../../../utils/DandyToastUtil.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
@@ -137,25 +139,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
     );
 
   void showSuccessAnimation(){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.all(96.0),
-          child: FlareActor(
-            "assets/animations/success_check.flr",
-            alignment: Alignment.center,
-            fit: BoxFit.contain,
-            animation: "show_check",
-            callback: onFlareCompleted,
-          ),
-        );
-      },
-    );
-  }
-
-  void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
+    DandyToastUtil.showToastWithGravity('Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
+    Navigator.of(context).pop();
   }
 }

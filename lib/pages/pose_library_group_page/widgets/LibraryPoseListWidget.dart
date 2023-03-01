@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
@@ -63,7 +64,7 @@ class LibraryPoseListWidget extends StatelessWidget {
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           Stack(
             children: [
-              Container(
+              pageState.poseImages.length > index ? Container(
                 decoration: BoxDecoration(
                   borderRadius: new BorderRadius.circular(8.0),
                   image: DecorationImage(
@@ -72,8 +73,8 @@ class LibraryPoseListWidget extends StatelessWidget {
                         : AssetImage("assets/images/backgrounds/image_background.png"),
                   ),
                 ),
-              ),
-              Container(
+              ) : SizedBox(),
+              pageState.poseImages.length > index ? Container(
                 height: 150.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -89,8 +90,8 @@ class LibraryPoseListWidget extends StatelessWidget {
                           0.0,
                           1.0
                         ])),
-              ),
-              pageState.poseImages.elementAt(index).pose.isNewPose() ? Container(
+              ) : SizedBox(),
+              pageState.poseImages.length > index ? pageState.poseImages.elementAt(index).pose.isNewPose() ? Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
@@ -104,17 +105,10 @@ class LibraryPoseListWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              ) : SizedBox(),
-              GestureDetector(
+              ) : SizedBox() : SizedBox(),
+              pageState.poseImages.length > index ? job == null ? GestureDetector(
                 onTap: () {
-                  if(job == null) {
-                    _showSaveToJobBottomSheet(context, index);
-                  } else {
-                    pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
-                    VibrateUtil.vibrateMedium();
-                    DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.BOTTOM);
-                    EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE_TO_JOB_FROM_JOB);
-                  }
+                  _showSaveToJobBottomSheet(context, index);
                 },
                 child: Align(
                     alignment: Alignment.topLeft,
@@ -130,8 +124,8 @@ class LibraryPoseListWidget extends StatelessWidget {
                         )
                     ),
                   ),
-              ),
-              GestureDetector(
+              ) : SizedBox() : SizedBox(),
+              pageState.poseImages.length > index ?  job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToMyPosesBottomSheet(context, index);
                 },
@@ -149,7 +143,18 @@ class LibraryPoseListWidget extends StatelessWidget {
                         )
                     ),
                   ),
-              ),
+              ) : SizedBox() : SizedBox(),
+              pageState.poseImages.length <= index ? Container(
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  color: Color(ColorConstants.getPeachLight()),
+                  borderRadius: new BorderRadius.circular(16.0),
+                ),
+                child: LoadingAnimationWidget.fourRotatingDots(
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                  size: 32,
+                ),
+              ) : SizedBox()
             ],
           ),
     );

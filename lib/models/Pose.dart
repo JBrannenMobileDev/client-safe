@@ -1,4 +1,4 @@
-class Pose implements Comparable<Pose>{
+class Pose{
   int id;
   String documentId;
   String imageUrl;
@@ -51,16 +51,5 @@ class Pose implements Comparable<Pose>{
       numOfSaves: map['numOfSaves'] != null ? map['numOfSaves'] : 0,
       createDate: map['createDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createDate']) : null,
     );
-  }
-
-  @override
-  int compareTo(Pose other) {
-    if (numOfSaves < other.numOfSaves) {
-      return 1;
-    } else if (numOfSaves > other.numOfSaves) {
-      return -1;
-    } else {
-      return 0;
-    }
   }
 }

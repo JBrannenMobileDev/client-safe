@@ -18,15 +18,18 @@ class PosesPageState{
   final List<File> groupImages;
   final List<File> libraryGroupImages;
   final List<GroupImage> searchResultsImages;
+  final List<Pose> searchResultPoses;
   final List<Pose> allLibraryPoses;
   final List<File> allLibraryPoseImages;
   final List<Job> activeJobs;
   final String searchInput;
   final bool shouldClear;
   final bool isAdmin;
+  final bool isLoadingSearchImages;
   final Function(String) onSearchInputChanged;
   final Function(GroupImage, PoseGroup) onImageSaveSelected;
   final Function(Pose, Job) onImageAddedToJobSelected;
+  final Function() loadMoreImages;
 
   PosesPageState({
     @required this.poseGroups,
@@ -43,6 +46,9 @@ class PosesPageState{
     @required this.activeJobs,
     @required this.allLibraryPoseImages,
     @required this.allLibraryPoses,
+    @required this.isLoadingSearchImages,
+    @required this.loadMoreImages,
+    @required this.searchResultPoses,
   });
 
   PosesPageState copyWith({
@@ -60,6 +66,9 @@ class PosesPageState{
     List<Job> activeJobs,
     List<Pose> allLibraryPoses,
     List<File> allLibraryPoseImages,
+    bool isLoadingSearchImages,
+    Function() loadMoreImages,
+    List<Pose> searchResultPoses,
   }){
     return PosesPageState(
       poseGroups: poseGroups?? this.poseGroups,
@@ -76,6 +85,9 @@ class PosesPageState{
       activeJobs: activeJobs ?? this.activeJobs,
       allLibraryPoseImages: allLibraryPoseImages ?? this.allLibraryPoseImages,
       allLibraryPoses: allLibraryPoses ?? this.allLibraryPoses,
+      isLoadingSearchImages: isLoadingSearchImages ?? this.isLoadingSearchImages,
+      loadMoreImages: loadMoreImages ?? this.loadMoreImages,
+      searchResultPoses: searchResultPoses ?? this.searchResultPoses,
     );
   }
 
@@ -93,7 +105,10 @@ class PosesPageState{
     onImageAddedToJobSelected: null,
     activeJobs: [],
     allLibraryPoses: [],
+    isLoadingSearchImages: false,
     allLibraryPoseImages: [],
+    loadMoreImages: null,
+    searchResultPoses: [],
   );
 
   factory PosesPageState.fromStore(Store<AppState> store) {
@@ -109,9 +124,14 @@ class PosesPageState{
       activeJobs: store.state.posesPageState.activeJobs,
       allLibraryPoseImages: store.state.posesPageState.allLibraryPoseImages,
       allLibraryPoses: store.state.posesPageState.allLibraryPoses,
+      isLoadingSearchImages: store.state.posesPageState.isLoadingSearchImages,
+      searchResultPoses: store.state.posesPageState.searchResultPoses,
       onSearchInputChanged: (searchInput) => store.dispatch(UpdateSearchInputAction(store.state.posesPageState, searchInput)),
       onImageSaveSelected: (groupImage, poseGroup) => store.dispatch(SavePoseToMyPosesAction(store.state.posesPageState, groupImage, poseGroup)),
       onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveImageToJobAction(store.state.posesPageState, pose, job)),
+        loadMoreImages: () {
+          store.dispatch(LoadMorePoseImagesAction(store.state.posesPageState));
+        }
     );
   }
 
@@ -128,8 +148,10 @@ class PosesPageState{
       onImageSaveSelected.hashCode ^
       onImageAddedToJobSelected.hashCode ^
       activeJobs.hashCode ^
+      isLoadingSearchImages.hashCode ^
       allLibraryPoseImages.hashCode ^
       allLibraryPoses.hashCode ^
+      searchResultPoses.hashCode ^
       libraryGroupImages.hashCode;
   @override
   bool operator ==(Object other) =>
@@ -148,5 +170,7 @@ class PosesPageState{
               activeJobs == other.activeJobs &&
               allLibraryPoseImages == other.allLibraryPoseImages &&
               allLibraryPoses == other.allLibraryPoses &&
+              isLoadingSearchImages == other.isLoadingSearchImages &&
+              searchResultPoses == other.searchResultPoses &&
               libraryGroupImages == other.libraryGroupImages;
 }
