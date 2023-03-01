@@ -22,7 +22,7 @@ class ClientSafeApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         builder: (context, child) =>
-            MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false), child: child),
+            MediaQuery(data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false, textScaleFactor: 1), child: child),
         navigatorKey: GlobalKeyUtil.instance.navigatorKey,
         color: Color(ColorConstants.getPrimaryColor()),
         title: 'dandylight',

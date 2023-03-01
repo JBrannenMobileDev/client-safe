@@ -542,6 +542,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                                           margin: EdgeInsets.only(top: 78.0),
                                           child: Text(
                                             'DandyLight',
+                                            textScaleFactor: 1,
                                             style: TextStyle(
                                               fontSize: 56.0,
                                               fontFamily: 'simple',
