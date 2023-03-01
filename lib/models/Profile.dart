@@ -1,5 +1,6 @@
 
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
+import 'package:dandylight/utils/AdminCheckUtil.dart';
 
 class Profile{
   int id;
@@ -337,9 +338,7 @@ class Profile{
   }
 
   bool isFreeTrialExpired() {
-    bool expired = false;
     DateTime expirationDate = accountCreatedDate.add(Duration(days: 14));
-    if(DateTime.now().isAfter(expirationDate)) return true;
-    return expired;
+    return AdminCheckUtil.isAdmin(this) ? false : DateTime.now().isAfter(expirationDate);
   }
 }

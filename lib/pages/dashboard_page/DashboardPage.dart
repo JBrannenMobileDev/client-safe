@@ -267,7 +267,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               }
             } else {
               bool freeTrialExpired = current.profile.isFreeTrialExpired();
-              if(freeTrialExpired && !hasNavigatedToSubscriptionPage && !AdminCheckUtil.isAdmin(current.profile)) {
+              if(freeTrialExpired && !hasNavigatedToSubscriptionPage) {
                 hasNavigatedToSubscriptionPage = true;
                 NavigationUtil.onManageSubscriptionSelected(context, current.profile);
               } else {
