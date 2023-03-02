@@ -67,10 +67,10 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
 
     if(action.subscriptionState.entitlements.all['standard'] != null) {
       if(action.subscriptionState.entitlements.all['standard'].isActive) {
-        if(action.subscriptionState.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState.activeSubscriptions.contains('monthly_subscription')) {
+        if(action.subscriptionState.activeSubscriptions.contains('monthly_half_off') || action.subscriptionState.activeSubscriptions.contains('monthly_subscription') || action.subscriptionState.activeSubscriptions.contains('monthly:standard') || action.subscriptionState.activeSubscriptions.contains('monthly_half_off:monthly-half-off-base')) {
           selectedSubscription = ManageSubscriptionPage.PACKAGE_MONTHLY;
           radioValue = 1;
-        } else if(action.subscriptionState.activeSubscriptions.contains('annual') || action.subscriptionState.activeSubscriptions.contains('annual_half_off')) {
+        } else if(action.subscriptionState.activeSubscriptions.contains('annual') || action.subscriptionState.activeSubscriptions.contains('annual_half_off') || action.subscriptionState.activeSubscriptions.contains('annual:annual-base') || action.subscriptionState.activeSubscriptions.contains('annual_half_off:annual-half-off-base')) {
           selectedSubscription = ManageSubscriptionPage.PACKAGE_ANNUAL;
           annualPrice = offering.annual.storeProduct.price;
           monthlyPrice = offering.monthly.storeProduct.price;
