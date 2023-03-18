@@ -263,7 +263,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(profile.businessName, textScaleFactor: 2.0),
+                    Text(profile.businessName.isNotEmpty ? profile.businessName : 'Invoice', textScaleFactor: 2.0),
                   ])),
           Padding(
             padding: EdgeInsets.only(top: 32.0),
@@ -683,6 +683,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               ),
             ],
           ),
+          zelleInfo.isNotEmpty || venmoInfo.isNotEmpty || cashAppInfo.isNotEmpty || applePayInfo.isNotEmpty ?
           Container(
             margin: EdgeInsets.only(top: 32.0),
             child: Text(
@@ -690,7 +691,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
                 textScaleFactor: 1.5,
                 textAlign: TextAlign.left
             ),
-          ),
+          ) : SizedBox(),
           zelleInfo.isNotEmpty ? Container(
             margin: EdgeInsets.only(top: 16.0),
             child: Text(

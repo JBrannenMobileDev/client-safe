@@ -45,7 +45,8 @@ class LoginTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0, top: 20.0),
+          alignment: Alignment.centerLeft,
+          padding: EdgeInsets.only(left: 16.0, right: 16.0),
           margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 8.0, bottom: 8.0),
           height: height,
           decoration: BoxDecoration(

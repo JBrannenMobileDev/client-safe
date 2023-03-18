@@ -74,6 +74,12 @@ class UpdateMainButtonsVisibleAction{
   UpdateMainButtonsVisibleAction(this.pageState, this.mainButtonsVisible);
 }
 
+class SetIsLoginWithAppleAvailableAction {
+  final LoginPageState pageState;
+  final bool isAppleLoginAvailable;
+  SetIsLoginWithAppleAvailableAction(this.pageState, this.isAppleLoginAvailable);
+}
+
 class UpdateForgotPasswordVisibleAction{
   final LoginPageState pageState;
   final bool forgotPasswordViewVisible;
@@ -165,6 +171,11 @@ class AnimateLoginErrorMessageAction{
 class ClearLoginErrorShake{
   final LoginPageState pageState;
   ClearLoginErrorShake(this.pageState);
+}
+
+class SignUpWithAppleAction {
+  final LoginPageState pageState;
+  SignUpWithAppleAction(this.pageState);
 }
 
 class SetIsUserVerifiedAction{

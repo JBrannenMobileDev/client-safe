@@ -24,6 +24,7 @@ class LoginPageState {
   final bool isUserVerified;
   final bool isCurrentUserCheckComplete;
   final bool shouldShowOnBoardingFlow;
+  final bool isLoginWithAppleAvailable;
   final User user;
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
@@ -44,6 +45,7 @@ class LoginPageState {
   final Function(String) onLoginPasswordChanged;
   final Function(String) onLoginEmailChanged;
   final Function() onClearLoginErrorShake;
+  final Function() onSignUpWithAppleSelected;
 
   LoginPageState({
     this.firstName,
@@ -85,6 +87,8 @@ class LoginPageState {
     this.isUserVerified,
     this.isCurrentUserCheckComplete,
     this.shouldShowOnBoardingFlow,
+    this.isLoginWithAppleAvailable,
+    this.onSignUpWithAppleSelected,
   });
 
   LoginPageState copyWith({
@@ -102,6 +106,7 @@ class LoginPageState {
     bool shouldShowAccountCreatedDialog,
     bool shouldShowResetPasswordSentDialog,
     bool showLoginErrorAnimation,
+    bool isLoginWithAppleAvailable,
     User user,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
@@ -127,6 +132,7 @@ class LoginPageState {
     bool isUserVerified,
     bool isCurrentUserCheckComplete,
     bool shouldShowOnBoardingFlow,
+    Function() onSignUpWithAppleSelected,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -168,6 +174,8 @@ class LoginPageState {
       onResetPasswordSelected: onResetPasswordSelected ?? this.onResetPasswordSelected,
       isCurrentUserCheckComplete: isCurrentUserCheckComplete ?? this.isCurrentUserCheckComplete,
       shouldShowOnBoardingFlow: shouldShowOnBoardingFlow ?? this.shouldShowOnBoardingFlow,
+      isLoginWithAppleAvailable: isLoginWithAppleAvailable ?? this.isLoginWithAppleAvailable,
+      onSignUpWithAppleSelected: onSignUpWithAppleSelected ?? this.onSignUpWithAppleSelected,
     );
   }
 
@@ -193,6 +201,7 @@ class LoginPageState {
       isUserVerified: store.state.loginPageState.isUserVerified,
       isCurrentUserCheckComplete: store.state.loginPageState.isCurrentUserCheckComplete,
       shouldShowOnBoardingFlow: store.state.loginPageState.shouldShowOnBoardingFlow,
+      isLoginWithAppleAvailable: store.state.loginPageState.isLoginWithAppleAvailable,
       onFirstNameChanged: (firstName) => store.dispatch(UpdateFirstNameAction(store.state.loginPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(UpdateLastNameAction(store.state.loginPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(UpdateBusinessNameAction(store.state.loginPageState, businessName)),
@@ -215,6 +224,7 @@ class LoginPageState {
       onLoginEmailChanged: (email) => store.dispatch(UpdateLoginEmailAction(store.state.loginPageState, email)),
       onLoginPasswordChanged: (password) => store.dispatch(UpdateLoginPasswordAction(store.state.loginPageState, password)),
       onClearLoginErrorShake: () => store.dispatch(ClearLoginErrorShake(store.state.loginPageState)),
+      onSignUpWithAppleSelected: () => store.dispatch(SignUpWithAppleAction(store.state.loginPageState)),
     );
   }
 
@@ -237,6 +247,7 @@ class LoginPageState {
     onLastNameChanged: null,
     onBusinessNameChanged: null,
     onEmailAddressNameChanged: null,
+    isLoginWithAppleAvailable: false,
     onPasswordChanged: null,
     shouldShowAccountCreatedDialog: false,
     shouldShowResetPasswordSentDialog: false,
@@ -256,6 +267,7 @@ class LoginPageState {
     onClearErrorMessages: null,
     isCurrentUserCheckComplete: false,
     shouldShowOnBoardingFlow: false,
+    onSignUpWithAppleSelected: null,
   );
 
   @override
@@ -296,6 +308,8 @@ class LoginPageState {
       createAccountErrorMessage.hashCode ^
       isCurrentUserCheckComplete.hashCode ^
       shouldShowOnBoardingFlow.hashCode ^
+      isLoginWithAppleAvailable.hashCode ^
+      onSignUpWithAppleSelected.hashCode ^
       onForgotPasswordSelected.hashCode ;
 
   @override
@@ -337,5 +351,7 @@ class LoginPageState {
               onClearErrorMessages == other.onClearErrorMessages &&
               isCurrentUserCheckComplete == other.isCurrentUserCheckComplete &&
               shouldShowOnBoardingFlow == other.shouldShowOnBoardingFlow &&
+              isLoginWithAppleAvailable == other.isLoginWithAppleAvailable &&
+              onSignUpWithAppleSelected == other.onSignUpWithAppleSelected &&
               onForgotPasswordSelected == other.onForgotPasswordSelected;
 }

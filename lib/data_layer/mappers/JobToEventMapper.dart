@@ -14,7 +14,7 @@ class JobToEventMapper {
     return Event(
       calendarId,
       eventId: eventIdSaved,
-      title: profile.businessName + ' - ' + job.jobTitle,
+      title: (profile.businessName.isNotEmpty ? profile.businessName + ' - ' : '') + job.jobTitle,
       description: job.notes,
       start: await buildDateTime(job.selectedDate, job.selectedTime),
       end: job.selectedEndTime != null ?  await buildDateTime(job.selectedDate, job.selectedEndTime) :  await createEndTZDateTime(job),
