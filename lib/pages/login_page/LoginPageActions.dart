@@ -53,6 +53,12 @@ class ResetPasswordAction{
   ResetPasswordAction(this.pageState);
 }
 
+class SetShowLoadingAnimationAction {
+  final LoginPageState pageState;
+  final bool show;
+  SetShowLoadingAnimationAction(this.pageState, this.show);
+}
+
 class ForgotPasswordSelectedAction{
   final LoginPageState pageState;
   ForgotPasswordSelectedAction(this.pageState);
@@ -72,6 +78,12 @@ class UpdateMainButtonsVisibleAction{
   final LoginPageState pageState;
   final bool mainButtonsVisible;
   UpdateMainButtonsVisibleAction(this.pageState, this.mainButtonsVisible);
+}
+
+class SetIsLoginWithAppleAvailableAction {
+  final LoginPageState pageState;
+  final bool isAppleLoginAvailable;
+  SetIsLoginWithAppleAvailableAction(this.pageState, this.isAppleLoginAvailable);
 }
 
 class UpdateForgotPasswordVisibleAction{
@@ -165,6 +177,16 @@ class AnimateLoginErrorMessageAction{
 class ClearLoginErrorShake{
   final LoginPageState pageState;
   ClearLoginErrorShake(this.pageState);
+}
+
+class SignUpWithAppleAction {
+  final LoginPageState pageState;
+  SignUpWithAppleAction(this.pageState);
+}
+
+class SignUpWithGoogleAction {
+  final LoginPageState pageState;
+  SignUpWithGoogleAction(this.pageState);
 }
 
 class SetIsUserVerifiedAction{

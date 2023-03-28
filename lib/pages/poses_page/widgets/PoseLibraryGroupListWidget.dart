@@ -72,34 +72,14 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                           size: 32,
                         ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      mainAxisSize: MainAxisSize.max,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 2.0),
-                              child: TextDandyLight(
-                                type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.libraryGroups.elementAt(index).groupName,
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                            ), Padding(
-                              padding: EdgeInsets.only(top: 2.0),
-                              child: TextDandyLight(
-                                type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.libraryGroups.elementAt(index).poses.length.toString(),
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPeachDark()),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 2.0),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: pageState.libraryGroups.elementAt(index).groupName,
+                        textAlign: TextAlign.center,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
                     ),
                   ],
                 ),

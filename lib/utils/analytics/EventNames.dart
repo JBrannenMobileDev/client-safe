@@ -173,6 +173,8 @@ class EventNames {
 
   //Api results
   static const String API_CREATE_ACCOUNT_SUCCESS = "api_create_account_success";
+  static const String API_CREATE_ACCOUNT_SUCCESS_APPLE_SIGN_UP = "api_create_account_success_apple";
+  static const String API_CREATE_ACCOUNT_SUCCESS_GOOGLE_SIGN_UP = "api_create_account_success_google";
 
   //App Launch
   static const String APP_OPENED = "app_opened";

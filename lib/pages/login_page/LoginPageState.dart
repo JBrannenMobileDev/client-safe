@@ -24,6 +24,8 @@ class LoginPageState {
   final bool isUserVerified;
   final bool isCurrentUserCheckComplete;
   final bool shouldShowOnBoardingFlow;
+  final bool isLoginWithAppleAvailable;
+  final bool showLoadingAnimation;
   final User user;
   final Function(String) onFirstNameChanged;
   final Function(String) onLastNameChanged;
@@ -44,6 +46,8 @@ class LoginPageState {
   final Function(String) onLoginPasswordChanged;
   final Function(String) onLoginEmailChanged;
   final Function() onClearLoginErrorShake;
+  final Function() onSignUpWithAppleSelected;
+  final Function() onSignUpWithGoogleSelected;
 
   LoginPageState({
     this.firstName,
@@ -85,6 +89,10 @@ class LoginPageState {
     this.isUserVerified,
     this.isCurrentUserCheckComplete,
     this.shouldShowOnBoardingFlow,
+    this.isLoginWithAppleAvailable,
+    this.onSignUpWithAppleSelected,
+    this.showLoadingAnimation,
+    this.onSignUpWithGoogleSelected,
   });
 
   LoginPageState copyWith({
@@ -102,6 +110,8 @@ class LoginPageState {
     bool shouldShowAccountCreatedDialog,
     bool shouldShowResetPasswordSentDialog,
     bool showLoginErrorAnimation,
+    bool isLoginWithAppleAvailable,
+    bool showLoadingAnimation,
     User user,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
@@ -127,6 +137,8 @@ class LoginPageState {
     bool isUserVerified,
     bool isCurrentUserCheckComplete,
     bool shouldShowOnBoardingFlow,
+    Function() onSignUpWithAppleSelected,
+    Function() onSignUpWithGoogleSelected,
   }){
     return LoginPageState(
       firstName: firstName ?? this.firstName,
@@ -168,6 +180,10 @@ class LoginPageState {
       onResetPasswordSelected: onResetPasswordSelected ?? this.onResetPasswordSelected,
       isCurrentUserCheckComplete: isCurrentUserCheckComplete ?? this.isCurrentUserCheckComplete,
       shouldShowOnBoardingFlow: shouldShowOnBoardingFlow ?? this.shouldShowOnBoardingFlow,
+      isLoginWithAppleAvailable: isLoginWithAppleAvailable ?? this.isLoginWithAppleAvailable,
+      onSignUpWithAppleSelected: onSignUpWithAppleSelected ?? this.onSignUpWithAppleSelected,
+      showLoadingAnimation: showLoadingAnimation ?? this.showLoadingAnimation,
+      onSignUpWithGoogleSelected: onSignUpWithGoogleSelected ?? this.onSignUpWithGoogleSelected,
     );
   }
 
@@ -193,6 +209,8 @@ class LoginPageState {
       isUserVerified: store.state.loginPageState.isUserVerified,
       isCurrentUserCheckComplete: store.state.loginPageState.isCurrentUserCheckComplete,
       shouldShowOnBoardingFlow: store.state.loginPageState.shouldShowOnBoardingFlow,
+      isLoginWithAppleAvailable: store.state.loginPageState.isLoginWithAppleAvailable,
+      showLoadingAnimation: store.state.loginPageState.showLoadingAnimation,
       onFirstNameChanged: (firstName) => store.dispatch(UpdateFirstNameAction(store.state.loginPageState, firstName)),
       onLastNameChanged: (lastName) => store.dispatch(UpdateLastNameAction(store.state.loginPageState, lastName)),
       onBusinessNameChanged: (businessName) => store.dispatch(UpdateBusinessNameAction(store.state.loginPageState, businessName)),
@@ -215,6 +233,8 @@ class LoginPageState {
       onLoginEmailChanged: (email) => store.dispatch(UpdateLoginEmailAction(store.state.loginPageState, email)),
       onLoginPasswordChanged: (password) => store.dispatch(UpdateLoginPasswordAction(store.state.loginPageState, password)),
       onClearLoginErrorShake: () => store.dispatch(ClearLoginErrorShake(store.state.loginPageState)),
+      onSignUpWithAppleSelected: () => store.dispatch(SignUpWithAppleAction(store.state.loginPageState)),
+      onSignUpWithGoogleSelected: () => store.dispatch(SignUpWithGoogleAction(store.state.loginPageState)),
     );
   }
 
@@ -237,6 +257,7 @@ class LoginPageState {
     onLastNameChanged: null,
     onBusinessNameChanged: null,
     onEmailAddressNameChanged: null,
+    isLoginWithAppleAvailable: false,
     onPasswordChanged: null,
     shouldShowAccountCreatedDialog: false,
     shouldShowResetPasswordSentDialog: false,
@@ -256,6 +277,9 @@ class LoginPageState {
     onClearErrorMessages: null,
     isCurrentUserCheckComplete: false,
     shouldShowOnBoardingFlow: false,
+    onSignUpWithAppleSelected: null,
+    showLoadingAnimation: false,
+    onSignUpWithGoogleSelected: null,
   );
 
   @override
@@ -281,6 +305,7 @@ class LoginPageState {
       showCreateAccountLoadingAnimation.hashCode ^
       showLoginLoadingAnimation.hashCode ^
       onLastNameChanged.hashCode ^
+      showLoadingAnimation.hashCode ^
       onBusinessNameChanged.hashCode ^
       onEmailAddressNameChanged.hashCode ^
       onPasswordChanged.hashCode ^
@@ -296,6 +321,9 @@ class LoginPageState {
       createAccountErrorMessage.hashCode ^
       isCurrentUserCheckComplete.hashCode ^
       shouldShowOnBoardingFlow.hashCode ^
+      isLoginWithAppleAvailable.hashCode ^
+      onSignUpWithAppleSelected.hashCode ^
+      onSignUpWithGoogleSelected.hashCode ^
       onForgotPasswordSelected.hashCode ;
 
   @override
@@ -310,6 +338,7 @@ class LoginPageState {
               showLoginLoadingAnimation == other.showLoginLoadingAnimation &&
               emailAddress == other.emailAddress &&
               password == other.password &&
+              showLoadingAnimation == other.showLoadingAnimation &&
               onClearLoginErrorShake == other.onClearLoginErrorShake &&
               onLoginPasswordChanged == other.onLoginPasswordChanged &&
               onLoginEmailChanged == other.onLoginEmailChanged &&
@@ -337,5 +366,8 @@ class LoginPageState {
               onClearErrorMessages == other.onClearErrorMessages &&
               isCurrentUserCheckComplete == other.isCurrentUserCheckComplete &&
               shouldShowOnBoardingFlow == other.shouldShowOnBoardingFlow &&
+              isLoginWithAppleAvailable == other.isLoginWithAppleAvailable &&
+              onSignUpWithAppleSelected == other.onSignUpWithAppleSelected &&
+              onSignUpWithGoogleSelected == other.onSignUpWithGoogleSelected &&
               onForgotPasswordSelected == other.onForgotPasswordSelected;
 }
