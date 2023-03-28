@@ -502,43 +502,78 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                         ),
                       ),
                     ),
-                  SlideTransition(
-                    position: hideMainButtonsStep,
-                    child: Platform.isIOS && pageState.isLoginWithAppleAvailable ? GestureDetector(
-                        onTap: () {
-                          pageState.onSignUpWithAppleSelected();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                          margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 0.0),
-                          alignment: Alignment.centerLeft,
-                          height: 54.0,
-                          width: 325.0,
-                          decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                              borderRadius: BorderRadius.circular(36.0)),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.only(right: 16.0),
-                                height: 18.0,
-                                width: 18.0,
-                                child: Image.asset(
-                                  'assets/images/icons/apple-logo.png',
-                                  color: Color(ColorConstants.getPrimaryWhite()),
+                    DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
+                      position: hideMainButtonsStep,
+                      child: Platform.isIOS && pageState.isLoginWithAppleAvailable ? GestureDetector(
+                          onTap: () {
+                            pageState.onSignUpWithAppleSelected();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                            margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 0.0),
+                            alignment: Alignment.centerLeft,
+                            height: 54.0,
+                            width: 325.0,
+                            decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                                borderRadius: BorderRadius.circular(36.0)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(right: 16.0),
+                                  height: 18.0,
+                                  width: 18.0,
+                                  child: Image.asset(
+                                    'assets/images/icons/apple-logo.png',
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  ),
                                 ),
-                              ),
-                              TextDandyLight(
-                                text: 'Sign up with Apple',
-                                type: TextDandyLight.LARGE_TEXT,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              )
-                            ],
+                                TextDandyLight(
+                                  text: 'Sign up with Apple',
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                )
+                              ],
+                            ),
                           ),
-                        ),
-                      ) : SizedBox(),
-                  ),
+                        ) : SizedBox(),
+                    ),
+                      DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
+                        position: hideMainButtonsStep,
+                        child: Platform.isAndroid ? GestureDetector(
+                          onTap: () {
+                            pageState.onSignUpWithGoogleSelected();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                            margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 0.0),
+                            alignment: Alignment.centerLeft,
+                            height: 54.0,
+                            decoration: BoxDecoration(
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                borderRadius: BorderRadius.circular(36.0)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(right: 16.0),
+                                  height: 24.0,
+                                  width: 24.0,
+                                  child: Image.asset(
+                                    'assets/images/icons/google.png',
+                                  ),
+                                ),
+                                TextDandyLight(
+                                  text: 'Sign up with Google',
+                                  type: TextDandyLight.LARGE_TEXT,
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                )
+                              ],
+                            ),
+                          ),
+                        ) : SizedBox(),
+                      ),
                     DeviceType.getDeviceType() == Type.Tablet && !pageState.mainButtonsVisible ? SizedBox() : SlideTransition(
                     position: hideMainButtonsStep,
                     child: GestureDetector(
@@ -562,11 +597,24 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           decoration: BoxDecoration(
                               color: Color(ColorConstants.getPeachDark()),
                               borderRadius: BorderRadius.circular(36.0)),
-                          child: TextDandyLight(
-                            type: TextDandyLight.LARGE_TEXT,
-                            text: 'Sign up with email',
-                            textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 16.0),
+                                height: 24.0,
+                                width: 24.0,
+                                child: Image.asset(
+                                  'assets/images/icons/envelope.png',
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                              TextDandyLight(
+                                text: 'Sign up with email',
+                                type: TextDandyLight.LARGE_TEXT,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              )
+                            ],
                           ),
                         ),
                       ),
@@ -683,6 +731,110 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           color: Color(ColorConstants.error_red),
                         ),
                       ),
+                      DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : Platform.isIOS && pageState.isLoginWithAppleAvailable ? SlideTransition(
+                          position: showLoginButtonsStep,
+                          child: GestureDetector(
+                        onTap: () {
+                          pageState.onSignUpWithAppleSelected();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
+                          alignment: Alignment.centerLeft,
+                          height: 54.0,
+                          decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                              borderRadius: BorderRadius.circular(36.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 16.0),
+                                height: 18.0,
+                                width: 18.0,
+                                child: Image.asset(
+                                  'assets/images/icons/apple-logo.png',
+                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                ),
+                              ),
+                              TextDandyLight(
+                                text: 'Sign in with Apple',
+                                type: TextDandyLight.LARGE_TEXT,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              )
+                            ],
+                          ),
+                        ),
+                      )) : SizedBox(),
+
+                      DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : Platform.isAndroid ? SlideTransition(
+                          position: showLoginButtonsStep,
+                          child: GestureDetector(
+                        onTap: () {
+                          pageState.onSignUpWithGoogleSelected();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                          margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 8.0),
+                          alignment: Alignment.centerLeft,
+                          height: 54.0,
+                          decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(36.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(right: 16.0),
+                                height: 24.0,
+                                width: 24.0,
+                                child: Image.asset(
+                                  'assets/images/icons/google.png',
+                                ),
+                              ),
+                              TextDandyLight(
+                                text: 'Sign in with Google',
+                                type: TextDandyLight.LARGE_TEXT,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ) : SizedBox(),
+
+                    DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : SlideTransition(
+                    position: showLoginButtonsStep,
+                    child: Container(
+                        margin: EdgeInsets.only(top: 8, bottom: 8),
+                        child: Row(
+
+                          children: [
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 48.0, right: 8),
+                                height: 1,
+                                width: double.infinity,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
+                            ),
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Or',
+                              color: Color(ColorConstants.getPrimaryBlack()),
+                            ),
+                            Expanded(
+                              child: Container(
+                                margin: EdgeInsets.only(left: 8, right: 48),
+                                height: 1,
+                                width: double.infinity,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                  ),
                       DeviceType.getDeviceType() == Type.Tablet && pageState.mainButtonsVisible || pageState.showLoginLoadingAnimation ? SizedBox() : SlideTransition(
                         position: showLoginButtonsStep,
                         child: LoginTextField(
@@ -691,7 +843,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           hintText: 'Email address',
                           labelText: 'Email address',
                           inputType: TextInputType.emailAddress,
-                          height: 64.0,
+                          height: 54.0,
                           inputTypeError: 'Email address is required',
                           onTextInputChanged: (email) => pageState.onLoginEmailChanged(email),
                           onEditingCompleted: null,
@@ -714,7 +866,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                           hintText: 'Password',
                           labelText: 'Password',
                           inputType: TextInputType.text,
-                          height: 64.0,
+                          height: 54.0,
                           inputTypeError: 'Password is required',
                           onTextInputChanged: (password) => pageState.onLoginPasswordChanged(password),
                           onEditingCompleted: null,
@@ -743,10 +895,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                             }
                           },
                           child: Container(
-                            margin: EdgeInsets.only(bottom: 6.0, top: 8),
+                            margin: EdgeInsets.only(left: 32, right: 32, bottom: 6.0, top: 8),
                             alignment: Alignment.center,
                             height: 54.0,
-                            width: 250.0,
                             decoration: !pageState.showLoginLoadingAnimation ? BoxDecoration(
                                 color: Color(ColorConstants.getPeachDark()),
                                 borderRadius: BorderRadius.circular(36.0)) : BoxDecoration(),
@@ -996,6 +1147,22 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                     image: DecorationImage(
                       fit: BoxFit.fitWidth,
                       image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
+                    ),
+                  ),
+                ),
+              ) : SizedBox(),
+              pageState.showLoadingAnimation ? Container(
+                alignment: Alignment.center,
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                color: Color(ColorConstants.getBlueLight()),
+                child: Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.fitWidth,
+                        image: AssetImage("assets/images/backgrounds/flowerBgLaunch.png"),
+                      ),
                     ),
                   ),
                 ),

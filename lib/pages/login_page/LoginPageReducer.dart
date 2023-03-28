@@ -31,7 +31,14 @@ final loginPageReducer = combineReducers<LoginPageState>([
   TypedReducer<LoginPageState, ResetLoginState>(_resetState),
   TypedReducer<LoginPageState, SetCurrentUserCheckState>(_updateUserCheckStatus),
   TypedReducer<LoginPageState, SetIsLoginWithAppleAvailableAction>(_setIsAppleLoginAvailable),
+  TypedReducer<LoginPageState, SetShowLoadingAnimationAction>(_setShowLoadingAnimation),
 ]);
+
+LoginPageState _setShowLoadingAnimation(LoginPageState previousState, SetShowLoadingAnimationAction action) {
+  return previousState.copyWith(
+    showLoadingAnimation: action.show,
+  );
+}
 
 LoginPageState _setIsAppleLoginAvailable(LoginPageState previousState, SetIsLoginWithAppleAvailableAction action) {
   return previousState.copyWith(

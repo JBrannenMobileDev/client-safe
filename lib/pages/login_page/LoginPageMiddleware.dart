@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:ui';
 
+import 'package:crypto/crypto.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
@@ -20,10 +22,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
-import 'package:the_apple_sign_in/the_apple_sign_in.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
@@ -47,6 +50,10 @@ import 'LoginPageActions.dart';
 
 class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
+  static const String EMAIL = 'email';
+  static const String APPLE = 'apple';
+  static const String GOOGLE = 'google';
+
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
     if(action is CreateAccountAction) {
@@ -67,68 +74,88 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SignUpWithAppleAction) {
       _signUpWithAppleFlow(store, action, next);
     }
+    if(action is SignUpWithGoogleAction) {
+      _signUpWithGoogleFlow(store, action, next);
+    }
+  }
+
+  void _signUpWithGoogleFlow(Store<AppState> store, SignUpWithGoogleAction action, next) async {
+    store.dispatch(SetShowLoadingAnimationAction(store.state.loginPageState, true));
+    final _firebaseAuth = FirebaseAuth.instance;
+
+    try {
+      final GoogleSignIn _googleSignIn = GoogleSignIn();
+      GoogleSignInAccount googleSignInAccount = await _googleSignIn.signIn();
+      GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+      AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleSignInAuthentication.accessToken,
+        idToken: googleSignInAuthentication.idToken,
+      );
+      final userCredential = await _firebaseAuth.signInWithCredential(credential);
+      Profile existingProfile = await UserCollection().getUser(userCredential.user.uid);
+
+      if(existingProfile == null) {
+        List<String> names = googleSignInAccount.displayName.split(' ');
+        String firstName = names.length > 0 ? names.elementAt(0) : '';
+        String lastName = names.length >= 2 ? names.elementAt(1) : '';
+        String email = userCredential.user.email;
+        final user = userCredential.user;
+        await user.updateDisplayName(firstName);
+        _createNewUserProfile(store, user, firstName, lastName, email, GOOGLE);
+      } else {
+        _loginAfterAppleSignIn(store, existingProfile);
+      }
+    } catch(ex) {
+      store.dispatch(SetShowLoadingAnimationAction(store.state.loginPageState, false));
+      print(ex.toString());
+    }
+  }
+
+  /// Returns the sha256 hash of [input] in hex notation.
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
   }
 
   void _signUpWithAppleFlow(Store<AppState> store, SignUpWithAppleAction action, next) async {
-    store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
+    store.dispatch(SetShowLoadingAnimationAction(store.state.loginPageState, true));
     final _firebaseAuth = FirebaseAuth.instance;
-    List<Scope> scopes = [Scope.email, Scope.fullName];
+    List<AppleIDAuthorizationScopes> scopes = [AppleIDAuthorizationScopes.email, AppleIDAuthorizationScopes.fullName];
 
-    show loading icon when creating account with apple
+    try {
+      final rawNonce = generateNonce();
+      final nonce = sha256ofString(rawNonce);
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: scopes,
+        nonce: nonce,
+      );
 
-      // 1. perform the sign-in request
-      final result = await TheAppleSignIn.performRequests([AppleIdRequest(requestedScopes: scopes)]);
-      // 2. check the result
-      switch (result.status) {
-        case AuthorizationStatus.authorized:
-          final appleIdCredential = result.credential;
-          final oAuthProvider = OAuthProvider('apple.com');
-          final credential = oAuthProvider.credential(
-            idToken: String.fromCharCodes(appleIdCredential.identityToken),
-            accessToken:
-            String.fromCharCodes(appleIdCredential.authorizationCode),
-          );
-          try {
-            final userCredential = await _firebaseAuth.signInWithCredential(credential);
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+      final userCredential = await _firebaseAuth.signInWithCredential(oauthCredential);
 
-            Profile existingProfile = await UserCollection().getUser(userCredential.user.uid);
+      Profile existingProfile = await UserCollection().getUser(userCredential.user.uid);
 
-            if(existingProfile == null) {
-              String firstName = '';
-              String lastName = '';
-              String email = userCredential.user.email;
-              final user = userCredential.user;
-              if (scopes.contains(Scope.fullName)) {
-                final fullName = appleIdCredential.fullName;
-                if (fullName != null && fullName.givenName != null && fullName.familyName != null) {
-                  final displayName = '${fullName.givenName} ${fullName.familyName}';
-                  firstName = fullName.givenName;
-                  lastName = fullName.familyName;
-                  await user.updateDisplayName(displayName);
-                }
-              }
-              _createNewUserProfile(store, user, firstName, lastName, email, false);
-            } else {
-             _loginAfterAppleSignIn(store, existingProfile);
-            }
-          } catch(ex) {
-            print(ex.toString());
-          }
-      break;
-        case AuthorizationStatus.error:
-          throw PlatformException(
-            code: 'ERROR_AUTHORIZATION_DENIED',
-            message: result.error.toString(),
-          );
-
-        case AuthorizationStatus.cancelled:
-          throw PlatformException(
-            code: 'ERROR_ABORTED_BY_USER',
-            message: 'Sign in aborted by user',
-          );
-        default:
-          throw UnimplementedError();
+      if(existingProfile == null) {
+        String firstName = '';
+        String lastName = '';
+        String email = userCredential.user.email;
+        final user = userCredential.user;
+        final displayName = '${appleCredential.givenName} ${appleCredential.familyName}';
+        firstName = appleCredential.givenName;
+        lastName = appleCredential.familyName;
+        await user.updateDisplayName(displayName);
+        _createNewUserProfile(store, user, firstName, lastName, email, APPLE);
+      } else {
+        _loginAfterAppleSignIn(store, existingProfile);
       }
+    } catch(ex) {
+      store.dispatch(SetShowLoadingAnimationAction(store.state.loginPageState, false));
+      print(ex.toString());
+    }
   }
 
   void _loginAfterAppleSignIn(Store<AppState> store, Profile existingProfile) async {
@@ -357,10 +384,20 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       });
     }
   }
-  void _createNewUserProfile(Store<AppState> store, User user, String firstName, String lastName, String email, bool isSignInWithEmail) async {
+  void _createNewUserProfile(Store<AppState> store, User user, String firstName, String lastName, String email, String signInType) async {
     if(user != null) {
       UidUtil().setUid(user.uid);
-      await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS);
+      switch(signInType) {
+        case EMAIL:
+          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS);
+          break;
+        case APPLE:
+          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS_APPLE_SIGN_UP);
+          break;
+        case GOOGLE:
+          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS_GOOGLE_SIGN_UP);
+          break;
+      }
       await EventSender().setUserIdentity(user.uid);
       await EventSender().setUserProfileData(EventNames.FIRST_NAME, firstName);
       await EventSender().setUserProfileData(EventNames.LAST_NAME, lastName);
@@ -370,7 +407,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await EventSender().setUserProfileData(EventNames.BUILD_VERSION, (await PackageInfo.fromPlatform()).version);
       await EventSender().setUserProfileData(EventNames.BUILD_NUMBER, (await PackageInfo.fromPlatform()).buildNumber);
     }
-    if(user != null && (isSignInWithEmail && !user.emailVerified) || !isSignInWithEmail){
+    if(user != null && (signInType == EMAIL && !user.emailVerified) || signInType != EMAIL){
       List<Profile> userProfiles = await ProfileDao.getAll();
       if(userProfiles.isNotEmpty) {
         for(Profile profile in userProfiles) {
@@ -506,7 +543,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
 
-      if(isSignInWithEmail) {
+      if(signInType == EMAIL) {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
       } else {
         store.dispatch(UpdateMainButtonsVisibleAction(store.state.loginPageState, false));
@@ -550,7 +587,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         store.dispatch(SetCreateAccountErrorMessageAction(store.state.loginPageState, error.message));
         VibrateUtil.vibrateMultiple();
       });
-      _createNewUserProfile(store, user, store.state.loginPageState.firstName, store.state.loginPageState.lastName, store.state.loginPageState.emailAddress, true);
+      _createNewUserProfile(store, user, store.state.loginPageState.firstName, store.state.loginPageState.lastName, store.state.loginPageState.emailAddress, EMAIL);
     }
   }
 

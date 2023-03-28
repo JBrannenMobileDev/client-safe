@@ -191,6 +191,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, ResendEmailVerificationAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResetPasswordAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SignUpWithAppleAction>(LoginPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SignUpWithGoogleAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoginAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadSettingsFromProfile>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePushNotificationSettingAction>(MainSettingsPageMiddleware()));

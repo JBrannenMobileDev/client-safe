@@ -1,10 +1,11 @@
-import 'package:the_apple_sign_in/the_apple_sign_in.dart';
+
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AppleSignInAvailable {
   AppleSignInAvailable(this.isAvailable);
   final bool isAvailable;
 
   static Future<AppleSignInAvailable> check() async {
-    return AppleSignInAvailable(await TheAppleSignIn.isAvailable());
+    return AppleSignInAvailable(await SignInWithApple.isAvailable());
   }
 }

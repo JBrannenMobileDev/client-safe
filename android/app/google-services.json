@@ -8,48 +8,20 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:43963046767:android:466fd27fb4ea629d85e69a",
-        "android_client_info": {
-          "package_name": "com.dandylight.flutter"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "43963046767-0u8oe1bo3gpu3277brrurbc3endht9j5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCFEEmUrk9E7lagg9cam_RI3zJ9cQkeYGU"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "43963046767-0u8oe1bo3gpu3277brrurbc3endht9j5.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "43963046767-bkqnqki8giamdfut41bdtg736cc9qs8c.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.dandylight.mobile"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:43963046767:android:97b3ebdd3c14914e85e69a",
         "android_client_info": {
           "package_name": "com.dandylight.mobile"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "43963046767-cb9om1s4gcncjirv3nbnls9s4spda7cb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dandylight.mobile",
+            "certificate_hash": "7493da1ac809a21fccfa01f2930da91a76986a5e"
+          }
+        },
         {
           "client_id": "43963046767-0u8oe1bo3gpu3277brrurbc3endht9j5.apps.googleusercontent.com",
           "client_type": 3

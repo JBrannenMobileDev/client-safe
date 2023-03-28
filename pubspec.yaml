@@ -82,7 +82,9 @@ dependencies:
   purchases_flutter: ^4.0.0
   super_banners: ^0.0.1
   synchronized: ^3.0.1
-  the_apple_sign_in: ^1.1.1
+  sign_in_with_apple: ^4.3.0
+  crypto: ^3.0.2
+  google_sign_in: ^6.0.2
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
@@ -255,6 +257,7 @@ flutter:
     - assets/images/icons/google.png
     - assets/images/icons/apple-logo.png
     - assets/images/icons/no_card.png
+    - assets/images/icons/envelope.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
