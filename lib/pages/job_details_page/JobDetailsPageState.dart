@@ -12,12 +12,14 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
+import '../../utils/analytics/EventNames.dart';
 import '../pose_group_page/GroupImage.dart';
 
 class JobDetailsPageState {
@@ -47,6 +49,7 @@ class JobDetailsPageState {
   final List<JobType> jobTypes;
   final List<DocumentItem> documents;
   final Invoice invoice;
+  final String notes;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(String) onSaveUpdatedPriceProfileSelected;
   final Function(JobType) onJobTypeSelected;
@@ -81,6 +84,7 @@ class JobDetailsPageState {
   final Function(DateTime) onMonthChanged;
   final Function(DateTime) onNewDateSelected;
   final Function(int) onDeletePoseSelected;
+  final Function(String) onNotesTextChanged;
 
   JobDetailsPageState({
     @required this.job,
@@ -143,6 +147,8 @@ class JobDetailsPageState {
     @required this.onNewEndTimeSelected,
     @required this.poseImages,
     @required this.onDeletePoseSelected,
+    @required this.onNotesTextChanged,
+    @required this.notes,
   });
 
   JobDetailsPageState copyWith({
@@ -206,6 +212,8 @@ class JobDetailsPageState {
     Function(DateTime) onNewEndTimeSelected,
     List<GroupImage> poseImages,
     Function(int) onDeletePoseSelected,
+    Function(String) onNotesTextChanged,
+    String notes,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -268,6 +276,8 @@ class JobDetailsPageState {
       onNewEndTimeSelected: onNewEndTimeSelected ?? this.onNewEndTimeSelected,
       poseImages: poseImages ?? this.poseImages,
       onDeletePoseSelected: onDeletePoseSelected ?? this.onDeletePoseSelected,
+      onNotesTextChanged: onNotesTextChanged ?? this.onNotesTextChanged,
+      notes: notes ?? this.notes,
     );
   }
 
@@ -298,6 +308,7 @@ class JobDetailsPageState {
         jobType: store.state.jobDetailsPageState.jobType,
         jobTypes: store.state.jobDetailsPageState.jobTypes,
         poseImages: store.state.jobDetailsPageState.poseImages,
+        notes: store.state.jobDetailsPageState.notes,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -336,6 +347,9 @@ class JobDetailsPageState {
         onMonthChanged: (month) => store.dispatch(FetchJobDetailsDeviceEvents(store.state.jobDetailsPageState, month)),
         onNewDateSelected: (selectedDate) => store.dispatch(SetJobDetailsSelectedDateAction(store.state.jobDetailsPageState, selectedDate)),
         onDeletePoseSelected: (imageIndex) => store.dispatch(DeleteJobPoseAction(store.state.jobDetailsPageState, imageIndex)),
+        onNotesTextChanged: (notes) {
+          store.dispatch(SaveJobNotesAction(store.state.jobDetailsPageState, notes));
+        },
     );
   }
 
@@ -399,6 +413,8 @@ class JobDetailsPageState {
     onNewEndTimeSelected: null,
     poseImages: [],
     onDeletePoseSelected: null,
+    onNotesTextChanged: null,
+    notes: "",
   );
 
   @override
@@ -456,6 +472,8 @@ class JobDetailsPageState {
       onNewEndTimeSelected.hashCode ^
       poseImages.hashCode ^
       onDeletePoseSelected.hashCode ^
+      onNotesTextChanged.hashCode ^
+      notes.hashCode ^
       reminders.hashCode;
 
   @override
@@ -513,5 +531,7 @@ class JobDetailsPageState {
               onNewEndTimeSelected == other.onNewEndTimeSelected &&
               poseImages == other.poseImages &&
               onDeletePoseSelected == other.onDeletePoseSelected &&
+              onNotesTextChanged == other.onNotesTextChanged &&
+              notes == other.notes &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }

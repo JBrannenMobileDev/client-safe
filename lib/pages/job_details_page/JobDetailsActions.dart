@@ -44,6 +44,12 @@ class DeleteJobPoseAction {
   DeleteJobPoseAction(this.pageState, this.imageIndex);
 }
 
+class SaveJobNotesAction {
+  final JobDetailsPageState pageState;
+  final String notes;
+  SaveJobNotesAction(this.pageState, this.notes);
+}
+
 class SetDeviceEventsAction {
   final JobDetailsPageState pageState;
   final List<Event> deviceEvents;

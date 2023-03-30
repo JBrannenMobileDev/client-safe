@@ -56,6 +56,7 @@ class DandyLightTextField extends StatelessWidget {
                 ),
                 keyboardType: inputType,
                 textCapitalization: capitalization,
+                maxLines: 500,
                 inputFormatters: inputFormatter != null ? inputFormatter : null,
                 style: TextStyle(
                     fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),

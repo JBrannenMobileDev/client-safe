@@ -38,7 +38,14 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, DeleteInvoiceFromLocalStateAction>(_deleteInvoice),
   TypedReducer<JobDetailsPageState, ClearPreviousStateAction>(_clearState),
   TypedReducer<JobDetailsPageState, SetPoseImagesAction>(_setPoseImages),
+  TypedReducer<JobDetailsPageState, SaveJobNotesAction>(_setNotes),
 ]);
+
+JobDetailsPageState _setNotes(JobDetailsPageState previousState, SaveJobNotesAction action) {
+  return previousState.copyWith(
+    notes: action.notes,
+  );
+}
 
 JobDetailsPageState _setPoseImages(JobDetailsPageState previousState, SetPoseImagesAction action) {
   return previousState.copyWith(
@@ -228,6 +235,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     invoice: action.job.invoice,
     selectedDate: action.job.selectedDate,
     jobType: action.job.type,
+    notes: action.job.notes,
   );
 }
 

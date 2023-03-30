@@ -127,6 +127,19 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteJobPoseAction) {
       _deletePose(store, action, next);
     }
+    if(action is SaveJobNotesAction) {
+      _saveJobNotes(store, action, next);
+    }
+  }
+
+  void _saveJobNotes(Store<AppState> store, SaveJobNotesAction action, NextDispatcher next) async{
+    Job jobToSave = store.state.jobDetailsPageState.job.copyWith(
+      notes: action.notes,
+    );
+    await JobDao.insertOrUpdate(jobToSave);
+    store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
+    store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    next(SaveJobNotesAction(store.state.jobDetailsPageState, action.notes));
   }
 
   void _deletePose(Store<AppState> store, DeleteJobPoseAction action, NextDispatcher next) async {

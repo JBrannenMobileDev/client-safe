@@ -26,12 +26,12 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        notesController.value = notesController.value.copyWith(text:store.state.clientDetailsPageState.client.notes);
+        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState.notes);
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
-            margin: EdgeInsets.only(left: 16, top: 0, right: 16, bottom: 16),
+            margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
             height: 150,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
