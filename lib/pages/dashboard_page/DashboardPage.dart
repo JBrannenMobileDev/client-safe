@@ -259,6 +259,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                   _startShowcase();
                   current.onShowcaseSeen();
                 }
+                EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
               } else {
                 if(!hasNavigatedToSubscriptionPage) {
                   hasNavigatedToSubscriptionPage = true;

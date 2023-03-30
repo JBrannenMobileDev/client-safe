@@ -23,12 +23,13 @@ class PosesPage extends StatefulWidget {
   static const String FILTER_TYPE_MY_POSES = "My Poses";
   static const String FILTER_TYPE_POSE_LIBRARY = "Pose Library";
   final Job job;
+  final bool comingFromDetails;
 
-  PosesPage(this.job);
+  PosesPage(this.job, this.comingFromDetails);
 
   @override
   State<StatefulWidget> createState() {
-    return _PosesPageState(job);
+    return _PosesPageState(job, comingFromDetails);
   }
 }
 
@@ -38,8 +39,9 @@ class _PosesPageState extends State<PosesPage> {
   int selectedIndex = 0;
   Map<int, Widget> tabs;
   Job job;
+  bool comingFromDetails;
 
-  _PosesPageState(this.job);
+  _PosesPageState(this.job, this.comingFromDetails);
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +69,7 @@ class _PosesPageState extends State<PosesPage> {
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             bottomSheet: job != null
-                ? GoToJobPosesBottomSheet(job, 2)
+                ? GoToJobPosesBottomSheet(job, comingFromDetails ? 1 : 1)
                 : SizedBox(),
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             body: CustomScrollView(
@@ -100,7 +102,7 @@ class _PosesPageState extends State<PosesPage> {
                     ) : SizedBox(),
                     GestureDetector(
                       onTap: () {
-                        NavigationUtil.onSearchPosesSelected(context, job);
+                        NavigationUtil.onSearchPosesSelected(context, job, comingFromDetails);
                         EventSender().sendEvent(
                             eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
                       },
@@ -154,7 +156,7 @@ class _PosesPageState extends State<PosesPage> {
                 ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                    return selectedIndex == 0 ? PoseGroupListWidget(index, job) : PoseLibraryGroupListWidget(index, job);
+                    return selectedIndex == 0 ? PoseGroupListWidget(index, job, comingFromDetails) : PoseLibraryGroupListWidget(index, job, comingFromDetails);
                   },
                     childCount: selectedIndex == 0 ? pageState.poseGroups.length : pageState.libraryGroups.length, // 1000 list items
                   ),

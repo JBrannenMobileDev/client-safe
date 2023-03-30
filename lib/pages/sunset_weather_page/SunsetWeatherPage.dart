@@ -621,13 +621,13 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                               ],
                             ),
                       Container(
-                        margin: EdgeInsets.only(left: 40.0, top: 64.0, right: 40.0, bottom: 64.0),
+                        margin: EdgeInsets.only(left: 64.0, top: 64.0, right: 64.0, bottom: 64.0),
                           child: RichText(
                             textAlign: TextAlign.center,
                             text: TextSpan(
                               text: 'Sunrise - Sunset data is provided by ',
                               style: TextStyle(
-                                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
                                 fontFamily: TextDandyLight.getFontFamily(),
                                 fontWeight: TextDandyLight.getFontWeight(),
                                 color: Color(
@@ -641,7 +641,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
                                       _launchURL();
                                     },
                                   style: TextStyle(
-                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                                    fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
                                     fontFamily: TextDandyLight.getFontFamily(),
                                     fontWeight: TextDandyLight.getFontWeight(),
                                     color: Color(

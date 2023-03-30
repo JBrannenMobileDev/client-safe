@@ -5,8 +5,8 @@ class DandylightCacheManager {
   static CacheManager instance = CacheManager(
     Config(
       key,
-      stalePeriod: const Duration(days: 365),
-      maxNrOfCacheObjects: 500,
+      stalePeriod: const Duration(days: 99999999),
+      maxNrOfCacheObjects: 2500,
     ),
   );
 }

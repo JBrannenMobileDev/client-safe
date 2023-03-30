@@ -25,12 +25,13 @@ import 'PosesPageState.dart';
 
 class PosesSearchPage extends StatefulWidget {
   final Job job;
+  final bool comingFromDetails;
 
-  PosesSearchPage(this.job);
+  PosesSearchPage(this.job, this.comingFromDetails);
 
   @override
   State<StatefulWidget> createState() {
-    return _PosesSearchPageState(job);
+    return _PosesSearchPageState(job, comingFromDetails);
   }
 }
 
@@ -38,8 +39,9 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
   ScrollController _controller;
   final firstNameTextController = TextEditingController();
   Job job;
+  bool comingFromDetails;
 
-  _PosesSearchPageState(this.job);
+  _PosesSearchPageState(this.job, this.comingFromDetails);
 
   Widget _buildItem(BuildContext context, int index) {
     return StoreConnector<AppState, PosesPageState>(
@@ -93,7 +95,7 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
-            bottomSheet: job != null ? GoToJobPosesBottomSheet(job, 3) : SizedBox(),
+            bottomSheet: job != null ? GoToJobPosesBottomSheet(job, comingFromDetails ? 2 : 2) : SizedBox(),
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             body: CustomScrollView(
               controller: _controller,

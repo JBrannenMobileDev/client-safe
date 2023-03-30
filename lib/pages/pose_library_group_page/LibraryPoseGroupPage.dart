@@ -29,12 +29,13 @@ import 'LibrarySingleImageViewPager.dart';
 class LibraryPoseGroupPage extends StatefulWidget {
   final PoseLibraryGroup poseGroup;
   final Job job;
+  final bool comingFromDetails;
 
-  LibraryPoseGroupPage(this.poseGroup, this.job);
+  LibraryPoseGroupPage(this.poseGroup, this.job, this.comingFromDetails);
 
   @override
   State<StatefulWidget> createState() {
-    return _LibraryPoseGroupPageState(poseGroup, job);
+    return _LibraryPoseGroupPageState(poseGroup, job, comingFromDetails);
   }
 }
 
@@ -44,8 +45,9 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final Job job;
+  final bool comingFromDetails;
 
-  _LibraryPoseGroupPageState(this.poseGroup, this.job);
+  _LibraryPoseGroupPageState(this.poseGroup, this.job, this.comingFromDetails);
 
   Widget _buildItem(BuildContext context, int index, ) {
     return StoreConnector<AppState, LibraryPoseGroupPageState>(
@@ -91,6 +93,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LibraryPoseGroupPageState>(
       onInit: (store) async {
+        store.dispatch(ClearLibraryPoseGroupState(store.state.libraryPoseGroupPageState));
         store.dispatch(ClearLibraryGroupImagesAction(store.state.libraryPoseGroupPageState));
         store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
         store.dispatch(LoadMoreImagesAction(store.state.libraryPoseGroupPageState, poseGroup));
@@ -98,13 +101,8 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
       },
       converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
-          WillPopScope(
-        onWillPop: () {
-          pageState.onBackSelected();
-          return Future.value(true);
-        },
-        child: Scaffold(
-          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, 3) : SizedBox(),
+          Scaffold(
+          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, comingFromDetails ? 2 : 2) : SizedBox(),
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
             children: [
@@ -171,9 +169,25 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                   ),
                 ],
               ),
+              pageState.isLoadingNewImages ? Align(
+                alignment: Alignment.bottomCenter,
+                child: Container(
+                  margin: EdgeInsets.only(bottom: 48),
+                  height: 64,
+                  width: 64,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+
+                    borderRadius: new BorderRadius.circular(16.0),
+                  ),
+                  child: LoadingAnimationWidget.fourRotatingDots(
+                    color: Color(ColorConstants.getPeachLight()),
+                    size: 48,
+                  ),
+                ),
+              ) : SizedBox(),
             ],
           ),
-        ),
       ),
     );
   }

@@ -309,6 +309,14 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
   void _fetchPricePackages(Store<AppState> store, action, NextDispatcher next) async{
     List<PriceProfile> priceProfiles = await PriceProfileDao.getAllSortedByName();
     store.dispatch(SetPricingProfiles(store.state.jobDetailsPageState, priceProfiles));
+
+    (await PriceProfileDao.getPriceProfilesStream()).listen((snapshot) async {
+      List<PriceProfile> profiles = [];
+      for(RecordSnapshot clientSnapshot in snapshot) {
+        profiles.add(PriceProfile.fromMap(clientSnapshot.value));
+      }
+      store.dispatch(SetPricingProfiles(store.state.jobDetailsPageState, profiles));
+    });
   }
 
   void _fetchAllJobs(Store<AppState> store, action, NextDispatcher next) async{
@@ -316,7 +324,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetEventMapAction(store.state.jobDetailsPageState, upcomingJobs));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> jobs = List();
+      List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }

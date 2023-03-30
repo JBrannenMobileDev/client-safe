@@ -16,8 +16,9 @@ import '../PosesPageState.dart';
 class PoseGroupListWidget extends StatelessWidget {
   final int index;
   final Job job;
+  final bool comingFromDetails;
 
-  PoseGroupListWidget(this.index, this.job);
+  PoseGroupListWidget(this.index, this.job, this.comingFromDetails);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,7 @@ class PoseGroupListWidget extends StatelessWidget {
       InkWell(
         onTap: () {
           Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index), job)),
+            new MaterialPageRoute(builder: (context) => PoseGroupPage(pageState.poseGroups.elementAt(index), job, comingFromDetails)),
           );
         },
         child: Padding(

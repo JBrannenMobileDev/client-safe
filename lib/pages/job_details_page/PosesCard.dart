@@ -32,7 +32,7 @@ class PosesCard extends StatelessWidget {
           NavigationUtil.onJobPosesSelected(context);
           EventSender().sendEvent(eventName: EventNames.NAV_TO_JOB_POSES_FROM_JOB_DETAILS);
         } else {
-          NavigationUtil.onPosesSelected(context, pageState.job);
+          NavigationUtil.onPosesSelected(context, pageState.job, true);
           EventSender().sendEvent(eventName: EventNames.NAV_TO_POSES_ADD_POSE_TO_JOB);
         }
       },

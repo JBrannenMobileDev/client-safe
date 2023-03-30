@@ -135,14 +135,20 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
   void _getGroupImages(Store<AppState> store, PoseGroup poseGroup) async {
     List<GroupImage> poseImages = [];
+    final List<Future<dynamic>> featureList = <Future<dynamic>>[];
     for(Pose pose in poseGroup.poses) {
-      if(pose.isLibraryPose()) {
-        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, true, null)).path), pose: pose));
-      } else {
-        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, false, null)).path), pose: pose));
-      }
-      store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, poseImages));
+      featureList.add(fetchImage(pose, poseImages, poseGroup, store));
     }
+    await Future.wait<dynamic>(featureList);
+  }
+
+  Future fetchImage(Pose pose, List<GroupImage> poseImages, PoseGroup poseGroup, Store<AppState> store) async {
+    if(pose.isLibraryPose()) {
+      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, true, null)).path), pose: pose));
+    } else {
+      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, false, null)).path), pose: pose));
+    }
+    store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, poseImages));
   }
 
   void _sharePoseImages(Store<AppState> store, SharePosesAction action) async {

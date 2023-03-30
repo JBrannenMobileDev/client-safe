@@ -31,6 +31,7 @@ import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:redux/redux.dart';
 
 import '../../widgets/TextDandyLight.dart';
+import 'JobNotesWidget.dart';
 import 'PosesCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
@@ -421,6 +422,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               JobInfoCard(pageState: pageState),
                               ClientDetailsCard(pageState: pageState),
                               PosesCard(pageState: pageState),
+                              JobNotesWidget(),
                               DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, onDeleteInvoiceSelected: onDeleteInvoiceSelected),
                               RemindersCard(pageState: pageState),
                             ])),

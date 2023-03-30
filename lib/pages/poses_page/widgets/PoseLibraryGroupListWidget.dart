@@ -19,8 +19,9 @@ import '../PosesPageState.dart';
 class PoseLibraryGroupListWidget extends StatelessWidget {
   final int index;
   final Job job;
+  final bool comingFromDetails;
 
-  PoseLibraryGroupListWidget(this.index, this.job);
+  PoseLibraryGroupListWidget(this.index, this.job, this.comingFromDetails);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
       InkWell(
         onTap: () {
           Navigator.of(context).push(
-            new MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.libraryGroups.elementAt(index), job)),
+            new MaterialPageRoute(builder: (context) => LibraryPoseGroupPage(pageState.libraryGroups.elementAt(index), job, comingFromDetails)),
           );
           EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_GROUP);
         },

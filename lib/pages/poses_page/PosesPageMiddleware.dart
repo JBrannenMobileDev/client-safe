@@ -96,22 +96,29 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
         List<Pose> libraryPoses = store.state.posesPageState.searchResultPoses;
 
         List<GroupImage> imageFiles = store.state.posesPageState.searchResultsImages;
-
         libraryPoses = _sortPoses(libraryPoses);
-        final int PAGE_SIZE = 4;
+
+        final int PAGE_SIZE = 10;
 
         int posesSize = imageFiles.length;
 
+        final List<Future<dynamic>> featureList = <Future<dynamic>>[];
         for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
-          if(libraryPoses.length > startIndex) {
-            Pose pose = libraryPoses.elementAt(startIndex);
-            imageFiles.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, null)).path), pose: pose));
-            store.dispatch(SetSearchResultPosesAction(store.state.posesPageState, imageFiles));
-          }
+          featureList.add(_fetchImage(libraryPoses, startIndex, imageFiles, store));
         }
+        await Future.wait<dynamic>(featureList);
+
         store.dispatch(SetLoadingNewSearchResultImagesState(store.state.posesPageState, false));
       }
     });
+  }
+
+  Future _fetchImage(List<Pose> libraryPoses, int startIndex, List<GroupImage> imageFiles, Store<AppState> store) async {
+    if(libraryPoses.length > startIndex) {
+      Pose pose = libraryPoses.elementAt(startIndex);
+      imageFiles.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, null)).path), pose: pose));
+      store.dispatch(SetSearchResultPosesAction(store.state.posesPageState, imageFiles));
+    }
   }
 
   List<Pose> _sortPoses(List<Pose> poses) {

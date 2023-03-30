@@ -32,12 +32,13 @@ import 'PoseGroupActions.dart';
 class PoseGroupPage extends StatefulWidget {
   final PoseGroup poseGroup;
   final Job job;
+  final bool comingFromDetails;
 
-  PoseGroupPage(this.poseGroup, this.job);
+  PoseGroupPage(this.poseGroup, this.job, this.comingFromDetails);
 
   @override
   State<StatefulWidget> createState() {
-    return _PoseGroupPageState(poseGroup, job);
+    return _PoseGroupPageState(poseGroup, job, comingFromDetails);
   }
 }
 
@@ -45,8 +46,9 @@ class _PoseGroupPageState extends State<PoseGroupPage>
     with TickerProviderStateMixin {
   final PoseGroup poseGroup;
   final Job job;
+  final bool comingFromDetails;
 
-  _PoseGroupPageState(this.poseGroup, this.job);
+  _PoseGroupPageState(this.poseGroup, this.job, this.comingFromDetails);
 
   Future getDeviceImage(PoseGroupPageState pageState) async {
     try{
@@ -165,17 +167,13 @@ class _PoseGroupPageState extends State<PoseGroupPage>
   Widget build(BuildContext context) {
     return StoreConnector<AppState, PoseGroupPageState>(
       onInit: (store) async {
+        store.dispatch(ClearPoseGroupState(store.state.poseGroupPageState));
         store.dispatch(LoadPoseImagesFromStorage(store.state.poseGroupPageState, poseGroup));
       },
       converter: (Store<AppState> store) => PoseGroupPageState.fromStore(store),
       builder: (BuildContext context, PoseGroupPageState pageState) =>
-          WillPopScope(
-        onWillPop: () {
-          pageState.onBackSelected();
-          return Future.value(true);
-        },
-        child: Scaffold(
-          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, 3) : SizedBox(),
+          Scaffold(
+          bottomSheet: job != null ? GoToJobPosesBottomSheet(job, comingFromDetails ? 2 : 2) : SizedBox(),
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: Stack(
             children: [
@@ -318,7 +316,6 @@ class _PoseGroupPageState extends State<PoseGroupPage>
               ),
             ],
           ),
-        ),
       ),
     );
   }

@@ -405,9 +405,9 @@ DashboardPageState _setClients(DashboardPageState previousState, SetClientsDashb
         color: Color(ColorConstants.getPieChartColor(index)),
         value: (count/allClientsFromThisYear.length*100).roundToDouble(),
         title: (count/allClientsFromThisYear.length*100).round().toString() + '%',
-        radius: 50,
+        radius: 54,
         titleStyle: TextStyle(
-          fontSize: 20,
+          fontSize: 18,
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: FontWeight.w500,
           color: const Color(0xffffffff),

@@ -77,11 +77,11 @@ class NavigationUtil {
   static onJobPosesSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobPosesPage()));
   }
-  static onPosesSelected(BuildContext context, Job job) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job)));
+  static onPosesSelected(BuildContext context, Job job, bool comingFromJobDetails) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job, comingFromJobDetails)));
   }
-  static onSearchPosesSelected(BuildContext context, Job job) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesSearchPage(job)));
+  static onSearchPosesSelected(BuildContext context, Job job, bool comingFromJobDetails) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesSearchPage(job, comingFromJobDetails)));
   }
   static void onSuccessfulLogin(BuildContext context) {
     Navigator.pushReplacement(
