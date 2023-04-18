@@ -12,7 +12,21 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetDeleteProgressAction>(_updateDeleteProgress),
   TypedReducer<MainSettingsPageState, SavePasswordAction>(_updatePassword),
   TypedReducer<MainSettingsPageState, SetPasswordErrorAction>(_passwordError),
+  TypedReducer<MainSettingsPageState, SetDiscountCodeAction>(_setDiscountCode),
+  TypedReducer<MainSettingsPageState, SetIsAdminAction>(_setIsAdmin),
 ]);
+
+MainSettingsPageState _setIsAdmin(MainSettingsPageState previousState, SetIsAdminAction action){
+  return previousState.copyWith(
+    isAdmin: action.isAdmin,
+  );
+}
+
+MainSettingsPageState _setDiscountCode(MainSettingsPageState previousState, SetDiscountCodeAction action){
+  return previousState.copyWith(
+    discountCode: action.discountCode,
+  );
+}
 
 MainSettingsPageState _passwordError(MainSettingsPageState previousState, SetPasswordErrorAction action){
   return previousState.copyWith(

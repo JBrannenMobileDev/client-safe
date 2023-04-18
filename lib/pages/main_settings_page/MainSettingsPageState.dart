@@ -13,9 +13,11 @@ class MainSettingsPageState{
   final String firstName;
   final String lastName;
   final String businessName;
+  final String discountCode;
   final Profile profile;
   final bool isDeleteInProgress;
   final bool isDeleteFinished;
+  final bool isAdmin;
   final String password;
   final String passwordErrorMessage;
   final Function() onSignOutSelected;
@@ -28,6 +30,7 @@ class MainSettingsPageState{
   final Function(String) onSendSuggestionSelected;
   final Function() onDeleteAccountSelected;
   final Function(String) onPasswordChanged;
+  final Function() generateDiscountCode;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -50,6 +53,9 @@ class MainSettingsPageState{
     @required this.password,
     @required this.onPasswordChanged,
     @required this.passwordErrorMessage,
+    @required this.discountCode,
+    @required this.generateDiscountCode,
+    @required this.isAdmin,
   });
 
   MainSettingsPageState copyWith({
@@ -61,8 +67,10 @@ class MainSettingsPageState{
     Profile profile,
     bool isDeleteInProgress,
     bool isDeleteFinished,
+    bool isAdmin,
     String password,
     String passwordErrorMessage,
+    String discountCode,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -73,6 +81,7 @@ class MainSettingsPageState{
     Function(String) onSendSuggestionSelected,
     Function() onDeleteAccountSelected,
     Function(String) onPasswordChanged,
+    Function() generateDiscountCode,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -95,6 +104,9 @@ class MainSettingsPageState{
       password: password ?? this.password,
       onPasswordChanged: onPasswordChanged ?? this.onPasswordChanged,
       passwordErrorMessage: passwordErrorMessage ?? this.passwordErrorMessage,
+      discountCode: discountCode ?? this.discountCode,
+      generateDiscountCode: generateDiscountCode ?? this.generateDiscountCode,
+      isAdmin: isAdmin ?? this.isAdmin,
     );
   }
 
@@ -119,6 +131,9 @@ class MainSettingsPageState{
     password: '',
     onPasswordChanged: null,
     passwordErrorMessage: '',
+    generateDiscountCode: null,
+    discountCode: '',
+    isAdmin: false,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -133,6 +148,8 @@ class MainSettingsPageState{
       isDeleteInProgress: store.state.mainSettingsPageState.isDeleteInProgress,
       password: store.state.mainSettingsPageState.password,
       passwordErrorMessage: store.state.mainSettingsPageState.passwordErrorMessage,
+      discountCode: store.state.mainSettingsPageState.discountCode,
+      isAdmin: store.state.mainSettingsPageState.isAdmin,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -148,6 +165,7 @@ class MainSettingsPageState{
       onSendSuggestionSelected: (suggestion) => store.dispatch(SendSuggestionAction(store.state.mainSettingsPageState, suggestion)),
       onDeleteAccountSelected: () => store.dispatch(DeleteAccountAction(store.state.mainSettingsPageState)),
       onPasswordChanged: (password) => store.dispatch(SavePasswordAction(store.state.mainSettingsPageState, password)),
+      generateDiscountCode: () => store.dispatch(GenerateDiscountCodeAction(store.state.mainSettingsPageState)),
     );
   }
 
@@ -172,6 +190,9 @@ class MainSettingsPageState{
       password.hashCode ^
       onPasswordChanged.hashCode ^
       passwordErrorMessage.hashCode ^
+      generateDiscountCode.hashCode ^
+      discountCode.hashCode ^
+      isAdmin.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -197,5 +218,8 @@ class MainSettingsPageState{
               password == other.password &&
               onPasswordChanged == other.onPasswordChanged &&
               passwordErrorMessage == other.passwordErrorMessage &&
+              generateDiscountCode == other.generateDiscountCode &&
+              discountCode == other.discountCode &&
+              isAdmin == other.isAdmin &&
               onSignOutSelected == other.onSignOutSelected;
 }

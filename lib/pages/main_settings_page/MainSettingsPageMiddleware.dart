@@ -4,7 +4,10 @@ import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
+import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
+import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
@@ -46,11 +49,22 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteAccountAction) {
       deleteAccount(store, action);
     }
+    if(action is GenerateDiscountCodeAction) {
+      generateDiscountCode(store, action, next);
+    }
+  }
+
+  void generateDiscountCode(Store<AppState> store, GenerateDiscountCodeAction action, NextDispatcher next) async{
+    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, "fake_code"));
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    bool isAdmin = AdminCheckUtil.isAdmin(profile);
+    store.dispatch(SetIsAdminAction(store.state.mainSettingsPageState, isAdmin))
+
     (await ProfileDao.getProfileStream()).listen((snapshots) async {
-        List<Profile> profiles = List();
+        List<Profile> profiles = [];
         for(RecordSnapshot profileSnapshot in snapshots) {
           profiles.add(Profile.fromMap(profileSnapshot.value));
         }

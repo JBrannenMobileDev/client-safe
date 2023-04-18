@@ -5,7 +5,6 @@ import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
@@ -13,6 +12,7 @@ import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -20,6 +20,7 @@ import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../utils/DandyToastUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'SuggestionsPage.dart';
 
@@ -36,6 +37,12 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
   Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) {
           store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
+        },
+        onDidChange: (previous, current) {
+          if(previous.discountCode.isEmpty && current.discountCode.isNotEmpty) {
+            Clipboard.setData(ClipboardData(text: current.discountCode));
+            DandyToastUtil.showToast('Copied to Clipboard!', Color(ColorConstants.error_red));
+          }
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
         builder: (BuildContext context, MainSettingsPageState pageState) =>
@@ -591,6 +598,28 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               ],
                             ),
                           ),
+                          pageState.isAdmin ? TextButton(
+                            style: Styles.getButtonStyle(),
+                            onPressed: () {
+                              pageState.generateDiscountCode();
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.only(bottom: 32),
+                              height: 48.0,
+                              width: 275.0,
+                              decoration: BoxDecoration(
+                                color: Color(ColorConstants.error_red),
+                                borderRadius: BorderRadius.circular(32.0),
+                              ),
+                              child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                text: 'Generate Discount Code',
+                                textAlign: TextAlign.center,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
+                            ),
+                          ) : SizedBox(),
                           TextButton(
                             style: Styles.getButtonStyle(),
                             onPressed: () {

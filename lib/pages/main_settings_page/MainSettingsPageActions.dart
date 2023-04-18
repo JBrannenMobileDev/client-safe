@@ -94,3 +94,20 @@ class SavePasswordAction {
   SavePasswordAction(this.pageState, this.password);
 }
 
+class GenerateDiscountCodeAction {
+  final MainSettingsPageState pageState;
+  GenerateDiscountCodeAction(this.pageState);
+}
+
+class SetDiscountCodeAction {
+  final MainSettingsPageState pageState;
+  final String discountCode;
+  SetDiscountCodeAction(this.pageState, this.discountCode);
+}
+
+class SetIsAdminAction {
+  final MainSettingsPageState pageState;
+  final bool isAdmin;
+  SetIsAdminAction(this.pageState, this.isAdmin);
+}
+
