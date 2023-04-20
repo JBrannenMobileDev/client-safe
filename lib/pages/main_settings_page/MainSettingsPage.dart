@@ -39,9 +39,9 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
           store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
         },
         onDidChange: (previous, current) {
-          if(previous.discountCode.isEmpty && current.discountCode.isNotEmpty) {
+          if(previous.discountCode != current.discountCode) {
             Clipboard.setData(ClipboardData(text: current.discountCode));
-            DandyToastUtil.showToast('Copied to Clipboard!', Color(ColorConstants.error_red));
+            DandyToastUtil.showToast('${current.discountCode} Copied to Clipboard!', Color(ColorConstants.error_red));
           }
         },
         converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
@@ -598,26 +598,117 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               ],
                             ),
                           ),
-                          pageState.isAdmin ? TextButton(
-                            style: Styles.getButtonStyle(),
-                            onPressed: () {
-                              pageState.generateDiscountCode();
-                            },
-                            child: Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(bottom: 32),
-                              height: 48.0,
-                              width: 275.0,
-                              decoration: BoxDecoration(
-                                color: Color(ColorConstants.error_red),
-                                borderRadius: BorderRadius.circular(32.0),
-                              ),
-                              child: TextDandyLight(
-                                type: TextDandyLight.LARGE_TEXT,
-                                text: 'Generate Discount Code',
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPrimaryWhite()),
-                              ),
+                          pageState.isAdmin ? Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 32.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  height: 48.0,
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Admin Tools',
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants
+                                        .getPrimaryBlack()),
+                                  ),
+                                ),
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    pageState.generate50DiscountCode();
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Icon(
+                                                Icons.discount,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ),
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Generate 50% Discount Code',
+                                              textAlign: TextAlign.center,
+                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    pageState.generate50DiscountCode();
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Icon(
+                                                Icons.discount,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ),
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Generate Free Discount Code',
+                                              textAlign: TextAlign.center,
+                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.add,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ) : SizedBox(),
                           TextButton(

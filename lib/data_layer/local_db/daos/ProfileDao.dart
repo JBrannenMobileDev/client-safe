@@ -6,7 +6,6 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:sembast/sembast.dart';
 
 class ProfileDao extends Equatable{

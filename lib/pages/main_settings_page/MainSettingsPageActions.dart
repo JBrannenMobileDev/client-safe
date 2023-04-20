@@ -94,9 +94,14 @@ class SavePasswordAction {
   SavePasswordAction(this.pageState, this.password);
 }
 
-class GenerateDiscountCodeAction {
+class Generate50DiscountCodeAction {
   final MainSettingsPageState pageState;
-  GenerateDiscountCodeAction(this.pageState);
+  Generate50DiscountCodeAction(this.pageState);
+}
+
+class GenerateFreeDiscountCodeAction {
+  final MainSettingsPageState pageState;
+  GenerateFreeDiscountCodeAction(this.pageState);
 }
 
 class SetDiscountCodeAction {

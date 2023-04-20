@@ -11,6 +11,7 @@ import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
+import 'package:dandylight/utils/StringUtils.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
@@ -49,13 +50,20 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeleteAccountAction) {
       deleteAccount(store, action);
     }
-    if(action is GenerateDiscountCodeAction) {
-      generateDiscountCode(store, action, next);
+    if(action is Generate50DiscountCodeAction) {
+      generate50DiscountCode(store, action, next);
+    }
+    if(action is GenerateFreeDiscountCodeAction) {
+      generateFreeDiscountCode(store, action, next);
     }
   }
 
-  void generateDiscountCode(Store<AppState> store, GenerateDiscountCodeAction action, NextDispatcher next) async{
-    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, "fake_code"));
+  void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
+    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, StringUtils.generateRandomString(8)));
+  }
+
+  void generateFreeDiscountCode(Store<AppState> store, GenerateFreeDiscountCodeAction action, NextDispatcher next) async{
+    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, StringUtils.generateRandomString(8)));
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{

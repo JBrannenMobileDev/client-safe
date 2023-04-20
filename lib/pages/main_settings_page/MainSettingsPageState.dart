@@ -30,7 +30,8 @@ class MainSettingsPageState{
   final Function(String) onSendSuggestionSelected;
   final Function() onDeleteAccountSelected;
   final Function(String) onPasswordChanged;
-  final Function() generateDiscountCode;
+  final Function() generate50DiscountCode;
+  final Function() generateFreeDiscountCode;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -54,8 +55,9 @@ class MainSettingsPageState{
     @required this.onPasswordChanged,
     @required this.passwordErrorMessage,
     @required this.discountCode,
-    @required this.generateDiscountCode,
+    @required this.generate50DiscountCode,
     @required this.isAdmin,
+    @required this.generateFreeDiscountCode,
   });
 
   MainSettingsPageState copyWith({
@@ -81,7 +83,8 @@ class MainSettingsPageState{
     Function(String) onSendSuggestionSelected,
     Function() onDeleteAccountSelected,
     Function(String) onPasswordChanged,
-    Function() generateDiscountCode,
+    Function() generate50DiscountCode,
+    Function() generateFreeDiscountCode,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -105,8 +108,9 @@ class MainSettingsPageState{
       onPasswordChanged: onPasswordChanged ?? this.onPasswordChanged,
       passwordErrorMessage: passwordErrorMessage ?? this.passwordErrorMessage,
       discountCode: discountCode ?? this.discountCode,
-      generateDiscountCode: generateDiscountCode ?? this.generateDiscountCode,
+      generate50DiscountCode: generate50DiscountCode ?? this.generate50DiscountCode,
       isAdmin: isAdmin ?? this.isAdmin,
+      generateFreeDiscountCode: generateFreeDiscountCode ?? this.generateFreeDiscountCode,
     );
   }
 
@@ -131,9 +135,10 @@ class MainSettingsPageState{
     password: '',
     onPasswordChanged: null,
     passwordErrorMessage: '',
-    generateDiscountCode: null,
+    generate50DiscountCode: null,
     discountCode: '',
     isAdmin: false,
+    generateFreeDiscountCode: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -165,7 +170,8 @@ class MainSettingsPageState{
       onSendSuggestionSelected: (suggestion) => store.dispatch(SendSuggestionAction(store.state.mainSettingsPageState, suggestion)),
       onDeleteAccountSelected: () => store.dispatch(DeleteAccountAction(store.state.mainSettingsPageState)),
       onPasswordChanged: (password) => store.dispatch(SavePasswordAction(store.state.mainSettingsPageState, password)),
-      generateDiscountCode: () => store.dispatch(GenerateDiscountCodeAction(store.state.mainSettingsPageState)),
+      generate50DiscountCode: () => store.dispatch(Generate50DiscountCodeAction(store.state.mainSettingsPageState)),
+      generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
     );
   }
 
@@ -190,8 +196,9 @@ class MainSettingsPageState{
       password.hashCode ^
       onPasswordChanged.hashCode ^
       passwordErrorMessage.hashCode ^
-      generateDiscountCode.hashCode ^
+      generate50DiscountCode.hashCode ^
       discountCode.hashCode ^
+      generateFreeDiscountCode.hashCode ^
       isAdmin.hashCode ^
       onSignOutSelected.hashCode;
 
@@ -218,8 +225,9 @@ class MainSettingsPageState{
               password == other.password &&
               onPasswordChanged == other.onPasswordChanged &&
               passwordErrorMessage == other.passwordErrorMessage &&
-              generateDiscountCode == other.generateDiscountCode &&
+              generate50DiscountCode == other.generate50DiscountCode &&
               discountCode == other.discountCode &&
               isAdmin == other.isAdmin &&
+              generateFreeDiscountCode == other.generateFreeDiscountCode &&
               onSignOutSelected == other.onSignOutSelected;
 }
