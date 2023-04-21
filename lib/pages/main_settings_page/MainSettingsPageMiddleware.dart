@@ -60,6 +60,7 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
     store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, StringUtils.generateRandomString(8)));
+
   }
 
   void generateFreeDiscountCode(Store<AppState> store, GenerateFreeDiscountCodeAction action, NextDispatcher next) async{

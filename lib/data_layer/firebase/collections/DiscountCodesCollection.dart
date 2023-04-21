@@ -60,6 +60,14 @@ class DiscountCodesCollection {
     return list;
   }
 
+  Stream<QuerySnapshot> getResponseStream() {
+    return FirebaseFirestore.instance
+        .collection('env')
+        .doc(EnvironmentUtil().getCurrentEnvironment())
+        .collection('discountCodes')
+        .snapshots();
+  }
+
   Future<DiscountCodes> getDiscountCodes(String type) async {
     final databaseReference = FirebaseFirestore.instance;
     return await databaseReference

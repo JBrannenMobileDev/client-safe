@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/DiscountCodesCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
@@ -162,6 +163,25 @@ class DiscountCodesDao extends Equatable{
         await _discountCodesStore.add(await _db, fireStore.toMap());
       }
     }
+  }
+
+  static Future<DiscountCodes> getDiscountCodesByType(String type) async{
+    if((await getAll()).length > 0) {
+      final finder = Finder(filter: Filter.equals('type', type));
+      final recordSnapshots = await _discountCodesStore.find(await _db, finder: finder);
+      List<DiscountCodes> discounts = recordSnapshots.map((snapshot) {
+        final expense = DiscountCodes.fromMap(snapshot.value);
+        return expense;
+      }).toList();
+      if(discounts.length > 0) return discounts.elementAt(0);
+      return null;
+    } else {
+      return null;
+    }
+  }
+
+  static Stream<QuerySnapshot> getDiscountCodesStreamFromFireStore() {
+    return DiscountCodesCollection().getResponseStream();
   }
 
   @override

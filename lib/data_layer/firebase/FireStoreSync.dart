@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ContractDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/DiscountCodesDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/InvoiceDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
@@ -18,6 +19,7 @@ import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/SingleExpenseDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Contract.dart';
+import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -62,6 +64,7 @@ class FireStoreSync {
             await _syncPoses(userLocalDb, userFireStoreDb);
             await _syncPoseGroups(userLocalDb, userFireStoreDb);
             await _syncResponses(userLocalDb, userFireStoreDb);
+            await _syncDiscountCodes(userLocalDb, userFireStoreDb);
         }
         setupFireStoreListeners();
         automateJobStages();
@@ -293,6 +296,19 @@ class FireStoreSync {
                 }
             }
         });
+
+        DiscountCodesDao.getDiscountCodesStreamFromFireStore()
+            .listen((snapshots) async {
+            for(DocumentChange snapshot in snapshots.docChanges) {
+                DiscountCodes discounts = DiscountCodes.fromMap(snapshot.doc.data());
+                DiscountCodes discountsFromLocal = await DiscountCodesDao.getDiscountCodesByType(discounts.type);
+                if(discountsFromLocal != null) {
+                    DiscountCodesDao.updateLocalOnly(discounts);
+                }else {
+                    DiscountCodesDao.insertLocal(discounts);
+                }
+            }
+        });
     }
 
     Future<void> _syncClients(Profile userLocalDb, Profile userFireStoreDb) async {
@@ -498,6 +514,18 @@ class FireStoreSync {
             if(userLocalDb.responsesLastChangeDate != null && userFireStoreDb.responsesLastChangeDate != null){
                 if(userLocalDb.responsesLastChangeDate.millisecondsSinceEpoch < userFireStoreDb.responsesLastChangeDate.millisecondsSinceEpoch) {
                     await ProfileDao.syncAllFromFireStore();
+                } else {
+                    //do nothing localFirebase cache has not synced up to cloud yet.
+                }
+            }
+        }
+    }
+
+    Future<void> _syncDiscountCodes(Profile userLocalDb, Profile userFireStoreDb) async {
+        if((userLocalDb.discountCodesLastChangedTime != userFireStoreDb.discountCodesLastChangedTime) || (userLocalDb.discountCodesLastChangedTime == null && userFireStoreDb.discountCodesLastChangedTime != null)) {
+            if(userLocalDb.discountCodesLastChangedTime != null && userFireStoreDb.discountCodesLastChangedTime != null){
+                if(userLocalDb.discountCodesLastChangedTime.millisecondsSinceEpoch < userFireStoreDb.discountCodesLastChangedTime.millisecondsSinceEpoch) {
+                    await DiscountCodesDao.syncAllFromFireStore();
                 } else {
                     //do nothing localFirebase cache has not synced up to cloud yet.
                 }

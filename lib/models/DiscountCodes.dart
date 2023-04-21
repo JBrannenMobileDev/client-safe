@@ -2,6 +2,8 @@
 import 'Code.dart';
 
 class DiscountCodes {
+  static const String FIFTY_PERCENT_TYPE = "50Percent";
+  static const String LIFETIME_FREE = "lifetimeFree";
 
   List<Code> codes;
   String type;

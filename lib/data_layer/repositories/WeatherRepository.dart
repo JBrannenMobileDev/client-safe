@@ -1,12 +1,8 @@
 import 'dart:async';
 
-import 'package:dandylight/data_layer/api_clients/WeatherApiClient.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/currentWeather/CurrentWeatherResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
-import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
-import 'package:dandylight/models/rest_models/CurrentWeather.dart';
-import 'package:dandylight/models/rest_models/Forecast7Days.dart';
 import 'package:meta/meta.dart';
 
 import '../api_clients/AccuWeatherClient.dart';
