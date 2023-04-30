@@ -81,16 +81,13 @@ class _JobStageSelectionFormState extends State<JobStageSelectionForm>  with Aut
                     minHeight: 65.0,
                     maxHeight: 450.0,
                   ),
-                  child: ReorderableListView.builder(
+                  child: ListView.builder(
                     reverse: false,
                     padding: new EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 64.0),
                     shrinkWrap: true,
                     physics: ClampingScrollPhysics(),
                     itemCount: pageState.allJobStages.length,
                     itemBuilder: _buildItem,
-                    onReorder: (int oldIndex, int newIndex) {
-
-                    },
                   ),
                 ),
               ],

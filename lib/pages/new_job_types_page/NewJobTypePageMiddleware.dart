@@ -34,7 +34,16 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void saveNewJobType(Store<AppState> store, SaveNewJobTypeAction action, NextDispatcher next) async{
-    List<JobStage> selectedStages = store.state.newJobTypePageState.selectedJobStages;
+    List<JobStage> unorderedSelectedStages = store.state.newJobTypePageState.selectedJobStages;
+    List<JobStage> allStagesOrdered = store.state.newJobTypePageState.allJobStages;
+    List<JobStage> selectedStages = [];
+
+    allStagesOrdered.forEach((orderedStage) {
+      if(stageListContainsStage(unorderedSelectedStages, orderedStage)){
+        selectedStages.add(orderedStage);
+      }
+    });test this stage logic
+
     selectedStages.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
     selectedStages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
     JobType newJobType = JobType(
@@ -69,5 +78,12 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(FetchJobTypesAction(store.state.jobTypesPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();
+  }
+
+  bool stageListContainsStage(List<JobStage> unorderedSelectedStages, JobStage orderedStage) {
+    unorderedSelectedStages.forEach((unorderedStage) {
+      if(unorderedStage.stage == orderedStage.stage) return true;
+    });
+    return false;
   }
 }
