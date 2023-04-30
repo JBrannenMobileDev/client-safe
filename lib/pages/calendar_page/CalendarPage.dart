@@ -208,11 +208,11 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
         weekendStyle: TextStyle().copyWith(
-          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+          color: Color(ColorConstants.primary_black),  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
           fontFamily: TextDandyLight.getFontFamily(),
           fontWeight: TextDandyLight.getFontWeight(),),
       ),

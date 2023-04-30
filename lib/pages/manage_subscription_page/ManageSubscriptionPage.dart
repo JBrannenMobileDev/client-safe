@@ -136,7 +136,16 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            pageState.uiState != ManageSubscriptionPage.FREE_TRIAL && pageState.uiState != ManageSubscriptionPage.FREE_TRIAL_ENDED ? Container(
+                            pageState.profile.isFreeForLife ? Container(
+                                margin: EdgeInsets.only(top: 178.0),
+                                child: TextDandyLight(
+                                    text: 'Your free lifetime subscription is applied! There is no need to manage your subscription. We hope you enjoy Dandylight!',
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getBlueDark())
+                                )
+                            ) : SizedBox(),
+                            !pageState.profile.isFreeForLife && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL && pageState.uiState != ManageSubscriptionPage.FREE_TRIAL_ENDED) ? Container(
                                 margin: EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: _getMessageText(pageState.uiState),
@@ -145,7 +154,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED ? Container(
+                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED) ? Container(
                                 margin: EdgeInsets.only(top: 164.0),
                                 child: TextDandyLight(
                                     text: pageState.remainingTimeMessage,
@@ -154,7 +163,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
+                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty) ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: 'Discount applied',
@@ -163,7 +172,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? Container(
+                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED) ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                     text: 'Subscription Active',
@@ -183,7 +192,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                 ),
                               ),
                             ),
-                            Column(
+                            !pageState.profile.isFreeForLife ? Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
@@ -391,7 +400,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               pageState.onSubscribeSelected();
                                               break;
                                           }
-                                        }   change subscription page after valid free code is added. so that there is no subscription option. just a free for life page info
+                                        }
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
@@ -640,7 +649,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
                               ],
-                            ),
+                            ) : SizedBox(),
                           ],
                         ),
                       ),
