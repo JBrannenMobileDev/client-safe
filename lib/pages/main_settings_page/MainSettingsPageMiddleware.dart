@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
@@ -20,6 +21,7 @@ import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
+import '../../data_layer/repositories/DiscountCodesRepository.dart';
 import '../../utils/CalendarUtil.dart';
 import '../login_page/LoginPageActions.dart';
 import 'MainSettingsPageActions.dart';
@@ -59,18 +61,20 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
-    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, StringUtils.generateRandomString(8)));
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.FIFTY_PERCENT_TYPE);
+    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
 
   }
 
   void generateFreeDiscountCode(Store<AppState> store, GenerateFreeDiscountCodeAction action, NextDispatcher next) async{
-    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, StringUtils.generateRandomString(8)));
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.LIFETIME_FREE);
+    store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     bool isAdmin = AdminCheckUtil.isAdmin(profile);
-    store.dispatch(SetIsAdminAction(store.state.mainSettingsPageState, isAdmin))
+    store.dispatch(SetIsAdminAction(store.state.mainSettingsPageState, isAdmin));
 
     (await ProfileDao.getProfileStream()).listen((snapshots) async {
         List<Profile> profiles = [];
@@ -82,7 +86,8 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
           store.dispatch(UpdateCalendarEnabled(store.state.mainSettingsPageState, profiles.elementAt(0).calendarEnabled ?? false));
           store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profiles.elementAt(0)));
         }
-      });
+      }
+    );
   }
 
   void savePushNotificationSetting(Store<AppState> store, SavePushNotificationSettingAction action, NextDispatcher next) async{

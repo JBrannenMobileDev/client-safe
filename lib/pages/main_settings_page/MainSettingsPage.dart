@@ -666,7 +666,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
-                                    pageState.generate50DiscountCode();
+                                    pageState.generateFreeDiscountCode();
                                   },
                                   child: SizedBox(
                                     height: 48.0,

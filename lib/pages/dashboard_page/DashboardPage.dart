@@ -261,14 +261,14 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                 }
                 EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
               } else {
-                if(!hasNavigatedToSubscriptionPage) {
+                if(!hasNavigatedToSubscriptionPage && !current.profile.isFreeForLife) {
                   hasNavigatedToSubscriptionPage = true;
                   NavigationUtil.onManageSubscriptionSelected(context, current.profile);
                 }
               }
             } else {
               bool freeTrialExpired = current.profile.isFreeTrialExpired();
-              if(freeTrialExpired && !hasNavigatedToSubscriptionPage) {
+              if(freeTrialExpired && !hasNavigatedToSubscriptionPage && !current.profile.isFreeForLife) {
                 hasNavigatedToSubscriptionPage = true;
                 NavigationUtil.onManageSubscriptionSelected(context, current.profile);
               } else {

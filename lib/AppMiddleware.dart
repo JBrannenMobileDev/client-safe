@@ -259,5 +259,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, DeleteResponseAction>(ResponsesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchInitialDataAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubscribeSelectedAction>(ManageSubscriptionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ValidateCodeAction>(ManageSubscriptionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, AssignDiscountCodeToUser>(ManageSubscriptionPageMiddleware()));
   return middlewareList;
 }

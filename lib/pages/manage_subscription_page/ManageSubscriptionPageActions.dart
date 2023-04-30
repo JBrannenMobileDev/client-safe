@@ -65,3 +65,44 @@ class SetErrorMsgAction {
   final String errorMsg;
   SetErrorMsgAction(this.pageState, this.errorMsg);
 }
+
+class ValidateCodeAction {
+  final ManageSubscriptionPageState pageState;
+  final String discountCode;
+  ValidateCodeAction(this.pageState, this.discountCode);
+}
+
+class SetShowDiscountErrorStateAction {
+  final ManageSubscriptionPageState pageState;
+  final bool showError;
+  SetShowDiscountErrorStateAction(this.pageState, this.showError);
+}
+
+class AssignDiscountCodeToUser {
+  final ManageSubscriptionPageState pageState;
+  AssignDiscountCodeToUser(this.pageState);
+}
+
+class SetDiscountCodeAction {
+  final ManageSubscriptionPageState pageState;
+  final String discountCode;
+  SetDiscountCodeAction(this.pageState, this.discountCode);
+}
+
+class SetDiscountTypeAction {
+  final ManageSubscriptionPageState pageState;
+  final String discountType;
+  SetDiscountTypeAction(this.pageState, this.discountType);
+}
+
+class SetShowAppliedDiscountAction {
+  final ManageSubscriptionPageState pageState;
+  final bool showAppliedDiscount;
+  SetShowAppliedDiscountAction(this.pageState, this.showAppliedDiscount);
+}
+
+class SetProfileAction {
+  final ManageSubscriptionPageState pageState;
+  final Profile profile;
+  SetProfileAction(this.pageState, this.profile);
+}

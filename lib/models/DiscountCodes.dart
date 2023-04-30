@@ -1,4 +1,3 @@
-
 import 'Code.dart';
 
 class DiscountCodes {
@@ -22,7 +21,7 @@ class DiscountCodes {
 
   static DiscountCodes fromMap(Map<String, dynamic> map) {
     return DiscountCodes(
-      codes: convertMapsToCodes(map['poses']),
+      codes: convertMapsToCodes(map['codes']),
       type: map['type'],
     );
   }

@@ -12,10 +12,14 @@ class ManageSubscriptionPageState {
   final String uiState;
   final String errorMsg;
   final String remainingTimeMessage;
+  final String discountCode;
+  final String discountType;
   final double annualPrice;
   final double monthlyPrice;
   final bool isLoading;
   final bool shouldPopBack;
+  final bool showDiscountError;
+  final bool showAppliedDiscount;
   final purchases.CustomerInfo subscriptionState;
   final String selectedSubscription;
   final purchases.Package monthlyPackage;
@@ -27,6 +31,8 @@ class ManageSubscriptionPageState {
   final Function(String) onSubscriptionSelected;
   final Function() resetErrorMsg;
   final Function(String) setErrorMsg;
+  final Function(String) checkIfDiscountExists;
+  final Function() onApplyDiscount;
 
   ManageSubscriptionPageState({
     @required this.uiState,
@@ -48,6 +54,12 @@ class ManageSubscriptionPageState {
     @required this.radioValue,
     @required this.shouldPopBack,
     @required this.remainingTimeMessage,
+    @required this.showDiscountError,
+    @required this.checkIfDiscountExists,
+    @required this.discountCode,
+    @required this.discountType,
+    @required this.onApplyDiscount,
+    @required this.showAppliedDiscount,
   });
 
   ManageSubscriptionPageState copyWith({
@@ -56,6 +68,8 @@ class ManageSubscriptionPageState {
     String errorMsg,
     String remainingTimeMessage,
     String selectedSubscription,
+    String discountCode,
+    String discountType,
     purchases.Package monthlyPackage,
     purchases.Package annualPackage,
     Profile profile,
@@ -64,12 +78,16 @@ class ManageSubscriptionPageState {
     double monthlyPrice,
     bool isLoading,
     bool shouldPopBack,
+    bool showDiscountError,
+    bool showAppliedDiscount,
     purchases.Offerings offerings,
     Function() onSubscribeSelected,
     Function() onRestoreSubscriptionSelected,
     Function(String) onSubscriptionSelected,
     Function() resetErrorMsg,
     Function(String) setErrorMsg,
+    Function(String) checkIfDiscountExists,
+    Function() onApplyDiscount,
   }){
     return ManageSubscriptionPageState(
       uiState: uiState?? this.uiState,
@@ -91,6 +109,12 @@ class ManageSubscriptionPageState {
       radioValue: radioValue ?? this.radioValue,
       shouldPopBack: shouldPopBack ?? this.shouldPopBack,
       remainingTimeMessage: remainingTimeMessage ?? this.remainingTimeMessage,
+      showDiscountError: showDiscountError ?? this.showDiscountError,
+      checkIfDiscountExists: checkIfDiscountExists ?? this.checkIfDiscountExists,
+      discountCode: discountCode ?? this.discountCode,
+      discountType: discountType ?? this.discountType,
+      showAppliedDiscount: showAppliedDiscount ?? this.showAppliedDiscount,
+      onApplyDiscount: onApplyDiscount ?? this.onApplyDiscount,
     );
   }
 
@@ -114,6 +138,12 @@ class ManageSubscriptionPageState {
     radioValue: 0,
     shouldPopBack: false,
     remainingTimeMessage: '',
+    showDiscountError: false,
+    checkIfDiscountExists: null,
+    discountCode: '',
+    discountType: '',
+    onApplyDiscount: null,
+    showAppliedDiscount: false,
   );
 
   factory ManageSubscriptionPageState.fromStore(Store<AppState> store) {
@@ -132,11 +162,25 @@ class ManageSubscriptionPageState {
       radioValue: store.state.manageSubscriptionPageState.radioValue,
       shouldPopBack: store.state.manageSubscriptionPageState.shouldPopBack,
       remainingTimeMessage: store.state.manageSubscriptionPageState.remainingTimeMessage,
+      showDiscountError: store.state.manageSubscriptionPageState.showDiscountError,
+      discountCode: store.state.manageSubscriptionPageState.discountCode,
+      discountType: store.state.manageSubscriptionPageState.discountType,
+      showAppliedDiscount: store.state.manageSubscriptionPageState.showAppliedDiscount,
       onSubscribeSelected: () => store.dispatch(SubscribeSelectedAction(store.state.manageSubscriptionPageState)),
       onRestoreSubscriptionSelected: () => store.dispatch(RestoreSubscriptionAction(store.state.manageSubscriptionPageState)),
       onSubscriptionSelected: (package) => store.dispatch(SubscriptionSelectedAction(store.state.manageSubscriptionPageState, package)),
       resetErrorMsg: () => store.dispatch(ResetErrorMsgAction(store.state.manageSubscriptionPageState)),
       setErrorMsg: (errorMsg) => store.dispatch(SetErrorMsgAction(store.state.manageSubscriptionPageState, errorMsg)),
+      checkIfDiscountExists: (discountCode) => {
+        store.dispatch(SetDiscountCodeAction(store.state.manageSubscriptionPageState, discountCode)),
+        if(discountCode.length == 6) {
+          store.dispatch(ValidateCodeAction(store.state.manageSubscriptionPageState, discountCode))
+        } else {
+          store.dispatch(SetDiscountTypeAction(store.state.manageSubscriptionPageState, '')),
+          store.dispatch(SetShowDiscountErrorStateAction(store.state.manageSubscriptionPageState, false))
+        }
+      },
+      onApplyDiscount: () => store.dispatch(SetShowAppliedDiscountAction(store.state.manageSubscriptionPageState, true))
     );
   }
 
@@ -160,6 +204,12 @@ class ManageSubscriptionPageState {
       radioValue.hashCode ^
       shouldPopBack.hashCode ^
       remainingTimeMessage.hashCode ^
+      showDiscountError.hashCode ^
+      discountCode.hashCode ^
+      checkIfDiscountExists.hashCode ^
+      discountType.hashCode ^
+      onApplyDiscount.hashCode ^
+      showAppliedDiscount.hashCode ^
       onSubscriptionSelected.hashCode;
 
   @override
@@ -184,5 +234,11 @@ class ManageSubscriptionPageState {
           radioValue == other.radioValue &&
           shouldPopBack == other.shouldPopBack &&
           remainingTimeMessage == other.remainingTimeMessage &&
+          showDiscountError == other.showDiscountError &&
+          discountCode == other.discountCode &&
+          discountType == other.discountType &&
+          checkIfDiscountExists == other.checkIfDiscountExists &&
+          onApplyDiscount == other.onApplyDiscount &&
+          showAppliedDiscount == other.showAppliedDiscount &&
           onSubscriptionSelected == other.onSubscriptionSelected;
 }

@@ -1,3 +1,4 @@
+import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageActions.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
@@ -12,7 +13,72 @@ final manageSubscriptionPageReducer = combineReducers<ManageSubscriptionPageStat
   TypedReducer<ManageSubscriptionPageState, SetErrorMsgAction>(_setErrorMsg),
   TypedReducer<ManageSubscriptionPageState, SetManageSubscriptionUiState>(_setUiState),
   TypedReducer<ManageSubscriptionPageState, SetLoadingState>(_setLoadingState),
+  TypedReducer<ManageSubscriptionPageState, SetDiscountCodeAction>(_setDiscountCode),
+  TypedReducer<ManageSubscriptionPageState, SetShowDiscountErrorStateAction>(_setErrorState),
+  TypedReducer<ManageSubscriptionPageState, SetDiscountTypeAction>(_setDiscountType),
+  TypedReducer<ManageSubscriptionPageState, SetShowAppliedDiscountAction>(_setShowAppliedDiscount),
+  TypedReducer<ManageSubscriptionPageState, SetProfileAction>(_setProfile),
 ]);
+
+ManageSubscriptionPageState _setProfile(ManageSubscriptionPageState previousState, SetProfileAction action){
+  return previousState.copyWith(
+    profile: action.profile,
+  );
+}
+
+ManageSubscriptionPageState _setShowAppliedDiscount(ManageSubscriptionPageState previousState, SetShowAppliedDiscountAction action){
+  return previousState.copyWith(
+    showAppliedDiscount: action.showAppliedDiscount,
+  );
+}
+
+ManageSubscriptionPageState _setDiscountType(ManageSubscriptionPageState previousState, SetDiscountTypeAction action){
+  Offering offering = null;
+  double monthlyPrice = 9.99;
+  double annualPrice = 99.99;
+
+  switch(action.discountType) {
+    case DiscountCodes.LIFETIME_FREE:
+      offering = null;
+      monthlyPrice = 0.00;
+      annualPrice = 0.00;
+      break;
+    case DiscountCodes.FIFTY_PERCENT_TYPE:
+      offering = previousState.offerings.getOffering('Beta Discount Standard');
+      monthlyPrice = 4.99;
+      annualPrice = 49.99;
+      break;
+    default:
+      if (previousState.offerings != null) {
+        if(previousState.profile.isBetaTester) {
+          offering = previousState.offerings.getOffering('Beta Discount Standard');
+        } else {
+          offering = previousState.offerings.getOffering('Standard');
+        }
+      }
+      monthlyPrice = previousState.monthlyPrice;
+      annualPrice = previousState.annualPrice;
+  }
+  return previousState.copyWith(
+    annualPrice: annualPrice,
+    annualPackage: offering?.annual,
+    monthlyPrice: monthlyPrice,
+    monthlyPackage: offering?.monthly,
+    discountType: action.discountType,
+  );
+}
+
+ManageSubscriptionPageState _setErrorState(ManageSubscriptionPageState previousState, SetShowDiscountErrorStateAction action){
+  return previousState.copyWith(
+    showDiscountError: action.showError,
+  );
+}
+
+ManageSubscriptionPageState _setDiscountCode(ManageSubscriptionPageState previousState, SetDiscountCodeAction action){
+  return previousState.copyWith(
+    discountCode: action.discountCode,
+  );
+}
 
 ManageSubscriptionPageState _setLoadingState(ManageSubscriptionPageState previousState, SetLoadingState action){
   return previousState.copyWith(

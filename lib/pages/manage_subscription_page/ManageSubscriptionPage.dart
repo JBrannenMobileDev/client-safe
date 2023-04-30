@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
+import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageState.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
@@ -18,6 +19,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/AdminCheckUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'EnterDiscountCodeBottomSheet.dart';
 import 'ManageSubscriptionPageActions.dart';
 
 class ManageSubscriptionPage extends StatefulWidget {
@@ -40,8 +42,10 @@ class ManageSubscriptionPage extends StatefulWidget {
 class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
     with TickerProviderStateMixin {
   TextEditingController referralCodeTextController = TextEditingController();
+  final codeTextController = TextEditingController();
+  final FocusNode _codeFocusNode = FocusNode();
   final referralCodeFocusNode = FocusNode();
-  final Profile profile;
+  Profile profile;
   String errorMsg = '';
 
   _ManageSubscriptionPageState(this.profile);
@@ -53,6 +57,11 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
         store.dispatch(FetchInitialDataAction(store.state.manageSubscriptionPageState, profile));
       },
       onDidChange: (previous, current) {
+        if(current.profile != null) {
+          setState(() {
+            profile = current.profile;
+          });
+        }
         if(current.errorMsg.isNotEmpty) {
           if(current.errorMsg != errorMsg) {
             showModalBottomSheet(
@@ -92,7 +101,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
           ManageSubscriptionPageState.fromStore(store),
       builder: (BuildContext context, ManageSubscriptionPageState pageState) =>
     WillPopScope(
-      onWillPop: () async => (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile)) ? true : false,
+      onWillPop: () async => (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile) || pageState.profile.isFreeForLife) ? true : false,
     child: Scaffold(
             extendBodyBehindAppBar: true,
         resizeToAvoidBottomInset: false,
@@ -145,7 +154,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester ? Container(
+                            pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: 'Discount applied',
@@ -221,7 +230,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                             Container(
                                               margin: EdgeInsets.only(left: 8.0),
                                               child: TextDandyLight(
-                                                text: profile.isBetaTester ? '(-50%)' : '',
+                                                text: profile.isBetaTester || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
                                                 type: TextDandyLight.MEDIUM_TEXT,
                                                 color: Color(pageState.radioValue == 0 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
                                               ),
@@ -317,7 +326,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                             Container(
                                               margin: EdgeInsets.only(left: 8.0),
                                               child: TextDandyLight(
-                                                text: profile.isBetaTester ? '(-50%)' : '',
+                                                text: profile.isBetaTester || pageState.discountType == DiscountCodes.FIFTY_PERCENT_TYPE  ? '(-50%)' : pageState.discountType == DiscountCodes.LIFETIME_FREE ? '(-100%)' : '',
                                                 textAlign: TextAlign.center,
                                                 type: TextDandyLight.MEDIUM_TEXT,
                                                 color: Color(pageState.radioValue == 1 ? ColorConstants.getPrimaryColor() : ColorConstants.getBlueDark()),
@@ -346,28 +355,28 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                   ),
                                 ),
 
-                                // pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : TextButton(
-                                //   style: Styles.getButtonStyle(),
-                                //   onPressed: () {
-                                //
-                                //   },
-                                //   child: Container(
-                                //     margin: EdgeInsets.only(top: 8),
-                                //     child: TextDandyLight(
-                                //       type: TextDandyLight.MEDIUM_TEXT,
-                                //       text: 'Enter Referral Code',
-                                //       textAlign: TextAlign.center,
-                                //       color: Color(ColorConstants.getBlueDark())
-                                //     ),
-                                //   ),
-                                // ),
+                                pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    _showEnterDiscountCodeBottomSheet(context);
+                                  },
+                                  child: Container(
+                                    margin: EdgeInsets.only(top: 8),
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Enter Discount Code',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants.getBlueDark())
+                                    ),
+                                  ),
+                                ),
                                 Stack(
                                   alignment: Alignment.center,
                                   children: [
                                     TextButton(
                                       style: Styles.getButtonStyle(),
                                       onPressed: () {
-                                        if(!pageState.isLoading) {
+                                        if(!pageState.isLoading && !profile.isFreeForLife) {
                                           switch(pageState.uiState) {
                                             case ManageSubscriptionPage.SUBSCRIBED:
                                               if(Device.get().isIos) {
@@ -382,7 +391,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               pageState.onSubscribeSelected();
                                               break;
                                           }
-                                        }
+                                        }   change subscription page after valid free code is added. so that there is no subscription option. just a free for life page info
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
@@ -390,14 +399,14 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         height: 48.0,
                                         width: pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 264 : 200.0,
                                         decoration: BoxDecoration(
-                                            color: Color(ColorConstants.getPrimaryWhite()),
+                                            color: Color(profile.isFreeForLife ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryWhite()),
                                             borderRadius: BorderRadius.circular(32.0)
                                         ),
                                         child: TextDandyLight(
                                           type: TextDandyLight.LARGE_TEXT,
                                           text: pageState.isLoading ? '' : pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? 'Cancel Subscription' : 'Subscribe',
                                           textAlign: TextAlign.center,
-                                          color: Color(ColorConstants.getBlueDark()),
+                                          color: Color(profile.isFreeForLife ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getBlueDark()),
                                         ),
                                       ),
                                     ),
@@ -640,7 +649,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                 ),
               ],
             ),
-            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile)) ?
+            (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.SUBSCRIBED || AdminCheckUtil.isAdmin(pageState.profile) || pageState.profile.isFreeForLife) ?
             Positioned(
               top: 0.0,
               left: 0.0,
@@ -677,6 +686,28 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
         break;
     }
     return message;
+  }
+
+  _onCodeChanged(String responseMessage) {
+    // response.message = responseMessage;
+  }
+
+  void onCodeAction(){
+    _codeFocusNode.unfocus();
+  }
+
+  void _showEnterDiscountCodeBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return EnterDiscountCodeBottomSheet();
+      },
+    );
   }
 
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
