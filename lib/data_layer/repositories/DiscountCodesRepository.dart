@@ -1,23 +1,19 @@
 import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/daos/DiscountCodesDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Code.dart';
-import 'package:dandylight/models/rest_models/AccuWeatherModels/currentWeather/CurrentWeatherResponse.dart';
-import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
-import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourWeather.dart';
-import 'package:dandylight/utils/UidUtil.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
+import 'package:dandylight/models/Profile.dart';
 
 import '../../models/DiscountCodes.dart';
 import '../../utils/StringUtils.dart';
-import '../api_clients/AccuWeatherClient.dart';
 
 class DiscountCodesRepository {
-  Future<String> generateAndSaveCode(String type) async {
+  Future<String> generateAndSaveCode(String type, String instaUrl) async {
     DiscountCodes discounts = await DiscountCodesDao.getDiscountCodesByType(type);
     Code code = Code();
     code.id = StringUtils.generateRandomString(6);
+    code.instaUrl = instaUrl;
     
     // check if discount type exist in firebase
     if(discounts == null) {
@@ -85,8 +81,11 @@ class DiscountCodesRepository {
           if(discountCode.uid == null || discountCode.uid.isEmpty) {
             result = true;
             int matchingIndex = discount.codes.indexWhere((item) => item.id.toUpperCase() == discountCode.id.toUpperCase());
+            Profile profile = await ProfileDao.getMatchingProfile(uid);
             if(matchingIndex != -1) {
               discount.codes[matchingIndex].uid = uid;
+              profile.instagramUrl = discount.codes[matchingIndex].instaUrl;
+              await ProfileDao.update(profile);
             }
             await DiscountCodesDao.update(discount);
             return result;

@@ -61,13 +61,12 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
-    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.FIFTY_PERCENT_TYPE);
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.FIFTY_PERCENT_TYPE, action.pageState.instaUrl);
     store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
-
   }
 
   void generateFreeDiscountCode(Store<AppState> store, GenerateFreeDiscountCodeAction action, NextDispatcher next) async{
-    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.LIFETIME_FREE);
+    String newCode = await DiscountCodesRepository().generateAndSaveCode(DiscountCodes.LIFETIME_FREE, action.pageState.instaUrl);
     store.dispatch(SetDiscountCodeAction(store.state.mainSettingsPageState, newCode));
   }
 

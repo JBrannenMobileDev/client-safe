@@ -116,3 +116,9 @@ class SetIsAdminAction {
   SetIsAdminAction(this.pageState, this.isAdmin);
 }
 
+class SetUrlToStateAction {
+  final MainSettingsPageState pageState;
+  final String instaUrl;
+  SetUrlToStateAction(this.pageState, this.instaUrl);
+}
+

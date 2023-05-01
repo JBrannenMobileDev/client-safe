@@ -3,16 +3,19 @@ class Code {
 
   String id;
   String uid;
+  String instaUrl;
 
   Code({
     this.id,
     this.uid,
+    this.instaUrl,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'id' : id,
       'uid' : uid,
+      'instaUrl' : instaUrl,
     };
   }
 
@@ -20,6 +23,7 @@ class Code {
     return Code(
       id: map['id'],
       uid: map['uid'],
+      instaUrl: map['instaUrl'],
     );
   }
 }

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/JobReminder.dart';
@@ -204,13 +205,17 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           if(store.state.dashboardPageState.unseenNotificationCount > 0) {
             _runAnimation();
           }
+          List<Job> allJobs = await JobDao.getAllJobs();
           List<JobReminder> allReminders = await JobReminderDao.getAll();
           final notificationHelper = NotificationHelper();
           notificationHelper.setTapBackgroundMethod(notificationTapBackground);
           await notificationHelper.initNotifications();
-          if(allReminders.length > 0) {
-            NotificationHelper().createAndUpdatePendingNotifications();
+          if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
+            if(allReminders.length > 0) {
+              NotificationHelper().createAndUpdatePendingNotifications();
+            }
           }
+
           if(store.state.dashboardPageState.profile != null && store.state.dashboardPageState.profile.shouldShowRestoreSubscription) {
             String restoreMessage = null;
 

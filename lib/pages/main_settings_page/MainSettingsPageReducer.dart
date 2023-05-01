@@ -14,7 +14,14 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetPasswordErrorAction>(_passwordError),
   TypedReducer<MainSettingsPageState, SetDiscountCodeAction>(_setDiscountCode),
   TypedReducer<MainSettingsPageState, SetIsAdminAction>(_setIsAdmin),
+  TypedReducer<MainSettingsPageState, SetUrlToStateAction>(_setInstaUrl),
 ]);
+
+MainSettingsPageState _setInstaUrl(MainSettingsPageState previousState, SetUrlToStateAction action){
+  return previousState.copyWith(
+    instaUrl: action.instaUrl,
+  );
+}
 
 MainSettingsPageState _setIsAdmin(MainSettingsPageState previousState, SetIsAdminAction action){
   return previousState.copyWith(

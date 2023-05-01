@@ -90,7 +90,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
         DateTime endTime = DateTime(startTime.year, startTime.month, startTime.day, startTime.hour, startTime.minute);
         endTime.add(Duration(hours: 1));
         startTime.add(Duration(hours: -1));
-        if(now.isAfter(job.selectedTime) && now.isBefore(endTime)) {
+        if(now.isAfter(startTime) && now.isBefore(endTime)) {
           store.dispatch(SetGoToPosesJob(store.state.dashboardPageState, job));
           break;
         }

@@ -18,6 +18,7 @@ class Profile{
   String venmoLink;
   String cashAppLink;
   String applePayPhone;
+  String instagramUrl;
   double latDefaultHome;
   double lngDefaultHome;
   double salesTaxRate;
@@ -105,6 +106,7 @@ class Profile{
     this.poseLibraryGroupLastChangeDate,
     this.discountCodesLastChangedTime,
     this.isFreeForLife,
+    this.instagramUrl,
   });
 
   Profile copyWith({
@@ -123,6 +125,7 @@ class Profile{
     String venmoLink,
     String cashAppLink,
     String applePayPhone,
+    String instagramUrl,
     double latDefaultHome,
     double lngDefaultHome,
     bool pushNotificationsEnabled,
@@ -169,6 +172,7 @@ class Profile{
       businessName: businessName ?? this.businessName,
       email: email ?? this.email,
       phone: phone ?? this.phone,
+      instagramUrl: instagramUrl ?? this.instagramUrl,
       latDefaultHome: latDefaultHome ?? this.latDefaultHome,
       lngDefaultHome: lngDefaultHome ?? this.lngDefaultHome,
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -231,6 +235,7 @@ class Profile{
       'cashAppLink' : cashAppLink,
       'applePayPhone' : applePayPhone,
       'businessName' : businessName,
+      'instagramUrl' : instagramUrl,
       'latDefaultHome' : latDefaultHome,
       'lngDefaultHome' : lngDefaultHome,
       'showRequestPaymentLinksDialog' : showRequestPaymentLinksDialog,
@@ -290,6 +295,7 @@ class Profile{
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
       calendarEnabled: map['calendarEnabled'],
       salesTaxRate: map['salesTaxRate'],
+      instagramUrl: map['instagramUrl'],
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
       hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
       isBetaTester: map['isBetaTester'] != null ? map['isBetaTester'] : false,

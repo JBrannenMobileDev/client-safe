@@ -42,7 +42,7 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
       if(stageListContainsStage(unorderedSelectedStages, orderedStage)){
         selectedStages.add(orderedStage);
       }
-    });test this stage logic
+    });
 
     selectedStages.insert(0, JobStage(id: 1, stage: JobStage.STAGE_1_INQUIRY_RECEIVED, imageLocation: JobStage.getImageLocation(JobStage.STAGE_1_INQUIRY_RECEIVED)));
     selectedStages.add(JobStage(id: 14, stage: JobStage.STAGE_14_JOB_COMPLETE, imageLocation: JobStage.getImageLocation(JobStage.STAGE_14_JOB_COMPLETE)));
@@ -81,9 +81,10 @@ class NewJobTypePageMiddleware extends MiddlewareClass<AppState> {
   }
 
   bool stageListContainsStage(List<JobStage> unorderedSelectedStages, JobStage orderedStage) {
+    bool result = false;
     unorderedSelectedStages.forEach((unorderedStage) {
-      if(unorderedStage.stage == orderedStage.stage) return true;
+      if(unorderedStage.stage == orderedStage.stage) result = true;
     });
-    return false;
+    return result;
   }
 }

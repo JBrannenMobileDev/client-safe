@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
+import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/pages/main_settings_page/DeleteAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
@@ -22,6 +23,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../utils/DandyToastUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'GenerateDiscountCodeBottomSheet.dart';
 import 'SuggestionsPage.dart';
 
 class MainSettingsPage extends StatefulWidget {
@@ -621,7 +623,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
-                                    pageState.generate50DiscountCode();
+                                    _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.FIFTY_PERCENT_TYPE);
                                   },
                                   child: SizedBox(
                                     height: 48.0,
@@ -666,7 +668,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                 TextButton(
                                   style: Styles.getButtonStyle(),
                                   onPressed: () {
-                                    pageState.generateFreeDiscountCode();
+                                    _showGenerateDiscountCodeBottomSheet(context, DiscountCodes.LIFETIME_FREE);
                                   },
                                   child: SizedBox(
                                     height: 48.0,
@@ -701,6 +703,52 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         Container(
                                           child: Icon(
                                             Icons.add,
+                                            color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                TextButton(
+                                  style: Styles.getButtonStyle(),
+                                  onPressed: () {
+                                    Clipboard.setData(ClipboardData(text: pageState.discountCode));
+                                    DandyToastUtil.showToast('${pageState.discountCode} Copied to Clipboard!', Color(ColorConstants.error_red));
+                                  },
+                                  child: SizedBox(
+                                    height: 48.0,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          children: <Widget>[
+                                            Container(
+                                              alignment: Alignment.center,
+                                              margin: EdgeInsets.only(right: 16.0),
+                                              height: 28.0,
+                                              width: 28.0,
+                                              child: Icon(
+                                                Icons.visibility,
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                            ),
+                                            TextDandyLight(
+                                              type: TextDandyLight.MEDIUM_TEXT,
+                                              text: 'Show Last Generated Code',
+                                              textAlign: TextAlign.center,
+                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          child: Icon(
+                                            Icons.visibility,
                                             color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                           ),
                                         ),
@@ -745,6 +793,21 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
               ),
             ),
       );
+
+  void _showGenerateDiscountCodeBottomSheet(BuildContext context, String discountType) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return GenerateDiscountCodeBottomSheet(discountType);
+      },
+    );
+  }
+
   void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
   void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';

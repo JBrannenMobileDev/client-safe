@@ -20,6 +20,7 @@ class MainSettingsPageState{
   final bool isAdmin;
   final String password;
   final String passwordErrorMessage;
+  final String instaUrl;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
   final Function(bool) onCalendarChanged;
@@ -32,6 +33,7 @@ class MainSettingsPageState{
   final Function(String) onPasswordChanged;
   final Function() generate50DiscountCode;
   final Function() generateFreeDiscountCode;
+  final Function(String) onInstaUrlChanged;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -58,6 +60,8 @@ class MainSettingsPageState{
     @required this.generate50DiscountCode,
     @required this.isAdmin,
     @required this.generateFreeDiscountCode,
+    @required this.onInstaUrlChanged,
+    @required this.instaUrl,
   });
 
   MainSettingsPageState copyWith({
@@ -73,6 +77,7 @@ class MainSettingsPageState{
     String password,
     String passwordErrorMessage,
     String discountCode,
+    String instaUrl,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -85,6 +90,7 @@ class MainSettingsPageState{
     Function(String) onPasswordChanged,
     Function() generate50DiscountCode,
     Function() generateFreeDiscountCode,
+    Function(String) onInstaUrlChanged,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -111,6 +117,8 @@ class MainSettingsPageState{
       generate50DiscountCode: generate50DiscountCode ?? this.generate50DiscountCode,
       isAdmin: isAdmin ?? this.isAdmin,
       generateFreeDiscountCode: generateFreeDiscountCode ?? this.generateFreeDiscountCode,
+      onInstaUrlChanged: onInstaUrlChanged?? this.onInstaUrlChanged,
+      instaUrl: instaUrl ?? this.instaUrl,
     );
   }
 
@@ -139,6 +147,8 @@ class MainSettingsPageState{
     discountCode: '',
     isAdmin: false,
     generateFreeDiscountCode: null,
+    onInstaUrlChanged: null,
+    instaUrl: '',
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -155,6 +165,7 @@ class MainSettingsPageState{
       passwordErrorMessage: store.state.mainSettingsPageState.passwordErrorMessage,
       discountCode: store.state.mainSettingsPageState.discountCode,
       isAdmin: store.state.mainSettingsPageState.isAdmin,
+      instaUrl: store.state.mainSettingsPageState.instaUrl,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -172,6 +183,7 @@ class MainSettingsPageState{
       onPasswordChanged: (password) => store.dispatch(SavePasswordAction(store.state.mainSettingsPageState, password)),
       generate50DiscountCode: () => store.dispatch(Generate50DiscountCodeAction(store.state.mainSettingsPageState)),
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
+      onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
     );
   }
 
@@ -195,11 +207,13 @@ class MainSettingsPageState{
       isDeleteInProgress.hashCode ^
       password.hashCode ^
       onPasswordChanged.hashCode ^
+      instaUrl.hashCode ^
       passwordErrorMessage.hashCode ^
       generate50DiscountCode.hashCode ^
       discountCode.hashCode ^
       generateFreeDiscountCode.hashCode ^
       isAdmin.hashCode ^
+      onInstaUrlChanged.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -213,6 +227,7 @@ class MainSettingsPageState{
               firstName == other.firstName &&
               lastName == other.lastName &&
               businessName == other.businessName &&
+              instaUrl == other.instaUrl &&
               onFirstNameChanged == other.onFirstNameChanged &&
               onLastNameChanged == other.onLastNameChanged &&
               onBusinessNameChanged == other.onBusinessNameChanged &&
@@ -229,5 +244,6 @@ class MainSettingsPageState{
               discountCode == other.discountCode &&
               isAdmin == other.isAdmin &&
               generateFreeDiscountCode == other.generateFreeDiscountCode &&
+              onInstaUrlChanged == other.onInstaUrlChanged &&
               onSignOutSelected == other.onSignOutSelected;
 }
