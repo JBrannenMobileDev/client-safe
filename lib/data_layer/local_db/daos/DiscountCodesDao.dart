@@ -24,13 +24,6 @@ class DiscountCodesDao extends Equatable{
   static Future insert(DiscountCodes discountCodes) async {
     await _discountCodesStore.add(await _db, discountCodes.toMap());
     await DiscountCodesCollection().createDiscountCodes(discountCodes);
-    _updateLastChangedTime();
-  }
-
-  static Future<void> _updateLastChangedTime() async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.discountCodesLastChangedTime = DateTime.now();
-    ProfileDao.update(profile);
   }
 
   static Future insertLocal(DiscountCodes discounts) async {
@@ -62,7 +55,6 @@ class DiscountCodesDao extends Equatable{
       finder: finder,
     );
     await DiscountCodesCollection().updateDiscountCodes(discount);
-    _updateLastChangedTime();
   }
 
   static Future updateLocalOnly(DiscountCodes discount) async {

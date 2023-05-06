@@ -44,6 +44,14 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
     if(discountType.isNotEmpty) {
       store.dispatch(SetDiscountTypeAction(store.state.manageSubscriptionPageState, discountType));
       store.dispatch(SetDiscountCodeAction(store.state.manageSubscriptionPageState, action.discountCode));
+      if(discountType == DiscountCodes.LIFETIME_FREE) {
+        DiscountCodesRepository repo = DiscountCodesRepository();
+        Profile profile = await ProfileDao.getMatchingProfile(action.pageState.profile.uid);
+        profile.isFreeForLife = true;
+        await ProfileDao.update(profile);
+        repo.assignUserToCode(action.pageState.discountCode, store.state.dashboardPageState.profile.uid);
+        store.dispatch(SetProfileAction(store.state.manageSubscriptionPageState, profile));
+      }
     } else {
       store.dispatch(SetShowDiscountErrorStateAction(store.state.manageSubscriptionPageState, true));
     }
@@ -93,35 +101,27 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
 
     store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
     store.dispatch(SetManageSubscriptionStateAction(store.state.manageSubscriptionPageState, subscriptionState, monthlyPrice, annualPrice, offerings, action.profile));
+    await DiscountCodesDao.syncAllFromFireStore();
   }
 
   void subscribe(Store<AppState> store, NextDispatcher next, SubscribeSelectedAction action) async{
     store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, true, false));
     try {
-      if(action.pageState.discountType == DiscountCodes.LIFETIME_FREE) {
-        DiscountCodesRepository repo = DiscountCodesRepository();
-        Profile profile = await ProfileDao.getMatchingProfile(action.pageState.profile.uid);
-        profile.isFreeForLife = true;
-        await ProfileDao.update(profile);
-        repo.assignUserToCode(action.pageState.discountCode, store.state.dashboardPageState.profile.uid);
-        store.dispatch(SetProfileAction(store.state.manageSubscriptionPageState, profile));
-      } else {
-        purchases.Package package = action.pageState.annualPackage;
-        switch(action.pageState.selectedSubscription) {
-          case ManageSubscriptionPage.PACKAGE_ANNUAL:
-            package = action.pageState.annualPackage;
-            break;
-          case ManageSubscriptionPage.PACKAGE_MONTHLY:
-            package = action.pageState.monthlyPackage;
-            break;
-        }
+      purchases.Package package = action.pageState.annualPackage;
+      switch(action.pageState.selectedSubscription) {
+        case ManageSubscriptionPage.PACKAGE_ANNUAL:
+          package = action.pageState.annualPackage;
+          break;
+        case ManageSubscriptionPage.PACKAGE_MONTHLY:
+          package = action.pageState.monthlyPackage;
+          break;
+      }
 
-        purchases.CustomerInfo purchaserInfo = await purchases.Purchases.purchasePackage(package);
-        if (purchaserInfo.entitlements.all["standard"].isActive) {
-          store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, true));
-          store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
-          await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
-        }
+      purchases.CustomerInfo purchaserInfo = await purchases.Purchases.purchasePackage(package);
+      if (purchaserInfo.entitlements.all["standard"].isActive) {
+        store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, true));
+        store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
+        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
       }
     } on PlatformException catch (e) {
       var errorCode = PurchasesErrorHelper.getErrorCode(e);
