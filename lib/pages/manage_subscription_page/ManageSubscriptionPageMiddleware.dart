@@ -120,7 +120,10 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
         if (purchaserInfo.entitlements.all["standard"].isActive) {
           store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, true));
           store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
-          await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
+          EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
+          EventSender().sendEvent(eventName: EventNames.USER_SUBSCRIBED, properties: {
+            EventNames.SUBSCRIPTION_PARAM_NAME : action.pageState.selectedSubscription,
+          });
         }
       }
     } on PlatformException catch (e) {

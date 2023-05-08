@@ -104,6 +104,12 @@ class UpdateNavigateToHomeAction{
   UpdateNavigateToHomeAction(this.pageState, this.navigateToHome);
 }
 
+class UpdateNavigateToOnBoardingAction{
+  final LoginPageState pageState;
+  final bool navigateToOnBoarding;
+  UpdateNavigateToOnBoardingAction(this.pageState, this.navigateToOnBoarding);
+}
+
 class SetSignInErrorMessageAction{
   final LoginPageState pageState;
   final String errorMessage;

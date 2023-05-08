@@ -261,6 +261,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     super.dispose();
+    controller.dispose();
     _controller.dispose();
     _controllerLogoIn.dispose();
     _controllerLogoOut.dispose();
@@ -398,6 +399,9 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
         onDidChange: (prev, pageState) {
           if(pageState.navigateToHome) {
             _onStartAnimationForGoingToHomePage(pageState);
+          }
+          if(pageState.shouldShowOnBoardingFlow) {
+            _onStartAnimationForGoingToOnBoardingPage(pageState);
           }
           if(pageState.createAccountErrorMessage.isNotEmpty){
             _controllerErrorShake.reset();
@@ -1183,6 +1187,19 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
       });
     } else {
       NavigationUtil.onSuccessfulLogin(context);
+    }
+  }
+
+  void _onStartAnimationForGoingToOnBoardingPage(LoginPageState pageState){
+    if(pageState.mainButtonsVisible) {
+      _controller.reverse();
+      _controllerLogoOut.forward();
+      _controllerSunIn.reverse();
+      Timer(const Duration(milliseconds: 600), () {
+        NavigationUtil.onShowOnBoarding(context);
+      });
+    } else {
+      NavigationUtil.onShowOnBoarding(context);
     }
   }
 

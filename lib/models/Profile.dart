@@ -33,6 +33,7 @@ class Profile{
   bool shouldShowRestoreSubscription = false;
   bool usesSalesTax = false;
   bool isFreeForLife = false;
+  bool onBoardingComplete = false;
   DateTime accountCreatedDate;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
@@ -107,6 +108,7 @@ class Profile{
     this.discountCodesLastChangedTime,
     this.isFreeForLife,
     this.instagramUrl,
+    this.onBoardingComplete,
   });
 
   Profile copyWith({
@@ -139,6 +141,7 @@ class Profile{
     bool shouldShowRestoreSubscription,
     bool usesSalesTax,
     bool isFreeForLife,
+    bool onBoardingComplete,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -214,6 +217,7 @@ class Profile{
       poseLibraryGroupLastChangeDate: poseLibraryGroupLastChangeDate ?? this.poseLibraryGroupLastChangeDate,
       discountCodesLastChangedTime: discountCodesLastChangedTime ?? this.discountCodesLastChangedTime,
       isFreeForLife: isFreeForLife ?? this.isFreeForLife,
+      onBoardingComplete: onBoardingComplete ?? this.onBoardingComplete,
     );
   }
 
@@ -246,6 +250,7 @@ class Profile{
       'hasSeenShowcase' : hasSeenShowcase ?? false,
       'isBetaTester' : isBetaTester ?? false,
       'isFreeForLife' : isFreeForLife ?? false,
+      'onBoardingComplete' : onBoardingComplete ?? false,
       'usesSalesTax' : usesSalesTax ?? false,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -301,6 +306,7 @@ class Profile{
       isBetaTester: map['isBetaTester'] != null ? map['isBetaTester'] : false,
       isFreeForLife: map['isFreeForLife'] != null ? map['isFreeForLife'] : false,
       usesSalesTax: map['usesSalesTax'] != null ? map['usesSalesTax'] : false,
+      onBoardingComplete: map['onBoardingComplete'] != null ? map['onBoardingComplete'] : false,
       shouldShowRestoreSubscription: map['shouldShowRestoreSubscription'] != null ? map['shouldShowRestoreSubscription'] : false,
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],

@@ -164,6 +164,10 @@ class EventNames {
   static const String BUILD_VERSION = "build_version";
   static const String BUILD_NUMBER = "build_number";
 
+  //Subscription
+  static const String USER_SUBSCRIBED = "user_subscribed";
+  static const String SUBSCRIPTION_PARAM_NAME = "subscription_param_name";
+
   //Login flow
   static const String FIRST_NAME_ENTERED = "first_name_entered";
   static const String LAST_NAME_ENTERED = "last_name_entered";
