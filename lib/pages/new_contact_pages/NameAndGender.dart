@@ -143,24 +143,32 @@ class _NameAndGenderState extends State<NameAndGender>
                     pageState.onGetDeviceContactsSelected(),
                     EventSender().sendEvent(eventName: EventNames.BT_IMPORT_DEVICE_CONTACT),
                   },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      IconButton(
-                        onPressed: () {
+                  child: Container(
+                    height: 54,
+                    margin: EdgeInsets.only(bottom: 8),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(27),
+                      color: Color(ColorConstants.getPeachDark())
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        IconButton(
+                          onPressed: () {
 
-                        },
-                        color: Color(ColorConstants.getPeachDark()),
-                        icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid, color: Color(ColorConstants.getPeachDark()),) : Icon(Icons.people, color: Color(ColorConstants.getPeachDark())),
-                        tooltip: 'Search',
-                      ),
-                      TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: "Import Device Contact",
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPeachDark()),
-                      ),
-                    ],
+                          },
+                          color: Color(ColorConstants.getPeachDark()),
+                          icon: Device.get().isIos ? Icon(CupertinoIcons.group_solid, color: Color(ColorConstants.getPrimaryWhite()),) : Icon(Icons.people, color: Color(ColorConstants.getPrimaryWhite())),
+                          tooltip: 'Search',
+                        ),
+                        TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Import Device Contact",
+                          textAlign: TextAlign.start,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 NewContactTextField(

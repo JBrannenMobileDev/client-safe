@@ -20,7 +20,6 @@ class DoYouHaveAJobPage extends StatefulWidget {
 class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
   final notesController = TextEditingController();
   final FocusNode _notesFocusNode = FocusNode();
-  bool hasViewedSampleJob = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,108 +49,89 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            UserOptionsUtil.showNewJobDialog(context);
+                            pageState.onHasJobAnswered(OnBoardingPageState.HAS_JOB_YES);
                           },
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 24.0, right: 24.0, top: 16),
-                                margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 0.0, bottom: 0.0),
-                                alignment: Alignment.topCenter,
-                                height: 132.0,
-                                decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: TextDandyLight(
-                                  text: 'Lets get started by adding your job and contact to Dandylight!',
-                                  type: TextDandyLight.MEDIUM_TEXT,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 0.0, bottom: 0.0),
-                                height: 54,
-                                decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getBlueDark()),
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: TextDandyLight(
-                                  text: 'YES',
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                ),
-                              )
-                            ],
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                            margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 0.0, bottom: 0.0),
+                            height: 54,
+                            decoration: BoxDecoration(
+                                color: Color(pageState.selectedOptionHasJob == OnBoardingPageState.HAS_JOB_YES ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
+                                borderRadius: BorderRadius.circular(36.0)),
+                            child: TextDandyLight(
+                              text: 'YES',
+                              type: TextDandyLight.LARGE_TEXT,
+                              color: Color(pageState.selectedOptionHasJob == OnBoardingPageState.HAS_JOB_YES ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                            ),
                           ),
                         ),
                         SizedBox(
-                          height: 32,
+                          height: 16,
                         ),
                         GestureDetector(
                           onTap: () {
-                            pageState.onViewSampleJobSelected();
-                            NavigationUtil.onJobTapped(context);
-                            hasViewedSampleJob = true;
+                            pageState.onHasJobAnswered(OnBoardingPageState.HAS_JOB_NO);
                           },
-                          child: Stack(
-                            alignment: Alignment.bottomCenter,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.only(left: 24.0, right: 24.0, top: 16),
-                                margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 0.0, bottom: 0.0),
-                                alignment: Alignment.topCenter,
-                                height: 132.0,
-                                decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: TextDandyLight(
-                                  text: 'Lets get started by viewing a example job before entering the app.',
-                                  type: TextDandyLight.MEDIUM_TEXT,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                              ),
-                              Container(
-                                alignment: Alignment.center,
-                                padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                                margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 0.0, bottom: 0.0),
-                                height: 54,
-                                decoration: BoxDecoration(
-                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                    borderRadius: BorderRadius.circular(36.0)),
-                                child: TextDandyLight(
-                                  text: 'NO',
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                              )
-                            ],
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                            margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 0.0, bottom: 0.0),
+                            height: 54,
+                            decoration: BoxDecoration(
+                                color: Color(pageState.selectedOptionHasJob == OnBoardingPageState.HAS_JOB_NO ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
+                                borderRadius: BorderRadius.circular(36.0)),
+                            child: TextDandyLight(
+                              text: 'NO',
+                              type: TextDandyLight.LARGE_TEXT,
+                              color: Color(pageState.selectedOptionHasJob == OnBoardingPageState.HAS_JOB_NO ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                            ),
                           ),
                         ),
                       ],
                     )
                   ],
                 ),
-                hasViewedSampleJob ? GestureDetector(
-                  onTap: () {
-                    NavigationUtil.onSuccessfulLogin(context);
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(left: 16.0, right: 16.0),
-                    margin: EdgeInsets.only(left: 32.0, right: 32.0, top: 0.0, bottom: 32.0),
-                    alignment: Alignment.center,
-                    height: 54.0,
-                    decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPeachDark()),
-                        borderRadius: BorderRadius.circular(36.0)),
-                    child: TextDandyLight(
-                      text: 'Continue',
-                      type: TextDandyLight.LARGE_TEXT,
-                      color: Color(ColorConstants.getPrimaryWhite()),
+                Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 48, right: 48),
+                      child: TextDandyLight(
+                        text: buildMessage(pageState),
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
                     ),
-                  ),
-                ) : SizedBox(),
+                    GestureDetector(
+                      onTap: () {
+                        switch(pageState.selectedOptionHasJob) {
+                          case OnBoardingPageState.HAS_JOB_YES:
+                            UserOptionsUtil.showNewJobDialog(context);
+                            break;
+                          case OnBoardingPageState.HAS_JOB_NO:
+                            pageState.onViewSampleJobSelected();
+                            NavigationUtil.onJobTapped(context);
+                            break;
+                        }
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                        margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 32.0),
+                        alignment: Alignment.center,
+                        height: 54.0,
+                        decoration: BoxDecoration(
+                            color: Color(pageState.selectedOptionHasJob.isNotEmpty ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
+                            borderRadius: BorderRadius.circular(36.0)),
+                        child: TextDandyLight(
+                          text: 'Continue',
+                          type: TextDandyLight.LARGE_TEXT,
+                          color: Color(pageState.selectedOptionHasJob.isNotEmpty ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -160,5 +140,20 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
 
   void onAction(){
     _notesFocusNode.unfocus();
+  }
+
+  buildMessage(OnBoardingPageState pageState) {
+    String result = '';
+    switch(pageState.selectedOptionHasJob) {
+      case '':
+        break;
+      case OnBoardingPageState.HAS_JOB_YES:
+        result = 'Lets get started by adding your first job to Dandylight!';
+        break;
+      case OnBoardingPageState.HAS_JOB_NO:
+        result = 'Lets get started by checking out our example job.';
+        break;
+    }
+    return result;
   }
 }

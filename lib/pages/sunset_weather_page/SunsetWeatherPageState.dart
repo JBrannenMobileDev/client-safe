@@ -250,7 +250,7 @@ class SunsetWeatherPageState {
     onLocationSelected: null,
     documentPath: '',
     onLocationSaved: null,
-    currentMapLatLng: null,           locations are messed up in sunset weather form new job
+    currentMapLatLng: null,
     onMapLocationChanged: null,
     onMapLocationSaved: null,
     lat: 0.0,

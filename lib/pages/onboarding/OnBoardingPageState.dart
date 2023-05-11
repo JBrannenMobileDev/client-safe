@@ -10,6 +10,8 @@ class OnBoardingPageState{
   static const String MILEAGE_TRACKING = "mileage_tracking";
   static const String INVOICES = "invoices";
   static const String BUSINESS_ANALYTICS = "business_analytics";
+  static const String HAS_JOB_YES = "has_job_yes";
+  static const String HAS_JOB_NO = "has_job_no";
 
   final bool jobTrackingSelected;
   final bool incomeExpensesSelected;
@@ -19,6 +21,8 @@ class OnBoardingPageState{
   final bool analyticsSelected;
   final bool featuresContinueEnabled;
   final int pagerIndex;
+  final String selectedOptionHasJob;
+  final Function(String) onHasJobAnswered;
   final Function(String, bool) onFeatureSelected;
   final Function(int) setPagerIndex;
   final Function() onViewSampleJobSelected;
@@ -35,6 +39,8 @@ class OnBoardingPageState{
     @required this.pagerIndex,
     @required this.mileageTrackingSelected,
     @required this.onViewSampleJobSelected,
+    @required this.selectedOptionHasJob,
+    @required this.onHasJobAnswered,
   });
 
   OnBoardingPageState copyWith({
@@ -46,9 +52,11 @@ class OnBoardingPageState{
     bool featuresContinueEnabled,
     bool mileageTrackingSelected,
     int pagerIndex,
+    String selectedOptionHasJob,
     Function(String, bool) onFeatureSelected,
     Function(int) setPagerIndex,
     Function() onViewSampleJobSelected,
+    Function(String) onHasJobAnswered
   }){
     return OnBoardingPageState(
       jobTrackingSelected: jobTrackingSelected?? this.jobTrackingSelected,
@@ -62,6 +70,8 @@ class OnBoardingPageState{
       pagerIndex: pagerIndex ?? this.pagerIndex,
       mileageTrackingSelected: mileageTrackingSelected ?? this.mileageTrackingSelected,
       onViewSampleJobSelected: onViewSampleJobSelected ?? this.onViewSampleJobSelected,
+      onHasJobAnswered: onHasJobAnswered ?? this.onHasJobAnswered,
+      selectedOptionHasJob: selectedOptionHasJob ?? this.selectedOptionHasJob,
     );
   }
 
@@ -77,6 +87,8 @@ class OnBoardingPageState{
     pagerIndex: 0,
     mileageTrackingSelected: false,
     onViewSampleJobSelected: null,
+    selectedOptionHasJob: "",
+    onHasJobAnswered: null,
   );
 
   factory OnBoardingPageState.fromStore(Store<AppState> store) {
@@ -89,9 +101,11 @@ class OnBoardingPageState{
       featuresContinueEnabled: store.state.onBoardingPageState.featuresContinueEnabled,
       pagerIndex: store.state.onBoardingPageState.pagerIndex,
       mileageTrackingSelected: store.state.onBoardingPageState.mileageTrackingSelected,
+      selectedOptionHasJob: store.state.onBoardingPageState.selectedOptionHasJob,
       onFeatureSelected: (featureName, isSelected) => store.dispatch(SetFeatureSelectedStateAction(store.state.onBoardingPageState, featureName, isSelected)),
       setPagerIndex: (index) => store.dispatch(SetPagerIndexAction(store.state.onBoardingPageState, index)),
       onViewSampleJobSelected: () => store.dispatch(SetJobForDetailsPage(store.state.onBoardingPageState)),
+      onHasJobAnswered: (answer) => store.dispatch(SetHasJobAnswerAction(store.state.onBoardingPageState, answer)),
     );
   }
 
@@ -107,6 +121,8 @@ class OnBoardingPageState{
       pagerIndex.hashCode ^
       mileageTrackingSelected.hashCode ^
       onViewSampleJobSelected.hashCode ^
+      selectedOptionHasJob.hashCode ^
+      onHasJobAnswered.hashCode ^
       incomeExpensesSelected.hashCode;
 
   @override
@@ -123,5 +139,7 @@ class OnBoardingPageState{
               pagerIndex == other.pagerIndex &&
               onViewSampleJobSelected == other.onViewSampleJobSelected &&
               mileageTrackingSelected == other.mileageTrackingSelected &&
+              selectedOptionHasJob == other.selectedOptionHasJob &&
+              onHasJobAnswered == other.onHasJobAnswered &&
               incomeExpensesSelected == other.incomeExpensesSelected;
 }

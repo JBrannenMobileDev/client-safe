@@ -6,7 +6,14 @@ import 'OnBoardingActions.dart';
 final onBoardingReducer = combineReducers<OnBoardingPageState>([
   TypedReducer<OnBoardingPageState, SetFeatureSelectedStateAction>(_setSelectedFeature),
   TypedReducer<OnBoardingPageState, SetPagerIndexAction>(_setPagerIndex),
+  TypedReducer<OnBoardingPageState, SetHasJobAnswerAction>(_setHasJobAnswer),
 ]);
+
+OnBoardingPageState _setHasJobAnswer(OnBoardingPageState previousState, SetHasJobAnswerAction action){
+  return previousState.copyWith(
+    selectedOptionHasJob: action.answer,
+  );
+}
 
 OnBoardingPageState _setPagerIndex(OnBoardingPageState previousState, SetPagerIndexAction action){
   return previousState.copyWith(

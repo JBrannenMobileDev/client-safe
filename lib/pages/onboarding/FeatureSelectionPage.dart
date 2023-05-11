@@ -170,7 +170,7 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                     child: TextDandyLight(
                       text: 'Continue',
                       type: TextDandyLight.LARGE_TEXT,
-                      color: Color(pageState.featuresContinueEnabled ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryGreyMedium()),
+                      color: Color(pageState.featuresContinueEnabled ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                     ),
                   ),
                 ),

@@ -18,3 +18,9 @@ class SetJobForDetailsPage{
   SetJobForDetailsPage(this.pageState);
 }
 
+class SetHasJobAnswerAction {
+  final OnBoardingPageState pageState;
+  final String answer;
+  SetHasJobAnswerAction(this.pageState, this.answer);
+}
+
