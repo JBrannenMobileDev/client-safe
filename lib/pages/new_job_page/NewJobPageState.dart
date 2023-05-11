@@ -14,6 +14,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Profile.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart' as sunsetPageActions;
 
 @immutable
@@ -38,6 +39,7 @@ class NewJobPageState {
   final String documentPath;
   final String oneTimePrice;
   final PriceProfile selectedPriceProfile;
+  final Profile profile;
   final Location selectedLocation;
   final Location oneTimeLocation;
   final DateTime selectedDate;
@@ -135,6 +137,7 @@ class NewJobPageState {
     @required this.onCalendarEnabled,
     @required this.isSelectedPriceProfileNew,
     @required this.isSelectedJobTypeNew,
+    @required this.profile,
   });
 
   NewJobPageState copyWith({
@@ -160,6 +163,7 @@ class NewJobPageState {
     List<PriceProfile> pricingProfiles,
     List<Location> locations,
     List<File> imageFiles,
+    Profile profile,
     DateTime selectedDate,
     DateTime selectedStartTime,
     DateTime selectedEndTime,
@@ -252,6 +256,7 @@ class NewJobPageState {
       onCalendarEnabled: onCalendarEnabled ?? this.onCalendarEnabled,
       isSelectedPriceProfileNew: isSelectedPriceProfileNew ?? this.isSelectedPriceProfileNew,
       isSelectedJobTypeNew: isSelectedJobTypeNew ?? this.isSelectedJobTypeNew,
+      profile: profile ?? this.profile,
     );
   }
 
@@ -283,6 +288,7 @@ class NewJobPageState {
         selectedEndTime: null,
         sunsetDateTime: null,
         selectedJobType: null,
+        profile: null,
         eventList: [],
         jobs: [],
         jobTypes: [],
@@ -354,6 +360,7 @@ class NewJobPageState {
       oneTimeLocation: store.state.newJobPageState.oneTimeLocation,
       lat: store.state.newJobPageState.lat,
       lon: store.state.newJobPageState.lon,
+      profile: store.state.newJobPageState.profile,
       isSelectedClientNew: store.state.newJobPageState.isSelectedClientNew,
       isSelectedJobTypeNew: store.state.newJobPageState.isSelectedJobTypeNew,
       isSelectedPriceProfileNew: store.state.newJobPageState.isSelectedPriceProfileNew,
@@ -394,6 +401,7 @@ class NewJobPageState {
       clientSearchText.hashCode ^
       allClients.hashCode ^
       deviceEvents.hashCode ^
+      profile.hashCode ^
       isSelectedJobTypeNew.hashCode ^
       selectedPriceProfile.hashCode ^
       selectedLocation.hashCode ^
@@ -450,6 +458,7 @@ class NewJobPageState {
           selectedClient == other.selectedClient &&
           clientSearchText == other.clientSearchText &&
           allClients == other.allClients &&
+          profile == other.profile &&
           filteredClients == other.filteredClients &&
           selectedPriceProfile == other.selectedPriceProfile &&
           selectedLocation == other.selectedLocation &&

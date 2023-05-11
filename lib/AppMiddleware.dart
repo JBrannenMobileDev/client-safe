@@ -55,6 +55,8 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageMiddleware.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
+import 'package:dandylight/pages/onboarding/OnBoardingActions.dart';
+import 'package:dandylight/pages/onboarding/OnBoardingPageMiddleware.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageMiddleware.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageActions.dart' as paymentLinks;
 import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
@@ -261,5 +263,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SubscribeSelectedAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ValidateCodeAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, AssignDiscountCodeToUser>(ManageSubscriptionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetJobForDetailsPage>(OnBoardingPageMiddleware()));
   return middlewareList;
 }

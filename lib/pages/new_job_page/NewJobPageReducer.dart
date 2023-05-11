@@ -36,7 +36,14 @@ final newJobPageReducer = combineReducers<NewJobPageState>([
   TypedReducer<NewJobPageState, LoadAndSelectNewContactAction>(_setSelectedClientFromNewContactPage),
   TypedReducer<NewJobPageState, SetPriceProfilesAndSelectedAction>(setPricePackagesAndSelectedPackage),
   TypedReducer<NewJobPageState, SetJobTypeAndSelectedAction>(setJobTypeAndSelected),
+  TypedReducer<NewJobPageState, SetProfileToNewJobAction>(setProfile),
 ]);
+
+NewJobPageState setProfile(NewJobPageState previousState, SetProfileToNewJobAction action){
+  return previousState.copyWith(
+    profile: action.profile,
+  );
+}
 
 NewJobPageState setJobTypeAndSelected(NewJobPageState previousState, SetJobTypeAndSelectedAction action){
   return previousState.copyWith(

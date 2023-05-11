@@ -266,6 +266,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowInitialPosition action) async {
+      Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+      store.dispatch(SetProfileToNewJobAction(store.state.newJobPageState, profile));
       PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
       if(!status.isGranted) {
         await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);

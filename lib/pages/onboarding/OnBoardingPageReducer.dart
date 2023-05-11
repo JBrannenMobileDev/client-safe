@@ -20,6 +20,7 @@ OnBoardingPageState _setSelectedFeature(OnBoardingPageState previousState, SetFe
   bool poses = previousState.posesSelected;
   bool invoices = previousState.invoicesSelected;
   bool analytics = previousState.analyticsSelected;
+  bool mileageTracking = previousState.mileageTrackingSelected;
 
   switch(action.featureName) {
     case OnBoardingPageState.JOB_TRACKING:
@@ -37,6 +38,9 @@ OnBoardingPageState _setSelectedFeature(OnBoardingPageState previousState, SetFe
     case OnBoardingPageState.BUSINESS_ANALYTICS:
       analytics = action.isSelected;
       break;
+    case OnBoardingPageState.MILEAGE_TRACKING:
+      mileageTracking = action.isSelected;
+      break;
   }
 
   return previousState.copyWith(
@@ -45,6 +49,7 @@ OnBoardingPageState _setSelectedFeature(OnBoardingPageState previousState, SetFe
     posesSelected: poses,
     invoicesSelected: invoices,
     analyticsSelected: analytics,
-    featuresContinueEnabled: jobTracking || incomeExpenses || poses || invoices || analytics
+    mileageTrackingSelected: mileageTracking,
+    featuresContinueEnabled: jobTracking || incomeExpenses || poses || invoices || analytics || mileageTracking
   );
 }

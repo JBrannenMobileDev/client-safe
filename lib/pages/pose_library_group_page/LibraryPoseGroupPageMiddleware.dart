@@ -13,11 +13,14 @@ import 'package:synchronized/synchronized.dart';
 
 import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/local_db/daos/PoseGroupDao.dart';
+import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
+import '../../models/Profile.dart';
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/JobUtil.dart';
+import '../../utils/UidUtil.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import '../poses_page/PosesActions.dart' as posesActions;
 import 'LibraryPoseGroupActions.dart';
@@ -144,7 +147,8 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _loadPoseImages(Store<AppState> store, LoadLibraryPoseGroup action) async{
-    store.dispatch(SetIsAdminLibraryAction(store.state.libraryPoseGroupPageState, AdminCheckUtil.isAdmin(store.state.dashboardPageState.profile)));
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    store.dispatch(SetIsAdminLibraryAction(store.state.libraryPoseGroupPageState, AdminCheckUtil.isAdmin(profile)));
     store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, action.poseGroup));
     store.dispatch(SetActiveJobs(store.state.libraryPoseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
     _fetchMyPoseGroups(store);

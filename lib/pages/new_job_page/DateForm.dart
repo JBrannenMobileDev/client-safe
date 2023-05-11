@@ -3,7 +3,6 @@ import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/calendar_page/JobCalendarItem.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobCalendarItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +64,7 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
       onInit: (appState) => {
-        if(!appState.state.dashboardPageState.profile.calendarEnabled) {
+        if(!appState.state.newJobPageState.profile.calendarEnabled) {
           Future.microtask(() => UserOptionsUtil.showCalendarSelectionDialog(context, appState.state.newJobPageState.onCalendarEnabled)),
         } else {
           appState.dispatch(FetchNewJobDeviceEvents(appState.state.newJobPageState, DateTime.now())),

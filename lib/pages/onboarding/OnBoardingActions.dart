@@ -13,3 +13,8 @@ class SetPagerIndexAction{
   SetPagerIndexAction(this.pageState, this.index);
 }
 
+class SetJobForDetailsPage{
+  final OnBoardingPageState pageState;
+  SetJobForDetailsPage(this.pageState);
+}
+

@@ -95,6 +95,34 @@ class _OnBoardingPageState extends State<OnBoardingPage> with TickerProviderStat
                             dotColor: Color(ColorConstants.getPrimaryBackgroundGrey())),
                       ),
                     ),
+                    pageState.pagerIndex > 0 ? Container(
+                      padding: EdgeInsets.only(top: 56, left: 16),
+                      alignment: Alignment.topLeft,
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: IconButton(
+                        onPressed: () {
+                          switch(pageState.pagerIndex) {
+                            case 1:
+                              pageState.setPagerIndex(0);
+                              break;
+                            case 2:
+                              pageState.setPagerIndex(1);
+                              break;
+                            case 3:
+                              pageState.setPagerIndex(0);
+                              break;
+                            case 4:
+                              pageState.setPagerIndex(0);
+                              break;
+                            case 5:
+                              pageState.setPagerIndex(0);
+                              break;
+                          }
+                        },
+                        icon: Icon(Icons.arrow_back_ios),
+                      ),
+                    ) : SizedBox(),
                   ],
                 ),
               ),

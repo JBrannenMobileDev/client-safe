@@ -103,6 +103,24 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                       alignment: Alignment.center,
                       height: 54.0,
                       decoration: BoxDecoration(
+                          color: Color(pageState.mileageTrackingSelected ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
+                          borderRadius: BorderRadius.circular(36.0)),
+                      child: CheckboxListTile(
+                        title: Text('Mileage Tracking'),
+                        value: pageState.mileageTrackingSelected,
+                        activeColor: Color(ColorConstants.getPeachDark()),
+                        onChanged: (selected) {
+                          pageState.onFeatureSelected(OnBoardingPageState.MILEAGE_TRACKING, selected);
+                        },
+                        controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                      margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 0.0),
+                      alignment: Alignment.center,
+                      height: 54.0,
+                      decoration: BoxDecoration(
                           color: Color(pageState.invoicesSelected ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
                           borderRadius: BorderRadius.circular(36.0)),
                       child: CheckboxListTile(
@@ -138,7 +156,7 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                 GestureDetector(
                   onTap: () {
                     if(pageState.featuresContinueEnabled) {
-                      pageState.onFeatureContinueSelected(1);
+                      pageState.setPagerIndex(1);
                     }
                   },
                   child: Container(
