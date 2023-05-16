@@ -14,6 +14,7 @@ import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
+import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
@@ -398,6 +399,9 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await ReminderDao.insertOrUpdate(chargeCameraReminder);
       await ReminderDao.insertOrUpdate(cleanCameraReminder);
       await ReminderDao.insertOrUpdate(oneWeekCheckInReminder);
+
+      NotificationHelper().scheduleStartFirstJobReminder();
+      NotificationHelper().scheduleStartFirstJobReminder();
 
       //Creating price packages
       PriceProfile priceProfile = PriceProfile(

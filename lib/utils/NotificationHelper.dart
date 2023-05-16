@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -87,10 +88,16 @@ class NotificationHelper {
 
   void createAndUpdatePendingNotifications() async {
     List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
+    List<Job> allJobs = await JobDao.getAllJobs();
     clearAll();
 
+    if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
+      scheduleStartFirstJobReminder();
+    }
+    scheduleFreeTrialExpiringReminder();
+
     for(int index = 0;index < pendingReminders.length; index++) {
-      if(index < 64) {
+      if(index < 62) {
         JobReminder reminderToSchedule = pendingReminders.elementAt(index);
         if(reminderToSchedule.triggerTime != null) {
           scheduleNotification(
@@ -162,8 +169,43 @@ class NotificationHelper {
         );
   }
 
-  static void createMileageExpenseReminder() async {
+  void scheduleStartFirstJobReminder() async {
+    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).accountCreatedDate;
+    profileCreatedDate = profileCreatedDate.add(Duration(days: 3));
 
+    if(DateTime.now().isBefore(profileCreatedDate)) {
+      DateTime triggerDateTime = DateTime(profileCreatedDate.year, profileCreatedDate.month, profileCreatedDate.day, 9);
+      scheduleNotification(
+        63,
+        "Start your first job!",
+        "Have you booked a job recently? Track it in DandyLight to save time by staying organized! Don't forget to add poses to your job to make the shoot a breeze.",
+        "first_job_reminder",
+        triggerDateTime,
+      );
+    }
+  }
+
+  void scheduleFreeTrialExpiringReminder() async {
+    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).accountCreatedDate;
+    profileCreatedDate = profileCreatedDate.add(Duration(days: 7));
+
+    if(DateTime.now().isBefore(profileCreatedDate)) {
+      DateTime triggerDateTime = DateTime(profileCreatedDate.year, profileCreatedDate.month, profileCreatedDate.day, profileCreatedDate.hour, profileCreatedDate.minute);
+      List<Job> jobs = await JobDao.getAllJobs();
+      String body = "";
+      if(jobs.length == 1 && jobs.elementAt(0).clientName == "Example Client") {
+        body = "Try organizing your first job with DandyLight!";
+      } else {
+        body = "Adding poses to your jobs makes your photoshoot a breeze!  Poses are available even in those off-the-grid locations!";
+      }
+      scheduleNotification(
+        64,
+        "Free Trial - 1 Week remaining",
+        body,
+        "one_week_remaining",
+        triggerDateTime,
+      );
+    }
   }
 }
 
