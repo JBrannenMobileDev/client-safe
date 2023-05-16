@@ -200,6 +200,7 @@ class EventNames {
   static const String ON_BOARDING_HAS_JOB_ANSWERED = "on_boarding_has_job_answered";
   static const String ON_BOARDING_HAS_JOB_ANSWERED_PARAM = "on_boarding_has_job_answered_param";
   static const String ON_BOARDING_ADD_FIRST_JOB_COMPLETED = "on_boarding_add_first_job_complete";
+  static const String ON_BOARDING_ADD_FIRST_JOB_SKIPPED = "on_boarding_add_first_job_skipped";
   static const String ON_BOARDING_VIEW_SAMPLE_JOB_COMPLETED = "on_boarding_view_sample_job_complete";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED = "on_boarding_lead_source_selected";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM = "on_boarding_lead_source_selected_param";

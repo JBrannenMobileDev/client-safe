@@ -176,6 +176,7 @@ class _NewJobPageState extends State<NewJobPage> {
                             ) : pageState.pageViewIndex == 0 ? GestureDetector(
                               onTap: () {
                                 pageState.onSkipSelected();
+                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_SKIPPED);
                                 NavigationUtil.onSuccessfulLogin(context);
                               },
                               child: Container(
