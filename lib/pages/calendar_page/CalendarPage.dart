@@ -146,7 +146,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             backgroundColor: Color(ColorConstants.getPrimaryColor()),
             onPressed: () {
               pageState.onAddNewJobSelected();
-              UserOptionsUtil.showNewJobDialog(context);
+              UserOptionsUtil.showNewJobDialog(context, false);
               EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Calendar Page"});
             }),
       ),

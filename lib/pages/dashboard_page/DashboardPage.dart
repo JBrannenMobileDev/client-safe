@@ -354,7 +354,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                       ),
                     ),
                     onTap: () {
-                      UserOptionsUtil.showNewJobDialog(context);
+                      UserOptionsUtil.showNewJobDialog(context, false);
                       EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Dashboard"});
                     },
                   ),

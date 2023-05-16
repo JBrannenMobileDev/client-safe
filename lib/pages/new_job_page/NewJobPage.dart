@@ -18,18 +18,28 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../utils/NavigationUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'PricingProfileSelectionForm.dart';
 
 class NewJobPage extends StatefulWidget {
+  final bool comingFromOnBoarding;
+
+  NewJobPage(this.comingFromOnBoarding);
+
   @override
   _NewJobPageState createState() {
-    return _NewJobPageState();
+    return _NewJobPageState(comingFromOnBoarding);
   }
 }
 
 class _NewJobPageState extends State<NewJobPage> {
   final int pageCount = 5;
+  final bool comingFromOnBoarding;
+
+  _NewJobPageState(this.comingFromOnBoarding);
+
   final controller = PageController(
     initialPage: 0,
   );
@@ -121,23 +131,11 @@ class _NewJobPageState extends State<NewJobPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          margin: EdgeInsets.only(left: 16.0),
-                          child: IconButton(
-                            icon: const Icon(Icons.close),
-                            tooltip: 'Delete',
-                            color: Color(ColorConstants.getPeachDark()),
-                            onPressed: () {
-                              pageState.onCancelPressed();
-                              Navigator.of(context).pop(true);
-                            },
-                          ),
-                        ),
+                    Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
                         Padding(
-                          padding: EdgeInsets.only(bottom: 4.0),
+                          padding: EdgeInsets.only(bottom: 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.shouldClear ? "New Job" : pageState.comingFromClientDetails ? "New Job" : "Edit Job",
@@ -145,21 +143,52 @@ class _NewJobPageState extends State<NewJobPage> {
                             color: Color(ColorConstants.primary_black),
                           ),
                         ),
-                        pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3 ? GestureDetector(
-                          onTap: () {
-                            if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
-                            if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
-                            if(pageState.pageViewIndex == 3) NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(right: 24.0),
-                            height: 28.0,
-                            width: 28.0,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
-                          ),
-                        ) : SizedBox(
-                          height: 28.0,
-                          width: 52.0,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              margin: EdgeInsets.only(left: 16.0),
+                              child: IconButton(
+                                icon: const Icon(Icons.close),
+                                tooltip: 'Delete',
+                                color: Color(ColorConstants.getPeachDark()),
+                                onPressed: () {
+                                  pageState.onCancelPressed();
+                                  Navigator.of(context).pop(true);
+                                },
+                              ),
+                            ),
+                            (!comingFromOnBoarding) ? pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3 ? GestureDetector(
+                              onTap: () {
+                                if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
+                                if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
+                                if(pageState.pageViewIndex == 3) NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 24.0),
+                                height: 28.0,
+                                width: 28.0,
+                                child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                              ),
+                            ) : SizedBox(
+                              height: 28.0,
+                              width: 52.0,
+                            ) : pageState.pageViewIndex == 0 ? GestureDetector(
+                              onTap: () {
+                                pageState.onSkipSelected();
+                                NavigationUtil.onSuccessfulLogin(context);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 16),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'SKIP',
+                                  textAlign: TextAlign.start,
+                                  color: Color(ColorConstants.getPeachDark()),
+                                ),
+                              ),
+                            ) : SizedBox(),
+                          ],
                         ),
                       ],
                     ),
@@ -270,6 +299,9 @@ class _NewJobPageState extends State<NewJobPage> {
     }
     if (pageState.pageViewIndex == pageCount) {
       pageState.onSavePressed();
+      if(comingFromOnBoarding) {
+        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_COMPLETED);
+      }
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -291,7 +323,7 @@ class _NewJobPageState extends State<NewJobPage> {
   void onFlareCompleted(String unused, ) {
     Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
-    NavigationUtil.onJobTapped(context);
+    NavigationUtil.onJobTapped(context, false);
   }
 
   void onBackPressed(NewJobPageState pageState) {

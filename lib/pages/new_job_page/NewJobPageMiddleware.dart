@@ -73,6 +73,15 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateWithNewJobTypeAction){
       fetchJobTypeAndSetSelected(store, action, next);
     }
+    if(action is UpdateProfileToOnBoardingCompleteAction) {
+      updateProfileWithOnBoardingComplete(store, action, next);
+    }
+  }
+
+  void updateProfileWithOnBoardingComplete(Store<AppState> store, UpdateProfileToOnBoardingCompleteAction action, NextDispatcher next) async {
+    Profile profile = action.pageState.profile;
+    profile.onBoardingComplete = true;
+    ProfileDao.update(profile);
   }
 
   void fetchJobTypeAndSetSelected(Store<AppState> store, UpdateWithNewJobTypeAction action, NextDispatcher next) async {

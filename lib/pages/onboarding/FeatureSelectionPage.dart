@@ -1,10 +1,12 @@
 import 'package:dandylight/pages/onboarding/OnBoardingPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../utils/analytics/EventNames.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class FeatureSelectionPage extends StatefulWidget {
@@ -37,6 +39,7 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                     Container(
                       margin: EdgeInsets.only(left: 24, right: 24),
                       child: TextDandyLight(
+                        textAlign: TextAlign.center,
                         type: TextDandyLight.LARGE_TEXT,
                         isBold: true,
                         text: "What features of Dandylight are you most interested in?",
@@ -150,13 +153,32 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                         },
                         controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                       ),
-                    )
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                      margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 0.0),
+                      alignment: Alignment.center,
+                      height: 54.0,
+                      decoration: BoxDecoration(
+                          color: Color(pageState.otherSelected ? ColorConstants.getPeachLight() : ColorConstants.getPrimaryBackgroundGrey()),
+                          borderRadius: BorderRadius.circular(36.0)),
+                      child: CheckboxListTile(
+                        title: Text('Other'),
+                        value: pageState.otherSelected,
+                        activeColor: Color(ColorConstants.getPeachDark()),
+                        onChanged: (selected) {
+                          pageState.onFeatureSelected(OnBoardingPageState.OTHER, selected);
+                        },
+                        controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
+                      ),
+                    ),
                   ],
                 ),
                 GestureDetector(
                   onTap: () {
                     if(pageState.featuresContinueEnabled) {
-                      pageState.setPagerIndex(1);
+                      pageState.setPagerIndex(2);
+                      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTION_CONTINUE_SELECTED);
                     }
                   },
                   child: Container(

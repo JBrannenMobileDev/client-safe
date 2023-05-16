@@ -79,6 +79,7 @@ class NewJobPageState {
   final double lat;
   final double lon;
   final Function(bool) onCalendarEnabled;
+  final Function() onSkipSelected;
 
   NewJobPageState({
     @required this.id,
@@ -138,6 +139,7 @@ class NewJobPageState {
     @required this.isSelectedPriceProfileNew,
     @required this.isSelectedJobTypeNew,
     @required this.profile,
+    @required this.onSkipSelected,
   });
 
   NewJobPageState copyWith({
@@ -198,6 +200,7 @@ class NewJobPageState {
     double lon,
     Location oneTimeLocation,
     Function(bool) onCalendarEnabled,
+    Function() onSkipSelected,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -257,6 +260,7 @@ class NewJobPageState {
       isSelectedPriceProfileNew: isSelectedPriceProfileNew ?? this.isSelectedPriceProfileNew,
       isSelectedJobTypeNew: isSelectedJobTypeNew ?? this.isSelectedJobTypeNew,
       profile: profile ?? this.profile,
+      onSkipSelected: onSkipSelected ?? this.onSkipSelected,
     );
   }
 
@@ -321,6 +325,7 @@ class NewJobPageState {
         isSelectedPriceProfileNew: false,
         onCalendarEnabled: null,
         isSelectedJobTypeNew: false,
+        onSkipSelected: null,
       );
   }
 
@@ -383,6 +388,7 @@ class NewJobPageState {
       onOneTimePriceChanged: (inputText) => store.dispatch(SetOneTimePriceTextAction(store.state.newJobPageState, inputText)),
       onLocationSearchResultSelected: (selectedLocation) => store.dispatch(SetSelectedOneTimeLocation(store.state.newJobPageState, selectedLocation)),
       onCalendarEnabled: (enabled) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, DateTime.now())),
+      onSkipSelected: () => store.dispatch(UpdateProfileToOnBoardingCompleteAction(store.state.newJobPageState)),
     );
   }
 
@@ -439,6 +445,7 @@ class NewJobPageState {
       lat.hashCode ^
       lon.hashCode ^
       oneTimeLocation.hashCode ^
+      onSkipSelected.hashCode ^
       imageFiles.hashCode;
 
   @override
@@ -471,6 +478,7 @@ class NewJobPageState {
           sunsetDateTime == other.sunsetDateTime &&
           deviceEvents == other.deviceEvents &&
           selectedJobType == other.selectedJobType &&
+          onSkipSelected == other.onSkipSelected &&
           currentJobStage == other.currentJobStage &&
           onSavePressed == other.onSavePressed &&
           isSelectedClientNew == other.isSelectedClientNew &&

@@ -85,6 +85,7 @@ class JobDetailsPageState {
   final Function(DateTime) onNewDateSelected;
   final Function(int) onDeletePoseSelected;
   final Function(String) onNotesTextChanged;
+  final Function() setOnBoardingComplete;
 
   JobDetailsPageState({
     @required this.job,
@@ -149,6 +150,7 @@ class JobDetailsPageState {
     @required this.onDeletePoseSelected,
     @required this.onNotesTextChanged,
     @required this.notes,
+    @required this.setOnBoardingComplete,
   });
 
   JobDetailsPageState copyWith({
@@ -214,6 +216,7 @@ class JobDetailsPageState {
     Function(int) onDeletePoseSelected,
     Function(String) onNotesTextChanged,
     String notes,
+    Function() setOnBoardingComplete,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -278,6 +281,7 @@ class JobDetailsPageState {
       onDeletePoseSelected: onDeletePoseSelected ?? this.onDeletePoseSelected,
       onNotesTextChanged: onNotesTextChanged ?? this.onNotesTextChanged,
       notes: notes ?? this.notes,
+      setOnBoardingComplete: setOnBoardingComplete ?? this.setOnBoardingComplete,
     );
   }
 
@@ -350,6 +354,7 @@ class JobDetailsPageState {
         onNotesTextChanged: (notes) {
           store.dispatch(SaveJobNotesAction(store.state.jobDetailsPageState, notes));
         },
+        setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
     );
   }
 
@@ -415,6 +420,7 @@ class JobDetailsPageState {
     onDeletePoseSelected: null,
     onNotesTextChanged: null,
     notes: "",
+    setOnBoardingComplete: null,
   );
 
   @override
@@ -447,6 +453,7 @@ class JobDetailsPageState {
       selectedLocation.hashCode ^
       onLocationSelected.hashCode ^
       locations.hashCode ^
+      setOnBoardingComplete.hashCode ^
       expandedIndexes.hashCode ^
       newStagAnimationIndex.hashCode ^
       onStageCompleted.hashCode ^
@@ -491,6 +498,7 @@ class JobDetailsPageState {
               unsavedTipAmount == other.unsavedTipAmount &&
               onAddToTip == other.onAddToTip &&
               jobType == other.jobType &&
+              setOnBoardingComplete == other.setOnBoardingComplete &&
               onSaveTipChange == other.onSaveTipChange &&
               onClearUnsavedTip == other.onClearUnsavedTip &&
               documentPath == other.documentPath &&

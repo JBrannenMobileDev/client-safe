@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
@@ -11,13 +10,17 @@ import 'package:device_calendar/device_calendar.dart';
 
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
-import '../../models/ReminderDandyLight.dart';
 import '../pose_group_page/GroupImage.dart';
 
 class SetJobInfo{
   final JobDetailsPageState pageState;
   final Job job;
   SetJobInfo(this.pageState, this.job);
+}
+
+class SetOnBoardingCompleteAction {
+  final JobDetailsPageState pageState;
+  SetOnBoardingCompleteAction(this.pageState);
 }
 
 class SetJobInfoWithJobDocumentId{

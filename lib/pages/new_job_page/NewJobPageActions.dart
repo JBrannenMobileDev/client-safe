@@ -44,6 +44,11 @@ class FetchNewJobDeviceEvents{
   FetchNewJobDeviceEvents(this.calendarPageState, this.month);
 }
 
+class UpdateProfileToOnBoardingCompleteAction {
+  final NewJobPageState pageState;
+  UpdateProfileToOnBoardingCompleteAction(this.pageState);
+}
+
 class SetClientFirstNameAction{
   final NewJobPageState pageState;
   final String firstName;

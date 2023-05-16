@@ -33,8 +33,8 @@ class NavigationUtil {
   static onClientTapped(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
   }
-  static onJobTapped(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage()));
+  static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
   }
   static onCalendarSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => CalendarPage()));
@@ -70,7 +70,7 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobHistoryListPage()));
   }
   static onReminderNotificationItemSelected(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: false)));
   }
   static onNotificationsSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReminderNotificationsPage()));

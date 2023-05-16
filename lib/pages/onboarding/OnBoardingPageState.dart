@@ -1,3 +1,4 @@
+import 'package:dandylight/models/LeadSource.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
@@ -10,6 +11,7 @@ class OnBoardingPageState{
   static const String MILEAGE_TRACKING = "mileage_tracking";
   static const String INVOICES = "invoices";
   static const String BUSINESS_ANALYTICS = "business_analytics";
+  static const String OTHER = "other";
   static const String HAS_JOB_YES = "has_job_yes";
   static const String HAS_JOB_NO = "has_job_no";
 
@@ -20,12 +22,15 @@ class OnBoardingPageState{
   final bool invoicesSelected;
   final bool analyticsSelected;
   final bool featuresContinueEnabled;
+  final bool otherSelected;
   final int pagerIndex;
   final String selectedOptionHasJob;
+  final List<LeadSource> leadSources;
   final Function(String) onHasJobAnswered;
   final Function(String, bool) onFeatureSelected;
   final Function(int) setPagerIndex;
   final Function() onViewSampleJobSelected;
+  final Function(String) onLeadSourceSelected;
 
   OnBoardingPageState({
     @required this.jobTrackingSelected,
@@ -41,6 +46,9 @@ class OnBoardingPageState{
     @required this.onViewSampleJobSelected,
     @required this.selectedOptionHasJob,
     @required this.onHasJobAnswered,
+    @required this.otherSelected,
+    @required this.leadSources,
+    @required this.onLeadSourceSelected,
   });
 
   OnBoardingPageState copyWith({
@@ -51,12 +59,15 @@ class OnBoardingPageState{
     bool analyticsSelected,
     bool featuresContinueEnabled,
     bool mileageTrackingSelected,
+    bool otherSelected,
     int pagerIndex,
     String selectedOptionHasJob,
+    List<LeadSource> leadSources,
     Function(String, bool) onFeatureSelected,
     Function(int) setPagerIndex,
     Function() onViewSampleJobSelected,
-    Function(String) onHasJobAnswered
+    Function(String) onHasJobAnswered,
+    Function(String) onLeadSourceSelected,
   }){
     return OnBoardingPageState(
       jobTrackingSelected: jobTrackingSelected?? this.jobTrackingSelected,
@@ -72,6 +83,9 @@ class OnBoardingPageState{
       onViewSampleJobSelected: onViewSampleJobSelected ?? this.onViewSampleJobSelected,
       onHasJobAnswered: onHasJobAnswered ?? this.onHasJobAnswered,
       selectedOptionHasJob: selectedOptionHasJob ?? this.selectedOptionHasJob,
+      otherSelected: otherSelected ?? this.otherSelected,
+      leadSources: leadSources ?? this.leadSources,
+      onLeadSourceSelected: onLeadSourceSelected ?? this.onLeadSourceSelected,
     );
   }
 
@@ -82,6 +96,7 @@ class OnBoardingPageState{
     invoicesSelected: false,
     analyticsSelected: false,
     featuresContinueEnabled: false,
+    otherSelected: false,
     onFeatureSelected: null,
     setPagerIndex: null,
     pagerIndex: 0,
@@ -89,6 +104,8 @@ class OnBoardingPageState{
     onViewSampleJobSelected: null,
     selectedOptionHasJob: "",
     onHasJobAnswered: null,
+    leadSources: [],
+    onLeadSourceSelected: null,
   );
 
   factory OnBoardingPageState.fromStore(Store<AppState> store) {
@@ -102,10 +119,13 @@ class OnBoardingPageState{
       pagerIndex: store.state.onBoardingPageState.pagerIndex,
       mileageTrackingSelected: store.state.onBoardingPageState.mileageTrackingSelected,
       selectedOptionHasJob: store.state.onBoardingPageState.selectedOptionHasJob,
+      otherSelected: store.state.onBoardingPageState.otherSelected,
+      leadSources: store.state.onBoardingPageState.leadSources,
       onFeatureSelected: (featureName, isSelected) => store.dispatch(SetFeatureSelectedStateAction(store.state.onBoardingPageState, featureName, isSelected)),
       setPagerIndex: (index) => store.dispatch(SetPagerIndexAction(store.state.onBoardingPageState, index)),
       onViewSampleJobSelected: () => store.dispatch(SetJobForDetailsPage(store.state.onBoardingPageState)),
       onHasJobAnswered: (answer) => store.dispatch(SetHasJobAnswerAction(store.state.onBoardingPageState, answer)),
+      onLeadSourceSelected: (leadSource) => store.dispatch(SetSelectedLeadSourceAction(store.state.onBoardingPageState, leadSource)),
     );
   }
 
@@ -119,10 +139,13 @@ class OnBoardingPageState{
       onFeatureSelected.hashCode ^
       setPagerIndex.hashCode ^
       pagerIndex.hashCode ^
+      leadSources.hashCode ^
+      onLeadSourceSelected.hashCode ^
       mileageTrackingSelected.hashCode ^
       onViewSampleJobSelected.hashCode ^
       selectedOptionHasJob.hashCode ^
       onHasJobAnswered.hashCode ^
+      otherSelected.hashCode ^
       incomeExpensesSelected.hashCode;
 
   @override
@@ -141,5 +164,8 @@ class OnBoardingPageState{
               mileageTrackingSelected == other.mileageTrackingSelected &&
               selectedOptionHasJob == other.selectedOptionHasJob &&
               onHasJobAnswered == other.onHasJobAnswered &&
+              otherSelected == other.otherSelected &&
+              leadSources == other.leadSources &&
+              onLeadSourceSelected == other.onLeadSourceSelected &&
               incomeExpensesSelected == other.incomeExpensesSelected;
 }

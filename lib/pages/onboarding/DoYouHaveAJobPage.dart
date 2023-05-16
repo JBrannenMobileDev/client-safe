@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class DoYouHaveAJobPage extends StatefulWidget {
@@ -41,6 +43,7 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                       child: TextDandyLight(
                         type: TextDandyLight.LARGE_TEXT,
                         isBold: true,
+                        textAlign: TextAlign.center,
                         text: "Do you currently have any scheduled jobs?",
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -105,13 +108,16 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                     ),
                     GestureDetector(
                       onTap: () {
+                        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_HAS_JOB_ANSWERED, properties: {
+                          EventNames.ON_BOARDING_HAS_JOB_ANSWERED_PARAM : pageState.selectedOptionHasJob == OnBoardingPageState.HAS_JOB_YES ? "Yes" : "No"
+                        });
                         switch(pageState.selectedOptionHasJob) {
                           case OnBoardingPageState.HAS_JOB_YES:
-                            UserOptionsUtil.showNewJobDialog(context);
+                            UserOptionsUtil.showNewJobDialog(context, true);
                             break;
                           case OnBoardingPageState.HAS_JOB_NO:
                             pageState.onViewSampleJobSelected();
-                            NavigationUtil.onJobTapped(context);
+                            NavigationUtil.onJobTapped(context, true);
                             break;
                         }
                       },
@@ -148,10 +154,10 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
       case '':
         break;
       case OnBoardingPageState.HAS_JOB_YES:
-        result = 'Lets get started by adding your first job to Dandylight!';
+        result = 'Add your first job with a few simple steps.';
         break;
       case OnBoardingPageState.HAS_JOB_NO:
-        result = 'Lets get started by checking out our example job.';
+        result = 'Lets get started by checking out an example job.';
         break;
     }
     return result;

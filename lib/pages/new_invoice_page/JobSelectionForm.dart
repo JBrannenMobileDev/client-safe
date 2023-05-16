@@ -149,7 +149,7 @@ class _JobSelectionFormState extends State<JobSelectionForm> with AutomaticKeepA
 
   void onAddNewJobPressed() {
     Navigator.of(context).pop();
-    UserOptionsUtil.showNewJobDialog(context);
+    UserOptionsUtil.showNewJobDialog(context, false);
     EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "New Invoice Page"});
   }
 

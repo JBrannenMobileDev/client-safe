@@ -106,6 +106,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewPricePackageAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewJobTypeAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateProfileToOnBoardingCompleteAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetNotificationToSeen>(DashboardPageMiddleware()));
@@ -125,6 +126,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UndoStageAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobInfo>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetOnBoardingCompleteAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobInfoWithJobDocumentId>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, JobInstagramSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetJobAction>(JobDetailsPageMiddleware()));
@@ -264,5 +266,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, ValidateCodeAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, AssignDiscountCodeToUser>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobForDetailsPage>(OnBoardingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetSelectedLeadSourceAction>(OnBoardingPageMiddleware()));
   return middlewareList;
 }

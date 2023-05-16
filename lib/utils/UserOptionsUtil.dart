@@ -144,11 +144,11 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobDialog(BuildContext context){
+  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding){
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return NewJobPage();
+        return NewJobPage(comingFromOnBoarding);
       },
     );
   }
@@ -469,7 +469,7 @@ class UserOptionsUtil {
                     showDialog(
                       context: context,
                       builder: (BuildContext context) {
-                        return NewJobPage();
+                        return NewJobPage(false);
                       },
                     );
                   },

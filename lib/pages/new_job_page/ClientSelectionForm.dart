@@ -58,7 +58,7 @@ class _ClientSelectionFormState extends State<ClientSelectionForm>
                 Container(
                   margin: EdgeInsets.only(top: 8),
                   child: TextDandyLight(
-                    type: TextDandyLight.MEDIUM_TEXT,
+                    type: TextDandyLight.LARGE_TEXT,
                     text: "Who is this job for?",
                     textAlign: TextAlign.start,
                     color: Color(ColorConstants.primary_black),

@@ -130,6 +130,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveJobNotesAction) {
       _saveJobNotes(store, action, next);
     }
+    if(action is SetOnBoardingCompleteAction) {
+      updateProfileWithOnBoardingComplete(store, action, next);
+    }
+  }
+
+  void updateProfileWithOnBoardingComplete(Store<AppState> store, SetOnBoardingCompleteAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.onBoardingComplete = true;
+    ProfileDao.update(profile);
   }
 
   void _saveJobNotes(Store<AppState> store, SaveJobNotesAction action, NextDispatcher next) async{
