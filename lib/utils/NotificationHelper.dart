@@ -16,6 +16,8 @@ import '../data_layer/local_db/daos/JobDao.dart';
 
 class NotificationHelper {
   static final NotificationHelper _singleton = NotificationHelper._SingletonConstructor();
+  static final int START_FIRST_JOB_ID = 63;
+  static final int ONE_WEEK_LEFT_ID = 62;
 
   Function(NotificationResponse notificationResponse) notificationTapBackground;
 
@@ -176,7 +178,7 @@ class NotificationHelper {
     if(DateTime.now().isBefore(profileCreatedDate)) {
       DateTime triggerDateTime = DateTime(profileCreatedDate.year, profileCreatedDate.month, profileCreatedDate.day, 9);
       scheduleNotification(
-        63,
+        START_FIRST_JOB_ID,
         "Start your first job!",
         "Have you booked a job recently? Track it in DandyLight to save time by staying organized! Don't forget to add poses to your job to make the shoot a breeze.",
         "first_job_reminder",
@@ -199,7 +201,7 @@ class NotificationHelper {
         body = "Adding poses to your jobs makes your photoshoot a breeze!  Poses are available even in those off-the-grid locations!";
       }
       scheduleNotification(
-        64,
+        ONE_WEEK_LEFT_ID,
         "Free Trial - 1 Week remaining",
         body,
         "one_week_remaining",
