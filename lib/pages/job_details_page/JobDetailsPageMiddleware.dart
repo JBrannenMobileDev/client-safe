@@ -28,14 +28,18 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
+import 'package:http/http.dart' as http;
 
+import '../../data_layer/api_clients/AccuWeatherClient.dart';
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../data_layer/repositories/WeatherRepository.dart';
 import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
@@ -57,6 +61,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SetJobInfo){
       fetchClientForJob(store, next, action);
+      fetchForSelectedDate(store, next, action.job);
     }
     if(action is SetJobInfoWithJobDocumentId){
       setJobInfoWithId(store, next, action);
@@ -75,6 +80,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is UpdateJobDateAction){
       _updateJobWithNewDate(store, action, next);
+      fetchForSelectedDate(store, next, action.pageState.job);
     }
     if(action is FetchJobsForDateSelection){
       _fetchAllJobs(store, action, next);
@@ -87,6 +93,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is UpdateNewLocationAction){
       _updateJobLocation(store, action, next);
+      fetchForSelectedDate(store, next, action.pageState.job);
     }
     if(action is SaveJobNameChangeAction){
       _updateJobName(store, action, next);
@@ -132,6 +139,33 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SetOnBoardingCompleteAction) {
       updateProfileWithOnBoardingComplete(store, action, next);
+    }
+  }
+
+  void fetchForSelectedDate(Store<AppState> store, NextDispatcher next, Job job) async{
+    if(job.location != null) {
+      final response = await SunriseSunset.getResults(
+          date: job.selectedDate,
+          latitude: job.location.latitude,
+          longitude: job.location.longitude
+      );
+      store.dispatch(
+          SetSunsetTimeAction(
+            store.state.jobDetailsPageState,
+            response.data.nauticalTwilightBegin.toLocal(),
+            response.data.civilTwilightBegin.toLocal(),
+            response.data.sunrise.toLocal(),
+            response.data.sunset.toLocal(),
+            response.data.civilTwilightEnd.toLocal(),
+            response.data.nauticalTwilightEnd.toLocal(),
+          )
+      );
+
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(
+          weatherApiClient: AccuWeatherClient(httpClient: http.Client())
+      ).fetch5DayForecast(job.location.latitude, job.location.longitude);
+
+      store.dispatch(SetForecastAction(store.state.jobDetailsPageState, forecast5days));
     }
   }
 
@@ -422,6 +456,9 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
     store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
+    if(action.job.location != null) {
+      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.job.location)));
+    }
     Client client = await ClientDao.getClientById(action.job.clientDocumentId);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
     _fetchDeviceEventsForMonth(store, null, next);

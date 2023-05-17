@@ -50,6 +50,12 @@ class JobDetailsPageState {
   final List<DocumentItem> documents;
   final Invoice invoice;
   final String notes;
+  final File locationImage;
+  final String weatherIcon;
+  final String tempHigh;
+  final String tempLow;
+  final String chanceOfRain;
+  final String cloudCoverage;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(String) onSaveUpdatedPriceProfileSelected;
   final Function(JobType) onJobTypeSelected;
@@ -151,9 +157,20 @@ class JobDetailsPageState {
     @required this.onNotesTextChanged,
     @required this.notes,
     @required this.setOnBoardingComplete,
+    @required this.locationImage,
+    @required this.weatherIcon,
+    @required this.tempHigh,
+    @required this.tempLow,
+    @required this.chanceOfRain,
+    @required this.cloudCoverage,
   });
 
   JobDetailsPageState copyWith({
+    String weatherIcon,
+    String tempHigh,
+    String tempLow,
+    String chanceOfRain,
+    String cloudCoverage,
     Job job,
     Client client,
     DateTime selectedDate,
@@ -175,6 +192,7 @@ class JobDetailsPageState {
     List<JobType> jobTypes,
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
+    File locationImage,
     Function(PriceProfile) onPriceProfileSelected,
     Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
@@ -282,6 +300,12 @@ class JobDetailsPageState {
       onNotesTextChanged: onNotesTextChanged ?? this.onNotesTextChanged,
       notes: notes ?? this.notes,
       setOnBoardingComplete: setOnBoardingComplete ?? this.setOnBoardingComplete,
+      locationImage: locationImage ?? this.locationImage,
+      weatherIcon: weatherIcon ?? this.weatherIcon,
+      tempLow: tempLow ?? this.tempLow,
+      tempHigh: tempHigh ?? this.tempHigh,
+      chanceOfRain: chanceOfRain ?? this.chanceOfRain,
+      cloudCoverage: cloudCoverage ?? this.cloudCoverage,
     );
   }
 
@@ -313,6 +337,12 @@ class JobDetailsPageState {
         jobTypes: store.state.jobDetailsPageState.jobTypes,
         poseImages: store.state.jobDetailsPageState.poseImages,
         notes: store.state.jobDetailsPageState.notes,
+        locationImage: store.state.jobDetailsPageState.locationImage,
+        weatherIcon: store.state.jobDetailsPageState.weatherIcon,
+        tempLow: store.state.jobDetailsPageState.tempLow,
+        tempHigh: store.state.jobDetailsPageState.tempHigh,
+        chanceOfRain: store.state.jobDetailsPageState.chanceOfRain,
+        cloudCoverage: store.state.jobDetailsPageState.cloudCoverage,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -419,8 +449,14 @@ class JobDetailsPageState {
     poseImages: [],
     onDeletePoseSelected: null,
     onNotesTextChanged: null,
+    locationImage: null,
     notes: "",
     setOnBoardingComplete: null,
+    weatherIcon: "",
+    tempLow: "",
+    tempHigh: "",
+    chanceOfRain: "",
+    cloudCoverage: "",
   );
 
   @override
@@ -437,6 +473,11 @@ class JobDetailsPageState {
       onAddToDeposit.hashCode ^
       onSaveAddOnCost.hashCode ^
       job.hashCode ^
+      weatherIcon.hashCode ^
+      tempLow.hashCode ^
+      tempHigh.hashCode ^
+      chanceOfRain.hashCode ^
+      cloudCoverage.hashCode ^
       jobTypes.hashCode ^
       jobType.hashCode ^
       documentPath.hashCode ^
@@ -481,6 +522,7 @@ class JobDetailsPageState {
       onDeletePoseSelected.hashCode ^
       onNotesTextChanged.hashCode ^
       notes.hashCode ^
+      locationImage.hashCode ^
       reminders.hashCode;
 
   @override
@@ -540,6 +582,12 @@ class JobDetailsPageState {
               poseImages == other.poseImages &&
               onDeletePoseSelected == other.onDeletePoseSelected &&
               onNotesTextChanged == other.onNotesTextChanged &&
+              locationImage == other.locationImage &&
               notes == other.notes &&
+              weatherIcon == other.weatherIcon &&
+              tempLow == other.tempLow &&
+              tempHigh == other.tempHigh &&
+              chanceOfRain == other.chanceOfRain &&
+              cloudCoverage == other.cloudCoverage &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }

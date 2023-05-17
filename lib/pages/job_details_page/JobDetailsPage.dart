@@ -34,8 +34,11 @@ import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'JobDetailsCard.dart';
 import 'JobNotesWidget.dart';
+import 'LocationCard.dart';
 import 'PosesCard.dart';
+import 'SunsetWeatherCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
   const JobDetailsPage({Key key, this.destination, this.comingFromOnBoarding}) : super(key: key);
@@ -425,7 +428,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
                               PosesCard(pageState: pageState),
-                              JobInfoCard(pageState: pageState),
+                              JobDetailsCard(),
+                              SunsetWeatherCard(),
+                              LocationCard(),
                               ClientDetailsCard(pageState: pageState),
                               JobNotesWidget(),
                               DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, onDeleteInvoiceSelected: onDeleteInvoiceSelected),
@@ -436,6 +441,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     comingFromOnBoarding ? GestureDetector(
                       onTap: () {
                         EventSender().sendEvent(eventName: EventNames.ON_BOARDING_VIEW_SAMPLE_JOB_COMPLETED);
+                        pageState.setOnBoardingComplete();
                         NavigationUtil.onSuccessfulLogin(context);
                       },
                       child: Container(
