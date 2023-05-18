@@ -37,7 +37,7 @@ class _JobDetailsCard extends State<JobDetailsCard> {
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
             margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
-            height: 230,
+            height: 266,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
               borderRadius: BorderRadius.circular(16.0),
@@ -70,6 +70,41 @@ class _JobDetailsCard extends State<JobDetailsCard> {
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           text: "Type:  " + pageState.job.type.title,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          color: Color(ColorConstants.primary_black),
+                        ),
+                      ),
+                      Container(
+                        height: 36,
+                        margin: EdgeInsets.only(right: 16),
+                        alignment: Alignment.centerRight,
+                        child: Icon(
+                          Icons.chevron_right,
+                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    UserOptionsUtil.showPricePackageChangeDialog(context);
+                  },
+                  behavior: HitTestBehavior.opaque,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Container(
+                        height: 36,
+                        alignment: Alignment.center,
+                        padding: EdgeInsets.only(left: 16.0),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: pageState.job.priceProfile == null ? 'Price package not selected' :
+                          'Package:  ' + pageState.job.priceProfile.profileName,
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,

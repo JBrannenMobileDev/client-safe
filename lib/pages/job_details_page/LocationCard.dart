@@ -78,7 +78,7 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 16.0),
+                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 16.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Directions',
@@ -92,7 +92,7 @@ class _LocationCard extends State<LocationCard> {
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
-                            padding: EdgeInsets.all(18),
+                            padding: EdgeInsets.all(28),
                             height: 96,
                             width: 96,
                             decoration: BoxDecoration(
@@ -103,7 +103,7 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 8.0),
+                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Share Location',
@@ -118,7 +118,7 @@ class _LocationCard extends State<LocationCard> {
                       children: [
                         GestureDetector(
                           onTap: () {
-
+                            UserOptionsUtil.showLocationSelectionDialog(context);
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
@@ -136,7 +136,7 @@ class _LocationCard extends State<LocationCard> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(16.0, 2.0, 16.0, 8.0),
+                          margin: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, 8.0),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: pageState.job.location == null ? 'Location not selected' :

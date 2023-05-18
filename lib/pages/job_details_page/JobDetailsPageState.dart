@@ -21,6 +21,7 @@ import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../pose_group_page/GroupImage.dart';
+import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
   final Job job;
@@ -56,6 +57,9 @@ class JobDetailsPageState {
   final String tempLow;
   final String chanceOfRain;
   final String cloudCoverage;
+  final String eveningGoldenHour;
+  final String sunset;
+  final String eveningBlueHour;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(String) onSaveUpdatedPriceProfileSelected;
   final Function(JobType) onJobTypeSelected;
@@ -92,6 +96,7 @@ class JobDetailsPageState {
   final Function(int) onDeletePoseSelected;
   final Function(String) onNotesTextChanged;
   final Function() setOnBoardingComplete;
+  final Function() onSunsetWeatherSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -163,6 +168,10 @@ class JobDetailsPageState {
     @required this.tempLow,
     @required this.chanceOfRain,
     @required this.cloudCoverage,
+    @required this.eveningGoldenHour,
+    @required this.sunset,
+    @required this.eveningBlueHour,
+    @required this.onSunsetWeatherSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -193,6 +202,9 @@ class JobDetailsPageState {
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
     File locationImage,
+    String eveningGoldenHour,
+    String sunset,
+    String eveningBlueHour,
     Function(PriceProfile) onPriceProfileSelected,
     Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
@@ -235,6 +247,7 @@ class JobDetailsPageState {
     Function(String) onNotesTextChanged,
     String notes,
     Function() setOnBoardingComplete,
+    Function() onSunsetWeatherSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -306,6 +319,10 @@ class JobDetailsPageState {
       tempHigh: tempHigh ?? this.tempHigh,
       chanceOfRain: chanceOfRain ?? this.chanceOfRain,
       cloudCoverage: cloudCoverage ?? this.cloudCoverage,
+      eveningGoldenHour: eveningGoldenHour ?? this.eveningGoldenHour,
+      sunset: sunset ?? this.sunset,
+      eveningBlueHour: eveningBlueHour ?? this.eveningBlueHour,
+      onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
     );
   }
 
@@ -343,6 +360,9 @@ class JobDetailsPageState {
         tempHigh: store.state.jobDetailsPageState.tempHigh,
         chanceOfRain: store.state.jobDetailsPageState.chanceOfRain,
         cloudCoverage: store.state.jobDetailsPageState.cloudCoverage,
+        eveningGoldenHour: store.state.jobDetailsPageState.eveningGoldenHour,
+        sunset: store.state.jobDetailsPageState.sunset,
+        eveningBlueHour: store.state.jobDetailsPageState.eveningBlueHour,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -385,6 +405,7 @@ class JobDetailsPageState {
           store.dispatch(SaveJobNotesAction(store.state.jobDetailsPageState, notes));
         },
         setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
+        onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.jobDetailsPageState.job.location, store.state.jobDetailsPageState.job.selectedDate)),
     );
   }
 
@@ -457,6 +478,11 @@ class JobDetailsPageState {
     tempHigh: "",
     chanceOfRain: "",
     cloudCoverage: "",
+    eveningGoldenHour: "",
+    sunset: "Loading...",
+    eveningBlueHour: "",
+    onSunsetWeatherSelected: null,
+    onNewDateSelected: null,
   );
 
   @override
@@ -523,6 +549,10 @@ class JobDetailsPageState {
       onNotesTextChanged.hashCode ^
       notes.hashCode ^
       locationImage.hashCode ^
+      eveningGoldenHour.hashCode ^
+      sunset.hashCode ^
+      eveningBlueHour.hashCode ^
+      onSunsetWeatherSelected.hashCode ^
       reminders.hashCode;
 
   @override
@@ -534,12 +564,16 @@ class JobDetailsPageState {
               onAddInvoiceSelected == other.onAddInvoiceSelected &&
               onSaveAddOnCost == other.onSaveAddOnCost &&
               job == other.job &&
+              eveningGoldenHour == other.eveningGoldenHour &&
+              sunset == other.sunset &&
+              eveningBlueHour == other.eveningBlueHour &&
               jobTypes == other.jobTypes &&
               selectedDate == other.selectedDate &&
               deviceEvents == other.deviceEvents &&
               unsavedTipAmount == other.unsavedTipAmount &&
               onAddToTip == other.onAddToTip &&
               jobType == other.jobType &&
+              onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
               setOnBoardingComplete == other.setOnBoardingComplete &&
               onSaveTipChange == other.onSaveTipChange &&
               onClearUnsavedTip == other.onClearUnsavedTip &&

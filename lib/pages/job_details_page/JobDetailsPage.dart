@@ -34,6 +34,7 @@ import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'IncomeCard.dart';
 import 'JobDetailsCard.dart';
 import 'JobNotesWidget.dart';
 import 'LocationCard.dart';
@@ -432,6 +433,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                               SunsetWeatherCard(),
                               LocationCard(),
                               ClientDetailsCard(pageState: pageState),
+                              // IncomeCard(onSendInvoiceSelected: onSendInvoiceSelected),
                               JobNotesWidget(),
                               DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, onDeleteInvoiceSelected: onDeleteInvoiceSelected),
                               RemindersCard(pageState: pageState),

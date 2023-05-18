@@ -61,7 +61,6 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SetJobInfo){
       fetchClientForJob(store, next, action);
-      fetchForSelectedDate(store, next, action.job);
     }
     if(action is SetJobInfoWithJobDocumentId){
       setJobInfoWithId(store, next, action);
@@ -80,7 +79,6 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is UpdateJobDateAction){
       _updateJobWithNewDate(store, action, next);
-      fetchForSelectedDate(store, next, action.pageState.job);
     }
     if(action is FetchJobsForDateSelection){
       _fetchAllJobs(store, action, next);
@@ -93,7 +91,6 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is UpdateNewLocationAction){
       _updateJobLocation(store, action, next);
-      fetchForSelectedDate(store, next, action.pageState.job);
     }
     if(action is SaveJobNameChangeAction){
       _updateJobName(store, action, next);
@@ -142,7 +139,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void fetchForSelectedDate(Store<AppState> store, NextDispatcher next, Job job) async{
+  void fetchSunsetWeatherForSelectedDate(Store<AppState> store, NextDispatcher next, Job job) async{
     if(job.location != null) {
       final response = await SunriseSunset.getResults(
           date: job.selectedDate,
@@ -336,6 +333,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    fetchSunsetWeatherForSelectedDate(store, next, jobToSave);
   }
 
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
@@ -396,6 +394,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(jobToSave.selectedDate != null && (jobToSave.selectedEndTime != null || jobToSave.selectedTime != null)){
       List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(jobToSave.documentId);
       jobReminders.removeWhere((reminder) => reminder.id == JobReminder.MILEAGE_EXPENSE);
+      JobReminderDao.deleteAllWithJobDocumentId(jobToSave.documentId);
 
       jobReminders.add(JobReminder(
         id: JobReminder.MILEAGE_EXPENSE,
@@ -437,6 +436,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
+    fetchSunsetWeatherForSelectedDate(store, next, jobToSave);
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
@@ -462,6 +462,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     Client client = await ClientDao.getClientById(action.job.clientDocumentId);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
     _fetchDeviceEventsForMonth(store, null, next);
+    fetchSunsetWeatherForSelectedDate(store, next, action.job);
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{

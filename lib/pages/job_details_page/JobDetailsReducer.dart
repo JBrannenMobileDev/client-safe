@@ -140,27 +140,12 @@ String _getWeatherIcon(int iconId) {
 
 JobDetailsPageState _setSunsetTimes(JobDetailsPageState previousState, SetSunsetTimeAction action){
   int degrees6 = _calculate6DegreesOfTime(action.sunset, action.civilTwilightEnd);
-  int degrees4 = (degrees6 * 0.6666).toInt();
+  int degrees4 = (degrees6 * 0.6666).toInt(); //Magic math to calculate golden and blue hour
   return previousState.copyWith(
-    // morningBlueHour: _getMorningBlueHour(degrees6, degrees4, action.sunrise),
-    // sunrise: DateFormat('h:mm a').format(action.sunrise),
-    // morningGoldenHour: _getMorningGoldenHour(degrees6, degrees4, action.sunrise),
-    // eveningGoldenHour: _getEveningGoldenHour(degrees6, degrees4, action.sunset),
-    // sunset: DateFormat('h:mm a').format(action.sunset),
-    // sunsetTimestamp: action.sunset,
-    // eveningBlueHour: _getEveningBlueHour(degrees6, degrees4, action.sunset),
-    // isSunsetDataLoading: false,
+    eveningGoldenHour: _getEveningGoldenHour(degrees6, degrees4, action.sunset),
+    sunset: DateFormat('h:mma').format(action.sunset),
+    eveningBlueHour: _getEveningBlueHour(degrees6, degrees4, action.sunset),
   );
-}
-
-String _getMorningGoldenHour(int degrees6, int degrees4, DateTime sunrise) {
-  String startTime = '';
-  String endTime = '';
-  int startTimeMilli = sunrise.millisecondsSinceEpoch - degrees4;
-  int endTimeMilli = sunrise.millisecondsSinceEpoch + degrees6;
-  startTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(startTimeMilli));
-  endTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(endTimeMilli));
-  return startTime + ' - ' + endTime;
 }
 
 String _getEveningGoldenHour(int degrees6, int degrees4, DateTime sunset) {
@@ -168,8 +153,8 @@ String _getEveningGoldenHour(int degrees6, int degrees4, DateTime sunset) {
   String endTime = '';
   int startTimeMilli = sunset.millisecondsSinceEpoch - degrees6;
   int endTimeMilli = sunset.millisecondsSinceEpoch + degrees4;
-  startTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(startTimeMilli));
-  endTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(endTimeMilli));
+  startTime = DateFormat('h:mm').format(DateTime.fromMillisecondsSinceEpoch(startTimeMilli));
+  endTime = DateFormat('h:mma').format(DateTime.fromMillisecondsSinceEpoch(endTimeMilli));
   return startTime + ' - ' + endTime;
 }
 
@@ -178,18 +163,8 @@ String _getEveningBlueHour(int degrees6, int degrees4, DateTime sunset) {
   String endTime = '';
   int startTimeMilli = sunset.millisecondsSinceEpoch + degrees4;
   int endTimeMilli = sunset.millisecondsSinceEpoch + degrees6;
-  startTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(startTimeMilli));
-  endTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(endTimeMilli));
-  return startTime + ' - ' + endTime;
-}
-
-String _getMorningBlueHour(int degrees6, int degrees4, DateTime sunrise) {
-  String startTime = '';
-  String endTime = '';
-  int startTimeMilli = sunrise.millisecondsSinceEpoch - degrees6;
-  int endTimeMilli = sunrise.millisecondsSinceEpoch - degrees4;
-  startTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(startTimeMilli));
-  endTime = DateFormat('h:mm a').format(DateTime.fromMillisecondsSinceEpoch(endTimeMilli));
+  startTime = DateFormat('h:mm').format(DateTime.fromMillisecondsSinceEpoch(startTimeMilli));
+  endTime = DateFormat('h:mma').format(DateTime.fromMillisecondsSinceEpoch(endTimeMilli));
   return startTime + ' - ' + endTime;
 }
 
