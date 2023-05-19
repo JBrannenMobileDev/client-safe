@@ -48,6 +48,12 @@ class SetOnBoardingCompleteAction {
   SetOnBoardingCompleteAction(this.pageState);
 }
 
+class DrivingDirectionsJobSelected{
+  final JobDetailsPageState pageState;
+  final Location location;
+  DrivingDirectionsJobSelected(this.pageState, this.location);
+}
+
 class SetLocationImageAction {
   final JobDetailsPageState pageState;
   final File locationImage;

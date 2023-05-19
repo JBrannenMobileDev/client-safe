@@ -130,6 +130,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetJobInfoWithJobDocumentId>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, JobInstagramSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetJobAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DrivingDirectionsJobSelected>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobTimeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobEndTimeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobDateAction>(JobDetailsPageMiddleware()));

@@ -21,6 +21,7 @@ class LeadSourceSelectionPage extends StatefulWidget {
 class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
   final notesController = TextEditingController();
   final FocusNode _notesFocusNode = FocusNode();
+  int selectedIndex = -1;
 
   List<String> _chipLabels = [
     LeadSource.TYPE_INSTAGRAM,
@@ -73,11 +74,11 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
                                     type: TextDandyLight.SMALL_TEXT,
                                     text: _chipLabels.elementAt(index),
                                     textAlign: TextAlign.start,
-                                    color: Color(ColorConstants.primary_black),
+                                    color: Color(index == selectedIndex ? ColorConstants.getPrimaryWhite() : ColorConstants.primary_black),
                                   ),
                                   backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                  selectedColor: Color(ColorConstants.getPrimaryColor()),
-                                  selected: false,
+                                  selectedColor: Color(ColorConstants.getPeachDark()),
+                                  selected: index == selectedIndex,
                                   onSelected: (bool selected) {
                                     if(selected) {
                                       pageState.onLeadSourceSelected(_chipLabels.elementAt(index));

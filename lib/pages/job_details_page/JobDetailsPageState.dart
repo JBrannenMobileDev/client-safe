@@ -97,6 +97,7 @@ class JobDetailsPageState {
   final Function(String) onNotesTextChanged;
   final Function() setOnBoardingComplete;
   final Function() onSunsetWeatherSelected;
+  final Function(Location) onDrivingDirectionsSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -172,6 +173,7 @@ class JobDetailsPageState {
     @required this.sunset,
     @required this.eveningBlueHour,
     @required this.onSunsetWeatherSelected,
+    @required this.onDrivingDirectionsSelected,
   });
 
   JobDetailsPageState copyWith({
@@ -248,6 +250,7 @@ class JobDetailsPageState {
     String notes,
     Function() setOnBoardingComplete,
     Function() onSunsetWeatherSelected,
+    Function(Location) onDrivingDirectionsSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -323,6 +326,7 @@ class JobDetailsPageState {
       sunset: sunset ?? this.sunset,
       eveningBlueHour: eveningBlueHour ?? this.eveningBlueHour,
       onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
+      onDrivingDirectionsSelected: onDrivingDirectionsSelected ?? this.onDrivingDirectionsSelected,
     );
   }
 
@@ -406,6 +410,7 @@ class JobDetailsPageState {
         },
         setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
         onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.jobDetailsPageState.job.location, store.state.jobDetailsPageState.job.selectedDate)),
+        onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
     );
   }
 
@@ -483,6 +488,7 @@ class JobDetailsPageState {
     eveningBlueHour: "",
     onSunsetWeatherSelected: null,
     onNewDateSelected: null,
+    onDrivingDirectionsSelected: null,
   );
 
   @override
@@ -506,6 +512,7 @@ class JobDetailsPageState {
       cloudCoverage.hashCode ^
       jobTypes.hashCode ^
       jobType.hashCode ^
+      onDrivingDirectionsSelected.hashCode ^
       documentPath.hashCode ^
       client.hashCode ^
       sunsetTime.hashCode ^
@@ -595,6 +602,7 @@ class JobDetailsPageState {
               newStagAnimationIndex == other.newStagAnimationIndex &&
               onStageCompleted == other.onStageCompleted &&
               onStageUndo == other.onStageUndo &&
+              onDrivingDirectionsSelected == other.onDrivingDirectionsSelected &&
               addExpandedIndex == other.addExpandedIndex &&
               removeExpandedIndex ==other.removeExpandedIndex &&
               onDeleteSelected == other.onDeleteSelected &&

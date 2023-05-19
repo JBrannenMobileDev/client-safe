@@ -137,6 +137,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetOnBoardingCompleteAction) {
       updateProfileWithOnBoardingComplete(store, action, next);
     }
+    if(action is DrivingDirectionsJobSelected) {
+      _launchDrivingDirections(store, action);
+    }
+  }
+
+  void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsJobSelected action) async {
+    IntentLauncherUtil.launchDrivingDirections(
+        action.location.latitude.toString(),
+        action.location.longitude.toString());
   }
 
   void fetchSunsetWeatherForSelectedDate(Store<AppState> store, NextDispatcher next, Job job) async{
@@ -392,25 +401,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     );
 
     if(jobToSave.selectedDate != null && (jobToSave.selectedEndTime != null || jobToSave.selectedTime != null)){
-      List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(jobToSave.documentId);
-      jobReminders.removeWhere((reminder) => reminder.id == JobReminder.MILEAGE_EXPENSE);
-      JobReminderDao.deleteAllWithJobDocumentId(jobToSave.documentId);
+      List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
+      JobReminder reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID);
 
-      jobReminders.add(JobReminder(
-        id: JobReminder.MILEAGE_EXPENSE,
-        jobDocumentId: jobToSave.documentId,
-        payload: JobReminder.MILEAGE_EXPENSE_ID,
-        reminder: ReminderDandyLight(
-          description: 'Have you entered your mileage expense?',
-          when: WhenSelectionWidget.ON,
-          time: jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2)),
-        ),
-        hasBeenSeen: false,
-      ));
-
-      if(jobReminders.isNotEmpty) {
-        await JobReminderDao.insertAll(jobReminders);
-      }
+      reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2));
+      JobReminderDao.update(reminderToUpdate);
     }
 
     await JobDao.insertOrUpdate(jobToSave);

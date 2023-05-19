@@ -169,7 +169,11 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     existingProfile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
     await ProfileDao.update(existingProfile);
     await EventSender().setUserIdentity(existingProfile.uid);
-    if(existingProfile.onBoardingComplete) {
+    setShouldShowOnBoarding(store, existingProfile);
+  }
+
+  void setShouldShowOnBoarding(Store<AppState> store, Profile existingProfile) async {
+    if(existingProfile.onBoardingComplete || (await JobDao.getAllJobs()).length > 1) {
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
     } else {
       store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
@@ -210,11 +214,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       if(profiles != null && profiles.length > 0) {
         profile = getMatchingProfile(profiles, user);
         ProfileDao.updateUserLoginTime(user.uid);
-        if(profile.onBoardingComplete) {
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-        } else {
-          store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
-        }
+        setShouldShowOnBoarding(store, profile);
         bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
         profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
         await ProfileDao.update(profile);
@@ -262,11 +262,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
           profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
           await ProfileDao.update(profile);
-          if(profile.onBoardingComplete) {
-            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-          } else {
-            store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
-          }
+          setShouldShowOnBoarding(store, profile);
         } else if (authResult.user != null && !authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
           VibrateUtil.vibrateHeavy();
@@ -551,11 +547,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
           ProfileDao.updateUserLoginTime(user.uid);
-          if(profile.onBoardingComplete) {
-            store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-          } else {
-            store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
-          }
+          setShouldShowOnBoarding(store, profile);
         });
         await PoseLibraryGroupDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {

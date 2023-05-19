@@ -63,7 +63,7 @@ class _LocationCard extends State<LocationCard> {
                       children: [
                         GestureDetector(
                           onTap: () {
-
+                            pageState.onDrivingDirectionsSelected(pageState.selectedLocation);
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
@@ -88,7 +88,7 @@ class _LocationCard extends State<LocationCard> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            Share.share('Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the shoot location. \nLocation: ${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
+                            Share.share('Hi ${pageState.job.clientName.split(' ')[0]}, here are the driving directions to the location we discussed. \n${pageState.selectedLocation.locationName}\n\nhttps://www.google.com/maps/search/?api=1&query=${pageState.selectedLocation.latitude},${pageState.selectedLocation.longitude}');
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
@@ -122,7 +122,7 @@ class _LocationCard extends State<LocationCard> {
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(
-                            height: 228,
+                            height: 235,
                             width: 200,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),

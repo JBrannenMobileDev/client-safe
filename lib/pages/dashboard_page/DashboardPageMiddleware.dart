@@ -65,10 +65,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _launchDrivingDirections(Store<AppState> store, LaunchDrivingDirectionsAction action) async {
-    Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     IntentLauncherUtil.launchDrivingDirections(
-        position.latitude.toString(),
-        position.longitude.toString(),
         action.location.latitude.toString(),
         action.location.longitude.toString());
   }
