@@ -90,30 +90,31 @@ class NotificationHelper {
     createAndUpdatePendingNotifications();
   }
 
-  handle each place that calls this method accordingly. Check before it is called and decide to show Permission request or not.
-      also handle phot permission in pose group. for uploading a new image.
   void createAndUpdatePendingNotifications() async {
-      List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
-      List<Job> allJobs = await JobDao.getAllJobs();
-      clearAll();
+      bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+      if(isGranted) {
+        List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
+        List<Job> allJobs = await JobDao.getAllJobs();
+        clearAll();
 
-      if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
-        scheduleStartFirstJobReminder();
-      }
-      scheduleFreeTrialExpiringReminder();
+        if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
+          scheduleStartFirstJobReminder();
+        }
+        scheduleFreeTrialExpiringReminder();
 
-      for(int index = 0;index < pendingReminders.length; index++) {
-        if(index < 62) {
-          JobReminder reminderToSchedule = pendingReminders.elementAt(index);
-          if(reminderToSchedule.triggerTime != null) {
-            scheduleNotification(
-              index,
-              'Reminder',
-              '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle + ')\n' + reminderToSchedule.reminder.description,
-              reminderToSchedule.payload,
-              reminderToSchedule.triggerTime,
-            );
-            print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+        for(int index = 0;index < pendingReminders.length; index++) {
+          if(index < 62) {
+            JobReminder reminderToSchedule = pendingReminders.elementAt(index);
+            if(reminderToSchedule.triggerTime != null) {
+              scheduleNotification(
+                index,
+                'Reminder',
+                '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle + ')\n' + reminderToSchedule.reminder.description,
+                reminderToSchedule.payload,
+                reminderToSchedule.triggerTime,
+              );
+              print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+            }
           }
         }
       }
@@ -134,7 +135,9 @@ class NotificationHelper {
   }
 
   Future<void> turnOffNotificationById(num id) async {
-    await flutterNotificationPlugin.cancel(id);
+    if(flutterNotificationPlugin != null) {
+      await flutterNotificationPlugin.cancel(id);
+    }
   }
 
   Future<void> scheduleNotification(

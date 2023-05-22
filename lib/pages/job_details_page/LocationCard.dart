@@ -1,21 +1,16 @@
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/widgets/DandyLightTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../AppState.dart';
 import '../../utils/UserOptionsUtil.dart';
-import '../../utils/VibrateUtil.dart';
-import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../new_contact_pages/NewContactPageState.dart';
 import 'JobDetailsPageState.dart';
 
 class LocationCard extends StatefulWidget {
@@ -62,8 +57,11 @@ class _LocationCard extends State<LocationCard> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            pageState.onDrivingDirectionsSelected(pageState.selectedLocation);
+                          onTap: () async {
+                            bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.locationWhenInUse, context: context));
+                            if(isGranted) {
+                              pageState.onDrivingDirectionsSelected(pageState.selectedLocation);
+                            }
                           },
                           behavior: HitTestBehavior.opaque,
                           child: Container(

@@ -103,7 +103,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       monthToUse = store.state.jobDetailsPageState.selectedDate;
     }
 
-    if(profile.calendarEnabled) {
+    if((await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted) {
       DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
       DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
 

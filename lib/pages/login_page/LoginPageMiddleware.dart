@@ -398,9 +398,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await ReminderDao.insertOrUpdate(cleanCameraReminder);
       await ReminderDao.insertOrUpdate(oneWeekCheckInReminder);
 
-      NotificationHelper().scheduleStartFirstJobReminder();
-      NotificationHelper().scheduleStartFirstJobReminder();
-
       //Creating price packages
       PriceProfile priceProfile = PriceProfile(
         id: null,

@@ -28,11 +28,13 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'IncomeCard.dart';
 import 'JobDetailsCard.dart';
@@ -441,9 +443,10 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                       ],
                     ),
                     comingFromOnBoarding ? GestureDetector(
-                      onTap: () {
-                        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_VIEW_SAMPLE_JOB_COMPLETED);
+                      onTap: () async {
                         pageState.setOnBoardingComplete();
+                        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_VIEW_SAMPLE_JOB_COMPLETED);
+                        await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
                         NavigationUtil.onSuccessfulLogin(context);
                       },
                       child: Container(

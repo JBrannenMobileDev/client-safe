@@ -295,7 +295,7 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
     );
   }
 
-  void onNextPressed(NewJobPageState pageState) {
+  void onNextPressed(NewJobPageState pageState) async {
     bool canProgress = false;
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
@@ -327,6 +327,7 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
       }
     }
     if (pageState.pageViewIndex == pageCount) {
+      await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
       pageState.onSavePressed();
       if(comingFromOnBoarding) {
         EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_COMPLETED);

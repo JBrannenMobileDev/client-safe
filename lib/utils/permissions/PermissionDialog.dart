@@ -214,8 +214,8 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
     if(permission == Permission.notification) {
       return "Notifications permission is required to be able to schedule custom reminders for your jobs.";
     }
-    if(permission == Permission.locationWhenInUse) {
-      return "Location permission is required for the Sunset and Weather features to work properly.";
+    if(permission == Permission.locationWhenInUse || permission == Permission.location || permission == Permission.locationAlways) {
+      return "Location permission is required for the Sunset, Weather and location features to work properly.";
     }
     if(permission == Permission.camera) {
       return "Camera permission is needed to capture a picture for this location.";
@@ -239,7 +239,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
     if(permission == Permission.notification) {
       return "Notifications permission was previously denied. To enable this permission please go to your device settings.";
     }
-    if(permission == Permission.locationWhenInUse) {
+    if(permission == Permission.locationWhenInUse || permission == Permission.location || permission == Permission.locationAlways) {
       return "Location permission was previously denied. To enable this permission please go to your device settings.";
     }
     if(permission == Permission.camera) {
