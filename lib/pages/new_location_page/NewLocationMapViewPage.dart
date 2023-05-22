@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 
@@ -24,12 +26,38 @@ class NewLocationMapViewPage extends StatefulWidget {
   }
 }
 
-class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with AutomaticKeepAliveClientMixin {
+class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
   final locationNameTextController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
   bool showMapIcon;
 
   _NewLocationMapViewPage(this.showMapIcon);
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      UserPermissionsUtil.showPermissionRequest(
+        permission: Permission.locationWhenInUse,
+        context: context,
+        customMessage: "Location permission is required to select a pin for this location.",
+        callOnGranted: callOnGranted,
+      );
+    }
+  }
 
   Future<void> animateTo(double lat, double lng) async {
     final c = await _controller.future;
@@ -65,8 +93,11 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => NewLocationMapPage()),
+                UserPermissionsUtil.showPermissionRequest(
+                  permission: Permission.locationWhenInUse,
+                  context: context,
+                  customMessage: "Location permission is required to select a pin for this location.",
+                  callOnGranted: callOnGranted,
                 );
               },
               child: Container(
@@ -85,6 +116,12 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
           ],
         ),
       ),
+    );
+  }
+
+  void callOnGranted() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => NewLocationMapPage()),
     );
   }
 

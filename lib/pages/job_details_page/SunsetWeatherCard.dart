@@ -183,7 +183,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 124, left: 16, right: 0),
-                    child: Row(
+                    child: pageState.selectedLocation != null && pageState.selectedDate != null ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
@@ -304,6 +304,15 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                           ),
                         ),
                       ],
+                    ) : Container(
+                      margin: EdgeInsets.only(left: 32, right: 32, top: 28),
+                      child: TextDandyLight(
+                        type: TextDandyLight.MEDIUM_TEXT,
+                        text: 'Sunset data is only available once there is a location and date are selected for this job.',
+                        textAlign: TextAlign.center,
+                        color:
+                        Color(ColorConstants.getPeachDark()),
+                      ),
                     ),
                   ),
                 ],

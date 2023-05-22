@@ -25,6 +25,7 @@ import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -32,6 +33,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
@@ -242,6 +244,13 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                 store.dispatch(UpdateProfileRestorePurchasesSeen(store.state.dashboardPageState));
               });
             }
+          }
+
+          bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
+          if(isGranted && !store.state.dashboardPageState.profile.calendarEnabled) {
+            Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+            profile.calendarEnabled = true;
+            ProfileDao.update(profile);
           }
         },
         onDidChange: (previous, current) async {

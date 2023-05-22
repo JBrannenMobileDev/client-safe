@@ -4,7 +4,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/calendar_selection_page/CalendarSelectionActions.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
-import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';

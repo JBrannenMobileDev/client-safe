@@ -8,9 +8,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'NewContactTextField.dart';
 
@@ -31,6 +33,7 @@ class _NameAndGenderState extends State<NameAndGender>
   int selectorIndex = 1;
   Map<int, Widget> genders;
   ScrollController _controller = ScrollController();
+  Function onImportContactsLocal;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +42,9 @@ class _NameAndGenderState extends State<NameAndGender>
       onInit: (store) {
         firstNameTextController.value = firstNameTextController.value.copyWith(text:store.state.newContactPageState.newContactFirstName);
         lastNameTextController.value = lastNameTextController.value.copyWith(text:store.state.newContactPageState.newContactLastName,);
+      },
+      onInitialBuild: (current) {
+        onImportContactsLocal = current.onGetDeviceContactsSelected;
       },
       onWillChange: (statePrevious, stateNew) {
         firstNameTextController.value = firstNameTextController.value.copyWith(text:stateNew.newContactFirstName);
@@ -140,7 +146,11 @@ class _NameAndGenderState extends State<NameAndGender>
               children: <Widget>[
                 InkWell(
                   onTap: () => {
-                    pageState.onGetDeviceContactsSelected(),
+                    UserPermissionsUtil.showPermissionRequest(
+                      permission: Permission.contacts,
+                      context: context,
+                      callOnGranted: callOnGranted,
+                    ),
                     EventSender().sendEvent(eventName: EventNames.BT_IMPORT_DEVICE_CONTACT),
                   },
                   child: Container(
@@ -207,6 +217,10 @@ class _NameAndGenderState extends State<NameAndGender>
         ),
       ),
     );
+  }
+
+  void callOnGranted() {
+    onImportContactsLocal();
   }
 
   Widget _buildItem(BuildContext context, int index) {

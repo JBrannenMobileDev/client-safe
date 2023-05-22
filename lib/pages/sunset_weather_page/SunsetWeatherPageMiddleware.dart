@@ -8,7 +8,7 @@ import 'package:dandylight/models/PlacesLocation.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import 'package:dandylight/models/rest_models/AccuWeatherModels/hourlyForecast/HourlyResponse.dart';
 import 'package:dandylight/models/rest_models/Forecast7Days.dart';
-import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -136,10 +136,6 @@ class SunsetWeatherPageMiddleware extends MiddlewareClass<AppState> {
 
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowPosition action) async {
     if(!store.state.sunsetWeatherPageState.comingFromNewJob) {
-      PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
-      if(!status.isGranted) {
-        await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
-      }
       Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       if(positionLastKnown != null) {
         store.dispatch(SetInitialMapLatLng(store.state.sunsetWeatherPageState, positionLastKnown.latitude, positionLastKnown.longitude));

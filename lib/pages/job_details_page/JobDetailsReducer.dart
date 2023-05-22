@@ -364,7 +364,7 @@ JobDetailsPageState _setJobInfo(JobDetailsPageState previousState, SetJobAction 
     documents.add(InvoiceDocument());
   }
   action.job.completedStages.sort((a, b) => a.compareTo(b));
-  Location newLocation = action.job.location != null ? action.job.location : Location(locationName: '');
+  Location newLocation = action.job.location != null ? action.job.location : null;
   return previousState.copyWith(
     job: action.job,
     selectedLocation: newLocation,

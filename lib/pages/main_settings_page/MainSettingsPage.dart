@@ -10,6 +10,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -33,12 +35,42 @@ class MainSettingsPage extends StatefulWidget {
   }
 }
 
-class _MainSettingsPageState extends State<MainSettingsPage> with TickerProviderStateMixin {
+class _MainSettingsPageState extends State<MainSettingsPage> with TickerProviderStateMixin, WidgetsBindingObserver {
+  MainSettingsPageState localState;
+
+  @override
+  void initState() {
+    WidgetsBinding.instance?.addObserver(this);
+    super.initState();
+  }
+
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.notification);
+      if(await status.isGranted) localState.onPushNotificationsChanged(true);
+    }
+  }
+
+  void callOnGranted() {
+
+  }
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
         onInit: (store) {
           store.dispatch(LoadSettingsFromProfile(store.state.mainSettingsPageState));
+        },
+        onInitialBuild: (current) async {
+            localState = current;
         },
         onDidChange: (previous, current) {
           if(previous.discountCode != current.discountCode) {
@@ -334,16 +366,18 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       CupertinoSwitch(
                                         trackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
-                                        onChanged: (enabled) {
-                                          pageState.onPushNotificationsChanged(enabled);
+                                        onChanged: (enabled) async {
+                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
+                                          if(isGranted) pageState.onPushNotificationsChanged(enabled);
                                         },
                                         value: pageState.pushNotificationsEnabled,
                                       ) : Switch(
                                         activeTrackColor: Color(ColorConstants.getBlueLight()),
                                         inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
-                                        onChanged: (enabled) {
-                                          pageState.onPushNotificationsChanged(enabled);
+                                        onChanged: (enabled) async {
+                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
+                                          if(isGranted) pageState.onPushNotificationsChanged(enabled);
                                         },
                                         value: pageState.pushNotificationsEnabled,
                                       )
@@ -375,11 +409,14 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                       CupertinoSwitch(
                                         trackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
-                                        onChanged: (enabled) {
-                                          if(enabled) {
-                                            UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
-                                          } else {
-                                            pageState.onCalendarChanged(enabled);
+                                        onChanged: (enabled) async {
+                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                          if(isGranted) {
+                                            if(enabled) {
+                                              UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
+                                            } else {
+                                              pageState.onCalendarChanged(enabled);
+                                            }
                                           }
                                         },
                                         value: pageState.calendarEnabled,
@@ -387,11 +424,14 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                                         activeTrackColor: Color(ColorConstants.getBlueLight()),
                                         inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                         activeColor: Color(ColorConstants.getBlueDark()),
-                                        onChanged: (enabled) {
-                                          if(enabled) {
-                                            UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
-                                          } else {
-                                            pageState.onCalendarChanged(enabled);
+                                        onChanged: (enabled) async {
+                                          bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+                                          if(isGranted) {
+                                            if(enabled) {
+                                              UserOptionsUtil.showCalendarSelectionDialog(context, pageState.onCalendarChanged);
+                                            } else {
+                                              pageState.onCalendarChanged(enabled);
+                                            }
                                           }
                                         },
                                         value: pageState.calendarEnabled,

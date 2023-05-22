@@ -6,6 +6,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
+import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -41,6 +42,7 @@ import '../../models/Client.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
+import '../../models/Location.dart';
 import '../../models/PriceProfile.dart';
 import '../../models/Response.dart';
 import '../../utils/AppleSignInAvailable.dart';
@@ -438,6 +440,18 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       );
       await ClientDao.insertOrUpdate(client1);
 
+      //Create Sample Location
+      Location location = Location(
+        id: null,
+        documentId: '',
+        locationName: "Santa Rosa",
+        latitude: 33.509060,
+        longitude: -117.293762,
+        address: "exampleJob",
+        imageUrl: "https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FexampleLocation%2FScreen%20Shot%202023-05-20%20at%209.58.02%20AM.png?alt=media&token=5e5412b5-f27d-4c6c-b492-85984f3e0349",
+      );
+      await LocationDao.insertOrUpdate(location);
+
       //Create sample job
       DateTime currentTime = DateTime.now();
       Job jobToSave = Job(
@@ -446,7 +460,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         clientDocumentId: (await ClientDao.getAll()).first.documentId,
         clientName: (await ClientDao.getAll()).first.getClientFullName(),
         jobTitle: (await ClientDao.getAll()).first.firstName + ' - Example Job',
-        selectedDate: DateTime.now().add(Duration(days: 5)),
+        selectedDate: DateTime.now().add(Duration(days: 3)),
         selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 10, 30),
         selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 20, 00),
         type: (await JobTypeDao.getAll()).first,
@@ -455,6 +469,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
         createdDate: DateTime.now(),
         depositAmount: 0,
+        location: location,
       );
       await JobDao.insertOrUpdate(jobToSave);
 

@@ -37,11 +37,11 @@
 	<key>NSContactsUsageDescription</key>
 	<string>Contacts will be used for loading device contacts to DandyLight</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Location will be used for sunset and weather feature of the app.</string>
+	<string>Location will be used for sunset, weather and location features of the app.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Location will be used for sunset and weather feature of the app.</string>
+	<string>Location will be used for sunset, weather and location features of the app.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Location will be used for sunset and weather feature of the app.</string>
+	<string>Location will be used for sunset, weather and location features of the app.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>microphone</string>
 	<key>NSMotionUsageDescription</key>

@@ -6,9 +6,11 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -88,31 +90,33 @@ class NotificationHelper {
     createAndUpdatePendingNotifications();
   }
 
+  handle each place that calls this method accordingly. Check before it is called and decide to show Permission request or not.
+      also handle phot permission in pose group. for uploading a new image.
   void createAndUpdatePendingNotifications() async {
-    List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
-    List<Job> allJobs = await JobDao.getAllJobs();
-    clearAll();
+      List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
+      List<Job> allJobs = await JobDao.getAllJobs();
+      clearAll();
 
-    if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
-      scheduleStartFirstJobReminder();
-    }
-    scheduleFreeTrialExpiringReminder();
+      if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
+        scheduleStartFirstJobReminder();
+      }
+      scheduleFreeTrialExpiringReminder();
 
-    for(int index = 0;index < pendingReminders.length; index++) {
-      if(index < 62) {
-        JobReminder reminderToSchedule = pendingReminders.elementAt(index);
-        if(reminderToSchedule.triggerTime != null) {
-          scheduleNotification(
+      for(int index = 0;index < pendingReminders.length; index++) {
+        if(index < 62) {
+          JobReminder reminderToSchedule = pendingReminders.elementAt(index);
+          if(reminderToSchedule.triggerTime != null) {
+            scheduleNotification(
               index,
               'Reminder',
               '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle + ')\n' + reminderToSchedule.reminder.description,
               reminderToSchedule.payload,
               reminderToSchedule.triggerTime,
-          );
-          print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+            );
+            print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+          }
         }
       }
-    }
   }
 
   Future<String> getNotificationJobId() async {
@@ -139,7 +143,9 @@ class NotificationHelper {
       String body,
       String payload,
       DateTime scheduledNotificationDateTime) async {
-    await flutterNotificationPlugin.zonedSchedule(
+    bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+    if(isGranted) {
+      await flutterNotificationPlugin.zonedSchedule(
         id,
         title,
         body,
@@ -149,26 +155,16 @@ class NotificationHelper {
         ),
         const NotificationDetails(
             android: AndroidNotificationDetails(
-          '1',
-          'Standard',
-          actions: <AndroidNotificationAction>[],
-        )),
+              '1',
+              'Standard',
+              actions: <AndroidNotificationAction>[],
+            )),
         androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
+            .absoluteTime,
         payload: payload,
-    );
-  }
-
-  Future<bool> requestIOSPermissions(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    return await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+      );
+    }
   }
 
   void scheduleStartFirstJobReminder() async {

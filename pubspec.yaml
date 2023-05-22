@@ -37,7 +37,7 @@ dependencies:
   url_launcher: ^6.0.5
   flutter_launcher_icons: ^0.9.2
   contacts_service: ^0.6.3
-  permission_handler: ^10.0.0
+  permission_handler: ^10.2.0
   image_picker: ^0.8.6
   google_maps_flutter: ^2.0.10
   android_intent_plus: ^3.1.1
@@ -259,6 +259,7 @@ flutter:
     - assets/images/icons/apple-logo.png
     - assets/images/icons/no_card.png
     - assets/images/icons/envelope.png
+    - assets/images/icons/folder_storage.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

@@ -36,7 +36,7 @@ import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/GlobalKeyUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
-import '../../utils/UserPermissionsUtil.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 import '../calendar_page/CalendarPageActions.dart' as calendar;
 import '../job_details_page/JobDetailsActions.dart' as jobDetails;
@@ -277,10 +277,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowInitialPosition action) async {
       Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
       store.dispatch(SetProfileToNewJobAction(store.state.newJobPageState, profile));
-      PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
-      if(!status.isGranted) {
-        await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
-      }
       Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       if(positionLastKnown != null) {
         store.dispatch(SetInitialMapLatLng(store.state.newJobPageState, positionLastKnown.latitude, positionLastKnown.longitude));

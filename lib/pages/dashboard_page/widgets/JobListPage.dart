@@ -76,7 +76,7 @@ class JobListPage extends StatelessWidget{
                       controller: _controller,
                       physics: ClampingScrollPhysics(),
                       key: _listKey,
-                      itemCount: jobs.length,
+                      itemCount: jobs != null ? jobs.length : 0,
                       itemBuilder: _buildItem,
                     ),
                   ],

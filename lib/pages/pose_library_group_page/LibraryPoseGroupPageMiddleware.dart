@@ -113,7 +113,7 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
       final List<Future<dynamic>> featureList = <Future<dynamic>>[];
       for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
-        featureList.add(_fetchImage(sortedPoses, startIndex, action, poseImages));
+        await featureList.add(_fetchImage(sortedPoses, startIndex, action, poseImages));
       }
       await Future.wait<dynamic>(featureList);
 
@@ -143,6 +143,8 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       }
     }
 
+    oldPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
+    newPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
     return newPoses + oldPoses;
   }
 

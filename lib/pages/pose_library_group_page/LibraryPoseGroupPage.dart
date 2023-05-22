@@ -96,8 +96,8 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
         store.dispatch(ClearLibraryPoseGroupState(store.state.libraryPoseGroupPageState));
         store.dispatch(ClearLibraryGroupImagesAction(store.state.libraryPoseGroupPageState));
         store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
-        store.dispatch(LoadMoreImagesAction(store.state.libraryPoseGroupPageState, poseGroup));
         store.dispatch(LoadLibraryPoseGroup(store.state.libraryPoseGroupPageState, poseGroup));
+        store.dispatch(LoadMoreImagesAction(store.state.libraryPoseGroupPageState, poseGroup));
       },
       converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>

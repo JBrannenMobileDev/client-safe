@@ -60,7 +60,11 @@ class JobDao extends Equatable{
       await update(job);
     }else{
       await insert(job);
-      NotificationHelper().turnOffNotificationById(NotificationHelper.START_FIRST_JOB_ID);
+      try{
+        NotificationHelper().turnOffNotificationById(NotificationHelper.START_FIRST_JOB_ID);
+      } catch(ex) {
+        print(ex);
+      }
     }
   }
 

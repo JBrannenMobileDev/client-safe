@@ -16,10 +16,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../utils/NavigationUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'PricingProfileSelectionForm.dart';
 
@@ -34,7 +36,7 @@ class NewJobPage extends StatefulWidget {
   }
 }
 
-class _NewJobPageState extends State<NewJobPage> {
+class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
   final int pageCount = 5;
   final bool comingFromOnBoarding;
 
@@ -47,6 +49,7 @@ class _NewJobPageState extends State<NewJobPage> {
 
   @override
   void initState() {
+    WidgetsBinding.instance?.addObserver(this);
     super.initState();
     currentPageIndex = 0;
   }
@@ -77,6 +80,22 @@ class _NewJobPageState extends State<NewJobPage> {
   }
 
   @override
+  void dispose() {
+    WidgetsBinding.instance?.removeObserver(this);
+    super.dispose();
+  }
+
+  NewJobPageState localState;
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse)).isGranted;
+      if(isGranted) NavigationUtil.onSelectMapLocation(context, null, localState.lat, localState.lon, localState.onLocationSearchResultSelected);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     controller.addListener(() {
       setState(() {
@@ -84,9 +103,14 @@ class _NewJobPageState extends State<NewJobPage> {
       });
     });
     return StoreConnector<AppState, NewJobPageState>(
-      onInit: (store) {
+      onInit: (store) async {
         store.state.newJobPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newJobPageState)) : null;
-        store.dispatch(SetLastKnowInitialPosition(store.state.newJobPageState));
+        if((await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse)).isGranted) {
+          store.dispatch(SetLastKnowInitialPosition(store.state.newJobPageState));
+        }
+      },
+      onInitialBuild: (current) {
+        localState = current;
       },
       onWillChange: (previous, current) {
         if(!previous.isSelectedClientNew && current.isSelectedClientNew) {
@@ -159,10 +183,14 @@ class _NewJobPageState extends State<NewJobPage> {
                               ),
                             ),
                             (!comingFromOnBoarding) ? pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3 ? GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
                                 if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
-                                if(pageState.pageViewIndex == 3) NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
+
+                                if(pageState.pageViewIndex == 3) {
+                                  bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.locationWhenInUse, context: context));
+                                  if(isGranted) NavigationUtil.onSelectMapLocation(context, null, pageState.lat, pageState.lon, pageState.onLocationSearchResultSelected);
+                                }
                               },
                               child: Container(
                                 margin: EdgeInsets.only(right: 24.0),

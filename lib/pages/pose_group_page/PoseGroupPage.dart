@@ -6,7 +6,7 @@ import 'package:dandylight/pages/pose_group_page/SingleImageViewPager.dart';
 import 'package:dandylight/pages/pose_group_page/widgets/PoseListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -121,7 +121,7 @@ class _LocationCard extends State<LocationCard> {
                             UserOptionsUtil.showLocationSelectionDialog(context);
                           },
                           behavior: HitTestBehavior.opaque,
-                          child: Container(
+                          child: pageState.locationImage != null ? Container(
                             height: 235,
                             width: 200,
                             decoration: BoxDecoration(
@@ -129,10 +129,18 @@ class _LocationCard extends State<LocationCard> {
                               color: Color(ColorConstants.getBlueDark()),
                               image: DecorationImage(
                                 fit: BoxFit.cover,
-                                image: pageState.locationImage != null ? FileImage(pageState.locationImage)
-                                    : AssetImage("assets/images/backgrounds/image_background.png"),
+                                image: FileImage(pageState.locationImage)
                               ),
                             ),
+                          ) : Container(
+                            padding: EdgeInsets.all(72),
+                            height: 235,
+                            width: 200,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                            ),
+                            child: Image.asset("assets/images/icons/plus.png", color: Color(ColorConstants.getPrimaryBlack())),
                           ),
                         ),
                         Container(

@@ -241,7 +241,7 @@ class DashboardPageState {
     upcomingJobs: [],
     shouldShowNewMileageExpensePage: false,
     unseenNotificationCount: 0,
-    activeJobs: null,
+    activeJobs: [],
     allUserStages: [],
     reminders: [],
     onAddClicked: null,
