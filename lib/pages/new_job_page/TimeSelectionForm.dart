@@ -51,7 +51,7 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
               color: Color(ColorConstants.primary_black),
             ),
             pageState.sunsetDateTime != null ? Padding(
-              padding: EdgeInsets.only(top: 8.0, bottom: 32.0),
+              padding: EdgeInsets.only(top: 16.0, bottom: 24.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -64,10 +64,18 @@ class _TimeSelectionFormState extends State<TimeSelectionForm> with AutomaticKee
                       );
                     },
                     child: Container(
+                      alignment: Alignment.center,
+                      padding: EdgeInsets.all(8),
+                      height: 48,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(48),
+                        color: Color(ColorConstants.getPeachDark())
+                      ),
                         child: Image.asset(
                           'assets/images/icons/sunset_icon_peach.png',
-                          height: 48.0,
+                          height: 36.0,
                           fit: BoxFit.cover,
+                          color: Color(ColorConstants.getPrimaryWhite()),
                         ),
                       ),
                   ),

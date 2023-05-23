@@ -3,13 +3,14 @@ import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/pages/calendar_page/JobCalendarItem.dart';
 import 'package:dandylight/pages/new_job_page/NewJobPageState.dart';
-import 'package:dandylight/pages/new_job_page/widgets/NewJobCalendarItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../utils/CalendarUtil.dart';
@@ -64,11 +65,15 @@ class _DateFormState extends State<DateForm> with AutomaticKeepAliveClientMixin,
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewJobPageState>(
-      onInit: (appState) => {
-        if(!appState.state.dashboardPageState.profile.calendarEnabled) {
-          Future.microtask(() => UserOptionsUtil.showCalendarSelectionDialog(context, appState.state.newJobPageState.onCalendarEnabled)),
-        } else {
-          appState.dispatch(FetchNewJobDeviceEvents(appState.state.newJobPageState, DateTime.now())),
+      onInit: (appState) async {
+        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
+        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+        if(isGranted) {
+          if(!(await previousStatus.isGranted)) {
+            UserOptionsUtil.showCalendarSelectionDialog(context, appState.state.newJobPageState.onCalendarEnabled);
+          } else {
+            appState.dispatch(FetchNewJobDeviceEvents(appState.state.newJobPageState, DateTime.now()));
+          }
         }
       },
       converter: (store) => NewJobPageState.fromStore(store),

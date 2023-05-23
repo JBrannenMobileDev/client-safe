@@ -164,6 +164,10 @@ class EventNames {
   static const String BUILD_VERSION = "build_version";
   static const String BUILD_NUMBER = "build_number";
 
+  //Subscription
+  static const String USER_SUBSCRIBED = "user_subscribed";
+  static const String SUBSCRIPTION_PARAM_NAME = "subscription_param_name";
+
   //Login flow
   static const String FIRST_NAME_ENTERED = "first_name_entered";
   static const String LAST_NAME_ENTERED = "last_name_entered";
@@ -184,4 +188,20 @@ class EventNames {
   static const String SIGN_IN_CHECKED_PARAM_USER_UID = "sign_in_checked_param_user_uid";
   static const String SIGN_IN_CHECKED_PARAM_PROFILE_UID = "sign_in_checked_param_profile_uid";
 
+  //OnBoarding
+  static const String ON_BOARDING_FEATURE_SELECTED_JOB_TRACKING = "on_boarding_feature_selected_job_tracking";
+  static const String ON_BOARDING_FEATURE_SELECTED_INCOME_EXPENSES = "on_boarding_feature_selected_income_expenses";
+  static const String ON_BOARDING_FEATURE_SELECTED_POSES = "on_boarding_feature_selected_poses";
+  static const String ON_BOARDING_FEATURE_SELECTED_MILEAGE_TRACKING = "on_boarding_feature_selected_mileage_tracking";
+  static const String ON_BOARDING_FEATURE_SELECTED_INVOICES = "on_boarding_feature_selected_invoices";
+  static const String ON_BOARDING_FEATURE_SELECTED_BUSINESS_ANALYTICS = "on_boarding_feature_selected_business_analytics";
+  static const String ON_BOARDING_FEATURE_SELECTED_OTHER = "on_boarding_feature_selected_other";
+  static const String ON_BOARDING_FEATURE_SELECTION_CONTINUE_SELECTED = "on_boarding_feature_selection_continue_selected";
+  static const String ON_BOARDING_HAS_JOB_ANSWERED = "on_boarding_has_job_answered";
+  static const String ON_BOARDING_HAS_JOB_ANSWERED_PARAM = "on_boarding_has_job_answered_param";
+  static const String ON_BOARDING_ADD_FIRST_JOB_COMPLETED = "on_boarding_add_first_job_complete";
+  static const String ON_BOARDING_ADD_FIRST_JOB_SKIPPED = "on_boarding_add_first_job_skipped";
+  static const String ON_BOARDING_VIEW_SAMPLE_JOB_COMPLETED = "on_boarding_view_sample_job_complete";
+  static const String ON_BOARDING_LEAD_SOURCE_SELECTED = "on_boarding_lead_source_selected";
+  static const String ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM = "on_boarding_lead_source_selected_param";
 }

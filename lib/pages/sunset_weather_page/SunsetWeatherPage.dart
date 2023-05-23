@@ -13,8 +13,10 @@ import 'package:flutter_cupertino_datetime_picker/flutter_cupertino_datetime_pic
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class SunsetWeatherPage extends StatefulWidget {
@@ -35,6 +37,7 @@ class _SunsetWeatherPageState extends State<SunsetWeatherPage> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, SunsetWeatherPageState>(
       onInit: (store) async {
+        await UserPermissionsUtil.showPermissionRequest(permission: Permission.locationWhenInUse, context: context);
         store.dispatch(SetLastKnowPosition(store.state.sunsetWeatherPageState));
       },
       converter: (store) => SunsetWeatherPageState.fromStore(store),

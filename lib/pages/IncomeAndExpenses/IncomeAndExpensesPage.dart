@@ -62,7 +62,7 @@ class _IncomeAndExpensesPageState extends State<IncomeAndExpensesPage> {
       0: TextDandyLight(
           type: TextDandyLight.MEDIUM_TEXT,
           text: IncomeAndExpensesPage.FILTER_TYPE_INCOME,
-          color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
+          color: Color(selectedIndex == 0 ? ColorConstants.getPrimaryBlack() : ColorConstants.getPeachDark()),
         ),
       1: TextDandyLight(
           type: TextDandyLight.MEDIUM_TEXT,

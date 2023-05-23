@@ -3,8 +3,11 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 import 'package:share_plus/share_plus.dart';
@@ -60,7 +63,8 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void fetchPoseGroups(Store<AppState> store, NextDispatcher next) async{
-    store.dispatch(SetIsAdminAction(store.state.posesPageState, AdminCheckUtil.isAdmin(store.state.dashboardPageState.profile)));
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    store.dispatch(SetIsAdminAction(store.state.posesPageState, AdminCheckUtil.isAdmin(profile)));
     _fetchMyPoseGroups(store, next);
     _fetchLibraryPoseGroups(store, next);
     store.dispatch(SetActiveJobsToPosesPage(store.state.posesPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
@@ -72,8 +76,13 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetPoseLibraryGroupsAction(store.state.posesPageState, groups, imageFiles));
 
     for(int index=0; index < groups.length; index++) {
-      if(groups.elementAt(index).poses.isNotEmpty && groups.elementAt(index).poses.first.imageUrl?.isNotEmpty == true){
-        imageFiles.insert(index, await FileStorage.getPoseLibraryImageFile(groups.elementAt(index).poses.first, groups.elementAt(index)));
+      Pose poseForGroupImage = null;
+      groups.elementAt(index).poses.forEach((pose) {
+        if(poseForGroupImage == null) poseForGroupImage = pose;
+        if(pose.numOfSaves > poseForGroupImage.numOfSaves) poseForGroupImage = pose;
+      });
+      if(groups.elementAt(index).poses.isNotEmpty && poseForGroupImage.imageUrl?.isNotEmpty == true){
+        imageFiles.insert(index, await FileStorage.getPoseLibraryImageFile(poseForGroupImage, groups.elementAt(index)));
         next(SetPoseLibraryGroupsAction(store.state.posesPageState, groups, imageFiles));
       } else {
         imageFiles.insert(index, File(''));

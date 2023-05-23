@@ -28,14 +28,18 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
+import 'package:http/http.dart' as http;
 
+import '../../data_layer/api_clients/AccuWeatherClient.dart';
 import '../../data_layer/local_db/daos/JobReminderDao.dart';
 import '../../data_layer/local_db/daos/ProfileDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
+import '../../data_layer/repositories/WeatherRepository.dart';
 import '../../models/Invoice.dart';
 import '../../models/JobReminder.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
+import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
@@ -130,6 +134,51 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveJobNotesAction) {
       _saveJobNotes(store, action, next);
     }
+    if(action is SetOnBoardingCompleteAction) {
+      updateProfileWithOnBoardingComplete(store, action, next);
+    }
+    if(action is DrivingDirectionsJobSelected) {
+      _launchDrivingDirections(store, action);
+    }
+  }
+
+  void _launchDrivingDirections(Store<AppState> store, DrivingDirectionsJobSelected action) async {
+    IntentLauncherUtil.launchDrivingDirections(
+        action.location.latitude.toString(),
+        action.location.longitude.toString());
+  }
+
+  void fetchSunsetWeatherForSelectedDate(Store<AppState> store, NextDispatcher next, Job job) async{
+    if(job.location != null) {
+      final response = await SunriseSunset.getResults(
+          date: job.selectedDate,
+          latitude: job.location.latitude,
+          longitude: job.location.longitude
+      );
+      store.dispatch(
+          SetSunsetTimeAction(
+            store.state.jobDetailsPageState,
+            response.data.nauticalTwilightBegin.toLocal(),
+            response.data.civilTwilightBegin.toLocal(),
+            response.data.sunrise.toLocal(),
+            response.data.sunset.toLocal(),
+            response.data.civilTwilightEnd.toLocal(),
+            response.data.nauticalTwilightEnd.toLocal(),
+          )
+      );
+
+      ForecastFiveDayResponse forecast5days = await WeatherRepository(
+          weatherApiClient: AccuWeatherClient(httpClient: http.Client())
+      ).fetch5DayForecast(job.location.latitude, job.location.longitude);
+
+      store.dispatch(SetForecastAction(store.state.jobDetailsPageState, forecast5days));
+    }
+  }
+
+  void updateProfileWithOnBoardingComplete(Store<AppState> store, SetOnBoardingCompleteAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.onBoardingComplete = true;
+    ProfileDao.update(profile);
   }
 
   void _saveJobNotes(Store<AppState> store, SaveJobNotesAction action, NextDispatcher next) async{
@@ -293,6 +342,11 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, action.location));
+    if(action.location != null) {
+      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.location)));
+    }
+    fetchSunsetWeatherForSelectedDate(store, next, jobToSave);
   }
 
   void _fetchLocations(Store<AppState> store, action, NextDispatcher next) async{
@@ -351,23 +405,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     );
 
     if(jobToSave.selectedDate != null && (jobToSave.selectedEndTime != null || jobToSave.selectedTime != null)){
-      List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(jobToSave.documentId);
-      jobReminders.removeWhere((reminder) => reminder.id == JobReminder.MILEAGE_EXPENSE);
-
-      jobReminders.add(JobReminder(
-        id: JobReminder.MILEAGE_EXPENSE,
-        jobDocumentId: jobToSave.documentId,
-        payload: JobReminder.MILEAGE_EXPENSE_ID,
-        reminder: ReminderDandyLight(
-          description: 'Have you entered your mileage expense?',
-          when: WhenSelectionWidget.ON,
-          time: jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2)),
-        ),
-        hasBeenSeen: false,
-      ));
-
+      List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
+      JobReminder reminderToUpdate = null;
       if(jobReminders.isNotEmpty) {
-        await JobReminderDao.insertAll(jobReminders);
+        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID);
+      }
+
+      if(reminderToUpdate != null) {
+        reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2));
+        JobReminderDao.update(reminderToUpdate);
       }
     }
 
@@ -394,6 +440,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     store.dispatch(UpdateSelectedYearAction(store.state.incomeAndExpensesPageState, store.state.incomeAndExpensesPageState.selectedYear));
+    fetchSunsetWeatherForSelectedDate(store, next, jobToSave);
   }
 
   void _fetchSunsetTime(Store<AppState> store, action, NextDispatcher next) async{
@@ -413,9 +460,13 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
   void fetchClientForJob(Store<AppState> store, NextDispatcher next, SetJobInfo action) async{
     store.dispatch(SetJobAction(store.state.jobDetailsPageState, action.job));
+    if(action.job.location != null) {
+      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.job.location)));
+    }
     Client client = await ClientDao.getClientById(action.job.clientDocumentId);
     store.dispatch(SetClientAction(store.state.jobDetailsPageState, client));
     _fetchDeviceEventsForMonth(store, null, next);
+    fetchSunsetWeatherForSelectedDate(store, next, action.job);
   }
 
   void setJobInfoWithId(Store<AppState> store, NextDispatcher next, SetJobInfoWithJobDocumentId action) async{

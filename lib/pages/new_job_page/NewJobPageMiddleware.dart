@@ -36,7 +36,7 @@ import '../../utils/CalendarSyncUtil.dart';
 import '../../utils/GlobalKeyUtil.dart';
 import '../../utils/ImageUtil.dart';
 import '../../utils/UidUtil.dart';
-import '../../utils/UserPermissionsUtil.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../utils/sunrise_sunset_library/sunrise_sunset.dart';
 import '../calendar_page/CalendarPageActions.dart' as calendar;
 import '../job_details_page/JobDetailsActions.dart' as jobDetails;
@@ -73,6 +73,15 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateWithNewJobTypeAction){
       fetchJobTypeAndSetSelected(store, action, next);
     }
+    if(action is UpdateProfileToOnBoardingCompleteAction) {
+      updateProfileWithOnBoardingComplete(store, action, next);
+    }
+  }
+
+  void updateProfileWithOnBoardingComplete(Store<AppState> store, UpdateProfileToOnBoardingCompleteAction action, NextDispatcher next) async {
+    Profile profile = action.pageState.profile;
+    profile.onBoardingComplete = true;
+    ProfileDao.update(profile);
   }
 
   void fetchJobTypeAndSetSelected(Store<AppState> store, UpdateWithNewJobTypeAction action, NextDispatcher next) async {
@@ -94,7 +103,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       monthToUse = store.state.jobDetailsPageState.selectedDate;
     }
 
-    if(profile.calendarEnabled) {
+    if((await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted) {
       DateTime startDate = DateTime(monthToUse.year, monthToUse.month - 1, 1);
       DateTime endDate = DateTime(monthToUse.year, monthToUse.month + 1, 1);
 
@@ -266,10 +275,8 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void setLocationData(Store<AppState> store, NextDispatcher next, SetLastKnowInitialPosition action) async {
-      PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
-      if(!status.isGranted) {
-        await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
-      }
+      Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+      store.dispatch(SetProfileToNewJobAction(store.state.newJobPageState, profile));
       Position positionLastKnown = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
       if(positionLastKnown != null) {
         store.dispatch(SetInitialMapLatLng(store.state.newJobPageState, positionLastKnown.latitude, positionLastKnown.longitude));

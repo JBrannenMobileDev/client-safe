@@ -8,6 +8,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_share/flutter_share.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:share_extend/share_extend.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -130,9 +131,10 @@ class IntentLauncherUtil{
     return trimmedPhoneNum;
   }
 
-  static Future<void> launchDrivingDirections(String originLat, String originLng, String destinationLat, String destinationLng) async{
+  static Future<void> launchDrivingDirections(String destinationLat, String destinationLng) async{
+    Position originPosition = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     // lat,long like 123.34,68.56
-    String origin = originLat + "," + originLng;
+    String origin = originPosition.latitude.toString() + "," + originPosition.longitude.toString();
     String destination = destinationLat + "," + destinationLng;
     if (Device.get().isAndroid) {
       final AndroidIntent intent = new AndroidIntent(

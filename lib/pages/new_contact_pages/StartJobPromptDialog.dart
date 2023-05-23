@@ -58,7 +58,7 @@ class _StartJobPromptDialogState extends State<StartJobPromptDialog>
                           pageState.onStartNewJobSelected();
                           pageState.onCancelPressed();//just clears the pageState for cleanup.
                           Navigator.of(context).pop();
-                          UserOptionsUtil.showNewJobDialog(context);
+                          UserOptionsUtil.showNewJobDialog(context, false);
                           EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start job Prompt"});
                         },
                         child: Container(

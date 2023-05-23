@@ -18,7 +18,7 @@ class StartAJobButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        UserOptionsUtil.showNewJobDialog(context);
+        UserOptionsUtil.showNewJobDialog(context, false);
         EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Start a Job Button On Dashboard"});
       },
       child: Container(

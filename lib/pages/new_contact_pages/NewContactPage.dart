@@ -11,7 +11,7 @@ import 'package:dandylight/pages/new_contact_pages/PhoneEmailInstagram.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/InputValidatorUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
@@ -82,10 +82,6 @@ class _NewContactPageState extends State<NewContactPage> {
           store.dispatch(SetIsComingFromNewJobAction(store.state.newContactPageState));
         }
         store.state.newContactPageState.shouldClear ? store.dispatch(ClearStateAction(store.state.newContactPageState)) : null;
-        PermissionStatus readContactsStatus = await UserPermissionsUtil.getPermissionStatus(Permission.contacts);
-        if(readContactsStatus == PermissionStatus.denied){
-          await UserPermissionsUtil.requestPermission(Permission.contacts);
-        }
       },
       onDidChange: (prev, pageState) {
         if(pageState.client != null) {
@@ -236,53 +232,7 @@ class _NewContactPageState extends State<NewContactPage> {
     return 256.0;
   }
 
-  Future<void> _checkPermissions(BuildContext context, NewContactPageState pageState){
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Device.get().isIos ?
-        CupertinoAlertDialog(
-          title: new Text('Request Contacts Permission'),
-          content: new Text('This will be needed for syncing DandyLight contacts to your device.'),
-          actions: <Widget>[
-            TextButton(
-            style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () async {
-                await UserPermissionsUtil.requestPermission(Permission.contacts);
-                Navigator.of(context).pop(true);
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        ) : AlertDialog(
-          title: new Text('Request Contacts Permission'),
-          content: new Text('This will be needed for syncing DandyLight contacts to your device.'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () async{
-                await UserPermissionsUtil.requestPermission(Permission.contacts);
-                Navigator.of(context).pop(true);
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void onNextPressed(NewContactPageState pageState) {
+  void onNextPressed(NewContactPageState pageState) async {
     bool canProgress = false;
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
@@ -332,6 +282,7 @@ class _NewContactPageState extends State<NewContactPage> {
       }
     }
     if (pageState.pageViewIndex == pageCount) {
+      await UserPermissionsUtil.showPermissionRequest(permission: Permission.contacts, context: context);
       showSuccessAnimation();
       pageState.onSavePressed();
     }

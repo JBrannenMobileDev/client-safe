@@ -44,14 +44,31 @@ class _LocationSelectionDialogState
                   mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
-                      child: TextDandyLight(
-                        type: TextDandyLight.LARGE_TEXT,
-                        text: "Select a location for this job",
-                        textAlign: TextAlign.center,
-                        color: Color(ColorConstants.primary_black),
-                      ),
+                    Stack(
+                      alignment: Alignment.topCenter,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
+                          child: TextDandyLight(
+                            type: TextDandyLight.LARGE_TEXT,
+                            text: "Select a location for this job",
+                            textAlign: TextAlign.center,
+                            color: Color(ColorConstants.primary_black),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            UserOptionsUtil.showNewLocationDialog(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.only(top: 14, right: 8),
+                            alignment: Alignment.centerRight,
+                            height: 44.0,
+                            width: MediaQuery.of(context).size.width,
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                          ),
+                        ),
+                      ],
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 8.0),

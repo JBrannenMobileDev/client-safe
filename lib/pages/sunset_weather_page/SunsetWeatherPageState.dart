@@ -245,7 +245,7 @@ class SunsetWeatherPageState {
     onSaveLocationSelected: null,
     onCanceledSelected: null,
     onBackPressed: null,
-    locations: null,
+    locations: [],
     selectedLocation: null,
     onLocationSelected: null,
     documentPath: '',

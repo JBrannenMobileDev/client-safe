@@ -24,6 +24,7 @@ import 'package:dandylight/pages/new_pricing_profile_page/NewPricingProfilePageS
 import 'package:dandylight/pages/new_recurring_expense/NewRecurringExpensePageState.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageState.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageState.dart';
+import 'package:dandylight/pages/onboarding/OnBoardingPageState.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
@@ -75,6 +76,7 @@ class AppState {
   final ResponsesPageState responsesPageState;
   final ManageSubscriptionPageState manageSubscriptionPageState;
   final LibraryPoseGroupPageState libraryPoseGroupPageState;
+  final OnBoardingPageState onBoardingPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -113,6 +115,7 @@ class AppState {
     @required this.responsesPageState,
     @required this.manageSubscriptionPageState,
     @required this.libraryPoseGroupPageState,
+    @required this.onBoardingPageState,
   });
 
   factory AppState.initial() {
@@ -153,6 +156,7 @@ class AppState {
       responsesPageState: ResponsesPageState.initial(),
       manageSubscriptionPageState: ManageSubscriptionPageState.initial(),
       libraryPoseGroupPageState: LibraryPoseGroupPageState.initial(),
+      onBoardingPageState: OnBoardingPageState.initial(),
     );
   }
 
@@ -193,6 +197,7 @@ class AppState {
     ResponsesPageState responsesPageState,
     ManageSubscriptionPageState manageSubscriptionPageState,
     LibraryPoseGroupPageState libraryPoseGroupPageState,
+    OnBoardingPageState onBoardingPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -231,6 +236,7 @@ class AppState {
       responsesPageState: responsesPageState ?? this.responsesPageState,
       manageSubscriptionPageState: manageSubscriptionPageState ?? this.manageSubscriptionPageState,
       libraryPoseGroupPageState: libraryPoseGroupPageState ?? this.libraryPoseGroupPageState,
+      onBoardingPageState: onBoardingPageState ?? this.onBoardingPageState,
     );
   }
 
@@ -271,6 +277,7 @@ class AppState {
     responsesPageState.hashCode ^
     manageSubscriptionPageState.hashCode ^
     libraryPoseGroupPageState.hashCode ^
+    onBoardingPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -312,5 +319,6 @@ class AppState {
               responsesPageState == other.responsesPageState &&
               manageSubscriptionPageState == other.manageSubscriptionPageState &&
               libraryPoseGroupPageState == other.libraryPoseGroupPageState &&
+              onBoardingPageState == other.onBoardingPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

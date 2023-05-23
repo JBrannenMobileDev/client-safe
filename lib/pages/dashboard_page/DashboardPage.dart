@@ -25,6 +25,7 @@ import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -32,6 +33,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
@@ -209,10 +211,18 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           List<JobReminder> allReminders = await JobReminderDao.getAll();
           final notificationHelper = NotificationHelper();
           notificationHelper.setTapBackgroundMethod(notificationTapBackground);
-          await notificationHelper.initNotifications();
-          if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
-            if(allReminders.length > 0) {
-              NotificationHelper().createAndUpdatePendingNotifications();
+
+          //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
+          PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.notification);
+          if(!status.isPermanentlyDenied) {
+            bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context));
+            if(isGranted) {
+              await notificationHelper.initNotifications();
+              if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
+                if(allReminders.length > 0) {
+                  NotificationHelper().createAndUpdatePendingNotifications();
+                }
+              }
             }
           }
 
@@ -242,6 +252,13 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                 store.dispatch(UpdateProfileRestorePurchasesSeen(store.state.dashboardPageState));
               });
             }
+          }
+
+          bool isCalendarGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
+          if(isCalendarGranted && !store.state.dashboardPageState.profile.calendarEnabled) {
+            Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+            profile.calendarEnabled = true;
+            ProfileDao.update(profile);
           }
         },
         onDidChange: (previous, current) async {
@@ -354,7 +371,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                       ),
                     ),
                     onTap: () {
-                      UserOptionsUtil.showNewJobDialog(context);
+                      UserOptionsUtil.showNewJobDialog(context, false);
                       EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Dashboard"});
                     },
                   ),

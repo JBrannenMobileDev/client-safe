@@ -16,6 +16,7 @@ import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../models/JobStage.dart';
+import '../../../utils/NotificationHelper.dart';
 
 class JobDao extends Equatable{
   static const String JOB_STORE_NAME = 'jobs';
@@ -59,6 +60,11 @@ class JobDao extends Equatable{
       await update(job);
     }else{
       await insert(job);
+      try{
+        NotificationHelper().turnOffNotificationById(NotificationHelper.START_FIRST_JOB_ID);
+      } catch(ex) {
+        print(ex);
+      }
     }
   }
 

@@ -21,7 +21,7 @@ class JobHistoryItem extends StatelessWidget{
       style: Styles.getButtonStyle(),
       onPressed: () {
         pageState.onJobSelected(job);
-        NavigationUtil.onJobTapped(context);
+        NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
       padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),

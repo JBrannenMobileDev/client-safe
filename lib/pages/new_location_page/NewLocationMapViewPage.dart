@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:permission_handler/permission_handler.dart';
 
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
 
 
@@ -24,7 +26,7 @@ class NewLocationMapViewPage extends StatefulWidget {
   }
 }
 
-class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with AutomaticKeepAliveClientMixin {
+class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with AutomaticKeepAliveClientMixin{
   final locationNameTextController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
   bool showMapIcon;
@@ -65,11 +67,23 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
             ),
             GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => NewLocationMapPage()),
+                UserPermissionsUtil.showPermissionRequest(
+                  permission: Permission.locationWhenInUse,
+                  context: context,
+                  customMessage: "Location permission is required to select a pin for this location.",
+                  callOnGranted: callOnGranted,
                 );
               },
-              child: Container(
+              child: pageState.selectedLatLng == null ? Container(
+                padding: EdgeInsets.all(24),
+                height: 116.0,
+                width: 116.0,
+                decoration: BoxDecoration(
+                  color: Color(ColorConstants.getBlueDark()),
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset('assets/images/icons/location_icon_black.png', color: Color(ColorConstants.getPrimaryWhite())),
+              ) : Container(
                 height: 116.0,
                 width: 116.0,
                 decoration: BoxDecoration(
@@ -85,6 +99,12 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
           ],
         ),
       ),
+    );
+  }
+
+  void callOnGranted() {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (context) => NewLocationMapPage()),
     );
   }
 

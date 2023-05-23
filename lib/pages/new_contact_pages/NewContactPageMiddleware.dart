@@ -7,6 +7,8 @@ import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/new_contact_pages/NewContactPageActions.dart';
 import 'package:contacts_service/contacts_service.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/analytics/EventNames.dart';
@@ -51,10 +53,12 @@ class NewContactPageMiddleware extends MiddlewareClass<AppState> {
       createdDate: action.pageState.client?.createdDate ?? DateTime.now()
     );
 
-
-
     await ClientDao.insertOrUpdate(client);
-    DeviceContactsDao.addOrUpdateContact(client);
+
+    bool granted = (await UserPermissionsUtil.getPermissionStatus(Permission.contacts)).isGranted;
+    if(granted) {
+      DeviceContactsDao.addOrUpdateContact(client);
+    }
 
     EventSender().sendEvent(eventName: EventNames.CREATED_CONTACT, properties: _buildEventProperties(client));
 

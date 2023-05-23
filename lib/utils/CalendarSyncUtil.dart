@@ -8,7 +8,6 @@ import 'package:device_calendar/device_calendar.dart';
 
 import '../data_layer/local_db/daos/JobDao.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
-import '../models/Profile.dart';
 import 'UidUtil.dart';
 
 class CalendarSyncUtil {
@@ -17,18 +16,6 @@ class CalendarSyncUtil {
     List<Event> events = [];
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          return events;
-        } else {
-          Profile profile = (await ProfileDao.getAll()).elementAt(0);
-          profile.calendarEnabled = true;
-          await ProfileDao.update(profile);
-        }
-      }
-
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
       return _getAllEvents(
           calendarsResult, _deviceCalendarPlugin, startDate, endDate);
@@ -73,17 +60,6 @@ class CalendarSyncUtil {
   static void removeJobsFromDeviceCalendars() async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          //do nothing. no permission granted.
-        } else {
-          Profile profile = (await ProfileDao.getAll()).elementAt(0);
-          profile.calendarEnabled = true;
-          await ProfileDao.update(profile);
-        }
-      }
 
       List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
@@ -111,17 +87,6 @@ class CalendarSyncUtil {
   static void syncJobsToDeviceCalendars() async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          //do nothing. no permission granted.
-        } else {
-          Profile profile = (await ProfileDao.getAll()).elementAt(0);
-          profile.calendarEnabled = true;
-          await ProfileDao.update(profile);
-        }
-      }
 
       List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
@@ -174,15 +139,6 @@ class CalendarSyncUtil {
     List<Calendar> writableCalendars = [];
     try{
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          //do nothing. no permission granted.
-        } else {
-          //nothing to do here.
-        }
-      }
 
       final calendarsResult = await _deviceCalendarPlugin.retrieveCalendars();
 
@@ -201,17 +157,6 @@ class CalendarSyncUtil {
   static void insertJobEvent(Job job) async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          //do nothing. no permission granted.
-        } else {
-          Profile profile = (await ProfileDao.getAll()).elementAt(0);
-          profile.calendarEnabled = true;
-          await ProfileDao.update(profile);
-        }
-      }
 
       List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
@@ -239,17 +184,6 @@ class CalendarSyncUtil {
   static void updateJobEvent(Job job) async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          //do nothing. no permission granted.
-        } else {
-          Profile profile = (await ProfileDao.getAll()).elementAt(0);
-          profile.calendarEnabled = true;
-          await ProfileDao.update(profile);
-        }
-      }
 
       List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);
@@ -273,17 +207,6 @@ class CalendarSyncUtil {
   static void deleteJobEvent(Job job) async {
     try {
       DeviceCalendarPlugin _deviceCalendarPlugin = new DeviceCalendarPlugin();
-      var permissionsGranted = await _deviceCalendarPlugin.hasPermissions();
-      if (permissionsGranted.isSuccess && !permissionsGranted.data) {
-        permissionsGranted = await _deviceCalendarPlugin.requestPermissions();
-        if (!permissionsGranted.isSuccess || !permissionsGranted.data) {
-          //do nothing. no permission granted.
-        } else {
-          Profile profile = (await ProfileDao.getAll()).elementAt(0);
-          profile.calendarEnabled = true;
-          await ProfileDao.update(profile);
-        }
-      }
 
       List<dynamic> calendarsIds = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).calendarIdsToSync.toList();
       List<String> calendarsToSync = List<String>.from(calendarsIds);

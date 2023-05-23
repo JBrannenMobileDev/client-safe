@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dandylight/models/Client.dart';
-import 'package:dandylight/models/EventDandyLight.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Location.dart';
@@ -11,13 +10,54 @@ import 'package:device_calendar/device_calendar.dart';
 
 import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
-import '../../models/ReminderDandyLight.dart';
+import '../../models/rest_models/AccuWeatherModels/forecastFiveDay/ForecastFiveDayResponse.dart';
 import '../pose_group_page/GroupImage.dart';
 
 class SetJobInfo{
   final JobDetailsPageState pageState;
   final Job job;
   SetJobInfo(this.pageState, this.job);
+}
+
+class SetSunsetTimeAction{
+  final JobDetailsPageState pageState;
+  final DateTime nauticalTwilightStart;
+  final DateTime civilTwilightStart;
+  final DateTime sunrise;
+  final DateTime sunset;
+  final DateTime civilTwilightEnd;
+  final DateTime nauticalTwilightEnd;
+  SetSunsetTimeAction(
+      this.pageState,
+      this.nauticalTwilightStart,
+      this.civilTwilightStart,
+      this.sunrise,
+      this.sunset,
+      this.civilTwilightEnd,
+      this.nauticalTwilightEnd);
+}
+
+class SetForecastAction{
+  final JobDetailsPageState pageState;
+  final ForecastFiveDayResponse forecast5days;
+  SetForecastAction(this.pageState, this.forecast5days);
+}
+
+class SetOnBoardingCompleteAction {
+  final JobDetailsPageState pageState;
+  SetOnBoardingCompleteAction(this.pageState);
+}
+
+class DrivingDirectionsJobSelected{
+  final JobDetailsPageState pageState;
+  final Location location;
+  DrivingDirectionsJobSelected(this.pageState, this.location);
+}
+
+class SetLocationImageAction {
+  final JobDetailsPageState pageState;
+  final File locationImage;
+  SetLocationImageAction(this.pageState, this.locationImage);
 }
 
 class SetJobInfoWithJobDocumentId{

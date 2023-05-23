@@ -14,6 +14,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/widgets.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Profile.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart' as sunsetPageActions;
 
 @immutable
@@ -38,6 +39,7 @@ class NewJobPageState {
   final String documentPath;
   final String oneTimePrice;
   final PriceProfile selectedPriceProfile;
+  final Profile profile;
   final Location selectedLocation;
   final Location oneTimeLocation;
   final DateTime selectedDate;
@@ -77,6 +79,7 @@ class NewJobPageState {
   final double lat;
   final double lon;
   final Function(bool) onCalendarEnabled;
+  final Function() onSkipSelected;
 
   NewJobPageState({
     @required this.id,
@@ -135,6 +138,8 @@ class NewJobPageState {
     @required this.onCalendarEnabled,
     @required this.isSelectedPriceProfileNew,
     @required this.isSelectedJobTypeNew,
+    @required this.profile,
+    @required this.onSkipSelected,
   });
 
   NewJobPageState copyWith({
@@ -160,6 +165,7 @@ class NewJobPageState {
     List<PriceProfile> pricingProfiles,
     List<Location> locations,
     List<File> imageFiles,
+    Profile profile,
     DateTime selectedDate,
     DateTime selectedStartTime,
     DateTime selectedEndTime,
@@ -194,6 +200,7 @@ class NewJobPageState {
     double lon,
     Location oneTimeLocation,
     Function(bool) onCalendarEnabled,
+    Function() onSkipSelected,
   }){
     return NewJobPageState(
       id: id?? this.id,
@@ -252,6 +259,8 @@ class NewJobPageState {
       onCalendarEnabled: onCalendarEnabled ?? this.onCalendarEnabled,
       isSelectedPriceProfileNew: isSelectedPriceProfileNew ?? this.isSelectedPriceProfileNew,
       isSelectedJobTypeNew: isSelectedJobTypeNew ?? this.isSelectedJobTypeNew,
+      profile: profile ?? this.profile,
+      onSkipSelected: onSkipSelected ?? this.onSkipSelected,
     );
   }
 
@@ -283,6 +292,7 @@ class NewJobPageState {
         selectedEndTime: null,
         sunsetDateTime: null,
         selectedJobType: null,
+        profile: null,
         eventList: [],
         jobs: [],
         jobTypes: [],
@@ -315,6 +325,7 @@ class NewJobPageState {
         isSelectedPriceProfileNew: false,
         onCalendarEnabled: null,
         isSelectedJobTypeNew: false,
+        onSkipSelected: null,
       );
   }
 
@@ -354,6 +365,7 @@ class NewJobPageState {
       oneTimeLocation: store.state.newJobPageState.oneTimeLocation,
       lat: store.state.newJobPageState.lat,
       lon: store.state.newJobPageState.lon,
+      profile: store.state.newJobPageState.profile,
       isSelectedClientNew: store.state.newJobPageState.isSelectedClientNew,
       isSelectedJobTypeNew: store.state.newJobPageState.isSelectedJobTypeNew,
       isSelectedPriceProfileNew: store.state.newJobPageState.isSelectedPriceProfileNew,
@@ -376,6 +388,7 @@ class NewJobPageState {
       onOneTimePriceChanged: (inputText) => store.dispatch(SetOneTimePriceTextAction(store.state.newJobPageState, inputText)),
       onLocationSearchResultSelected: (selectedLocation) => store.dispatch(SetSelectedOneTimeLocation(store.state.newJobPageState, selectedLocation)),
       onCalendarEnabled: (enabled) => store.dispatch(FetchNewJobDeviceEvents(store.state.newJobPageState, DateTime.now())),
+      onSkipSelected: () => store.dispatch(UpdateProfileToOnBoardingCompleteAction(store.state.newJobPageState)),
     );
   }
 
@@ -394,6 +407,7 @@ class NewJobPageState {
       clientSearchText.hashCode ^
       allClients.hashCode ^
       deviceEvents.hashCode ^
+      profile.hashCode ^
       isSelectedJobTypeNew.hashCode ^
       selectedPriceProfile.hashCode ^
       selectedLocation.hashCode ^
@@ -431,6 +445,7 @@ class NewJobPageState {
       lat.hashCode ^
       lon.hashCode ^
       oneTimeLocation.hashCode ^
+      onSkipSelected.hashCode ^
       imageFiles.hashCode;
 
   @override
@@ -450,6 +465,7 @@ class NewJobPageState {
           selectedClient == other.selectedClient &&
           clientSearchText == other.clientSearchText &&
           allClients == other.allClients &&
+          profile == other.profile &&
           filteredClients == other.filteredClients &&
           selectedPriceProfile == other.selectedPriceProfile &&
           selectedLocation == other.selectedLocation &&
@@ -462,6 +478,7 @@ class NewJobPageState {
           sunsetDateTime == other.sunsetDateTime &&
           deviceEvents == other.deviceEvents &&
           selectedJobType == other.selectedJobType &&
+          onSkipSelected == other.onSkipSelected &&
           currentJobStage == other.currentJobStage &&
           onSavePressed == other.onSavePressed &&
           isSelectedClientNew == other.isSelectedClientNew &&

@@ -7,7 +7,7 @@ import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:dandylight/pages/locations_page/widgets/LocationListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,10 +27,6 @@ class LocationsPage extends StatelessWidget {
   Widget build(BuildContext context) => StoreConnector<AppState, LocationsPageState>(
         onInit: (store)  async {
           store.dispatch(FetchLocationsAction(store.state.locationsPageState));
-          PermissionStatus locationStatus = await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse);
-          if(locationStatus == PermissionStatus.denied || locationStatus == PermissionStatus.denied){
-            _checkPermissions(context, store.state.locationsPageState);
-          }
         },
         converter: (Store<AppState> store) => LocationsPageState.fromStore(store),
         builder: (BuildContext context, LocationsPageState pageState) =>
@@ -120,52 +116,6 @@ class LocationsPage extends StatelessWidget {
             },
             child: LocationListWidget(index),
           ),
-    );
-  }
-
-  Future<void> _checkPermissions(BuildContext context, LocationsPageState pageState){
-    return showDialog<void>(
-      context: context,
-      builder: (BuildContext context) {
-        return Device.get().isIos ?
-        CupertinoAlertDialog(
-          title: new Text('Request Location Permission'),
-          content: new Text('This permission will be used for saving session locations.'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () async {
-                await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
-                Navigator.of(context).pop(true);
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        ) : AlertDialog(
-          title: new Text('Request Location Permission'),
-          content: new Text('This permission will be used for saving session locations.'),
-          actions: <Widget>[
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () => Navigator.of(context).pop(false),
-              child: new Text('No'),
-            ),
-            TextButton(
-              style: Styles.getButtonStyle(),
-              onPressed: () async{
-                await UserPermissionsUtil.requestPermission(Permission.locationWhenInUse);
-                Navigator.of(context).pop(true);
-              },
-              child: new Text('Yes'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

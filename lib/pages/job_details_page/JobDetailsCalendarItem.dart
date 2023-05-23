@@ -23,7 +23,7 @@ class JobDetailsCalendarItem extends StatelessWidget{
       style: Styles.getButtonStyle(),
       onPressed: () {
         pageState.onJobClicked(job);
-        NavigationUtil.onJobTapped(context);
+        NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 18.0),

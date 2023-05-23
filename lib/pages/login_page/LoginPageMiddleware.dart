@@ -6,14 +6,17 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FireStoreSync.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
+import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
+import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/InputValidator.dart';
+import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
@@ -33,6 +36,7 @@ import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
 import '../../data_layer/local_db/daos/JobTypeDao.dart';
+import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
@@ -40,6 +44,8 @@ import '../../models/Client.dart';
 import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
+import '../../models/Location.dart';
+import '../../models/Pose.dart';
 import '../../models/PriceProfile.dart';
 import '../../models/Response.dart';
 import '../../utils/AppleSignInAvailable.dart';
@@ -103,7 +109,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await user.updateDisplayName(firstName);
         _createNewUserProfile(store, user, firstName, lastName, email, GOOGLE);
       } else {
-        _loginAfterAppleSignIn(store, existingProfile);
+        _loginAfterSignIn(store, existingProfile);
       }
     } catch(ex) {
       store.dispatch(SetShowLoadingAnimationAction(store.state.loginPageState, false));
@@ -150,7 +156,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await user.updateDisplayName(displayName);
         _createNewUserProfile(store, user, firstName, lastName, email, APPLE);
       } else {
-        _loginAfterAppleSignIn(store, existingProfile);
+        _loginAfterSignIn(store, existingProfile);
       }
     } catch(ex) {
       store.dispatch(SetShowLoadingAnimationAction(store.state.loginPageState, false));
@@ -158,7 +164,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _loginAfterAppleSignIn(Store<AppState> store, Profile existingProfile) async {
+  void _loginAfterSignIn(Store<AppState> store, Profile existingProfile) async {
     await UidUtil().setUid(existingProfile.uid);
     await ProfileDao.insertLocal(existingProfile);
     await FireStoreSync().dandyLightAppInitializationSync(existingProfile.uid);
@@ -168,7 +174,15 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     existingProfile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
     await ProfileDao.update(existingProfile);
     await EventSender().setUserIdentity(existingProfile.uid);
-    store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+    setShouldShowOnBoarding(store, existingProfile);
+  }
+
+  void setShouldShowOnBoarding(Store<AppState> store, Profile existingProfile) async {
+    if(existingProfile.onBoardingComplete || (await JobDao.getAllJobs()).length > 1) {
+      store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+    } else {
+      store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
+    }
   }
   
   void _resetPassword(Store<AppState> store, ResetPasswordAction action, next) async {
@@ -195,101 +209,6 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     });
   }
 
-  void _signInWithApple(Store<AppState> store) async {
-    final FirebaseAuth _auth = FirebaseAuth.instance;
-    User user = await _auth.currentUser;
-    List<Profile> profiles = await ProfileDao.getAllSortedByFirstName();
-    Profile profile;
-
-    if (user != null && user.emailVerified && profile != null) {
-      if(profiles != null && profiles.length > 0) {
-        profile = getMatchingProfile(profiles, user);
-        ProfileDao.updateUserLoginTime(user.uid);
-        store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-        bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
-        profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
-        await ProfileDao.update(profile);
-        await EventSender().setUserIdentity(user.uid);
-      } else {
-
-      }
-    } else {
-      await SembastDb.instance.deleteAllLocalData();
-      store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, true));
-      await _auth.signInWithEmailAndPassword(
-          email: store.state.loginPageState.emailAddress,
-          password: store.state.loginPageState.password).then((authResult) async {
-        if (authResult.user != null) {
-          UidUtil().setUid(authResult.user.uid);
-          EventSender().setUserIdentity(authResult.user.uid);
-          if(profile == null) {
-            Profile fireStoreProfile = await UserCollection().getUser(authResult.user.uid) ?? Profile();
-            if (fireStoreProfile.clientsLastChangeDate != null)
-              fireStoreProfile.clientsLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.invoicesLastChangeDate != null)
-              fireStoreProfile.invoicesLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.jobsLastChangeDate != null)
-              fireStoreProfile.jobsLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.locationsLastChangeDate != null)
-              fireStoreProfile.locationsLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.mileageExpensesLastChangeDate != null)
-              fireStoreProfile.mileageExpensesLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.priceProfilesLastChangeDate != null)
-              fireStoreProfile.priceProfilesLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.recurringExpensesLastChangeDate != null)
-              fireStoreProfile.recurringExpensesLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.singleExpensesLastChangeDate != null)
-              fireStoreProfile.singleExpensesLastChangeDate = DateTime(1970);
-            if (fireStoreProfile.nextInvoiceNumberLastChangeDate != null)
-              fireStoreProfile.nextInvoiceNumberLastChangeDate = DateTime(1970);
-            await ProfileDao.insertLocal(fireStoreProfile);
-            await FireStoreSync().dandyLightAppInitializationSync(authResult.user.uid);
-            await PoseLibraryGroupDao.syncAllFromFireStore();
-          }
-        }
-        if (authResult.user != null && authResult.user.emailVerified) {
-          store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
-          profile = await ProfileDao.getMatchingProfile(authResult.user.uid);
-          bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
-          profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
-          await ProfileDao.update(profile);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
-        } else if (authResult.user != null && !authResult.user.emailVerified) {
-          store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
-          VibrateUtil.vibrateHeavy();
-          store.dispatch(AnimateLoginErrorMessageAction(store.state.loginPageState, true));
-        }
-        store.dispatch(UpdateShowLoginAnimation(store.state.loginPageState, false));
-      }).catchError((error) {
-        if(error is FirebaseAuthException) {
-          FirebaseAuthException exception = error;
-          String errorMessage = '';
-          switch (exception.code) {
-            case 'ERROR_USER_NOT_FOUND':
-            case 'ERROR_WRONG_PASSWORD':
-              errorMessage = 'Username or password is incorrect.';
-              break;
-            case 'ERROR_INVALID_EMAIL':
-              errorMessage = exception.message;
-              break;
-            default:
-              errorMessage = 'Username or password is incorrect.';
-              break;
-          }
-          store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, errorMessage));
-          VibrateUtil.vibrateHeavy();
-          store.dispatch(
-              UpdateShowLoginAnimation(store.state.loginPageState, false));
-        } else {
-          store.dispatch(SetSignInErrorMessageAction(store.state.loginPageState, 'Something went wrong.'));
-          VibrateUtil.vibrateHeavy();
-          store.dispatch(
-              UpdateShowLoginAnimation(store.state.loginPageState, false));
-        }
-      });
-    }
-  }
-
   void _signIn(Store<AppState> store, LoginAction action, next) async {
     final FirebaseAuth _auth = FirebaseAuth.instance;
     User user = await _auth.currentUser;
@@ -300,7 +219,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       if(profiles != null && profiles.length > 0) {
         profile = getMatchingProfile(profiles, user);
         ProfileDao.updateUserLoginTime(user.uid);
-        store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+        setShouldShowOnBoarding(store, profile);
         bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
         profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
         await ProfileDao.update(profile);
@@ -348,7 +267,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
           bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
           profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
           await ProfileDao.update(profile);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          setShouldShowOnBoarding(store, profile);
         } else if (authResult.user != null && !authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, true));
           VibrateUtil.vibrateHeavy();
@@ -521,6 +440,18 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       );
       await ClientDao.insertOrUpdate(client1);
 
+      //Create Sample Location
+      Location location = Location(
+        id: null,
+        documentId: '',
+        locationName: "Santa Rosa",
+        latitude: 33.509060,
+        longitude: -117.293762,
+        address: "exampleJob",
+        imageUrl: "https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FexampleLocation%2FScreen%20Shot%202023-05-20%20at%209.58.02%20AM.png?alt=media&token=5e5412b5-f27d-4c6c-b492-85984f3e0349",
+      );
+      await LocationDao.insertOrUpdate(location);
+
       //Create sample job
       DateTime currentTime = DateTime.now();
       Job jobToSave = Job(
@@ -529,19 +460,23 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         clientDocumentId: (await ClientDao.getAll()).first.documentId,
         clientName: (await ClientDao.getAll()).first.getClientFullName(),
         jobTitle: (await ClientDao.getAll()).first.firstName + ' - Example Job',
-        selectedDate: DateTime.now().add(Duration(days: 5)),
-        selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 10, 30),
-        selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 20, 00),
+        selectedDate: DateTime.now().add(Duration(days: 3)),
+        selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 18, 45),
+        selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 19, 45),
         type: (await JobTypeDao.getAll()).first,
         stage: JobStage.exampleJobStages().elementAt(1),
         completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
         priceProfile: (await PriceProfileDao.getAllSortedByName()).first,
         createdDate: DateTime.now(),
         depositAmount: 0,
+        location: location,
       );
       await JobDao.insertOrUpdate(jobToSave);
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
+      PoseLibraryGroup libraryGroup = (await PoseLibraryGroupDao.getAllSortedMostFrequent()).first;
+      List<Pose> posesToAdd = libraryGroup.poses.sublist(0, 7);
+      await _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
 
       if(signInType == EMAIL) {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
@@ -552,7 +487,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
           ProfileDao.updateUserLoginTime(user.uid);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));
         });
         await PoseLibraryGroupDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {
@@ -561,6 +496,11 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         });
       }
     }
+  }
+
+  void _saveSelectedPoseToJob(Store<AppState> store, Job job, List<Pose> poses) async {
+    job.poses.addAll(poses);
+    await JobDao.update(job);
   }
 
   void _createAccount(Store<AppState> store, CreateAccountAction action, next) async {
@@ -630,7 +570,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         await FireStoreSync().dandyLightAppInitializationSync(user.uid).then((value) async {
           store.dispatch(SetCurrentUserCheckState(store.state.loginPageState, true));
           ProfileDao.updateUserLoginTime(user.uid);
-          store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
+          setShouldShowOnBoarding(store, profile);
         });
         await PoseLibraryGroupDao.syncAllFromFireStore();
         EventSender().sendEvent(eventName: EventNames.USER_SIGNED_IN_CHECK, properties: {

@@ -82,7 +82,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                 if(pageState.reminders.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
                                   UserOptionsUtil.showNewMileageExpenseSelected(context);
                                 } else {
-                                  NavigationUtil.onJobTapped(context);
+                                  NavigationUtil.onJobTapped(context, false);
                                 }
                                 pageState.onReminderSelected(pageState.reminders.elementAt(index));
                               },

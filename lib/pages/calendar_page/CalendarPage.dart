@@ -15,7 +15,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 import '../../utils/CalendarUtil.dart';
-import '../../utils/UserPermissionsUtil.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -73,10 +73,15 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
     return StoreConnector<AppState, CalendarPageState>(
       onInit: (store) async {
         store.dispatch(FetchAllCalendarJobsAction(store.state.calendarPageState));
-        if(!store.state.dashboardPageState.profile.calendarEnabled) {
-          Future.microtask(() => UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState.onCalendarEnabled));
-        } else {
-          store.dispatch(FetchDeviceEvents(store.state.calendarPageState, DateTime.now(), store.state.dashboardPageState.profile.calendarEnabled));
+
+        PermissionStatus previousStatus = await UserPermissionsUtil.getPermissionStatus(Permission.calendar);
+        bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.calendar, context: context);
+        if(isGranted) {
+          if(!(await previousStatus.isGranted)) {
+            UserOptionsUtil.showCalendarSelectionDialog(context, store.state.calendarPageState.onCalendarEnabled);
+          } else {
+            store.dispatch(FetchDeviceEvents(store.state.calendarPageState, DateTime.now(), store.state.dashboardPageState.profile.calendarEnabled));
+          }
         }
       },
       converter: (store) => CalendarPageState.fromStore(store),
@@ -146,7 +151,7 @@ class _CalendarPageState extends State<CalendarPage> with TickerProviderStateMix
             backgroundColor: Color(ColorConstants.getPrimaryColor()),
             onPressed: () {
               pageState.onAddNewJobSelected();
-              UserOptionsUtil.showNewJobDialog(context);
+              UserOptionsUtil.showNewJobDialog(context, false);
               EventSender().sendEvent(eventName: EventNames.BT_START_NEW_JOB, properties: {EventNames.JOB_PARAM_COMING_FROM : "Calendar Page"});
             }),
       ),

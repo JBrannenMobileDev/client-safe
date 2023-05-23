@@ -28,19 +28,29 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
+import '../../utils/NavigationUtil.dart';
+import '../../utils/analytics/EventNames.dart';
+import '../../utils/analytics/EventSender.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'IncomeCard.dart';
+import 'JobDetailsCard.dart';
 import 'JobNotesWidget.dart';
+import 'LocationCard.dart';
 import 'PosesCard.dart';
+import 'SunsetWeatherCard.dart';
 
 class JobDetailsPage extends StatefulWidget {
-  const JobDetailsPage({Key key, this.destination}) : super(key: key);
+  const JobDetailsPage({Key key, this.destination, this.comingFromOnBoarding}) : super(key: key);
   final JobDetailsPage destination;
+  final bool comingFromOnBoarding;
 
   @override
   State<StatefulWidget> createState() {
-    return _JobDetailsPageState(-2);
+    return _JobDetailsPageState(comingFromOnBoarding);
   }
 }
 
@@ -48,8 +58,9 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
   final GlobalKey<AnimatedListState> _listKeyVertical = GlobalKey<AnimatedListState>();
   ScrollController _scrollController = ScrollController(keepScrollOffset: true);
   ScrollController _stagesScrollController = ScrollController(keepScrollOffset: true);
-  double scrollPosition = 0;
-  _JobDetailsPageState(this.scrollPosition);
+  double scrollPosition = -2;
+  bool comingFromOnBoarding;
+  _JobDetailsPageState(this.comingFromOnBoarding);
   bool sliverCollapsed = false;
   bool isFabExpanded = false;
   bool dialVisible = true;
@@ -333,7 +344,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                 ),
                 body: Container(
                 child: Stack(
-                  alignment: Alignment.topCenter,
+                  alignment: Alignment.bottomCenter,
                   children: <Widget>[
                     Container(
                       decoration: BoxDecoration(
@@ -363,7 +374,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           pinned: false,
                           floating: false,
                           forceElevated: false,
-                          expandedHeight: 300.0,
+                          expandedHeight: 305.0,
                           actions: <Widget>[
                             new IconButton(
                               icon: ImageIcon(ImageUtil.getTrashIconWhite()),
@@ -419,15 +430,42 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                         ),
                         new SliverList(
                             delegate: new SliverChildListDelegate(<Widget>[
-                              JobInfoCard(pageState: pageState),
-                              ClientDetailsCard(pageState: pageState),
                               PosesCard(pageState: pageState),
+                              JobDetailsCard(),
+                              SunsetWeatherCard(),
+                              LocationCard(),
+                              ClientDetailsCard(pageState: pageState),
+                              // IncomeCard(onSendInvoiceSelected: onSendInvoiceSelected),
                               JobNotesWidget(),
                               DocumentsCard(pageState: pageState, onSendInvoiceSelected: onSendInvoiceSelected, onDeleteInvoiceSelected: onDeleteInvoiceSelected),
                               RemindersCard(pageState: pageState),
                             ])),
                       ],
                     ),
+                    comingFromOnBoarding ? GestureDetector(
+                      onTap: () async {
+                        pageState.setOnBoardingComplete();
+                        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_VIEW_SAMPLE_JOB_COMPLETED);
+                        await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
+                        NavigationUtil.onSuccessfulLogin(context);
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                        margin: EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0, bottom: 32.0),
+                        alignment: Alignment.center,
+                        height: 54.0,
+                        width: 96,
+                        decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPeachDark()),
+                            borderRadius: BorderRadius.circular(36.0),
+                        ),
+                        child: TextDandyLight(
+                          text: 'DONE',
+                          type: TextDandyLight.LARGE_TEXT,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                      ),
+                    ) : SizedBox(),
                   ],
                 ),
               ),

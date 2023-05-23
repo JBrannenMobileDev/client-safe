@@ -26,7 +26,7 @@ class JobCalendarItem extends StatelessWidget{
       onPressed: () {
         if(job != null) {
           onJobClicked(job);
-          NavigationUtil.onJobTapped(context);
+          NavigationUtil.onJobTapped(context, false);
         }
       },
       child: Padding(

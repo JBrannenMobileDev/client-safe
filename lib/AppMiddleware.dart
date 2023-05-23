@@ -55,6 +55,8 @@ import 'package:dandylight/pages/new_reminder_page/NewReminderActions.dart';
 import 'package:dandylight/pages/new_reminder_page/NewReminderPageMiddleware.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpenseActions.dart';
 import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePageMiddleware.dart';
+import 'package:dandylight/pages/onboarding/OnBoardingActions.dart';
+import 'package:dandylight/pages/onboarding/OnBoardingPageMiddleware.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageMiddleware.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPageActions.dart' as paymentLinks;
 import 'package:dandylight/pages/pose_group_page/PoseGroupActions.dart';
@@ -104,6 +106,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.FetchTimeOfSunsetAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewPricePackageAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateWithNewJobTypeAction>(NewJobPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, newJobPageActions.UpdateProfileToOnBoardingCompleteAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, newJobPageActions.SaveNewJobAction>(NewJobPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadJobsAction>(DashboardPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetNotificationToSeen>(DashboardPageMiddleware()));
@@ -123,9 +126,11 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, UndoStageAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobInfo>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetOnBoardingCompleteAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobInfoWithJobDocumentId>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, JobInstagramSelectedAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchTimeOfSunsetJobAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, DrivingDirectionsJobSelected>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobTimeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobEndTimeAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateJobDateAction>(JobDetailsPageMiddleware()));
@@ -261,5 +266,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SubscribeSelectedAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ValidateCodeAction>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, AssignDiscountCodeToUser>(ManageSubscriptionPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetJobForDetailsPage>(OnBoardingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetSelectedLeadSourceAction>(OnBoardingPageMiddleware()));
   return middlewareList;
 }

@@ -2,12 +2,15 @@ import 'dart:async';
 
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
@@ -15,6 +18,8 @@ import '../data_layer/local_db/daos/JobDao.dart';
 
 class NotificationHelper {
   static final NotificationHelper _singleton = NotificationHelper._SingletonConstructor();
+  static final int START_FIRST_JOB_ID = 63;
+  static final int ONE_WEEK_LEFT_ID = 62;
 
   Function(NotificationResponse notificationResponse) notificationTapBackground;
 
@@ -86,24 +91,33 @@ class NotificationHelper {
   }
 
   void createAndUpdatePendingNotifications() async {
-    List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
-    clearAll();
+      bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+      if(isGranted) {
+        List<JobReminder> pendingReminders = await JobReminderDao.getPendingJobReminders();
+        List<Job> allJobs = await JobDao.getAllJobs();
+        clearAll();
 
-    for(int index = 0;index < pendingReminders.length; index++) {
-      if(index < 64) {
-        JobReminder reminderToSchedule = pendingReminders.elementAt(index);
-        if(reminderToSchedule.triggerTime != null) {
-          scheduleNotification(
-              index,
-              'Reminder',
-              '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle + ')\n' + reminderToSchedule.reminder.description,
-              reminderToSchedule.payload,
-              reminderToSchedule.triggerTime,
-          );
-          print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+        if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
+          scheduleStartFirstJobReminder();
+        }
+        scheduleFreeTrialExpiringReminder();
+
+        for(int index = 0;index < pendingReminders.length; index++) {
+          if(index < 62) {
+            JobReminder reminderToSchedule = pendingReminders.elementAt(index);
+            if(reminderToSchedule.triggerTime != null) {
+              scheduleNotification(
+                index,
+                'Reminder',
+                '(' + (await JobDao.getJobById(reminderToSchedule.jobDocumentId)).jobTitle + ')\n' + reminderToSchedule.reminder.description,
+                reminderToSchedule.payload,
+                reminderToSchedule.triggerTime,
+              );
+              print("Reminder has been scheduled.   notificationId = " + index.toString() + "   jobReminderId = " + reminderToSchedule.documentId + "   Trigger time = " + reminderToSchedule.triggerTime.toString());
+            }
+          }
         }
       }
-    }
   }
 
   Future<String> getNotificationJobId() async {
@@ -121,7 +135,9 @@ class NotificationHelper {
   }
 
   Future<void> turnOffNotificationById(num id) async {
-    await flutterNotificationPlugin.cancel(id);
+    if(flutterNotificationPlugin != null) {
+      await flutterNotificationPlugin.cancel(id);
+    }
   }
 
   Future<void> scheduleNotification(
@@ -130,7 +146,9 @@ class NotificationHelper {
       String body,
       String payload,
       DateTime scheduledNotificationDateTime) async {
-    await flutterNotificationPlugin.zonedSchedule(
+    bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+    if(isGranted) {
+      await flutterNotificationPlugin.zonedSchedule(
         id,
         title,
         body,
@@ -140,30 +158,55 @@ class NotificationHelper {
         ),
         const NotificationDetails(
             android: AndroidNotificationDetails(
-          '1',
-          'Standard',
-          actions: <AndroidNotificationAction>[],
-        )),
+              '1',
+              'Standard',
+              actions: <AndroidNotificationAction>[],
+            )),
         androidAllowWhileIdle: true,
-        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime,
+        uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation
+            .absoluteTime,
         payload: payload,
-    );
+      );
+    }
   }
 
-  Future<bool> requestIOSPermissions(
-      FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    return await flutterLocalNotificationsPlugin
-        .resolvePlatformSpecificImplementation<
-            IOSFlutterLocalNotificationsPlugin>()
-        ?.requestPermissions(
-          alert: true,
-          badge: true,
-          sound: true,
-        );
+  void scheduleStartFirstJobReminder() async {
+    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).accountCreatedDate;
+    profileCreatedDate = profileCreatedDate.add(Duration(days: 3));
+
+    if(DateTime.now().isBefore(profileCreatedDate)) {
+      DateTime triggerDateTime = DateTime(profileCreatedDate.year, profileCreatedDate.month, profileCreatedDate.day, 9);
+      scheduleNotification(
+        START_FIRST_JOB_ID,
+        "Start your first job!",
+        "Have you booked a job recently? Track it in DandyLight to save time by staying organized! Don't forget to add poses to your job to make the shoot a breeze.",
+        "first_job_reminder",
+        triggerDateTime,
+      );
+    }
   }
 
-  static void createMileageExpenseReminder() async {
+  void scheduleFreeTrialExpiringReminder() async {
+    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).accountCreatedDate;
+    profileCreatedDate = profileCreatedDate.add(Duration(days: 7));
 
+    if(DateTime.now().isBefore(profileCreatedDate)) {
+      DateTime triggerDateTime = DateTime(profileCreatedDate.year, profileCreatedDate.month, profileCreatedDate.day, profileCreatedDate.hour, profileCreatedDate.minute);
+      List<Job> jobs = await JobDao.getAllJobs();
+      String body = "";
+      if(jobs.length == 1 && jobs.elementAt(0).clientName == "Example Client") {
+        body = "Try organizing your first job with DandyLight!";
+      } else {
+        body = "Adding poses to your jobs makes your photoshoot a breeze!  Poses are available even in those off-the-grid locations!";
+      }
+      scheduleNotification(
+        ONE_WEEK_LEFT_ID,
+        "Free Trial - 1 Week remaining",
+        body,
+        "one_week_remaining",
+        triggerDateTime,
+      );
+    }
   }
 }
 

@@ -30,6 +30,8 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
   TextEditingController controller = TextEditingController();
   Timer _throttle;
   final FocusNode _searchFocus = FocusNode();
+  LatLng latLngLocal = null;
+
   @override
   void dispose() {
     controller.dispose();
@@ -82,7 +84,9 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                           y: (MediaQuery.of(context).size.height/2).round(),
                         )
                     );
-                    pageState.onLocationChanged(latLng);
+                    setState(() {
+                      latLngLocal = latLng;
+                    });
                   },
                 ),Container(
                   alignment: Alignment.center,
@@ -106,6 +110,7 @@ class _NewLocationMapPage extends State<NewLocationMapPage> {
                     margin: EdgeInsets.only(bottom: 14.0),
                     child: GestureDetector(
                       onTap: () {
+                        pageState.onLocationChanged(latLngLocal);
                         pageState.onMapLocationSaved();
                         Navigator.of(context).pop(true);
                       },

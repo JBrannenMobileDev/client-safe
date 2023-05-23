@@ -16,18 +16,10 @@ import '../../models/Location.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/DandylightCacheManager.dart';
-import '../../utils/UserPermissionsUtil.dart';
+import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../local_db/daos/PoseDao.dart';
 
 class FileStorage {
-  static Future<bool> _requestStoragePermission() async {
-    PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.storage);
-    if(!status.isGranted) {
-      await UserPermissionsUtil.requestPermission(Permission.storage);
-    }
-    return await UserPermissionsUtil.getPermissionStatus(Permission.storage).isGranted;
-  }
-
   static saveLocationImageFile(String imagePath, Location location) async {
     await _uploadLocationImageFile(imagePath, location);
   }
@@ -45,26 +37,20 @@ class FileStorage {
   }
 
   static void deleteLocationFileImage(Location location) async {
-    if(await _requestStoragePermission()) {
-      _deleteLocationImageFileFromCloud(location);
-    }
+    _deleteLocationImageFileFromCloud(location);
   }
 
   static void deletePoseFileImage(Pose pose) async {
-    if(await _requestStoragePermission()) {
-      _deletePoseImageFileFromCloud(pose);
-    }
+    _deletePoseImageFileFromCloud(pose);
   }
 
   static void deleteFileContract(Contract contract) async {
-    if(await _requestStoragePermission()) {
-      _deleteContractFileFromCloud(contract);
-    }
+    _deleteContractFileFromCloud(contract);
   }
 
   static Future<File> getLocationImageFile(Location location) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildLocationImagePath(location));
+    final cloudFilePath = storageRef.child(location.address == "exampleJob" ? _buildExampleLocationImagePath(location) : _buildLocationImagePath(location));
     String imageUrl = null;
     try{
       imageUrl = await cloudFilePath.getDownloadURL();
@@ -331,6 +317,10 @@ class FileStorage {
           break;
       }
     });
+  }
+
+  static String _buildExampleLocationImagePath(Location location) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/exampleLocation/Screen Shot 2023-05-20 at 9.58.02 AM.png";
   }
 
   static String _buildLocationImagePath(Location location) {

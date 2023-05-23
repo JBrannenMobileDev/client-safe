@@ -20,7 +20,7 @@ class JobCompletedItem extends StatelessWidget{
       style: Styles.getButtonStyle(),
       onPressed: () {
         pageState.onJobClicked(job);
-        NavigationUtil.onJobTapped(context);
+        NavigationUtil.onJobTapped(context, false);
       },
       child: Padding(
         padding: EdgeInsets.fromLTRB(24.0, 0.0, 0.0, 16.0),

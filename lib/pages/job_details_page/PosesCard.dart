@@ -37,7 +37,7 @@ class PosesCard extends StatelessWidget {
         }
       },
       child: Container(
-        padding: EdgeInsets.only(top: 26.0),
+        padding: EdgeInsets.only(top: 0.0),
         child: Container(
           width: double.maxFinite,
           height: pageState.poseImages.length == 0 ? 216 : 184.0,

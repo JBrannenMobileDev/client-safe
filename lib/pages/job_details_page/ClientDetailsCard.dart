@@ -109,7 +109,15 @@ class ClientDetailsCard extends StatelessWidget {
                     GestureDetector(
                         onTap: () {
                           if(pageState.client.email != null && pageState.client.email.length > 0){
-                            onEmailPressed(pageState.client.email);
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+                              builder: (context) {
+                                return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_EMAIL, pageState.client.email);
+                              },
+                            );
                           }else{
                             DandyToastUtil.showErrorToast('No email saved yet');
                           }

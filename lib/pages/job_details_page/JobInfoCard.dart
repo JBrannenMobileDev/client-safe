@@ -32,7 +32,7 @@ class JobInfoCard extends StatelessWidget {
           Container(
             height: 448.0,
             width: double.maxFinite,
-            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            margin: EdgeInsets.fromLTRB(16.0, 26.0, 16.0, 0.0),
             padding: EdgeInsets.only(left: 8.0, right: 8.0),
             decoration: new BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),

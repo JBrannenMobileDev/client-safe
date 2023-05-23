@@ -14,6 +14,7 @@ final loginPageReducer = combineReducers<LoginPageState>([
   TypedReducer<LoginPageState, UpdateForgotPasswordVisibleAction>(_updateForgotPasswordVisibility),
   TypedReducer<LoginPageState, UpdateShowResendMessageAction>(_updateShowResendMessage),
   TypedReducer<LoginPageState, UpdateNavigateToHomeAction>(_updateNavigateToHome),
+  TypedReducer<LoginPageState, UpdateNavigateToOnBoardingAction>(_updateNavigateToOnBoarding),
   TypedReducer<LoginPageState, SetSignInErrorMessageAction>(_setSignInError),
   TypedReducer<LoginPageState, SetCreateAccountErrorMessageAction>(_setCreateAccountError),
   TypedReducer<LoginPageState, ClearErrorMessagesAction>(_clearErrorMessages),
@@ -148,6 +149,12 @@ LoginPageState _setCreateAccountError(LoginPageState previousState, SetCreateAcc
 LoginPageState _updateNavigateToHome(LoginPageState previousState, UpdateNavigateToHomeAction action) {
   return previousState.copyWith(
     navigateToHome: action.navigateToHome,
+  );
+}
+
+LoginPageState _updateNavigateToOnBoarding(LoginPageState previousState, UpdateNavigateToOnBoardingAction action) {
+  return previousState.copyWith(
+    shouldShowOnBoardingFlow: action.navigateToOnBoarding,
   );
 }
 

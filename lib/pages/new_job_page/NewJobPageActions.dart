@@ -11,6 +11,7 @@ import 'package:device_calendar/device_calendar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../models/JobType.dart';
+import '../../models/Profile.dart';
 import '../../models/ReminderDandyLight.dart';
 
 class UpdateErrorStateAction{
@@ -31,10 +32,21 @@ class SetInitialMapLatLng{
   SetInitialMapLatLng(this.pageState, this.lat, this.lng);
 }
 
+class SetProfileToNewJobAction {
+  final NewJobPageState pageState;
+  final Profile profile;
+  SetProfileToNewJobAction(this.pageState, this.profile);
+}
+
 class FetchNewJobDeviceEvents{
   final NewJobPageState calendarPageState;
   final DateTime month;
   FetchNewJobDeviceEvents(this.calendarPageState, this.month);
+}
+
+class UpdateProfileToOnBoardingCompleteAction {
+  final NewJobPageState pageState;
+  UpdateProfileToOnBoardingCompleteAction(this.pageState);
 }
 
 class SetClientFirstNameAction{

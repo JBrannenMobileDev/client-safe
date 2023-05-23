@@ -15,6 +15,7 @@ import 'package:dandylight/pages/main_settings_page/EditAccountPage.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPage.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
+import 'package:dandylight/pages/onboarding/OnBoardingPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
 import 'package:dandylight/pages/poses_page/PosesSearchPage.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +33,8 @@ class NavigationUtil {
   static onClientTapped(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
   }
-  static onJobTapped(BuildContext context) {
-    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage()));
+  static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));
   }
   static onCalendarSelected(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => CalendarPage()));
@@ -69,7 +70,7 @@ class NavigationUtil {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobHistoryListPage()));
   }
   static onReminderNotificationItemSelected(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage()));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: false)));
   }
   static onNotificationsSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => ReminderNotificationsPage()));
@@ -89,6 +90,16 @@ class NavigationUtil {
       PageRouteBuilder(
         transitionDuration: Duration(seconds: 0),
         pageBuilder: (context, animation1, animation2) => HomePage(),
+      ),
+    );
+  }
+
+  static void onShowOnBoarding(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      PageRouteBuilder(
+        transitionDuration: Duration(seconds: 0),
+        pageBuilder: (context, animation1, animation2) => OnBoardingPage(),
       ),
     );
   }

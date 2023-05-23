@@ -9,7 +9,7 @@ import 'package:dandylight/pages/clients_page/ClientsPageActions.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/utils/GlobalKeyUtil.dart';
 import 'package:dandylight/utils/IntentLauncherUtil.dart';
-import 'package:dandylight/utils/UserPermissionsUtil.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
@@ -103,8 +103,10 @@ class ClientDetailsPageMiddleware extends MiddlewareClass<AppState> {
       await ClientDao.delete(store.state.clientDetailsPageState.client);
     }
 
-    UserPermissionsUtil.requestPermission(Permission.contacts);
-    DeviceContactsDao.deleteContact(store.state.clientDetailsPageState.client);
+    bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.contacts)).isGranted;
+    if(isGranted) {
+      DeviceContactsDao.deleteContact(store.state.clientDetailsPageState.client);
+    }
     store.dispatch(FetchClientData(store.state.clientsPageState));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
     GlobalKeyUtil.instance.navigatorKey.currentState.pop();

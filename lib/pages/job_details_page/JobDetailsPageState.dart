@@ -21,6 +21,7 @@ import '../../models/JobType.dart';
 import '../../models/ReminderDandyLight.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../pose_group_page/GroupImage.dart';
+import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
   final Job job;
@@ -50,6 +51,15 @@ class JobDetailsPageState {
   final List<DocumentItem> documents;
   final Invoice invoice;
   final String notes;
+  final File locationImage;
+  final String weatherIcon;
+  final String tempHigh;
+  final String tempLow;
+  final String chanceOfRain;
+  final String cloudCoverage;
+  final String eveningGoldenHour;
+  final String sunset;
+  final String eveningBlueHour;
   final Function(PriceProfile) onPriceProfileSelected;
   final Function(String) onSaveUpdatedPriceProfileSelected;
   final Function(JobType) onJobTypeSelected;
@@ -85,6 +95,9 @@ class JobDetailsPageState {
   final Function(DateTime) onNewDateSelected;
   final Function(int) onDeletePoseSelected;
   final Function(String) onNotesTextChanged;
+  final Function() setOnBoardingComplete;
+  final Function() onSunsetWeatherSelected;
+  final Function(Location) onDrivingDirectionsSelected;
 
   JobDetailsPageState({
     @required this.job,
@@ -149,9 +162,26 @@ class JobDetailsPageState {
     @required this.onDeletePoseSelected,
     @required this.onNotesTextChanged,
     @required this.notes,
+    @required this.setOnBoardingComplete,
+    @required this.locationImage,
+    @required this.weatherIcon,
+    @required this.tempHigh,
+    @required this.tempLow,
+    @required this.chanceOfRain,
+    @required this.cloudCoverage,
+    @required this.eveningGoldenHour,
+    @required this.sunset,
+    @required this.eveningBlueHour,
+    @required this.onSunsetWeatherSelected,
+    @required this.onDrivingDirectionsSelected,
   });
 
   JobDetailsPageState copyWith({
+    String weatherIcon,
+    String tempHigh,
+    String tempLow,
+    String chanceOfRain,
+    String cloudCoverage,
     Job job,
     Client client,
     DateTime selectedDate,
@@ -173,6 +203,10 @@ class JobDetailsPageState {
     List<JobType> jobTypes,
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
+    File locationImage,
+    String eveningGoldenHour,
+    String sunset,
+    String eveningBlueHour,
     Function(PriceProfile) onPriceProfileSelected,
     Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
@@ -214,6 +248,9 @@ class JobDetailsPageState {
     Function(int) onDeletePoseSelected,
     Function(String) onNotesTextChanged,
     String notes,
+    Function() setOnBoardingComplete,
+    Function() onSunsetWeatherSelected,
+    Function(Location) onDrivingDirectionsSelected,
   }){
     return JobDetailsPageState(
       job: job ?? this.job,
@@ -278,6 +315,18 @@ class JobDetailsPageState {
       onDeletePoseSelected: onDeletePoseSelected ?? this.onDeletePoseSelected,
       onNotesTextChanged: onNotesTextChanged ?? this.onNotesTextChanged,
       notes: notes ?? this.notes,
+      setOnBoardingComplete: setOnBoardingComplete ?? this.setOnBoardingComplete,
+      locationImage: locationImage ?? this.locationImage,
+      weatherIcon: weatherIcon ?? this.weatherIcon,
+      tempLow: tempLow ?? this.tempLow,
+      tempHigh: tempHigh ?? this.tempHigh,
+      chanceOfRain: chanceOfRain ?? this.chanceOfRain,
+      cloudCoverage: cloudCoverage ?? this.cloudCoverage,
+      eveningGoldenHour: eveningGoldenHour ?? this.eveningGoldenHour,
+      sunset: sunset ?? this.sunset,
+      eveningBlueHour: eveningBlueHour ?? this.eveningBlueHour,
+      onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
+      onDrivingDirectionsSelected: onDrivingDirectionsSelected ?? this.onDrivingDirectionsSelected,
     );
   }
 
@@ -309,6 +358,15 @@ class JobDetailsPageState {
         jobTypes: store.state.jobDetailsPageState.jobTypes,
         poseImages: store.state.jobDetailsPageState.poseImages,
         notes: store.state.jobDetailsPageState.notes,
+        locationImage: store.state.jobDetailsPageState.locationImage,
+        weatherIcon: store.state.jobDetailsPageState.weatherIcon,
+        tempLow: store.state.jobDetailsPageState.tempLow,
+        tempHigh: store.state.jobDetailsPageState.tempHigh,
+        chanceOfRain: store.state.jobDetailsPageState.chanceOfRain,
+        cloudCoverage: store.state.jobDetailsPageState.cloudCoverage,
+        eveningGoldenHour: store.state.jobDetailsPageState.eveningGoldenHour,
+        sunset: store.state.jobDetailsPageState.sunset,
+        eveningBlueHour: store.state.jobDetailsPageState.eveningBlueHour,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -350,6 +408,9 @@ class JobDetailsPageState {
         onNotesTextChanged: (notes) {
           store.dispatch(SaveJobNotesAction(store.state.jobDetailsPageState, notes));
         },
+        setOnBoardingComplete: () => store.dispatch(SetOnBoardingCompleteAction(store.state.jobDetailsPageState)),
+        onSunsetWeatherSelected: () => store.dispatch(LoadInitialLocationAndDateComingFromNewJobAction(store.state.sunsetWeatherPageState, store.state.jobDetailsPageState.job.location, store.state.jobDetailsPageState.job.selectedDate)),
+        onDrivingDirectionsSelected: (location) => store.dispatch(DrivingDirectionsJobSelected(store.state.jobDetailsPageState, location)),
     );
   }
 
@@ -414,7 +475,20 @@ class JobDetailsPageState {
     poseImages: [],
     onDeletePoseSelected: null,
     onNotesTextChanged: null,
+    locationImage: null,
     notes: "",
+    setOnBoardingComplete: null,
+    weatherIcon: "",
+    tempLow: "",
+    tempHigh: "",
+    chanceOfRain: "",
+    cloudCoverage: "",
+    eveningGoldenHour: "",
+    sunset: "Loading...",
+    eveningBlueHour: "",
+    onSunsetWeatherSelected: null,
+    onNewDateSelected: null,
+    onDrivingDirectionsSelected: null,
   );
 
   @override
@@ -431,8 +505,14 @@ class JobDetailsPageState {
       onAddToDeposit.hashCode ^
       onSaveAddOnCost.hashCode ^
       job.hashCode ^
+      weatherIcon.hashCode ^
+      tempLow.hashCode ^
+      tempHigh.hashCode ^
+      chanceOfRain.hashCode ^
+      cloudCoverage.hashCode ^
       jobTypes.hashCode ^
       jobType.hashCode ^
+      onDrivingDirectionsSelected.hashCode ^
       documentPath.hashCode ^
       client.hashCode ^
       sunsetTime.hashCode ^
@@ -447,6 +527,7 @@ class JobDetailsPageState {
       selectedLocation.hashCode ^
       onLocationSelected.hashCode ^
       locations.hashCode ^
+      setOnBoardingComplete.hashCode ^
       expandedIndexes.hashCode ^
       newStagAnimationIndex.hashCode ^
       onStageCompleted.hashCode ^
@@ -474,6 +555,11 @@ class JobDetailsPageState {
       onDeletePoseSelected.hashCode ^
       onNotesTextChanged.hashCode ^
       notes.hashCode ^
+      locationImage.hashCode ^
+      eveningGoldenHour.hashCode ^
+      sunset.hashCode ^
+      eveningBlueHour.hashCode ^
+      onSunsetWeatherSelected.hashCode ^
       reminders.hashCode;
 
   @override
@@ -485,12 +571,17 @@ class JobDetailsPageState {
               onAddInvoiceSelected == other.onAddInvoiceSelected &&
               onSaveAddOnCost == other.onSaveAddOnCost &&
               job == other.job &&
+              eveningGoldenHour == other.eveningGoldenHour &&
+              sunset == other.sunset &&
+              eveningBlueHour == other.eveningBlueHour &&
               jobTypes == other.jobTypes &&
               selectedDate == other.selectedDate &&
               deviceEvents == other.deviceEvents &&
               unsavedTipAmount == other.unsavedTipAmount &&
               onAddToTip == other.onAddToTip &&
               jobType == other.jobType &&
+              onSunsetWeatherSelected == other.onSunsetWeatherSelected &&
+              setOnBoardingComplete == other.setOnBoardingComplete &&
               onSaveTipChange == other.onSaveTipChange &&
               onClearUnsavedTip == other.onClearUnsavedTip &&
               documentPath == other.documentPath &&
@@ -511,6 +602,7 @@ class JobDetailsPageState {
               newStagAnimationIndex == other.newStagAnimationIndex &&
               onStageCompleted == other.onStageCompleted &&
               onStageUndo == other.onStageUndo &&
+              onDrivingDirectionsSelected == other.onDrivingDirectionsSelected &&
               addExpandedIndex == other.addExpandedIndex &&
               removeExpandedIndex ==other.removeExpandedIndex &&
               onDeleteSelected == other.onDeleteSelected &&
@@ -532,6 +624,12 @@ class JobDetailsPageState {
               poseImages == other.poseImages &&
               onDeletePoseSelected == other.onDeletePoseSelected &&
               onNotesTextChanged == other.onNotesTextChanged &&
+              locationImage == other.locationImage &&
               notes == other.notes &&
+              weatherIcon == other.weatherIcon &&
+              tempLow == other.tempLow &&
+              tempHigh == other.tempHigh &&
+              chanceOfRain == other.chanceOfRain &&
+              cloudCoverage == other.cloudCoverage &&
               onClearUnsavedDeposit == other.onClearUnsavedDeposit;
 }
