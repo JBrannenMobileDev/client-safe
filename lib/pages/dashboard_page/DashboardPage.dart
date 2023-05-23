@@ -211,10 +211,18 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           List<JobReminder> allReminders = await JobReminderDao.getAll();
           final notificationHelper = NotificationHelper();
           notificationHelper.setTapBackgroundMethod(notificationTapBackground);
-          await notificationHelper.initNotifications();
-          if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
-            if(allReminders.length > 0) {
-              NotificationHelper().createAndUpdatePendingNotifications();
+
+          //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
+          PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.notification);
+          if(!status.isPermanentlyDenied) {
+            bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context));
+            if(isGranted) {
+              await notificationHelper.initNotifications();
+              if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
+                if(allReminders.length > 0) {
+                  NotificationHelper().createAndUpdatePendingNotifications();
+                }
+              }
             }
           }
 
@@ -246,8 +254,8 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
             }
           }
 
-          bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
-          if(isGranted && !store.state.dashboardPageState.profile.calendarEnabled) {
+          bool isCalendarGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
+          if(isCalendarGranted && !store.state.dashboardPageState.profile.calendarEnabled) {
             Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
             profile.calendarEnabled = true;
             ProfileDao.update(profile);

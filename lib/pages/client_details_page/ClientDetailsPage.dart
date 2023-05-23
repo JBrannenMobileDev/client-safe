@@ -298,7 +298,7 @@ void onEmailPressed(String email, BuildContext context){
     backgroundColor: Colors.transparent,
     barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
     builder: (context) {
-      return SelectSavedResponseBottomSheet(SelectSavedResponseBottomSheet.TYPE_EMAIL, email);
+      return SendMessageOptionsBottomSheet(SelectSavedResponseBottomSheet.TYPE_EMAIL, email);
     },
   );
 }

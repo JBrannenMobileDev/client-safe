@@ -182,7 +182,22 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
                                 },
                               ),
                             ),
-                            (!comingFromOnBoarding) ? pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3 ? GestureDetector(
+                            comingFromOnBoarding && pageState.pageViewIndex == 0 ? GestureDetector(
+                              onTap: () {
+                                pageState.onSkipSelected();
+                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_SKIPPED);
+                                NavigationUtil.onSuccessfulLogin(context);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 16),
+                                child: TextDandyLight(
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'SKIP',
+                                  textAlign: TextAlign.start,
+                                  color: Color(ColorConstants.getPeachDark()),
+                                ),
+                              ),
+                            ) : (pageState.pageViewIndex == 1 || pageState.pageViewIndex == 2 || pageState.pageViewIndex == 3) ? GestureDetector(
                               onTap: () async {
                                 if(pageState.pageViewIndex == 1) UserOptionsUtil.showNewJobTypePage(context, null);
                                 if(pageState.pageViewIndex == 2) UserOptionsUtil.showNewPriceProfileDialog(context);
@@ -201,22 +216,7 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
                             ) : SizedBox(
                               height: 28.0,
                               width: 52.0,
-                            ) : pageState.pageViewIndex == 0 ? GestureDetector(
-                              onTap: () {
-                                pageState.onSkipSelected();
-                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_SKIPPED);
-                                NavigationUtil.onSuccessfulLogin(context);
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(right: 16),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.MEDIUM_TEXT,
-                                  text: 'SKIP',
-                                  textAlign: TextAlign.start,
-                                  color: Color(ColorConstants.getPeachDark()),
-                                ),
-                              ),
-                            ) : SizedBox(),
+                            ),
                           ],
                         ),
                       ],
@@ -350,10 +350,15 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
     }
   }
 
-  void onFlareCompleted(String unused, ) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
-    NavigationUtil.onJobTapped(context, false);
+  void onFlareCompleted(String unused) {
+    if(comingFromOnBoarding) {
+      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_SKIPPED);
+      NavigationUtil.onSuccessfulLogin(context);
+    } else {
+      Navigator.of(context).pop(true);
+      Navigator.of(context).pop(true);
+      NavigationUtil.onJobTapped(context, false);
+    }
   }
 
   void onBackPressed(NewJobPageState pageState) {

@@ -374,7 +374,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                           pinned: false,
                           floating: false,
                           forceElevated: false,
-                          expandedHeight: 300.0,
+                          expandedHeight: 305.0,
                           actions: <Widget>[
                             new IconButton(
                               icon: ImageIcon(ImageUtil.getTrashIconWhite()),

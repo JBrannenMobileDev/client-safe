@@ -667,7 +667,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
             child:Container(
                 height: MediaQuery.of(context).size.height,
                       alignment: Alignment.bottomCenter,
-                      margin: EdgeInsets.only(bottom: 342.0),
+                      margin: EdgeInsets.only(bottom: 416.0),
                       child: ScaleTransition(
                         scale: Tween(begin: 0.0, end: 1.0).animate(
                           CurvedAnimation(

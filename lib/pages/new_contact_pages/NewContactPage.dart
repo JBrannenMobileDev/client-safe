@@ -232,7 +232,7 @@ class _NewContactPageState extends State<NewContactPage> {
     return 256.0;
   }
 
-  void onNextPressed(NewContactPageState pageState) {
+  void onNextPressed(NewContactPageState pageState) async {
     bool canProgress = false;
     if (pageState.pageViewIndex != pageCount) {
       switch (pageState.pageViewIndex) {
@@ -282,6 +282,7 @@ class _NewContactPageState extends State<NewContactPage> {
       }
     }
     if (pageState.pageViewIndex == pageCount) {
+      await UserPermissionsUtil.showPermissionRequest(permission: Permission.contacts, context: context);
       showSuccessAnimation();
       pageState.onSavePressed();
     }

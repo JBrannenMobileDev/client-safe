@@ -40,7 +40,7 @@ class JobDetailsLocationListWidget extends StatelessWidget {
                 )
                     : SizedBox(),
               ),
-              pageState.selectedLocation.documentId != pageState.locations.elementAt(locationIndex).documentId
+              pageState.selectedLocation == null || pageState.selectedLocation.documentId != pageState.locations.elementAt(locationIndex).documentId
                   ? Container(
                       height: _getItemWidthHeight(context) - (_getItemWidthHeight(context) * 0.33),
                       margin:

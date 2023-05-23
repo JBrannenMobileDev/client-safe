@@ -3,11 +3,13 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/new_location_page/NewLocationPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../../widgets/TextDandyLight.dart';
 
@@ -50,8 +52,11 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 GestureDetector(
-                  onTap: () {
-                    getCameraImage(pageState);
+                  onTap: () async {
+                    bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.camera, context: context, callOnGranted: null));
+                    if(isGranted) {
+                      getCameraImage(pageState);
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(24.0),
@@ -66,8 +71,11 @@ class _NewLocationImage extends State<NewLocationImage> with AutomaticKeepAliveC
 
                 ),
                 GestureDetector(
-                  onTap: () {
-                    getDeviceImage(pageState);
+                  onTap: () async {
+                    bool isGranted = await UserPermissionsUtil.showPermissionRequest(permission: Permission.photos, context: context, callOnGranted: null);
+                    if(isGranted) {
+                      getDeviceImage(pageState);
+                    }
                   },
                   child: Container(
                     padding: EdgeInsets.all(24.0),

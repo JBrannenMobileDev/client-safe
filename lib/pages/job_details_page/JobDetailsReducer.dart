@@ -312,9 +312,7 @@ JobDetailsPageState _updateJobType(JobDetailsPageState previousState, UpdateSele
 }
 
 JobDetailsPageState _setSelectedLocation(JobDetailsPageState previousState, SetNewSelectedLocation action) {
-  Location newLocation;
-  if(previousState.selectedLocation != action.location) newLocation = action.location;
-  return previousState.copyWith(selectedLocation: newLocation);
+  return previousState.copyWith(selectedLocation: action.location);
 }
 
 JobDetailsPageState _setEventMap(JobDetailsPageState previousState, SetEventMapAction action) {

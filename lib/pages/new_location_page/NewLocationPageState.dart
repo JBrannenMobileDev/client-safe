@@ -20,6 +20,7 @@ class NewLocationPageState{
   final double newLocationLatitude;
   final double newLocationLongitude;
   final String imagePath;
+  final LatLng selectedLatLng;
   final List<Location> locations;
   final Function(LatLng) onLocationChanged;
   final Function() onSaveLocationSelected;
@@ -69,6 +70,7 @@ class NewLocationPageState{
     @required this.onSearchLocationSelected,
     @required this.currentMapLatLng,
     @required this.onMapLocationSaved,
+    @required this.selectedLatLng,
   });
 
   NewLocationPageState copyWith({
@@ -84,6 +86,7 @@ class NewLocationPageState{
     String imagePath,
     String documentFilePath,
     List<Location> locations,
+    LatLng selectedLatLng,
     Function(int) onLocationChanged,
     Function() onDeleteLocationSelected,
     Function(Location) onSaveLocationSelected,
@@ -133,6 +136,7 @@ class NewLocationPageState{
       onSearchLocationSelected: onSearchLocationSelected ?? this.onSearchLocationSelected,
       currentMapLatLng: currentMapLatLng ?? this.currentMapLatLng,
       onMapLocationChanged: onMapLocationChanged ?? this.onMapLocationChanged,
+      selectedLatLng: selectedLatLng ?? this.selectedLatLng,
     );
   }
 
@@ -166,6 +170,7 @@ class NewLocationPageState{
     onSearchInputChanged: null,
     onSearchLocationSelected: null,
     currentMapLatLng: null,
+    selectedLatLng: null,
   );
 
   factory NewLocationPageState.fromStore(Store<AppState> store) {
@@ -186,6 +191,7 @@ class NewLocationPageState{
       locationsResults: store.state.newLocationPageState.locationsResults,
       currentMapLatLng: store.state.newLocationPageState.currentMapLatLng,
       documentId: store.state.newLocationPageState.documentId,
+      selectedLatLng: store.state.newLocationPageState.selectedLatLng,
       onLocationChanged: (latLng) => store.dispatch(UpdateLocation(store.state.newLocationPageState, latLng)),
       onSaveLocationSelected: () => store.dispatch(SaveLocationAction(store.state.newLocationPageState)),
       onCanceledSelected: () => store.dispatch(ClearStateAction(store.state.newLocationPageState)),
@@ -220,6 +226,7 @@ class NewLocationPageState{
       shouldClear.hashCode ^
       locationName.hashCode ^
       pageViewIndex.hashCode ^
+      selectedLatLng.hashCode ^
       newLocationAddress.hashCode ^
       newLocationLatitude.hashCode ^
       newLocationLongitude.hashCode ^
@@ -250,6 +257,7 @@ class NewLocationPageState{
               saveImagePath == other.saveImagePath &&
               currentMapLatLng == other.currentMapLatLng &&
               shouldClear == other.shouldClear &&
+              selectedLatLng == other.selectedLatLng &&
               locationName == other.locationName &&
               pageViewIndex == other.pageViewIndex &&
               newLocationAddress == other.newLocationAddress &&

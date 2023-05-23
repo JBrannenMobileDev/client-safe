@@ -173,7 +173,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
     if(permission == Permission.contacts) {
       return "Contacts Permission";
     }
-    if(permission == Permission.mediaLibrary) {
+    if(permission == Permission.photos) {
       return "Photos Permission";
     }
     if(permission == Permission.storage) {
@@ -198,7 +198,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
     if(permission == Permission.contacts) {
       return "assets/images/icons/contacts_icon.png";
     }
-    if(permission == Permission.mediaLibrary) {
+    if(permission == Permission.photos) {
       return "assets/images/icons/image_icon_white.png";
     }
     if(permission == Permission.storage) {
@@ -223,7 +223,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
     if(permission == Permission.contacts) {
       return "Contacts permission is required to be able to import your contacts into DandyLight";
     }
-    if(permission == Permission.mediaLibrary) {
+    if(permission == Permission.photos) {
       return "Photos permission is required for uploading your images.";
     }
     if(permission == Permission.storage) {
@@ -248,7 +248,7 @@ class _PermissionDialogState extends State<PermissionDialog> with AutomaticKeepA
     if(permission == Permission.contacts) {
       return "Contacts permission was previously denied. To enable this permission please go to your device settings.";
     }
-    if(permission == Permission.mediaLibrary) {
+    if(permission == Permission.photos) {
       return "Photos permission was previously denied. To enable this permission please go to your device settings.";
     }
     if(permission == Permission.storage) {

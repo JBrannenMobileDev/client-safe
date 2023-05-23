@@ -9,6 +9,7 @@ import 'package:dandylight/data_layer/firebase/collections/UserCollection.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
+import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
@@ -35,6 +36,7 @@ import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/local_db/daos/ClientDao.dart';
 import '../../data_layer/local_db/daos/JobDao.dart';
 import '../../data_layer/local_db/daos/JobTypeDao.dart';
+import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../data_layer/local_db/daos/PriceProfileDao.dart';
 import '../../data_layer/local_db/daos/ReminderDao.dart';
@@ -43,6 +45,7 @@ import '../../models/Job.dart';
 import '../../models/JobStage.dart';
 import '../../models/JobType.dart';
 import '../../models/Location.dart';
+import '../../models/Pose.dart';
 import '../../models/PriceProfile.dart';
 import '../../models/Response.dart';
 import '../../utils/AppleSignInAvailable.dart';
@@ -458,8 +461,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         clientName: (await ClientDao.getAll()).first.getClientFullName(),
         jobTitle: (await ClientDao.getAll()).first.firstName + ' - Example Job',
         selectedDate: DateTime.now().add(Duration(days: 3)),
-        selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 10, 30),
-        selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 20, 00),
+        selectedTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 18, 45),
+        selectedEndTime: DateTime(currentTime.year, currentTime.month, currentTime.day, 19, 45),
         type: (await JobTypeDao.getAll()).first,
         stage: JobStage.exampleJobStages().elementAt(1),
         completedStages: [JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED)],
@@ -471,6 +474,9 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       await JobDao.insertOrUpdate(jobToSave);
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
+      PoseLibraryGroup libraryGroup = (await PoseLibraryGroupDao.getAllSortedMostFrequent()).first;
+      List<Pose> posesToAdd = libraryGroup.poses.sublist(0, 7);
+      await _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
 
       if(signInType == EMAIL) {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
@@ -490,6 +496,11 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         });
       }
     }
+  }
+
+  void _saveSelectedPoseToJob(Store<AppState> store, Job job, List<Pose> poses) async {
+    job.poses.addAll(poses);
+    await JobDao.update(job);
   }
 
   void _createAccount(Store<AppState> store, CreateAccountAction action, next) async {

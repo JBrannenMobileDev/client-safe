@@ -26,38 +26,12 @@ class NewLocationMapViewPage extends StatefulWidget {
   }
 }
 
-class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with AutomaticKeepAliveClientMixin, WidgetsBindingObserver {
+class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with AutomaticKeepAliveClientMixin{
   final locationNameTextController = TextEditingController();
   final Completer<GoogleMapController> _controller = Completer();
   bool showMapIcon;
 
   _NewLocationMapViewPage(this.showMapIcon);
-
-  @override
-  void initState() {
-    WidgetsBinding.instance?.addObserver(this);
-    super.initState();
-  }
-
-
-  @override
-  void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
-    super.dispose();
-  }
-
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
-      UserPermissionsUtil.showPermissionRequest(
-        permission: Permission.locationWhenInUse,
-        context: context,
-        customMessage: "Location permission is required to select a pin for this location.",
-        callOnGranted: callOnGranted,
-      );
-    }
-  }
 
   Future<void> animateTo(double lat, double lng) async {
     final c = await _controller.future;
@@ -100,7 +74,16 @@ class _NewLocationMapViewPage extends State<NewLocationMapViewPage> with Automat
                   callOnGranted: callOnGranted,
                 );
               },
-              child: Container(
+              child: pageState.selectedLatLng == null ? Container(
+                padding: EdgeInsets.all(24),
+                height: 116.0,
+                width: 116.0,
+                decoration: BoxDecoration(
+                  color: Color(ColorConstants.getBlueDark()),
+                  shape: BoxShape.circle,
+                ),
+                child: Image.asset('assets/images/icons/location_icon_black.png', color: Color(ColorConstants.getPrimaryWhite())),
+              ) : Container(
                 height: 116.0,
                 width: 116.0,
                 decoration: BoxDecoration(

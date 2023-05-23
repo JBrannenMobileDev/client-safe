@@ -342,6 +342,10 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     await JobDao.insertOrUpdate(jobToSave);
     store.dispatch(SaveUpdatedJobAction(store.state.jobDetailsPageState, jobToSave));
     store.dispatch(LoadJobsAction(store.state.dashboardPageState));
+    store.dispatch(SetNewSelectedLocation(store.state.jobDetailsPageState, action.location));
+    if(action.location != null) {
+      store.dispatch(SetLocationImageAction(store.state.jobDetailsPageState, await FileStorage.getLocationImageFile(action.location)));
+    }
     fetchSunsetWeatherForSelectedDate(store, next, jobToSave);
   }
 
@@ -402,10 +406,15 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
 
     if(jobToSave.selectedDate != null && (jobToSave.selectedEndTime != null || jobToSave.selectedTime != null)){
       List<JobReminder> jobReminders = await JobReminderDao.getRemindersByJobId(action.pageState.job.documentId);
-      JobReminder reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID);
+      JobReminder reminderToUpdate = null;
+      if(jobReminders.isNotEmpty) {
+        reminderToUpdate = await jobReminders.firstWhere((reminder) => reminder.payload == JobReminder.MILEAGE_EXPENSE_ID);
+      }
 
-      reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2));
-      JobReminderDao.update(reminderToUpdate);
+      if(reminderToUpdate != null) {
+        reminderToUpdate.reminder.time = jobToSave.selectedEndTime != null ? jobToSave.selectedEndTime.add(Duration(hours: 1)) : jobToSave.selectedTime.add(Duration(hours: 2));
+        JobReminderDao.update(reminderToUpdate);
+      }
     }
 
     await JobDao.insertOrUpdate(jobToSave);

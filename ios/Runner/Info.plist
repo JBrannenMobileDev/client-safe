@@ -35,7 +35,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>Camera will be used to take a picture of this location.</string>
 	<key>NSContactsUsageDescription</key>
-	<string>Contacts will be used for loading device contacts to DandyLight</string>
+	<string>Contacts permission is needed to import device contacts and sync DandyLight contacts with your device.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Location will be used for sunset, weather and location features of the app.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
