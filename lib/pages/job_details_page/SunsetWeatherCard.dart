@@ -1,21 +1,12 @@
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
-import 'package:dandylight/widgets/DandyLightTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../AppState.dart';
-import '../../utils/UserOptionsUtil.dart';
-import '../../utils/VibrateUtil.dart';
-import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../new_contact_pages/NewContactPageState.dart';
 import '../sunset_weather_page/SunsetWeatherPage.dart';
 import 'JobDetailsPageState.dart';
 
@@ -48,8 +39,8 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
             },
             behavior: HitTestBehavior.opaque,
             child: Container(
-              margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
-              height: 250,
+              margin: EdgeInsets.only(left: 16, top: 26, right: 16),
+              height: 254,
               decoration: BoxDecoration(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 borderRadius: BorderRadius.circular(16.0),
@@ -182,15 +173,16 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(top: 124, left: 16, right: 0),
+                    padding: EdgeInsets.only(top: 144, left: 16, right: 0, bottom: 8),
                     child: pageState.selectedLocation != null && pageState.selectedDate != null ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Container(
-                              margin: EdgeInsets.only(right: 16),
-                              height: 64,
+                              margin: EdgeInsets.only(right: 16, top: 11),
+                              height: 82,
                               width: 64,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16),
@@ -211,6 +203,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                               children: <Widget>[
                                 Container(
                                   width: 220,
+                                  height: 32,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -238,6 +231,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                 ),
                                 Container(
                                   width: 220,
+                                  height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     mainAxisSize: MainAxisSize.max,
@@ -265,6 +259,7 @@ class _SunsetWeatherCard extends State<SunsetWeatherCard> {
                                 ),
                                 Container(
                                   width: 220,
+                                  height: 32,
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     mainAxisSize: MainAxisSize.max,

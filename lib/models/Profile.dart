@@ -22,6 +22,7 @@ class Profile{
   double latDefaultHome;
   double lngDefaultHome;
   double salesTaxRate;
+  int jobsCreatedCount;
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
@@ -34,6 +35,7 @@ class Profile{
   bool usesSalesTax = false;
   bool isFreeForLife = false;
   bool onBoardingComplete = false;
+  bool isSubscribed;
   DateTime accountCreatedDate;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
@@ -109,6 +111,8 @@ class Profile{
     this.isFreeForLife,
     this.instagramUrl,
     this.onBoardingComplete,
+    this.isSubscribed,
+    this.jobsCreatedCount,
   });
 
   Profile copyWith({
@@ -142,6 +146,8 @@ class Profile{
     bool usesSalesTax,
     bool isFreeForLife,
     bool onBoardingComplete,
+    bool isSubscribed,
+    int jobsCreatedCount,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -181,6 +187,7 @@ class Profile{
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
       calendarEnabled: calendarEnabled ?? this.calendarEnabled,
       lastSignIn: lastSignIn ?? this.lastSignIn,
+      jobsCreatedCount: jobsCreatedCount ?? this.jobsCreatedCount,
       clientsLastChangeDate:  clientsLastChangeDate ?? this.clientsLastChangeDate,
       invoicesLastChangeDate: invoicesLastChangeDate ?? this.invoicesLastChangeDate,
       jobsLastChangeDate: jobsLastChangeDate ?? this.jobsLastChangeDate,
@@ -218,6 +225,7 @@ class Profile{
       discountCodesLastChangedTime: discountCodesLastChangedTime ?? this.discountCodesLastChangedTime,
       isFreeForLife: isFreeForLife ?? this.isFreeForLife,
       onBoardingComplete: onBoardingComplete ?? this.onBoardingComplete,
+      isSubscribed: isSubscribed ?? this.isSubscribed,
     );
   }
 
@@ -252,6 +260,8 @@ class Profile{
       'isFreeForLife' : isFreeForLife ?? false,
       'onBoardingComplete' : onBoardingComplete ?? false,
       'usesSalesTax' : usesSalesTax ?? false,
+      'isSubscribed' : isSubscribed ?? false,
+      'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
       'clientsLastChangeDate' : clientsLastChangeDate?.millisecondsSinceEpoch ?? null,
@@ -301,6 +311,7 @@ class Profile{
       calendarEnabled: map['calendarEnabled'],
       salesTaxRate: map['salesTaxRate'],
       instagramUrl: map['instagramUrl'],
+      jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
       hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
       isBetaTester: map['isBetaTester'] != null ? map['isBetaTester'] : false,
@@ -309,6 +320,7 @@ class Profile{
       onBoardingComplete: map['onBoardingComplete'] != null ? map['onBoardingComplete'] : false,
       shouldShowRestoreSubscription: map['shouldShowRestoreSubscription'] != null ? map['shouldShowRestoreSubscription'] : false,
       showNewMileageExpensePage: map['showNewMileageExpensePage'],
+      isSubscribed: map['isSubscribed'] != null ? map['isSubscribed'] : false,
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
@@ -359,10 +371,5 @@ class Profile{
     if(deviceTokens == null) deviceTokens = [];
     deviceTokens = deviceTokens.toList();
     return deviceTokens.length <= 1;
-  }
-
-  bool isFreeTrialExpired() {
-    DateTime expirationDate = accountCreatedDate.add(Duration(days: 14));
-    return AdminCheckUtil.isAdmin(this) ? false : DateTime.now().isAfter(expirationDate);
   }
 }

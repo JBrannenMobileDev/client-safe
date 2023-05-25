@@ -8,6 +8,7 @@ class LeadSource{
   static const String TYPE_TWITTER = "Twitter";
   static const String TYPE_WORD_OF_MOUTH = "Word of mouth";
   static const String TYPE_WEB_SEARCH = "Web search";
+  static const String TYPE_APP_STORE = "App store";
   static const String TYPE_OTHER = "Other";
   static const String TYPE_SKIP = "Skip";
 

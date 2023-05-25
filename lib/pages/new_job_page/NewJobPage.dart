@@ -185,7 +185,9 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
                             comingFromOnBoarding && pageState.pageViewIndex == 0 ? GestureDetector(
                               onTap: () {
                                 pageState.onSkipSelected();
-                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_SKIPPED);
+                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETED, properties: {
+                                  EventNames.ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_SKIPPED : 'Add first job skipped',
+                                });
                                 NavigationUtil.onSuccessfulLogin(context);
                               },
                               child: Container(
@@ -330,7 +332,9 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
       await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
       pageState.onSavePressed();
       if(comingFromOnBoarding) {
-        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_COMPLETED);
+        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETED, properties: {
+          EventNames.ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_COMPLETED : 'Add first job completed',
+        });
       }
       showDialog(
         context: context,
@@ -352,7 +356,9 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
 
   void onFlareCompleted(String unused) {
     if(comingFromOnBoarding) {
-      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_ADD_FIRST_JOB_SKIPPED);
+      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETED, properties: {
+        EventNames.ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_SKIPPED : 'Add first job skipped',
+      });
       NavigationUtil.onSuccessfulLogin(context);
     } else {
       Navigator.of(context).pop(true);

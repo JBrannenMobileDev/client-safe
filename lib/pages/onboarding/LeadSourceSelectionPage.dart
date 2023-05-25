@@ -1,13 +1,11 @@
 import 'package:dandylight/pages/onboarding/OnBoardingPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../AppState.dart';
 import '../../models/LeadSource.dart';
-import '../../utils/analytics/EventNames.dart';
 import '../../widgets/TextDandyLight.dart';
 
 class LeadSourceSelectionPage extends StatefulWidget {
@@ -29,6 +27,7 @@ class _LeadSourceSelectionPage extends State<LeadSourceSelectionPage> {
     LeadSource.TYPE_FACEBOOK,
     LeadSource.TYPE_TIKTOK,
     LeadSource.TYPE_YOUTUBE,
+    LeadSource.TYPE_APP_STORE,
     LeadSource.TYPE_WEB_SEARCH,
     LeadSource.TYPE_TWITTER,
     LeadSource.TYPE_OTHER,

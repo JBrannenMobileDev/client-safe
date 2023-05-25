@@ -23,7 +23,6 @@ import 'EnterDiscountCodeBottomSheet.dart';
 import 'ManageSubscriptionPageActions.dart';
 
 class ManageSubscriptionPage extends StatefulWidget {
-  static const String FREE_TRIAL_ENDED = "free_trial_ended";
   static const String SUBSCRIPTION_EXPIRED = "subscription_expired";
   static const String FREE_TRIAL = "free_trial";
   static const String SUBSCRIBED = "subscribed";
@@ -145,7 +144,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !pageState.profile.isFreeForLife && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL && pageState.uiState != ManageSubscriptionPage.FREE_TRIAL_ENDED) ? Container(
+                            !pageState.profile.isFreeForLife && (pageState.uiState != ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: EdgeInsets.only(top: 178.0),
                                 child: TextDandyLight(
                                     text: _getMessageText(pageState.uiState),
@@ -154,7 +153,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL || pageState.uiState == ManageSubscriptionPage.FREE_TRIAL_ENDED) ? Container(
+                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.FREE_TRIAL) ? Container(
                                 margin: EdgeInsets.only(top: 164.0),
                                 child: TextDandyLight(
                                     text: pageState.remainingTimeMessage,
@@ -396,7 +395,6 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                               break;
                                             case ManageSubscriptionPage.FREE_TRIAL:
                                             case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:
-                                            case ManageSubscriptionPage.FREE_TRIAL_ENDED:
                                               pageState.onSubscribeSelected();
                                               break;
                                           }
@@ -474,7 +472,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         padding: EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
-                                            text: 'Mileage & expense tracking',
+                                            text: 'Unlimited Mileage & expense tracking',
                                             textAlign: TextAlign.start,
                                             maxLines: 2,
                                             color: Color(ColorConstants.getBlueDark()),
@@ -554,7 +552,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         padding: EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                           type: TextDandyLight.MEDIUM_TEXT,
-                                          text: 'Custom reminders',
+                                          text: 'Unlimited Custom reminders',
                                           textAlign: TextAlign.start,
                                           maxLines: 2,
                                           color: Color(ColorConstants.getBlueDark()),
@@ -688,17 +686,10 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
         message = 'Capture the moment\n We\'ll do the rest';
         break;
       case ManageSubscriptionPage.SUBSCRIPTION_EXPIRED:
-        message = 'Your subscription has expired. Please resubscribe to regain access to your account.';
-        break;
-      case ManageSubscriptionPage.FREE_TRIAL_ENDED:
-        message = 'Your free trial has ended. Please select a subscription option to continue using DandyLight.';
+        message = 'Your subscription has expired. Please resubscribe to regain unlimited access to your account.';
         break;
     }
     return message;
-  }
-
-  _onCodeChanged(String responseMessage) {
-    // response.message = responseMessage;
   }
 
   void onCodeAction(){

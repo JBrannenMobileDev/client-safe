@@ -19,13 +19,27 @@ OnBoardingPageState _setHasJobAnswer(OnBoardingPageState previousState, SetHasJo
 
 OnBoardingPageState _setPagerIndex(OnBoardingPageState previousState, SetPagerIndexAction action){
   if(previousState.pagerIndex == 0 && action.index == 1) {
-    if(action.pageState.jobTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED_JOB_TRACKING);
-    if(action.pageState.incomeExpensesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED_INCOME_EXPENSES);
-    if(action.pageState.posesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED_POSES);
-    if(action.pageState.invoicesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED_INVOICES);
-    if(action.pageState.mileageTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED_MILEAGE_TRACKING);
-    if(action.pageState.analyticsSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED_BUSINESS_ANALYTICS);
-    if(action.pageState.otherSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED_OTHER);
+    if(action.pageState.jobTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
+      EventNames.ON_BOARDING_FEATURE_SELECTED_JOB_TRACKING : 'Job Tracking',
+    });
+    if(action.pageState.incomeExpensesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
+      EventNames.ON_BOARDING_FEATURE_SELECTED_INCOME_EXPENSES : 'Income & Expenses',
+    });
+    if(action.pageState.posesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
+      EventNames.ON_BOARDING_FEATURE_SELECTED_POSES : 'Poses',
+    });
+    if(action.pageState.invoicesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
+      EventNames.ON_BOARDING_FEATURE_SELECTED_INVOICES : 'Invoices',
+    });
+    if(action.pageState.mileageTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
+      EventNames.ON_BOARDING_FEATURE_SELECTED_MILEAGE_TRACKING : 'Mileage Tracking',
+    });
+    if(action.pageState.analyticsSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
+      EventNames.ON_BOARDING_FEATURE_SELECTED_BUSINESS_ANALYTICS : 'Business Analytics',
+    });
+    if(action.pageState.otherSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
+      EventNames.ON_BOARDING_FEATURE_SELECTED_OTHER : 'Other',
+    });
   }
   return previousState.copyWith(
       pagerIndex: action.index,

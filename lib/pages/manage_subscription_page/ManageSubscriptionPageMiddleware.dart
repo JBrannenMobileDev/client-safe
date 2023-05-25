@@ -90,13 +90,7 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
         await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED);
       }
     } else {
-      bool freeTrialExpired = action.profile.isFreeTrialExpired();
-      if(freeTrialExpired) {
-        store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.FREE_TRIAL_ENDED));
-        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL_ENDED);
-      } else {
-        await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
-      }
+      await EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
     }
 
     store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, false));
@@ -125,7 +119,6 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
           EventSender().sendEvent(eventName: EventNames.USER_SUBSCRIBED, properties: {
             EventNames.SUBSCRIPTION_PARAM_NAME : action.pageState.selectedSubscription,
           });
-        }
       }
     } on PlatformException catch (e) {
       var errorCode = PurchasesErrorHelper.getErrorCode(e);

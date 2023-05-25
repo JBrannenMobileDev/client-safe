@@ -308,13 +308,19 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
       UidUtil().setUid(user.uid);
       switch(signInType) {
         case EMAIL:
-          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS);
+          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS, properties: {
+            EventNames.API_CREATE_ACCOUNT_SUCCESS_EMAIL_SIGN_UP : signInType,
+          });
           break;
         case APPLE:
-          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS_APPLE_SIGN_UP);
+          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS, properties: {
+            EventNames.API_CREATE_ACCOUNT_SUCCESS_APPLE_SIGN_UP : signInType,
+          });
           break;
         case GOOGLE:
-          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS_GOOGLE_SIGN_UP);
+          await EventSender().sendEvent(eventName: EventNames.API_CREATE_ACCOUNT_SUCCESS, properties: {
+            EventNames.API_CREATE_ACCOUNT_SUCCESS_GOOGLE_SIGN_UP : signInType,
+          });
           break;
       }
       await EventSender().setUserIdentity(user.uid);

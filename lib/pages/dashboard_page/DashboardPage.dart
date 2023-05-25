@@ -82,7 +82,6 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   ScrollController _scrollController;
   bool dialVisible = true;
   bool isFabExpanded = false;
-  bool hasNavigatedToSubscriptionPage = false;
   bool comingFromLogin;
   bool goToHasBeenSeen = false;
 
@@ -213,15 +212,13 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           notificationHelper.setTapBackgroundMethod(notificationTapBackground);
 
           //If permanently denied we do not want to bug the user every time they log in.  We will prompt every time they start a job instead. Also they can change the permission from the app settings.
-          PermissionStatus status = await UserPermissionsUtil.getPermissionStatus(Permission.notification);
-          if(!status.isPermanentlyDenied) {
-            bool isGranted = (await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context));
-            if(isGranted) {
-              await notificationHelper.initNotifications();
-              if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
-                if(allReminders.length > 0) {
-                  NotificationHelper().createAndUpdatePendingNotifications();
-                }
+
+          bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.notification)).isGranted;
+          if(isGranted) {
+            await notificationHelper.initNotifications();
+            if(allJobs.length > 1 || allJobs.elementAt(0).clientName != "Example Client") {
+              if(allReminders.length > 0) {
+                NotificationHelper().createAndUpdatePendingNotifications();
               }
             }
           }
@@ -233,16 +230,20 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'] != null) {
                 if(store.state.dashboardPageState.subscriptionState.entitlements.all['standard'].isActive) {
                   restoreMessage = ManageSubscriptionPage.SUBSCRIBED;
+                  store.state.dashboardPageState.profile.isSubscribed = true;
+                  ProfileDao.update(store.state.dashboardPageState.profile);
+                  EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
                 } else {
+                  store.state.dashboardPageState.profile.isSubscribed = false;
+                  ProfileDao.update(store.state.dashboardPageState.profile);
+                  EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIPTION_EXPIRED);
                   //Subscription expired - do nothing
                 }
               } else {
-                bool freeTrialExpired = store.state.dashboardPageState.profile.isFreeTrialExpired();
-                if(freeTrialExpired) {
-                  //Free trial ended - do nothing
-                } else {
-                  restoreMessage = ManageSubscriptionPage.FREE_TRIAL;
-                }
+                store.state.dashboardPageState.profile.isSubscribed = false;
+                ProfileDao.update(store.state.dashboardPageState.profile);
+                restoreMessage = ManageSubscriptionPage.FREE_TRIAL;
+                EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.FREE_TRIAL);
               }
             }
 
@@ -269,42 +270,12 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
             });
             current.onGoToSeen();
           }
-          if(previous.subscriptionState == null && current.subscriptionState != null) {
-            print("previous " + previous.subscriptionState.toString());
-            print("current " + current.subscriptionState.toString());
-            if(current.subscriptionState.entitlements.all['standard'] != null) {
-              if(current.subscriptionState.entitlements.all['standard'].isActive) {
-                if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
-                  UserOptionsUtil.showNewMileageExpenseSelected(context);
-                }
-                if(!current.hasSeenShowcase) {
-                  _startShowcase();
-                  current.onShowcaseSeen();
-                }
-                EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
-              } else {
-                if(!hasNavigatedToSubscriptionPage && !current.profile.isFreeForLife) {
-                  hasNavigatedToSubscriptionPage = true;
-                  NavigationUtil.onManageSubscriptionSelected(context, current.profile);
-                }
-              }
-            } else {
-              bool freeTrialExpired = current.profile.isFreeTrialExpired();
-              if(freeTrialExpired && !hasNavigatedToSubscriptionPage && !current.profile.isFreeForLife) {
-                hasNavigatedToSubscriptionPage = true;
-                NavigationUtil.onManageSubscriptionSelected(context, current.profile);
-              } else {
-                //do nothing
-              }
-            }
-          } else {
-            if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
-              UserOptionsUtil.showNewMileageExpenseSelected(context);
-            }
-            if(!current.hasSeenShowcase) {
-              _startShowcase();
-              current.onShowcaseSeen();
-            }
+          if(!previous.shouldShowNewMileageExpensePage && current.shouldShowNewMileageExpensePage) {
+            UserOptionsUtil.showNewMileageExpenseSelected(context);
+          }
+          if(!current.hasSeenShowcase) {
+            _startShowcase();
+            current.onShowcaseSeen();
           }
         },
 

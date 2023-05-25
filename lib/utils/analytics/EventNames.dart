@@ -179,6 +179,7 @@ class EventNames {
   static const String API_CREATE_ACCOUNT_SUCCESS = "api_create_account_success";
   static const String API_CREATE_ACCOUNT_SUCCESS_APPLE_SIGN_UP = "api_create_account_success_apple";
   static const String API_CREATE_ACCOUNT_SUCCESS_GOOGLE_SIGN_UP = "api_create_account_success_google";
+  static const String API_CREATE_ACCOUNT_SUCCESS_EMAIL_SIGN_UP = "api_create_account_success_email";
 
   //App Launch
   static const String APP_OPENED = "app_opened";
@@ -189,6 +190,7 @@ class EventNames {
   static const String SIGN_IN_CHECKED_PARAM_PROFILE_UID = "sign_in_checked_param_profile_uid";
 
   //OnBoarding
+  static const String ON_BOARDING_FEATURE_SELECTED = "on_boarding_feature_selected";
   static const String ON_BOARDING_FEATURE_SELECTED_JOB_TRACKING = "on_boarding_feature_selected_job_tracking";
   static const String ON_BOARDING_FEATURE_SELECTED_INCOME_EXPENSES = "on_boarding_feature_selected_income_expenses";
   static const String ON_BOARDING_FEATURE_SELECTED_POSES = "on_boarding_feature_selected_poses";
@@ -199,9 +201,10 @@ class EventNames {
   static const String ON_BOARDING_FEATURE_SELECTION_CONTINUE_SELECTED = "on_boarding_feature_selection_continue_selected";
   static const String ON_BOARDING_HAS_JOB_ANSWERED = "on_boarding_has_job_answered";
   static const String ON_BOARDING_HAS_JOB_ANSWERED_PARAM = "on_boarding_has_job_answered_param";
-  static const String ON_BOARDING_ADD_FIRST_JOB_COMPLETED = "on_boarding_add_first_job_complete";
-  static const String ON_BOARDING_ADD_FIRST_JOB_SKIPPED = "on_boarding_add_first_job_skipped";
-  static const String ON_BOARDING_VIEW_SAMPLE_JOB_COMPLETED = "on_boarding_view_sample_job_complete";
+  static const String ON_BOARDING_COMPLETED = "on_boarding_completed";
+  static const String ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_SKIPPED = "on_boarding_completed_add_first_job_skipped";
+  static const String ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_COMPLETED = "on_boarding_completed_add_first_job_completed";
+  static const String ON_BOARDING_COMPLETED_PARAM_VIEW_SAMPLE_JOB_COMPLETED = "on_boarding_completed_view_sample_job_complete";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED = "on_boarding_lead_source_selected";
   static const String ON_BOARDING_LEAD_SOURCE_SELECTED_PARAM = "on_boarding_lead_source_selected_param";
 }

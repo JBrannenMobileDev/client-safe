@@ -37,14 +37,18 @@ import 'package:dandylight/pages/new_single_expense_page/NewSingleExpensePage.da
 import 'package:dandylight/pages/responses_page/widgets/NewResponseCategoryPage.dart';
 import 'package:dandylight/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
 
+import '../data_layer/local_db/daos/ProfileDao.dart';
 import '../models/JobReminder.dart';
 import '../models/JobType.dart';
 import '../models/Location.dart';
+import '../models/Profile.dart';
 import '../pages/calendar_selection_page/CalendarSelectionPage.dart';
 import '../pages/login_page/ShowResetPasswordSentDialog.dart';
 import '../pages/map_location_selection_widget/MapLocationSelectionWidget.dart';
@@ -144,13 +148,18 @@ class UserOptionsUtil {
     );
   }
 
-  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return NewJobPage(comingFromOnBoarding);
-      },
-    );
+  static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(profile.isSubscribed || profile.jobsCreatedCount < 3) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return NewJobPage(comingFromOnBoarding);
+        },
+      );
+    } else {
+      DandyToastUtil.showErrorToast('Pay me money now!!!');  update profile every time a job is created.
+    }
   }
 
   static void showSelectLocationDialog(BuildContext context){

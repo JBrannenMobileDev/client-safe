@@ -146,18 +146,7 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     }
   }
 
-  DateTime expirationTime = action.profile.accountCreatedDate.add(Duration(days: 14));
-  DateTime current = DateTime.now();
-
-  DateTime from = DateTime(current.year, current.month, current.day);
-  DateTime to = DateTime(expirationTime.year, expirationTime.month, expirationTime.day);
-  int daysBetween = (to.difference(from).inHours / 24).round();
-
-  if(current.isAfter(expirationTime)) {
-    daysBetween = 0;
-  }
-
-  String timeLeftMessage = daysBetween.toString() + (daysBetween == 1 ? ' day' : ' days') + ' remaining of your 14 day free trial. When the free trial ends you will not be charged. You will be required to subscribe at the end of the trial period to continue using our service.';
+  String timeLeftMessage = 'Dandylight is free to use with a limit to the amount of jobs that can be created(3) and poses that can be viewed. Select a subscription option below to unlock unlimited access to these features. The details are listed below.';
 
 
   return previousState.copyWith(
@@ -175,18 +164,7 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
 }
 
 ManageSubscriptionPageState _setInitialData(ManageSubscriptionPageState previousState, SetInitialDataAction action) {
-  DateTime expirationTime = action.profile.accountCreatedDate.add(Duration(days: 14));
-  DateTime current = DateTime.now();
-
-  DateTime from = DateTime(current.year, current.month, current.day);
-  DateTime to = DateTime(expirationTime.year, expirationTime.month, expirationTime.day);
-  int daysBetween = (to.difference(from).inHours / 24).round();
-
-  if(current.isAfter(expirationTime)) {
-    daysBetween = 0;
-  }
-
-  String timeLeftMessage = daysBetween.toString() + (daysBetween == 1 ? ' Day' : ' Days') + 'remaining of your 14 day free trial. When the free trial ends you will not be charged. Your will be required to subscribe at the end of the trial period to continue using our service.';
+  String timeLeftMessage = 'Dandylight is free to use with a limit to the amount of jobs that can be created(3) and poses that can be viewed. Select a subscription option below to unlock unlimited access to these features. The details are listed below.';
 
   return previousState.copyWith(
     profile: action.profile,
