@@ -99,10 +99,11 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 48, right: 48),
+                      padding: EdgeInsets.only(left: 48, right: 48, bottom: 128),
                       child: TextDandyLight(
                         text: buildMessage(pageState),
-                        type: TextDandyLight.MEDIUM_TEXT,
+                        type: TextDandyLight.LARGE_TEXT,
+                        textAlign: TextAlign.center,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
@@ -130,7 +131,7 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
                             color: Color(pageState.selectedOptionHasJob.isNotEmpty ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey()),
                             borderRadius: BorderRadius.circular(36.0)),
                         child: TextDandyLight(
-                          text: 'Continue',
+                          text: getButtonText(pageState),
                           type: TextDandyLight.LARGE_TEXT,
                           color: Color(pageState.selectedOptionHasJob.isNotEmpty ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
                         ),
@@ -154,10 +155,25 @@ class _DoYouHaveAJobPage extends State<DoYouHaveAJobPage> {
       case '':
         break;
       case OnBoardingPageState.HAS_JOB_YES:
-        result = 'Add your first job with a few simple steps.';
+        result = 'Add your first job with a few simple steps!';
         break;
       case OnBoardingPageState.HAS_JOB_NO:
-        result = 'Lets get started by checking out an example job.';
+        result = 'Lets get started by checking out an example job!';
+        break;
+    }
+    return result;
+  }
+
+  getButtonText(OnBoardingPageState pageState) {
+    String result = 'Continue';
+    switch(pageState.selectedOptionHasJob) {
+      case '':
+        break;
+      case OnBoardingPageState.HAS_JOB_YES:
+        result = 'Create Job';
+        break;
+      case OnBoardingPageState.HAS_JOB_NO:
+        result = 'View Example Job';
         break;
     }
     return result;

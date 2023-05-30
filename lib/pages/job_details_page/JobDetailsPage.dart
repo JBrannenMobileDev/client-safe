@@ -445,8 +445,8 @@ class _JobDetailsPageState extends State<JobDetailsPage> with TickerProviderStat
                     comingFromOnBoarding ? GestureDetector(
                       onTap: () async {
                         pageState.setOnBoardingComplete();
-                        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETED, properties: {
-                          EventNames.ON_BOARDING_COMPLETED_PARAM_VIEW_SAMPLE_JOB_COMPLETED : 'View sample job complete',
+                        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
+                          EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'View sample job complete',
                         });
                         await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
                         NavigationUtil.onSuccessfulLogin(context);

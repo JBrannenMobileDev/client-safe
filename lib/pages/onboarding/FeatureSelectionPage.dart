@@ -178,7 +178,6 @@ class _FeatureSelectionPage extends State<FeatureSelectionPage> {
                   onTap: () {
                     if(pageState.featuresContinueEnabled) {
                       pageState.setPagerIndex(2);
-                      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTION_CONTINUE_SELECTED);
                     }
                   },
                   child: Container(

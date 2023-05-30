@@ -172,7 +172,7 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                         if(_throttle?.isActive ?? false) {
                           _throttle.cancel();
                         } else {
-                          _throttle = Timer(const Duration(milliseconds: 350), () {
+                          _throttle = Timer(const Duration(milliseconds: 150), () {
                             pageState.onThrottleGetLocations(text);
                           });
                         }
@@ -204,9 +204,11 @@ class _MapLocationSelectionWidgetState extends State<MapLocationSelectionWidget>
                   ),
                 ),
               ),
-              pageState.locationResults.length > 0 ? SafeArea(
+              pageState.searchText.length > 0 && pageState.selectedSearchLocation == null ? SafeArea(
                 child: Container(
-                  height: 350.0,
+                  constraints: BoxConstraints(
+                    minHeight: 64,
+                  ),
                   margin: EdgeInsets.only(top: 64.0, left: 16.0, right: 16.0),
                   decoration: BoxDecoration(
                     boxShadow: ElevationToShadow[2],

@@ -59,15 +59,19 @@ class PriceProfileDao extends Equatable{
       final finder = Finder(filter: Filter.equals('documentId', profileDocumentId));
       final recordSnapshots = await _priceProfileStore.find(await _db, finder: finder);
       // Making a List<profileId> out of List<RecordSnapshot>
-      return recordSnapshots.map((snapshot) {
+      List<PriceProfile> list = recordSnapshots.map((snapshot) {
         final profile = PriceProfile.fromMap(snapshot.value);
         profile.id = snapshot.key;
         return profile;
-      }).toList().elementAt(0);
+      }).toList();
+      if(list.isNotEmpty) {
+        return list.elementAt(0);
+      } else {
+        return null;
+      }
     } else {
       return null;
     }
-
   }
 
   static Future<Stream<List<RecordSnapshot>>> getPriceProfilesStream() async {

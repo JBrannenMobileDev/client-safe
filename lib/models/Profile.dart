@@ -35,7 +35,7 @@ class Profile{
   bool usesSalesTax = false;
   bool isFreeForLife = false;
   bool onBoardingComplete = false;
-  bool isSubscribed;
+  bool isSubscribed = false;
   DateTime accountCreatedDate;
   DateTime lastSignIn;
   DateTime clientsLastChangeDate;
@@ -308,7 +308,7 @@ class Profile{
       latDefaultHome: map['latDefaultHome'],
       lngDefaultHome: map['lngDefaultHome'],
       pushNotificationsEnabled: map['pushNotificationsEnabled'],
-      calendarEnabled: map['calendarEnabled'],
+      calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
       salesTaxRate: map['salesTaxRate'],
       instagramUrl: map['instagramUrl'],
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,

@@ -349,6 +349,8 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         calendarEnabled: false,
         pushNotificationsEnabled: false,
         accountCreatedDate: DateTime.now(),
+        onBoardingComplete: false,
+        isSubscribed: false,
       );
       await ProfileDao.insertOrUpdate(newProfile);
 

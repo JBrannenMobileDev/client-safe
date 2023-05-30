@@ -1,3 +1,4 @@
+import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/pages/IncomeAndExpenses/RecurringExpenseDetails.dart';
@@ -18,6 +19,8 @@ import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelect
 import 'package:dandylight/pages/onboarding/OnBoardingPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
 import 'package:dandylight/pages/poses_page/PosesSearchPage.dart';
+import 'package:dandylight/pages/subscribe_now_page/SubscribeNowPage.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -30,6 +33,10 @@ import '../pages/dashboard_page/DashboardPageState.dart';
 import '../pages/poses_page/PosesPage.dart';
 
 class NavigationUtil {
+  static onShowSubscribeNowPage(BuildContext context) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => SubscribeNowPage(profile: profile,)));
+  }
   static onClientTapped(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
   }

@@ -10,6 +10,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:sembast/sembast.dart';
@@ -17,6 +18,7 @@ import 'package:uuid/uuid.dart';
 
 import '../../../models/JobStage.dart';
 import '../../../utils/NotificationHelper.dart';
+import '../../../utils/analytics/EventSender.dart';
 
 class JobDao extends Equatable{
   static const String JOB_STORE_NAME = 'jobs';
@@ -34,11 +36,19 @@ class JobDao extends Equatable{
     job.id = jobId;
     await JobCollection().createJob(job);
     _updateLastChangedTime();
+    _updateProfileJobCount();
     CalendarSyncUtil.insertJobEvent(job);
   }
 
+  static Future<void> _updateProfileJobCount() async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.jobsCreatedCount = profile.jobsCreatedCount + 1;
+    ProfileDao.update(profile);
+    EventSender().setUserProfileData(EventNames.JOB_COUNT, profile.jobsCreatedCount);
+  }
+
   static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.jobsLastChangeDate = DateTime.now();
     ProfileDao.update(profile);
   }

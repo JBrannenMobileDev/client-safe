@@ -417,6 +417,26 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                             floating: false,
                             forceElevated: false,
                             expandedHeight: 175.0,
+                            title: pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                              },
+                              child: Container(
+                                width: 132,
+                                alignment: Alignment.center,
+                                height: 36,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(24),
+                                    color: Color(ColorConstants.getPeachDark()),
+                                    boxShadow: ElevationToShadow[2],
+                                ),
+                                child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    text: "Subscribe"
+                                ),
+                              ),
+                            ) : SizedBox(),
                             leading: Showcase(
                               key: _two,
                               targetPadding: EdgeInsets.only(right: 13, bottom: 7, top: 6),

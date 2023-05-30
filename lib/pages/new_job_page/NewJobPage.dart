@@ -36,7 +36,7 @@ class NewJobPage extends StatefulWidget {
   }
 }
 
-class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
+class _NewJobPageState extends State<NewJobPage>{
   final int pageCount = 5;
   final bool comingFromOnBoarding;
 
@@ -49,7 +49,6 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
 
   @override
   void initState() {
-    WidgetsBinding.instance?.addObserver(this);
     super.initState();
     currentPageIndex = 0;
   }
@@ -79,21 +78,7 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
         false;
   }
 
-  @override
-  void dispose() {
-    WidgetsBinding.instance?.removeObserver(this);
-    super.dispose();
-  }
-
   NewJobPageState localState;
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    if (state == AppLifecycleState.resumed) {
-      bool isGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.locationWhenInUse)).isGranted;
-      if(isGranted) NavigationUtil.onSelectMapLocation(context, null, localState.lat, localState.lon, localState.onLocationSearchResultSelected);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -185,8 +170,8 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
                             comingFromOnBoarding && pageState.pageViewIndex == 0 ? GestureDetector(
                               onTap: () {
                                 pageState.onSkipSelected();
-                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETED, properties: {
-                                  EventNames.ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_SKIPPED : 'Add first job skipped',
+                                EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
+                                  EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job skipped',
                                 });
                                 NavigationUtil.onSuccessfulLogin(context);
                               },
@@ -332,8 +317,8 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
       await UserPermissionsUtil.showPermissionRequest(permission: Permission.notification, context: context);
       pageState.onSavePressed();
       if(comingFromOnBoarding) {
-        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETED, properties: {
-          EventNames.ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_COMPLETED : 'Add first job completed',
+        EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
+          EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job completed',
         });
       }
       showDialog(
@@ -356,8 +341,8 @@ class _NewJobPageState extends State<NewJobPage> with WidgetsBindingObserver{
 
   void onFlareCompleted(String unused) {
     if(comingFromOnBoarding) {
-      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETED, properties: {
-        EventNames.ON_BOARDING_COMPLETED_PARAM_ADD_FIRST_JOB_SKIPPED : 'Add first job skipped',
+      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
+        EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job skipped',
       });
       NavigationUtil.onSuccessfulLogin(context);
     } else {

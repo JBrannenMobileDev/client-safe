@@ -31,7 +31,7 @@ class CalendarSyncUtil {
       DateTime startDate,
       DateTime endDate) async {
     List<Event> events = [];
-    List<Calendar> allCalendars = calendarsResult.data.toList(growable: false);
+    List<Calendar> allCalendars = calendarsResult.data != null ? calendarsResult.data.toList(growable: false) : [];
     List<Calendar> calendars = [];
 
     for (Calendar calendar in allCalendars) {
@@ -49,9 +49,11 @@ class CalendarSyncUtil {
     }
 
     List<Event> eventsNoDuplicates = [];
-    eventsNoDuplicates.add(events.elementAt(0));
-    for (Event event in events) {
-      if (!eventsNoDuplicates.contains(event)) eventsNoDuplicates.add(event);
+    if(events.isNotEmpty) {
+      eventsNoDuplicates.add(events.elementAt(0));
+      for (Event event in events) {
+        if (!eventsNoDuplicates.contains(event)) eventsNoDuplicates.add(event);
+      }
     }
 
     return eventsNoDuplicates;

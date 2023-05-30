@@ -38,7 +38,10 @@ import 'package:dandylight/pages/responses_page/widgets/NewResponseCategoryPage.
 import 'package:dandylight/pages/sunset_weather_page/ChooseFromMyLocations.dart';
 import 'package:dandylight/pages/sunset_weather_page/SelectLocationDialog.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
+import 'package:dandylight/utils/NavigationUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:dandylight/utils/analytics/EventNames.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -150,7 +153,7 @@ class UserOptionsUtil {
 
   static void showNewJobDialog(BuildContext context, bool comingFromOnBoarding) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    if(profile.isSubscribed || profile.jobsCreatedCount < 3) {
+    if(profile.isSubscribed || profile.jobsCreatedCount < 4 || profile.isFreeForLife) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -158,7 +161,8 @@ class UserOptionsUtil {
         },
       );
     } else {
-      DandyToastUtil.showErrorToast('Pay me money now!!!');  update profile every time a job is created.
+      EventSender().sendEvent(eventName: EventNames.JOB_LIMIT_REACHED);
+      NavigationUtil.onShowSubscribeNowPage(context);
     }
   }
 

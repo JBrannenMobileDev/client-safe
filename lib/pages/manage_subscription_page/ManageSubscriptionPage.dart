@@ -162,7 +162,7 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                     color: Color(ColorConstants.getBlueDark())
                                 )
                             ) : SizedBox(),
-                            !pageState.profile.isFreeForLife && (pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty) ? Container(
+                            !pageState.profile.isFreeForLife && pageState.uiState == ManageSubscriptionPage.SUBSCRIBED ? SizedBox() : profile.isBetaTester || pageState.discountType.isNotEmpty ? Container(
                                 margin: EdgeInsets.only(top: 258.0),
                                 child: TextDandyLight(
                                   text: 'Discount applied',
@@ -472,11 +472,31 @@ class _ManageSubscriptionPageState extends State<ManageSubscriptionPage>
                                         padding: EdgeInsets.only(left: 16),
                                         child: TextDandyLight(
                                             type: TextDandyLight.MEDIUM_TEXT,
-                                            text: 'Unlimited Mileage & expense tracking',
+                                            text: 'Unlimited Mileage tracking',
                                             textAlign: TextAlign.start,
                                             maxLines: 2,
                                             color: Color(ColorConstants.getBlueDark()),
                                           ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.centerLeft,
+                                  margin: EdgeInsets.only(top: 4, left: 32, right: 32),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Icon(Icons.check, color: Color(ColorConstants.getBlueDark()),),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 16),
+                                        child: TextDandyLight(
+                                          type: TextDandyLight.MEDIUM_TEXT,
+                                          text: 'Unlimited expense tracking',
+                                          textAlign: TextAlign.start,
+                                          maxLines: 2,
+                                          color: Color(ColorConstants.getBlueDark()),
+                                        ),
                                       ),
                                     ],
                                   ),

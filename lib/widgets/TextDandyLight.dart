@@ -47,7 +47,7 @@ class TextDandyLight extends StatelessWidget {
 
   double amount;
   final String type;
-  String text;
+  String text = '';
   double size;
   String fontFamily;
   bool isBold;
@@ -90,6 +90,9 @@ class TextDandyLight extends StatelessWidget {
     }
     if(isCurrency) {
       text = TextFormatterUtil.formatDecimalDigitsCurrency(amount, decimalPlaces);
+    }
+    if(text == null) {
+      text = '';
     }
     switch(type) {
       case EXTRA_EXTRA_LARGE_TEXT:

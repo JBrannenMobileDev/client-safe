@@ -18,27 +18,27 @@ OnBoardingPageState _setHasJobAnswer(OnBoardingPageState previousState, SetHasJo
 }
 
 OnBoardingPageState _setPagerIndex(OnBoardingPageState previousState, SetPagerIndexAction action){
-  if(previousState.pagerIndex == 0 && action.index == 1) {
-    if(action.pageState.jobTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
-      EventNames.ON_BOARDING_FEATURE_SELECTED_JOB_TRACKING : 'Job Tracking',
+  if(previousState.pagerIndex == 1 && action.index == 2) {
+    if(action.pageState.jobTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Job Tracking',
     });
-    if(action.pageState.incomeExpensesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
-      EventNames.ON_BOARDING_FEATURE_SELECTED_INCOME_EXPENSES : 'Income & Expenses',
+    if(action.pageState.incomeExpensesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Income & Expenses',
     });
-    if(action.pageState.posesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
-      EventNames.ON_BOARDING_FEATURE_SELECTED_POSES : 'Poses',
+    if(action.pageState.posesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Poses',
     });
-    if(action.pageState.invoicesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
-      EventNames.ON_BOARDING_FEATURE_SELECTED_INVOICES : 'Invoices',
+    if(action.pageState.invoicesSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Invoices',
     });
-    if(action.pageState.mileageTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
-      EventNames.ON_BOARDING_FEATURE_SELECTED_MILEAGE_TRACKING : 'Mileage Tracking',
+    if(action.pageState.mileageTrackingSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Mileage Tracking',
     });
-    if(action.pageState.analyticsSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
-      EventNames.ON_BOARDING_FEATURE_SELECTED_BUSINESS_ANALYTICS : 'Business Analytics',
+    if(action.pageState.analyticsSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Business Analytics',
     });
-    if(action.pageState.otherSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_SELECTED, properties: {
-      EventNames.ON_BOARDING_FEATURE_SELECTED_OTHER : 'Other',
+    if(action.pageState.otherSelected) EventSender().sendEvent(eventName: EventNames.ON_BOARDING_FEATURE_CHOSEN, properties: {
+      EventNames.ON_BOARDING_FEATURE_CHOSEN_PARAM : 'Other',
     });
   }
   return previousState.copyWith(

@@ -1330,7 +1330,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(top: 32.0, left: 32, right: 32),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
-                  text: '14 - Day Free Trial',
+                  text: 'Try for free',
                   textAlign: TextAlign.center,
                   color: Color(ColorConstants.getBlueDark()),
                 ),
@@ -1350,7 +1350,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.only(top: 32.0, left: 32, right: 32, bottom: 16),
                 child: TextDandyLight(
                   type: TextDandyLight.MEDIUM_TEXT,
-                  text: 'Creating an account will start your 14 day free trial. You will not be charged automatically at the end of the trial. To Continue using DandyLight after the free trial ends, a subscription will be required.',
+                  text: 'Creating an account will start your free trial. You will not be charged automatically. Once you reach your 3 job limit, a subscription will be required to gain access to unlimited jobs.',
                   textAlign: TextAlign.center,
                   color: Color(ColorConstants.getBlueDark()),
                 ),

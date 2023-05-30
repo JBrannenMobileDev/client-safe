@@ -32,7 +32,7 @@ class _FreeTrialInfo extends State<FreeTrialInfo> {
                   margin: EdgeInsets.only(bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
-                    text: '14 Day Free Trial',
+                    text: 'Free Trial',
                     textAlign: TextAlign.center,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),

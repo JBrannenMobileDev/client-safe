@@ -6,6 +6,7 @@ import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPageActions.dart';
+import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:purchases_flutter/errors.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
@@ -115,6 +116,9 @@ class ManageSubscriptionPageMiddleware extends MiddlewareClass<AppState> {
         if (purchaserInfo.entitlements.all["standard"].isActive) {
           store.dispatch(SetLoadingState(store.state.manageSubscriptionPageState, false, true));
           store.dispatch(SetManageSubscriptionUiState(store.state.manageSubscriptionPageState, ManageSubscriptionPage.SUBSCRIBED));
+          Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+          profile.isSubscribed = true;
+          ProfileDao.update(profile);
           EventSender().setUserProfileData(EventNames.SUBSCRIPTION_STATE, ManageSubscriptionPage.SUBSCRIBED);
           EventSender().sendEvent(eventName: EventNames.USER_SUBSCRIBED, properties: {
             EventNames.SUBSCRIPTION_PARAM_NAME : action.pageState.selectedSubscription,
