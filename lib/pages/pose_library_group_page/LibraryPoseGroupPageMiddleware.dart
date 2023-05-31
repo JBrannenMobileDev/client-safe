@@ -106,7 +106,12 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     var lock = Lock();
     lock.synchronized(() async {
       List<GroupImage> poseImages = action.pageState.poseImages;
-      List<Pose> sortedPoses = _sortPoses(action.poseGroup.poses);
+      List<Pose> sortedPoses = action.pageState.sortedPoses;
+      if(sortedPoses.isEmpty) {
+        sortedPoses = _sortPoses(action.poseGroup.poses);
+        await store.dispatch(SetSortedPosesAction(action.pageState, sortedPoses));
+      }
+
       final int PAGE_SIZE = 10;
 
       int posesSize = poseImages.length;
@@ -121,15 +126,6 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, false));
     });
   }
-
-  Future _fetchImage(List<Pose> sortedPoses, int startIndex, LoadMoreImagesAction action, List<GroupImage> poseImages) async {
-    if(sortedPoses.length > startIndex) {
-      Pose pose = sortedPoses.elementAt(startIndex);
-      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
-    }
-  }
-
-
 
   List<Pose> _sortPoses(List<Pose> poses) {
     List<Pose> newPoses = [];
@@ -146,6 +142,13 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     oldPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
     newPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
     return newPoses + oldPoses;
+  }
+
+  Future _fetchImage(List<Pose> sortedPoses, int startIndex, LoadMoreImagesAction action, List<GroupImage> poseImages) async {
+    if(sortedPoses.length > startIndex) {
+      Pose pose = sortedPoses.elementAt(startIndex);
+      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
+    }
   }
 
   void _loadPoseImages(Store<AppState> store, LoadLibraryPoseGroup action) async{

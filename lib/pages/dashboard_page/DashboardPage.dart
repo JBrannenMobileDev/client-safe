@@ -256,7 +256,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
           }
 
           bool isCalendarGranted = (await UserPermissionsUtil.getPermissionStatus(Permission.calendar)).isGranted;
-          if(isCalendarGranted && !store.state.dashboardPageState.profile.calendarEnabled) {
+          if(isCalendarGranted && store.state.dashboardPageState.profile != null && !store.state.dashboardPageState.profile.calendarEnabled) {
             Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
             profile.calendarEnabled = true;
             ProfileDao.update(profile);

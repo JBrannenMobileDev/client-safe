@@ -20,6 +20,7 @@ class LibraryPoseGroupPageState{
   final List<GroupImage> poseImages;
   final List<Job> activeJobs;
   final List<PoseGroup> myPoseGroups;
+  final List<Pose> sortedPoses;
   final List<File> myPoseGroupImages;
   final Function(GroupImage, PoseGroup) onImageSaveSelected;
   final Function(Pose, Job) onImageAddedToJobSelected;
@@ -45,6 +46,7 @@ class LibraryPoseGroupPageState{
     @required this.instagramUrl,
     @required this.instagramName,
     @required this.loadMoreImages,
+    @required this.sortedPoses,
   });
 
   LibraryPoseGroupPageState copyWith({
@@ -62,6 +64,7 @@ class LibraryPoseGroupPageState{
     String instagramName,
     String instagramUrl,
     Function() loadMoreImages,
+    List<Pose> sortedPoses,
   }){
     return LibraryPoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
@@ -78,6 +81,7 @@ class LibraryPoseGroupPageState{
       instagramName: instagramName ?? this.instagramName,
       instagramUrl: instagramUrl ?? this.instagramUrl,
       loadMoreImages: loadMoreImages ?? this.loadMoreImages,
+      sortedPoses: sortedPoses ?? this.sortedPoses,
     );
   }
 
@@ -96,6 +100,7 @@ class LibraryPoseGroupPageState{
     instagramUrl: '',
     instagramName: '',
     loadMoreImages: null,
+    sortedPoses: [],
   );
 
   factory LibraryPoseGroupPageState.fromStore(Store<AppState> store) {
@@ -109,6 +114,7 @@ class LibraryPoseGroupPageState{
       myPoseGroupImages: store.state.libraryPoseGroupPageState.myPoseGroupImages,
       instagramName: store.state.libraryPoseGroupPageState.instagramName,
       instagramUrl: store.state.libraryPoseGroupPageState.instagramUrl,
+      sortedPoses: store.state.libraryPoseGroupPageState.sortedPoses,
       onNewPoseImagesSelected: (poseImages, name, url, tags) => {
         store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url, tags)),
       },
@@ -139,6 +145,7 @@ class LibraryPoseGroupPageState{
       myPoseGroupImages.hashCode ^
       instagramName.hashCode ^
       instagramUrl.hashCode ^
+      sortedPoses.hashCode ^
       isLoadingNewImages.hashCode;
 
   @override
@@ -158,5 +165,6 @@ class LibraryPoseGroupPageState{
               myPoseGroupImages == other.myPoseGroupImages &&
               instagramName == other.instagramName &&
               instagramUrl == other.instagramUrl &&
+              sortedPoses == other.sortedPoses &&
               poseGroup == other.poseGroup;
 }

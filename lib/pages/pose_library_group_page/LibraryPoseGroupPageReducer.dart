@@ -2,6 +2,8 @@ import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupActions
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Pose.dart';
+
 
 final libraryPoseGroupReducer = combineReducers<LibraryPoseGroupPageState>([
   TypedReducer<LibraryPoseGroupPageState, SetLibraryPoseGroupData>(_setPoseGroup),
@@ -13,6 +15,7 @@ final libraryPoseGroupReducer = combineReducers<LibraryPoseGroupPageState>([
   TypedReducer<LibraryPoseGroupPageState, SetPoseGroupsLibraryAction>(_setPoseGroups),
   TypedReducer<LibraryPoseGroupPageState, SetInstagramAction>(_setInstagram),
   TypedReducer<LibraryPoseGroupPageState, ClearLibraryGroupImagesAction>(_clearImages),
+  TypedReducer<LibraryPoseGroupPageState, SetSortedPosesAction>(_setSortedPoses),
 ]);
 
 LibraryPoseGroupPageState _clearImages(LibraryPoseGroupPageState previousState, ClearLibraryGroupImagesAction action){
@@ -58,6 +61,12 @@ LibraryPoseGroupPageState _clearState(LibraryPoseGroupPageState previousState, C
 LibraryPoseGroupPageState _setPoseGroup(LibraryPoseGroupPageState previousState, SetLibraryPoseGroupData action){
   return previousState.copyWith(
       poseGroup: action.poseGroup,
+  );
+}
+
+LibraryPoseGroupPageState _setSortedPoses(LibraryPoseGroupPageState previousState, SetSortedPosesAction action){
+  return previousState.copyWith(
+      sortedPoses: action.sortedPoses
   );
 }
 

@@ -85,6 +85,12 @@ class LoadMoreImagesAction {
   LoadMoreImagesAction(this.pageState, this.poseGroup);
 }
 
+class SetSortedPosesAction {
+  final LibraryPoseGroupPageState pageState;
+  final List<Pose> sortedPoses;
+  SetSortedPosesAction(this.pageState, this.sortedPoses);
+}
+
 class FetchMyPoseGroupsForLibraryAction {
   final LibraryPoseGroupPageState pageState;
   FetchMyPoseGroupsForLibraryAction(this.pageState);
