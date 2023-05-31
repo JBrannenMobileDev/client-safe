@@ -214,6 +214,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, FetchAllJobTypesAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchJobPosesAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteJobPoseAction>(JobDetailsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveJobNotesAction>(JobDetailsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.FetchRemindersAction>(RemindersPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, collectionReminders.DeleteReminderAction>(RemindersPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchAllRemindersAction>(NewJobReminderPageMiddleware()));

@@ -1,4 +1,3 @@
-import 'package:dandylight/pages/client_details_page/ClientDetailsPageState.dart';
 import 'package:dandylight/widgets/DandyLightTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +25,7 @@ class _NotesWidgetPage extends State<JobNotesWidget> {
   Widget build(BuildContext context) {
     return StoreConnector<AppState, JobDetailsPageState>(
       onInit: (store) {
-        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState.notes);
+        notesController.value = notesController.value.copyWith(text:store.state.jobDetailsPageState.job.notes);
       },
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
