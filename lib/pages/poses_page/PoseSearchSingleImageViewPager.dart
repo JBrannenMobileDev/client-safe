@@ -187,6 +187,21 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
               actions: [
                 GestureDetector(
                   onTap: () {
+                    IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                    EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
+                  },
+                  child: Container(
+                      margin: EdgeInsets.only(right: 16.0, left: 16),
+                      child: Image.asset(
+                        'assets/images/icons/instagram_icon.png',
+                        color: Color(ColorConstants.getPeachLight()),
+                        height: 26,
+                        width: 26,
+                      )
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
                     _showSaveToJobBottomSheet(context, currentPageIndex);
                   },
                   child: Container(
