@@ -111,7 +111,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       margin: EdgeInsets.only(top: 16, bottom: 32, left: 32, right: 32),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: 'Select a photo to get featured in the app',
+                        text: 'Select a photo',
                         textAlign: TextAlign.center,
                         color: Color(ColorConstants.getPeachDark()),
                       ),
@@ -338,6 +338,15 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
                   ),
+                  Container(
+                    margin: EdgeInsets.only(top: 72, bottom: 16, left: 32, right: 32),
+                    child: TextDandyLight(
+                      type: TextDandyLight.SMALL_TEXT,
+                      text: 'By submitting a pose you are entering it for an opportunity to be featured in the public DandyLight pose library.',
+                      textAlign: TextAlign.center,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                  ),
                   GestureDetector(
                     onTap: () {
                       if(image != null && NameController.text.isNotEmpty && urlController.text.isNotEmpty && tagsController.text.isNotEmpty) {
@@ -355,7 +364,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                     child: Container(
                       height: 54,
                       width: MediaQuery.of(context).size.width,
-                      margin: EdgeInsets.only(top: 54, left: 24, right: 24),
+                      margin: EdgeInsets.only(top: 0, left: 24, right: 24),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(27),
