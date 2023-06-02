@@ -100,7 +100,6 @@ class NotificationHelper {
         if(allJobs.length == 1 && allJobs.elementAt(0).clientName == "Example Client") {
           scheduleStartFirstJobReminder();
         }
-        scheduleFreeTrialExpiringReminder();
 
         for(int index = 0;index < pendingReminders.length; index++) {
           if(index < 62) {
@@ -181,29 +180,6 @@ class NotificationHelper {
         "Start your first job!",
         "Have you booked a job recently? Track it in DandyLight to save time by staying organized! Don't forget to add poses to your job to make the shoot a breeze.",
         "first_job_reminder",
-        triggerDateTime,
-      );
-    }
-  }
-
-  void scheduleFreeTrialExpiringReminder() async {
-    DateTime profileCreatedDate = (await ProfileDao.getMatchingProfile(UidUtil().getUid())).accountCreatedDate;
-    profileCreatedDate = profileCreatedDate.add(Duration(days: 7));
-
-    if(DateTime.now().isBefore(profileCreatedDate)) {
-      DateTime triggerDateTime = DateTime(profileCreatedDate.year, profileCreatedDate.month, profileCreatedDate.day, profileCreatedDate.hour, profileCreatedDate.minute);
-      List<Job> jobs = await JobDao.getAllJobs();
-      String body = "";
-      if(jobs.length == 1 && jobs.elementAt(0).clientName == "Example Client") {
-        body = "Try organizing your first job with DandyLight!";
-      } else {
-        body = "Adding poses to your jobs makes your photoshoot a breeze!  Poses are available even in those off-the-grid locations!";
-      }
-      scheduleNotification(
-        ONE_WEEK_LEFT_ID,
-        "Free Trial - 1 Week remaining",
-        body,
-        "one_week_remaining",
         triggerDateTime,
       );
     }

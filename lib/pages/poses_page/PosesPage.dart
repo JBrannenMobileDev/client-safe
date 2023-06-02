@@ -72,6 +72,21 @@ class _PosesPageState extends State<PosesPage> {
                 ? GoToJobPosesBottomSheet(job, comingFromDetails ? 1 : 1)
                 : SizedBox(),
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                NavigationUtil.onUploadPoseSelected(context);
+              },
+              backgroundColor: Color(ColorConstants.getPeachDark()),
+              splashColor: Color(ColorConstants.getPeachDark()),
+              child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.only(right: 2, bottom: 2),
+                child: Image.asset('assets/images/icons/add_photo.png',
+                  color: Color(ColorConstants.getPrimaryWhite()),
+                  width: 42,
+                ),
+              ),
+            ),
             body: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(

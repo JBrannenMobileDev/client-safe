@@ -22,6 +22,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
   final TextCapitalization capitalization;
   final List<TextInputFormatter> inputFormatter;
   final bool enabled;
+  final double radius;
 
   DandyLightLibraryTextField({
       this.controller,
@@ -38,6 +39,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
       this.labelText,
       this.onEditingCompleted,
       this.enabled,
+      this.radius,
   });
 
   @override
@@ -64,30 +66,30 @@ class DandyLightLibraryTextField extends StatelessWidget {
               hintText: hintText,
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(radius),
                 borderSide: BorderSide(
                   color: Color(ColorConstants.getPeachDark()),
                   width: 1.0,
                 ),
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(radius),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   width: 1.0,
                 ),
               ),
               disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(radius),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   width: 1.0,
                 ),
               ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25.0),
+                borderRadius: BorderRadius.circular(radius),
                 borderSide: BorderSide(
-                  color: Color(ColorConstants.getBlueLight()),
+                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   width: 1.0,
                 ),
               ),
@@ -97,7 +99,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
             onEditingComplete: onEditingCompleted,
             inputFormatters: inputFormatter != null ? inputFormatter : null,
             style: new TextStyle(
-                fontSize: TextDandyLight.getFontSize(TextDandyLight.SMALL_TEXT),
+                fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
                 fontFamily: TextDandyLight.getFontFamily(),
                 fontWeight: TextDandyLight.getFontWeight(),
                 color: Color(ColorConstants.getPrimaryBlack())),

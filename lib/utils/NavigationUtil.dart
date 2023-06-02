@@ -20,6 +20,7 @@ import 'package:dandylight/pages/onboarding/OnBoardingPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
 import 'package:dandylight/pages/poses_page/PosesSearchPage.dart';
 import 'package:dandylight/pages/subscribe_now_page/SubscribeNowPage.dart';
+import 'package:dandylight/pages/upload_pose_page/UploadPosePage.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -84,6 +85,9 @@ class NavigationUtil {
   }
   static onJobPosesSelected(BuildContext context) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => JobPosesPage()));
+  }
+  static onUploadPoseSelected(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => UploadPosePage()));
   }
   static onPosesSelected(BuildContext context, Job job, bool comingFromJobDetails) {
     Navigator.of(context).push(MaterialPageRoute(builder: (context) => PosesPage(job, comingFromJobDetails)));

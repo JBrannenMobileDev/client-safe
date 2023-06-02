@@ -34,6 +34,7 @@ import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
+import 'package:dandylight/pages/upload_pose_page/UploadPosePageState.dart';
 import 'package:meta/meta.dart';
 
 import 'pages/clients_page/ClientsPageState.dart';
@@ -77,6 +78,7 @@ class AppState {
   final ManageSubscriptionPageState manageSubscriptionPageState;
   final LibraryPoseGroupPageState libraryPoseGroupPageState;
   final OnBoardingPageState onBoardingPageState;
+  final UploadPosePageState uploadPosePageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -116,6 +118,7 @@ class AppState {
     @required this.manageSubscriptionPageState,
     @required this.libraryPoseGroupPageState,
     @required this.onBoardingPageState,
+    @required this.uploadPosePageState,
   });
 
   factory AppState.initial() {
@@ -157,6 +160,7 @@ class AppState {
       manageSubscriptionPageState: ManageSubscriptionPageState.initial(),
       libraryPoseGroupPageState: LibraryPoseGroupPageState.initial(),
       onBoardingPageState: OnBoardingPageState.initial(),
+      uploadPosePageState: UploadPosePageState.initial(),
     );
   }
 
@@ -198,6 +202,7 @@ class AppState {
     ManageSubscriptionPageState manageSubscriptionPageState,
     LibraryPoseGroupPageState libraryPoseGroupPageState,
     OnBoardingPageState onBoardingPageState,
+    UploadPosePageState uploadPosePageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -237,6 +242,7 @@ class AppState {
       manageSubscriptionPageState: manageSubscriptionPageState ?? this.manageSubscriptionPageState,
       libraryPoseGroupPageState: libraryPoseGroupPageState ?? this.libraryPoseGroupPageState,
       onBoardingPageState: onBoardingPageState ?? this.onBoardingPageState,
+      uploadPosePageState: uploadPosePageState ?? this.uploadPosePageState,
     );
   }
 
@@ -278,6 +284,7 @@ class AppState {
     manageSubscriptionPageState.hashCode ^
     libraryPoseGroupPageState.hashCode ^
     onBoardingPageState.hashCode ^
+    uploadPosePageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -320,5 +327,6 @@ class AppState {
               manageSubscriptionPageState == other.manageSubscriptionPageState &&
               libraryPoseGroupPageState == other.libraryPoseGroupPageState &&
               onBoardingPageState == other.onBoardingPageState &&
+              uploadPosePageState == other.uploadPosePageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }
