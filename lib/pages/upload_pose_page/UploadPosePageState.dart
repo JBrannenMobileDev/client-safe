@@ -12,49 +12,41 @@ import '../pose_group_page/GroupImage.dart';
 import 'UploadPoseActions.dart';
 
 class UploadPosePageState{
-  final Function(XFile, String, String, List<String>) onNewPoseImagesSelected;
-  final String instagramName;
-
+  final Function(XFile, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted;
 
   UploadPosePageState({
-    @required this.onNewPoseImagesSelected,
-    @required this.instagramName,
+    @required this.onPoseSubmitted,
   });
 
   UploadPosePageState copyWith({
-    PoseLibraryGroup poseGroup,
-    Function(List<XFile>, String, List<String>) onNewPoseImagesSelected,
-    String instagramName,
+    Function(XFile, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted,
   }){
     return UploadPosePageState(
-      onNewPoseImagesSelected: onNewPoseImagesSelected ?? this.onNewPoseImagesSelected,
-      instagramName: instagramName ?? this.instagramName,
+      onPoseSubmitted: onPoseSubmitted ?? this.onPoseSubmitted,
     );
   }
 
   factory UploadPosePageState.initial() => UploadPosePageState(
-    onNewPoseImagesSelected: null,
-    instagramName: '',
+    onPoseSubmitted: null,
   );
 
   factory UploadPosePageState.fromStore(Store<AppState> store) {
     return UploadPosePageState(
-      instagramName: store.state.uploadPosePageState.instagramName,
-      onNewPoseImagesSelected: (poseImage, name, url, tags) => {
-        store.dispatch(SubmitUploadedPoseAction(store.state.uploadPosePageState, poseImage, name, url, tags)),
+      onPoseSubmitted: (poseImage, name, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+          , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected) => {
+        store.dispatch(SubmitUploadedPoseAction(store.state.uploadPosePageState, poseImage, name, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+            , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected)),
       },
     );
   }
 
   @override
   int get hashCode =>
-      onNewPoseImagesSelected.hashCode ^
-      instagramName.hashCode;
+      onPoseSubmitted.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is UploadPosePageState &&
-              onNewPoseImagesSelected == other.onNewPoseImagesSelected &&
-              instagramName == other.instagramName;
+              onPoseSubmitted == other.onPoseSubmitted;
 }

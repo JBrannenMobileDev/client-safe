@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:dandylight/pages/pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/KeyboardUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -27,16 +27,34 @@ class UploadPosePage extends StatefulWidget {
 }
 
 class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStateMixin {
+  static const String ENGAGEMENT = "Engagement";
+  static const String FAMILIES = "Families";
+  static const String COUPLES = "Couples";
+  static const String PORTRAITS = "Portraits";
+  static const String MATERNITY = "Maternity";
+  static const String WEDDINGS = "Weddings";
+  static const String NEWBORN = "Newborn";
+  static const String PROPOSALS = "Proposals";
+  static const String PETS = "Pets";
   final NameController = TextEditingController();
   final FocusNode _nameFocusNode = FocusNode();
-  final urlController = TextEditingController();
-  final FocusNode _urlFocusNode = FocusNode();
   final tagsController = TextEditingController();
   final FocusNode _tagsFocusNode = FocusNode();
+  final promptController = TextEditingController();
+  final FocusNode _promptFocusNode = FocusNode();
   XFile image;
   String name = "";
-  String url = "";
   String tags = "";
+  String prompt = "";
+  bool engagementsSelected = false;
+  bool familiesSelected = false;
+  bool couplesSelected = false;
+  bool portraitsSelected = false;
+  bool maternitySelected = false;
+  bool weddingsSelected = false;
+  bool newbornSelected = false;
+  bool proposalsSelected = false;
+  bool petsSelected = false;
 
   Future getDeviceImage(UploadPosePageState pageState) async {
     try{
@@ -52,7 +70,6 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
     onInit: (store) {
       if(store.state.libraryPoseGroupPageState.instagramName.isNotEmpty) {
         NameController.text = store.state.libraryPoseGroupPageState.instagramName;
-        urlController.text = store.state.libraryPoseGroupPageState.instagramUrl;
       }
     },
     converter: (Store<AppState> store) => UploadPosePageState.fromStore(store),
@@ -95,12 +112,15 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                           width: 64,
                         )
                     ),
-                  ) : ClipRRect(
-                    borderRadius: new BorderRadius.circular(16.0),
-                    child: Image(
-                      fit: BoxFit.contain,
-                      image: image != null ? FileImage(File(image.path))
-                          : AssetImage("assets/images/backgrounds/image_background.png"),
+                  ) : Padding(
+                    padding: EdgeInsets.only(left:20, right: 20),
+                    child: ClipRRect(
+                      borderRadius: new BorderRadius.circular(16.0),
+                      child: Image(
+                        fit: BoxFit.contain,
+                        image: image != null ? FileImage(File(image.path))
+                            : AssetImage("assets/images/backgrounds/image_background.png"),
+                      ),
                     ),
                   ),
                   GestureDetector(
@@ -125,7 +145,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       inputType: TextInputType.text,
                       focusNode: _nameFocusNode,
                       onFocusAction: onAction1,
-                      height: 64.0,
+                      height: 48.0,
                       onTextInputChanged: onNameChanged,
                       keyboardAction: TextInputAction.next,
                       capitalization: TextCapitalization.words,
@@ -135,13 +155,28 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                   Container(
                     margin: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: DandyLightLibraryTextField(
+                      controller: promptController,
+                      hintText: 'Add prompt',
+                      inputType: TextInputType.text,
+                      focusNode: _promptFocusNode,
+                      onFocusAction: onAction2,
+                      height: 84.0,
+                      onTextInputChanged: onTagsChanged,
+                      keyboardAction: TextInputAction.done,
+                      capitalization: TextCapitalization.words,
+                      radius: 16,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(left: 20.0, right: 20.0),
+                    child: DandyLightLibraryTextField(
                       controller: tagsController,
-                      hintText: 'Add descriptive tags, separated with a comma.\nFor example: couple, beach, sunset, windy',
+                      hintText: 'Add descriptive tags, separated with a comma.\nFor example: couple, beach, romantic, sunset, windy',
                       inputType: TextInputType.text,
                       focusNode: _tagsFocusNode,
                       onFocusAction: onAction3,
                       height: 84.0,
-                      onTextInputChanged: onUrlChanged,
+                      onTextInputChanged: onTagsChanged,
                       keyboardAction: TextInputAction.done,
                       capitalization: TextCapitalization.words,
                       radius: 16,
@@ -170,10 +205,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: engagementsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(ENGAGEMENT, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -190,10 +225,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: familiesSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(FAMILIES, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -210,10 +245,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: couplesSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(COUPLES, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -230,10 +265,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: portraitsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(PORTRAITS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -250,10 +285,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: maternitySelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(MATERNITY, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -270,10 +305,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: weddingsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(WEDDINGS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -290,10 +325,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: newbornSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(NEWBORN, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -310,10 +345,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: proposalsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(PROPOSALS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -330,10 +365,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                         textAlign: TextAlign.start,
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
-                      value: false,
+                      value: petsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        // pageState.onFeatureSelected(OnBoardingPageState.JOB_TRACKING, selected);
+                        onCategorySelected(PETS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -349,16 +384,35 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                   ),
                   GestureDetector(
                     onTap: () {
-                      if(image != null && NameController.text.isNotEmpty && urlController.text.isNotEmpty && tagsController.text.isNotEmpty) {
-                        tagsController.text.replaceAll(' ', '');
-                        List<String> tags = tagsController.text.split(",");
-                        if(tags.length > 0) {
-                          pageState.onNewPoseImagesSelected(image, NameController.text, urlController.text, tags);
-                          Navigator.of(context).pop();
+                      if(image != null) {
+                        if(NameController.text.isNotEmpty) {
+                          if(isAtLeastOneCategorySelected()) {
+                            if(tagsController.text.isNotEmpty) {
+                              tagsController.text.replaceAll(' ', '');
+                              List<String> tags = tagsController.text.split(",");
+                              if(tags.length > 0) {
+                                pageState.onPoseSubmitted(image, NameController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+                                   , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
+                                showSuccessAnimation();
+                              } else {
+                                DandyToastUtil.showToastWithGravity('At least 3 tags are required.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                                VibrateUtil.vibrateMultiple();
+                              }
+                            }else {
+                              DandyToastUtil.showToastWithGravity('At least 3 tags are required.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                              VibrateUtil.vibrateMultiple();
+                            }
+                          } else {
+                            DandyToastUtil.showToastWithGravity('Select at least 1 category.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                            VibrateUtil.vibrateMultiple();
+                          }
                         } else {
-                          DandyToastUtil.showToastWithGravity('Invalid Tags!', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                          DandyToastUtil.showToastWithGravity('Instagram name is required.', Color(ColorConstants.error_red), ToastGravity.CENTER);
                           VibrateUtil.vibrateMultiple();
                         }
+                      } else {
+                        DandyToastUtil.showToastWithGravity('Please select an image.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                        VibrateUtil.vibrateMultiple();
                       }
                     },
                     child: Container(
@@ -391,15 +445,43 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
     });
   }
 
-  void onUrlChanged(String enteredUrl) {
-    setState(() {
-      url = enteredUrl;
-    });
-  }
-
   void onTagsChanged(String enteredTags) {
     setState(() {
       tags = enteredTags;
+    });
+  }
+
+  void onCategorySelected(String category, isSelected) {
+    setState(() {
+      switch(category) {
+        case ENGAGEMENT:
+          engagementsSelected = isSelected;
+          break;
+        case FAMILIES:
+          familiesSelected = isSelected;
+          break;
+        case COUPLES:
+          couplesSelected = isSelected;
+          break;
+        case PORTRAITS:
+          portraitsSelected = isSelected;
+          break;
+        case MATERNITY:
+          maternitySelected = isSelected;
+          break;
+        case NEWBORN:
+          newbornSelected = isSelected;
+          break;
+        case PROPOSALS:
+          proposalsSelected = isSelected;
+          break;
+        case PETS:
+          petsSelected = isSelected;
+          break;
+        case WEDDINGS:
+          weddingsSelected = isSelected;
+          break;
+      }
     });
   }
 
@@ -408,10 +490,37 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   }
 
   void onAction2(){
-    _urlFocusNode.unfocus();
+    _promptFocusNode.unfocus();
   }
 
   void onAction3(){
-    _urlFocusNode.unfocus();
+    _tagsFocusNode.unfocus();
+  }
+
+  bool isAtLeastOneCategorySelected() {
+    return engagementsSelected || familiesSelected || couplesSelected || portraitsSelected
+        || maternitySelected || newbornSelected || proposalsSelected || petsSelected || weddingsSelected;
+  }
+
+  void showSuccessAnimation(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.all(96.0),
+          child: FlareActor(
+            "assets/animations/success_check.flr",
+            alignment: Alignment.center,
+            fit: BoxFit.contain,
+            animation: "show_check",
+            callback: onFlareCompleted,
+          ),
+        );
+      },
+    );
+  }
+
+  void onFlareCompleted(String unused) {
+    Navigator.of(context).pop(true);
   }
 }

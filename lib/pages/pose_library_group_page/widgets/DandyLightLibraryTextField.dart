@@ -45,6 +45,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
+      alignment: Alignment.center,
           margin: EdgeInsets.only(top: 8.0, bottom: 8.0),
           height: height,
           child: TextFormField(
@@ -61,6 +62,7 @@ class DandyLightLibraryTextField extends StatelessWidget {
               onFocusAction();
             },
             decoration: InputDecoration(
+              contentPadding: EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 0),
               alignLabelWithHint: true,
               labelText: labelText,
               hintText: hintText,
