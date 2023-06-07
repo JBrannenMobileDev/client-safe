@@ -62,10 +62,15 @@ class DandyLightLibraryTextField extends StatelessWidget {
               onFocusAction();
             },
             decoration: InputDecoration(
-              contentPadding: EdgeInsets.only(left: 16, top: 8, right: 16, bottom: 0),
+              contentPadding: EdgeInsets.only(left: 16, top: 32, right: 16, bottom: 0),
               alignLabelWithHint: true,
               labelText: labelText,
               hintText: hintText,
+              labelStyle: TextStyle(
+                  fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
+                  fontFamily: TextDandyLight.getFontFamily(),
+                  fontWeight: TextDandyLight.getFontWeight(),
+                  color: Color(ColorConstants.getPrimaryBlack())),
               fillColor: Colors.white,
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(radius),

@@ -19,6 +19,7 @@ class Profile{
   String cashAppLink;
   String applePayPhone;
   String instagramUrl;
+  String instagramName;
   double latDefaultHome;
   double lngDefaultHome;
   double salesTaxRate;
@@ -113,6 +114,7 @@ class Profile{
     this.onBoardingComplete,
     this.isSubscribed,
     this.jobsCreatedCount,
+    this.instagramName,
   });
 
   Profile copyWith({
@@ -132,6 +134,7 @@ class Profile{
     String cashAppLink,
     String applePayPhone,
     String instagramUrl,
+    String instagramName,
     double latDefaultHome,
     double lngDefaultHome,
     bool pushNotificationsEnabled,
@@ -187,6 +190,7 @@ class Profile{
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
       calendarEnabled: calendarEnabled ?? this.calendarEnabled,
       lastSignIn: lastSignIn ?? this.lastSignIn,
+      instagramName: instagramName ?? this.instagramName,
       jobsCreatedCount: jobsCreatedCount ?? this.jobsCreatedCount,
       clientsLastChangeDate:  clientsLastChangeDate ?? this.clientsLastChangeDate,
       invoicesLastChangeDate: invoicesLastChangeDate ?? this.invoicesLastChangeDate,
@@ -253,6 +257,7 @@ class Profile{
       'showRequestPaymentLinksDialog' : showRequestPaymentLinksDialog,
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
+      'instagramName' : instagramName ?? "",
       'shouldShowRestoreSubscription' : shouldShowRestoreSubscription ?? false,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
       'hasSeenShowcase' : hasSeenShowcase ?? false,
@@ -311,6 +316,7 @@ class Profile{
       calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
       salesTaxRate: map['salesTaxRate'],
       instagramUrl: map['instagramUrl'],
+      instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
       hasSeenShowcase: map['hasSeenShowcase'] != null ? map['hasSeenShowcase'] : false,
@@ -349,6 +355,10 @@ class Profile{
 
   bool hasDefaultHome() {
     return (latDefaultHome != null && latDefaultHome != 0.0) || (lngDefaultHome != null && lngDefaultHome != 0.0);
+  }
+
+  String getInstagramUrl() {
+    return "https://www.instagram.com/$instagramName/";
   }
 
   bool removeDeviceToken(String deviceToken) {

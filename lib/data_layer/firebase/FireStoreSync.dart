@@ -12,6 +12,7 @@ import 'package:dandylight/data_layer/local_db/daos/NextInvoiceNumberDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PriceProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
@@ -67,6 +68,7 @@ class FireStoreSync {
         }
         setupFireStoreListeners();
         automateJobStages();
+        await PoseSubmittedGroupDao.syncAllFromFireStore();
     }
 
     Profile getMatchingProfile(List<Profile> profiles, String uid) {

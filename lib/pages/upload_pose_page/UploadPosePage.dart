@@ -15,18 +15,11 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
+import 'UploadPoseActions.dart';
 import 'UploadPosePageState.dart';
 
 
 class UploadPosePage extends StatefulWidget {
-
-  @override
-  State<StatefulWidget> createState() {
-    return _UploadPosePageState();
-  }
-}
-
-class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStateMixin {
   static const String ENGAGEMENT = "Engagement";
   static const String FAMILIES = "Families";
   static const String COUPLES = "Couples";
@@ -36,6 +29,14 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   static const String NEWBORN = "Newborn";
   static const String PROPOSALS = "Proposals";
   static const String PETS = "Pets";
+
+  @override
+  State<StatefulWidget> createState() {
+    return _UploadPosePageState();
+  }
+}
+
+class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStateMixin {
   final NameController = TextEditingController();
   final FocusNode _nameFocusNode = FocusNode();
   final tagsController = TextEditingController();
@@ -68,8 +69,12 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, UploadPosePageState>(
     onInit: (store) {
-      if(store.state.libraryPoseGroupPageState.instagramName.isNotEmpty) {
-        NameController.text = store.state.libraryPoseGroupPageState.instagramName;
+      store.dispatch(SetInstagramNameAction(store.state.uploadPosePageState, ''));
+      NameController.text = '@';
+    },
+    onDidChange: (previous, current){
+      if((previous.instagramName == '@') && (current.instagramName.isNotEmpty && current.instagramName != '@')) {
+        NameController.text = current.instagramName;
       }
     },
     converter: (Store<AppState> store) => UploadPosePageState.fromStore(store),
@@ -140,12 +145,13 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                   Container(
                     margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0),
                     child: DandyLightLibraryTextField(
+                      labelText: 'Instagram Name',
                       controller: NameController,
                       hintText: 'Instagram Name',
                       inputType: TextInputType.text,
                       focusNode: _nameFocusNode,
                       onFocusAction: onAction1,
-                      height: 48.0,
+                      height: 54.0,
                       onTextInputChanged: onNameChanged,
                       keyboardAction: TextInputAction.next,
                       capitalization: TextCapitalization.words,
@@ -155,6 +161,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                   Container(
                     margin: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: DandyLightLibraryTextField(
+                      labelText: 'Prompt',
                       controller: promptController,
                       hintText: 'Add prompt',
                       inputType: TextInputType.text,
@@ -170,6 +177,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                   Container(
                     margin: EdgeInsets.only(left: 20.0, right: 20.0),
                     child: DandyLightLibraryTextField(
+                      labelText: 'Tags',
                       controller: tagsController,
                       hintText: 'Add descriptive tags, separated with a comma.\nFor example: couple, beach, romantic, sunset, windy',
                       inputType: TextInputType.text,
@@ -208,7 +216,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: engagementsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(ENGAGEMENT, selected);
+                        onCategorySelected(UploadPosePage.ENGAGEMENT, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -228,7 +236,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: familiesSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(FAMILIES, selected);
+                        onCategorySelected(UploadPosePage.FAMILIES, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -248,7 +256,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: couplesSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(COUPLES, selected);
+                        onCategorySelected(UploadPosePage.COUPLES, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -268,7 +276,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: portraitsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(PORTRAITS, selected);
+                        onCategorySelected(UploadPosePage.PORTRAITS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -288,7 +296,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: maternitySelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(MATERNITY, selected);
+                        onCategorySelected(UploadPosePage.MATERNITY, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -308,7 +316,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: weddingsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(WEDDINGS, selected);
+                        onCategorySelected(UploadPosePage.WEDDINGS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -328,7 +336,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: newbornSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(NEWBORN, selected);
+                        onCategorySelected(UploadPosePage.NEWBORN, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -348,7 +356,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: proposalsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(PROPOSALS, selected);
+                        onCategorySelected(UploadPosePage.PROPOSALS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -368,7 +376,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       value: petsSelected,
                       activeColor: Color(ColorConstants.getPeachDark()),
                       onChanged: (selected) {
-                        onCategorySelected(PETS, selected);
+                        onCategorySelected(UploadPosePage.PETS, selected);
                       },
                       controlAffinity: ListTileControlAffinity.trailing,  //  <-- leading Checkbox
                     ),
@@ -377,7 +385,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                     margin: EdgeInsets.only(top: 72, bottom: 16, left: 32, right: 32),
                     child: TextDandyLight(
                       type: TextDandyLight.SMALL_TEXT,
-                      text: 'By submitting a pose you are entering it for an opportunity to be featured in the public DandyLight pose library.',
+                      text: 'By submitting a pose you are entering it for an opportunity to be featured in the public DandyLight pose library and on the DandyLight Instagram page.',
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
@@ -395,23 +403,23 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                                    , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                                 showSuccessAnimation();
                               } else {
-                                DandyToastUtil.showToastWithGravity('At least 3 tags are required.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                                DandyToastUtil.showToastWithGravity('At least 3 tags are required', Color(ColorConstants.error_red), ToastGravity.CENTER);
                                 VibrateUtil.vibrateMultiple();
                               }
                             }else {
-                              DandyToastUtil.showToastWithGravity('At least 3 tags are required.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                              DandyToastUtil.showToastWithGravity('At least 3 tags are required', Color(ColorConstants.error_red), ToastGravity.CENTER);
                               VibrateUtil.vibrateMultiple();
                             }
                           } else {
-                            DandyToastUtil.showToastWithGravity('Select at least 1 category.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                            DandyToastUtil.showToastWithGravity('Select at least 1 category', Color(ColorConstants.error_red), ToastGravity.CENTER);
                             VibrateUtil.vibrateMultiple();
                           }
                         } else {
-                          DandyToastUtil.showToastWithGravity('Instagram name is required.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                          DandyToastUtil.showToastWithGravity('Instagram name is required', Color(ColorConstants.error_red), ToastGravity.CENTER);
                           VibrateUtil.vibrateMultiple();
                         }
                       } else {
-                        DandyToastUtil.showToastWithGravity('Please select an image.', Color(ColorConstants.error_red), ToastGravity.CENTER);
+                        DandyToastUtil.showToastWithGravity('Please select an image', Color(ColorConstants.error_red), ToastGravity.CENTER);
                         VibrateUtil.vibrateMultiple();
                       }
                     },
@@ -454,31 +462,31 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   void onCategorySelected(String category, isSelected) {
     setState(() {
       switch(category) {
-        case ENGAGEMENT:
+        case UploadPosePage.ENGAGEMENT:
           engagementsSelected = isSelected;
           break;
-        case FAMILIES:
+        case UploadPosePage.FAMILIES:
           familiesSelected = isSelected;
           break;
-        case COUPLES:
+        case UploadPosePage.COUPLES:
           couplesSelected = isSelected;
           break;
-        case PORTRAITS:
+        case UploadPosePage.PORTRAITS:
           portraitsSelected = isSelected;
           break;
-        case MATERNITY:
+        case UploadPosePage.MATERNITY:
           maternitySelected = isSelected;
           break;
-        case NEWBORN:
+        case UploadPosePage.NEWBORN:
           newbornSelected = isSelected;
           break;
-        case PROPOSALS:
+        case UploadPosePage.PROPOSALS:
           proposalsSelected = isSelected;
           break;
-        case PETS:
+        case UploadPosePage.PETS:
           petsSelected = isSelected;
           break;
-        case WEDDINGS:
+        case UploadPosePage.WEDDINGS:
           weddingsSelected = isSelected;
           break;
       }
@@ -521,6 +529,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   }
 
   void onFlareCompleted(String unused) {
+    Navigator.of(context).pop(true);
     Navigator.of(context).pop(true);
   }
 }

@@ -1,10 +1,17 @@
 class Pose{
+  static const String STATUS_SUBMITTED = 'Submitted';
+  static const String STATUS_FEATURED = 'Featured';
+  static const String STATUS_REVIEWED = 'Reviewed';
+  static const String STATUS_NOT_A_SUBMISSION = 'not_a_submission';
+
   int id;
   String documentId;
+  String uid = '';
   String imageUrl;
   String instagramUrl;
   String instagramName;
   String prompt = '';
+  String reviewStatus = STATUS_NOT_A_SUBMISSION;
   int numOfSaves;
   List<String> tags;
   List<String> categories = [];
@@ -12,6 +19,7 @@ class Pose{
 
   Pose({
     this.id,
+    this.uid,
     this.documentId,
     this.imageUrl,
     this.instagramUrl,
@@ -36,6 +44,7 @@ class Pose{
   Map<String, dynamic> toMap() {
     return {
       'documentId' : documentId,
+      'uid' : uid ?? '',
       'imageUrl' : imageUrl,
       'instagramUrl' : instagramUrl,
       'instagramName' : instagramName,
@@ -53,6 +62,7 @@ class Pose{
       imageUrl: map['imageUrl'],
       instagramUrl: map['instagramUrl'],
       instagramName: map['instagramName'],
+      uid: map['uid'] != null ? map['uid'] : '',
       prompt: map['prompt'] != null ? map['prompt'] : '',
       categories: map['categories'] != null ? List<String>.from(map['categories']) : [],
       tags: map['tags'] != null ? List<String>.from(map['tags']) : [],

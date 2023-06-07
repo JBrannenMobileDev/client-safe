@@ -20,3 +20,9 @@ class SubmitUploadedPoseAction{
       ,this.couplesSelected, this.portraitsSelected, this.maternitySelected, this.weddingsSelected, this.newbornSelected, this.proposalsSelected, this.petsSelected);
 }
 
+class SetInstagramNameAction {
+  final UploadPosePageState pageState;
+  final String instagramName;
+  SetInstagramNameAction(this.pageState, this.instagramName);
+}
+

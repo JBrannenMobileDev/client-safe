@@ -75,6 +75,8 @@ import 'package:dandylight/pages/responses_page/ResponsesActions.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageMiddleware.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
+import 'package:dandylight/pages/upload_pose_page/UploadPoseActions.dart';
+import 'package:dandylight/pages/upload_pose_page/UploadPosePageMiddleware.dart';
 import 'package:redux/redux.dart';
 
 List<Middleware<AppState>> createAppMiddleware() {
@@ -269,5 +271,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, AssignDiscountCodeToUser>(ManageSubscriptionPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetJobForDetailsPage>(OnBoardingPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetSelectedLeadSourceAction>(OnBoardingPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SubmitUploadedPoseAction>(UploadPosePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SetInstagramNameAction>(UploadPosePageMiddleware()));
   return middlewareList;
 }

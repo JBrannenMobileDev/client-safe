@@ -1,3 +1,4 @@
+import 'package:dandylight/pages/upload_pose_page/UploadPoseActions.dart';
 import 'package:redux/redux.dart';
 
 import 'UploadPosePageState.dart';
@@ -5,9 +6,11 @@ import 'UploadPosePageState.dart';
 
 
 final uploadPoseReducer = combineReducers<UploadPosePageState>([
-  // TypedReducer<UploadPosePageState, SetLibraryPoseGroupData>(_setPoseGroup),
+  TypedReducer<UploadPosePageState, SetInstagramNameAction>(_setInstagramName),
 ]);
-//
-// UploadPosePageState _clearImages(UploadPosePageState previousState, ClearLibraryGroupImagesAction action){
-//   return UploadPosePageState.initial();
-// }
+
+UploadPosePageState _setInstagramName(UploadPosePageState previousState, SetInstagramNameAction action){
+  return previousState.copyWith(
+    instagramName: action.instagramName
+  );
+}
