@@ -34,7 +34,7 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
   void _createAndSavePoses(Store<AppState> store, SubmitUploadedPoseAction action) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.instagramName = action.name;
-    ProfileDao.update(profile);
+    await ProfileDao.update(profile);
 
     Pose newPose = Pose();
     newPose.uid = UidUtil().getUid();
@@ -45,8 +45,7 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     newPose.tags = action.tags;
     newPose = await PoseDao.insertOrUpdate(newPose);
     newPose.createDate = DateTime.now();
-    // await FileStorage.saveSubmittedPoseImageFile(action.poseImage.path, newPose, action.pageState.poseGroup);
-
+    await FileStorage.saveSubmittedPoseImageFile(action.poseImage.path, newPose);
     await PoseSubmittedGroupDao.addNewSubmission(newPose);
   }
 

@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
+import 'package:dandylight/models/PoseSubmittedGroup.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -30,6 +31,10 @@ class FileStorage {
 
   static saveLibraryPoseImageFile(String path, Pose pose, PoseLibraryGroup group) async {
     await _uploadLibraryPoseImageFile(path, pose, group);
+  }
+
+  static saveSubmittedPoseImageFile(String path, Pose pose) async {
+    await _uploadSubmittedPoseImageFile(path, pose);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
@@ -131,6 +136,11 @@ class FileStorage {
       }
     }
     await PoseLibraryGroupDao.update(group);
+  }
+
+  static _updateSubmittedPoseImageUrl(Pose poseToUpdate, String imageUrl) async {
+    poseToUpdate.imageUrl = imageUrl;
+    await PoseDao.update(poseToUpdate);
   }
 
   static _updateLocationImageUrl(Location locationToUpdate, String imageUrl) async {
@@ -271,10 +281,45 @@ class FileStorage {
     });
   }
 
+  static _uploadSubmittedPoseImageFile(String imagePath, Pose pose) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    final uploadTask = storageRef
+        .child(_buildPoseSubmittedImagePath(pose))
+        .putFile(File(imagePath));
+
+    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+        // Handle unsuccessful uploads
+          break;
+        case TaskState.success:
+          _fetchAndSaveSubmittedPoseImageDownloadUrl(pose);
+          break;
+      }
+    });
+  }
+
   static _fetchAndSaveLibraryPoseImageDownloadUrl(Pose pose, PoseLibraryGroup group) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
     _updateLibraryPoseImageUrl(pose, await cloudFilePath.getDownloadURL(), group);
+  }
+
+  static _fetchAndSaveSubmittedPoseImageDownloadUrl(Pose pose) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildPoseSubmittedImagePath(pose));
+    await _updateSubmittedPoseImageUrl(pose, await cloudFilePath.getDownloadURL());
   }
 
   static _fetchAndSavePoseImageDownloadUrl(Pose pose, PoseGroup group) async {
@@ -333,6 +378,10 @@ class FileStorage {
 
   static String _buildPoseLibraryImagePath(Pose pose) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/libraryPoses/${pose.documentId}.jpg";
+  }
+
+  static String _buildPoseSubmittedImagePath(Pose pose) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/submittedPoses/${pose.documentId}.jpg";
   }
 
   static String _buildContractFilePath(Contract contract) {

@@ -1,3 +1,5 @@
+import 'package:dandylight/utils/UidUtil.dart';
+
 class Pose{
   static const String STATUS_SUBMITTED = 'Submitted';
   static const String STATUS_FEATURED = 'Featured';
@@ -30,6 +32,10 @@ class Pose{
     this.categories,
     this.prompt,
   });
+
+  bool isMySubmission() {
+    return uid == UidUtil().getUid() && reviewStatus == STATUS_NOT_A_SUBMISSION;
+  }
 
   bool isLibraryPose() {
     return instagramName != null && instagramName.isNotEmpty && instagramUrl != null && instagramUrl.isNotEmpty && tags != null && tags.isNotEmpty;

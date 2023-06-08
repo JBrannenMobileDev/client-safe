@@ -10,6 +10,7 @@ import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../models/Pose.dart';
 import '../../firebase/collections/PoseSubmittedGroupCollection.dart';
 
 class PoseSubmittedGroupDao extends Equatable{
@@ -113,12 +114,16 @@ class PoseSubmittedGroupDao extends Equatable{
     });
 
     // Making a List<Client> out of List<RecordSnapshot>
-    return recordSnapshots.map((snapshot) {
-      if(snapshot == null) return null;
-      final pose = PoseSubmittedGroup.fromMap(snapshot.value);
-      pose.id = snapshot.key;
-      return pose;
-    }).toList();
+    if(recordSnapshots != null) {
+      return recordSnapshots.map((snapshot) {
+        if(snapshot == null) return null;
+        final pose = PoseSubmittedGroup.fromMap(snapshot.value);
+        pose.id = snapshot.key;
+        return pose;
+      }).toList();
+    } else {
+      return [];
+    }
   }
 
   static Future<void> syncAllFromFireStore() async {
@@ -165,6 +170,24 @@ class PoseSubmittedGroupDao extends Equatable{
         await _PoseSubmittedGroupGroupStore.add(await _db, fireStorePoseSubmittedGroup.toMap());
       }
     }
+  }
+
+  static void addNewSubmission(Pose pose) async {
+    PoseSubmittedGroup group = await getByUid(UidUtil().getUid());
+    if(group == null) {
+      List<Pose> poses = [];
+      poses.add(pose);
+      group = PoseSubmittedGroup(
+        id: null,
+        uid: UidUtil().getUid(),
+        poses: poses,
+        needsReview: true,
+      );
+    } else {
+      group.needsReview = true;
+      group.poses.add(pose);
+    }
+    await insertOrUpdate(group);
   }
 
   @override
