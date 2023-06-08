@@ -43,6 +43,7 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     newPose.instagramName = action.name;
     newPose.instagramUrl = "https://www.instagram.com/${action.name.replaceAll('@', '')}/";
     newPose.tags = action.tags;
+    newPose.prompt = action.prompt;
     newPose = await PoseDao.insertOrUpdate(newPose);
     newPose.createDate = DateTime.now();
     await FileStorage.saveSubmittedPoseImageFile(action.poseImage.path, newPose);
