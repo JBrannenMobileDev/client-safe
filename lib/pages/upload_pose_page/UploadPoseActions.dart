@@ -6,6 +6,7 @@ class SubmitUploadedPoseAction{
   final UploadPosePageState pageState;
   final XFile poseImage;
   final String name;
+  final String prompt;
   final List<String> tags;
   final bool engagementsSelected;
   final bool familiesSelected;
@@ -16,7 +17,7 @@ class SubmitUploadedPoseAction{
   final bool newbornSelected;
   final bool proposalsSelected;
   final bool petsSelected;
-  SubmitUploadedPoseAction(this.pageState, this.poseImage, this.name, this.tags, this.engagementsSelected, this.familiesSelected
+  SubmitUploadedPoseAction(this.pageState, this.poseImage, this.name, this.prompt, this.tags, this.engagementsSelected, this.familiesSelected
       ,this.couplesSelected, this.portraitsSelected, this.maternitySelected, this.weddingsSelected, this.newbornSelected, this.proposalsSelected, this.petsSelected);
 }
 

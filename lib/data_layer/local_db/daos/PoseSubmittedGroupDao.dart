@@ -190,6 +190,16 @@ class PoseSubmittedGroupDao extends Equatable{
     await insertOrUpdate(group);
   }
 
+  static void updatePoseInGroup(Pose poseToSave, String uid) async {
+    PoseSubmittedGroup group = await getByUid(uid);
+    group.poses.forEach((pose) {
+      if(pose.documentId == poseToSave.documentId) {
+        pose.imageUrl = poseToSave.imageUrl;
+      }
+    });
+    await PoseSubmittedGroupDao.update(group);
+  }
+
   @override
   // TODO: implement props
   List<Object> get props => [];

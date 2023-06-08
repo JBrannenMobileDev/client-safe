@@ -4,6 +4,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/LocationDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
 import 'package:dandylight/models/PoseSubmittedGroup.dart';
@@ -141,6 +142,7 @@ class FileStorage {
   static _updateSubmittedPoseImageUrl(Pose poseToUpdate, String imageUrl) async {
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.update(poseToUpdate);
+    await PoseSubmittedGroupDao.updatePoseInGroup(poseToUpdate, UidUtil().getUid());
   }
 
   static _updateLocationImageUrl(Location locationToUpdate, String imageUrl) async {

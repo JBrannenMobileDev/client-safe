@@ -168,7 +168,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       focusNode: _promptFocusNode,
                       onFocusAction: onAction2,
                       height: 84.0,
-                      onTextInputChanged: onTagsChanged,
+                      onTextInputChanged: onPromptChanged,
                       keyboardAction: TextInputAction.next,
                       capitalization: TextCapitalization.sentences,
                       radius: 16,
@@ -399,7 +399,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                               tagsController.text.replaceAll(' ', '');
                               List<String> tags = tagsController.text.split(",");
                               if(tags.length > 0) {
-                                pageState.onPoseSubmitted(image, NameController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+                                pageState.onPoseSubmitted(image, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
                                    , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                                 showSuccessAnimation();
                               } else {
@@ -456,6 +456,12 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   void onTagsChanged(String enteredTags) {
     setState(() {
       tags = enteredTags;
+    });
+  }
+
+  void onPromptChanged(String enteredPrompt) {
+    setState(() {
+      prompt = enteredPrompt;
     });
   }
 

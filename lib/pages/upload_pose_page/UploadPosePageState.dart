@@ -13,7 +13,7 @@ import 'UploadPoseActions.dart';
 
 class UploadPosePageState{
   final String instagramName;
-  final Function(XFile, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted;
+  final Function(XFile, String, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted;
 
   UploadPosePageState({
     @required this.onPoseSubmitted,
@@ -22,7 +22,7 @@ class UploadPosePageState{
 
   UploadPosePageState copyWith({
     String instagramName,
-    Function(XFile, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted,
+    Function(XFile, String, String, List<String>, bool, bool, bool, bool, bool, bool, bool, bool, bool) onPoseSubmitted,
   }){
     return UploadPosePageState(
       onPoseSubmitted: onPoseSubmitted ?? this.onPoseSubmitted,
@@ -38,9 +38,9 @@ class UploadPosePageState{
   factory UploadPosePageState.fromStore(Store<AppState> store) {
     return UploadPosePageState(
       instagramName: store.state.uploadPosePageState.instagramName,
-      onPoseSubmitted: (poseImage, name, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+      onPoseSubmitted: (poseImage, name, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
           , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected) => {
-        store.dispatch(SubmitUploadedPoseAction(store.state.uploadPosePageState, poseImage, name, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+        store.dispatch(SubmitUploadedPoseAction(store.state.uploadPosePageState, poseImage, name, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
             , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected)),
       },
     );
