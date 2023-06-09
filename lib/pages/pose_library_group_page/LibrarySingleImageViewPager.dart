@@ -110,7 +110,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                       ),
                       GestureDetector(
                         onTap: () {
-                          IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                          IntentLauncherUtil.launchURL(image.pose.instagramUrl);
                         },
                         child: Container(
                           padding: EdgeInsets.only(right: 16),
@@ -125,7 +125,7 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                       ),
                     ],
                   ),
-                  poses.elementAt(currentPageIndex).pose.prompt.isNotEmpty ? Container(
+                  image.pose.prompt.isNotEmpty ? Container(
                     margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
                     width: double.infinity,
                     child:  TextDandyLight(
@@ -135,40 +135,19 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                       text: 'PROMPT',
                     ),
                   ) : SizedBox(),
-                  poses.elementAt(currentPageIndex).pose.prompt.isNotEmpty ? Container(
+                  image.pose.prompt.isNotEmpty ? Container(
                     margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
                     width: double.infinity,
                     child:  TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       color: Color(ColorConstants.getPeachDark()),
                       textAlign: TextAlign.start,
-                      text: poses.elementAt(currentPageIndex).pose.prompt,
+                      text: image.pose.prompt,
                     ),
                   ) : SizedBox(),
-                  // GestureDetector(
-                  //   onTap: () {
-                  //     IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
-                  //     EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
-                  //   },
-                  //   child: Container(
-                  //     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
-                  //     height: 54,
-                  //     width: double.infinity,
-                  //     alignment: Alignment.center,
-                  //     decoration: BoxDecoration(
-                  //       color: Color(ColorConstants.getPeachDark()),
-                  //       borderRadius: BorderRadius.circular(27),
-                  //     ),
-                  //     child: TextDandyLight(
-                  //       type: TextDandyLight.MEDIUM_TEXT,
-                  //       color: Color(ColorConstants.getPrimaryWhite()),
-                  //       text: 'More from this photographer',
-                  //     ),
-                  //   ),
-                  // ),
                   GestureDetector(
                     onTap: () {
-                      IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                      IntentLauncherUtil.launchURL(image.pose.instagramUrl);
                       EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                     },
                     child: Container(

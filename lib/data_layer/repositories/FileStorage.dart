@@ -94,6 +94,18 @@ class FileStorage {
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
 
+  static Future<File> getSubmittedPoseImageFile(Pose pose, PoseLibraryGroup group) async {
+    String imageUrl = pose.imageUrl;
+
+    if(imageUrl == null || imageUrl.isEmpty) {
+      final storageRef = FirebaseStorage.instance.ref();
+      final cloudFilePath = storageRef.child(_buildPoseSubmittedImagePath(pose));
+      imageUrl = await cloudFilePath.getDownloadURL();
+      _updateSubmittedPoseImageUrl(pose, imageUrl);
+    }
+    return await DandylightCacheManager.instance.getSingleFile(imageUrl);
+  }
+
   static _updatePoseLibraryImageUrl(Pose poseToUpdate, String imageUrl, PoseLibraryGroup group) async {
     poseToUpdate.imageUrl = imageUrl;
     if(group != null) {

@@ -1,12 +1,7 @@
-import 'dart:io';
-
 import 'package:dandylight/models/Pose.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:redux/redux.dart';
-import 'package:share_plus/share_plus.dart';
-
-import '../pose_group_page/GroupImage.dart';
 
 final posesReducer = combineReducers<PosesPageState>([
   TypedReducer<PosesPageState, SetPoseGroupsAction>(_setPoseGroups),
@@ -16,9 +11,24 @@ final posesReducer = combineReducers<PosesPageState>([
   TypedReducer<PosesPageState, SetActiveJobsToPosesPage>(_setActiveJobs),
   TypedReducer<PosesPageState, SetAllPosesAction>(_setAllPoses),
   TypedReducer<PosesPageState, SetSearchResultPosesAction>(_setSearchResultPoses),
+  TypedReducer<PosesPageState, SetSubmittedPosesAction>(_setSubmittedPoses),
   TypedReducer<PosesPageState, ClearPoseSearchPageAction>(_clearState),
   TypedReducer<PosesPageState, SetLoadingNewSearchResultImagesState>(_setLoadingState),
+  TypedReducer<PosesPageState, SetLoadingSubmittedPosesState>(_setLoadingSubmittedPosesState),
+  TypedReducer<PosesPageState, SetSortedSubmittedPosesAction>(_setSortedSubmittedPoses),
 ]);
+
+PosesPageState _setSortedSubmittedPoses(PosesPageState previousState, SetSortedSubmittedPosesAction action){
+  return previousState.copyWith(
+    sortedSubmittedPoses: action.submittedPoses,
+  );
+}
+
+PosesPageState _setLoadingSubmittedPosesState(PosesPageState previousState, SetLoadingSubmittedPosesState action){
+  return previousState.copyWith(
+    isLoadingSubmittedPoses: action.isLoading,
+  );
+}
 
 PosesPageState _setLoadingState(PosesPageState previousState, SetLoadingNewSearchResultImagesState action){
   return previousState.copyWith(
@@ -33,6 +43,12 @@ PosesPageState _clearState(PosesPageState previousState, ClearPoseSearchPageActi
 PosesPageState _setSearchResultPoses(PosesPageState previousState, SetSearchResultPosesAction action){
   return previousState.copyWith(
     searchResultsImages: action.searchResultImages,
+  );
+}
+
+PosesPageState _setSubmittedPoses(PosesPageState previousState, SetSubmittedPosesAction action){
+  return previousState.copyWith(
+    submittedPoses: action.submittedPoses,
   );
 }
 

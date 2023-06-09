@@ -90,7 +90,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                       ) : SizedBox(),
                       image.pose.isLibraryPose() ? GestureDetector(
                         onTap: () {
-                          IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                          IntentLauncherUtil.launchURL(image.pose.instagramUrl);
                         },
                         child: Container(
                           padding: EdgeInsets.only(right: 16),
@@ -105,27 +105,47 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                       ) : SizedBox(),
                     ],
                   ),
+                  image.pose.prompt.isNotEmpty ? Container(
+                    margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
+                    width: double.infinity,
+                    child:  TextDandyLight(
+                      type: TextDandyLight.SMALL_TEXT,
+                      color: Color(ColorConstants.getPeachDark()),
+                      textAlign: TextAlign.start,
+                      text: 'PROMPT',
+                    ),
+                  ) : SizedBox(),
+                  image.pose.prompt.isNotEmpty ? Container(
+                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                    width: double.infinity,
+                    child:  TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      color: Color(ColorConstants.getPeachDark()),
+                      textAlign: TextAlign.start,
+                      text: image.pose.prompt,
+                    ),
+                  ) : SizedBox(),
                   image.pose.isLibraryPose() ? GestureDetector(
                     onTap: () {
-                      IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                      IntentLauncherUtil.launchURL(image.pose.instagramUrl);
                       EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 16),
-                      height: 48,
-                      width: 200,
+                      margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                      height: 54,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-
-                        borderRadius: BorderRadius.circular(8),
+                        color: Color(ColorConstants.getPeachDark()),
+                        borderRadius: BorderRadius.circular(27),
                       ),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        color: Color(ColorConstants.getPeachLight()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                         text: 'Follow on Instagram',
                       ),
                     ),
                   ) : SizedBox(),
+                  SizedBox(height: 128),
                 ],
               ),
             ),
@@ -187,14 +207,16 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
       converter: (store) => PoseGroupPageState.fromStore(store),
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              iconTheme: IconThemeData(color: Color(ColorConstants.getPeachLight())),
-              backgroundColor: Colors.black,
+              iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
+              backgroundColor: Colors.white,
               centerTitle: true,
+              elevation: 0.0,
               title: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
                 text: groupName,
-                color: Color(ColorConstants.getPeachLight()),
+                color: Color(ColorConstants.getPeachDark()),
               ),
               actions: [
                 GestureDetector(
@@ -207,7 +229,7 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                     width: 28.0,
                     child: Image.asset(
                       'assets/images/icons/plus.png',
-                      color: Color(ColorConstants.getPeachLight()),
+                      color: Color(ColorConstants.getPeachDark()),
                     ),
                   ),
                 ),
@@ -221,14 +243,13 @@ class _SingleImageViewPagerState extends State<SingleImageViewPager> {
                     width: 28.0,
                     child: Image.asset(
                       'assets/images/icons/trashcan.png',
-                      color: Color(ColorConstants.getPeachLight()),
+                      color: Color(ColorConstants.getPeachDark()),
                     ),
                   ),
                 ),
               ],
             ),
             key: scaffoldKey,
-            backgroundColor: Colors.black,
             body: Container(
                     child: PageView.builder(
                       controller: controller,

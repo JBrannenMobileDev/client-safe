@@ -82,6 +82,12 @@ class SetSearchResultPosesAction {
   SetSearchResultPosesAction(this.pageState, this.searchResultImages);
 }
 
+class SetSubmittedPosesAction {
+  final PosesPageState pageState;
+  final List<GroupImage> submittedPoses;
+  SetSubmittedPosesAction(this.pageState, this.submittedPoses);
+}
+
 class SetLoadingNewSearchResultImagesState {
   final PosesPageState pageState;
   final bool isLoadingSearchImages;
@@ -93,3 +99,20 @@ class LoadMorePoseImagesAction {
   LoadMorePoseImagesAction(this.pageState);
 }
 
+class SetLoadingSubmittedPosesState {
+  final PosesPageState pageState;
+  final bool isLoading;
+  SetLoadingSubmittedPosesState(this.pageState, this.isLoading);
+}
+
+class LoadMoreSubmittedImagesAction {
+  final PosesPageState pageState;
+  final bool shouldFetchLatest;
+  LoadMoreSubmittedImagesAction(this.pageState, this.shouldFetchLatest);
+}
+
+class SetSortedSubmittedPosesAction {
+  final PosesPageState pageState;
+  final List<Pose> submittedPoses;
+  SetSortedSubmittedPosesAction(this.pageState, this.submittedPoses);
+}

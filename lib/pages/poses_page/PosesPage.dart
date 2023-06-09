@@ -2,6 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/GoToJobPosesBottomSheet.dart';
 import 'package:dandylight/pages/poses_page/widgets/PoseGroupListWidget.dart';
 import 'package:dandylight/pages/poses_page/widgets/PoseLibraryGroupListWidget.dart';
+import 'package:dandylight/pages/poses_page/widgets/SubmittedPoseListWidget.dart';
 
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/NavigationUtil.dart';
@@ -10,9 +11,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Job.dart';
+import '../../utils/DandyToastUtil.dart';
+import '../../utils/VibrateUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -20,8 +24,9 @@ import 'PosesActions.dart';
 import 'PosesPageState.dart';
 
 class PosesPage extends StatefulWidget {
-  static const String FILTER_TYPE_MY_POSES = "My Poses";
-  static const String FILTER_TYPE_POSE_LIBRARY = "Pose Library";
+  static const String FILTER_TYPE_MY_POSES = "Saved";
+  static const String FILTER_TYPE_POSE_LIBRARY = "Library";
+  static const String FILTER_TYPE_SUBMITTED_POSES = "Submitted";
   final Job job;
   final bool comingFromDetails;
 
@@ -60,10 +65,18 @@ class _PosesPageState extends State<PosesPage> {
             ? ColorConstants.getPrimaryBlack()
             : ColorConstants.getPeachDark()),
       ),
+      2: TextDandyLight(
+        type: TextDandyLight.MEDIUM_TEXT,
+        text: PosesPage.FILTER_TYPE_SUBMITTED_POSES,
+        color: Color(selectedIndex == 2
+            ? ColorConstants.getPrimaryBlack()
+            : ColorConstants.getPeachDark()),
+      ),
     };
     return StoreConnector<AppState, PosesPageState>(
       onInit: (store) async {
         store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
+        store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState, true));
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>
@@ -141,7 +154,7 @@ class _PosesPageState extends State<PosesPage> {
                         SafeArea(
                           child: PreferredSize(
                             child: Container(
-                              width: 300.0,
+
                               margin: EdgeInsets.only(top: 56.0),
                               child: CupertinoSlidingSegmentedControl<int>(
                                 thumbColor: Color(
@@ -158,6 +171,9 @@ class _PosesPageState extends State<PosesPage> {
                                   if (filterTypeIndex == 1) EventSender()
                                       .sendEvent(eventName: EventNames
                                       .NAV_TO_POSE_LIBRARY);
+                                  if (filterTypeIndex == 2) EventSender()
+                                      .sendEvent(eventName: EventNames
+                                      .NAV_TO_SUBMITTED_POSES);
                                 },
                                 groupValue: selectedIndex,
                               ),
@@ -169,11 +185,33 @@ class _PosesPageState extends State<PosesPage> {
                     ),
                   ),
                 ),
-                SliverList(
+                selectedIndex != 2 ? SliverList(
                   delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                     return selectedIndex == 0 ? PoseGroupListWidget(index, job, comingFromDetails) : PoseLibraryGroupListWidget(index, job, comingFromDetails);
                   },
                     childCount: selectedIndex == 0 ? pageState.poseGroups.length : pageState.libraryGroups.length, // 1000 list items
+                  ),
+                ) : SliverPadding(
+                  padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),
+                  sliver: SliverGrid(
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 2 / 2.45,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16),
+                    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+                      if(index >= pageState.submittedPosesImages.length - 1) {
+                        if(!pageState.isLoadingSubmittedPoses) {
+                          pageState.loadMoreSubmittedImages();
+                        }
+                      }
+                      return Container(
+                        height: (MediaQuery.of(context).size.height),
+                        child: _buildItem(context, index),
+                      );
+                    },
+                      childCount: pageState.submittedPoses == null ? 0 : pageState.submittedPoses.length, // 1000 list items
+                    ),
                   ),
                 ),
                 SliverList(
@@ -197,4 +235,23 @@ class _PosesPageState extends State<PosesPage> {
           ),
     );
   }
+
+  Widget _buildItem(BuildContext context, int index, ) {
+    return StoreConnector<AppState, PosesPageState>(
+      converter: (store) => PosesPageState.fromStore(store),
+      builder: (BuildContext context, PosesPageState pageState) =>
+          GestureDetector(
+            onTap: () {
+              if(job != null) {
+                pageState.onImageAddedToJobSelected(pageState.submittedPoses.elementAt(index).pose, job);
+                VibrateUtil.vibrateMedium();
+                DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
+                EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);
+              }
+            },
+            child: SubmittedPoseListWidget(index, job),
+          ),
+    );
+  }
+
   }

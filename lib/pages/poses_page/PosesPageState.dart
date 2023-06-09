@@ -21,11 +21,16 @@ class PosesPageState{
   final List<Pose> searchResultPoses;
   final List<Pose> allLibraryPoses;
   final List<File> allLibraryPoseImages;
+  final List<GroupImage> submittedPoses;
+  final List<Pose> sortedSubmittedPoses;
+  final List<File> submittedPosesImages;
   final List<Job> activeJobs;
   final String searchInput;
   final bool shouldClear;
   final bool isAdmin;
   final bool isLoadingSearchImages;
+  final bool isLoadingSubmittedPoses;
+  final Function() loadMoreSubmittedImages;
   final Function(String) onSearchInputChanged;
   final Function(GroupImage, PoseGroup) onImageSaveSelected;
   final Function(Pose, Job) onImageAddedToJobSelected;
@@ -49,6 +54,11 @@ class PosesPageState{
     @required this.isLoadingSearchImages,
     @required this.loadMoreImages,
     @required this.searchResultPoses,
+    @required this.submittedPoses,
+    @required this.sortedSubmittedPoses,
+    @required this.submittedPosesImages,
+    @required this.isLoadingSubmittedPoses,
+    @required this.loadMoreSubmittedImages,
   });
 
   PosesPageState copyWith({
@@ -69,6 +79,11 @@ class PosesPageState{
     bool isLoadingSearchImages,
     Function() loadMoreImages,
     List<Pose> searchResultPoses,
+    List<GroupImage> submittedPoses,
+    List<Pose> sortedSubmittedPoses,
+    List<File> submittedPosesImages,
+    bool isLoadingSubmittedPoses,
+    Function() loadMoreSubmittedImages,
   }){
     return PosesPageState(
       poseGroups: poseGroups?? this.poseGroups,
@@ -88,6 +103,10 @@ class PosesPageState{
       isLoadingSearchImages: isLoadingSearchImages ?? this.isLoadingSearchImages,
       loadMoreImages: loadMoreImages ?? this.loadMoreImages,
       searchResultPoses: searchResultPoses ?? this.searchResultPoses,
+      submittedPoses: submittedPoses ?? this.submittedPoses,
+      submittedPosesImages: submittedPosesImages ?? this.submittedPosesImages,
+      sortedSubmittedPoses: sortedSubmittedPoses ?? this.sortedSubmittedPoses,
+      isLoadingSubmittedPoses: isLoadingSubmittedPoses ?? this.isLoadingSubmittedPoses,
     );
   }
 
@@ -109,6 +128,11 @@ class PosesPageState{
     allLibraryPoseImages: [],
     loadMoreImages: null,
     searchResultPoses: [],
+    submittedPoses: [],
+    submittedPosesImages: [],
+    sortedSubmittedPoses: [],
+    isLoadingSubmittedPoses: false,
+    loadMoreSubmittedImages: null,
   );
 
   factory PosesPageState.fromStore(Store<AppState> store) {
@@ -126,12 +150,19 @@ class PosesPageState{
       allLibraryPoses: store.state.posesPageState.allLibraryPoses,
       isLoadingSearchImages: store.state.posesPageState.isLoadingSearchImages,
       searchResultPoses: store.state.posesPageState.searchResultPoses,
+      submittedPoses: store.state.posesPageState.submittedPoses,
+      submittedPosesImages: store.state.posesPageState.submittedPosesImages,
+      sortedSubmittedPoses: store.state.posesPageState.sortedSubmittedPoses,
+      isLoadingSubmittedPoses: store.state.posesPageState.isLoadingSubmittedPoses,
       onSearchInputChanged: (searchInput) => store.dispatch(UpdateSearchInputAction(store.state.posesPageState, searchInput)),
       onImageSaveSelected: (groupImage, poseGroup) => store.dispatch(SavePoseToMyPosesAction(store.state.posesPageState, groupImage, poseGroup)),
       onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveImageToJobAction(store.state.posesPageState, pose, job)),
         loadMoreImages: () {
           store.dispatch(LoadMorePoseImagesAction(store.state.posesPageState));
-        }
+        },
+      loadMoreSubmittedImages: () {
+        store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState, false));
+      }
     );
   }
 
@@ -152,6 +183,11 @@ class PosesPageState{
       allLibraryPoseImages.hashCode ^
       allLibraryPoses.hashCode ^
       searchResultPoses.hashCode ^
+      submittedPoses.hashCode ^
+      submittedPosesImages.hashCode ^
+      sortedSubmittedPoses.hashCode ^
+      isLoadingSubmittedPoses.hashCode ^
+      loadMoreSubmittedImages.hashCode ^
       libraryGroupImages.hashCode;
   @override
   bool operator ==(Object other) =>
@@ -172,5 +208,10 @@ class PosesPageState{
               allLibraryPoses == other.allLibraryPoses &&
               isLoadingSearchImages == other.isLoadingSearchImages &&
               searchResultPoses == other.searchResultPoses &&
+              submittedPoses == other.submittedPoses &&
+              submittedPosesImages == other.submittedPosesImages &&
+              sortedSubmittedPoses == other.sortedSubmittedPoses &&
+              isLoadingSubmittedPoses == other.isLoadingSubmittedPoses &&
+              loadMoreSubmittedImages == other.loadMoreSubmittedImages &&
               libraryGroupImages == other.libraryGroupImages;
 }

@@ -10,6 +10,7 @@ import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import '../../utils/EnvironmentUtil.dart';
+import '../poses_page/PosesActions.dart';
 import 'UploadPoseActions.dart';
 import 'UploadPosePage.dart';
 
@@ -48,6 +49,7 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     newPose.createDate = DateTime.now();
     await FileStorage.saveSubmittedPoseImageFile(action.poseImage.path, newPose);
     await PoseSubmittedGroupDao.addNewSubmission(newPose);
+    store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState, true));
   }
 
   List<String> getCategoryList(SubmitUploadedPoseAction action) {

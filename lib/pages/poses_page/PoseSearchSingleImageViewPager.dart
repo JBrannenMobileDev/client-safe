@@ -117,7 +117,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       ),
                       GestureDetector(
                         onTap: () {
-                          IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                          IntentLauncherUtil.launchURL(image.pose.instagramUrl);
                         },
                         child: Container(
                           padding: EdgeInsets.only(right: 16),
@@ -132,27 +132,47 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       ),
                     ],
                   ),
+                  image.pose.prompt.isNotEmpty ? Container(
+                    margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
+                    width: double.infinity,
+                    child:  TextDandyLight(
+                      type: TextDandyLight.SMALL_TEXT,
+                      color: Color(ColorConstants.getPeachDark()),
+                      textAlign: TextAlign.start,
+                      text: 'PROMPT',
+                    ),
+                  ) : SizedBox(),
+                  image.pose.prompt.isNotEmpty ? Container(
+                    margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                    width: double.infinity,
+                    child:  TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      color: Color(ColorConstants.getPeachDark()),
+                      textAlign: TextAlign.start,
+                      text: image.pose.prompt,
+                    ),
+                  ) : SizedBox(),
                   GestureDetector(
                     onTap: () {
-                      IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                      IntentLauncherUtil.launchURL(image.pose.instagramUrl);
                       EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                     },
                     child: Container(
-                      margin: EdgeInsets.only(top: 16),
-                      height: 48,
-                      width: 200,
+                      margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                      height: 54,
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-
-                        borderRadius: BorderRadius.circular(8),
+                        color: Color(ColorConstants.getPeachDark()),
+                        borderRadius: BorderRadius.circular(27),
                       ),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        color: Color(ColorConstants.getPeachLight()),
+                        color: Color(ColorConstants.getPrimaryWhite()),
                         text: 'Follow on Instagram',
                       ),
                     ),
                   ),
+                  SizedBox(height: 128),
                 ],
               ),
             ),
@@ -174,16 +194,17 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
       builder: (BuildContext context, PosesPageState pageState) =>
           Scaffold(
             key: scaffoldKey,
-            backgroundColor: Colors.black,
+            backgroundColor: Colors.white,
             appBar: AppBar(
-              iconTheme: IconThemeData(color: Color(ColorConstants.getPeachLight())),
+              iconTheme: IconThemeData(color: Color(ColorConstants.getPeachDark())),
               centerTitle: true,
+              elevation: 0.0,
               title: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
                 text: groupName,
-                color: Color(ColorConstants.getPeachLight()),
+                color: Color(ColorConstants.getPeachDark()),
               ),
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.white,
               actions: [
                 GestureDetector(
                   onTap: () {
@@ -194,7 +215,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       margin: EdgeInsets.only(right: 16.0, left: 16),
                       child: Image.asset(
                         'assets/images/icons/instagram_icon.png',
-                        color: Color(ColorConstants.getPeachLight()),
+                        color: Color(ColorConstants.getPeachDark()),
                         height: 26,
                         width: 26,
                       )
@@ -207,7 +228,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                   child: Container(
                       child: Image.asset(
                         'assets/images/icons/plus.png',
-                        color: Color(ColorConstants.getPeachLight()),
+                        color: Color(ColorConstants.getPeachDark()),
                         height: 24,
                         width: 24,
                       )
@@ -223,7 +244,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                     width: 28.0,
                     child: Image.asset(
                       'assets/images/icons/ribbon.png',
-                      color: Color(ColorConstants.getPeachLight()),
+                      color: Color(ColorConstants.getPeachDark()),
                     ),
                   ),
                 )
