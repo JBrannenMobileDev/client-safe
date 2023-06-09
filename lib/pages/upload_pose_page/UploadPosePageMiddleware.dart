@@ -49,7 +49,6 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     newPose.createDate = DateTime.now();
     await FileStorage.saveSubmittedPoseImageFile(action.poseImage.path, newPose);
     await PoseSubmittedGroupDao.addNewSubmission(newPose);
-    store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState, true));
   }
 
   List<String> getCategoryList(SubmitUploadedPoseAction action) {

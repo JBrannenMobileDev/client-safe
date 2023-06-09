@@ -76,7 +76,7 @@ class _PosesPageState extends State<PosesPage> {
     return StoreConnector<AppState, PosesPageState>(
       onInit: (store) async {
         store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
-        store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState, true));
+        store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState));
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>

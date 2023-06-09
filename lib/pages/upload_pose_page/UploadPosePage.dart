@@ -71,10 +71,12 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
     onInit: (store) {
       store.dispatch(SetInstagramNameAction(store.state.uploadPosePageState, ''));
       NameController.text = '@';
+      NameController.selection = TextSelection.collapsed(offset: NameController.text.length);
     },
     onDidChange: (previous, current){
       if((previous.instagramName == '@') && (current.instagramName.isNotEmpty && current.instagramName != '@')) {
         NameController.text = current.instagramName;
+        NameController.selection = TextSelection.collapsed(offset: NameController.text.length);
       }
     },
     converter: (Store<AppState> store) => UploadPosePageState.fromStore(store),

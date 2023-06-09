@@ -107,8 +107,7 @@ class SetLoadingSubmittedPosesState {
 
 class LoadMoreSubmittedImagesAction {
   final PosesPageState pageState;
-  final bool shouldFetchLatest;
-  LoadMoreSubmittedImagesAction(this.pageState, this.shouldFetchLatest);
+  LoadMoreSubmittedImagesAction(this.pageState);
 }
 
 class SetSortedSubmittedPosesAction {

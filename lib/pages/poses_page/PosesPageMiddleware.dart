@@ -11,6 +11,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:redux/redux.dart';
+import 'package:sembast/sembast.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:synchronized/synchronized.dart';
 
@@ -128,6 +129,17 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
   void loadMoreSubmittedImages(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action) async {
     PoseSubmittedGroup submittedPosesGroup = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
+
+    (await PoseSubmittedGroupDao.getStream()).listen((invoiceSnapshots) async {
+      List<PoseSubmittedGroup> submittedGroup = [];
+      for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
+        submittedGroup.add(PoseSubmittedGroup.fromMap(invoiceSnapshot.value));
+      }
+      processPoses(store, next, action, submittedPosesGroup);
+    });
+  }
+
+  void processPoses(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action, PoseSubmittedGroup submittedPosesGroup) async {
     List<Pose> submittedPoses = submittedPosesGroup.poses;
     store.dispatch(SetSortedSubmittedPosesAction(store.state.posesPageState, submittedPosesGroup.poses));
 
@@ -136,7 +148,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
       if(!store.state.posesPageState.isLoadingSubmittedPoses) {
         store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, true));
 
-        List<GroupImage> imageFiles = action.shouldFetchLatest ? [] : store.state.posesPageState.submittedPoses;
+        List<GroupImage> imageFiles = store.state.posesPageState.submittedPoses;
 
         final int PAGE_SIZE = 10;
 
@@ -179,7 +191,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
   Future _fetchSubmittedImage(List<Pose> submittedPoses, int startIndex, List<GroupImage> imageFiles, Store<AppState> store) async {
     if(submittedPoses.length > startIndex) {
       Pose pose = submittedPoses.elementAt(startIndex);
-      imageFiles.add(GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose, null)).path), pose: pose));
+      imageFiles.add(GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
       store.dispatch(SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
     }
   }

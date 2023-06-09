@@ -200,6 +200,11 @@ class PoseSubmittedGroupDao extends Equatable{
     await PoseSubmittedGroupDao.update(group);
   }
 
+  static Future<Stream<List<RecordSnapshot>>> getStream() async {
+    var query = _PoseSubmittedGroupGroupStore.query();
+    return query.onSnapshots(await _db);
+  }
+
   @override
   // TODO: implement props
   List<Object> get props => [];

@@ -3,8 +3,8 @@ import 'package:dandylight/utils/UidUtil.dart';
 class Pose{
   static const String STATUS_SUBMITTED = 'Submitted';
   static const String STATUS_FEATURED = 'Featured';
-  static const String STATUS_REVIEWED = 'Reviewed';
-  static const String STATUS_NOT_A_SUBMISSION = 'not_a_submission';
+  static const String STATUS_REVIEWED = 'Submitted ';
+  static const String STATUS_NOT_A_SUBMISSION = 'Not a submission';
 
   int id;
   String documentId;
@@ -31,6 +31,7 @@ class Pose{
     this.createDate,
     this.categories,
     this.prompt,
+    this.reviewStatus,
   });
 
   bool isMySubmission() {
@@ -55,6 +56,7 @@ class Pose{
       'instagramUrl' : instagramUrl,
       'instagramName' : instagramName,
       'prompt' : prompt,
+      'reviewStatus' : reviewStatus != null ? reviewStatus : STATUS_NOT_A_SUBMISSION,
       'categories' : categories,
       'numOfSaves' : numOfSaves != null ? numOfSaves : 0,
       'tags' : tags,
@@ -68,6 +70,7 @@ class Pose{
       imageUrl: map['imageUrl'],
       instagramUrl: map['instagramUrl'],
       instagramName: map['instagramName'],
+      reviewStatus: map['reviewStatus'] != null ? map['reviewStatus'] : STATUS_NOT_A_SUBMISSION,
       uid: map['uid'] != null ? map['uid'] : '',
       prompt: map['prompt'] != null ? map['prompt'] : '',
       categories: map['categories'] != null ? List<String>.from(map['categories']) : [],

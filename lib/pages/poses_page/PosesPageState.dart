@@ -161,7 +161,7 @@ class PosesPageState{
           store.dispatch(LoadMorePoseImagesAction(store.state.posesPageState));
         },
       loadMoreSubmittedImages: () {
-        store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState, false));
+        store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState));
       }
     );
   }

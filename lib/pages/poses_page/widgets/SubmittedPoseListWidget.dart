@@ -85,13 +85,13 @@ class SubmittedPoseListWidget extends StatelessWidget {
                           1.0
                         ])),
               ) : SizedBox(),
-              pageState.submittedPoses.length > index ? pageState.submittedPoses.elementAt(index).pose.isNewPose() ? Container(
+              Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
                   bannerColor: Color(ColorConstants.getPeachDark()),
                   child: Text(
-                    "NEW",
+                    pageState.submittedPoses.elementAt(index).pose.reviewStatus,
                     style: TextStyle(
                       fontFamily: TextDandyLight.getFontFamily(),
                       fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
@@ -99,7 +99,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                     ),
                   ),
                 ),
-              ) : SizedBox() : SizedBox(),
+              ),
               pageState.submittedPoses.length > index ? job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);

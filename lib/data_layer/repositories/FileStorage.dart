@@ -94,7 +94,7 @@ class FileStorage {
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
 
-  static Future<File> getSubmittedPoseImageFile(Pose pose, PoseLibraryGroup group) async {
+  static Future<File> getSubmittedPoseImageFile(Pose pose) async {
     String imageUrl = pose.imageUrl;
 
     if(imageUrl == null || imageUrl.isEmpty) {
