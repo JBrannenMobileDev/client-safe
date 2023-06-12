@@ -420,6 +420,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                             title: pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
                               onTap: () {
                                 NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                                EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
                               },
                               child: Container(
                                 width: 132,

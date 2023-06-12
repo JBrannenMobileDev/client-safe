@@ -116,11 +116,12 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
       int posesSize = poseImages.length;
 
-      final List<Future<dynamic>> featureList = <Future<dynamic>>[];
       for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
-        await featureList.add(_fetchImage(sortedPoses, startIndex, action, poseImages));
+        if(sortedPoses.length > startIndex) {
+          Pose pose = sortedPoses.elementAt(startIndex);
+          await poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
+        }
       }
-      await Future.wait<dynamic>(featureList);
 
       store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, poseImages));
       store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, false));
@@ -142,13 +143,6 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     oldPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
     newPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
     return newPoses + oldPoses;
-  }
-
-  Future _fetchImage(List<Pose> sortedPoses, int startIndex, LoadMoreImagesAction action, List<GroupImage> poseImages) async {
-    if(sortedPoses.length > startIndex) {
-      Pose pose = sortedPoses.elementAt(startIndex);
-      poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
-    }
   }
 
   void _loadPoseImages(Store<AppState> store, LoadLibraryPoseGroup action) async{

@@ -108,10 +108,9 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     lock.synchronized(() async {
       if(!store.state.posesPageState.isLoadingSearchImages) {
         store.dispatch(SetLoadingNewSearchResultImagesState(store.state.posesPageState, true));
-        List<Pose> libraryPoses = store.state.posesPageState.searchResultPoses;
+        List<Pose> libraryPoses = _sortPoses(store.state.posesPageState.searchResultPoses);
 
         List<GroupImage> imageFiles = store.state.posesPageState.searchResultsImages;
-        libraryPoses = _sortPoses(libraryPoses);
 
         final int PAGE_SIZE = 10;
 
@@ -132,11 +131,11 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     PoseSubmittedGroup submittedPosesGroup = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
 
     (await PoseSubmittedGroupDao.getStream()).listen((invoiceSnapshots) async {
-      List<PoseSubmittedGroup> submittedGroup = [];
+      PoseSubmittedGroup submittedGroup = null;
       for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
-        submittedGroup.add(PoseSubmittedGroup.fromMap(invoiceSnapshot.value));
+        submittedGroup = (PoseSubmittedGroup.fromMap(invoiceSnapshot.value));
       }
-      processPoses(store, next, action, submittedPosesGroup);
+      processPoses(store, next, action, submittedGroup);
     });
   }
 
@@ -146,19 +145,25 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetSortedSubmittedPosesAction(store.state.posesPageState, submittedPosesGroup.poses));
     store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, true));
 
-    List<GroupImage> imageFiles = [];
-    submittedPoses.forEach((pose) async {
-      imageFiles.insert(0, GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
-      store.dispatch(SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
-    });
+    var lock = Lock();
+    lock.synchronized(() async {
+      List<GroupImage> imageFiles = [];
+      await submittedPoses.forEach((pose) async {
+        imageFiles.insert(0, GroupImage(file: XFile(
+            (await FileStorage.getSubmittedPoseImageFile(pose)).path),
+            pose: pose));
+        store.dispatch(
+            SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
+      });
 
-    store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, false));
+      store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, false));
+    });
   }
 
   Future _fetchImage(List<Pose> libraryPoses, int startIndex, List<GroupImage> imageFiles, Store<AppState> store) async {
     if(libraryPoses.length > startIndex) {
       Pose pose = libraryPoses.elementAt(startIndex);
-      imageFiles.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, null)).path), pose: pose));
+      await imageFiles.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, null)).path), pose: pose));
       store.dispatch(SetSearchResultPosesAction(store.state.posesPageState, imageFiles));
     }
   }
@@ -174,6 +179,9 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
         oldPoses.add(pose);
       }
     }
+
+    newPoses.sort();
+    oldPoses.sort();
 
     return newPoses + oldPoses;
   }

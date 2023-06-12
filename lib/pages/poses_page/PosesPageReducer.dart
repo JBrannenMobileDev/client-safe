@@ -86,15 +86,6 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
   for(String word in searchWords) {
     if(word.length > 2) {
       for(int index = 0; index < allPoses.length; index++) {
-        //compare by tags
-        for(String tag in allPoses.elementAt(index).tags) {
-          if(tag.toLowerCase().contains(word)) {
-            if(!poseDuplicateReference.contains(allPoses.elementAt(index))) {
-              searchResultsPoses.add(allPoses.elementAt(index));
-              poseDuplicateReference.add(allPoses.elementAt(index));
-            }
-          }
-        }
 
         //Compare by Instagram Name
         if(allPoses.elementAt(index).instagramName.toLowerCase().contains(word)) {
@@ -115,11 +106,35 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
     }
   }
 
+  for(int index = 0; index < allPoses.length; index++) {
+    //compare by tags
+    if(poseMatchesAllSearchWords(searchWords, allPoses.elementAt(index))) {
+      if (!poseDuplicateReference.contains(allPoses.elementAt(index))) {
+        searchResultsPoses.add(allPoses.elementAt(index));
+        poseDuplicateReference.add(allPoses.elementAt(index));
+      }
+    }
+  }
+
   return previousState.copyWith(
     searchInput: action.searchInput,
     searchResultPoses: action.searchInput.isNotEmpty ? searchResultsPoses : [],
     searchResultsImages: [],
   );
+}
+
+bool poseMatchesAllSearchWords(List<String> searchWords, Pose pose) {
+  int matchingWords = 0;
+  int expectedMatchingWords = searchWords.length;
+
+  searchWords.forEach((searchWord) {
+    pose.tags.forEach((tag) {
+      if(tag.toLowerCase() == searchWord.toLowerCase()) {
+        matchingWords++;
+      }
+    });
+  });
+  return matchingWords == expectedMatchingWords;
 }
 
 PosesPageState _setIsAdmin(PosesPageState previousState, SetIsAdminAction action){
