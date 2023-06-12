@@ -6,6 +6,7 @@ import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import '../../models/Job.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseLibraryGroup.dart';
+import '../../models/Profile.dart';
 import '../pose_group_page/GroupImage.dart';
 
 class FetchPoseGroupsAction{
@@ -69,6 +70,12 @@ class SetActiveJobsToPosesPage {
   SetActiveJobsToPosesPage(this.pageState, this.activeJobs);
 }
 
+class SetPosesProfileAction {
+  final PosesPageState pageState;
+  final Profile profile;
+  SetPosesProfileAction(this.pageState, this.profile);
+}
+
 class SetAllPosesAction {
   final PosesPageState pageState;
   final List<Pose> allPoses;
@@ -114,4 +121,9 @@ class SetSortedSubmittedPosesAction {
   final PosesPageState pageState;
   final List<Pose> submittedPoses;
   SetSortedSubmittedPosesAction(this.pageState, this.submittedPoses);
+}
+
+class ClearPosesPageStateAction {
+  final PosesPageState pageState;
+  ClearPosesPageStateAction(this.pageState);
 }

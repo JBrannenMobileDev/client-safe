@@ -27,3 +27,8 @@ class SetInstagramNameAction {
   SetInstagramNameAction(this.pageState, this.instagramName);
 }
 
+class ClearStateAction {
+  final UploadPosePageState pageState;
+  ClearStateAction(this.pageState);
+}
+

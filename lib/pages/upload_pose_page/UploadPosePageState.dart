@@ -32,7 +32,7 @@ class UploadPosePageState{
 
   factory UploadPosePageState.initial() => UploadPosePageState(
     onPoseSubmitted: null,
-    instagramName: '@',
+    instagramName: '',
   );
 
   factory UploadPosePageState.fromStore(Store<AppState> store) {

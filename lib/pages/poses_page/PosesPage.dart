@@ -20,6 +20,7 @@ import '../../utils/VibrateUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'PoseSearchSingleImageViewPager.dart';
 import 'PosesActions.dart';
 import 'PosesPageState.dart';
 
@@ -87,7 +88,7 @@ class _PosesPageState extends State<PosesPage> {
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                NavigationUtil.onUploadPoseSelected(context);
+                NavigationUtil.onUploadPoseSelected(context, pageState.profile);
               },
               backgroundColor: Color(ColorConstants.getPeachDark()),
               splashColor: Color(ColorConstants.getPeachDark()),
@@ -198,13 +199,10 @@ class _PosesPageState extends State<PosesPage> {
                         maxCrossAxisExtent: 200,
                         childAspectRatio: 2 / 2.45,
                         crossAxisSpacing: 16,
-                        mainAxisSpacing: 16),
+                        mainAxisSpacing: 16,
+
+                    ),
                     delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                      if(index >= pageState.submittedPosesImages.length - 1) {
-                        if(!pageState.isLoadingSubmittedPoses) {
-                          pageState.loadMoreSubmittedImages();
-                        }
-                      }
                       return Container(
                         height: (MediaQuery.of(context).size.height),
                         child: _buildItem(context, index),
@@ -242,6 +240,21 @@ class _PosesPageState extends State<PosesPage> {
       builder: (BuildContext context, PosesPageState pageState) =>
           GestureDetector(
             onTap: () {
+              if(job == null) {
+                Navigator.of(context).push(
+                  new MaterialPageRoute(builder: (context) => PoseSearchSingleImageViewPager(
+                    pageState.submittedPoses,
+                    index,
+                    'Submitted',
+                  )),
+                );
+              } else {
+                pageState.onImageAddedToJobSelected(pageState.searchResultsImages.elementAt(index).pose, job);
+                VibrateUtil.vibrateMedium();
+                DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
+                EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);
+              }
+
               if(job != null) {
                 pageState.onImageAddedToJobSelected(pageState.submittedPoses.elementAt(index).pose, job);
                 VibrateUtil.vibrateMedium();

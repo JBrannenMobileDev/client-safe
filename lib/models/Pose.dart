@@ -1,6 +1,6 @@
 import 'package:dandylight/utils/UidUtil.dart';
 
-class Pose{
+class Pose implements Comparable<Pose>{
   static const String STATUS_SUBMITTED = 'Submitted';
   static const String STATUS_FEATURED = 'Featured';
   static const String STATUS_REVIEWED = 'Submitted ';
@@ -78,5 +78,18 @@ class Pose{
       numOfSaves: map['numOfSaves'] != null ? map['numOfSaves'] : 0,
       createDate: map['createDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createDate']) : null,
     );
+  }
+
+
+  /// Desired relation | Result
+  /// -------------------------------------------
+  ///           a < b  | Returns a negative value.
+  ///           a == b | Returns 0.
+  ///           a > b  | Returns a positive value.
+  ///
+  @override
+  int compareTo(Pose other) {
+    if(this.createDate.isAtSameMomentAs(other.createDate)) return 0;
+    return this.createDate.isBefore(other.createDate) ? -1 : 1;
   }
 }

@@ -45,7 +45,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
       loadMoreImages(store, next);
     }
     if(action is LoadMoreSubmittedImagesAction) {
-      loadMoreSubmittedImages(store, next, action);
+      loadAllSubmittedImages(store, next, action);
     }
   }
 
@@ -73,6 +73,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     _fetchMyPoseGroups(store, next);
     _fetchLibraryPoseGroups(store, next);
     store.dispatch(SetActiveJobsToPosesPage(store.state.posesPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
+    store.dispatch(SetPosesProfileAction(store.state.posesPageState, profile));
   }
 
   void _fetchLibraryPoseGroups(Store<AppState> store, NextDispatcher next) async {
@@ -127,7 +128,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     });
   }
 
-  void loadMoreSubmittedImages(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action) async {
+  void loadAllSubmittedImages(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action) async {
     PoseSubmittedGroup submittedPosesGroup = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
 
     (await PoseSubmittedGroupDao.getStream()).listen((invoiceSnapshots) async {
@@ -141,28 +142,17 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
   void processPoses(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action, PoseSubmittedGroup submittedPosesGroup) async {
     List<Pose> submittedPoses = submittedPosesGroup.poses;
+    submittedPoses.sort();
     store.dispatch(SetSortedSubmittedPosesAction(store.state.posesPageState, submittedPosesGroup.poses));
+    store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, true));
 
-    var lock = Lock();
-    lock.synchronized(() async {
-      if(!store.state.posesPageState.isLoadingSubmittedPoses) {
-        store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, true));
-
-        List<GroupImage> imageFiles = store.state.posesPageState.submittedPoses;
-
-        final int PAGE_SIZE = 10;
-
-        int posesSize = imageFiles.length;
-
-        final List<Future<dynamic>> featureList = <Future<dynamic>>[];
-        for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
-          featureList.add(_fetchSubmittedImage(submittedPoses, startIndex, imageFiles, store));
-        }
-        await Future.wait<dynamic>(featureList);
-
-        store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, false));
-      }
+    List<GroupImage> imageFiles = [];
+    submittedPoses.forEach((pose) async {
+      imageFiles.insert(0, GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
+      store.dispatch(SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
     });
+
+    store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, false));
   }
 
   Future _fetchImage(List<Pose> libraryPoses, int startIndex, List<GroupImage> imageFiles, Store<AppState> store) async {
@@ -191,8 +181,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
   Future _fetchSubmittedImage(List<Pose> submittedPoses, int startIndex, List<GroupImage> imageFiles, Store<AppState> store) async {
     if(submittedPoses.length > startIndex) {
       Pose pose = submittedPoses.elementAt(startIndex);
-      imageFiles.add(GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
-      store.dispatch(SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
+
     }
   }
 

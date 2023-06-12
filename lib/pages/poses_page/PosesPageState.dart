@@ -9,6 +9,7 @@ import '../../AppState.dart';
 import '../../models/Job.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseLibraryGroup.dart';
+import '../../models/Profile.dart';
 import '../pose_group_page/GroupImage.dart';
 import 'PosesActions.dart';
 
@@ -26,6 +27,7 @@ class PosesPageState{
   final List<File> submittedPosesImages;
   final List<Job> activeJobs;
   final String searchInput;
+  final Profile profile;
   final bool shouldClear;
   final bool isAdmin;
   final bool isLoadingSearchImages;
@@ -59,6 +61,7 @@ class PosesPageState{
     @required this.submittedPosesImages,
     @required this.isLoadingSubmittedPoses,
     @required this.loadMoreSubmittedImages,
+    @required this.profile,
   });
 
   PosesPageState copyWith({
@@ -84,6 +87,7 @@ class PosesPageState{
     List<File> submittedPosesImages,
     bool isLoadingSubmittedPoses,
     Function() loadMoreSubmittedImages,
+    Profile profile,
   }){
     return PosesPageState(
       poseGroups: poseGroups?? this.poseGroups,
@@ -107,6 +111,7 @@ class PosesPageState{
       submittedPosesImages: submittedPosesImages ?? this.submittedPosesImages,
       sortedSubmittedPoses: sortedSubmittedPoses ?? this.sortedSubmittedPoses,
       isLoadingSubmittedPoses: isLoadingSubmittedPoses ?? this.isLoadingSubmittedPoses,
+      profile: profile ?? this.profile,
     );
   }
 
@@ -133,6 +138,7 @@ class PosesPageState{
     sortedSubmittedPoses: [],
     isLoadingSubmittedPoses: false,
     loadMoreSubmittedImages: null,
+    profile: null,
   );
 
   factory PosesPageState.fromStore(Store<AppState> store) {
@@ -154,6 +160,7 @@ class PosesPageState{
       submittedPosesImages: store.state.posesPageState.submittedPosesImages,
       sortedSubmittedPoses: store.state.posesPageState.sortedSubmittedPoses,
       isLoadingSubmittedPoses: store.state.posesPageState.isLoadingSubmittedPoses,
+      profile: store.state.posesPageState.profile,
       onSearchInputChanged: (searchInput) => store.dispatch(UpdateSearchInputAction(store.state.posesPageState, searchInput)),
       onImageSaveSelected: (groupImage, poseGroup) => store.dispatch(SavePoseToMyPosesAction(store.state.posesPageState, groupImage, poseGroup)),
       onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveImageToJobAction(store.state.posesPageState, pose, job)),
@@ -188,6 +195,7 @@ class PosesPageState{
       sortedSubmittedPoses.hashCode ^
       isLoadingSubmittedPoses.hashCode ^
       loadMoreSubmittedImages.hashCode ^
+      profile.hashCode ^
       libraryGroupImages.hashCode;
   @override
   bool operator ==(Object other) =>
@@ -209,6 +217,7 @@ class PosesPageState{
               isLoadingSearchImages == other.isLoadingSearchImages &&
               searchResultPoses == other.searchResultPoses &&
               submittedPoses == other.submittedPoses &&
+              profile == other.profile &&
               submittedPosesImages == other.submittedPosesImages &&
               sortedSubmittedPoses == other.sortedSubmittedPoses &&
               isLoadingSubmittedPoses == other.isLoadingSubmittedPoses &&

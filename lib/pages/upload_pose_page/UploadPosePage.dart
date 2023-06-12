@@ -15,6 +15,7 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
+import '../../models/Profile.dart';
 import 'UploadPoseActions.dart';
 import 'UploadPosePageState.dart';
 
@@ -29,10 +30,13 @@ class UploadPosePage extends StatefulWidget {
   static const String NEWBORN = "Newborn";
   static const String PROPOSALS = "Proposals";
   static const String PETS = "Pets";
+  final Profile profile;
+
+  UploadPosePage(this.profile);
 
   @override
   State<StatefulWidget> createState() {
-    return _UploadPosePageState();
+    return _UploadPosePageState(profile);
   }
 }
 
@@ -56,6 +60,9 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   bool newbornSelected = false;
   bool proposalsSelected = false;
   bool petsSelected = false;
+  Profile profile;
+
+  _UploadPosePageState(this.profile);
 
   Future getDeviceImage(UploadPosePageState pageState) async {
     try{
@@ -70,14 +77,8 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   Widget build(BuildContext context) => StoreConnector<AppState, UploadPosePageState>(
     onInit: (store) {
       store.dispatch(SetInstagramNameAction(store.state.uploadPosePageState, ''));
-      NameController.text = '@';
+      NameController.text = profile.instagramName.isNotEmpty ? profile.instagramName : '@';
       NameController.selection = TextSelection.collapsed(offset: NameController.text.length);
-    },
-    onDidChange: (previous, current){
-      if((previous.instagramName == '@') && (current.instagramName.isNotEmpty && current.instagramName != '@')) {
-        NameController.text = current.instagramName;
-        NameController.selection = TextSelection.collapsed(offset: NameController.text.length);
-      }
     },
     converter: (Store<AppState> store) => UploadPosePageState.fromStore(store),
     builder: (BuildContext context, UploadPosePageState pageState) =>

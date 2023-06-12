@@ -11,6 +11,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
+import '../../../models/Pose.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../PosesPageState.dart';
 import 'SaveSubmittedPoseToJobBottomSheet.dart';
@@ -89,7 +90,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
-                  bannerColor: Color(ColorConstants.getPeachDark()),
+                  bannerColor: Color(pageState.submittedPoses.elementAt(index).pose.reviewStatus == Pose.STATUS_FEATURED ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
                   child: Text(
                     pageState.submittedPoses.elementAt(index).pose.reviewStatus,
                     style: TextStyle(
@@ -100,6 +101,20 @@ class SubmittedPoseListWidget extends StatelessWidget {
                   ),
                 ),
               ),
+              pageState.submittedPoses.elementAt(index).pose.reviewStatus == Pose.STATUS_FEATURED ? GestureDetector(
+                onTap: () {
+                  _showSaveToJobBottomSheet(context, index);
+                },
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Container(
+                      height: 24,
+                      width: 24,
+                      margin: EdgeInsets.only(right: 2.0, bottom: 2.0),
+                      child: Icon(Icons.star, color: Color(ColorConstants.getPrimaryColor()))
+                  ),
+                ),
+              ) : SizedBox(),
               pageState.submittedPoses.length > index ? job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);

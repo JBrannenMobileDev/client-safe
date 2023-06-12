@@ -7,10 +7,15 @@ import 'UploadPosePageState.dart';
 
 final uploadPoseReducer = combineReducers<UploadPosePageState>([
   TypedReducer<UploadPosePageState, SetInstagramNameAction>(_setInstagramName),
+  TypedReducer<UploadPosePageState, ClearStateAction>(_clearState),
 ]);
 
 UploadPosePageState _setInstagramName(UploadPosePageState previousState, SetInstagramNameAction action){
   return previousState.copyWith(
     instagramName: action.instagramName
   );
+}
+
+UploadPosePageState _clearState(UploadPosePageState previousState, ClearStateAction action){
+  return UploadPosePageState.initial();
 }

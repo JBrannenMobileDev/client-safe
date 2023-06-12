@@ -16,7 +16,19 @@ final posesReducer = combineReducers<PosesPageState>([
   TypedReducer<PosesPageState, SetLoadingNewSearchResultImagesState>(_setLoadingState),
   TypedReducer<PosesPageState, SetLoadingSubmittedPosesState>(_setLoadingSubmittedPosesState),
   TypedReducer<PosesPageState, SetSortedSubmittedPosesAction>(_setSortedSubmittedPoses),
+  TypedReducer<PosesPageState, SetPosesProfileAction>(_setProfile),
+  TypedReducer<PosesPageState, ClearPosesPageStateAction>(_clearPageState),
 ]);
+
+PosesPageState _clearPageState(PosesPageState previousState, ClearPosesPageStateAction action){
+  return PosesPageState.initial();
+}
+
+PosesPageState _setProfile(PosesPageState previousState, SetPosesProfileAction action){
+  return previousState.copyWith(
+    profile: action.profile,
+  );
+}
 
 PosesPageState _setSortedSubmittedPoses(PosesPageState previousState, SetSortedSubmittedPosesAction action){
   return previousState.copyWith(
