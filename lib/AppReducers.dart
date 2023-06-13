@@ -35,6 +35,7 @@ import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageReduce
 import 'package:dandylight/pages/reminders_page/RemindersPageReducer.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageReducer.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
+import 'package:dandylight/pages/review_poses_page/ReviewPosesPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageReducer.dart';
 
@@ -78,4 +79,5 @@ AppState appReducers(AppState state, dynamic action) =>
         libraryPoseGroupPageState: libraryPoseGroupReducer(state.libraryPoseGroupPageState, action),
         onBoardingPageState: onBoardingReducer(state.onBoardingPageState, action),
         uploadPosePageState: uploadPoseReducer(state.uploadPosePageState, action),
+        reviewPosesPageState: reviewPosesReducer(state.reviewPosesPageState, action),
     );

@@ -33,6 +33,7 @@ import 'package:dandylight/pages/pricing_profiles_page/PricingProfilesPageState.
 import 'package:dandylight/pages/reminders_page/RemindersPageState.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageState.dart';
 import 'package:dandylight/pages/job_types/JobTypesPageState.dart';
+import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageState.dart';
 import 'package:meta/meta.dart';
@@ -79,6 +80,7 @@ class AppState {
   final LibraryPoseGroupPageState libraryPoseGroupPageState;
   final OnBoardingPageState onBoardingPageState;
   final UploadPosePageState uploadPosePageState;
+  final ReviewPosesPageState reviewPosesPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -119,6 +121,7 @@ class AppState {
     @required this.libraryPoseGroupPageState,
     @required this.onBoardingPageState,
     @required this.uploadPosePageState,
+    @required this.reviewPosesPageState,
   });
 
   factory AppState.initial() {
@@ -161,6 +164,7 @@ class AppState {
       libraryPoseGroupPageState: LibraryPoseGroupPageState.initial(),
       onBoardingPageState: OnBoardingPageState.initial(),
       uploadPosePageState: UploadPosePageState.initial(),
+      reviewPosesPageState: ReviewPosesPageState.initial(),
     );
   }
 
@@ -203,6 +207,7 @@ class AppState {
     LibraryPoseGroupPageState libraryPoseGroupPageState,
     OnBoardingPageState onBoardingPageState,
     UploadPosePageState uploadPosePageState,
+    ReviewPosesPageState reviewPosesPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -243,6 +248,7 @@ class AppState {
       libraryPoseGroupPageState: libraryPoseGroupPageState ?? this.libraryPoseGroupPageState,
       onBoardingPageState: onBoardingPageState ?? this.onBoardingPageState,
       uploadPosePageState: uploadPosePageState ?? this.uploadPosePageState,
+      reviewPosesPageState: reviewPosesPageState ?? this.reviewPosesPageState,
     );
   }
 
@@ -285,6 +291,7 @@ class AppState {
     libraryPoseGroupPageState.hashCode ^
     onBoardingPageState.hashCode ^
     uploadPosePageState.hashCode ^
+    reviewPosesPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -328,5 +335,6 @@ class AppState {
               libraryPoseGroupPageState == other.libraryPoseGroupPageState &&
               onBoardingPageState == other.onBoardingPageState &&
               uploadPosePageState == other.uploadPosePageState &&
+              reviewPosesPageState == other.reviewPosesPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

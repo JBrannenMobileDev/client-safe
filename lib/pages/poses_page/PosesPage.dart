@@ -117,6 +117,18 @@ class _PosesPageState extends State<PosesPage> {
                     color: Color(ColorConstants.getPeachDark()),
                   ),
                   actions: <Widget>[
+                    pageState.isAdmin ? GestureDetector(
+                      onTap: () {
+                        NavigationUtil.onReviewPosesSelected(context);
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(right: 26.0),
+                        height: 24.0,
+                        width: 24.0,
+                        child: Image.asset('assets/images/icons/image_review.png',
+                          color: Color(ColorConstants.getPeachDark()),),
+                      ),
+                    ) : SizedBox(),
                     selectedIndex == 0 && job == null ? GestureDetector(
                       onTap: () {
                         UserOptionsUtil.showNewPoseGroupDialog(context);
@@ -132,8 +144,7 @@ class _PosesPageState extends State<PosesPage> {
                     GestureDetector(
                       onTap: () {
                         NavigationUtil.onSearchPosesSelected(context, job, comingFromDetails);
-                        EventSender().sendEvent(
-                            eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
+                        EventSender().sendEvent(eventName: EventNames.NAV_TO_POSE_LIBRARY_SEARCH);
                       },
                       child: Container(
                         margin: EdgeInsets.only(right: 26.0),

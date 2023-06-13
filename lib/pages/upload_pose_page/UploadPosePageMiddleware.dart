@@ -64,22 +64,4 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     if(action.engagementsSelected) categories.add(UploadPosePage.ENGAGEMENT);
     return categories;
   }
-
-  //Use this code to save unreviewed poses once they are approved.
-  // List<GroupImage> groupImages = action.pageState.poseImages;
-  // for(int index=0 ; index <  newPoses.length; index++){
-  // groupImages.add(GroupImage(
-  // file: action.poseImages.elementAt(index),
-  // pose: newPoses.elementAt(index)
-  // ));
-  // }
-  //
-  // PoseLibraryGroup poseGroup = action.pageState.poseGroup;
-  // poseGroup.poses.addAll(newPoses);
-  // await PoseLibraryGroupDao.update(poseGroup);
-  //
-  // await store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, poseGroup));
-  // await store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, groupImages));
-  // store.dispatch(posesActions.FetchPoseGroupsAction(store.state.posesPageState));
-  // store.dispatch(SetInstagramAction(store.state.libraryPoseGroupPageState, action.name, action.url));
 }

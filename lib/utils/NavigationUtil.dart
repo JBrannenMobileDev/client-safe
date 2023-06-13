@@ -19,6 +19,7 @@ import 'package:dandylight/pages/map_location_selection_widget/MapLocationSelect
 import 'package:dandylight/pages/onboarding/OnBoardingPage.dart';
 import 'package:dandylight/pages/payment_request_info_page/PaymentRequestInfoPage.dart';
 import 'package:dandylight/pages/poses_page/PosesSearchPage.dart';
+import 'package:dandylight/pages/review_poses_page/ReviewPosesPage.dart';
 import 'package:dandylight/pages/subscribe_now_page/SubscribeNowPage.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePage.dart';
 import 'package:dandylight/utils/UidUtil.dart';
@@ -40,6 +41,9 @@ class NavigationUtil {
   }
   static onClientTapped(BuildContext context) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ClientDetailsPage()));
+  }
+  static onReviewPosesSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ReviewPosesPage()));
   }
   static onJobTapped(BuildContext context, bool comingFromOnBoarding) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => JobDetailsPage(comingFromOnBoarding: comingFromOnBoarding,)));

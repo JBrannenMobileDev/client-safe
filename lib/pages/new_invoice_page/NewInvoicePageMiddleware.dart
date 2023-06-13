@@ -263,7 +263,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Text(profile.businessName.isNotEmpty ? profile.businessName : 'Invoice', textScaleFactor: 2.0),
+                    Text(profile.businessName != null ? profile.businessName : 'Invoice', textScaleFactor: 2.0),
                   ])),
           Padding(
             padding: EdgeInsets.only(top: 32.0),
