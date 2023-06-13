@@ -128,9 +128,7 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void loadAllSubmittedImages(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action) async {
-    PoseSubmittedGroup submittedPosesGroup = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
-
-    (await PoseSubmittedGroupDao.getStream()).listen((invoiceSnapshots) async {
+    (await PoseSubmittedGroupDao.getStream(UidUtil().getUid())).listen((invoiceSnapshots) async {
       PoseSubmittedGroup submittedGroup = null;
       for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
         submittedGroup = (PoseSubmittedGroup.fromMap(invoiceSnapshot.value));

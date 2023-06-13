@@ -20,3 +20,8 @@ class RejectPoseAction {
   RejectPoseAction(this.pageState, this.pose);
 }
 
+class LoadPosesToReviewAction {
+  final ReviewPosesPageState pageState;
+  LoadPosesToReviewAction(this.pageState);
+}
+

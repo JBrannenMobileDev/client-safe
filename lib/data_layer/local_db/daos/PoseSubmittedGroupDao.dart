@@ -200,8 +200,9 @@ class PoseSubmittedGroupDao extends Equatable{
     await PoseSubmittedGroupDao.update(group);
   }
 
-  static Future<Stream<List<RecordSnapshot>>> getStream() async {
-    var query = _PoseSubmittedGroupGroupStore.query();
+  static Future<Stream<List<RecordSnapshot>>> getStream(String uid) async {
+    final finder = Finder(filter: Filter.equals('uid', uid));
+    var query = _PoseSubmittedGroupGroupStore.query(finder: finder);
     return query.onSnapshots(await _db);
   }
 

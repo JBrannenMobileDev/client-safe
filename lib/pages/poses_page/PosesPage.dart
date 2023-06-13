@@ -203,7 +203,7 @@ class _PosesPageState extends State<PosesPage> {
                   },
                     childCount: selectedIndex == 0 ? pageState.poseGroups.length : pageState.libraryGroups.length, // 1000 list items
                   ),
-                ) : SliverPadding(
+                ) : pageState.submittedPoses.length > 0 ? SliverPadding(
                   padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),
                   sliver: SliverGrid(
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -219,8 +219,23 @@ class _PosesPageState extends State<PosesPage> {
                         child: _buildItem(context, index),
                       );
                     },
-                      childCount: pageState.submittedPoses == null ? 0 : pageState.submittedPoses.length, // 1000 list items
+                      childCount: pageState.submittedPoses == null ? 0 : pageState.submittedPoses.length,
                     ),
+                  ),
+                ) : SliverList(
+                  delegate: new SliverChildListDelegate(
+                    <Widget>[
+                      selectedIndex == 2 ? Padding(
+                        padding: EdgeInsets.only(
+                            left: 32.0, top: 48.0, right: 32.0),
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          text: "Your submitted poses will be listed here. \nSelect the camera icon to submit a new pose.",
+                          textAlign: TextAlign.center,
+                          color: Color(ColorConstants.getPeachDark()),
+                        ),
+                      ) : SizedBox(),
+                    ],
                   ),
                 ),
                 SliverList(

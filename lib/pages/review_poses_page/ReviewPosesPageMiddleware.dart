@@ -1,9 +1,11 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
 import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import '../../models/PoseLibraryGroup.dart';
+import '../../models/PoseSubmittedGroup.dart';
 import '../pose_group_page/GroupImage.dart';
 import '../pose_library_group_page/LibraryPoseGroupActions.dart';
 
@@ -17,7 +19,17 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     if(action is RejectPoseAction) {
       rejectPose(store, action, next);
     }
+    if(action is LoadPosesToReviewAction) {
+      _loadPosesToReview(store, action, next);
+    }
   }
+
+  void _loadPosesToReview(Store<AppState> store, LoadPosesToReviewAction action, NextDispatcher next) async {
+    List<PoseSubmittedGroup> groups = await PoseSubmittedGroupDao.getAllSortedMostFrequent();
+
+
+  }
+
   void _approvePose(Store<AppState> store, ApprovePoseAction action, NextDispatcher next) async {
     // List<GroupImage> groupImages = action.pageState.poseImages;
     // for(int index=0 ; index <  newPoses.length; index++){
