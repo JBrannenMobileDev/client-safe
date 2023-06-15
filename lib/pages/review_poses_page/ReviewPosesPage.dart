@@ -45,7 +45,8 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, ReviewPosesPageState>(
     onInit: (store) {
-
+      store.dispatch(ClearReviewPosesStateAction(store.state.reviewPosesPageState));
+      store.dispatch(LoadPosesToReviewAction(store.state.reviewPosesPageState));
     },
     converter: (Store<AppState> store) => ReviewPosesPageState.fromStore(store),
     builder: (BuildContext context, ReviewPosesPageState pageState) =>
@@ -84,11 +85,10 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
         );
       },
       child: Padding(
-        padding: EdgeInsets.only(left:20, right: 20),
+        padding: EdgeInsets.only(left:0.5, right: 0.5, top: 1),
         child: ClipRRect(
-          borderRadius: new BorderRadius.circular(16.0),
           child: Image(
-            fit: BoxFit.contain,
+            fit: BoxFit.cover,
             image: groupImage.file != null ? FileImage(File(groupImage.file.path))
                 : AssetImage("assets/images/backgrounds/image_background.png"),
           ),

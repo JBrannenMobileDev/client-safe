@@ -1,15 +1,15 @@
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
-import '../../data_layer/local_db/daos/PoseLibraryGroupDao.dart';
-import '../../models/PoseLibraryGroup.dart';
+import '../../data_layer/repositories/FileStorage.dart';
+import '../../models/Pose.dart';
 import '../../models/PoseSubmittedGroup.dart';
 import '../pose_group_page/GroupImage.dart';
-import '../pose_library_group_page/LibraryPoseGroupActions.dart';
 
-class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
+class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
@@ -26,8 +26,21 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
 
   void _loadPosesToReview(Store<AppState> store, LoadPosesToReviewAction action, NextDispatcher next) async {
     List<PoseSubmittedGroup> groups = await PoseSubmittedGroupDao.getAllSortedMostFrequent();
+    List<Pose> poses = [];
+    List<GroupImage> groupImages = [];
 
+    groups.forEach((group) {
+      group.poses.forEach((pose) {
+        if(pose.reviewStatus == Pose.STATUS_SUBMITTED) poses.add(pose);
+      });
+    });
 
+    await poses.forEach((pose) async {
+      await groupImages.insert(0, GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
+      store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
+    });
+
+    store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
   }
 
   void _approvePose(Store<AppState> store, ApprovePoseAction action, NextDispatcher next) async {

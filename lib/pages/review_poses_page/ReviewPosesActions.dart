@@ -1,11 +1,10 @@
-import 'package:image_picker/image_picker.dart';
-
 import '../../models/Pose.dart';
+import '../pose_group_page/GroupImage.dart';
 import 'ReviewPosesPageState.dart';
 
-class ClearStateAction {
+class ClearReviewPosesStateAction {
   final ReviewPosesPageState pageState;
-  ClearStateAction(this.pageState);
+  ClearReviewPosesStateAction(this.pageState);
 }
 
 class ApprovePoseAction {
@@ -23,5 +22,12 @@ class RejectPoseAction {
 class LoadPosesToReviewAction {
   final ReviewPosesPageState pageState;
   LoadPosesToReviewAction(this.pageState);
+}
+
+class SetPoseImagesToState {
+  final ReviewPosesPageState pageState;
+  final List<Pose> poses;
+  final List<GroupImage> groupImages;
+  SetPoseImagesToState(this.pageState, this.poses, this.groupImages);
 }
 

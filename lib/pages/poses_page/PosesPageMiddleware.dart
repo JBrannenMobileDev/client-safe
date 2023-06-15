@@ -133,7 +133,9 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
         submittedGroup = (PoseSubmittedGroup.fromMap(invoiceSnapshot.value));
       }
-      processPoses(store, next, action, submittedGroup);
+      if(submittedGroup != null) {
+        processPoses(store, next, action, submittedGroup);
+      }
     });
   }
 
@@ -147,11 +149,8 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     lock.synchronized(() async {
       List<GroupImage> imageFiles = [];
       await submittedPoses.forEach((pose) async {
-        imageFiles.insert(0, GroupImage(file: XFile(
-            (await FileStorage.getSubmittedPoseImageFile(pose)).path),
-            pose: pose));
-        store.dispatch(
-            SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
+        await imageFiles.insert(0, GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
+        store.dispatch(SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
       });
 
       store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, false));

@@ -1,21 +1,21 @@
-import 'package:dandylight/pages/upload_pose_page/UploadPoseActions.dart';
 import 'package:redux/redux.dart';
-
+import 'ReviewPosesActions.dart';
 import 'ReviewPosesPageState.dart';
 
 
 
 final reviewPosesReducer = combineReducers<ReviewPosesPageState>([
-  TypedReducer<ReviewPosesPageState, SetInstagramNameAction>(_setInstagramName),
-  TypedReducer<ReviewPosesPageState, ClearStateAction>(_clearState),
+  TypedReducer<ReviewPosesPageState, ClearReviewPosesStateAction>(_clearState),
+  TypedReducer<ReviewPosesPageState, SetPoseImagesToState>(_setPoses),
 ]);
 
-ReviewPosesPageState _setInstagramName(ReviewPosesPageState previousState, SetInstagramNameAction action){
+ReviewPosesPageState _setPoses(ReviewPosesPageState previousState, SetPoseImagesToState action){
   return previousState.copyWith(
-    instagramName: action.instagramName
+      poses: action.poses,
+      groupImages: action.groupImages
   );
 }
 
-ReviewPosesPageState _clearState(ReviewPosesPageState previousState, ClearStateAction action){
+ReviewPosesPageState _clearState(ReviewPosesPageState previousState, ClearReviewPosesStateAction action){
   return ReviewPosesPageState.initial();
 }

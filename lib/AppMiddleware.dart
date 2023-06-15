@@ -73,6 +73,8 @@ import 'package:dandylight/pages/reminders_page/RemindersActions.dart' as collec
 import 'package:dandylight/pages/reminders_page/RemindersPageMiddleware.dart';
 import 'package:dandylight/pages/responses_page/ResponsesActions.dart';
 import 'package:dandylight/pages/responses_page/ResponsesPageMiddleware.dart';
+import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
+import 'package:dandylight/pages/review_poses_page/ReviewPosesPageMiddleware.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPoseActions.dart';
@@ -274,5 +276,9 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetSelectedLeadSourceAction>(OnBoardingPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubmitUploadedPoseAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetInstagramNameAction>(UploadPosePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, LoadPosesToReviewAction>(ReviewPosesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, RejectPoseAction>(ReviewPosesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ApprovePoseAction>(ReviewPosesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ClearReviewPosesStateAction>(ReviewPosesPageMiddleware()));
   return middlewareList;
 }
