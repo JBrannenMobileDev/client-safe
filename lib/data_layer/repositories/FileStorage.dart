@@ -99,7 +99,7 @@ class FileStorage {
 
     if(imageUrl == null || imageUrl.isEmpty) {
       final storageRef = FirebaseStorage.instance.ref();
-      final cloudFilePath = storageRef.child(_buildPoseSubmittedImagePath(pose));
+      final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
       imageUrl = await cloudFilePath.getDownloadURL();
       _updateSubmittedPoseImageUrl(pose, imageUrl);
     }
@@ -299,7 +299,7 @@ class FileStorage {
     final storageRef = FirebaseStorage.instance.ref();
 
     final uploadTask = storageRef
-        .child(_buildPoseSubmittedImagePath(pose))
+        .child(_buildPoseLibraryImagePath(pose))
         .putFile(File(imagePath));
 
     uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
@@ -332,7 +332,7 @@ class FileStorage {
 
   static _fetchAndSaveSubmittedPoseImageDownloadUrl(Pose pose) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildPoseSubmittedImagePath(pose));
+    final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
     await _updateSubmittedPoseImageUrl(pose, await cloudFilePath.getDownloadURL());
   }
 
@@ -392,10 +392,6 @@ class FileStorage {
 
   static String _buildPoseLibraryImagePath(Pose pose) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/libraryPoses/${pose.documentId}.jpg";
-  }
-
-  static String _buildPoseSubmittedImagePath(Pose pose) {
-    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/submittedPoses/${pose.documentId}.jpg";
   }
 
   static String _buildContractFilePath(Contract contract) {

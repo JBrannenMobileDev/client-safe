@@ -74,8 +74,12 @@ class _DecisionPagerState extends State<DecisionPager> {
     super.initState();
 
     for(int index = 0; index < poses.length; index++) {
-      pages.add(DecisionPage(poses.elementAt(index), index));
+      pages.add(DecisionPage(poses.elementAt(index), index, setCurrentPage));
     }
+  }
+
+  void setCurrentPage(int index) {
+    controller.animateToPage(index, duration: Duration(milliseconds: 350), curve: Curves.easeInOut);
   }
 
   getCurrentPage(int page) {

@@ -5,6 +5,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/poses_page/widgets/SaveToJobBottomSheet.dart';
 import 'package:dandylight/pages/poses_page/widgets/SaveToMyPosesBottomSheet.dart';
+import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
@@ -30,20 +31,19 @@ import '../upload_pose_page/UploadPosePage.dart';
 class DecisionPage extends StatefulWidget {
   final GroupImage groupImage;
   final int index;
+  final Function setCurrentPage;
 
-  DecisionPage(this.groupImage, this.index);
+  DecisionPage(this.groupImage, this.index, this.setCurrentPage);
 
   @override
   _DecisionPageState createState() {
-    return _DecisionPageState(groupImage, index, PageController(initialPage: index));
+    return _DecisionPageState(groupImage, index, setCurrentPage);
   }
 }
 
 class _DecisionPageState extends State<DecisionPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  int currentPageIndex;
-  final PageController controller;
-  final GroupImage groupImage;
+  GroupImage groupImage;
 
   final tagsController = TextEditingController();
   final FocusNode _tagsFocusNode = FocusNode();
@@ -62,8 +62,11 @@ class _DecisionPageState extends State<DecisionPage> {
   bool proposalsSelected = false;
   bool petsSelected = false;
 
+  final setCurrentPage;
+  final int currentPageIndex;
 
-  _DecisionPageState(this.groupImage, this.currentPageIndex, this.controller);
+
+  _DecisionPageState(this.groupImage, this.currentPageIndex, this.setCurrentPage);
 
   @override
   void initState() {
@@ -165,9 +168,9 @@ class _DecisionPageState extends State<DecisionPage> {
 
   @override
   Widget build(BuildContext context) {
-    return StoreConnector<AppState, PosesPageState>(
-      converter: (store) => PosesPageState.fromStore(store),
-      builder: (BuildContext context, PosesPageState pageState) =>
+    return StoreConnector<AppState, ReviewPosesPageState>(
+      converter: (store) => ReviewPosesPageState.fromStore(store),
+      builder: (BuildContext context, ReviewPosesPageState pageState) =>
       Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -178,16 +181,34 @@ class _DecisionPageState extends State<DecisionPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(left:20, right: 20),
-                    child: ClipRRect(
-                      borderRadius: new BorderRadius.circular(16.0),
-                      child: Image(
-                        fit: BoxFit.contain,
-                        image: groupImage.file != null ? FileImage(File(groupImage.file.path))
-                            : AssetImage("assets/images/backgrounds/image_background.png"),
+                  Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left:20, right: 20),
+                        child: ClipRRect(
+                          borderRadius: new BorderRadius.circular(16.0),
+                          child: Image(
+                            fit: BoxFit.contain,
+                            image: groupImage.file != null ? FileImage(File(groupImage.file.path))
+                                : AssetImage("assets/images/backgrounds/image_background.png"),
+                          ),
+                        ),
                       ),
-                    ),
+                      groupImage.pose.reviewStatus == Pose.STATUS_REVIEWED ? Container(
+                        height: 128,
+                        alignment: Alignment.center,
+                        child: Image.asset("assets/images/icons/rejected.png", color: Color(ColorConstants.getPrimaryWhite())),
+                      ) : SizedBox(),
+                      groupImage.pose.reviewStatus == Pose.STATUS_FEATURED ? Container(
+                        height: 128,
+                        alignment: Alignment.center,
+                        child: Icon(Icons.check,
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          size: 128,
+                        ),
+                      ) : SizedBox()
+                    ],
                   ),
                   Container(
                     height: 54,
@@ -428,21 +449,24 @@ class _DecisionPageState extends State<DecisionPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(bottom: 32),
+            padding: EdgeInsets.only(bottom: 0),
             child: Row(
               children: [
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-
+                      pageState.onRejectedSelected(groupImage);
+                      setCurrentPage(1 + currentPageIndex);
+                      setState(() {
+                        groupImage.pose.reviewStatus = Pose.STATUS_REVIEWED;
+                      });
                     },
                     child: Container(
-                      height: 64,
-
-                      margin: EdgeInsets.only(top: 0, left: 24),
+                      height: 86,
+                      margin: EdgeInsets.only(top: 0, left: 0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(32), bottomLeft: Radius.circular(32)),
+
                           color: Color(ColorConstants.getPeachDark())
                       ),
                       child: TextDandyLight(
@@ -457,15 +481,18 @@ class _DecisionPageState extends State<DecisionPage> {
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-
+                      pageState.onApproveSelected(groupImage);
+                      setCurrentPage(1 + currentPageIndex);
+                      setState(() {
+                        groupImage.pose.reviewStatus = Pose.STATUS_FEATURED;
+                      });
                     },
                     child: Container(
-                      height: 64,
-
-                      margin: EdgeInsets.only(top: 0, right: 24),
+                      height: 86,
+                      margin: EdgeInsets.only(top: 0, right: 0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(topRight: Radius.circular(32), bottomRight: Radius.circular(32)),
+
                           color: Color(ColorConstants.getBlueDark())
                       ),
                       child: TextDandyLight(

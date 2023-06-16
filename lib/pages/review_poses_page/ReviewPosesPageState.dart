@@ -3,6 +3,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/Pose.dart';
+import '../../models/PoseSubmittedGroup.dart';
 import '../pose_group_page/GroupImage.dart';
 import 'ReviewPosesActions.dart';
 
@@ -10,8 +11,9 @@ class ReviewPosesPageState{
   final String instagramName;
   final List<GroupImage> groupImages;
   final List<Pose> poses;
-  final Function(Pose) onApproveSelected;
-  final Function(Pose) onRejectedSelected;
+  final List<PoseSubmittedGroup> groups;
+  final Function(GroupImage) onApproveSelected;
+  final Function(GroupImage) onRejectedSelected;
 
   ReviewPosesPageState({
     @required this.onApproveSelected,
@@ -19,14 +21,16 @@ class ReviewPosesPageState{
     @required this.instagramName,
     @required this.groupImages,
     @required this.poses,
+    @required this.groups,
   });
 
   ReviewPosesPageState copyWith({
     String instagramName,
     List<GroupImage> groupImages,
     List<Pose> poses,
-    Function(Pose) onApprovedSelected,
-    Function(Pose) onRejectedSelected,
+    List<PoseSubmittedGroup> groups,
+    Function(GroupImage) onApprovedSelected,
+    Function(GroupImage) onRejectedSelected,
   }){
     return ReviewPosesPageState(
       onApproveSelected: onApproveSelected ?? this.onApproveSelected,
@@ -34,6 +38,7 @@ class ReviewPosesPageState{
       instagramName: instagramName ?? this.instagramName,
       groupImages: groupImages ?? this.groupImages,
       poses: poses ?? this.poses,
+      groups: groups ?? this.groups,
     );
   }
 
@@ -43,6 +48,7 @@ class ReviewPosesPageState{
     instagramName: '',
     groupImages: [],
     poses: [],
+    groups: [],
   );
 
   factory ReviewPosesPageState.fromStore(Store<AppState> store) {
@@ -50,11 +56,12 @@ class ReviewPosesPageState{
       instagramName: store.state.reviewPosesPageState.instagramName,
       groupImages: store.state.reviewPosesPageState.groupImages,
       poses: store.state.reviewPosesPageState.poses,
-      onApproveSelected: (pose) => {
-        store.dispatch(ApprovePoseAction(store.state.reviewPosesPageState, pose)),
+      groups: store.state.reviewPosesPageState.groups,
+      onApproveSelected: (groupImage) => {
+        store.dispatch(ApprovePoseAction(store.state.reviewPosesPageState, groupImage)),
       },
-      onRejectedSelected: (pose) => {
-        store.dispatch(RejectPoseAction(store.state.reviewPosesPageState, pose)),
+      onRejectedSelected: (groupImage) => {
+        store.dispatch(RejectPoseAction(store.state.reviewPosesPageState, groupImage)),
       }
     );
   }
