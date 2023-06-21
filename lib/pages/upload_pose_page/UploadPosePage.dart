@@ -5,6 +5,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +17,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../models/Profile.dart';
+import '../../utils/analytics/EventNames.dart';
 import 'UploadPoseActions.dart';
 import 'UploadPosePageState.dart';
 
@@ -404,6 +406,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                               if(tags.length > 0) {
                                 pageState.onPoseSubmitted(image, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
                                    , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
+                                EventSender().sendEvent(eventName: EventNames.BT_UPLOAD_SUBMITTED_POSE_SUCCESS);
                                 showSuccessAnimation();
                               } else {
                                 DandyToastUtil.showToastWithGravity('At least 3 tags are required', Color(ColorConstants.error_red), ToastGravity.CENTER);

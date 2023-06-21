@@ -22,6 +22,7 @@ class EventNames {
   static const String BT_CALL =  "bt_call";
   static const String BT_CONTACT_INSTAGRAM_PAGE =  "bt_contact_instagram_page";
   static const String BT_POSE_INSTAGRAM_PAGE =  "bt_POSE_instagram_page";
+  static const String BT_POSE_MORE_FROM_PHOTOG_PAGE =  "bt_pose_more_from_photog_page";
   static const String BT_SUBSCRIBE_NOW = "bt_subscribe_now";
 
   static const String BT_STAGE_COMPLETE = "bt_stage_complete";
@@ -38,6 +39,7 @@ class EventNames {
 
   static const String BT_SAVE_LIBRARY_SEARCH_POSE = "bt_save_library_search_pose";
   static const String BT_SAVE_SUBMITTED_POSE = "bt_save_submitted_pose";
+  static const String BT_UPLOAD_SUBMITTED_POSE_SUCCESS = "bt_upload_submitted_pose_success";
 
   static const String BT_SAVE_LIBRARY_POSE = "bt_save_library_pose";
   static const String SAVE_LIBRARY_POSE_PARAM_GROUP_NAME = "save_library_pose_param_group_name";

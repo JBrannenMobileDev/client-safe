@@ -30,9 +30,11 @@ ReviewPosesPageState _setGroups(ReviewPosesPageState previousState, SetGroupsToS
 }
 
 ReviewPosesPageState _setPoses(ReviewPosesPageState previousState, SetPoseImagesToState action){
+  List<GroupImage> sorted = action.groupImages;
+  sorted.sort();
   return previousState.copyWith(
       poses: action.poses,
-      groupImages: action.groupImages
+      groupImages: sorted,
   );
 }
 

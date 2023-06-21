@@ -86,7 +86,7 @@ class _PosesPageState extends State<PosesPage> {
                 ? GoToJobPosesBottomSheet(job, comingFromDetails ? 1 : 1)
                 : SizedBox(),
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
-            floatingActionButton: FloatingActionButton(
+            floatingActionButton: job == null ? FloatingActionButton(
               onPressed: () {
                 NavigationUtil.onUploadPoseSelected(context, pageState.profile);
               },
@@ -100,7 +100,7 @@ class _PosesPageState extends State<PosesPage> {
                   width: 42,
                 ),
               ),
-            ),
+            ) : SizedBox(),
             body: CustomScrollView(
               slivers: <Widget>[
                 SliverAppBar(

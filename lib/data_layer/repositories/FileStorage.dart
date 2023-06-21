@@ -101,7 +101,7 @@ class FileStorage {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
       imageUrl = await cloudFilePath.getDownloadURL();
-      _updateSubmittedPoseImageUrl(pose, imageUrl);
+      await _updateSubmittedPoseImageUrl(pose, imageUrl);
     }
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }

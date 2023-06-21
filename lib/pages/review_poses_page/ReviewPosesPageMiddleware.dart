@@ -41,10 +41,11 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
 
     poses.sort();
 
-    await poses.forEach((pose) async {
-      await groupImages.insert(0, GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
-      // await store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
+    poses.forEach((pose) async {
+      await groupImages.add(GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
+      await store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
     });
+
 
     store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
   }

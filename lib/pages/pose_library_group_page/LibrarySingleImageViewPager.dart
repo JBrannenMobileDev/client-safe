@@ -145,6 +145,27 @@ class _LibrarySingleImageViewPagerState extends State<LibrarySingleImageViewPage
                       text: image.pose.prompt,
                     ),
                   ) : SizedBox(),
+                  // GestureDetector(
+                  //   onTap: () {
+                  //     IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                  //     EventSender().sendEvent(eventName: EventNames.BT_POSE_MORE_FROM_PHOTOG_PAGE);
+                  //   },
+                  //   child: Container(
+                  //     margin: EdgeInsets.only(top: 16, left: 16, right: 16),
+                  //     height: 54,
+                  //     width: double.infinity,
+                  //     alignment: Alignment.center,
+                  //     decoration: BoxDecoration(
+                  //       color: Color(ColorConstants.getPeachDark()),
+                  //       borderRadius: BorderRadius.circular(27),
+                  //     ),
+                  //     child: TextDandyLight(
+                  //       type: TextDandyLight.MEDIUM_TEXT,
+                  //       color: Color(ColorConstants.getPrimaryWhite()),
+                  //       text: 'More from this photographer',
+                  //     ),
+                  //   ),
+                  // ),
                   GestureDetector(
                     onTap: () {
                       IntentLauncherUtil.launchURL(image.pose.instagramUrl);
