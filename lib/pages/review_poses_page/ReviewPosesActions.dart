@@ -11,7 +11,19 @@ class ClearReviewPosesStateAction {
 class ApprovePoseAction {
   final ReviewPosesPageState pageState;
   final GroupImage groupImage;
-  ApprovePoseAction(this.pageState, this.groupImage);
+  final String prompt;
+  final String tags;
+  final bool engagementsSelected;
+  final bool couplesSelected;
+  final bool familiesSelected;
+  final bool portraitsSelected;
+  final bool maternitySelected;
+  final bool newbornSelected;
+  final bool proposalsSelected;
+  final bool petsSelected;
+  final bool weddingsSelected;
+  ApprovePoseAction(this.pageState, this.groupImage, this.prompt, this.tags, this.engagementsSelected, this.couplesSelected,
+      this.familiesSelected, this.portraitsSelected, this.maternitySelected, this.newbornSelected, this.proposalsSelected, this.petsSelected, this.weddingsSelected);
 }
 
 class RejectPoseAction {

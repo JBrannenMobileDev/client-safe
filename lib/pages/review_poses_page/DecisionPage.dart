@@ -2,27 +2,14 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/pages/poses_page/PosesPageState.dart';
-import 'package:dandylight/pages/poses_page/widgets/SaveToJobBottomSheet.dart';
-import 'package:dandylight/pages/poses_page/widgets/SaveToMyPosesBottomSheet.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:share_plus/share_plus.dart';
 
-import '../../models/Job.dart';
 import '../../models/Pose.dart';
-import '../../utils/IntentLauncherUtil.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../../utils/analytics/EventSender.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../pose_group_page/GroupImage.dart';
 import '../pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
@@ -73,6 +60,9 @@ class _DecisionPageState extends State<DecisionPage> {
     super.initState();
     promptController.text = groupImage.pose.prompt;
     tagsController.text = groupImage.pose.tags.join(',');
+
+    prompt = groupImage.pose.prompt;
+    tags = tagsController.text;
 
     groupImage.pose.categories.forEach((category) {
       switch(category) {
@@ -481,7 +471,7 @@ class _DecisionPageState extends State<DecisionPage> {
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-                      pageState.onApproveSelected(groupImage);
+                      pageState.onApproveSelected(groupImage, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                       setCurrentPage(1 + currentPageIndex);
                       setState(() {
                         groupImage.pose.reviewStatus = Pose.STATUS_FEATURED;

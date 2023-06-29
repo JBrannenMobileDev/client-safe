@@ -1,24 +1,15 @@
 import 'dart:io';
 
-import 'package:dandylight/pages/pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
 import 'package:dandylight/pages/review_poses_page/DecisionPager.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/Shadows.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
-import '../../models/Profile.dart';
 import '../pose_group_page/GroupImage.dart';
-import '../upload_pose_page/UploadPosePage.dart';
 import 'ReviewPosesActions.dart';
 import 'ReviewPosesPageState.dart';
 

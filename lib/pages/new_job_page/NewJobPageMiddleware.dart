@@ -79,9 +79,9 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void updateProfileWithOnBoardingComplete(Store<AppState> store, UpdateProfileToOnBoardingCompleteAction action, NextDispatcher next) async {
-    Profile profile = action.pageState.profile;
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.onBoardingComplete = true;
-    ProfileDao.update(profile);
+    await ProfileDao.update(profile);
   }
 
   void fetchJobTypeAndSetSelected(Store<AppState> store, UpdateWithNewJobTypeAction action, NextDispatcher next) async {

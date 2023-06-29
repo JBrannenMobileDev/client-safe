@@ -79,7 +79,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   Widget build(BuildContext context) => StoreConnector<AppState, UploadPosePageState>(
     onInit: (store) {
       store.dispatch(SetInstagramNameAction(store.state.uploadPosePageState, ''));
-      NameController.text = profile.instagramName.isNotEmpty ? profile.instagramName : '@';
+      NameController.text = profile.instagramName.isNotEmpty ? profile.instagramName : '';
       NameController.selection = TextSelection.collapsed(offset: NameController.text.length);
     },
     converter: (Store<AppState> store) => UploadPosePageState.fromStore(store),
@@ -184,7 +184,7 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                     child: DandyLightLibraryTextField(
                       labelText: 'Tags',
                       controller: tagsController,
-                      hintText: 'Add descriptive tags, separated with a comma.\nFor example: couple, beach, romantic, sunset, windy',
+                      hintText: 'Add descriptive tags, separated with a comma. For example: couple, beach, romantic, sunset, windy',
                       inputType: TextInputType.text,
                       focusNode: _tagsFocusNode,
                       onFocusAction: onAction3,

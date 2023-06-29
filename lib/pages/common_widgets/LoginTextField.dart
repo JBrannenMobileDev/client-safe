@@ -65,7 +65,9 @@ class LoginTextField extends StatelessWidget {
               onTextInputChanged(text);
             },
             onFieldSubmitted: (term) {
-              onFocusAction();
+              if(onFocusAction != null) {
+                onFocusAction();
+              }
             },
             decoration: InputDecoration.collapsed(
               hintText: hintText,

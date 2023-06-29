@@ -12,6 +12,7 @@ import '../../AppState.dart';
 import '../../models/JobReminder.dart';
 import '../../models/JobStage.dart';
 import '../../models/Location.dart';
+import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import 'JobTypePieChartRowData.dart';
 import 'LeadSourcePieChartRowData.dart';
@@ -23,6 +24,7 @@ class DashboardPageState {
   final bool shouldShowNewMileageExpensePage;
   final bool hasSeenShowcase;
   final bool goToSeen;
+  final bool areJobsLoaded;
   final Job goToPosesJob;
   final int leadConversionRate;
   final int unconvertedLeadCount;
@@ -41,6 +43,7 @@ class DashboardPageState {
   final List<JobReminder> reminders;
   final List<LineChartMonthData> lineChartMonthData;
   final List<LeadSourcePieChartRowData> leadSourcePieChartRowData;
+  final List<Pose> unseenFeaturedPoses;
   final Profile profile;
   final Function() onAddClicked;
   final Function() onSearchClientsClicked;
@@ -97,6 +100,8 @@ class DashboardPageState {
     this.goToSeen,
     this.onGoToSeen,
     this.drivingDirectionsSelected,
+    this.areJobsLoaded,
+    this.unseenFeaturedPoses,
   });
 
   DashboardPageState copyWith({
@@ -105,6 +110,7 @@ class DashboardPageState {
     bool isLeadsMinimized,
     bool hasSeenShowcase,
     bool goToSeen,
+    bool areJobsLoaded,
     int leadConversionRate,
     Job goToPosesJob,
     int unconvertedLeadCount,
@@ -115,6 +121,7 @@ class DashboardPageState {
     List<Job> activeJobs,
     List<Job> jobsThisWeek,
     List<JobStage> allUserStages,
+    List<Pose> unseenFeaturedPoses,
     int unseenNotificationCount,
     List<LineChartMonthData> lineChartMonthData,
     Function() onAddClicked,
@@ -180,6 +187,8 @@ class DashboardPageState {
       goToSeen: goToSeen ?? this.goToSeen,
       onGoToSeen: onGoToSeen ?? this.onGoToSeen,
       drivingDirectionsSelected: drivingDirectionsSelected ?? this.drivingDirectionsSelected,
+      areJobsLoaded: areJobsLoaded ?? this.areJobsLoaded,
+      unseenFeaturedPoses: unseenFeaturedPoses ?? this.unseenFeaturedPoses,
     );
   }
 
@@ -213,6 +222,8 @@ class DashboardPageState {
       subscriptionState: store.state.dashboardPageState.subscriptionState,
       goToPosesJob: store.state.dashboardPageState.goToPosesJob,
       goToSeen: store.state.dashboardPageState.goToSeen,
+      areJobsLoaded: store.state.dashboardPageState.areJobsLoaded,
+      unseenFeaturedPoses: store.state.dashboardPageState.unseenFeaturedPoses,
       onLeadClicked: (client) => store.dispatch(InitializeClientDetailsAction(store.state.clientDetailsPageState, client)),
       onJobClicked: (job) {
         store.dispatch(SetJobInfo(store.state.jobDetailsPageState, job));
@@ -272,6 +283,8 @@ class DashboardPageState {
     goToSeen: false,
     onGoToSeen: null,
     drivingDirectionsSelected: null,
+    areJobsLoaded: false,
+    unseenFeaturedPoses: [],
   );
 
   @override
@@ -312,6 +325,8 @@ class DashboardPageState {
       goToPosesJob.hashCode ^
       goToSeen.hashCode ^
       onGoToSeen.hashCode ^
+      areJobsLoaded.hashCode ^
+      unseenFeaturedPoses.hashCode ^
       isMinimized.hashCode;
 
   @override
@@ -354,5 +369,7 @@ class DashboardPageState {
               goToSeen == other.goToSeen &&
               onGoToSeen == other.onGoToSeen &&
               drivingDirectionsSelected == other.drivingDirectionsSelected &&
+              areJobsLoaded == other.areJobsLoaded &&
+              unseenFeaturedPoses == other.unseenFeaturedPoses &&
               isMinimized == other.isMinimized;
 }

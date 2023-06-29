@@ -587,7 +587,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                               ),
                             ),
                           ),
-                          new SliverList(
+                          pageState.areJobsLoaded ? SliverList(
                               delegate: new SliverChildListDelegate(<Widget>[
                                 SlideTransition(
                                     position: offsetAnimationUp,
@@ -633,7 +633,9 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                                   position: offsetAnimationUp,
                                   child: LeadSourcesPieChart(),
                                 ),
-                              ])),
+                              ])) : SliverList(delegate: SliverChildListDelegate(
+                            <Widget>[]
+                          )),
                         ],
                       ),
                     ],

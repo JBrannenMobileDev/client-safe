@@ -10,6 +10,7 @@ import '../../models/Pose.dart';
 import '../../models/PoseLibraryGroup.dart';
 import '../../models/PoseSubmittedGroup.dart';
 import '../pose_group_page/GroupImage.dart';
+import '../upload_pose_page/UploadPosePage.dart';
 
 class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -64,10 +65,10 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
       instagramUrl: submittedPose.instagramUrl,
       instagramName: submittedPose.instagramName,
       numOfSaves: submittedPose.numOfSaves,
-      tags: submittedPose.tags,
+      tags: action.tags.split(','),
       createDate: DateTime.now(),
-      categories: submittedPose.categories,
-      prompt: submittedPose.prompt,
+      categories: getCategoryList(action),
+      prompt: action.prompt,
       reviewStatus: Pose.STATUS_FEATURED,
     );
 
@@ -82,6 +83,20 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
     libraryGroupsToUpdate.forEach((group) async {
       await PoseLibraryGroupDao.update(group);
     });
+  }
+
+  List<String> getCategoryList(ApprovePoseAction action) {
+    List<String> categories = [];
+    if(action.petsSelected) categories.add(UploadPosePage.PETS);
+    if(action.proposalsSelected) categories.add(UploadPosePage.PROPOSALS);
+    if(action.newbornSelected) categories.add(UploadPosePage.NEWBORN);
+    if(action.weddingsSelected) categories.add(UploadPosePage.WEDDINGS);
+    if(action.maternitySelected) categories.add(UploadPosePage.MATERNITY);
+    if(action.portraitsSelected) categories.add(UploadPosePage.PORTRAITS);
+    if(action.couplesSelected) categories.add(UploadPosePage.COUPLES);
+    if(action.familiesSelected) categories.add(UploadPosePage.FAMILIES);
+    if(action.engagementsSelected) categories.add(UploadPosePage.ENGAGEMENT);
+    return categories;
   }
 
   PoseLibraryGroup getLibraryGroupByCategory(String category, List<PoseLibraryGroup> groups) {

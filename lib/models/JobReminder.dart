@@ -4,6 +4,7 @@ import 'package:dandylight/models/ReminderDandyLight.dart';
 class JobReminder {
   static const int MILEAGE_EXPENSE = 100;
   static const String MILEAGE_EXPENSE_ID = 'mileage_expense';
+  static const String POSE_FEATURED_ID = 'pose_featured';
 
   int id;
   String documentId;

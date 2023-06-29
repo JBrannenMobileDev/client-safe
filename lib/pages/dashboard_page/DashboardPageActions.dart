@@ -7,6 +7,7 @@ import '../../models/JobReminder.dart';
 import '../../models/JobType.dart';
 import '../../models/Location.dart';
 import '../../models/MileageExpense.dart';
+import '../../models/Pose.dart';
 import '../../models/Profile.dart';
 import '../../models/RecurringExpense.dart';
 import '../../models/SingleExpense.dart';
@@ -66,6 +67,12 @@ class SetUnseenReminderCount{
   final int count;
   final List<JobReminder> reminders;
   SetUnseenReminderCount(this.pageState, this.count, this.reminders);
+}
+
+class SetUnseenFeaturedPosesAction {
+  final DashboardPageState pageState;
+  final List<Pose> unseenFeaturedPoses;
+  SetUnseenFeaturedPosesAction(this.pageState, this.unseenFeaturedPoses);
 }
 
 class SetShowNewMileageExpensePageAction{

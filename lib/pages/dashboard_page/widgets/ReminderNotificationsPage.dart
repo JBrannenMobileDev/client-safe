@@ -81,12 +81,53 @@ class ReminderNotificationsPage extends StatelessWidget{
                               onPressed: () {
                                 if(pageState.reminders.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
                                   UserOptionsUtil.showNewMileageExpenseSelected(context);
+                                } else if(pageState.reminders.elementAt(index).payload == JobReminder.POSE_FEATURED_ID) {
+                                  NavigationUtil.onPosesSelected(context, null, false, true);
                                 } else {
                                   NavigationUtil.onJobTapped(context, false);
                                 }
                                 pageState.onReminderSelected(pageState.reminders.elementAt(index));
                               },
-                              child: Padding(
+                              child: pageState.reminders.elementAt(index).payload == JobReminder.POSE_FEATURED_ID ? Padding(
+                                padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
+                                child: Stack(
+                                  alignment: Alignment.centerRight,
+                                  children: <Widget>[
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: <Widget>[
+                                        Container(
+                                          margin: EdgeInsets.only(right: 16.0),
+                                          height: 32.0,
+                                          width: 32.0,
+                                          child: Icon(
+                                            Icons.star,
+                                            color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryColor()),
+                                            size: 32.0,
+                                          )
+                                        ),
+                                        Container(
+                                          width: MediaQuery.of(context).size.width - 126,
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.SMALL_TEXT,
+                                            text: pageState.unseenFeaturedPoses.length.toString() + ' submitted photos have been featured!',
+                                            textAlign: TextAlign.start,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            color: Color(pageState.reminders.elementAt(index).hasBeenSeen ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Container(
+                                      child: Icon(
+                                        Icons.chevron_right,
+                                        color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ) : Padding(
                                 padding: EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 24.0),
                                 child: Stack(
                                   alignment: Alignment.centerRight,

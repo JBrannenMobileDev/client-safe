@@ -35,7 +35,14 @@ final dashboardPageReducer = combineReducers<DashboardPageState>([
   TypedReducer<DashboardPageState, SetSubscriptionStateAction>(_setSubscriptionState),
   TypedReducer<DashboardPageState, SetGoToPosesJob>(_setGoToJobPoses),
   TypedReducer<DashboardPageState, SetGoToAsSeenAction>(_setGoToAsSeen),
+  TypedReducer<DashboardPageState, SetUnseenFeaturedPosesAction>(_setUnseenFeaturedPoses),
 ]);
+
+DashboardPageState _setUnseenFeaturedPoses(DashboardPageState previousState, SetUnseenFeaturedPosesAction action) {
+  return previousState.copyWith(
+    unseenFeaturedPoses: action.unseenFeaturedPoses,
+  );
+}
 
 DashboardPageState _setGoToAsSeen(DashboardPageState previousState, SetGoToAsSeenAction action) {
   return previousState.copyWith(
@@ -132,6 +139,7 @@ DashboardPageState _setJobs(DashboardPageState previousState, SetJobToStateActio
       allUserStages: activeStages,
       lineChartMonthData: chartItems.reversed.toList(),
       jobsThisWeek: jobsThisWeek,
+      areJobsLoaded: true,
   );
 }
 

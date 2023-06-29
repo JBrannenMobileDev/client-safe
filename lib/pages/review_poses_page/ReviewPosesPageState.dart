@@ -12,7 +12,7 @@ class ReviewPosesPageState{
   final List<GroupImage> groupImages;
   final List<Pose> poses;
   final List<PoseSubmittedGroup> groups;
-  final Function(GroupImage) onApproveSelected;
+  final Function(GroupImage, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApproveSelected;
   final Function(GroupImage) onRejectedSelected;
 
   ReviewPosesPageState({
@@ -29,7 +29,7 @@ class ReviewPosesPageState{
     List<GroupImage> groupImages,
     List<Pose> poses,
     List<PoseSubmittedGroup> groups,
-    Function(GroupImage) onApprovedSelected,
+    Function(GroupImage, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApprovedSelected,
     Function(GroupImage) onRejectedSelected,
   }){
     return ReviewPosesPageState(
@@ -57,8 +57,8 @@ class ReviewPosesPageState{
       groupImages: store.state.reviewPosesPageState.groupImages,
       poses: store.state.reviewPosesPageState.poses,
       groups: store.state.reviewPosesPageState.groups,
-      onApproveSelected: (groupImage) => {
-        store.dispatch(ApprovePoseAction(store.state.reviewPosesPageState, groupImage)),
+      onApproveSelected: (groupImage, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected) => {
+        store.dispatch(ApprovePoseAction(store.state.reviewPosesPageState, groupImage, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected)),
       },
       onRejectedSelected: (groupImage) => {
         store.dispatch(RejectPoseAction(store.state.reviewPosesPageState, groupImage)),

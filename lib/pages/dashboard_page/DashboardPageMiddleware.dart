@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobReminderDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/JobTypeDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/MileageExpenseDao.dart';
+import 'package:dandylight/data_layer/local_db/daos/PoseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/RecurringExpenseDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ReminderDao.dart';
@@ -27,6 +28,8 @@ import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
+import '../../data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
+import '../../models/Pose.dart';
 import '../../models/SingleExpense.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
@@ -114,6 +117,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetSubscriptionStateAction(store.state.dashboardPageState, subscriptionState));
   }
 
+  Future<List<Pose>> _getUnseenFeaturedPoses() async {
+    List<Pose> myPoses = (await PoseSubmittedGroupDao.getAllSortedMostFrequent()).first.poses;
+    return myPoses.where((pose) => pose.isUnseenFeaturedPose()).toList();
+  }
+
   Future<void> _updateProfileWithShowcaseSeen(Store<AppState> store, UpdateProfileWithShowcaseSeen action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.hasSeenShowcase = true;
@@ -147,11 +155,23 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<void> _loadJobReminders(Store<AppState> store, action, NextDispatcher next) async {
     List<JobReminder> reminders = await JobReminderDao.getTriggeredReminders();
+    List<Pose> unseenFeaturedPoses = await _getUnseenFeaturedPoses();
+    store.dispatch(SetUnseenFeaturedPosesAction(store.state.dashboardPageState, unseenFeaturedPoses));
+    ReminderDandyLight unseenFeaturedPosesReminder = ReminderDandyLight(description: 'Poses Featured!', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime.now());
+    reminders.add(JobReminder(
+      reminder: unseenFeaturedPosesReminder,
+      hasBeenSeen: false,
+      payload: JobReminder.POSE_FEATURED_ID,
+    ));
+
     int unseenCount = 0;
     for(JobReminder reminder in reminders) {
       if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
         unseenCount++;
       }
+    }
+    if(unseenFeaturedPoses.length > 0) {
+      unseenCount++;
     }
     store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
 

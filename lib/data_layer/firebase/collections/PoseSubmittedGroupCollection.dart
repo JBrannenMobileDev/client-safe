@@ -29,7 +29,7 @@ class PoseSubmittedGroupCollection {
     }
   }
 
-  Future<List<PoseSubmittedGroup>> getPoseSubmittedGroupsThatNeedReview(String uid) async {
+  Future<List<PoseSubmittedGroup>> getPoseSubmittedGroupsThatNeedReview() async {
     final databaseReference = FirebaseFirestore.instance;
     List<PoseSubmittedGroup> resultList = [];
     await databaseReference

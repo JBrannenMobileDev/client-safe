@@ -68,7 +68,11 @@ class FireStoreSync {
         }
         setupFireStoreListeners();
         automateJobStages();
-        await PoseSubmittedGroupDao.syncAllFromFireStore();
+        try{
+            await PoseSubmittedGroupDao.syncAllFromFireStore();
+        } catch(e) {
+
+        }
     }
 
     Profile getMatchingProfile(List<Profile> profiles, String uid) {

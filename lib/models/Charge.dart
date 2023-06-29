@@ -1,7 +1,3 @@
-import 'package:dandylight/models/Job.dart';
-import 'package:dandylight/models/JobStage.dart';
-import 'package:dandylight/utils/ImageUtil.dart';
-import 'package:flutter/widgets.dart';
 
 class Charge{
   DateTime chargeDate;

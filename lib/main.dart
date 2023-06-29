@@ -4,6 +4,7 @@ import 'package:dandylight/AppMiddleware.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/ClientSafeApp.dart';
 import 'package:dandylight/AppReducers.dart';
+import 'package:dandylight/utils/PlatformInfo.dart';
 import 'package:dandylight/utils/analytics/DeviceInfo.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_info_plus/device_info_plus.dart';
@@ -50,15 +51,17 @@ main() async {
 }
 
 Future<void> initSubscriptions() async {
-  await revenuecat.Purchases.setDebugLogsEnabled(true);
-  revenuecat.PurchasesConfiguration configuration;
-  if (Platform.isAndroid) {
-    configuration = revenuecat.PurchasesConfiguration("goog_hHOtMzChjzMLkuWrwvcHpNIVaKn");
-  } else if (Platform.isIOS) {
-    configuration = revenuecat.PurchasesConfiguration("appl_nGYkHELZrcYyxKnkcRDQfccLFrK", );
-    configuration.usesStoreKit2IfAvailable = true;
+  if(!PlatformInfo().isWeb()) {
+    await revenuecat.Purchases.setDebugLogsEnabled(true);
+    revenuecat.PurchasesConfiguration configuration;
+    if (Platform.isAndroid) {
+      configuration = revenuecat.PurchasesConfiguration("goog_hHOtMzChjzMLkuWrwvcHpNIVaKn");
+    } else if (Platform.isIOS) {
+      configuration = revenuecat.PurchasesConfiguration("appl_nGYkHELZrcYyxKnkcRDQfccLFrK", );
+      configuration.usesStoreKit2IfAvailable = true;
+    }
+    await revenuecat.Purchases.configure(configuration);
   }
-  await revenuecat.Purchases.configure(configuration);
 }
 
 void initializingMixPanel() async {
@@ -67,23 +70,45 @@ void initializingMixPanel() async {
   DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   PackageInfo packageInfo = await PackageInfo.fromPlatform();
   /// getting device details as per OS
-  if (Platform.isIOS) {
-    IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
-    deviceInfo = DeviceInfo(
-      deviceIdentifier: iosDeviceInfo.identifierForVendor,
-      os: 'iOS ${iosDeviceInfo.systemName} ${iosDeviceInfo.systemVersion}',
-      device: '${iosDeviceInfo.name} ${iosDeviceInfo.model}',
-      appVersion: packageInfo.version,
-    );
-  } else {
-    AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
-    deviceInfo = DeviceInfo(
-      deviceIdentifier: androidDeviceInfo.id,
-      os: 'Android ${androidDeviceInfo.version.release} ${androidDeviceInfo.version.sdkInt}',
-      device: '${androidDeviceInfo.manufacturer} ${androidDeviceInfo.model}',
-      appVersion: packageInfo.version,
-    );
-  }
+  switch(PlatformInfo().getCurrentPlatformType()) {
 
-  await EventSender().initialize(deviceInfo);
+    case PlatformType.Web:
+
+      break;
+    case PlatformType.iOS:
+      IosDeviceInfo iosDeviceInfo = await deviceInfoPlugin.iosInfo;
+      deviceInfo = DeviceInfo(
+        deviceIdentifier: iosDeviceInfo.identifierForVendor,
+        os: 'iOS ${iosDeviceInfo.systemName} ${iosDeviceInfo.systemVersion}',
+        device: '${iosDeviceInfo.name} ${iosDeviceInfo.model}',
+        appVersion: packageInfo.version,
+      );
+      await EventSender().initialize(deviceInfo);
+      break;
+    case PlatformType.Android:
+      AndroidDeviceInfo androidDeviceInfo = await deviceInfoPlugin.androidInfo;
+      deviceInfo = DeviceInfo(
+        deviceIdentifier: androidDeviceInfo.id,
+        os: 'Android ${androidDeviceInfo.version.release} ${androidDeviceInfo.version.sdkInt}',
+        device: '${androidDeviceInfo.manufacturer} ${androidDeviceInfo.model}',
+        appVersion: packageInfo.version,
+      );
+      await EventSender().initialize(deviceInfo);
+      break;
+    case PlatformType.MacOS:
+      // TODO: Handle this case.
+      break;
+    case PlatformType.Fuchsia:
+      // TODO: Handle this case.
+      break;
+    case PlatformType.Linux:
+      // TODO: Handle this case.
+      break;
+    case PlatformType.Windows:
+      // TODO: Handle this case.
+      break;
+    case PlatformType.Unknown:
+      // TODO: Handle this case.
+      break;
+  }
 }

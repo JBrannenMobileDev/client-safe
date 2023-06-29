@@ -30,24 +30,26 @@ class PosesPage extends StatefulWidget {
   static const String FILTER_TYPE_SUBMITTED_POSES = "Submitted";
   final Job job;
   final bool comingFromDetails;
+  final bool goToSubmittedPoses;
 
-  PosesPage(this.job, this.comingFromDetails);
+  PosesPage(this.job, this.comingFromDetails, this.goToSubmittedPoses);
 
   @override
   State<StatefulWidget> createState() {
-    return _PosesPageState(job, comingFromDetails);
+    return _PosesPageState(job, comingFromDetails, goToSubmittedPoses);
   }
 }
 
 class _PosesPageState extends State<PosesPage> {
   final ScrollController _controller = ScrollController();
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  int selectedIndex = 0;
+  int selectedIndex = 1;
   Map<int, Widget> tabs;
   Job job;
   bool comingFromDetails;
+  bool goToSubmittedPoses;
 
-  _PosesPageState(this.job, this.comingFromDetails);
+  _PosesPageState(this.job, this.comingFromDetails, this.goToSubmittedPoses);
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,9 @@ class _PosesPageState extends State<PosesPage> {
       onInit: (store) async {
         store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
         store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState));
+        setState(() {
+          selectedIndex = goToSubmittedPoses ? 2 : 1;
+        });
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>

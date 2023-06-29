@@ -5,6 +5,7 @@ import 'package:dandylight/data_layer/local_db/SembastDb.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/PoseSubmittedGroup.dart';
 import 'package:dandylight/models/Profile.dart';
+import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
@@ -127,9 +128,18 @@ class PoseSubmittedGroupDao extends Equatable{
   }
 
   static Future<void> syncAllFromFireStore() async {
-    PoseSubmittedGroup poseSubmittedGroup = await getByUid(UidUtil().getUid());
-    PoseSubmittedGroup fireStorePoseSubmittedGroup = await PoseSubmittedGroupCollection().getPoseSubmittedGroup();
-    await _syncFireStoreToLocal(poseSubmittedGroup, fireStorePoseSubmittedGroup);
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    if(AdminCheckUtil.isAdmin(profile)) {
+      List<PoseSubmittedGroup> fireStorePoseSubmittedGroups = await PoseSubmittedGroupCollection().getPoseSubmittedGroupsThatNeedReview();
+      await _deleteAllLocalPoseSubmittedGroups(fireStorePoseSubmittedGroups);
+      fireStorePoseSubmittedGroups.forEach((group) async {
+        await _syncFireStoreToLocal(null, group);
+      });
+    } else {
+      PoseSubmittedGroup poseSubmittedGroup = await getByUid(UidUtil().getUid());
+      PoseSubmittedGroup fireStorePoseSubmittedGroup = await PoseSubmittedGroupCollection().getPoseSubmittedGroup();
+      await _syncFireStoreToLocal(poseSubmittedGroup, fireStorePoseSubmittedGroup);
+    }
   }
 
   static Future<void> _deleteAllLocalPoseSubmittedGroups(List<PoseSubmittedGroup> allLocalPoseSubmittedGroups) async {
