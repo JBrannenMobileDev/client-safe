@@ -40,6 +40,7 @@ class EventNames {
   static const String BT_SAVE_LIBRARY_SEARCH_POSE = "bt_save_library_search_pose";
   static const String BT_SAVE_SUBMITTED_POSE = "bt_save_submitted_pose";
   static const String BT_UPLOAD_SUBMITTED_POSE_SUCCESS = "bt_upload_submitted_pose_success";
+  static const String BT_UPLOAD_POSE = "bt_upload_pose";
 
   static const String BT_SAVE_LIBRARY_POSE = "bt_save_library_pose";
   static const String SAVE_LIBRARY_POSE_PARAM_GROUP_NAME = "save_library_pose_param_group_name";

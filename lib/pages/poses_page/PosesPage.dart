@@ -96,6 +96,7 @@ class _PosesPageState extends State<PosesPage> {
             backgroundColor: Color(ColorConstants.getPrimaryWhite()),
             floatingActionButton: job == null ? FloatingActionButton(
               onPressed: () {
+                EventSender().sendEvent(eventName: EventNames.BT_UPLOAD_POSE);
                 NavigationUtil.onUploadPoseSelected(context, pageState.profile);
               },
               backgroundColor: Color(ColorConstants.getPeachDark()),
