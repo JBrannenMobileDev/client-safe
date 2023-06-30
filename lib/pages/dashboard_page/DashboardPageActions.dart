@@ -103,6 +103,11 @@ class SetNotificationToSeen{
   SetNotificationToSeen(this.pageState, this.reminder);
 }
 
+class SetUnseenFeaturedPosesAsSeenAction {
+  final DashboardPageState pageState;
+  SetUnseenFeaturedPosesAsSeenAction(this.pageState);
+}
+
 class UpdateNotificationIconAction {
   final DashboardPageState pageState;
   UpdateNotificationIconAction(this.pageState);

@@ -14,7 +14,7 @@ class Pose implements Comparable<Pose>{
   String instagramName;
   String prompt = '';
   String reviewStatus = STATUS_NOT_A_SUBMISSION;
-  bool hasSeen = false; //This tracks if they have seen the featured pose that they submitted so that we do not show it in the notificaitons.
+  bool hasSeen = false; //This tracks if they have seen the featured pose that they submitted so that we do not show it in the notifications.
   int numOfSaves;
   List<String> tags;
   List<String> categories = [];
@@ -79,7 +79,7 @@ class Pose implements Comparable<Pose>{
       categories: map['categories'] != null ? List<String>.from(map['categories']) : [],
       tags: map['tags'] != null ? List<String>.from(map['tags']) : [],
       numOfSaves: map['numOfSaves'] != null ? map['numOfSaves'] : 0,
-      hasSeen: map['hasSeen'] != null ? map['hasSeen'] : true,
+      hasSeen: map['hasSeen'] != null ? map['hasSeen'] : false,
       createDate: map['createDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['createDate']) : null,
     );
   }

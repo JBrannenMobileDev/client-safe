@@ -233,8 +233,12 @@ class DashboardPageState {
       onViewAllHideSelected: () => store.dispatch(UpdateShowHideState(store.state.dashboardPageState)),
       onViewAllHideLeadsSelected: () => store.dispatch(UpdateShowHideLeadsState(store.state.dashboardPageState)),
       onReminderSelected:  (reminder) {
-        store.dispatch(SetNotificationToSeen(store.state.dashboardPageState, reminder));
-        store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId));
+        if(reminder.payload != JobReminder.POSE_FEATURED_ID) {
+          store.dispatch(SetNotificationToSeen(store.state.dashboardPageState, reminder));
+          store.dispatch(SetJobInfoWithJobDocumentId(store.state.jobDetailsPageState, reminder.jobDocumentId));
+        } else {
+          store.dispatch(SetUnseenFeaturedPosesAsSeenAction(store.state.dashboardPageState));
+        }
       },
       onNotificationsSelected: () => null,
       onNotificationViewClosed: () => store.dispatch(UpdateNotificationIconAction(store.state.dashboardPageState)),

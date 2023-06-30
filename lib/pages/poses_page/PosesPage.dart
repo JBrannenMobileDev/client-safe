@@ -52,6 +52,12 @@ class _PosesPageState extends State<PosesPage> {
   _PosesPageState(this.job, this.comingFromDetails, this.goToSubmittedPoses);
 
   @override
+  void initState() {
+    selectedIndex = goToSubmittedPoses ? 2 : 1;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     tabs = <int, Widget>{
       0: TextDandyLight(
@@ -80,9 +86,6 @@ class _PosesPageState extends State<PosesPage> {
       onInit: (store) async {
         store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
         store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState));
-        setState(() {
-          selectedIndex = goToSubmittedPoses ? 2 : 1;
-        });
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>

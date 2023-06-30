@@ -16,6 +16,7 @@ import 'package:dandylight/models/Job.dart';
 import 'package:dandylight/models/JobReminder.dart';
 import 'package:dandylight/models/JobType.dart';
 import 'package:dandylight/models/MileageExpense.dart';
+import 'package:dandylight/models/PoseSubmittedGroup.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
@@ -64,6 +65,9 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is LaunchDrivingDirectionsAction) {
       _launchDrivingDirections(store, action);
+    }
+    if(action is SetUnseenFeaturedPosesAsSeenAction) {
+      _setUnseenFeaturedPosesToSeen(store, action);
     }
   }
 
@@ -118,7 +122,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<List<Pose>> _getUnseenFeaturedPoses() async {
-    List<Pose> myPoses = (await PoseSubmittedGroupDao.getAllSortedMostFrequent()).first.poses;
+    List<Pose> myPoses = (await PoseSubmittedGroupDao.getByUid(UidUtil().getUid())).poses;
     return myPoses.where((pose) => pose.isUnseenFeaturedPose()).toList();
   }
 
@@ -126,6 +130,27 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.hasSeenShowcase = true;
     ProfileDao.update(profile);
+  }
+
+  Future<void> _setUnseenFeaturedPosesToSeen(Store<AppState> store, SetUnseenFeaturedPosesAsSeenAction action) async {
+    PoseSubmittedGroup group = await PoseSubmittedGroupDao.getByUid(UidUtil().getUid());
+    List<Pose> myPoses = group.poses;
+    myPoses.forEach((pose) {
+      if(!pose.hasSeen) {
+        pose.hasSeen = true;
+      }
+    });
+    group.poses = myPoses;
+    await PoseSubmittedGroupDao.update(group);
+
+    List<JobReminder> reminders = await JobReminderDao.getTriggeredReminders();
+    int unseenCount = 0;
+    for(JobReminder reminder in reminders) {
+      if(reminder.hasBeenSeen == null || !reminder.hasBeenSeen) {
+        unseenCount++;
+      }
+    }
+    store.dispatch(SetUnseenReminderCount(store.state.dashboardPageState, unseenCount, reminders));
   }
 
   Future<void> _setNotificationToSeen(Store<AppState> store, SetNotificationToSeen action) async {
@@ -157,12 +182,15 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     List<JobReminder> reminders = await JobReminderDao.getTriggeredReminders();
     List<Pose> unseenFeaturedPoses = await _getUnseenFeaturedPoses();
     store.dispatch(SetUnseenFeaturedPosesAction(store.state.dashboardPageState, unseenFeaturedPoses));
-    ReminderDandyLight unseenFeaturedPosesReminder = ReminderDandyLight(description: 'Poses Featured!', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime.now());
-    reminders.add(JobReminder(
-      reminder: unseenFeaturedPosesReminder,
-      hasBeenSeen: false,
-      payload: JobReminder.POSE_FEATURED_ID,
-    ));
+
+    if(unseenFeaturedPoses.length > 0) {
+      ReminderDandyLight unseenFeaturedPosesReminder = ReminderDandyLight(description: 'Poses Featured!', when: WhenSelectionWidget.BEFORE, daysWeeksMonths: WhenSelectionWidget.DAYS, amount: 1, time: DateTime.now());
+      reminders.add(JobReminder(
+        reminder: unseenFeaturedPosesReminder,
+        hasBeenSeen: false,
+        payload: JobReminder.POSE_FEATURED_ID,
+      ));
+    }
 
     int unseenCount = 0;
     for(JobReminder reminder in reminders) {
