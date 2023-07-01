@@ -122,7 +122,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   Future<List<Pose>> _getUnseenFeaturedPoses() async {
-    List<Pose> myPoses = (await PoseSubmittedGroupDao.getByUid(UidUtil().getUid())).poses;
+    List<Pose> myPoses = (await PoseSubmittedGroupDao.getByUid(UidUtil().getUid()))?.poses;
     return myPoses.where((pose) => pose.isUnseenFeaturedPose()).toList();
   }
 

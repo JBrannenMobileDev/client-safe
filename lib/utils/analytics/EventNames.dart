@@ -24,6 +24,9 @@ class EventNames {
   static const String BT_POSE_INSTAGRAM_PAGE =  "bt_POSE_instagram_page";
   static const String BT_POSE_MORE_FROM_PHOTOG_PAGE =  "bt_pose_more_from_photog_page";
   static const String BT_SUBSCRIBE_NOW = "bt_subscribe_now";
+  static const String BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS = "bt_view_featured_poses_from_notifications";
+  static const String BT_VIEW_NEW_MILEAGE_FROM_NOTIFICATIONS = "bt_view_new_mileage_from_notifications";
+  static const String BT_VIEW_JOB_DETAILS_FROM_NOTIFICATIONS = "bt_view_job_details_from_notifications";
 
   static const String BT_STAGE_COMPLETE = "bt_stage_complete";
   static const String STAGE_COMPLETE_PARAM_STAGE = "stage_complete_param_stage";

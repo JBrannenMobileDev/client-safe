@@ -1,6 +1,7 @@
 import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -10,6 +11,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../models/JobReminder.dart';
 import '../../../utils/NavigationUtil.dart';
+import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/styles/Styles.dart';
 import '../../../widgets/TextDandyLight.dart';
 
@@ -80,10 +82,13 @@ class ReminderNotificationsPage extends StatelessWidget{
                               style: Styles.getButtonStyle(),
                               onPressed: () {
                                 if(pageState.reminders.elementAt(index).payload == JobReminder.MILEAGE_EXPENSE_ID) {
+                                  EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   UserOptionsUtil.showNewMileageExpenseSelected(context);
                                 } else if(pageState.reminders.elementAt(index).payload == JobReminder.POSE_FEATURED_ID) {
+                                  EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   NavigationUtil.onPosesSelected(context, null, false, true);
                                 } else {
+                                  EventSender().sendEvent(eventName: EventNames.BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS);
                                   NavigationUtil.onJobTapped(context, false);
                                 }
                                 pageState.onReminderSelected(pageState.reminders.elementAt(index));
@@ -110,7 +115,7 @@ class ReminderNotificationsPage extends StatelessWidget{
                                           width: MediaQuery.of(context).size.width - 126,
                                           child: TextDandyLight(
                                             type: TextDandyLight.SMALL_TEXT,
-                                            text: pageState.unseenFeaturedPoses.length.toString() + ' submitted photos have been featured!',
+                                            text: _buildSubmittedNotificationText(pageState.unseenFeaturedPoses.length),
                                             textAlign: TextAlign.start,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
@@ -205,4 +210,14 @@ class ReminderNotificationsPage extends StatelessWidget{
       ),
   );
 
+}
+
+_buildSubmittedNotificationText(int numOfPoses) {
+  String result = '';
+  if(numOfPoses == 1) {
+    result = numOfPoses.toString() + ' submitted photo has been featured!';
+  } else {
+    result = numOfPoses.toString() + ' submitted photos have been featured!';
+  }
+  return result;
 }

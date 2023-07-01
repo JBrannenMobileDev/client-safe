@@ -231,7 +231,7 @@ class _DecisionPageState extends State<DecisionPage> {
                     child: DandyLightLibraryTextField(
                       labelText: 'Tags',
                       controller: tagsController,
-                      hintText: 'Add descriptive tags, separated with a comma.\nFor example: couple, beach, romantic, sunset, windy',
+                      hintText: 'Add descriptive tags, separated with a comma. For example: couple, beach, romantic, sunset, windy',
                       inputType: TextInputType.text,
                       focusNode: _tagsFocusNode,
                       onFocusAction: onAction2,
