@@ -59,6 +59,7 @@ class TextDandyLight extends StatelessWidget {
   bool isNumber;
   TextOverflow overflow;
   int maxLines;
+  bool addShadow = false;
 
   TextDandyLight({
     @required this.type,
@@ -74,6 +75,7 @@ class TextDandyLight extends StatelessWidget {
     this.overflow,
     this.maxLines,
     this.decimalPlaces,
+    this.addShadow,
   });
 
   @override
@@ -84,6 +86,7 @@ class TextDandyLight extends StatelessWidget {
     if(decimalPlaces == null) decimalPlaces = 2;
     if(isCurrency == null) isCurrency = false;
     if(isNumber == null) isNumber = false;
+    if(addShadow == null) addShadow = false;
     fontFamily = isBold ? 'OpenSans' : 'OpenSans';
     if(isNumber) {
       text = NumberFormat("###,###,###,###").format(amount);
@@ -125,6 +128,13 @@ class TextDandyLight extends StatelessWidget {
           fontSize: size,
           fontWeight: isBold ? FontWeight.bold : FontWeight.w300,
           color: color,
+          shadows: <Shadow>[
+            addShadow ? Shadow(
+              offset: Offset(0.0, 0.0),
+              blurRadius: 3.0,
+              color: Color.fromARGB(255, 0, 0, 0),
+            ) : Shadow(),
+          ],
         ),
       )
           : TextButton(
@@ -140,6 +150,13 @@ class TextDandyLight extends StatelessWidget {
             fontSize: size,
             fontWeight: isBold ? FontWeight.w400 : FontWeight.w300,
             color: color,
+            shadows: <Shadow>[
+              addShadow ? Shadow(
+                offset: Offset(0.0, 0.0),
+                blurRadius: 3.0,
+                color: Color.fromARGB(255, 0, 0, 0),
+              ) : Shadow(),
+            ],
           ),
         ),
       ),

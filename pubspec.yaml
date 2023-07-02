@@ -362,7 +362,9 @@ flutter:
     - assets/animations/success_check.flr
 
     - assets/images/backgrounds/image_background.png
+    - assets/images/backgrounds/sample_brand.png
     - assets/images/backgrounds/flowerBgLaunch.png
+    - assets/images/backgrounds/bannerImage.png
     - assets/images/calendar.png
     - assets/images/clock.png
     - assets/images/alert.png

@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/JobStage.dart';
+import 'package:dandylight/utils/PlatformInfo.dart';
 import 'package:flutter/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -407,5 +408,12 @@ class ImageUtil{
         break;
     }
     return AssetImage(imageLocation);
+  }
+
+  static const String DANDYLIGHT_LOGO_ICON = "dandy_light_logo_icon.png";
+  static const String DANDYLIGHT_SAMPLE_BRAND = "dandy_light_sample_brand.png";
+
+  static String path(String assetId) {
+    return PlatformInfo().isWeb() ? 'assets/images/$assetId' : assetId;
   }
 }

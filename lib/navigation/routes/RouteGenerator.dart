@@ -1,25 +1,24 @@
 import 'package:dandylight/navigation/routes/RouteNames.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import '../../utils/ColorConstants.dart';
+import '../../web/pages/ProposalPage/ProposalPage.dart';
+import '../../web/pages/landingPage/LandingPage.dart';
 
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RouteNames.SIGN_CONTRACT:
+      case RouteNames.PROPOSALS:
         return _GeneratePageRoute(
-            widget: Container(), routeName: settings.name);
+            widget: ProposalPage(),
+            routeName: settings.name
+        );
       case RouteNames.ANSWER_QUESTIONNAIRE:
-        return _GeneratePageRoute(
-            widget: Container(), routeName: settings.name);
+        return _GeneratePageRoute(widget: Container(), routeName: settings.name);
       case RouteNames.LANDING_PAGE:
         return _GeneratePageRoute(
-            widget: Container(
-              height: 900,
-              width: 1080,
-              color: Color(ColorConstants.getPeachDark()),
-            ),
+            widget: LandingPage(),
             routeName: settings.name
         );
       default:
