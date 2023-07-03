@@ -2,6 +2,7 @@ import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../utils/ColorConstants.dart';
 import '../../../widgets/DividerWidget.dart';
@@ -14,7 +15,14 @@ class ContractPage extends StatefulWidget {
 }
 
 class _ContractPageState extends State<ContractPage> {
+  TextEditingController _clientSignatureController;
   bool isHoveredDirections = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _clientSignatureController = new TextEditingController(text: 'Shawna Brannen');
+  }
 
   @override
   Widget build(BuildContext context) =>
@@ -34,15 +42,221 @@ class _ContractPageState extends State<ContractPage> {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(bottom: 16, left: 32, right: 32),
+              margin: EdgeInsets.only(bottom: 54, left: 32, right: 32),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: contract,
               ),
             ),
+            Container(
+              margin: EdgeInsets.only(bottom: 64, left: 32, right: 32),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'I acknowledge that I have read and understood the contents of the contract, and I hereby agree to all the terms and conditions outlined within it by signing this document.',
+                isBold: true,
+              ),
+            ),
+            DeviceType.getDeviceTypeByContext(context) == Type.Website ? Row(
+              children: signatures(),
+            ) : Column(
+              children: signatures(),
+            ),
+            Container(
+              width: double.infinity,
+              alignment: Alignment.center,
+              child: MouseRegion(
+                child: GestureDetector(
+                  onTap: () {
+
+                  },
+                  child: Container(
+                    alignment: Alignment.center,
+                    width: 175,
+                    height: 48,
+                    margin: EdgeInsets.only(bottom: 0, top: 32, right: 32),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(24),
+                        color: Color(ColorConstants.getPeachDark())
+                    ),
+                    child: TextDandyLight(
+                      type: TextDandyLight.LARGE_TEXT,
+                      text: 'Submit',
+                      color: Color(ColorConstants.getPrimaryWhite()),
+                      isBold: isHoveredDirections,
+                    ),
+                  ),
+                ),
+                cursor: SystemMouseCursors.click,
+                onHover: (event) {
+                  setState(() {
+                    isHoveredDirections = true;
+                  });
+                },
+                onExit: (event) {
+                  setState(() {
+                    isHoveredDirections = false;
+                  });
+                },
+              ),
+            ),
+            SizedBox(height: 164,)
           ],
         ),
       );
+
+  List<Widget> signatures() {
+    return [
+      Container(
+        width: 410,
+        margin: EdgeInsets.only(bottom: 64, left: 32, right: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Date: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Photographer Name: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Shawna Brannen',
+                  ),
+                )
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Photographer Signature:',
+                textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
+                isBold: true,
+              ),
+            ),
+            TextField(
+              controller: _clientSignatureController,
+              enabled: false,
+              cursorColor: Color(ColorConstants.getPrimaryBlack()),
+              textCapitalization: TextCapitalization.words,
+              style: TextStyle(
+                  fontFamily: 'signature',
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold
+              ),
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+              ),
+            )
+          ],
+        ),
+      ),
+      Container(
+        width: 410,
+        margin: EdgeInsets.only(bottom: 64, left: 32, right: 32),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Date: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()),
+                  ),
+                )
+              ],
+            ),
+            Row(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Client Name: ',
+                    isBold: true,
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 0, bottom: 8),
+                  child: TextDandyLight(
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: 'Shawna Brannen',
+                  ),
+                )
+              ],
+            ),
+            Container(
+              margin: EdgeInsets.only(bottom: 8),
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: 'Client Signature:',
+                textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
+                isBold: true,
+              ),
+            ),
+            TextField(
+              cursorColor: Color(ColorConstants.getPrimaryBlack()),
+              textCapitalization: TextCapitalization.words,
+              style: TextStyle(
+                  fontFamily: 'signature',
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Color(ColorConstants.getPrimaryBlack())
+              ),
+              decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(ColorConstants.getPrimaryBlack())),
+                ),
+              ),
+            )
+          ],
+        ),
+      )
+    ];
+  }
 
   String contract = '1. Scope of Work:\n'+
   'PHOTOGRAPHER and CLIENT are to arrive for the PHOTOSHOOT at the agreed time and location which will be confirmed 7 days prior to the photoshoot. Refer to the invoice for details regarding products, inclusions, and fees.\n'+

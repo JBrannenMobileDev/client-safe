@@ -21,6 +21,7 @@ class _SignContractPageState extends State<ProposalPage> {
   static const String INVOICE = 'invoice';
   static const String QUESTIONNAIRE = 'questionnaire';
   static const String POSES = 'poses';
+  static const String FEEDBACK = 'feedback';
 
   String selectedPage = DETAILS;
   bool isHoveredDetails = false;
@@ -28,6 +29,7 @@ class _SignContractPageState extends State<ProposalPage> {
   bool isHoveredInvoice = false;
   bool isHoveredQuestionnaire = false;
   bool isHoveredPoses = false;
+  bool isHoveredFeedback = false;
 
   @override
   Widget build(BuildContext context) =>
@@ -152,7 +154,7 @@ class _SignContractPageState extends State<ProposalPage> {
           child: Container(
             alignment: Alignment.center,
             height: 64,
-            width: 200,
+            width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Details',
@@ -183,7 +185,7 @@ class _SignContractPageState extends State<ProposalPage> {
           child: Container(
             alignment: Alignment.center,
             height: 64,
-            width: 200,
+            width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Contract',
@@ -213,7 +215,7 @@ class _SignContractPageState extends State<ProposalPage> {
           child: Container(
             alignment: Alignment.center,
             height: 64,
-            width: 200,
+            width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Invoice',
@@ -243,7 +245,7 @@ class _SignContractPageState extends State<ProposalPage> {
           child: Container(
             alignment: Alignment.center,
             height: 64,
-            width: 200,
+            width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Questionnaire',
@@ -273,7 +275,7 @@ class _SignContractPageState extends State<ProposalPage> {
           child: Container(
             alignment: Alignment.center,
             height: 64,
-            width: 200,
+            width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Poses',
@@ -293,6 +295,36 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = FEEDBACK;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 150,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: 'Feedback',
+              isBold: isHoveredFeedback || selectedPage == FEEDBACK,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredFeedback = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredFeedback = false;
+            });
+          },
+        ),
+      ),
     ];
   }
 
@@ -305,13 +337,16 @@ class _SignContractPageState extends State<ProposalPage> {
       case CONTRACT:
         result = ContractPage();
         break;
-      case DETAILS:
+      case INVOICE:
         result = DetailsPage();
         break;
-      case DETAILS:
+      case QUESTIONNAIRE:
         result = DetailsPage();
         break;
-      case DETAILS:
+      case POSES:
+        result = DetailsPage();
+        break;
+      case FEEDBACK:
         result = DetailsPage();
         break;
     }

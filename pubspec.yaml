@@ -395,6 +395,9 @@ flutter:
     - family: simple
       fonts:
         - asset: assets/fonts/simplicity.ttf
+    - family: signature
+      fonts:
+        - asset: assets/fonts/signature.ttf
     - family: montserrat
       fonts:
         - asset: assets/fonts/Montserrat.ttf

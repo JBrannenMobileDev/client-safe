@@ -169,7 +169,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'Where: 42161 Delmonte St. Temecula CA 92591',
-                textAlign: TextAlign.center,
+                textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
             MouseRegion(
