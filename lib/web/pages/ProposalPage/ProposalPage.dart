@@ -1,6 +1,7 @@
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/web/pages/ProposalPage/ContractPage.dart';
+import 'package:dandylight/widgets/DividerWidget.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
 
@@ -109,17 +110,20 @@ class _SignContractPageState extends State<ProposalPage> {
                         ],
                       ),
                     ),
-                    Column(
+                    DeviceType.getDeviceTypeByContext(context) == Type.Website ? Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
+                        Container(
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: _menuButtons(),
                           ),
-                        ) : SizedBox(),
+                        ),
                         _getSelectedPage(selectedPage),
                       ],
+                    ) : Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: _allPages(),
                     ),
                   ],
                 ),
@@ -127,6 +131,14 @@ class _SignContractPageState extends State<ProposalPage> {
             ),
           )
       );
+
+  List<Widget> _allPages() {
+    return [
+      DetailsPage(),
+      DividerWidget(),
+      ContractPage(),
+    ];
+  }
 
   List<Widget> _menuButtons() {
     return [
