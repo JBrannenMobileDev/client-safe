@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../../../utils/ColorConstants.dart';
 import 'DetailsPage.dart';
+import 'InvoicePage.dart';
 
 class ProposalPage extends StatefulWidget {
   @override
@@ -139,6 +140,9 @@ class _SignContractPageState extends State<ProposalPage> {
       DetailsPage(),
       DividerWidget(),
       ContractPage(),
+      DividerWidget(),
+      InvoicePage(),
+      DividerWidget(),
     ];
   }
 
@@ -338,7 +342,7 @@ class _SignContractPageState extends State<ProposalPage> {
         result = ContractPage();
         break;
       case INVOICE:
-        result = DetailsPage();
+        result = InvoicePage();
         break;
       case QUESTIONNAIRE:
         result = DetailsPage();

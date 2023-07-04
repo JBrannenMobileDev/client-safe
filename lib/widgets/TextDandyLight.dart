@@ -125,13 +125,14 @@ class TextDandyLight extends StatelessWidget {
         overflow: overflow,
         maxLines: maxLines,
         style: TextStyle(
+          fontFamily: fontFamily,
           fontSize: size,
           fontWeight: isBold ? FontWeight.bold : FontWeight.w300,
           color: color,
           shadows: <Shadow>[
             addShadow ? Shadow(
               offset: Offset(0.0, 0.0),
-              blurRadius: 3.0,
+              blurRadius: 10.0,
               color: Color.fromARGB(255, 0, 0, 0),
             ) : Shadow(),
           ],
@@ -147,13 +148,14 @@ class TextDandyLight extends StatelessWidget {
           overflow: overflow,
           maxLines: maxLines,
           style: TextStyle(
+            fontFamily: fontFamily,
             fontSize: size,
             fontWeight: isBold ? FontWeight.w400 : FontWeight.w300,
             color: color,
             shadows: <Shadow>[
               addShadow ? Shadow(
                 offset: Offset(0.0, 0.0),
-                blurRadius: 6.0,
+                blurRadius: 10.0,
                 color: Color.fromARGB(255, 0, 0, 0),
               ) : Shadow(),
             ],

@@ -16,7 +16,8 @@ class ContractPage extends StatefulWidget {
 
 class _ContractPageState extends State<ContractPage> {
   TextEditingController _clientSignatureController;
-  bool isHoveredDirections = false;
+  bool isHoveredSubmit = false;
+  bool isHoveredDownloadPDF = false;
 
   @override
   void initState() {
@@ -33,13 +34,66 @@ class _ContractPageState extends State<ContractPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              alignment: Alignment.topCenter,
-              margin: EdgeInsets.only(top: 32, bottom: 48),
-              child: TextDandyLight(
-                type: TextDandyLight.EXTRA_LARGE_TEXT,
-                text: 'Contract',
-              ),
+            Stack(
+              children: [
+                Container(
+                  alignment: Alignment.topCenter,
+                  margin: EdgeInsets.only(top: 32, bottom: 48),
+                  child: TextDandyLight(
+                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                    text: 'Contract',
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 32, right: 16),
+                  alignment: Alignment.centerRight,
+                  width: 1080,
+                  child: MouseRegion(
+                    child: GestureDetector(
+                      onTap: () {
+
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: 116,
+                        height: 48,
+                        margin: EdgeInsets.only(bottom: 8),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            color: Color(ColorConstants.getPeachDark())
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Container(
+                              height: 24,
+                              width: 24,
+                              child: Image.asset("images/icons/download.png", color: Color(ColorConstants.getPrimaryWhite()),),
+                            ),
+                            TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'PDF',
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              isBold: isHoveredDownloadPDF,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    cursor: SystemMouseCursors.click,
+                    onHover: (event) {
+                      setState(() {
+                        isHoveredDownloadPDF = true;
+                      });
+                    },
+                    onExit: (event) {
+                      setState(() {
+                        isHoveredDownloadPDF = false;
+                      });
+                    },
+                  ),
+                )
+              ],
             ),
             Container(
               margin: EdgeInsets.only(bottom: 54, left: 32, right: 32),
@@ -71,7 +125,7 @@ class _ContractPageState extends State<ContractPage> {
                   },
                   child: Container(
                     alignment: Alignment.center,
-                    width: 175,
+                    width: 200,
                     height: 48,
                     margin: EdgeInsets.only(bottom: 0, top: 32, right: 32),
                     decoration: BoxDecoration(
@@ -80,21 +134,21 @@ class _ContractPageState extends State<ContractPage> {
                     ),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
-                      text: 'Submit',
+                      text: 'Save Signature',
                       color: Color(ColorConstants.getPrimaryWhite()),
-                      isBold: isHoveredDirections,
+                      isBold: isHoveredSubmit,
                     ),
                   ),
                 ),
                 cursor: SystemMouseCursors.click,
                 onHover: (event) {
                   setState(() {
-                    isHoveredDirections = true;
+                    isHoveredSubmit = true;
                   });
                 },
                 onExit: (event) {
                   setState(() {
-                    isHoveredDirections = false;
+                    isHoveredSubmit = false;
                   });
                 },
               ),
@@ -258,80 +312,94 @@ class _ContractPageState extends State<ContractPage> {
     ];
   }
 
-  String contract = '1. Scope of Work:\n'+
-  'PHOTOGRAPHER and CLIENT are to arrive for the PHOTOSHOOT at the agreed time and location which will be confirmed 7 days prior to the photoshoot. Refer to the invoice for details regarding products, inclusions, and fees.\n'+
-  '\n'+
-  '2. Retainer and payment:\n'+
-  'Upon your signature, PHOTOGRAPHER will reserve the time and date agreed upon, and will not make other reservations for that time and date. The CLIENT shall make a non-refundable retainer of 50% to the PHOTOGRAPHER to perform the services specified in the invoice.\n'+
-  '\n'+
-  'Upon payment, PHOTOGRAPHER will reserve the time and date agreed upon by both parties exclusively for you. The full amount + any agreed upon additional travel fees must be paid at least 7 days prior to the date of PHOTOSHOOT. No services will be made until full payment is made. In the event that payment is dishonoured after payment has been made, no photos shall be released until a substitute full payment is made and clear funds have been received.\n'+
-  '\n'+
-  '3. Work Product:\n'+
-  'All photographs will be shot in digital format. Digital photos will be made available on a private online gallery available for download no later than 6 weeks after the shoot date. Photos will be delivered as high-resolution JPEG files in an online gallery. RAW files will not be provided. When the online gallery is delivered, it shall remain open for 14 days from delivery date. Requests for additional photographs or changes to images shall be made within 14 days following delivery of the online gallery. Be advised that RAW files may be destroyed at any time after the online gallery has closed. The CLIENT may download images from the online gallery for personal use only. Downloaded images must not be reproduced in any form including for the purpose of being submitted to contests, reproduced for commercial use or in any other form other than as provided for in this agreement or with the express written license of the PHOTOGRAPHER.\n'+
-  '\n'+
-  '4. Rescheduling/Late Arrivals:\n'+
-  '4.1 - In the event that the Client requests to reschedule its session on account of illness, emergency, act of God or any cause outside its control, the retainer will be applied to a rescheduled session provided that notice is given at least 7 days prior to the scheduled PHOTOSHOOT (or reasonable notice in the case of an emergency).\n'+
-  '4.2 - Requests to reschedule by Clients for any reason other than a reason under clause 4.1 is at the discretion of PHOTOGRAPHER.\n'+
-  '4.3 - An additional \$50 rescheduling fee must be paid by the Client on making a rescheduling request and PHOTOGRAPHER will be entitled to retain all amounts paid under this contract until the rescheduled PHOTOSHOOT. \n'+
-  '4.4 - The rescheduled session must be within 2 weeks of the original session date (or a longer period as agreed by PHOTOGRAPHER and Client in writing) and is subject to the availability of PHOTOGRAPHER. Any Client that is late arriving to the session will have the remaining amount of time allotted for the session. All additional time beyond the scheduled end time will be billed to the Client .\n'+
-  '\n'+
-  '5. Cancellation:\n'+
-  'If Client cancels this agreement, giving less than 24 hours notice prior to the date of the PHOTOSHOOT or fails to show on time, all payments made to PHOTOGRAPHER will be forfeited and released to PHOTOGRAPHER unconditionally. \n'+
-  '\n'+
-  '6. Indemnification:\n'+
-  '\n'+
-  '6.1 - PHOTOGRAPHER and CLIENT agree that the PHOTOGRAPHER is under no obligation to capture any specific moment or pose or person(s) during the PHOTOSHOOT. The PHOTOGRAPHER is not responsible for compromised coverage due to causes beyond the control of the PHOTOGRAPHER including but not limited to obtrusive guests, lateness of the CLIENT or guests, weather conditions, schedule complications, incorrect addresses provided to the PHOTOGRAPHER, restrictions of the locations.\n'+
-  '\n'+
-  '6.2 - Unless specifically requested in writing prior to the commencement of the PHOTOSHOOT, the PHOTOGRAPHER is not responsible under this agreement: for backgrounds or lighting conditions which may negatively impact or restrict the photo coverage; for missed coverage of any part of the PHOTOSHOOT; or for failure to deliver images of any specific individuals or any specific objects at the PHOTOSHOOT.\n'+
-  '\n'+
-  '6.3 - If PHOTOGRAPHER is unable to perform the services in this contract due to illness, emergency, fire, casualty, strike, unsafe environment, threat, act of God or any cause outside its control: PHOTOGRAPHER will make reasonable efforts to arrange a substitute photographer who is prepared to perform the services under this contract for the price agreed in this contract if the PHOTOGRAPHER is unable to perform services; PHOTOGRAPHER will return in full all payments made by CLIENT to PHOTOGRAPHER in relation to this PHOTOSHOOT if a substitute photographer cannot be found; If the fees to be charged by the substitute PHOTOGRAPHER exceed the fees payable by CLIENT under this contract, CLIENT will be entitled to elect: to engage the substitute photographer (in which case, CLIENT shall be liable for any additional fees charged by the substitute photographer); or to require PHOTOGRAPHER to return in full all payments in accordance with subparagraph 2 above.\n'+
-  '\n'+
-  '6.4 -PHOTOGRAPHER reserves the right to substitute with another photographer in the case of failure to perform as stated above. The substitute photographer is chosen at the discretion of the PHOTOGRAPHER and does not constitute a breach of this agreement. PHOTOGRAPHER warrants the substitute photographer to be of comparable quality and professionalism.\n'+
-  '\n'+
-  '6.5 - If PHOTOGRAPHER is unable to deliver photographic materials due to technological malfunctions, including but not limited to camera and processing, or otherwise lost or damaged without fault of the PHOTOGRAPHER, the PHOTOGRAPHER will not be liable for any consequential loss arising from the non-delivery, and the liability of the Photographer to the Client should be limited to the repayment of amounts paid to the PHOTOGRAPHER under this Agreement.\n'+
-  '\n'+
-  '6.6 - CLIENT understands and agrees that PHOTOGRAPHER is not required to maintain copies of the photos from this PHOTOSHOOT 14 days after the online gallery has been delivered to CLIENT. CLIENT will have 14 days after gallery delivery to make PHOTOGRAPHER aware of any issue, discrepancy, technical problem or any other complaint regarding photos, their quality and contents, or anything relating to session coverage. After this 14-day term has expired, PHOTOGRAPHER will no longer be liable to CLIENT for any corrections, damages, refunds, re-edits or re-shoots. Re-edits after this term may be made by PHOTOGRAPHER if requested by CLIENT but the hourly fee of \$60 per hour plus GST for retouching will be billed with a minimum of one hour required.\n'+
-  '\n'+
-  '6.7 – CLIENT agrees to indemnify and hold PHOTOGRAPHER harmless for any and all personal injury which may occur during the course of the photography session and the immediately surrounding PHOTOSHOOT (including any personal injury arising from or connected with any negligent act or omission on the part of PHOTOGRAPHER).\n'+
-  '\n'+
-  '6.8 – CLIENT agrees to indemnify PHOTOGRAPHER and keep it harmless from and against all losses and claims, proceedings, action for damages, compensation, expenses, losses, legal costs (on an indemnity basis), contribution, indemnity or any other legal, equitable or statutory remedy arising from or in connection with this agreement.\n'+
-  '\n'+
-  '6.9 – PHOTOGRAPHER retains the right of discretion in selecting the photographic materials released to the client. \n'+
-  '\n'+
-  '6.10 - The final post production and editing styles, effects, and overall look of the images are left to the discretion of the PHOTOGRAPHER.\n'+
-  '\n'+
-  '6.11 PHOTOGRAPHER  reserves the right to terminate coverage and leave the location of the PHOTOSHOOT if the photographer experiences inappropriate, threatening, hostile or offensive behavior from anyone at the PHOTOSHOOT; or in the event that the safety of the photographer is in question.  If PHOTOGRAPHER leaves the PHOTOSHOOT in accordance with this clause, PHOTOGRAPHER will not be liable to refund any amount to CLIENT, but will be obliged to provide CLIENT with photographs taken by PHOTOGRAPHER prior to PHOTOGRAPHER leaving the PHOTOSHOOT.\n'+
-  '\n'+
-  '7. Timeline and Schedule:\n'+
-  '\n'+
-  '7.1 The client agrees to confirm the schedule one-week prior to the PHOTOSHOOT. Notification of any changes in schedule or location must be made in a timely manner and confirmation of receipt must be obtained from the PHOTOGRAPHER  by the CLIENT. The PHOTOGRAPHER is not responsible for creating or managing the timeline on the day. If the photographer must stay over the agreed number of hours, an additional fee of \$100 plus GST per hour, per photographer will be charged to the client.\n'+
-  '\n'+
-  '7.2 On the day of the PHOTOSHOOT, the client must provide PHOTOGRAPHER and the PHOTOGRAPHER’s assistant with meals at the same time as the bridal party.\n'+
-  ' \n'+
-  '\n'+
-  '8. Permissions and permits:\n'+
-  'CLIENT will obtain all permissions necessary for PHOTOGRAPHER to photograph at the SHOOT. PHOTOGRAPHER has no duty to obtain permission of reception centers, churches, buildings, properties, national parks or other locations. CLIENT understands and agrees that any failure to obtain these permissions resulting in fines to the photographer, or which prevent the PHOTOGRAPHER from photographing the PHOTOSHOOT is not the fault, liability, or responsibility of the PHOTOGRAPHER and CLIENT agrees: To pay to the PHOTOGRAPHER an amount equal to any fine which may be imposed upon PHOTOGRAPHER as a result of the CLIENT’s failure to obtain any required permission; and not to make any claim (including a claim for the repayment of any money paid under this agreement) arising out of or connected with any failure on the part of CLIENT to obtain any required permission.\n'+
-  '\n'+
-  '9. Exclusive Photographer:\n'+
-  'CLIENT agrees and understands that no other party other than PHOTOGRAPHER and the PHOTOGRAPHER\'S assistant may take pictures of any poses, lighting situations, or setups made by the PHOTOGRAPHER. This slows down the PHOTOGRAPHER’S work and violates the PHOTOGRAPHER’S intellectual property in the composition of pictures of the PHOTOSHOOT. CLIENT agrees to do all things reasonably requested by PHOTOGRAPHER to ensure that no person(s) get in the way of the PHOTOGRAPHER or take pictures in these situations.\n'+
-  '\n'+
-  '10. Copyright and Model Release:\n'+
-  'PHOTOGRAPHER shall own the copyright in all images created and shall have the exclusive right to make reproductions for, including but not limited to, marketing materials, portfolio entries, sample products, editorial submissions and use, or for display within or on the Photographer’s website, social media and/or studio. CLIENT releases PHOTOGRAPHER from all claims and liability in relation to the photographs and any use by PHOTOGRAPHER which is consistent with this agreement.\n'+
-  '\n'+
-  'If the PHOTOGRAPHER desires to make other commercial uses of the images to promote the commercial interests of any business other than the PHOTOGRAPHER’s own business, the PHOTOGRAPHER shall not do so without first obtaining the written permission of the CLIENT. It is understood that any duplication or alteration of original images is strictly prohibited without the written permission of the PHOTOGRAPHER\n'+
-  '\n'+
-  '11. Social Media and Personal Use License. \n'+
-  'In consideration of the payment of monies due under this agreement, PHOTOGRAPHER grants CLIENT a perpetual non-exclusive license to print or to reproduce images downloaded from the photo gallery or delivered by the PHOTOGRAPHER as follows:\n'+
-  '\n'+
-  '1. CLIENT may share the web or high res photos delivered by the PHOTOGRAPHER on CLIENT’s personal and business social media accounts, provided that in each such post CLIENT must credit/tag PHOTOGRAPHER.\n'+
-  '\n'+
-  '2. This license does not permit CLIENT to screenshot poor quality images, or edit or alter photos in any way, or to do any other act which would infringe PHOTOGRAPHER’S moral rights.\n'+
-  '\n'+
-  '3. CLIENT may print web or high res photos delivered by the PHOTOGRAPHER or downloaded from the photo gallery for their personal use, and:\n'+
-  'a: must not sell, license, sub-license, transfer, or otherwise distribute the printed photos;\n'+
-  'b: must not use the printed photos for advertising or commercial purposes; and\n'+
-  'c: must not submit or enter the photos into any competition.\n'+
-  '\n'+
-  '12. Pricing & Additional Products:\n'+
-  'Services or merchandise not included in this initial contract will be sold at the current price when the order is placed. All prices are subject to change at any time without notice. Credit vouchers have no intrinsic cash value and may only be applied toward products or services purchased.\n';
+  String contract = 'Photography Services Contract  \n'+
+  '  THIS AGREEMENT is entered into as of July 4, 2023 (the "Effective Date") by and between Jason Bent, having a primary contact address at Client AddressClient Address FILL ("Client"), and Vintage Vibes Photography ("Photographer").  \n'+
+  '    \n'+
+  '  Engagement of Photographer  \n'+
+  '  1.1 Provision of Services. Client hereby engages Photographer to render and Photographer agrees to provide the photography services described in this Section 1.1 (referred to as the "Services"), subject to the terms and conditions set forth herein.  \n'+
+  '  Description of Services:  \n'+
+  '    \n'+
+  '  [Provide a detailed description of the services]  \n'+
+  '    \n'+
+  '  As part of the Services, Photographer shall create materials from Images or take similar actions to produce deliverables as outlined above, which shall be considered the "Work Product." For the purposes of this Agreement, "Images" refers to photographic material, both still and moving, generated by Photographer under this Agreement, encompassing transparencies, negatives, prints or digital files captured, recorded, stored or delivered in any form or medium, including but not limited to analogue, photographic, optical, electronic, magnetic, or digital formats.  \n'+
+  '    \n'+
+  '  1.2 Exclusivity. It is agreed that Photographer shall be the sole provider of the Services, unless otherwise mutually agreed upon in writing by the parties.  \n'+
+  '    \n'+
+  '  Fees and Payment  \n'+
+  '  2.1 Compensation. Client shall remit the fees specified in this Section 2.1 ("Fees"), inclusive of any applicable federal or state/provincial sales or value-added taxes due on said Fees, to Photographer.  \n'+
+  '  Total Service Fee: \$400  \n'+
+  '    \n'+
+  '  Additional Hourly Rate: \$5/hour  \n'+
+  '    \n'+
+  '  Retainer Payment upon execution: \$40  \n'+
+  '    \n'+
+  '  Remaining balance due by [Final Due Date]: \$400  \n'+
+  '    \n'+
+  '  2.2 Retainer. Client acknowledges that the retainer amount indicated above, payable upon execution of this Agreement, is non-refundable ("Retainer"). The Retainer serves as fair compensation to Photographer for dedicating time to providing the Services and for foregoing other potential projects or clients. Both parties agree that the Retainer shall be credited toward the total Fees payable by Client.  \n'+
+  '    \n'+
+  '  2.3 Invoice. Upon acceptance of the Services, Photographer shall issue an invoice ("Invoice") to Client. Client agrees to remit all outstanding Fees on or before the due dates specified in Section 2.1. Late payments shall incur a monthly late fee of [X%] on the outstanding balance. Client acknowledges that the final amount payable may be subject to change based on actual expenses incurred. Client confirms and agrees that the final amount indicated in the Invoice, even if different from the total listed in Section 2.1, shall be considered the final payment.  \n'+
+  '    \n'+
+  '  Client Responsibilities  \n'+
+  '  3.1 Necessary Consents. Client shall ensure that all required consents, if applicable, are obtained prior to the commencement of the Services. This includes obtaining consents for the performance of Services, delivery of Work Product by Photographer, and any consents required from venues, locations, attendees, or participants involved in the photo shoot.  \n'+
+  '  3.2 Expenses. Client shall either provide means of travel or be responsible for reasonable travel expenses incurred by Photographer that are necessary for the provision of Services, or as requested by Client if the Services are to be performed outside the city of [City Name]. Additionally, Client shall be responsible for any other necessary expenses incurred by Photographer, as specified in Article 2.  \n'+
+  '    \n'+
+  '  3.3 Waiver. Client, on behalf of themselves and any other individual whose image or recording may be captured during the Services, hereby waives all rights and claims and releases Photographer from any claims or causes of action, whether presently known or unknown, relating to the sale, display, license, use, or exploitation of Images under this Agreement.  \n'+
+  '    \n'+
+  '  Photographer Responsibilities  \n'+
+  '  4.1 Equipment. Photographer shall not require Client to provide any photography equipment.  \n'+
+  '  4.2 Service Standards. Photographer shall perform the Services in a proficient, timely, and safe manner, ensuring minimal interference with Client\'s activities.  \n'+
+  '    \n'+
+  '  4.3 Photography Staff. Photographer and any Photography Staff (employees, assistants, or other individuals engaged by Photographer to assist with the Services) shall:  \n'+
+  '    \n'+
+  '  Adhere to Client\'s reasonable directions concerning the safety of photo shoot attendees or participants, as well as applicable health, safety, and security requirements at the shoot locations.  \n'+
+  '  Ensure that the Work Product meets the specifications outlined in Section 1.1 to a satisfactory extent.  \n'+
+  '  Photographer shall be accountable for the actions of all Photography Staff.  \n'+
+  '    \n'+
+  '  Artistic Release  \n'+
+  '  5.1 Consistency. Photographer shall make reasonable efforts to produce the Services in a manner consistent with their existing portfolio and style. Photographer shall also consult with Client and consider any reasonable suggestions.  \n'+
+  '  5.2 Client Acknowledgment. Client acknowledges and agrees to the following:  \n'+
+  '    \n'+
+  '  Client has reviewed Photographer\'s previous work and portfolio and has a reasonable expectation that the Services shall be rendered in a similar style.  \n'+
+  '  Photographer shall exercise artistic judgment when providing the Services and shall have final authority regarding the aesthetic and artistic quality of the Services.  \n'+
+  '  Disagreements with Photographer\'s aesthetic judgment or artistic ability shall not constitute valid grounds for terminating this Agreement or requesting a refund.  \n'+
+  '  Term and Termination  \n'+
+  '  6.1 Duration. This Agreement shall commence on the Effective Date and shall remain in effect until the later of (i) the date on which all outstanding Fees under this Agreement are fully paid; or (ii) the date on which all final Work Product has been delivered ("Term").  \n'+
+  '  6.2 Cancellation. Client may terminate this Agreement ("Cancellation") or request a rescheduling of the Services ("Rescheduling") by providing written notice to Photographer no later than [X days] prior to the original Service date (referred to as the "Minimum Notice"). Client acknowledges and agrees that payment obligations shall not be waived for Cancellations or Rescheduling unless Minimum Notice, as outlined in this Article 6, is duly provided or unless otherwise mutually agreed upon in writing by the parties.  \n'+
+  '    \n'+
+  '  6.3 Rescheduling. In the event of a Rescheduling, Photographer shall make commercially reasonable efforts to accommodate Client\'s request. If Photographer is unable to fulfill the revised date despite reasonable efforts, the Rescheduling shall be treated as a Cancellation by Client, and Photographer shall have no obligation to perform the Services other than on the original date.  \n'+
+  '    \n'+
+  '  6.4 Refund Policy. Client acknowledges and agrees that Cancellation by Client shall not entitle them to a refund of any fees paid prior to the Cancellation date.  \n'+
+  '    \n'+
+  '  6.5 Replacement Photographer. If Photographer is unable to provide the Services, Photographer may, with Client\'s consent (which shall not be unreasonably withheld), arrange for a substitute photographer to fulfill the Services as per this Agreement. In the event that consent is not obtained, Photographer may terminate this Agreement, refund the Retainer and any fees already paid by Client, and shall bear no further liability towards Client.  \n'+
+  '    \n'+
+  '  Ownership of Work Product by Photographer  \n'+
+  '  7.1 Work Ownership. Photographer shall retain all rights, title, and interest in the Work Product. Client (on behalf of themselves and any attendees or participants at the photo shoot) grants Photographer and any of its service providers an exclusive, royalty-free, worldwide, irrevocable, transferable, and sublicensable license to use any Client Materials (i.e., materials created by Client or attendees during the Services that may be protected by copyright or other intellectual property rights) as part of the Work Product or in connection with the marketing, advertising, or promotion of Photographer\'s services. This includes use in connection with Photographer\'s studio, portfolio, website, or social media, across all formats and mediums. Client confirms that no other person or entity possesses rights that may impede or restrict Photographer from utilizing Client Materials as specified herein.  \n'+
+  '    \n'+
+  '  Limited License to Client  \n'+
+  '  8.1 Personal Use. Photographer grants Client an exclusive, limited, irrevocable, royalty-free, non-transferable, and non-sublicensable license to use the Work Product for personal use ("Personal Use"). Personal Use includes, but is not limited to, utilizing photos on personal social media pages or profiles, incorporating them into personal creations (e.g., scrapbooks, albums, or personal gifts), displaying them non-commercially, and utilizing them in personal communications (e.g., family newsletters, emails, or holiday cards). Client shall not make any other use of the Work Product without prior written consent from Photographer, including commercial use or sale.  \n'+
+  '    \n'+
+  '  Indemnity and Limitation of Liability  \n'+
+  '  9.1 Indemnification. Client agrees to indemnify, defend, and hold harmless Photographer, its affiliates, employees, agents, and independent contractors from any injury, property damage, liability, claim, or other cause of action arising from or related to the Services or Work Product provided by Photographer.  \n'+
+  '    \n'+
+  '  9.2 Force Majeure. Neither party shall be deemed in breach or liable under this Agreement for any delay or non-performance of obligations caused by illness, emergency, fire, strike, pandemic, earthquake, or any other conditions beyond the reasonable control of the non-performing party (each a "Force Majeure Event"). The time for performing such obligations, if applicable, shall be extended for a duration equal to the conditions preventing performance. If a Force Majeure Event persists for more than 60 days, the non-affected party may terminate the Agreement, and any prepaid fees for unperformed Services (excluding the Retainer) shall be returned within 15 days of the termination date.  \n'+
+  '    \n'+
+  '  9.3 Failure to Deliver. Photographer shall not be held liable for delays in delivering the Work Product or for undeliverable Work Product due to technological malfunctions, service interruptions beyond Photographer\'s control (including delays in receiving instructions from Client), or Work Product failing to meet the specifications in Section 1.1 due to actions by Client or photo shoot attendees/participants beyond Photographer\'s control (e.g., camera flashes).  \n'+
+  '    \n'+
+  '  9.4 Maximum Liability. Notwithstanding anything to the contrary, Client agrees that Photographer\'s maximum liability arising from the Services or Work Product shall not exceed the total Fees payable under this Agreement.  \n'+
+  '    \n'+
+  '  General  \n'+
+  '  10.1 Notice. Parties shall deliver effective notices ("Notice") to each other via either of the following methods:  \n'+
+  '  Photographer\'s Email: Vintagevibesphotography@gmail.com  \n'+
+  '    \n'+
+  '  Client\'s Email: jbent@gmail.com  \n'+
+  '    \n'+
+  '  10.2 Survival. Articles 7, 8, 9, and 10 shall survive the termination of this Agreement.  \n'+
+  '    \n'+
+  '  10.3 Governing Law. This Agreement shall be governed by the laws of [State/Country].  \n'+
+  '    \n'+
+  '  10.4 Amendment. This Agreement may only be amended, supplemented, or otherwise modified through a written agreement signed by both parties.  \n'+
+  '    \n'+
+  '  10.5 Entire Agreement. This Agreement constitutes the entire agreement between the parties regarding the Services and supersedes all prior agreements and understandings, whether formal or informal.  \n'+
+  '    \n'+
+  '  10.6 Severability. If any provision of this Agreement is deemed illegal, invalid, or unenforceable in whole or in part by an arbitrator or a court of competent jurisdiction, that provision or part thereof shall be severed from this Agreement, and the remaining provisions shall continue to be in full force and effect.  \n';
 }
