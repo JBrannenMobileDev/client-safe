@@ -208,6 +208,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
             ),
           ],
         ),
-      )];
+      ),
+      SizedBox(height: 124,)
+    ];
   }
 }

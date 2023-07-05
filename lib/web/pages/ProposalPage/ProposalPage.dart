@@ -43,9 +43,8 @@ class _SignContractPageState extends State<ProposalPage> {
               child: Container(
                 color: Color(ColorConstants.getPrimaryWhite()),
                 width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                child: Stack(
+                  alignment: Alignment.topCenter,
                   children: [
                     Container(
                       width: double.infinity,
@@ -53,7 +52,7 @@ class _SignContractPageState extends State<ProposalPage> {
                         alignment: Alignment.centerLeft,
                         children: [
                           Container(
-                            height: 600.0,
+                            height: MediaQuery.of(context).size.height/2,
                             decoration: BoxDecoration(
                               color: Colors.transparent,
                               image: DecorationImage(
@@ -64,7 +63,7 @@ class _SignContractPageState extends State<ProposalPage> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(left: 62.5),
+                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 64),
                             child: Material(
                               elevation: 4,
                               child: Container(
@@ -85,47 +84,59 @@ class _SignContractPageState extends State<ProposalPage> {
                           //       color: Color(ColorConstants.getPeachDark())
                           //   ),
                           // ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                margin: EdgeInsets.only(left: 224),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                  text: 'Vintage Vibes Photography',
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                  addShadow: true,
+                          Container(
+                            margin: EdgeInsets.only(bottom: 64),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                    text: 'Vintage Vibes Photography',
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    addShadow: true,
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                margin: EdgeInsets.only(left: 224),
-                                child: TextDandyLight(
-                                  type: TextDandyLight.LARGE_TEXT,
-                                  text: 'Jason Bent',
-                                  color: Color(ColorConstants.getPrimaryWhite()),
-                                  addShadow: true,
-                                ),
-                              )
-                            ],
-                          )
+                                Container(
+                                  margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Jason Bent',
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    addShadow: true,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    DeviceType.getDeviceTypeByContext(context) == Type.Website ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: _menuButtons(),
+                    Container(
+                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2 - 64, bottom: 300),
+                      width: 1440,
+                      decoration: BoxDecoration(
+                        boxShadow: ElevationToShadow[2],
+                        color: Color(ColorConstants.getPrimaryWhite()),
+                        borderRadius: BorderRadius.circular(16)
+                      ),
+                      child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: _menuButtons(),
+                            ),
                           ),
-                        ),
-                        _getSelectedPage(selectedPage),
-                      ],
-                    ) : Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: _allPages(),
+                          _getSelectedPage(selectedPage),
+                        ],
+                      ) : Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: _allPages(),
+                      ),
                     ),
                   ],
                 ),
@@ -354,5 +365,13 @@ class _SignContractPageState extends State<ProposalPage> {
         break;
     }
     return result;
+  }
+
+  calculateLogoMargin(double width) {
+    return ((width - 1080)/2).abs();
+  }
+
+  calculateCompanyNameMargin(double width) {
+    return (((width - 1080)/2) + 172).abs();
   }
 }
