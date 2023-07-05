@@ -48,18 +48,17 @@ class _SignContractPageState extends State<ProposalPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Container(
-                      width: 1440,
+                      width: double.infinity,
                       child: Stack(
                         alignment: Alignment.centerLeft,
                         children: [
                           Container(
-                            height: 300.0,
+                            height: 600.0,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16)),
                               color: Colors.transparent,
                               image: DecorationImage(
                                 image: AssetImage(
-                                    'assets/images/backgrounds/bannerImage.png'),
+                                    'assets/images/backgrounds/largebackground.png'),
                                 fit: BoxFit.cover,
                               ),
                             ),
