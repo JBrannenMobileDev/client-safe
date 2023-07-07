@@ -40,8 +40,9 @@ class _DetailsPagePageState extends State<DetailsPage> {
                 text: 'Hi Jason, \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon,\nShawna Brannen',
               ),
             ),
-            DividerWidget(),
+            DividerWidget(width: 1080),
             Container(
+              margin: EdgeInsets.only(bottom: 64),
               alignment: Alignment.topCenter,
               child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -60,7 +61,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
   List<Widget> _infoItems() {
     return [
       Container(
-        width: 275,
+        width: 360,
         margin: EdgeInsets.only(bottom: 32),
         child: Column(
           crossAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -99,7 +100,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
         ),
       ),
       Container(
-        width: 275,
+        width: 360,
         margin: EdgeInsets.only(bottom: 32),
         child: Column(
           crossAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -138,7 +139,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
         ),
       ),
       Container(
-        width: 275,
+        width: 360,
         margin: EdgeInsets.only(bottom: 32),
         child: Column(
           crossAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? CrossAxisAlignment.start : CrossAxisAlignment.center,
@@ -147,7 +148,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
-                text: 'INFO',
+                text: 'JOB INFO',
               ),
             ),
             Container(
@@ -209,7 +210,6 @@ class _DetailsPagePageState extends State<DetailsPage> {
           ],
         ),
       ),
-      SizedBox(height: 124,)
     ];
   }
 }

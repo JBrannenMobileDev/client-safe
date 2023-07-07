@@ -1,5 +1,6 @@
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/Shadows.dart';
+import 'package:dandylight/web/pages/invoicePage/PayNowPage.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -116,7 +117,14 @@ class _InvoicePageState extends State<InvoicePage> {
                       MouseRegion(
                         child: GestureDetector(
                           onTap: () {
-
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DeviceType.getDeviceTypeByContext(context) != Type.Website ? SingleChildScrollView(
+                                  child: PayNowPage(amount: 150.00),
+                                ) : PayNowPage(amount: 150.00);
+                              },
+                            );
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -163,7 +171,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       textAlign: TextAlign.center,
-                      text: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'Payment - Due July 22, 2023' : 'Payment - Due 6/22/23',
+                      text: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'Full Payment - Due July 22, 2023' : 'Payment - Due 6/22/23',
                     ),
                   ),
                   Row(
@@ -173,13 +181,21 @@ class _InvoicePageState extends State<InvoicePage> {
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           textAlign: TextAlign.center,
-                          text: '\$300.00',
+                          text: '\$338.00',
                         ),
                       ),
                       MouseRegion(
                         child: GestureDetector(
                           onTap: () {
-
+                            showDialog(
+                              barrierDismissible: true,
+                              context: context,
+                              builder: (BuildContext context) {
+                                return DeviceType.getDeviceTypeByContext(context) != Type.Website ? SingleChildScrollView(
+                                  child: PayNowPage(amount: 338.00),
+                                ) : PayNowPage(amount: 338.00);
+                              },
+                            );
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -215,7 +231,7 @@ class _InvoicePageState extends State<InvoicePage> {
                 ],
               ),
             ),
-            DividerWidget(),
+            DividerWidget(width: 1080),
             Container(
               margin: EdgeInsets.only(right: 16, left: 16),
               child: Column(

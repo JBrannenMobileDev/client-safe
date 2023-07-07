@@ -36,6 +36,7 @@ import 'package:dandylight/pages/job_types/JobTypesPageState.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageState.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageState.dart';
+import 'package:dandylight/web/pages/ClientPortalPageState.dart';
 import 'package:meta/meta.dart';
 
 import 'pages/clients_page/ClientsPageState.dart';
@@ -81,6 +82,7 @@ class AppState {
   final OnBoardingPageState onBoardingPageState;
   final UploadPosePageState uploadPosePageState;
   final ReviewPosesPageState reviewPosesPageState;
+  final ClientPortalPageState clientPortalPageState;
 
   AppState({
     @required this.newLocationPageState,
@@ -122,6 +124,7 @@ class AppState {
     @required this.onBoardingPageState,
     @required this.uploadPosePageState,
     @required this.reviewPosesPageState,
+    @required this.clientPortalPageState,
   });
 
   factory AppState.initial() {
@@ -165,6 +168,7 @@ class AppState {
       onBoardingPageState: OnBoardingPageState.initial(),
       uploadPosePageState: UploadPosePageState.initial(),
       reviewPosesPageState: ReviewPosesPageState.initial(),
+      clientPortalPageState: ClientPortalPageState.initial(),
     );
   }
 
@@ -208,6 +212,7 @@ class AppState {
     OnBoardingPageState onBoardingPageState,
     UploadPosePageState uploadPosePageState,
     ReviewPosesPageState reviewPosesPageState,
+    ClientPortalPageState clientPortalPageState,
   }){
     return AppState(
       newLocationPageState: newLocationPageState ?? this.newLocationPageState,
@@ -249,6 +254,7 @@ class AppState {
       onBoardingPageState: onBoardingPageState ?? this.onBoardingPageState,
       uploadPosePageState: uploadPosePageState ?? this.uploadPosePageState,
       reviewPosesPageState: reviewPosesPageState ?? this.reviewPosesPageState,
+      clientPortalPageState: clientPortalPageState ?? this.clientPortalPageState,
     );
   }
 
@@ -292,6 +298,7 @@ class AppState {
     onBoardingPageState.hashCode ^
     uploadPosePageState.hashCode ^
     reviewPosesPageState.hashCode ^
+    clientPortalPageState.hashCode ^
     incomeAndExpensesPageState.hashCode ;
 
   @override
@@ -335,6 +342,7 @@ class AppState {
               libraryPoseGroupPageState == other.libraryPoseGroupPageState &&
               onBoardingPageState == other.onBoardingPageState &&
               uploadPosePageState == other.uploadPosePageState &&
+              clientPortalPageState == other.clientPortalPageState &&
               reviewPosesPageState == other.reviewPosesPageState &&
               incomeAndExpensesPageState == other.incomeAndExpensesPageState;
 }

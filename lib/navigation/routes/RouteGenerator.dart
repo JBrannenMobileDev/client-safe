@@ -9,7 +9,7 @@ import '../../web/pages/landingPage/LandingPage.dart';
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case RouteNames.PROPOSALS:
+      case RouteNames.CLIENT_PORTAL:
         return _GeneratePageRoute(
             widget: ProposalPage(),
             routeName: settings.name

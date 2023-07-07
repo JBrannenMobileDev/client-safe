@@ -1,18 +1,27 @@
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/Shadows.dart';
-import 'package:dandylight/web/pages/ProposalPage/ContractPage.dart';
+import 'package:dandylight/web/pages/ClientPortalActions.dart';
+import 'package:dandylight/web/pages/contractPage/ContractPage.dart';
 import 'package:dandylight/widgets/DividerWidget.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
+import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
-import 'DetailsPage.dart';
-import 'InvoicePage.dart';
+import '../ClientPortalPageState.dart';
+import '../detailsPage/DetailsPage.dart';
+import '../invoicePage/InvoicePage.dart';
 
 class ProposalPage extends StatefulWidget {
+  final String proposalId;
+
+  ProposalPage({this.proposalId});
+
   @override
   State<StatefulWidget> createState() {
-    return _SignContractPageState();
+    return _SignContractPageState(proposalId);
   }
 }
 
@@ -24,6 +33,10 @@ class _SignContractPageState extends State<ProposalPage> {
   static const String POSES = 'poses';
   static const String FEEDBACK = 'feedback';
 
+  final String proposalId;
+
+  _SignContractPageState(this.proposalId);
+
   String selectedPage = DETAILS;
   bool isHoveredDetails = false;
   bool isHoveredContract = false;
@@ -34,8 +47,13 @@ class _SignContractPageState extends State<ProposalPage> {
 
   @override
   Widget build(BuildContext context) =>
-      Scaffold(
-        backgroundColor: Color(ColorConstants.getPrimaryWhite()),
+      StoreConnector<AppState, ClientPortalPageState>(
+          onInit: (store) {
+            store.dispatch(FetchProposalAction(store.state.clientPortalPageState, proposalId));
+          },
+          converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
+          builder: (BuildContext context, ClientPortalPageState pageState) => Scaffold(
+          backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: SingleChildScrollView(
             child: Container(
               width: double.infinity,
@@ -52,7 +70,7 @@ class _SignContractPageState extends State<ProposalPage> {
                         alignment: Alignment.centerLeft,
                         children: [
                           Container(
-                            height: MediaQuery.of(context).size.height/2,
+                            height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                             decoration: BoxDecoration(
                               color: Colors.transparent,
                               image: DecorationImage(
@@ -62,7 +80,7 @@ class _SignContractPageState extends State<ProposalPage> {
                               ),
                             ),
                           ),
-                          Padding(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website ? Padding(
                             padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 64),
                             child: Material(
                               elevation: 4,
@@ -73,7 +91,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                 child: Image.asset("images/backgrounds/sample_brand.png"),
                               ),
                             ),
-                          ),
+                          ) : SizedBox(),
                           // Container(
                           //   margin: EdgeInsets.only(left: 37.5),
                           //   height: 150,
@@ -84,7 +102,7 @@ class _SignContractPageState extends State<ProposalPage> {
                           //       color: Color(ColorConstants.getPeachDark())
                           //   ),
                           // ),
-                          Container(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
                             margin: EdgeInsets.only(bottom: 64),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -110,12 +128,46 @@ class _SignContractPageState extends State<ProposalPage> {
                                 )
                               ],
                             ),
+                          ) : Container(
+                            alignment: Alignment.center,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Material(
+                                  elevation: 4,
+                                  child: Container(
+                                    alignment: Alignment.centerLeft,
+                                    height: 150,
+                                    width: 150,
+                                    child: Image.asset("images/backgrounds/sample_brand.png"),
+                                  ),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(top: 16),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                    text: 'Vintage Vibes Photography',
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    addShadow: true,
+                                  ),
+                                ),
+                                Container(
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Jason Bent',
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                    addShadow: true,
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: MediaQuery.of(context).size.height/2 - 64, bottom: 300),
+                      margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 64 : 300, bottom: 124),
                       width: 1440,
                       decoration: BoxDecoration(
                         boxShadow: ElevationToShadow[2],
@@ -134,25 +186,37 @@ class _SignContractPageState extends State<ProposalPage> {
                           _getSelectedPage(selectedPage),
                         ],
                       ) : Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: _allPages(),
-                      ),
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: _menuButtonsSmallScreen(),
+                            ),
+                          ),
+                        ),
+                        _getSelectedPage(selectedPage),
+                      ],
+                    ),
                     ),
                   ],
                 ),
               ),
             ),
-          )
+          ),
+        )
       );
 
   List<Widget> _allPages() {
     return [
       DetailsPage(),
-      DividerWidget(),
+      DividerWidget(width: 1080),
       ContractPage(),
-      DividerWidget(),
+      DividerWidget(width: 1080),
       InvoicePage(),
-      DividerWidget(),
+      DividerWidget(width: 1080),
     ];
   }
 
@@ -322,6 +386,192 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
+              text: 'Feedback',
+              isBold: isHoveredFeedback || selectedPage == FEEDBACK,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredFeedback = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredFeedback = false;
+            });
+          },
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> _menuButtonsSmallScreen() {
+    return [
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = DETAILS;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 100,
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: 'Details',
+              isBold: isHoveredDetails || selectedPage == DETAILS,
+              color: Colors.black,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredDetails = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredDetails = false;
+            });
+          },
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = CONTRACT;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 100,
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: 'Contract',
+              isBold: isHoveredContract || selectedPage == CONTRACT,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredContract = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredContract = false;
+            });
+          },
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = INVOICE;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 100,
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: 'Invoice',
+              isBold: isHoveredInvoice || selectedPage == INVOICE,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredInvoice = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredInvoice = false;
+            });
+          },
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = QUESTIONNAIRE;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 100,
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: 'Questionnaire',
+              isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredQuestionnaire = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredQuestionnaire = false;
+            });
+          },
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = POSES;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 100,
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: 'Poses',
+              isBold: isHoveredPoses || selectedPage == POSES,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredPoses = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredPoses = false;
+            });
+          },
+        ),
+      ),
+      GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = FEEDBACK;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 100,
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
               text: 'Feedback',
               isBold: isHoveredFeedback || selectedPage == FEEDBACK,
             ),
