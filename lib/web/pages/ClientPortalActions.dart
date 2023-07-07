@@ -37,3 +37,13 @@ class UpdateProposalInvoiceDepositPaidAction{
   final bool isPaid;
   UpdateProposalInvoiceDepositPaidAction(this.pageState, this.isPaid);
 }
+
+class GenerateInvoiceForClientAction {
+  final ClientPortalPageState pageState;
+  GenerateInvoiceForClientAction(this.pageState);
+}
+
+class GenerateContractForClientAction {
+  final ClientPortalPageState pageState;
+  GenerateContractForClientAction(this.pageState);
+}

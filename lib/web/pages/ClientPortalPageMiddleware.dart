@@ -18,9 +18,23 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchProposalAction) {
       _fetchProposal(store, action, next);
     }
+    if(action is GenerateContractForClientAction) {
+      _generateContract(store, action, next);
+    }
+    if(action is GenerateInvoiceForClientAction) {
+      _generateInvoice(store, action, next);
+    }
   }
 
   void _fetchProposal(Store<AppState> store, FetchProposalAction action, NextDispatcher next) async{
+
+  }
+
+  void _generateContract(Store<AppState> store, GenerateContractForClientAction action, NextDispatcher next) async{
+
+  }
+
+  void _generateInvoice(Store<AppState> store, GenerateInvoiceForClientAction action, NextDispatcher next) async{
 
   }
 

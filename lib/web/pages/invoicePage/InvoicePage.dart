@@ -1,12 +1,14 @@
 import 'package:dandylight/utils/DeviceType.dart';
-import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/web/pages/invoicePage/PayNowPage.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:redux/redux.dart';
 
+import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../widgets/DividerWidget.dart';
+import '../ClientPortalPageState.dart';
 
 class InvoicePage extends StatefulWidget {
   @override
@@ -21,8 +23,9 @@ class _InvoicePageState extends State<InvoicePage> {
   bool isHoveredPayFull = false;
 
   @override
-  Widget build(BuildContext context) =>
-      Container(
+  Widget build(BuildContext context) => StoreConnector<AppState, ClientPortalPageState>(
+      converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
+      builder: (BuildContext context, ClientPortalPageState pageState) => Container(
         alignment: Alignment.topCenter,
         width: 1080,
         color: Color(ColorConstants.getPrimaryWhite()),
@@ -496,5 +499,6 @@ class _InvoicePageState extends State<InvoicePage> {
             SizedBox(height: 164,)
           ],
         ),
-      );
+      ),
+    );
 }

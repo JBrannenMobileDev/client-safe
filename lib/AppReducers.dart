@@ -38,7 +38,7 @@ import 'package:dandylight/pages/responses_page/ResponsesPageReducer.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageReducer.dart';
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageReducer.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageReducer.dart';
-import 'package:dandylight/web/pages/OnBoardingPageReducer.dart';
+import 'package:dandylight/web/pages/ClientPortalPageReducer.dart';
 
 AppState appReducers(AppState state, dynamic action) =>
     AppState(

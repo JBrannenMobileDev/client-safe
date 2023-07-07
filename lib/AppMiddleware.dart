@@ -79,6 +79,8 @@ import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageActions.da
 import 'package:dandylight/pages/sunset_weather_page/SunsetWeatherPageMiddleware.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPoseActions.dart';
 import 'package:dandylight/pages/upload_pose_page/UploadPosePageMiddleware.dart';
+import 'package:dandylight/web/pages/ClientPortalActions.dart';
+import 'package:dandylight/web/pages/ClientPortalPageMiddleware.dart';
 import 'package:redux/redux.dart';
 
 List<Middleware<AppState>> createAppMiddleware() {
@@ -281,5 +283,11 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, RejectPoseAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ApprovePoseAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ClearReviewPosesStateAction>(ReviewPosesPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateProposalContractSignedAction>(ClientPortalMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateProposalInvoicePaidAction>(ClientPortalMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, UpdateProposalInvoiceDepositPaidAction>(ClientPortalMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, FetchProposalAction>(ClientPortalMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, GenerateContractForClientAction>(ClientPortalMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, GenerateInvoiceForClientAction>(ClientPortalMiddleware()));
   return middlewareList;
 }
