@@ -80,7 +80,7 @@ class _SignContractPageState extends State<ProposalPage> {
                               ),
                             ),
                           ),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website ? Padding(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.proposal.logoUrl != null ? Padding(
                             padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 64),
                             child: Material(
                               elevation: 4,
@@ -88,20 +88,28 @@ class _SignContractPageState extends State<ProposalPage> {
                                 alignment: Alignment.centerLeft,
                                 height: 150,
                                 width: 150,
-                                child: Image.asset("images/backgrounds/sample_brand.png"),
+                                child: Image.asset("images/backgrounds/sample_brand.png"),//TODO use actual image file
                               ),
                             ),
                           ) : SizedBox(),
-                          // Container(
-                          //   margin: EdgeInsets.only(left: 37.5),
-                          //   height: 150,
-                          //   width: 150,
-                          //   decoration: BoxDecoration(
-                          //       boxShadow: ElevationToShadow[4],
-                          //       shape: BoxShape.circle,
-                          //       color: Color(ColorConstants.getPeachDark())
-                          //   ),
-                          // ),
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.proposal.logoUrl == null ? Padding(
+                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 64),
+                            child: Container(
+                              alignment: Alignment.center,
+                                height: 150,
+                                width: 150,
+                                decoration: BoxDecoration(
+                                    boxShadow: ElevationToShadow[4],
+                                    shape: BoxShape.circle,
+                                    color: Color(ColorConstants.getPeachDark())
+                                ),
+                              child: TextDandyLight(
+                                type: TextDandyLight.BRAND_LOGO,
+                                text: pageState.proposal.profile.businessName.substring(0, 1),
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                              ),
+                            ),
+                          ) : SizedBox(),
                           DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
                             margin: EdgeInsets.only(bottom: 64),
                             child: Column(
@@ -112,7 +120,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                    text: 'Vintage Vibes Photography',
+                                    text: pageState.proposal.profile.businessName,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
                                   ),
@@ -121,7 +129,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
-                                    text: 'Jason Bent',
+                                    text: pageState.proposal.job.client.getClientFullName(),
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
                                   ),
@@ -134,13 +142,27 @@ class _SignContractPageState extends State<ProposalPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                Material(
+                                pageState.proposal.logoUrl != null ? Material(
                                   elevation: 4,
                                   child: Container(
                                     alignment: Alignment.centerLeft,
-                                    height: 150,
-                                    width: 150,
+                                    height: 124,
+                                    width: 124,
                                     child: Image.asset("images/backgrounds/sample_brand.png"),
+                                  ),
+                                ) : Container(
+                                  alignment: Alignment.center,
+                                  height: 124,
+                                  width: 124,
+                                  decoration: BoxDecoration(
+                                      boxShadow: ElevationToShadow[4],
+                                      shape: BoxShape.circle,
+                                      color: Color(ColorConstants.getPeachDark())
+                                  ),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.BRAND_LOGO,
+                                    text: pageState.proposal.profile.businessName.substring(0, 1),
+                                    color: Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
                                 Container(

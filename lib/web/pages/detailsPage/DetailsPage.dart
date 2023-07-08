@@ -1,9 +1,15 @@
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
+import 'package:redux/redux.dart';
 
+import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../utils/IntentLauncherUtil.dart';
 import '../../../widgets/DividerWidget.dart';
+import '../ClientPortalPageState.dart';
 
 class DetailsPage extends StatefulWidget {
   @override
@@ -16,8 +22,10 @@ class _DetailsPagePageState extends State<DetailsPage> {
   bool isHoveredDirections = false;
 
   @override
-  Widget build(BuildContext context) =>
-      Container(
+  Widget build(BuildContext context) => StoreConnector<AppState, ClientPortalPageState>(
+      converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
+      builder: (BuildContext context, ClientPortalPageState pageState) =>
+          Container(
         alignment: Alignment.topCenter,
         width: 1080,
         color: Color(ColorConstants.getPrimaryWhite()),
@@ -36,7 +44,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 16, left: 32, right: 32),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Hi Jason, \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon,\nShawna Brannen',
+                text: pageState.proposal?.detailsMessage,
               ),
             ),
             DividerWidget(width: 1080),
@@ -46,18 +54,19 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: DeviceType.getDeviceTypeByContext(context) == Type.Website ? Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: _infoItems(),
+                children: _infoItems(pageState),
               ) : Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children: _infoItems(),
+                children: _infoItems(pageState),
               ),
             ),
           ],
         ),
+          ),
       );
 
-  List<Widget> _infoItems() {
+  List<Widget> _infoItems(ClientPortalPageState pageState) {
     return [
       Container(
         width: 360,
@@ -76,7 +85,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Shawna Brannen',
+                text: pageState.proposal.profile.firstName + ' ' + pageState.proposal.profile.lastName,
                 isBold: true,
               ),
             ),
@@ -84,7 +93,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'email: vintagevibesphotography@gmail.com',
+                text: pageState.proposal.profile.email,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -92,7 +101,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'phone: (760)691-0685',
+                text: pageState.proposal.profile.phone,
               ),
             ),
           ],
@@ -115,7 +124,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Jason Bent',
+                text: pageState.proposal.job.client.getClientFullName(),
                 isBold: true,
               ),
             ),
@@ -123,7 +132,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'email: jbent@gmail.com',
+                text: 'email: ' + pageState.proposal.job.client.email,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -131,7 +140,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'phone: (760)691-0685',
+                text: 'phone: ' + pageState.proposal.job.client.phone,
               ),
             ),
           ],
@@ -154,28 +163,35 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Date: June 22, 2023',
+                text: 'Date: ' + (pageState.proposal.job.selectedDate != null
+                    ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.proposal.job.selectedDate)
+                    : 'TBD'),
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Time: 6:45pm - 7:45pm',
+                text: 'Time: ' + (pageState.proposal.job.selectedTime != null && pageState.proposal.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.proposal.job.selectedTime) + ' - ' + DateFormat('h:mm a').format(pageState.proposal.job.selectedEndTime) : 'TBD'),
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Where: 42161 Delmonte St. Temecula CA 92591',
+                text: 'Where: ' + (pageState.proposal.job.location != null && pageState.proposal.job.location.address != null ? pageState.proposal.job.location.address : 'TBD'),
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
             MouseRegion(
               child: GestureDetector(
                 onTap: () {
-
+                  if(pageState.proposal.job.location != null) {
+                    IntentLauncherUtil.launchDrivingDirections(
+                        pageState.proposal.job.location.latitude.toString(),
+                        pageState.proposal.job.location.longitude.toString()
+                    );
+                  }
                 },
                 child: Container(
                   alignment: Alignment.center,

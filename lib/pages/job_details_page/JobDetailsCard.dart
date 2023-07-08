@@ -13,7 +13,6 @@ import '../../utils/UserOptionsUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/styles/Styles.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../new_contact_pages/NewContactPageState.dart';
 import 'JobDetailsPageState.dart';
 
 class JobDetailsCard extends StatefulWidget {

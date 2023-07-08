@@ -1,3 +1,4 @@
+import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/JobStage.dart';
 import 'package:dandylight/models/Location.dart';
@@ -25,6 +26,7 @@ class Job {
   DateTime createdDate;
   JobType type;
   JobStage stage;
+  Client client;
   Invoice invoice;
   int depositAmount = 0;
   double addOnCost;
@@ -56,6 +58,7 @@ class Job {
     this.depositReceivedDate,
     this.addOnCost,
     this.poses,
+    this.client,
   });
 
   Job copyWith({
@@ -82,6 +85,7 @@ class Job {
     DateTime depositReceivedDate,
     double addOnCost,
     List<Pose> poses,
+    Client client,
   }){
     return Job(
       id: id?? this.id,
@@ -107,6 +111,7 @@ class Job {
       depositReceivedDate: depositReceivedDate ?? this.depositReceivedDate,
       addOnCost: addOnCost ?? this.addOnCost,
       poses: poses ?? this.poses,
+      client: client ?? this.client,
     );
   }
 
@@ -128,6 +133,7 @@ class Job {
       'stage' : stage?.toMap() ?? null,
       'location' : location?.toMap() ?? null,
       'priceProfile' : priceProfile?.toMap() ?? null,
+      'client' : client?.toMap() ?? null,
       'invoice' : invoice?.toMap() ?? null,
       'completedStages' : convertCompletedStagesToMap(completedStages),
       'poses' : convertPosesToMap(poses),
@@ -154,6 +160,7 @@ class Job {
       paymentReceivedDate: map['paymentReceivedDate'] != null && map['paymentReceivedDate'] != "" ? DateTime.parse(map['paymentReceivedDate']) : null,
       type: JobType.fromMap(map['type']),
       stage: JobStage.fromMap(map['stage']),
+      client: Client.fromMap(map['client']) != null ? Client.fromMap(map['client']) : null,
       location: map['location'] != null ? Location.fromMap(map['location']) : null,
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,

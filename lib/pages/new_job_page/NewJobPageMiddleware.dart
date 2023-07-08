@@ -194,6 +194,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
       id: store.state.newJobPageState.id,
       documentId: store.state.newJobPageState.documentId,
       clientDocumentId: resultClient.documentId,
+      client: resultClient,
       clientName: resultClient.getClientFullName(),
       jobTitle: jobTitle,
       selectedDate: store.state.newJobPageState.selectedDate,

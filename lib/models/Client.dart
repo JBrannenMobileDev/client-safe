@@ -121,7 +121,6 @@ class Client{
   }
 
   String getClientFullName(){
-
     return firstName + " " + lastName;
   }
 

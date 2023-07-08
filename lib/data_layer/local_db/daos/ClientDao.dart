@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/data_layer/firebase/collections/ClientCollection.dart';
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/Profile.dart';
@@ -75,6 +76,11 @@ class ClientDao extends Equatable{
       finder: finder,
     );
     await ClientCollection().updateClient(client);
+    await client.jobs.forEach((job) async {
+      job.client = client;
+      job.clientName = client.getClientFullName();
+      await JobDao.update(job);
+    });
     _updateLastChangedTime();
   }
 

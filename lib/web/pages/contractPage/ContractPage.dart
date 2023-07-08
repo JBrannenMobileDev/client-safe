@@ -17,19 +17,15 @@ class ContractPage extends StatefulWidget {
 }
 
 class _ContractPageState extends State<ContractPage> {
-  TextEditingController _clientSignatureController;
+  TextEditingController _clientSignatureController = TextEditingController();
   bool isHoveredSubmit = false;
   bool isHoveredDownloadPDF = false;
 
   @override
-  void initState() {
-    super.initState();
-    _clientSignatureController =
-        new TextEditingController(text: 'Shawna Brannen');
-  }
-
-  @override
   Widget build(BuildContext context) => StoreConnector<AppState, ClientPortalPageState>(
+        onInit: (current) {
+          _clientSignatureController.text = current.state.clientPortalPageState.proposal.contract.clientSignature;
+        },
         converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
         builder: (BuildContext context, ClientPortalPageState pageState) =>
             Container(
@@ -46,7 +42,7 @@ class _ContractPageState extends State<ContractPage> {
                         margin: EdgeInsets.only(top: 32, bottom: 48),
                         child: TextDandyLight(
                           type: TextDandyLight.EXTRA_LARGE_TEXT,
-                          text: 'Contract',
+                          text: pageState.proposal.contract.contractName,
                         ),
                       ),
                       Container(
@@ -58,14 +54,14 @@ class _ContractPageState extends State<ContractPage> {
                             onTap: () {},
                             child: Container(
                               alignment: Alignment.center,
-                              width: 116,
+                              width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 116 : 48,
                               height: 48,
                               margin: EdgeInsets.only(bottom: 8),
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(24),
                                   color: Color(ColorConstants.getPeachDark())),
                               child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
                                 children: [
                                   Container(
                                     height: 24,
@@ -76,12 +72,12 @@ class _ContractPageState extends State<ContractPage> {
                                           Color(ColorConstants.getPrimaryWhite()),
                                     ),
                                   ),
-                                  TextDandyLight(
+                                  DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight(
                                     type: TextDandyLight.MEDIUM_TEXT,
                                     text: 'PDF',
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     isBold: isHoveredDownloadPDF,
-                                  ),
+                                  ) : SizedBox(),
                                 ],
                               ),
                             ),
@@ -112,24 +108,27 @@ class _ContractPageState extends State<ContractPage> {
                     margin: EdgeInsets.only(bottom: 64, left: 32, right: 32),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text:
-                          'I acknowledge that I have read and understood the contents of the contract, and I hereby agree to all the terms and conditions outlined within it by signing this document.',
+                      text: pageState.proposal.contract.terms,
                       isBold: true,
                     ),
                   ),
                   DeviceType.getDeviceTypeByContext(context) == Type.Website
                       ? Row(
-                          children: signatures(),
+                          children: signatures(pageState),
                         )
                       : Column(
-                          children: signatures(),
+                          children: signatures(pageState),
                         ),
                   Container(
                     width: double.infinity,
                     alignment: Alignment.center,
                     child: MouseRegion(
                       child: GestureDetector(
-                        onTap: () {},
+                        onTap: () {
+                          if(!pageState.proposal.contract.signedByClient) {
+
+                          }
+                        },
                         child: Container(
                           alignment: Alignment.center,
                           width: 200,
@@ -137,25 +136,29 @@ class _ContractPageState extends State<ContractPage> {
                           margin: EdgeInsets.only(bottom: 0, top: 32, right: 32),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
-                              color: Color(ColorConstants.getPeachDark())),
+                              color: Color(pageState.proposal.contract.signedByClient ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark())),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
-                            text: 'Save Signature',
+                            text: pageState.proposal.contract.signedByClient ? 'Signature Saved' : 'Save Signature',
                             color: Color(ColorConstants.getPrimaryWhite()),
                             isBold: isHoveredSubmit,
                           ),
                         ),
                       ),
-                      cursor: SystemMouseCursors.click,
+                      cursor: pageState.proposal.contract.signedByClient ? SystemMouseCursors.basic : SystemMouseCursors.click,
                       onHover: (event) {
-                        setState(() {
-                          isHoveredSubmit = true;
-                        });
+                        if(!pageState.proposal.contract.signedByClient) {
+                          setState(() {
+                            isHoveredSubmit = true;
+                          });
+                        }
                       },
                       onExit: (event) {
-                        setState(() {
-                          isHoveredSubmit = false;
-                        });
+                        if(!pageState.proposal.contract.signedByClient) {
+                          setState(() {
+                            isHoveredSubmit = false;
+                          });
+                        }
                       },
                     ),
                   ),
@@ -167,7 +170,7 @@ class _ContractPageState extends State<ContractPage> {
             ),
       );
 
-  List<Widget> signatures() {
+  List<Widget> signatures(ClientPortalPageState pageState) {
     return [
       Container(
         width: 410,
@@ -190,7 +193,7 @@ class _ContractPageState extends State<ContractPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text:
-                        DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()),
+                    DateFormat('EEE, MMMM dd, yyyy').format(pageState.proposal.contract.photographerSignedDate),
                   ),
                 )
               ],
@@ -209,7 +212,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Shawna Brannen',
+                    text: pageState.proposal.profile.firstName + ' ' + pageState.proposal.profile.lastName,
                   ),
                 )
               ],
@@ -226,8 +229,8 @@ class _ContractPageState extends State<ContractPage> {
                 isBold: true,
               ),
             ),
-            TextField(
-              controller: _clientSignatureController,
+            TextFormField(
+              initialValue: pageState.proposal.profile.firstName + ' ' + pageState.proposal.profile.lastName,
               enabled: false,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,
@@ -269,8 +272,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text:
-                        DateFormat('EEE, MMMM dd, yyyy').format(DateTime.now()),
+                    text: DateFormat('EEE, MMMM dd, yyyy').format(pageState.proposal.contract.clientSignedDate != null ? pageState.proposal.contract.clientSignedDate : DateTime.now()),
                   ),
                 )
               ],
@@ -289,7 +291,7 @@ class _ContractPageState extends State<ContractPage> {
                   margin: EdgeInsets.only(top: 0, bottom: 8),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    text: 'Shawna Brannen',
+                    text: pageState.proposal.job.client.getClientFullName(),
                   ),
                 )
               ],
@@ -307,6 +309,8 @@ class _ContractPageState extends State<ContractPage> {
               ),
             ),
             TextField(
+              enabled: !pageState.proposal.contract.signedByClient,
+              controller: _clientSignatureController,
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,
               style: TextStyle(

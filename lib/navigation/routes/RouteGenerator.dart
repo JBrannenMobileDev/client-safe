@@ -14,8 +14,6 @@ class RouteGenerator {
             widget: ProposalPage(),
             routeName: settings.name
         );
-      case RouteNames.ANSWER_QUESTIONNAIRE:
-        return _GeneratePageRoute(widget: Container(), routeName: settings.name);
       case RouteNames.LANDING_PAGE:
         return _GeneratePageRoute(
             widget: LandingPage(),

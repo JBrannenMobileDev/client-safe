@@ -2,9 +2,13 @@ class Contract {
   int id;
   String documentId;
   String contractName;
+  String photographerSignature;
+  String clientSignature;
   String terms;
   bool signedByClient = false;
   bool signedByPhotographer = false;
+  DateTime clientSignedDate;
+  DateTime photographerSignedDate;
 
 
 
@@ -15,6 +19,10 @@ class Contract {
     this.terms,
     this.signedByClient,
     this.signedByPhotographer,
+    this.photographerSignature,
+    this.clientSignature,
+    this.clientSignedDate,
+    this.photographerSignedDate,
   });
 
   Map<String, dynamic> toMap() {
@@ -24,6 +32,10 @@ class Contract {
       'terms' : terms,
       'signedByClient' : signedByClient,
       'signedByPhotographer' : signedByPhotographer,
+      'photographerSignature' : photographerSignature,
+      'clientSignature' : clientSignature,
+      'clientSignedDate' : clientSignedDate,
+      'photographerSignedDate' : photographerSignedDate,
     };
   }
 
@@ -34,6 +46,10 @@ class Contract {
       terms: map['terms'],
       signedByClient: map['signedByClient'],
       signedByPhotographer: map['signedByPhotographer'],
+      photographerSignature: map['photographerSignature'],
+      clientSignature: map['clientSignature'],
+      photographerSignedDate: map['photographerSignedDate'],
+      clientSignedDate: map['clientSignedDate'],
     );
   }
 }

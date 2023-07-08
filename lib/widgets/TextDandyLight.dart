@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import '../utils/TextFormatterUtil.dart';
 
 class TextDandyLight extends StatelessWidget {
+  static const String BRAND_LOGO = 'brand_logo';
   static const String EXTRA_EXTRA_LARGE_TEXT = 'extra_extra_large_text';
   static const String EXTRA_LARGE_TEXT = 'extra_large_text';
   static const String LARGE_TEXT = 'large_text';
@@ -23,6 +24,9 @@ class TextDandyLight extends StatelessWidget {
   static getFontSize(String type) {
     double size = 18;
     switch(type) {
+      case BRAND_LOGO:
+        size = 76;
+        break;
       case EXTRA_EXTRA_LARGE_TEXT:
         size = 46;
         break;
@@ -87,7 +91,7 @@ class TextDandyLight extends StatelessWidget {
     if(isCurrency == null) isCurrency = false;
     if(isNumber == null) isNumber = false;
     if(addShadow == null) addShadow = false;
-    fontFamily = isBold ? 'OpenSans' : 'OpenSans';
+    if(fontFamily == null) fontFamily = getFontFamily();
     if(isNumber) {
       text = NumberFormat("###,###,###,###").format(amount);
     }
@@ -98,6 +102,9 @@ class TextDandyLight extends StatelessWidget {
       text = '';
     }
     switch(type) {
+      case BRAND_LOGO:
+        size = 76;
+        break;
       case EXTRA_EXTRA_LARGE_TEXT:
         size = 48;
         break;
@@ -155,7 +162,7 @@ class TextDandyLight extends StatelessWidget {
             shadows: <Shadow>[
               addShadow ? Shadow(
                 offset: Offset(0.0, 0.0),
-                blurRadius: 10.0,
+                blurRadius: 5.0,
                 color: Color.fromARGB(255, 0, 0, 0),
               ) : Shadow(),
             ],

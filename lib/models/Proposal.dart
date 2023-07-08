@@ -16,13 +16,7 @@ class Proposal {
   String documentId;
   String userId;
   String detailsMessage;
-  String businessName;
-  String clientName;
-  String photographerName;
-  String photographerPhone;
-  String clientPhone;
-  String photographerEmail;
-  String clientEmail;
+  String logoUrl;
   Job job;
   Invoice invoice;
   Contract contract;
@@ -39,13 +33,6 @@ class Proposal {
       this.documentId,
       this.userId,
       this.detailsMessage,
-      this.businessName,
-      this.clientName,
-      this.photographerName,
-      this.photographerPhone,
-      this.clientPhone,
-      this.photographerEmail,
-      this.clientEmail,
       this.job,
       this.invoice,
       this.contract,
@@ -56,6 +43,7 @@ class Proposal {
       this.profile,
       this.questionnaireSeenByClient,
       this.feedbackSeenByClient,
+      this.logoUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -63,13 +51,6 @@ class Proposal {
       'documentId' : documentId,
       'userId': userId,
       'detailsMessage' : detailsMessage,
-      'businessName' : businessName,
-      'clientName' : clientName,
-      'photographerName' : photographerName,
-      'photographerPhone' : photographerPhone,
-      'clientPhone' : clientPhone,
-      'photographerEmail' : photographerEmail,
-      'clientEmail' : clientEmail,
       'job' : job?.toMap(),
       'invoice' : invoice?.toMap(),
       'contract' : contract?.toMap(),
@@ -80,6 +61,7 @@ class Proposal {
       'profile' : profile?.toMap(),
       'questionnaireSeenByClient' : questionnaireSeenByClient,
       'feedbackSeenByClient' : feedbackSeenByClient,
+      'logoUrl' : logoUrl,
     };
   }
 
@@ -88,13 +70,6 @@ class Proposal {
       documentId: map['documentId'],
       userId: map['userId'],
       detailsMessage: map['detailsMessage'],
-      businessName: map['businessName'],
-      clientName: map['clientName'],
-      photographerName: map['photographerName'],
-      photographerPhone: map['photographerPhone'],
-      clientPhone: map['clientPhone'],
-      clientEmail: map['clientEmail'],
-      photographerEmail: map['photographerEmail'],
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       contract: map['contract'] != null ? Contract.fromMap(map['contract']) : null,
       job: map['job'] != null ? Job.fromMap(map['job']) : null,
@@ -104,6 +79,7 @@ class Proposal {
       posesSeenByClient: map['posesSeenByClient'],
       questionnaireSeenByClient: map['questionnaireSeenByClient'],
       feedbackSeenByClient: map['feedbackSeenByClient'],
+      logoUrl: map['logoUrl'],
     );
   }
 }
