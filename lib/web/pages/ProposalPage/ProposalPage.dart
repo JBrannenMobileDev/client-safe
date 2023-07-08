@@ -202,7 +202,7 @@ class _SignContractPageState extends State<ProposalPage> {
                           Container(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: _menuButtons(),
+                              children: _menuButtons(pageState),
                             ),
                           ),
                           _getSelectedPage(selectedPage),
@@ -215,7 +215,7 @@ class _SignContractPageState extends State<ProposalPage> {
                           child: Container(
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: _menuButtonsSmallScreen(),
+                              children: _menuButtonsSmallScreen(pageState),
                             ),
                           ),
                         ),
@@ -242,7 +242,7 @@ class _SignContractPageState extends State<ProposalPage> {
     ];
   }
 
-  List<Widget> _menuButtons() {
+  List<Widget> _menuButtons(ClientPortalPageState pageState) {
     return [
       GestureDetector(
         onTap: () {
@@ -275,7 +275,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ),
-      GestureDetector(
+      pageState.proposal.contract != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
@@ -304,8 +304,8 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
-      GestureDetector(
+      ) : SizedBox(),
+      pageState.proposal.invoice != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = INVOICE;
@@ -334,38 +334,8 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
-      GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = QUESTIONNAIRE;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 150,
-            child: TextDandyLight(
-              type: TextDandyLight.MEDIUM_TEXT,
-              text: 'Questionnaire',
-              isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
-            ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredQuestionnaire = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredQuestionnaire = false;
-            });
-          },
-        ),
-      ),
-      GestureDetector(
+      ) : SizedBox(),
+      pageState.proposal.includePoses ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = POSES;
@@ -394,8 +364,38 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
-      GestureDetector(
+      ) : SizedBox(),
+      pageState.proposal.questionnaire != null ? GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = QUESTIONNAIRE;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 150,
+            child: TextDandyLight(
+              type: TextDandyLight.MEDIUM_TEXT,
+              text: 'Questionnaire',
+              isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredQuestionnaire = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredQuestionnaire = false;
+            });
+          },
+        ),
+      ) : SizedBox(),
+      pageState.proposal.feedback != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = FEEDBACK;
@@ -424,11 +424,11 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
+      ) : SizedBox(),
     ];
   }
 
-  List<Widget> _menuButtonsSmallScreen() {
+  List<Widget> _menuButtonsSmallScreen(ClientPortalPageState pageState) {
     return [
       GestureDetector(
         onTap: () {
@@ -461,7 +461,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ),
-      GestureDetector(
+      pageState.proposal.contract != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
@@ -490,8 +490,8 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
-      GestureDetector(
+      ) : SizedBox(),
+      pageState.proposal.invoice != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = INVOICE;
@@ -520,38 +520,8 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
-      GestureDetector(
-        onTap: () {
-          setState(() {
-            selectedPage = QUESTIONNAIRE;
-          });
-        },
-        child: MouseRegion(
-          child: Container(
-            alignment: Alignment.center,
-            height: 64,
-            width: 100,
-            child: TextDandyLight(
-              type: TextDandyLight.SMALL_TEXT,
-              text: 'Questionnaire',
-              isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
-            ),
-          ),
-          cursor: SystemMouseCursors.click,
-          onHover: (event) {
-            setState(() {
-              isHoveredQuestionnaire = true;
-            });
-          },
-          onExit: (event) {
-            setState(() {
-              isHoveredQuestionnaire = false;
-            });
-          },
-        ),
-      ),
-      GestureDetector(
+      ) : SizedBox(),
+      pageState.proposal.includePoses ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = POSES;
@@ -580,8 +550,38 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
-      GestureDetector(
+      ) : SizedBox(),
+      pageState.proposal.questionnaire != null ? GestureDetector(
+        onTap: () {
+          setState(() {
+            selectedPage = QUESTIONNAIRE;
+          });
+        },
+        child: MouseRegion(
+          child: Container(
+            alignment: Alignment.center,
+            height: 64,
+            width: 100,
+            child: TextDandyLight(
+              type: TextDandyLight.SMALL_TEXT,
+              text: 'Questionnaire',
+              isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
+            ),
+          ),
+          cursor: SystemMouseCursors.click,
+          onHover: (event) {
+            setState(() {
+              isHoveredQuestionnaire = true;
+            });
+          },
+          onExit: (event) {
+            setState(() {
+              isHoveredQuestionnaire = false;
+            });
+          },
+        ),
+      ) : SizedBox(),
+      pageState.proposal.feedback != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = FEEDBACK;
@@ -610,7 +610,7 @@ class _SignContractPageState extends State<ProposalPage> {
             });
           },
         ),
-      ),
+      ) : SizedBox(),
     ];
   }
 

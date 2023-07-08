@@ -41,7 +41,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(left: 16, right: 16),
-      width: 250,
+      width: 264,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

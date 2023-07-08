@@ -172,7 +172,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Time: ' + (pageState.proposal.job.selectedTime != null && pageState.proposal.job.selectedTime != null ? DateFormat('h:mm a').format(pageState.proposal.job.selectedTime) + ' - ' + DateFormat('h:mm a').format(pageState.proposal.job.selectedEndTime) : 'TBD'),
+                text: 'Time: ' + (pageState.proposal.job.selectedTime != null && pageState.proposal.job.selectedTime != null ? DateFormat('h:mma').format(pageState.proposal.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.proposal.job.selectedEndTime) : 'TBD'),
               ),
             ),
             Container(

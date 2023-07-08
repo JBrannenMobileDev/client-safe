@@ -3,10 +3,12 @@ import 'package:dandylight/web/pages/invoicePage/PayNowPage.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../utils/TextFormatterUtil.dart';
 import '../../../widgets/DividerWidget.dart';
 import '../ClientPortalPageState.dart';
 
@@ -48,32 +50,33 @@ class _InvoicePageState extends State<InvoicePage> {
                   width: 1080,
                   child: MouseRegion(
                     child: GestureDetector(
-                      onTap: () {
-
-                      },
+                      onTap: () {},
                       child: Container(
                         alignment: Alignment.center,
-                        width: 116,
+                        width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 116 : 48,
                         height: 48,
                         margin: EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
-                            color: Color(ColorConstants.getPeachDark())
-                        ),
+                            color: Color(ColorConstants.getPeachDark())),
                         child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
                           children: [
                             Container(
                               height: 24,
                               width: 24,
-                              child: Image.asset("images/icons/download.png", color: Color(ColorConstants.getPrimaryWhite()),),
+                              child: Image.asset(
+                                "images/icons/download.png",
+                                color:
+                                Color(ColorConstants.getPrimaryWhite()),
+                              ),
                             ),
-                            TextDandyLight(
+                            DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'PDF',
                               color: Color(ColorConstants.getPrimaryWhite()),
                               isBold: isHoveredDownloadPDF,
-                            ),
+                            ) : SizedBox(),
                           ],
                         ),
                       ),
@@ -99,13 +102,36 @@ class _InvoicePageState extends State<InvoicePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.topCenter,
-                    child: TextDandyLight(
-                      type: TextDandyLight.LARGE_TEXT,
-                      textAlign: TextAlign.center,
-                      text: 'Deposit - DUE TODAY',
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          textAlign: TextAlign.center,
+                          text: 'Retainer',
+                          isBold: true,
+                        ),
+                      ),
+                      pageState.proposal.invoice.depositPaid ? Container(
+                        alignment: Alignment.topCenter,
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          textAlign: TextAlign.center,
+                          text: 'PAID',
+                        ),
+                      ) : Container(
+                        alignment: Alignment.topCenter,
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          textAlign: TextAlign.center,
+                          text: 'Due:  ' + (pageState.proposal.invoice.depositDueDate != null
+                              ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.proposal.invoice.depositDueDate)
+                              : 'TBD'),
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     children: [
@@ -114,20 +140,40 @@ class _InvoicePageState extends State<InvoicePage> {
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           textAlign: TextAlign.center,
-                          text: '\150.00',
+                          text: TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.depositAmount),
                         ),
                       ),
                       MouseRegion(
                         child: GestureDetector(
                           onTap: () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return DeviceType.getDeviceTypeByContext(context) != Type.Website ? SingleChildScrollView(
-                                  child: PayNowPage(amount: 150.00),
-                                ) : PayNowPage(amount: 150.00);
-                              },
-                            );
+                            if(!pageState.proposal.invoice.depositPaid) {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return Stack(
+                                    alignment: Alignment.topRight,
+                                    children: [
+                                      MouseRegion(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(top: 16, right: 16),
+                                            alignment: Alignment.topRight,
+                                            child: Icon(Icons.close_sharp, color: Color(ColorConstants.getPrimaryWhite()), size: 32),
+                                          ),
+                                        ),
+                                        cursor: SystemMouseCursors.click,
+                                      ),
+                                      DeviceType.getDeviceTypeByContext(context) != Type.Website ? SingleChildScrollView(
+                                        child: PayNowPage(amount: pageState.proposal.invoice.depositAmount, type: PayNowPage.TYPE_RETAINER),
+                                      ) : PayNowPage(amount: pageState.proposal.invoice.depositAmount, type: PayNowPage.TYPE_RETAINER)
+                                    ],
+                                  );
+                                },
+                              );
+                            }
                           },
                           child: Container(
                             alignment: Alignment.center,
@@ -136,11 +182,11 @@ class _InvoicePageState extends State<InvoicePage> {
                             margin: EdgeInsets.only(bottom: 8, left: 16),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(24),
-                                color: Color(ColorConstants.getPeachDark())
+                                color: Color(!pageState.proposal.invoice.depositPaid ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey())
                             ),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: 'PAY',
+                              text: !pageState.proposal.invoice.depositPaid ? 'PAY NOW' : 'PAID',
                               color: Color(ColorConstants.getPrimaryWhite()),
                               isBold: isHoveredPayDeposit,
                             ),
@@ -148,14 +194,18 @@ class _InvoicePageState extends State<InvoicePage> {
                         ),
                         cursor: SystemMouseCursors.click,
                         onHover: (event) {
-                          setState(() {
-                            isHoveredPayDeposit = true;
-                          });
+                          if(!pageState.proposal.invoice.depositPaid) {
+                            setState(() {
+                              isHoveredPayDeposit = true;
+                            });
+                          }
                         },
                         onExit: (event) {
-                          setState(() {
-                            isHoveredPayDeposit = false;
-                          });
+                          if(!pageState.proposal.invoice.depositPaid) {
+                            setState(() {
+                              isHoveredPayDeposit = false;
+                            });
+                          }
                         },
                       )
                     ],
@@ -169,13 +219,29 @@ class _InvoicePageState extends State<InvoicePage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    alignment: Alignment.topCenter,
-                    child: TextDandyLight(
-                      type: TextDandyLight.LARGE_TEXT,
-                      textAlign: TextAlign.center,
-                      text: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 'Full Payment - Due July 22, 2023' : 'Payment - Due 6/22/23',
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: TextDandyLight(
+                          type: TextDandyLight.LARGE_TEXT,
+                          textAlign: TextAlign.center,
+                          text: 'Balance Due',
+                          isBold: true,
+                        ),
+                      ),
+                      Container(
+                        alignment: Alignment.topCenter,
+                        child: TextDandyLight(
+                          type: TextDandyLight.MEDIUM_TEXT,
+                          textAlign: TextAlign.center,
+                          text: 'Due:  ' + (pageState.proposal.invoice.unpaidAmount != null
+                              ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.proposal.invoice.dueDate)
+                              : 'TBD'),
+                        ),
+                      ),
+                    ],
                   ),
                   Row(
                     children: [
@@ -184,7 +250,7 @@ class _InvoicePageState extends State<InvoicePage> {
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           textAlign: TextAlign.center,
-                          text: '\$338.00',
+                          text: TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.unpaidAmount),
                         ),
                       ),
                       MouseRegion(
@@ -195,8 +261,8 @@ class _InvoicePageState extends State<InvoicePage> {
                               context: context,
                               builder: (BuildContext context) {
                                 return DeviceType.getDeviceTypeByContext(context) != Type.Website ? SingleChildScrollView(
-                                  child: PayNowPage(amount: 338.00),
-                                ) : PayNowPage(amount: 338.00);
+                                  child: PayNowPage(amount: pageState.proposal.invoice.unpaidAmount, type: PayNowPage.TYPE_BALANCE),
+                                ) : PayNowPage(amount: pageState.proposal.invoice.unpaidAmount, type: PayNowPage.TYPE_BALANCE);
                               },
                             );
                           },
@@ -211,7 +277,7 @@ class _InvoicePageState extends State<InvoicePage> {
                             ),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
-                              text: 'PAY',
+                              text: 'PAY NOW',
                               color: Color(ColorConstants.getPrimaryWhite()),
                               isBold: isHoveredPayFull,
                             ),
@@ -234,51 +300,19 @@ class _InvoicePageState extends State<InvoicePage> {
                 ],
               ),
             ),
-            DividerWidget(width: 1080),
             Container(
-              margin: EdgeInsets.only(right: 16, left: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Invoice Id: 1000',
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Jason Bent',
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: '(951)295-0348',
-                    ),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'jbent@gmail.com',
-                    ),
-                  ),
-                ],
+              margin: EdgeInsets.only(top: 48),
+              alignment: Alignment.center,
+              child: TextDandyLight(
+                type: TextDandyLight.LARGE_TEXT,
+                text: 'Price Breakdown',
+                isBold: true,
               ),
             ),
             Container(
               width: 1080,
               height: 54,
-              margin: EdgeInsets.only(left: 16, right: 16, top: 32),
+              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
               padding: EdgeInsets.only(left: 32, right: 32),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
@@ -400,7 +434,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Deposit (paid)',
+                      text: 'Retainer (paid)',
                     ),
                   ),
                   Container(

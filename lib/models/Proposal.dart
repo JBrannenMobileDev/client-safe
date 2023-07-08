@@ -2,7 +2,9 @@ import 'package:dandylight/models/Invoice.dart';
 import 'package:dandylight/models/Profile.dart';
 
 import 'Contract.dart';
+import 'Feedback.dart';
 import 'Job.dart';
+import 'Questionnaire.dart';
 
 class Proposal {
   static const String DETAILS_PAGE = 'details';
@@ -21,12 +23,14 @@ class Proposal {
   Invoice invoice;
   Contract contract;
   Profile profile;
+  Questionnaire questionnaire;
+  Feedback feedback;
   bool contractSeenByClient = false;
   bool invoiceSeenByClient = false;
   bool posesSeenByClient = false;
   bool questionnaireSeenByClient = false;
   bool feedbackSeenByClient = false;
-  List<dynamic> includedPages = [];
+  bool includePoses = false;
 
   Proposal({
       this.id,
@@ -39,11 +43,13 @@ class Proposal {
       this.contractSeenByClient,
       this.invoiceSeenByClient,
       this.posesSeenByClient,
-      this.includedPages,
       this.profile,
       this.questionnaireSeenByClient,
       this.feedbackSeenByClient,
       this.logoUrl,
+      this.questionnaire,
+      this.feedback,
+      this.includePoses,
   });
 
   Map<String, dynamic> toMap() {
@@ -57,11 +63,13 @@ class Proposal {
       'contractSeenByClient' : contractSeenByClient,
       'invoiceSeenByClient' : invoiceSeenByClient,
       'posesSeenByClient' : posesSeenByClient,
-      'includedPages' : includedPages,
       'profile' : profile?.toMap(),
       'questionnaireSeenByClient' : questionnaireSeenByClient,
       'feedbackSeenByClient' : feedbackSeenByClient,
       'logoUrl' : logoUrl,
+      'questionnaire' : questionnaire?.toMap(),
+      'feedback' : feedback?.toMap(),
+      'includePoses' : includePoses,
     };
   }
 
@@ -80,6 +88,9 @@ class Proposal {
       questionnaireSeenByClient: map['questionnaireSeenByClient'],
       feedbackSeenByClient: map['feedbackSeenByClient'],
       logoUrl: map['logoUrl'],
+      questionnaire: map['questionnaire'] != null ? Questionnaire.fromMap(map['questionnaire']) : null,
+      feedback: map['feedback'] != null ? Feedback.fromMap(map['feedback']) : null,
+      includePoses: map['includePoses'],
     );
   }
 }

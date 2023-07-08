@@ -4,6 +4,7 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
 import 'package:redux/redux.dart';
 import '../../models/Contract.dart';
+import '../../models/Invoice.dart';
 import '../../models/Job.dart';
 import '../../models/Location.dart';
 import 'ClientPortalActions.dart';
@@ -35,6 +36,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   void _fetchProposal(Store<AppState> store, FetchProposalAction action, NextDispatcher next) async{
     Proposal proposal = Proposal(
       logoUrl: null,
+      includePoses: true,
       detailsMessage: 'Hi Jason, \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon,\nShawna Brannen',
       job: Job(
         selectedDate: DateTime.now(),
@@ -67,7 +69,15 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         photographerSignature: 'Shawna Brannen',
         contractName: 'Wedding Contract',
         terms: 'I acknowledge that I have read and understood the contents of the contract, and I hereby agree to all the terms and conditions outlined within it by signing this document.',
-      )
+      ),
+      invoice: Invoice(
+        depositPaid: false,
+        dueDate: DateTime.now(),
+        depositDueDate: DateTime.now(),
+        depositAmount: 150.0,
+        unpaidAmount: 450.0,
+        invoiceId: 1001,
+      ),
     );
     store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
   }
@@ -89,6 +99,9 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{
-
+    //TODO rest call to update actual proposal
+    Proposal proposal = action.pageState.proposal;
+    proposal.invoice.depositPaid = action.isPaid;
+    store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
   }
 }
