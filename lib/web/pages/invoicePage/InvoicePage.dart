@@ -173,6 +173,8 @@ class _InvoicePageState extends State<InvoicePage> {
                                   );
                                 },
                               );
+                            } else {
+                              pageState.onMarkAsPaidDepositSelected(false);
                             }
                           },
                           child: Container(
@@ -341,55 +343,9 @@ class _InvoicePageState extends State<InvoicePage> {
                 ],
               ),
             ),
-            Container(
-              width: 1080,
-              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-              padding: EdgeInsets.only(left: 32, right: 32),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Standard 1 hr',
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: '\$450.00',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: 1080,
-              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-              padding: EdgeInsets.only(left: 32, right: 32),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Second Location',
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: '\$50.00',
-                    ),
-                  ),
-                ],
-              ),
+            Column(
+              mainAxisSize: MainAxisSize.min,
+              children: _buildLineItems(pageState),
             ),
             Container(
               margin: EdgeInsets.only(top: 16, bottom: 16, left: 16, right: 16),
@@ -416,38 +372,13 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: '\$500.00',
+                      text: TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.subtotal),
                     ),
                   ),
                 ],
               ),
             ),
-            Container(
-              width: 540,
-              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
-              padding: EdgeInsets.only(left: 32, right: 32),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: 'Retainer (paid)',
-                    ),
-                  ),
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: '-\$150.00',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Container(
+            pageState.proposal.invoice.discount > 0 ? Container(
               width: 540,
               margin: EdgeInsets.only(left: 16, right: 16, top: 16),
               padding: EdgeInsets.only(left: 32, right: 32),
@@ -466,13 +397,13 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: '-\$50.00',
+                      text: '-' + TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.discount),
                     ),
                   ),
                 ],
               ),
-            ),
-            Container(
+            ) : SizedBox(),
+            pageState.proposal.invoice.salesTaxAmount > 0 ? Container(
               width: 540,
               margin: EdgeInsets.only(left: 16, right: 16, top: 16),
               padding: EdgeInsets.only(left: 32, right: 32),
@@ -491,7 +422,32 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: '\$38.00',
+                      text: '(' + pageState.proposal.invoice.salesTaxRate.toString() + '%) ' + TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.salesTaxAmount) ,
+                    ),
+                  ),
+                ],
+              ),
+            ) : SizedBox(),
+            Container(
+              width: 540,
+              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: EdgeInsets.only(left: 32, right: 32),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Total',
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.total) ,
                     ),
                   ),
                 ],
@@ -515,6 +471,33 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'Retainer ' + (pageState.proposal.invoice.depositPaid ? '(Paid)' : '(Unpaid)'),
+                      isBold: true,
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: (pageState.proposal.invoice.depositPaid ? '-' : '') + TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.depositAmount),
+                      isBold: true,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: 540,
+              margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+              padding: EdgeInsets.only(left: 32, right: 32),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Balance Due',
                       isBold: true,
                     ),
@@ -523,7 +506,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: '\$338.00',
+                      text: TextFormatterUtil.formatDecimalCurrency(pageState.proposal.invoice.unpaidAmount),
                       isBold: true,
                     ),
                   ),
@@ -535,4 +518,36 @@ class _InvoicePageState extends State<InvoicePage> {
         ),
       ),
     );
+
+  List<Widget> _buildLineItems(ClientPortalPageState pageState) {
+    List<Widget> items = [];
+    pageState.proposal.invoice.lineItems.forEach((lineItem) {
+      items.add(Container(
+        width: 1080,
+        margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+        padding: EdgeInsets.only(left: 32, right: 32),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.centerLeft,
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: lineItem.itemName,
+              ),
+            ),
+            Container(
+              alignment: Alignment.centerLeft,
+              child: TextDandyLight(
+                type: TextDandyLight.MEDIUM_TEXT,
+                text: TextFormatterUtil.formatDecimalCurrency(lineItem.itemPrice),
+              ),
+            ),
+          ],
+        ),
+      ));
+    });
+    return items;
+  }
 }

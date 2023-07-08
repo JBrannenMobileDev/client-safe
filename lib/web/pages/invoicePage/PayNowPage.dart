@@ -125,7 +125,7 @@ class _PayNowPageState extends State<PayNowPage> {
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'MARK AS PAID', make PAID button reversable incase they accidentaly marked as paid
+                            text: 'MARK AS PAID',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
@@ -154,6 +154,7 @@ class _PayNowPageState extends State<PayNowPage> {
                         title: 'Venmo',
                         message: 'Please send funds to our Venmo account by selecting the (PAY NOW) button below then mark as paid above.',
                         link: 'https://venmo.com/code?user_id=1696790113943552886',
+                        type: type,
                       ),
                       PaymentOptionWidget(
                         title: 'Cash',
@@ -162,11 +163,13 @@ class _PayNowPageState extends State<PayNowPage> {
                         sendEmail: 'vintageVibesPhotography@gmail.com',
                         messageTitle: 'Invoice Response - Pay by cash',
                         messageBody: 'Hi Shawna, i will be paying with cash. How would you like me to get the cash to you?',
+                        type: type,
                       ),
                       PaymentOptionWidget(
                         title: 'CashApp',
                         message: 'Please send funds to our CashApp account by selecting the (PAY NOW) button below then mark as paid above.',
                         link: 'https://cash.app/\$jbinvestments15',
+                        type: type,
                       ),
                     ],
                   ),
@@ -183,12 +186,14 @@ class _PayNowPageState extends State<PayNowPage> {
                         phone: DeviceType.getDeviceTypeByContext(context) == Type.Website ? '(951)295-0348' : null,
                         sendSms: '(951)295-0348',
                         messageBody: 'Thank you! Here is the payment.',
+                        type: type,
                       ),
                       PaymentOptionWidget(
                         title: 'Zelle',
                         message: 'Please send funds to our bank account through Zelle by using our mobile phone number or email then mark as paid above.',
                         phone: '(951)295-0348',
                         email: 'vintagevibesphotography@gmail.com',
+                        type: type,
                       ),
                     ],
                   ),
@@ -203,6 +208,7 @@ class _PayNowPageState extends State<PayNowPage> {
                         title: 'Venmo',
                         message: 'Please send funds to our Venmo account by selecting the (PAY NOW) button below then mark as paid above.',
                         link: 'https://venmo.com/code?user_id=1696790113943552886',
+                        type: type,
                       ),
                       DividerWidget(width: 438),
                       PaymentOptionWidget(
@@ -210,12 +216,14 @@ class _PayNowPageState extends State<PayNowPage> {
                         message: 'Please send funds to our bank account through Zelle by using our mobile phone number or email then mark as paid above.',
                         phone: '(951)295-0348',
                         email: 'vintagevibesphotography@gmail.com',
+                        type: type,
                       ),
                       DividerWidget(width: 438),
                       PaymentOptionWidget(
                         title: 'CashApp',
                         message: 'Please send funds to our CashApp account by selecting the (PAY NOW) button below then mark as paid above.',
                         link: 'https://cash.app/\$jbinvestments15',
+                        type: type,
                       ),
                       DividerWidget(width: 438),
                       PaymentOptionWidget(
@@ -224,6 +232,7 @@ class _PayNowPageState extends State<PayNowPage> {
                         phone: DeviceType.getDeviceTypeByContext(context) == Type.Website ? '(951)295-0348' : null,
                         sendSms: '(951)295-0348',
                         messageBody: 'Thank you! Here is the payment.',
+                        type: type,
                       ),
                       DividerWidget(width: 438),
                       PaymentOptionWidget(
@@ -233,6 +242,7 @@ class _PayNowPageState extends State<PayNowPage> {
                         sendEmail: 'vintageVibesPhotography@gmail.com',
                         messageTitle: 'Invoice Response - Pay by cash',
                         messageBody: 'Hi Shawna, i will be paying with cash. How would you like me to get the cash to you?',
+                        type: type,
                       ),
                     ],
                   ),

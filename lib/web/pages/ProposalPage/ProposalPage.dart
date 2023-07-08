@@ -2,6 +2,7 @@ import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/utils/Shadows.dart';
 import 'package:dandylight/web/pages/ClientPortalActions.dart';
 import 'package:dandylight/web/pages/contractPage/ContractPage.dart';
+import 'package:dandylight/web/pages/posesPage/ClientPosesPage.dart';
 import 'package:dandylight/widgets/DividerWidget.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,7 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
+import '../../../pages/poses_page/PosesPage.dart';
 import '../../../utils/ColorConstants.dart';
 import '../ClientPortalPageState.dart';
 import '../detailsPage/DetailsPage.dart';
@@ -81,7 +83,7 @@ class _SignContractPageState extends State<ProposalPage> {
                             ),
                           ),
                           DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.proposal.logoUrl != null ? Padding(
-                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 64),
+                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
                             child: Material(
                               elevation: 4,
                               child: Container(
@@ -93,7 +95,7 @@ class _SignContractPageState extends State<ProposalPage> {
                             ),
                           ) : SizedBox(),
                           DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.proposal.logoUrl == null ? Padding(
-                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 64),
+                            padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
                             child: Container(
                               alignment: Alignment.center,
                                 height: 150,
@@ -111,7 +113,7 @@ class _SignContractPageState extends State<ProposalPage> {
                             ),
                           ) : SizedBox(),
                           DeviceType.getDeviceTypeByContext(context) == Type.Website ? Container(
-                            margin: EdgeInsets.only(bottom: 64),
+                            margin: EdgeInsets.only(bottom: 124),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -189,7 +191,7 @@ class _SignContractPageState extends State<ProposalPage> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 64 : 300, bottom: 124),
+                      margin: EdgeInsets.only(top: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 - 124 : 300, bottom: 124),
                       width: 1440,
                       decoration: BoxDecoration(
                         boxShadow: ElevationToShadow[2],
@@ -230,17 +232,6 @@ class _SignContractPageState extends State<ProposalPage> {
           ),
         )
       );
-
-  List<Widget> _allPages() {
-    return [
-      DetailsPage(),
-      DividerWidget(width: 1080),
-      ContractPage(),
-      DividerWidget(width: 1080),
-      InvoicePage(),
-      DividerWidget(width: 1080),
-    ];
-  }
 
   List<Widget> _menuButtons(ClientPortalPageState pageState) {
     return [
@@ -630,7 +621,7 @@ class _SignContractPageState extends State<ProposalPage> {
         result = DetailsPage();
         break;
       case POSES:
-        result = DetailsPage();
+        result = ClientPosesPage();
         break;
       case FEEDBACK:
         result = DetailsPage();

@@ -23,6 +23,7 @@ class Invoice {
   bool invoicePaid;
   PriceProfile priceProfile;
   double discount;
+  double subtotal;
   double total;
   double unpaidAmount;
   double depositAmount;
@@ -52,6 +53,7 @@ class Invoice {
     this.salesTaxAmount,
     this.salesTaxRate,
     this.depositDueDate,
+    this.subtotal,
   });
 
   Map<String, dynamic> toMap() {
@@ -70,6 +72,7 @@ class Invoice {
       'priceProfile': priceProfile.toMap(),
       'discount': discount,
       'total': total,
+      'subtotal' : subtotal,
       'unpaidAmount' : unpaidAmount,
       'lineItems' : convertLineItemsToMaps(lineItems),
       'depositAmount' : depositAmount,
@@ -96,6 +99,7 @@ class Invoice {
       priceProfile: PriceProfile.fromMap(map['priceProfile']),
       discount: map['discount'],
       total: map['total'],
+      subtotal: map['subtotal'],
       unpaidAmount: map['unpaidAmount'],
       lineItems: convertMapsToLineItems(map['lineItems']),
       depositAmount: map['depositAmount'],

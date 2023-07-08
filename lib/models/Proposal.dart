@@ -15,6 +15,7 @@ class Proposal {
   static const String FEEDBACK_PAGE = 'feedback';
 
   int id;
+  String jobDocumentId;
   String documentId;
   String userId;
   String detailsMessage;
@@ -34,6 +35,7 @@ class Proposal {
 
   Proposal({
       this.id,
+      this.jobDocumentId,
       this.documentId,
       this.userId,
       this.detailsMessage,
@@ -55,6 +57,7 @@ class Proposal {
   Map<String, dynamic> toMap() {
     return {
       'documentId' : documentId,
+      'jobDocumentId' : jobDocumentId,
       'userId': userId,
       'detailsMessage' : detailsMessage,
       'job' : job?.toMap(),
@@ -76,6 +79,7 @@ class Proposal {
   static Proposal fromMap(Map<String, dynamic> map) {
     return Proposal(
       documentId: map['documentId'],
+      jobDocumentId: map['jobDocumentId'],
       userId: map['userId'],
       detailsMessage: map['detailsMessage'],
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
