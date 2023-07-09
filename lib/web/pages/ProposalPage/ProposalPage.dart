@@ -171,7 +171,8 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(top: 16),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                    text: 'Vintage Vibes Photography',
+                                    text: pageState.proposal.profile.businessName,
+                                    textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
                                   ),
@@ -179,7 +180,8 @@ class _SignContractPageState extends State<ProposalPage> {
                                 Container(
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
-                                    text: 'Jason Bent',
+                                    text: pageState.proposal.job.client.getClientFullName(),
+                                    textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
                                   ),

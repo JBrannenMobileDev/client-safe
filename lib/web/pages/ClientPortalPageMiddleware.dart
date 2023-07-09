@@ -89,6 +89,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       ),
       invoice: Invoice(
         depositPaid: false,
+        invoicePaid: false,
         dueDate: DateTime.now(),
         depositDueDate: DateTime.now(),
         depositAmount: 150.0,
@@ -127,13 +128,22 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _updateProposalInvoicePaid(Store<AppState> store, UpdateProposalInvoicePaidAction action, NextDispatcher next) async{
-
+//TODO rest call to update actual proposal
+    Proposal proposal = action.pageState.proposal;
+    proposal.invoice.invoicePaid = action.isPaid;
+    proposal.invoice.unpaidAmount = action.isPaid ? 0 : proposal.invoice.calculateUnpaidAmount();
+    store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{
     //TODO rest call to update actual proposal
     Proposal proposal = action.pageState.proposal;
     proposal.invoice.depositPaid = action.isPaid;
+    if(action.isPaid) {
+      proposal.invoice.unpaidAmount = proposal.invoice.unpaidAmount - proposal.invoice.depositAmount;
+    } else {
+      proposal.invoice.unpaidAmount = proposal.invoice.unpaidAmount + proposal.invoice.depositAmount;
+    }
     store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
   }
 }

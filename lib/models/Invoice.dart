@@ -109,7 +109,7 @@ class Invoice {
   }
 
   List<Map<String, dynamic>> convertLineItemsToMaps(List<LineItem> lineItems){
-    List<Map<String, dynamic>> listOfMaps = List();
+    List<Map<String, dynamic>> listOfMaps = [];
     for(LineItem lineItem in lineItems){
       listOfMaps.add(lineItem.toMap());
     }
@@ -128,5 +128,18 @@ class Invoice {
     DateTime now = DateTime.now();
     if(dueDate != null && now.isAfter(dueDate) && invoicePaid) return true;
     return false;
+  }
+
+  double calculateUnpaidAmount() {
+    if(!invoicePaid) {
+      double result = subtotal - discount;
+      double tax = result * (salesTaxRate/100);
+      result = result + tax;
+      if(depositPaid) {
+        result = result - depositAmount;
+      }
+      return result;
+    }
+    return 0;
   }
 }
