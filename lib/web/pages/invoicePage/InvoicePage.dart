@@ -50,7 +50,9 @@ class _InvoicePageState extends State<InvoicePage> {
                   width: 1080,
                   child: MouseRegion(
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        pageState.onDownloadInvoiceSelected();
+                      },
                       child: Container(
                         alignment: Alignment.center,
                         width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 116 : 48,

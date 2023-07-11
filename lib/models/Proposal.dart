@@ -20,6 +20,7 @@ class Proposal {
   String userId;
   String detailsMessage;
   String logoUrl;
+  String bannerUrl;
   Job job;
   Invoice invoice;
   Contract contract;
@@ -52,6 +53,7 @@ class Proposal {
       this.questionnaire,
       this.feedback,
       this.includePoses,
+      this.bannerUrl,
   });
 
   Map<String, dynamic> toMap() {
@@ -73,6 +75,7 @@ class Proposal {
       'questionnaire' : questionnaire?.toMap(),
       'feedback' : feedback?.toMap(),
       'includePoses' : includePoses,
+      'bannerUrl' : bannerUrl,
     };
   }
 
@@ -95,6 +98,7 @@ class Proposal {
       questionnaire: map['questionnaire'] != null ? Questionnaire.fromMap(map['questionnaire']) : null,
       feedback: map['feedback'] != null ? Feedback.fromMap(map['feedback']) : null,
       includePoses: map['includePoses'],
+      bannerUrl: map['bannerUrl'],
     );
   }
 }

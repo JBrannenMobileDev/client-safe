@@ -71,7 +71,7 @@ class _SignContractPageState extends State<ProposalPage> {
                       child: Stack(
                         alignment: Alignment.centerLeft,
                         children: [
-                          Container(
+                          pageState.proposal.bannerUrl != null ? Container(
                             height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                             decoration: BoxDecoration(
                               color: Colors.transparent,
@@ -80,6 +80,11 @@ class _SignContractPageState extends State<ProposalPage> {
                                     'assets/images/backgrounds/largebackground.png'),
                                 fit: BoxFit.cover,
                               ),
+                            ),
+                          ) : Container(
+                            height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getBlueDark()),
                             ),
                           ),
                           DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.proposal.logoUrl != null ? Padding(

@@ -160,7 +160,7 @@ class Job {
       paymentReceivedDate: map['paymentReceivedDate'] != null && map['paymentReceivedDate'] != "" ? DateTime.parse(map['paymentReceivedDate']) : null,
       type: JobType.fromMap(map['type']),
       stage: JobStage.fromMap(map['stage']),
-      client: Client.fromMap(map['client']) != null ? Client.fromMap(map['client']) : null,
+      client: map['client'] != null ? Client.fromMap(map['client']) : null,
       location: map['location'] != null ? Location.fromMap(map['location']) : null,
       priceProfile: map['priceProfile'] != null ? PriceProfile.fromMap(map['priceProfile']) : null,
       invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,

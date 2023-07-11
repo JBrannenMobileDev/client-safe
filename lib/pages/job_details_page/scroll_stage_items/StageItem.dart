@@ -487,7 +487,7 @@ class _StageItemState extends State<StageItem>
                           child: Container(
                             alignment: Alignment.center,
                             height: 32.0,
-                            width: 136.0,
+                            width: 142.0,
                             margin: EdgeInsets.only(top: 5.0),
                             padding: EdgeInsets.only(
                                 top: 4.0, left: 8.0, bottom: 4.0, right: 8.0),

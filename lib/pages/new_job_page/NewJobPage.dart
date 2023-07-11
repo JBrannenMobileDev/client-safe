@@ -341,9 +341,6 @@ class _NewJobPageState extends State<NewJobPage>{
 
   void onFlareCompleted(String unused) {
     if(comingFromOnBoarding) {
-      EventSender().sendEvent(eventName: EventNames.ON_BOARDING_COMPLETE, properties: {
-        EventNames.ON_BOARDING_COMPLETED_BY_PARAM : 'Add first job skipped',
-      });
       NavigationUtil.onSuccessfulLogin(context);
     } else {
       Navigator.of(context).pop(true);

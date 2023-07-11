@@ -1,14 +1,20 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/data_layer/repositories/FileStorage.dart';
 import 'package:dandylight/models/Client.dart';
 import 'package:dandylight/models/LineItem.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Proposal.dart';
+import 'package:dandylight/utils/PdfUtil.dart';
+import 'package:pdf/widgets.dart';
 import 'package:redux/redux.dart';
+import '../../models/Branding.dart';
 import '../../models/Contract.dart';
 import '../../models/Invoice.dart';
 import '../../models/Job.dart';
+import '../../models/JobStage.dart';
 import '../../models/Location.dart';
 import '../../models/Pose.dart';
+import '../../utils/ColorConstants.dart';
 import 'ClientPortalActions.dart';
 
 class ClientPortalMiddleware extends MiddlewareClass<AppState> {
@@ -69,7 +75,11 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
           Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
           Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
           Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e')
-        ]
+        ],
+        completedStages: [
+          JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED),
+          JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT)
+        ],
       ),
       profile: Profile(
         businessName: 'Vintage Vibes Photography',
@@ -104,10 +114,12 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
           LineItem(
             itemName: 'Standard 1 hr',
             itemPrice: 450,
+            itemQuantity: 1,
           ),
           LineItem(
             itemName: 'Second location',
             itemPrice: 75,
+            itemQuantity: 1,
           )
         ],
       ),
@@ -120,7 +132,19 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _generateInvoice(Store<AppState> store, GenerateInvoiceForClientAction action, NextDispatcher next) async{
-
+    Document pdf = await PdfUtil.generateInvoicePdfFromInvoice(
+        action.pageState.proposal.invoice,
+        action.pageState.proposal.job,
+        action.pageState.proposal.job.client,
+        action.pageState.proposal.profile,
+        action.pageState.proposal.logoUrl,
+        Branding(
+          logoUrl: null,
+          logoColor: '#d49a89',
+          logoTextColor: '#ffffff'
+        )
+    );
+    FileStorage.webDownload(await pdf.save(), action.pageState.proposal.job.client.firstName + '_' + action.pageState.proposal.job.client.lastName + '_invoice');
   }
 
   void _updateProposalContractSigned(Store<AppState> store, UpdateProposalContractSignedAction action, NextDispatcher next) async{

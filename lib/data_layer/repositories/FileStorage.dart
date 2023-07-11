@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dandylight/data_layer/local_db/daos/JobDao.dart';
@@ -7,18 +8,16 @@ import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/models/Contract.dart';
 import 'package:dandylight/models/PoseLibraryGroup.dart';
-import 'package:dandylight/models/PoseSubmittedGroup.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../models/Job.dart';
 import '../../models/Location.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/DandylightCacheManager.dart';
-import '../../utils/permissions/UserPermissionsUtil.dart';
 import '../local_db/daos/PoseDao.dart';
 
 class FileStorage {
@@ -52,6 +51,12 @@ class FileStorage {
 
   static void deleteFileContract(Contract contract) async {
     _deleteContractFileFromCloud(contract);
+  }
+
+  //Intended for flutter web
+  static void webDownload(Object bytes, String fileName) {
+    Uri uri = Uri.parse("data:application/octet-stream;base64,${base64Encode(bytes)}");
+    launchUrl(uri);
   }
 
   static Future<File> getLocationImageFile(Location location) async {

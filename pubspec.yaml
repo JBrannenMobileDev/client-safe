@@ -86,6 +86,8 @@ dependencies:
   crypto: ^3.0.2
   google_sign_in: ^6.0.2
   pin_code_fields: ^7.4.0
+  url_launcher_web: ^2.0.18
+  printing: ^5.9.3
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
