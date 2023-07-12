@@ -12,12 +12,15 @@ import '../data_layer/local_db/daos/JobDao.dart';
 import '../data_layer/local_db/daos/ProfileDao.dart';
 import '../models/Branding.dart';
 import '../models/Client.dart';
+import '../models/Contract.dart';
 import '../models/Invoice.dart';
 import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/LineItem.dart';
 import '../models/Profile.dart';
+import '../models/Proposal.dart';
 import '../pages/new_invoice_page/NewInvoicePageState.dart';
+import 'ColorConstants.dart';
 import 'Shadows.dart';
 import 'TextFormatterUtil.dart';
 import 'UidUtil.dart';
@@ -88,7 +91,7 @@ class PdfUtil {
       String logoColor,
       String logoTextColor,
   ) async {
-    final logoImage = await networkImage('https://www.nfet.net/nfet.jpg');
+    final logoImage = logoUrl != null ? (await networkImage(logoUrl)) : null;
     String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty
             ? 'Zelle\n' +
                 'Recipient info:\n' +
@@ -723,6 +726,258 @@ class PdfUtil {
                     )
                   : SizedBox(),
             ]));
+
+    return pdf;
+  }
+
+  static Future<Document> generateContract(Contract contract, Proposal proposal) async {
+    final Document pdf = Document();
+    final signatureFont = Font.ttf(await rootBundle.load('assets/fonts/sig.ttf'));
+
+    pdf.addPage(MultiPage(
+        theme: ThemeData.withFont(
+          base: Font.ttf(
+              await rootBundle.load('assets/fonts/OpenSans.ttf')),
+          bold:
+          Font.ttf(await rootBundle.load('assets/fonts/OpenSansBold.ttf')),
+          italic:
+          Font.ttf(await rootBundle.load('assets/fonts/signature.ttf')),
+          boldItalic:
+          Font.ttf(await rootBundle.load('assets/fonts/OpenSans.ttf')),
+        ),
+        pageFormat:
+        PdfPageFormat.letter.copyWith(marginBottom: 1 * PdfPageFormat.cm),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        header: (Context context) {
+          if (context.pageNumber == 1) {
+            return SizedBox();
+          }
+          return Container(
+              alignment: Alignment.centerLeft,
+              // margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
+              child: Text('Client Service Agreement',
+                  style: Theme.of(context)
+                      .defaultTextStyle
+                      .copyWith(color: PdfColors.grey)));
+        },
+        footer: (Context context) {
+          return Container(
+              alignment: Alignment.centerRight,
+              margin: const EdgeInsets.only(top: 1.0 * PdfPageFormat.cm),
+              child: Text('Page ${context.pageNumber} of ${context.pagesCount}',
+                style: Theme.of(context)
+                    .defaultTextStyle
+                    .copyWith(color: PdfColors.grey),
+              ));
+        },
+        build: (Context context) {
+          List<String> paragraphs = contract.terms.split('\n\n');
+          List<Widget> termsParagraphs = [];
+          termsParagraphs.add(
+            Header(
+              level: 2,
+              child: Container(
+                alignment: Alignment.topCenter,
+                margin: EdgeInsets.only(bottom: 16),
+                child: Text(
+                    'Client Service Agreement',
+                    textAlign: TextAlign.center,
+                    style: Theme
+                        .of(context)
+                        .defaultTextStyle
+                        .copyWith(
+                        fontSize: 16, color: PdfColor.fromHex('#444444'))
+                ),
+              ),
+            ),
+          );
+          paragraphs.forEach((paragraph) {
+            termsParagraphs.add(
+                Container(
+                  margin: EdgeInsets.only(top: 8),
+                  child: Text(
+                      paragraph,
+                      textScaleFactor: .85,
+                      style: TextStyle(
+                          color: PdfColor.fromHex('#444444')
+                      ),
+                      overflow: TextOverflow.span
+                  )
+                ));
+          });
+          termsParagraphs.add(
+              Container(
+              margin: EdgeInsets.only(top: 32, bottom: 32),
+              child: Text(
+                  'I acknowledge that I have read and understood the contents of this agreement, and I hereby agree to all the terms and conditions outlined within it by signing this document.',
+                  textScaleFactor: .85,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: PdfColor.fromHex('#444444'),
+                  ),
+                  overflow: TextOverflow.span
+              )
+          ));
+          termsParagraphs.add(Row(
+            children: [
+              Container(
+                width: 224,
+                margin: EdgeInsets.only(bottom: 64, right: 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                              'Date: ',
+                              textScaleFactor: .85,
+                              style: TextStyle(
+                                color: PdfColor.fromHex('#444444'),
+                              ),
+                              overflow: TextOverflow.span
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                              DateFormat('EEE, MMMM dd, yyyy').format(contract.photographerSignedDate),
+                              textScaleFactor: .85,
+                              style: TextStyle(
+                                color: PdfColor.fromHex('#444444'),
+                              ),
+                              overflow: TextOverflow.span
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                            'Photographer Name: ',
+                              textScaleFactor: .85,
+                            style: TextStyle(
+                            )
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                            proposal.profile.firstName + ' ' + proposal.profile.lastName,
+                            textScaleFactor: .85,
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        'Photographer Signature:',
+                          textScaleFactor: .85,
+                        style: TextStyle(
+                        )
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                          contract.signedByClient ? (proposal.profile.firstName + ' ' + proposal.profile.lastName) : '',
+                          textScaleFactor: .85,
+                          style: TextStyle(
+                            font: signatureFont,
+                            fontSize: 32,
+                          )
+                      ),
+                    ),
+                    Container(
+                      height: 0.5,
+                      width: 224,
+                      color: PdfColor.fromHex('#444444'),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                width: 224,
+                margin: EdgeInsets.only(bottom: 64),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                            'Date: ',
+                              textScaleFactor: .85,
+                            style: TextStyle(
+                            )
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                            DateFormat('EEE, MMMM dd, yyyy').format(proposal.contract.clientSignedDate != null ? proposal.contract.clientSignedDate : DateTime.now()),
+                            textScaleFactor: .85,
+                          ),
+                        )
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                            'Client Name: ',
+                              textScaleFactor: .85,
+                            style: TextStyle(
+                            )
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(top: 0, bottom: 4),
+                          child: Text(
+                            proposal.job.client.getClientFullName(),
+                            textScaleFactor: .85,
+                          ),
+                        )
+                      ],
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(bottom: 4),
+                      child: Text(
+                        'Client Signature:',
+                          textScaleFactor: .85,
+                        style: TextStyle(
+                        )
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                          proposal.contract.signedByClient ? contract.clientSignature : '',
+                          textScaleFactor: .85,
+                          style: TextStyle(
+                            font: signatureFont,
+                            fontSize: 32,
+                          )
+                      )
+                    ),
+                    Container(
+                      height: 0.5,
+                      width: 224,
+                      color: PdfColor.fromHex('#444444'),
+                    )
+                  ],
+                ),
+              )
+            ]
+          ));
+          return termsParagraphs;
+        })
+    );
 
     return pdf;
   }

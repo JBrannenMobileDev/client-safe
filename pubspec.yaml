@@ -410,6 +410,10 @@ flutter:
     - family: OpenSans
       fonts:
         - asset: assets/fonts/OpenSans.ttf
+        - asset: assets/fonts/OpenSansBold.ttf
+    - family: Sig
+      fonts:
+        - asset: assets/fonts/sig.ttf
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway-Bold.ttf

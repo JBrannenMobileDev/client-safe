@@ -41,17 +41,19 @@ class _ContractPageState extends State<ContractPage> {
                         alignment: Alignment.topCenter,
                         margin: EdgeInsets.only(top: 32, bottom: 48),
                         child: TextDandyLight(
-                          type: TextDandyLight.EXTRA_LARGE_TEXT,
-                          text: pageState.proposal.contract.contractName,
+                          type: TextDandyLight.LARGE_TEXT,
+                          text: 'Client Service Agreement',
                         ),
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 32, right: 16),
+                        margin: EdgeInsets.only(top: 24, right: 16),
                         alignment: Alignment.centerRight,
                         width: 1080,
                         child: MouseRegion(
                           child: GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              pageState.onDownloadContractSelected();
+                            },
                             child: Container(
                               alignment: Alignment.center,
                               width: DeviceType.getDeviceTypeByContext(context) == Type.Website ? 116 : 48,
@@ -98,17 +100,18 @@ class _ContractPageState extends State<ContractPage> {
                     ],
                   ),
                   Container(
-                    margin: EdgeInsets.only(bottom: 54, left: 32, right: 32),
-                    child: TextDandyLight(
-                      type: TextDandyLight.MEDIUM_TEXT,
-                      text: contract,
-                    ),
-                  ),
-                  Container(
                     margin: EdgeInsets.only(bottom: 64, left: 32, right: 32),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: pageState.proposal.contract.terms,
+                      isBold: false,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(bottom: 32, left: 32, right: 32),
+                    child: TextDandyLight(
+                      type: TextDandyLight.MEDIUM_TEXT,
+                      text: 'I acknowledge that I have read and understood the contents of this agreement, and I hereby agree to all the terms and conditions outlined within it by signing this document.',
                       isBold: true,
                     ),
                   ),
@@ -235,8 +238,8 @@ class _ContractPageState extends State<ContractPage> {
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,
               style: TextStyle(
-                  fontFamily: 'signature',
-                  fontSize: 32,
+                  fontFamily: 'Sig',
+                  fontSize: 48,
                   fontWeight: FontWeight.bold),
               decoration: InputDecoration(
                 enabledBorder: UnderlineInputBorder(
@@ -314,8 +317,8 @@ class _ContractPageState extends State<ContractPage> {
               cursorColor: Color(ColorConstants.getPrimaryBlack()),
               textCapitalization: TextCapitalization.words,
               style: TextStyle(
-                  fontFamily: 'signature',
-                  fontSize: 32,
+                  fontFamily: 'Sig',
+                  fontSize: 48,
                   fontWeight: FontWeight.bold,
                   color: Color(ColorConstants.getPrimaryBlack())),
               decoration: InputDecoration(
