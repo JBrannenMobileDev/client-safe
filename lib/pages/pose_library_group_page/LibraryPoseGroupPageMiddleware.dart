@@ -119,7 +119,11 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
         if(sortedPoses.length > startIndex) {
           Pose pose = sortedPoses.elementAt(startIndex);
-          await poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
+          if(startIndex == (posesSize + PAGE_SIZE - 1)) {
+            await poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
+          } else {
+            poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
+          }
         }
       }
 

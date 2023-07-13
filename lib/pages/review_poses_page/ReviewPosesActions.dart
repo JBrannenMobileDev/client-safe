@@ -22,8 +22,8 @@ class ApprovePoseAction {
   final bool proposalsSelected;
   final bool petsSelected;
   final bool weddingsSelected;
-  ApprovePoseAction(this.pageState, this.groupImage, this.prompt, this.tags, this.engagementsSelected, this.couplesSelected,
-      this.familiesSelected, this.portraitsSelected, this.maternitySelected, this.newbornSelected, this.proposalsSelected, this.petsSelected, this.weddingsSelected);
+  ApprovePoseAction(this.pageState, this.groupImage, this.prompt, this.tags, this.engagementsSelected, this.familiesSelected,
+      this.couplesSelected, this.portraitsSelected, this.maternitySelected, this.newbornSelected, this.proposalsSelected, this.petsSelected, this.weddingsSelected);
 }
 
 class RejectPoseAction {
