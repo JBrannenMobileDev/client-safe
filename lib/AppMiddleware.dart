@@ -283,10 +283,10 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, RejectPoseAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ApprovePoseAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ClearReviewPosesStateAction>(ReviewPosesPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, UpdateProposalContractSignedAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProposalInvoicePaidAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateProposalInvoiceDepositPaidAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchProposalAction>(ClientPortalMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SaveClientSignatureAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateContractForClientAction>(ClientPortalMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, GenerateInvoiceForClientAction>(ClientPortalMiddleware()));
   return middlewareList;

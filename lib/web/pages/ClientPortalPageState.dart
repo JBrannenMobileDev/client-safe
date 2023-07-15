@@ -6,8 +6,7 @@ import 'ClientPortalActions.dart';
 
 class ClientPortalPageState{
   final Proposal proposal;
-  final Function(String) onClientSignatureChanged;
-  final Function() onContractSigned;
+  final Function(String) onClientSignatureSaved;
   final Function(bool) onMarkAsPaidSelected;
   final Function(bool) onMarkAsPaidDepositSelected;
   final Function() onDownloadContractSelected;
@@ -15,8 +14,7 @@ class ClientPortalPageState{
 
   ClientPortalPageState({
     @required this.proposal,
-    @required this.onClientSignatureChanged,
-    @required this.onContractSigned,
+    @required this.onClientSignatureSaved,
     @required this.onMarkAsPaidSelected,
     @required this.onMarkAsPaidDepositSelected,
     @required this.onDownloadContractSelected,
@@ -25,8 +23,7 @@ class ClientPortalPageState{
 
   ClientPortalPageState copyWith({
     Proposal proposal,
-    Function(String) onClientSignatureChanged,
-    Function() onContractSigned,
+    Function(String) onClientSignatureSaved,
     Function(bool) onMarkAsPaidSelected,
     Function(bool) onMarkAsPaidDepositSelected,
     Function() onDownloadContractSelected,
@@ -34,8 +31,7 @@ class ClientPortalPageState{
   }){
     return ClientPortalPageState(
       proposal: proposal?? this.proposal,
-      onClientSignatureChanged: onClientSignatureChanged?? this.onClientSignatureChanged,
-      onContractSigned: onContractSigned?? this.onContractSigned,
+      onClientSignatureSaved: onClientSignatureSaved?? this.onClientSignatureSaved,
       onMarkAsPaidSelected: onMarkAsPaidSelected?? this.onMarkAsPaidSelected,
       onMarkAsPaidDepositSelected: onMarkAsPaidDepositSelected ?? this.onMarkAsPaidDepositSelected,
       onDownloadContractSelected: onDownloadContractSelected ?? this.onDownloadContractSelected,
@@ -45,8 +41,7 @@ class ClientPortalPageState{
 
   factory ClientPortalPageState.initial() => ClientPortalPageState(
     proposal: null,
-    onClientSignatureChanged: null,
-    onContractSigned: null,
+    onClientSignatureSaved: null,
     onMarkAsPaidSelected: null,
     onMarkAsPaidDepositSelected: null,
     onDownloadContractSelected: null,
@@ -56,8 +51,7 @@ class ClientPortalPageState{
   factory ClientPortalPageState.fromStore(Store<AppState> store) {
     return ClientPortalPageState(
       proposal: store.state.clientPortalPageState.proposal,
-      onClientSignatureChanged: (signature) => store.dispatch(SetClientSignatureAction(store.state.clientPortalPageState, signature)),
-      onContractSigned: () => store.dispatch(UpdateProposalContractSignedAction(store.state.clientPortalPageState)),
+      onClientSignatureSaved: (signature) => store.dispatch(SaveClientSignatureAction(store.state.clientPortalPageState, signature)),
       onMarkAsPaidSelected: (isPaid) => store.dispatch(UpdateProposalInvoicePaidAction(store.state.clientPortalPageState, isPaid)),
       onMarkAsPaidDepositSelected: (isPaid) => store.dispatch(UpdateProposalInvoiceDepositPaidAction(store.state.clientPortalPageState, isPaid)),
       onDownloadInvoiceSelected: () => store.dispatch(GenerateInvoiceForClientAction(store.state.clientPortalPageState)),
@@ -68,8 +62,7 @@ class ClientPortalPageState{
   @override
   int get hashCode =>
       proposal.hashCode ^
-      onClientSignatureChanged.hashCode ^
-      onContractSigned.hashCode ^
+      onClientSignatureSaved.hashCode ^
       onMarkAsPaidSelected.hashCode ^
       onDownloadContractSelected.hashCode ^
       onDownloadInvoiceSelected.hashCode ^
@@ -80,8 +73,7 @@ class ClientPortalPageState{
       identical(this, other) ||
           other is ClientPortalPageState &&
               proposal == other.proposal &&
-              onClientSignatureChanged == other.onClientSignatureChanged &&
-              onContractSigned == other.onContractSigned &&
+              onClientSignatureSaved == other.onClientSignatureSaved &&
               onMarkAsPaidSelected == other.onMarkAsPaidSelected &&
               onDownloadInvoiceSelected == other.onDownloadInvoiceSelected &&
               onDownloadContractSelected == other.onDownloadContractSelected &&

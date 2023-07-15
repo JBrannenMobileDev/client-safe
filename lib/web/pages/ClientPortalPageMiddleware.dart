@@ -21,9 +21,6 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next){
-    if(action is UpdateProposalContractSignedAction){
-      _updateProposalContractSigned(store, action, next);
-    }
     if(action is UpdateProposalInvoicePaidAction) {
       _updateProposalInvoicePaid(store, action, next);
     }
@@ -38,6 +35,9 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is GenerateInvoiceForClientAction) {
       _generateInvoice(store, action, next);
+    }
+    if(action is SaveClientSignatureAction) {
+      _saveClientSignature(store, action, next);
     }
   }
 
@@ -64,18 +64,16 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         ),
         poses: [
           Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e')
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fcfd51300-b340-11ed-9fb2-f91ec5f5c2e7.jpg?alt=media&token=424e417e-72f3-499a-bdaf-608bb3c1e1c7'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F2d944fa0-b30b-11ed-8a6e-657612667ae6.jpg?alt=media&token=1baabb62-1430-4456-a20a-86e2726998bb'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F526757f0-b30b-11ed-bfff-3fdd62ec8ca8.jpg?alt=media&token=abed2ce9-8dd5-4e55-b1ce-ff5b1305d182'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F7355ac00-b30b-11ed-839b-9ba74d939bf5.jpg?alt=media&token=127d92ab-044f-45cf-b22f-28bbc6077993'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F736849a0-b30b-11ed-9828-833a36aa2c26.jpg?alt=media&token=045b58ef-562d-4b23-8efb-12c90ca34e6d'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F8203e960-b30b-11ed-a896-9f7a6d27d18e.jpg?alt=media&token=f2c73f32-d848-4e0d-bce5-a4dd6ecb25ec'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F9a32b520-b30b-11ed-ba94-dd9cf87a4eb3.jpg?alt=media&token=39f94d71-f714-4c6c-874d-c89640c94e0e'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fafebc5f0-b30b-11ed-84b6-177555d69286.jpg?alt=media&token=bcca2f7b-f5ba-4541-9acb-75e084ae637b'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fcd117940-b30b-11ed-8b2a-fb5a221df60f.jpg?alt=media&token=284de7b7-dd15-4f89-9edb-ac83b1aad461'),
+          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F5e3674c0-b30c-11ed-be70-1579791391ca.jpg?alt=media&token=8c2a640d-c03b-4492-ad93-70d5c7f62412'),
         ],
         completedStages: [
           JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED),
@@ -92,8 +90,8 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       contract: Contract(
         photographerSignedDate: DateTime.now(),
         clientSignedDate: DateTime.now(),
-        signedByClient: true,
-        clientSignature: 'Jason Bent',
+        signedByClient: false,
+        clientSignature: '',
         photographerSignature: 'Shawna Brannen',
         contractName: 'Wedding Contract',
         terms: 'THIS AGREEMENT is made as of July 4, 2023 (the “Effective Date”) between Jason Bent with a primary contact address of Client AddressClient Address FILL (“Client”), and Vintage Vibes Photography (“Photographer”).\n'+
@@ -254,20 +252,24 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     FileStorage.webDownload(await pdf.save(), action.pageState.proposal.job.client.firstName + '_' + action.pageState.proposal.job.client.lastName + '_invoice');
   }
 
-  void _updateProposalContractSigned(Store<AppState> store, UpdateProposalContractSignedAction action, NextDispatcher next) async{
-
+  void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{
+    Proposal proposal = action.pageState.proposal;
+    proposal.contract.clientSignature = action.signature;
+    proposal.contract.signedByClient = true;
+    proposal.contract.clientSignedDate = DateTime.now();
+    store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
+    //TODO rest call to update actual proposal
   }
 
   void _updateProposalInvoicePaid(Store<AppState> store, UpdateProposalInvoicePaidAction action, NextDispatcher next) async{
-//TODO rest call to update actual proposal
     Proposal proposal = action.pageState.proposal;
     proposal.invoice.invoicePaid = action.isPaid;
     proposal.invoice.unpaidAmount = action.isPaid ? 0 : proposal.invoice.calculateUnpaidAmount();
     store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
+    //TODO rest call to update actual proposal
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{
-    //TODO rest call to update actual proposal
     Proposal proposal = action.pageState.proposal;
     proposal.invoice.depositPaid = action.isPaid;
     if(action.isPaid) {
@@ -276,5 +278,6 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       proposal.invoice.unpaidAmount = proposal.invoice.unpaidAmount + proposal.invoice.depositAmount;
     }
     store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
+    //TODO rest call to update actual proposal
   }
 }

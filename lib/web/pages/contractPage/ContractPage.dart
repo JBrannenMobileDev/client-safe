@@ -129,7 +129,7 @@ class _ContractPageState extends State<ContractPage> {
                       child: GestureDetector(
                         onTap: () {
                           if(!pageState.proposal.contract.signedByClient) {
-
+                            pageState.onClientSignatureSaved(_clientSignatureController.text);
                           }
                         },
                         child: Container(
@@ -144,7 +144,6 @@ class _ContractPageState extends State<ContractPage> {
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.proposal.contract.signedByClient ? 'Signature Saved' : 'Save Signature',
                             color: Color(ColorConstants.getPrimaryWhite()),
-                            isBold: isHoveredSubmit,
                           ),
                         ),
                       ),

@@ -9,21 +9,16 @@ class FetchProposalAction{
   FetchProposalAction(this.pageState, this.proposalId);
 }
 
-class SetClientSignatureAction{
+class SaveClientSignatureAction{
   final ClientPortalPageState pageState;
   final String signature;
-  SetClientSignatureAction(this.pageState, this.signature);
+  SaveClientSignatureAction(this.pageState, this.signature);
 }
 
 class SetUpdatedProposalAction {
   final ClientPortalPageState pageState;
   final Proposal proposal;
   SetUpdatedProposalAction(this.pageState, this.proposal);
-}
-
-class UpdateProposalContractSignedAction{
-  final ClientPortalPageState pageState;
-  UpdateProposalContractSignedAction(this.pageState);
 }
 
 class UpdateProposalInvoicePaidAction{
