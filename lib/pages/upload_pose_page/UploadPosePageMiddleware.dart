@@ -1,18 +1,22 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/utils/UUID.dart';
 import 'package:dandylight/utils/UidUtil.dart';
+import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 
 import '../../data_layer/local_db/daos/PoseDao.dart';
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/Profile.dart';
-import '../../utils/EnvironmentUtil.dart';
-import '../poses_page/PosesActions.dart';
 import 'UploadPoseActions.dart';
 import 'UploadPosePage.dart';
+import 'package:image/image.dart' as img;
 
 class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
 
@@ -24,7 +28,29 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     if(action is SetInstagramNameAction) {
       _setInstagramName(store, action, next);
     }
+    if(action is ResizeImageAction) {
+      _resizeImage(store, action, next);
+    }
   }
+
+  void _resizeImage(Store<AppState> store, ResizeImageAction action, NextDispatcher next) async {
+    final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
+    final String uniqueFileName = Uuid().generateV4();
+    final cmdLarge = img.Command()
+      ..decodeImageFile(action.image.path)
+      ..copyResize(width: 1080)
+      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
+    await cmdLarge.execute();
+    final cmdSmall = img.Command()
+      ..decodeImageFile(action.image.path)
+      ..copyResize(width: 350)
+      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg');
+    await cmdSmall.execute();
+    XFile resizedImage500 = XFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
+    XFile resizedImage250 = XFile(appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg');
+    store.dispatch(SetResizedImageAction(store.state.uploadPosePageState, resizedImage500, resizedImage250));
+  }
+
   void _setInstagramName(Store<AppState> store, SetInstagramNameAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     if(profile.instagramName.isNotEmpty) {
@@ -47,7 +73,7 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     newPose.prompt = action.prompt;
     newPose = await PoseDao.insertOrUpdate(newPose);
     newPose.createDate = DateTime.now();
-    await FileStorage.saveSubmittedPoseImageFile(action.poseImage.path, newPose);
+    await FileStorage.saveSubmittedPoseImageFile(action.poseImage500.path, action.poseImage250.path, newPose);
     await PoseSubmittedGroupDao.addNewSubmission(newPose);
   }
 

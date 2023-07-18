@@ -4,6 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/GroupImage.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -16,10 +17,12 @@ import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/GlobalKeyUtil.dart';
 import '../../utils/JobUtil.dart';
+import '../../utils/UUID.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'PoseGroupActions.dart';
+import 'package:image/image.dart' as img;
 
 class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -74,7 +77,26 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     for(int i=0; i< action.poseImages.length; i++) {
       Pose newPose = await PoseDao.insertOrUpdate(Pose());
       newPoses.add(newPose);
-      await FileStorage.savePoseImageFile(action.poseImages.elementAt(i).path, newPose, action.pageState.poseGroup);
+
+      final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
+      final String uniqueFileName = Uuid().generateV4();
+      final cmdLarge = img.Command()
+        ..decodeImageFile(action.poseImages.elementAt(i).path)
+        ..copyResize(width: 1080)
+        ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
+      await cmdLarge.execute();
+      final cmdSmall = img.Command()
+        ..decodeImageFile(action.poseImages.elementAt(i).path)
+        ..copyResize(width: 350)
+        ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg');
+      await cmdSmall.execute();
+
+      await FileStorage.savePoseImageFile(
+          appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg',
+          appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg',
+          newPose,
+          action.pageState.poseGroup
+      );
     }
 
     List<GroupImage> groupImages = action.pageState.poseImages;

@@ -10,6 +10,7 @@ class Pose implements Comparable<Pose>{
   String documentId;
   String uid = '';
   String imageUrl;
+  String smallImageUrl;
   String instagramUrl;
   String instagramName;
   String prompt = '';
@@ -34,6 +35,7 @@ class Pose implements Comparable<Pose>{
     this.prompt,
     this.reviewStatus,
     this.hasSeen,
+    this.smallImageUrl,
   });
 
   bool isMySubmission() {
@@ -55,6 +57,7 @@ class Pose implements Comparable<Pose>{
       'documentId' : documentId,
       'uid' : uid ?? '',
       'imageUrl' : imageUrl,
+      'smallImageUrl' : smallImageUrl,
       'instagramUrl' : instagramUrl,
       'instagramName' : instagramName,
       'prompt' : prompt,
@@ -72,6 +75,7 @@ class Pose implements Comparable<Pose>{
       documentId: map['documentId'],
       imageUrl: map['imageUrl'],
       instagramUrl: map['instagramUrl'],
+      smallImageUrl: map['smallImageUrl'],
       instagramName: map['instagramName'],
       reviewStatus: map['reviewStatus'] != null ? map['reviewStatus'] : STATUS_NOT_A_SUBMISSION,
       uid: map['uid'] != null ? map['uid'] : '',

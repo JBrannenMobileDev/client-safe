@@ -277,6 +277,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetSelectedLeadSourceAction>(OnBoardingPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubmitUploadedPoseAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetInstagramNameAction>(UploadPosePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeImageAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPosesToReviewAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, RejectPoseAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ApprovePoseAction>(ReviewPosesPageMiddleware()));

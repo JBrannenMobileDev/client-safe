@@ -12,6 +12,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
@@ -63,13 +64,20 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
   bool proposalsSelected = false;
   bool petsSelected = false;
   Profile profile;
+  bool loading = false;
 
   _UploadPosePageState(this.profile);
 
   Future getDeviceImage(UploadPosePageState pageState) async {
     try{
-      image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      setState((){});
+      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(localImage == null) {
+        setState((){
+          loading = false;
+        });
+      } else {
+        pageState.onPoseUploaded(localImage);
+      }
     } catch(ex) {
       print(ex.toString());
     }
@@ -103,8 +111,11 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  image == null ? GestureDetector(
+                  image == null && pageState.resizedImage500 == null ? GestureDetector(
                     onTap: () {
+                      setState((){
+                        loading = true;
+                      });
                       getDeviceImage(pageState);
                     },
                     child: Container(
@@ -117,7 +128,10 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                           boxShadow: ElevationToShadow[4],
                         ),
                         alignment: Alignment.center,
-                        child: Image.asset('assets/images/icons/add_photo.png',
+                        child: loading ? LoadingAnimationWidget.fourRotatingDots(
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                          size: 32,
+                        ) : Image.asset('assets/images/icons/add_photo.png',
                           color: Color(ColorConstants.getPrimaryWhite()),
                           width: 64,
                         )
@@ -128,8 +142,8 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                       borderRadius: new BorderRadius.circular(16.0),
                       child: Image(
                         fit: BoxFit.contain,
-                        image: image != null ? FileImage(File(image.path))
-                            : AssetImage("assets/images/backgrounds/image_background.png"),
+                        image: pageState.resizedImage500 != null ? FileImage(File(pageState.resizedImage500.path))
+                            : image != null ? FileImage(File(image.path)) : AssetImage("assets/images/backgrounds/image_background.png"),
                       ),
                     ),
                   ),
@@ -397,14 +411,14 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                   ),
                   GestureDetector(
                     onTap: () {
-                      if(image != null) {
+                      if(pageState.resizedImage500 != null && pageState.resizedImage250 != null) {
                         if(NameController.text.isNotEmpty) {
                           if(isAtLeastOneCategorySelected()) {
                             if(tagsController.text.isNotEmpty) {
                               tagsController.text.replaceAll(' ', '');
                               List<String> tags = tagsController.text.split(",");
                               if(tags.length > 0) {
-                                pageState.onPoseSubmitted(image, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+                                pageState.onPoseSubmitted(pageState.resizedImage500, pageState.resizedImage250, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
                                    , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                                 EventSender().sendEvent(eventName: EventNames.BT_UPLOAD_SUBMITTED_POSE_SUCCESS);
                                 showSuccessAnimation();

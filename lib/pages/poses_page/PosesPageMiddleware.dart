@@ -83,10 +83,11 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
     for(int index=0; index < groups.length; index++) {
       Pose poseForGroupImage = null;
-      groups.elementAt(index).poses.forEach((pose) {
+      groups.elementAt(index).poses.forEach((pose) async{
         if(poseForGroupImage == null) poseForGroupImage = pose;
         if(pose.numOfSaves > poseForGroupImage.numOfSaves) poseForGroupImage = pose;
       });
+
       if(groups.elementAt(index).poses.isNotEmpty && poseForGroupImage.imageUrl?.isNotEmpty == true){
         imageFiles.insert(index, await FileStorage.getPoseLibraryImageFile(poseForGroupImage, groups.elementAt(index)));
         next(SetPoseLibraryGroupsAction(store.state.posesPageState, groups, imageFiles));

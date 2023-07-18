@@ -80,7 +80,7 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
         child: ClipRRect(
           child: Image(
             fit: BoxFit.cover,
-            image: groupImage.file != null ? FileImage(File(groupImage.file.path))
+            image: groupImage.file != null && groupImage.file.path != null && groupImage.file.path.isNotEmpty ? ResizeImage(FileImage(File(groupImage.file.path)), width: 500)
                 : AssetImage("assets/images/backgrounds/image_background.png"),
           ),
         ),

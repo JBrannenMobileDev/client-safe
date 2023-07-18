@@ -72,34 +72,34 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _createAndSavePoses(Store<AppState> store, SaveLibraryPosesToGroupAction action) async {
-    List<Pose> newPoses = [];
-    for(int i=0; i< action.poseImages.length; i++) {
-      Pose newPose = Pose();
-      newPose.instagramName = action.name;
-      newPose.instagramUrl = action.url;
-      newPose.tags = action.tags;
-      newPose = await PoseDao.insertOrUpdate(newPose);
-      newPoses.add(newPose);
-      newPose.createDate = DateTime.now();
-      await FileStorage.saveLibraryPoseImageFile(action.poseImages.elementAt(i).path, newPose, action.pageState.poseGroup);
-    }
-
-    List<GroupImage> groupImages = action.pageState.poseImages;
-    for(int index=0 ; index <  newPoses.length; index++){
-      groupImages.add(GroupImage(
-          file: action.poseImages.elementAt(index),
-          pose: newPoses.elementAt(index)
-      ));
-    }
-
-    PoseLibraryGroup poseGroup = action.pageState.poseGroup;
-    poseGroup.poses.addAll(newPoses);
-    await PoseLibraryGroupDao.update(poseGroup);
-
-    await store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, poseGroup));
-    await store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, groupImages));
-    store.dispatch(posesActions.FetchPoseGroupsAction(store.state.posesPageState));
-    store.dispatch(SetInstagramAction(store.state.libraryPoseGroupPageState, action.name, action.url));
+    // List<Pose> newPoses = [];
+    // for(int i=0; i< action.poseImages.length; i++) {
+    //   Pose newPose = Pose();
+    //   newPose.instagramName = action.name;
+    //   newPose.instagramUrl = action.url;
+    //   newPose.tags = action.tags;
+    //   newPose = await PoseDao.insertOrUpdate(newPose);
+    //   newPoses.add(newPose);
+    //   newPose.createDate = DateTime.now();
+    //   await FileStorage.saveLibraryPoseImageFile(action.poseImages.elementAt(i).path, newPose, action.pageState.poseGroup);
+    // }
+    //
+    // List<GroupImage> groupImages = action.pageState.poseImages;
+    // for(int index=0 ; index <  newPoses.length; index++){
+    //   groupImages.add(GroupImage(
+    //       file: action.poseImages.elementAt(index),
+    //       pose: newPoses.elementAt(index)
+    //   ));
+    // }
+    //
+    // PoseLibraryGroup poseGroup = action.pageState.poseGroup;
+    // poseGroup.poses.addAll(newPoses);
+    // await PoseLibraryGroupDao.update(poseGroup);
+    //
+    // await store.dispatch(SetLibraryPoseGroupData(store.state.libraryPoseGroupPageState, poseGroup));
+    // await store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, groupImages));
+    // store.dispatch(posesActions.FetchPoseGroupsAction(store.state.posesPageState));
+    // store.dispatch(SetInstagramAction(store.state.libraryPoseGroupPageState, action.name, action.url));
   }
 
   void _loadMoreImages(Store<AppState> store, LoadMoreImagesAction action, NextDispatcher next) async{

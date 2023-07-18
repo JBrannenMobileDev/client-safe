@@ -1,16 +1,21 @@
+import 'dart:io';
+
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 
 import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseLibraryGroup.dart';
 import '../../models/PoseSubmittedGroup.dart';
+import '../../utils/UUID.dart';
 import '../pose_group_page/GroupImage.dart';
 import '../upload_pose_page/UploadPosePage.dart';
+import 'package:image/image.dart' as img;
 
 class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -34,19 +39,17 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
     List<Pose> poses = [];
     List<GroupImage> groupImages = [];
 
-    groups.forEach((group) {
-      group.poses.forEach((pose) {
+    await groups.forEach((group) async {
+      await group.poses.forEach((pose) async {
         if(pose.reviewStatus == Pose.STATUS_SUBMITTED) poses.add(pose);
       });
     });
 
     poses.sort();
 
-    poses.forEach((pose) async {
+    for(Pose pose in poses) {
       await groupImages.add(GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
-      await store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
-    });
-
+    }
 
     store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
   }
@@ -61,6 +64,7 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
     Pose submittedPose = action.groupImage.pose;
     Pose libraryPose = Pose(
       uid: submittedPose.uid,
+      // documentId: submittedPose.documentId,
       imageUrl: submittedPose.imageUrl,
       instagramUrl: submittedPose.instagramUrl,
       instagramName: submittedPose.instagramName,

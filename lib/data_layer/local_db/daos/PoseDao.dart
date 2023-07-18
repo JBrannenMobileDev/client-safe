@@ -57,6 +57,26 @@ class PoseDao extends Equatable{
     }
   }
 
+  static Future<Pose> getPoseByImageUrl(Pose pose) async{
+    if((await getAllSortedMostFrequent()).length > 0) {
+      final finder = Finder(filter: Filter.equals('imageUrl', pose.imageUrl));
+      final recordSnapshots = await _PoseStore.find(await _db, finder: finder);
+      // Making a List<profileId> out of List<RecordSnapshot>
+      List<Pose> poses = recordSnapshots.map((snapshot) {
+        final pose = Pose.fromMap(snapshot.value);
+        pose.id = snapshot.key;
+        return pose;
+      }).toList();
+      if(poses.isNotEmpty) {
+        return poses.elementAt(0);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
+  }
+
   static Future<Pose> getById(String poseDocumentId) async{
     if((await getAllSortedMostFrequent()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', poseDocumentId));

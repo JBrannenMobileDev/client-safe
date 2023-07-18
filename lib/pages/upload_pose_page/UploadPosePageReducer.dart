@@ -8,11 +8,19 @@ import 'UploadPosePageState.dart';
 final uploadPoseReducer = combineReducers<UploadPosePageState>([
   TypedReducer<UploadPosePageState, SetInstagramNameAction>(_setInstagramName),
   TypedReducer<UploadPosePageState, ClearStateAction>(_clearState),
+  TypedReducer<UploadPosePageState, SetResizedImageAction>(_setResizedImage),
 ]);
 
-UploadPosePageState _setInstagramName(UploadPosePageState previousState, SetInstagramNameAction action){
+UploadPosePageState _setResizedImage(UploadPosePageState previousState, SetResizedImageAction action){
   return previousState.copyWith(
-    instagramName: action.instagramName
+      resizedImage500: action.resizedImage500,
+      resizedImage250: action.resizedImage250,
+  );
+}
+
+UploadPosePageState _setInstagramName(UploadPosePageState previousState, SetInstagramNameAction action){
+  return UploadPosePageState.initial().copyWith(
+      instagramName: action.instagramName
   );
 }
 
