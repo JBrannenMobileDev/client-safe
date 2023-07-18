@@ -411,14 +411,14 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
                   ),
                   GestureDetector(
                     onTap: () {
-                      if(pageState.resizedImage500 != null && pageState.resizedImage250 != null) {
+                      if(pageState.resizedImage500 != null) {
                         if(NameController.text.isNotEmpty) {
                           if(isAtLeastOneCategorySelected()) {
                             if(tagsController.text.isNotEmpty) {
                               tagsController.text.replaceAll(' ', '');
                               List<String> tags = tagsController.text.split(",");
                               if(tags.length > 0) {
-                                pageState.onPoseSubmitted(pageState.resizedImage500, pageState.resizedImage250, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
+                                pageState.onPoseSubmitted(pageState.resizedImage500, NameController.text, promptController.text, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected
                                    , maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                                 EventSender().sendEvent(eventName: EventNames.BT_UPLOAD_SUBMITTED_POSE_SUCCESS);
                                 showSuccessAnimation();

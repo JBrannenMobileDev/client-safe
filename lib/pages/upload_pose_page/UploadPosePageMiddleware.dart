@@ -38,17 +38,11 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     final String uniqueFileName = Uuid().generateV4();
     final cmdLarge = img.Command()
       ..decodeImageFile(action.image.path)
-      ..copyResize(width: 1080)
+      ..copyResize(width: 2040)
       ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
     await cmdLarge.execute();
-    final cmdSmall = img.Command()
-      ..decodeImageFile(action.image.path)
-      ..copyResize(width: 350)
-      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg');
-    await cmdSmall.execute();
     XFile resizedImage500 = XFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
-    XFile resizedImage250 = XFile(appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg');
-    store.dispatch(SetResizedImageAction(store.state.uploadPosePageState, resizedImage500, resizedImage250));
+    store.dispatch(SetResizedImageAction(store.state.uploadPosePageState, resizedImage500));
   }
 
   void _setInstagramName(Store<AppState> store, SetInstagramNameAction action, NextDispatcher next) async {
@@ -73,7 +67,7 @@ class UploadPosePageMiddleware extends MiddlewareClass<AppState> {
     newPose.prompt = action.prompt;
     newPose = await PoseDao.insertOrUpdate(newPose);
     newPose.createDate = DateTime.now();
-    await FileStorage.saveSubmittedPoseImageFile(action.poseImage500.path, action.poseImage250.path, newPose);
+    await FileStorage.saveSubmittedPoseImageFile(action.poseImage500.path, newPose);
     await PoseSubmittedGroupDao.addNewSubmission(newPose);
   }
 

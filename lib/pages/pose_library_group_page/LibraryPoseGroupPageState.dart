@@ -125,7 +125,7 @@ class LibraryPoseGroupPageState{
       onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveSelectedImageToJobAction(store.state.libraryPoseGroupPageState, pose, job)),
       loadMoreImages: () {
         store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
-        store.dispatch(LoadMoreImagesAction(store.state.libraryPoseGroupPageState, store.state.libraryPoseGroupPageState.poseGroup));
+        store.dispatch(SortGroupImages(store.state.libraryPoseGroupPageState, store.state.libraryPoseGroupPageState.poseGroup));
       }
     );
   }

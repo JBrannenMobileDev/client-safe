@@ -97,7 +97,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
         store.dispatch(ClearLibraryGroupImagesAction(store.state.libraryPoseGroupPageState));
         store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
         store.dispatch(LoadLibraryPoseGroup(store.state.libraryPoseGroupPageState, poseGroup));
-        store.dispatch(LoadMoreImagesAction(store.state.libraryPoseGroupPageState, poseGroup));
+        store.dispatch(SortGroupImages(store.state.libraryPoseGroupPageState, poseGroup));
       },
       converter: (Store<AppState> store) => LibraryPoseGroupPageState.fromStore(store),
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
@@ -153,39 +153,17 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                           crossAxisSpacing: 16,
                           mainAxisSpacing: 16),
                       delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                        if(index >= pageState.poseImages.length - 1) {
-                          if(!pageState.isLoadingNewImages) {
-                            pageState.loadMoreImages();
-                          }
-                        }
                         return Container(
                           height: (MediaQuery.of(context).size.height),
                           child: _buildItem(context, index),
                         );
                       },
-                        childCount: pageState.poseImages == null ? 0 : pageState.poseImages.length, // 1000 list items
+                        childCount: pageState.sortedPoses == null ? 0 : pageState.sortedPoses.length, // 1000 list items
                       ),
                     ),
                   ),
                 ],
               ),
-              pageState.isLoadingNewImages ? Align(
-                alignment: Alignment.bottomCenter,
-                child: Container(
-                  margin: EdgeInsets.only(bottom: 48),
-                  height: 64,
-                  width: 64,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-
-                    borderRadius: new BorderRadius.circular(16.0),
-                  ),
-                  child: LoadingAnimationWidget.fourRotatingDots(
-                    color: Color(ColorConstants.getPeachLight()),
-                    size: 48,
-                  ),
-                ),
-              ) : SizedBox(),
             ],
           ),
       ),

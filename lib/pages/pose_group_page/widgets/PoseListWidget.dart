@@ -58,7 +58,7 @@ class PoseListWidget extends StatelessWidget {
                   borderRadius: new BorderRadius.circular(8.0),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: pageState.poseImages.isNotEmpty ? FileImage(File(pageState.poseImages.elementAt(index).file.path))
+                    image: pageState.poseImages.isNotEmpty ? ResizeImage(FileImage(File(pageState.poseImages.elementAt(index).file.path)), width: 650)
                         : AssetImage("assets/images/backgrounds/image_background.png"),
                   ),
                 ),

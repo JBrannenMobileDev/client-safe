@@ -82,18 +82,12 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
       final String uniqueFileName = Uuid().generateV4();
       final cmdLarge = img.Command()
         ..decodeImageFile(action.poseImages.elementAt(i).path)
-        ..copyResize(width: 1080)
+        ..copyResize(width: 2040)
         ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
       await cmdLarge.execute();
-      final cmdSmall = img.Command()
-        ..decodeImageFile(action.poseImages.elementAt(i).path)
-        ..copyResize(width: 350)
-        ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg');
-      await cmdSmall.execute();
 
       await FileStorage.savePoseImageFile(
           appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg',
-          appDocumentDirectory.path + '/$uniqueFileName' + '250.jpg',
           newPose,
           action.pageState.poseGroup
       );

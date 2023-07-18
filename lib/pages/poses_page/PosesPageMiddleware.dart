@@ -184,13 +184,6 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     return newPoses + oldPoses;
   }
 
-  Future _fetchSubmittedImage(List<Pose> submittedPoses, int startIndex, List<GroupImage> imageFiles, Store<AppState> store) async {
-    if(submittedPoses.length > startIndex) {
-      Pose pose = submittedPoses.elementAt(startIndex);
-
-    }
-  }
-
   void _fetchMyPoseGroups(Store<AppState> store, NextDispatcher next) async {
     List<PoseGroup> groups = await PoseGroupDao.getAllSortedMostFrequent();
     List<File> imageFiles = [];

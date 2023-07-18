@@ -79,10 +79,10 @@ class ClearLibraryGroupImagesAction {
   ClearLibraryGroupImagesAction(this.pageState);
 }
 
-class LoadMoreImagesAction {
+class SortGroupImages {
   final LibraryPoseGroupPageState pageState;
   final PoseLibraryGroup poseGroup;
-  LoadMoreImagesAction(this.pageState, this.poseGroup);
+  SortGroupImages(this.pageState, this.poseGroup);
 }
 
 class SetSortedPosesAction {

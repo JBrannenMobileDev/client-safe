@@ -14,7 +14,6 @@ final uploadPoseReducer = combineReducers<UploadPosePageState>([
 UploadPosePageState _setResizedImage(UploadPosePageState previousState, SetResizedImageAction action){
   return previousState.copyWith(
       resizedImage500: action.resizedImage500,
-      resizedImage250: action.resizedImage250,
   );
 }
 

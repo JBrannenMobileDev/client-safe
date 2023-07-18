@@ -52,7 +52,7 @@ class PoseGroupListWidget extends StatelessWidget {
                         image: DecorationImage(
                           fit: BoxFit.cover,
                           image: pageState.groupImages.isNotEmpty && pageState.groupImages.length > index && pageState.groupImages.elementAt(index).path.isNotEmpty
-                              ? FileImage(pageState.groupImages.elementAt(index))
+                              ? ResizeImage(FileImage(pageState.groupImages.elementAt(index)), width: 250)
                               : AssetImage("assets/images/backgrounds/image_background.png"),
                         ),
                       ),

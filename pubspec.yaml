@@ -87,6 +87,7 @@ dependencies:
   google_sign_in: ^6.0.2
   pin_code_fields: ^7.4.0
   image: ^4.0.17
+  cached_network_image: ^3.2.3
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git
@@ -264,6 +265,7 @@ flutter:
     - assets/images/icons/instagram_icon.png
     - assets/images/icons/image_review.png
     - assets/images/icons/rejected.png
+    - assets/images/icons/no_wifi.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png

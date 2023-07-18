@@ -35,8 +35,8 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     if(action is LoadLibraryPoseGroup) {
       _loadPoseImages(store, action);
     }
-    if(action is LoadMoreImagesAction) {
-      _loadMoreImages(store, action, next);
+    if(action is SortGroupImages) {
+      _sortGroupImages(store, action, next);
     }
     if(action is SaveSelectedPoseToMyPosesAction) {
       _saveSelectedPoseToMyPoseGroup(store, action);
@@ -102,34 +102,9 @@ class LibraryPoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     // store.dispatch(SetInstagramAction(store.state.libraryPoseGroupPageState, action.name, action.url));
   }
 
-  void _loadMoreImages(Store<AppState> store, LoadMoreImagesAction action, NextDispatcher next) async{
-    var lock = Lock();
-    lock.synchronized(() async {
-      List<GroupImage> poseImages = action.pageState.poseImages;
-      List<Pose> sortedPoses = action.pageState.sortedPoses;
-      if(sortedPoses.isEmpty) {
-        sortedPoses = _sortPoses(action.poseGroup.poses);
-        await store.dispatch(SetSortedPosesAction(action.pageState, sortedPoses));
-      }
-
-      final int PAGE_SIZE = 10;
-
-      int posesSize = poseImages.length;
-
-      for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
-        if(sortedPoses.length > startIndex) {
-          Pose pose = sortedPoses.elementAt(startIndex);
-          if(startIndex == (posesSize + PAGE_SIZE - 1)) {
-            await poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
-          } else {
-            poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, action.poseGroup)).path), pose: pose));
-          }
-        }
-      }
-
-      store.dispatch(SetLibraryPoseImagesToState(store.state.libraryPoseGroupPageState, poseImages));
-      store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, false));
-    });
+  void _sortGroupImages(Store<AppState> store, SortGroupImages action, NextDispatcher next) async{
+    List<Pose> sortedPoses = _sortPoses(action.poseGroup.poses);
+    await store.dispatch(SetSortedPosesAction(action.pageState, sortedPoses));
   }
 
   List<Pose> _sortPoses(List<Pose> poses) {

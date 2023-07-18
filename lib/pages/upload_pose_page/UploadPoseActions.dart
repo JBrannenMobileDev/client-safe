@@ -5,7 +5,6 @@ import 'UploadPosePageState.dart';
 class SubmitUploadedPoseAction{
   final UploadPosePageState pageState;
   final XFile poseImage500;
-  final XFile poseImage250;
   final String name;
   final String prompt;
   final List<String> tags;
@@ -18,7 +17,7 @@ class SubmitUploadedPoseAction{
   final bool newbornSelected;
   final bool proposalsSelected;
   final bool petsSelected;
-  SubmitUploadedPoseAction(this.pageState, this.poseImage500, this.poseImage250, this.name, this.prompt, this.tags, this.engagementsSelected, this.familiesSelected
+  SubmitUploadedPoseAction(this.pageState, this.poseImage500, this.name, this.prompt, this.tags, this.engagementsSelected, this.familiesSelected
       ,this.couplesSelected, this.portraitsSelected, this.maternitySelected, this.weddingsSelected, this.newbornSelected, this.proposalsSelected, this.petsSelected);
 }
 
@@ -31,8 +30,7 @@ class ResizeImageAction {
 class SetResizedImageAction {
   final UploadPosePageState pageState;
   final XFile resizedImage500;
-  final XFile resizedImage250;
-  SetResizedImageAction(this.pageState, this.resizedImage500, this.resizedImage250);
+  SetResizedImageAction(this.pageState, this.resizedImage500);
 }
 
 class SetInstagramNameAction {

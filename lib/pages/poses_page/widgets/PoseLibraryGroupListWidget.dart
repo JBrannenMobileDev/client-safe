@@ -1,5 +1,6 @@
 
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -51,27 +52,40 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                       height: 108.0,
                       width: 108.0,
                       margin: EdgeInsets.only(right: 16.0),
-                      decoration: BoxDecoration(
-                        borderRadius: new BorderRadius.circular(16.0),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: pageState.libraryGroupImages.isNotEmpty && pageState.libraryGroupImages.length > index && pageState.libraryGroupImages.elementAt(index).path.isNotEmpty
-                              ? FileImage(pageState.libraryGroupImages.elementAt(index))
-                              : AssetImage("assets/images/backgrounds/image_background.png"),
+                      child: CachedNetworkImage(
+                        fadeInDuration: Duration(milliseconds: 200),
+                        fadeOutDuration: Duration(milliseconds: 400),
+                        imageUrl: pageState.libraryGroups.elementAt(index).poses.elementAt(index).imageUrl,
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPeachLight()),
+                            borderRadius: new BorderRadius.circular(16.0),
+                            image: DecorationImage(
+                                image: ResizeImage(imageProvider, width: 250),
+                                fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
+                        placeholder: (context, url) => Container(
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPeachLight()),
+                              borderRadius: new BorderRadius.circular(16.0),
+                            )
+                        ),
+                        errorWidget: (context, url, error) => Container(
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: Color(ColorConstants.getPeachLight()),
+                            borderRadius: new BorderRadius.circular(16.0),
+                          ),
+                          child: Image.asset('assets/images/icons/no_wifi.png', color: Color(ColorConstants.getPeachDark()),),
+                        )
                       ),
                     ) : Container(
-                      height: 108.0,
-                      width: 108.0,
-                      margin: EdgeInsets.only(right: 16.0),
-                      decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPeachLight()),
-                        borderRadius: new BorderRadius.circular(16.0),
-                      ),
-                        child: LoadingAnimationWidget.fourRotatingDots(
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                          size: 32,
-                        ),
+                        decoration: BoxDecoration(
+                          color: Color(ColorConstants.getPeachLight()),
+                          borderRadius: new BorderRadius.circular(16.0),
+                        )
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 2.0),

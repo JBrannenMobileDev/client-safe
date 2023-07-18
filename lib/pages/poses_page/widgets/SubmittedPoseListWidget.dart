@@ -64,7 +64,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                   borderRadius: new BorderRadius.circular(8.0),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: pageState.submittedPoses.isNotEmpty ? FileImage(File(pageState.submittedPoses.elementAt(index).file.path))
+                    image: pageState.submittedPoses.isNotEmpty ? ResizeImage(FileImage(File(pageState.submittedPoses.elementAt(index).file.path)), width: 650)
                         : AssetImage("assets/images/backgrounds/image_background.png"),
                   ),
                 ),

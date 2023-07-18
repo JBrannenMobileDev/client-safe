@@ -65,7 +65,7 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                   borderRadius: new BorderRadius.circular(8.0),
                   image: DecorationImage(
                     fit: BoxFit.cover,
-                    image: pageState.searchResultsImages.isNotEmpty ? FileImage(File(pageState.searchResultsImages.elementAt(index).file.path))
+                    image: pageState.searchResultsImages.isNotEmpty ? ResizeImage(FileImage(File(pageState.searchResultsImages.elementAt(index).file.path)), width: 650)
                         : AssetImage("assets/images/backgrounds/image_background.png"),
                   ),
                 ),
