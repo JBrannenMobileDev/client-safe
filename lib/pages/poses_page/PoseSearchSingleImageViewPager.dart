@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/poses_page/widgets/SaveToJobBottomSheet.dart';
@@ -92,11 +93,19 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                     alignment: Alignment.bottomRight,
                     children: [
                       ClipRRect(
-                        borderRadius: new BorderRadius.circular(8.0),
-                        child: Image(
+                        borderRadius: new BorderRadius.circular(16.0),
+                        child: CachedNetworkImage(
+                          fadeOutDuration: Duration(milliseconds: 0),
+                          fadeInDuration: Duration(milliseconds: 200),
+                          imageUrl: pose.imageUrl,
                           fit: BoxFit.contain,
-                          image: pose.imageUrl.isNotEmpty ? FileImage(File(pose.imageUrl))
-                              : AssetImage("assets/images/backgrounds/image_background.png"),
+                          placeholder: (context, url) => Container(
+                              height: 116,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: new BorderRadius.circular(8),
+                              )
+                          ),
                         ),
                       ),
                       Container(

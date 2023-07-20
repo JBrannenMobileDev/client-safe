@@ -25,13 +25,9 @@ class PosesPageState{
   final Profile profile;
   final bool shouldClear;
   final bool isAdmin;
-  final bool isLoadingSearchImages;
-  final bool isLoadingSubmittedPoses;
-  final Function() loadMoreSubmittedImages;
   final Function(String) onSearchInputChanged;
   final Function(Pose, PoseGroup) onImageSaveSelected;
   final Function(Pose, Job) onImageAddedToJobSelected;
-  final Function() loadMoreImages;
 
   PosesPageState({
     @required this.poseGroups,
@@ -44,12 +40,8 @@ class PosesPageState{
     @required this.onImageSaveSelected,
     @required this.activeJobs,
     @required this.allLibraryPoses,
-    @required this.isLoadingSearchImages,
-    @required this.loadMoreImages,
     @required this.searchResultPoses,
     @required this.sortedSubmittedPoses,
-    @required this.isLoadingSubmittedPoses,
-    @required this.loadMoreSubmittedImages,
     @required this.profile,
     @required this.savedPoses,
   });
@@ -66,11 +58,9 @@ class PosesPageState{
     List<Job> activeJobs,
     List<Pose> allLibraryPoses,
     bool isLoadingSearchImages,
-    Function() loadMoreImages,
     List<Pose> searchResultPoses,
     List<Pose> sortedSubmittedPoses,
     bool isLoadingSubmittedPoses,
-    Function() loadMoreSubmittedImages,
     Profile profile,
     List<Pose> savedPoses,
   }){
@@ -85,11 +75,8 @@ class PosesPageState{
       onImageSaveSelected: onImageSaveSelected ?? this.onImageSaveSelected,
       activeJobs: activeJobs ?? this.activeJobs,
       allLibraryPoses: allLibraryPoses ?? this.allLibraryPoses,
-      isLoadingSearchImages: isLoadingSearchImages ?? this.isLoadingSearchImages,
-      loadMoreImages: loadMoreImages ?? this.loadMoreImages,
       searchResultPoses: searchResultPoses ?? this.searchResultPoses,
       sortedSubmittedPoses: sortedSubmittedPoses ?? this.sortedSubmittedPoses,
-      isLoadingSubmittedPoses: isLoadingSubmittedPoses ?? this.isLoadingSubmittedPoses,
       profile: profile ?? this.profile,
       savedPoses: savedPoses ?? this.savedPoses,
     );
@@ -106,12 +93,8 @@ class PosesPageState{
     onImageAddedToJobSelected: null,
     activeJobs: [],
     allLibraryPoses: [],
-    isLoadingSearchImages: false,
-    loadMoreImages: null,
     searchResultPoses: [],
     sortedSubmittedPoses: [],
-    isLoadingSubmittedPoses: false,
-    loadMoreSubmittedImages: null,
     profile: null,
     savedPoses: [],
   );
@@ -125,10 +108,8 @@ class PosesPageState{
       searchInput: store.state.posesPageState.searchInput,
       activeJobs: store.state.posesPageState.activeJobs,
       allLibraryPoses: store.state.posesPageState.allLibraryPoses,
-      isLoadingSearchImages: store.state.posesPageState.isLoadingSearchImages,
       searchResultPoses: store.state.posesPageState.searchResultPoses,
       sortedSubmittedPoses: store.state.posesPageState.sortedSubmittedPoses,
-      isLoadingSubmittedPoses: store.state.posesPageState.isLoadingSubmittedPoses,
       profile: store.state.posesPageState.profile,
       savedPoses: store.state.posesPageState.savedPoses,
       onSearchInputChanged: (searchInput) => store.dispatch(UpdateSearchInputAction(store.state.posesPageState, searchInput)),
@@ -148,12 +129,9 @@ class PosesPageState{
       onImageSaveSelected.hashCode ^
       onImageAddedToJobSelected.hashCode ^
       activeJobs.hashCode ^
-      isLoadingSearchImages.hashCode ^
       allLibraryPoses.hashCode ^
       searchResultPoses.hashCode ^
       sortedSubmittedPoses.hashCode ^
-      isLoadingSubmittedPoses.hashCode ^
-      loadMoreSubmittedImages.hashCode ^
       savedPoses.hashCode ^
       profile.hashCode;
 
@@ -171,11 +149,8 @@ class PosesPageState{
               onImageAddedToJobSelected == other.onImageAddedToJobSelected &&
               activeJobs == other.activeJobs &&
               allLibraryPoses == other.allLibraryPoses &&
-              isLoadingSearchImages == other.isLoadingSearchImages &&
               searchResultPoses == other.searchResultPoses &&
               profile == other.profile &&
               sortedSubmittedPoses == other.sortedSubmittedPoses &&
-              isLoadingSubmittedPoses == other.isLoadingSubmittedPoses &&
-              savedPoses == other.savedPoses &&
-              loadMoreSubmittedImages == other.loadMoreSubmittedImages;
+              savedPoses == other.savedPoses;
 }

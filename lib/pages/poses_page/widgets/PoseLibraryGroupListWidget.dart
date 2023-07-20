@@ -39,7 +39,7 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: Stack(
+          child: pageState.libraryGroups.elementAt(index).poses.length > 0 ? Stack(
             alignment: Alignment.centerRight,
             children: [
               Container(
@@ -48,7 +48,6 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    pageState.libraryGroups.elementAt(index).poses.length == 0 || (pageState.libraryGroupImages.isNotEmpty && pageState.libraryGroupImages.length > index && pageState.libraryGroupImages.elementAt(index).path.isNotEmpty) ?
                     Container(
                       height: 108.0,
                       width: 108.0,
@@ -59,11 +58,6 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                         resizeWidth: 350,
                         errorIconSize: 24,
                       ),
-                    ) : Container(
-                        decoration: BoxDecoration(
-                          color: Color(ColorConstants.getPeachLight()),
-                          borderRadius: new BorderRadius.circular(16.0),
-                        )
                     ),
                     Padding(
                       padding: EdgeInsets.only(bottom: 2.0),
@@ -87,7 +81,7 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ) : SizedBox(),
         ),
       ),
     );

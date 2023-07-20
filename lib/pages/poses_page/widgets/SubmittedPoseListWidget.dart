@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/widgets/SaveSubmittedPoseToMyPosesBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/widgets/DandyLightNetworkImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -59,40 +60,16 @@ class SubmittedPoseListWidget extends StatelessWidget {
       builder: (BuildContext context, PosesPageState pageState) =>
           Stack(
             children: [
-              pageState.submittedPoses.length > index ? Container(
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: pageState.submittedPoses.isNotEmpty ? ResizeImage(FileImage(File(pageState.submittedPoses.elementAt(index).file.path)), width: 650)
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
-                  ),
-                ),
-              ) : SizedBox(),
-              pageState.submittedPoses.length > index ? Container(
-                height: 150.0,
-                decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.circular(8.0),
-                    gradient: LinearGradient(
-                        begin: FractionalOffset.center,
-                        end: FractionalOffset.topCenter,
-                        colors: [
-                          Colors.transparent,
-                          Colors.black.withOpacity(0.05),
-                        ],
-                        stops: [
-                          0.0,
-                          1.0
-                        ])),
+              pageState.sortedSubmittedPoses.length > index ? DandyLightNetworkImage(
+                  pageState.sortedSubmittedPoses.elementAt(index).imageUrl,
               ) : SizedBox(),
               Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
-                  bannerColor: Color(pageState.submittedPoses.elementAt(index).pose.reviewStatus == Pose.STATUS_FEATURED ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
+                  bannerColor: Color(pageState.sortedSubmittedPoses.elementAt(index).reviewStatus == Pose.STATUS_FEATURED ? ColorConstants.getBlueDark() : ColorConstants.getPeachDark()),
                   child: Text(
-                    pageState.submittedPoses.elementAt(index).pose.reviewStatus,
+                    pageState.sortedSubmittedPoses.elementAt(index).reviewStatus == Pose.STATUS_REVIEWED ? "Submitted" : pageState.sortedSubmittedPoses.elementAt(index).reviewStatus,
                     style: TextStyle(
                       fontFamily: TextDandyLight.getFontFamily(),
                       fontSize: TextDandyLight.getFontSize(TextDandyLight.EXTRA_SMALL_TEXT),
@@ -101,7 +78,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                   ),
                 ),
               ),
-              pageState.submittedPoses.elementAt(index).pose.reviewStatus == Pose.STATUS_FEATURED ? GestureDetector(
+              pageState.sortedSubmittedPoses.elementAt(index).reviewStatus == Pose.STATUS_FEATURED ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);
                 },
@@ -115,7 +92,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                   ),
                 ),
               ) : SizedBox(),
-              pageState.submittedPoses.length > index ? job == null ? GestureDetector(
+              pageState.sortedSubmittedPoses.length > index ? job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);
                 },
@@ -134,7 +111,7 @@ class SubmittedPoseListWidget extends StatelessWidget {
                     ),
                   ),
               ) : SizedBox() : SizedBox(),
-              pageState.submittedPoses.length > index ?  job == null ? GestureDetector(
+              pageState.sortedSubmittedPoses.length > index ?  job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToMyPosesBottomSheet(context, index);
                 },
@@ -153,17 +130,6 @@ class SubmittedPoseListWidget extends StatelessWidget {
                     ),
                   ),
               ) : SizedBox() : SizedBox(),
-              pageState.submittedPoses.length <= index ? Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPeachLight()),
-                  borderRadius: new BorderRadius.circular(16.0),
-                ),
-                child: LoadingAnimationWidget.fourRotatingDots(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                  size: 32,
-                ),
-              ) : SizedBox()
             ],
           ),
     );

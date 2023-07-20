@@ -10,7 +10,6 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../models/Pose.dart';
-import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
 import '../upload_pose_page/UploadPosePage.dart';

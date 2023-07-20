@@ -50,7 +50,6 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
     Pose submittedPose = action.pose;
     Pose libraryPose = Pose(
       uid: submittedPose.uid,
-      // documentId: submittedPose.documentId,
       imageUrl: submittedPose.imageUrl,
       instagramUrl: submittedPose.instagramUrl,
       instagramName: submittedPose.instagramName,
@@ -101,12 +100,11 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
     updateSubmittedPoseState(store, Pose.STATUS_REVIEWED, action.pose, action.pageState.groups);
   }
 
-  void updateSubmittedPoseState(Store<AppState> store, String reviewStatus, Pose pose, List<PoseSubmittedGroup> groups) async {
+  void updateSubmittedPoseState(Store<AppState> store, String reviewStatus, Pose poseLocal, List<PoseSubmittedGroup> groups) async {
     PoseSubmittedGroup groupToUpdate = null;
     groups.forEach((group) {
       group.poses.forEach((pose) {
-        if(pose.documentId == pose.documentId) {
-          pose.reviewStatus = reviewStatus;
+        if(pose.documentId == poseLocal.documentId) {
           pose.reviewStatus = reviewStatus;
           groupToUpdate = group;
         }

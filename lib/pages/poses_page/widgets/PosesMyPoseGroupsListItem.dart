@@ -6,7 +6,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+import '../../../widgets/DandyLightNetworkImage.dart';
 
 
 class PosesMyPoseGroupsListItem extends StatelessWidget {
@@ -22,35 +23,21 @@ class PosesMyPoseGroupsListItem extends StatelessWidget {
           Stack(
             alignment: Alignment.center,
             children: [
-              Container(
+              pageState.poseGroups.elementAt(index).poses.length > 0 ? Container(
                 height: 101,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    pageState.poseGroups.elementAt(index).poses.length == 0 || (pageState.groupImages.isNotEmpty && pageState.groupImages.length > index && pageState.groupImages.elementAt(index).path.isNotEmpty) ?
                     Container(
                       height: 76.0,
                       width: 76.0,
                       decoration: BoxDecoration(
                         borderRadius: new BorderRadius.circular(16.0),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: pageState.groupImages.isNotEmpty && pageState.groupImages.length > index && pageState.groupImages.elementAt(index).path.isNotEmpty
-                              ? ResizeImage(FileImage(pageState.groupImages.elementAt(index)), width: 250)
-                              : AssetImage("assets/images/backgrounds/image_background.png"),
-                        ),
-                      ),
-                    ) : Container(
-                      height: 76.0,
-                      width: 76.0,
-                      decoration: BoxDecoration(
                         color: Color(ColorConstants.getPeachLight()),
-                        borderRadius: new BorderRadius.circular(16.0),
                       ),
-                      child: LoadingAnimationWidget.fourRotatingDots(
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        size: 32,
+                      child: DandyLightNetworkImage(
+                          pageState.poseGroups.elementAt(index).poses.first.imageUrl,
                       ),
                     ),
                     Padding(
@@ -64,7 +51,7 @@ class PosesMyPoseGroupsListItem extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
+              ) : SizedBox(),
             ],
           )
     );

@@ -85,8 +85,9 @@ class _UploadPosePageState extends State<UploadPosePage> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, UploadPosePageState>(
-    onInit: (store) {
-      store.dispatch(SetInstagramNameAction(store.state.uploadPosePageState, ''));
+    onInit: (store) async {
+      await store.dispatch(ClearStateAction(store.state.uploadPosePageState));
+      await store.dispatch(SetInstagramNameAction(store.state.uploadPosePageState, ''));
       NameController.text = profile.instagramName.isNotEmpty ? profile.instagramName : '';
       NameController.selection = TextSelection.collapsed(offset: NameController.text.length);
     },

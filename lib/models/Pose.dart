@@ -3,7 +3,7 @@ import 'package:dandylight/utils/UidUtil.dart';
 class Pose implements Comparable<Pose>{
   static const String STATUS_SUBMITTED = 'Submitted';
   static const String STATUS_FEATURED = 'Featured';
-  static const String STATUS_REVIEWED = 'Submitted ';
+  static const String STATUS_REVIEWED = 'Reviewed';
   static const String STATUS_NOT_A_SUBMISSION = 'Not a submission';
 
   int id;

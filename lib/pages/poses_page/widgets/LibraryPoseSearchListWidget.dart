@@ -4,18 +4,14 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/poses_page/widgets/SaveToMyPosesBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
-import '../../../utils/analytics/EventNames.dart';
-import '../../../utils/analytics/EventSender.dart';
+import '../../../widgets/DandyLightNetworkImage.dart';
 import '../../../widgets/TextDandyLight.dart';
 import 'SaveToJobBottomSheet.dart';
 
@@ -60,15 +56,8 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
       builder: (BuildContext context, PosesPageState pageState) =>
           Stack(
             children: [
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: pageState.searchResultsImages.isNotEmpty ? ResizeImage(FileImage(File(pageState.searchResultsImages.elementAt(index).file.path)), width: 650)
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
-                  ),
-                ),
+              DandyLightNetworkImage(
+                pageState.searchResultPoses.elementAt(index).imageUrl,
               ),
               Container(
                 height: 150.0,
@@ -87,7 +76,7 @@ class LibraryPoseSearchListWidget extends StatelessWidget {
                           1.0
                         ])),
               ),
-              pageState.searchResultsImages.elementAt(index).pose.isNewPose() ? Container(
+              pageState.searchResultPoses.elementAt(index).isNewPose() ? Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
