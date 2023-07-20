@@ -59,7 +59,6 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
     }
     if(action is SetSelectedDateAction || action is SetSelectedLocation){
       next(action);
-      // _fetchSunsetTime(store, action, next);
     }
     if(action is FetchNewJobDeviceEvents) {
       _fetchDeviceEventsForMonth(store, action, next);
@@ -81,6 +80,7 @@ class NewJobPageMiddleware extends MiddlewareClass<AppState> {
   void updateProfileWithOnBoardingComplete(Store<AppState> store, UpdateProfileToOnBoardingCompleteAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.onBoardingComplete = true;
+    await ProfileDao.update(profile);
     await ProfileDao.update(profile);
   }
 

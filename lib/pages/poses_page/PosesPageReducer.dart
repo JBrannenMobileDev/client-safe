@@ -10,11 +10,7 @@ final posesReducer = combineReducers<PosesPageState>([
   TypedReducer<PosesPageState, UpdateSearchInputAction>(_setSearchInput),
   TypedReducer<PosesPageState, SetActiveJobsToPosesPage>(_setActiveJobs),
   TypedReducer<PosesPageState, SetAllPosesAction>(_setAllPoses),
-  TypedReducer<PosesPageState, SetSearchResultPosesAction>(_setSearchResultPoses),
-  TypedReducer<PosesPageState, SetSubmittedPosesAction>(_setSubmittedPoses),
   TypedReducer<PosesPageState, ClearPoseSearchPageAction>(_clearState),
-  TypedReducer<PosesPageState, SetLoadingNewSearchResultImagesState>(_setLoadingState),
-  TypedReducer<PosesPageState, SetLoadingSubmittedPosesState>(_setLoadingSubmittedPosesState),
   TypedReducer<PosesPageState, SetSortedSubmittedPosesAction>(_setSortedSubmittedPoses),
   TypedReducer<PosesPageState, SetPosesProfileAction>(_setProfile),
   TypedReducer<PosesPageState, ClearPosesPageStateAction>(_clearPageState),
@@ -36,38 +32,13 @@ PosesPageState _setSortedSubmittedPoses(PosesPageState previousState, SetSortedS
   );
 }
 
-PosesPageState _setLoadingSubmittedPosesState(PosesPageState previousState, SetLoadingSubmittedPosesState action){
-  return previousState.copyWith(
-    isLoadingSubmittedPoses: action.isLoading,
-  );
-}
-
-PosesPageState _setLoadingState(PosesPageState previousState, SetLoadingNewSearchResultImagesState action){
-  return previousState.copyWith(
-    isLoadingSearchImages: action.isLoadingSearchImages,
-  );
-}
-
 PosesPageState _clearState(PosesPageState previousState, ClearPoseSearchPageAction action){
   return PosesPageState.initial();
-}
-
-PosesPageState _setSearchResultPoses(PosesPageState previousState, SetSearchResultPosesAction action){
-  return previousState.copyWith(
-    searchResultsImages: action.searchResultImages,
-  );
-}
-
-PosesPageState _setSubmittedPoses(PosesPageState previousState, SetSubmittedPosesAction action){
-  return previousState.copyWith(
-    submittedPoses: action.submittedPoses,
-  );
 }
 
 PosesPageState _setAllPoses(PosesPageState previousState, SetAllPosesAction action){
   return previousState.copyWith(
     allLibraryPoses: action.allPoses,
-    searchResultsImages: action.allImages,
   );
 }
 
@@ -119,7 +90,6 @@ PosesPageState _setSearchInput(PosesPageState previousState, UpdateSearchInputAc
   return previousState.copyWith(
     searchInput: action.searchInput,
     searchResultPoses: action.searchInput.isNotEmpty ? searchResultsPoses : [],
-    searchResultsImages: [],
   );
 }
 
@@ -146,14 +116,12 @@ PosesPageState _setIsAdmin(PosesPageState previousState, SetIsAdminAction action
 PosesPageState _setPoseGroups(PosesPageState previousState, SetPoseGroupsAction action){
   return previousState.copyWith(
       poseGroups: action.poseGroups,
-      groupImages: action.imageFiles,
   );
 }
 
 PosesPageState _setPoseLibraryGroups(PosesPageState previousState, SetPoseLibraryGroupsAction action){
   return previousState.copyWith(
     libraryGroups: action.poseGroups,
-    libraryGroupImages: action.imageFiles,
   );
 }
 

@@ -102,6 +102,6 @@ class Pose implements Comparable<Pose>{
   @override
   int compareTo(Pose other) {
     if(this.createDate.isAtSameMomentAs(other.createDate)) return 0;
-    return this.createDate.isBefore(other.createDate) ? -1 : 1;
+    return this.createDate.isBefore(other.createDate) ? 1 : -1;
   }
 }

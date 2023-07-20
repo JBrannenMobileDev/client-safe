@@ -29,7 +29,7 @@ import '../upload_pose_page/UploadPosePage.dart';
 import 'DecisionPage.dart';
 
 class DecisionPager extends StatefulWidget {
-  final List<GroupImage> poses;
+  final List<Pose> poses;
   final int index;
 
   DecisionPager(this.poses, this.index);
@@ -45,9 +45,9 @@ class _DecisionPagerState extends State<DecisionPager> {
   final int pageCount;
   int currentPageIndex;
   final PageController controller;
-  final List<GroupImage> poses;
+  final List<Pose> poses;
   final List<Widget> pages = [];
-  GroupImage poseGroup;
+  Pose pose;
 
   final tagsController = TextEditingController();
   final FocusNode _tagsFocusNode = FocusNode();
@@ -85,7 +85,7 @@ class _DecisionPagerState extends State<DecisionPager> {
   getCurrentPage(int page) {
     setState(() {
       currentPageIndex = page;
-      poseGroup = poses.elementAt(currentPageIndex);
+      pose = poses.elementAt(currentPageIndex);
     });
   }
 

@@ -1,21 +1,13 @@
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/PoseSubmittedGroupDao.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesActions.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 
-import '../../data_layer/repositories/FileStorage.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseLibraryGroup.dart';
 import '../../models/PoseSubmittedGroup.dart';
-import '../../utils/UUID.dart';
-import '../pose_group_page/GroupImage.dart';
 import '../upload_pose_page/UploadPosePage.dart';
-import 'package:image/image.dart' as img;
 
 class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -28,40 +20,34 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
       rejectPose(store, action, next);
     }
     if(action is LoadPosesToReviewAction) {
-      _loadPosesToReview(store, action, next);
+      _loadPosesToReview(store);
     }
   }
 
-  void _loadPosesToReview(Store<AppState> store, LoadPosesToReviewAction action, NextDispatcher next) async {
+  void _loadPosesToReview(Store<AppState> store) async {
     List<PoseSubmittedGroup> groups = await PoseSubmittedGroupDao.getAllSortedMostFrequent();
     store.dispatch(SetGroupsToStateAction(store.state.reviewPosesPageState, groups));
 
     List<Pose> poses = [];
-    List<GroupImage> groupImages = [];
 
     await groups.forEach((group) async {
       await group.poses.forEach((pose) async {
-        if(pose.reviewStatus == Pose.STATUS_SUBMITTED) poses.add(pose);
+        if(pose.reviewStatus == Pose.STATUS_SUBMITTED && pose.imageUrl != null && pose.imageUrl.isNotEmpty) poses.add(pose);
       });
     });
 
     poses.sort();
-
-    for(Pose pose in poses) {
-      await groupImages.add(GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
-    }
-
-    store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses, groupImages));
+    store.dispatch(SetPoseImagesToState(store.state.reviewPosesPageState, poses));
   }
 
   void _approvePose(Store<AppState> store, ApprovePoseAction action, NextDispatcher next) async {
     //update submitted pose
-    updateSubmittedPoseState(store, Pose.STATUS_FEATURED, action.groupImage, action.pageState.groups);
+    updateSubmittedPoseState(store, Pose.STATUS_FEATURED, action.pose, action.pageState.groups);
 
     //create and save new library pose
     List<PoseLibraryGroup> libraryGroups = await PoseLibraryGroupDao.getAllSortedMostFrequent();
     List<PoseLibraryGroup> libraryGroupsToUpdate = [];
-    Pose submittedPose = action.groupImage.pose;
+    Pose submittedPose = action.pose;
     Pose libraryPose = Pose(
       uid: submittedPose.uid,
       // documentId: submittedPose.documentId,
@@ -112,22 +98,22 @@ class ReviewPosesPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void rejectPose(Store<AppState> store, RejectPoseAction action, NextDispatcher next) async {
-    updateSubmittedPoseState(store, Pose.STATUS_REVIEWED, action.groupImage, action.pageState.groups);
+    updateSubmittedPoseState(store, Pose.STATUS_REVIEWED, action.pose, action.pageState.groups);
   }
 
-  void updateSubmittedPoseState(Store<AppState> store, String reviewStatus, GroupImage groupImage, List<PoseSubmittedGroup> groups) async {
+  void updateSubmittedPoseState(Store<AppState> store, String reviewStatus, Pose pose, List<PoseSubmittedGroup> groups) async {
     PoseSubmittedGroup groupToUpdate = null;
     groups.forEach((group) {
       group.poses.forEach((pose) {
-        if(pose.documentId == groupImage.pose.documentId) {
+        if(pose.documentId == pose.documentId) {
           pose.reviewStatus = reviewStatus;
-          groupImage.pose.reviewStatus = reviewStatus;
+          pose.reviewStatus = reviewStatus;
           groupToUpdate = group;
         }
       });
     });
 
-    PoseSubmittedGroupDao.update(groupToUpdate);
-    store.dispatch(UpdateGroupImageAction(store.state.reviewPosesPageState, groupImage));
+    await PoseSubmittedGroupDao.update(groupToUpdate);
+    _loadPosesToReview(store);
   }
 }

@@ -85,7 +85,6 @@ class _PosesPageState extends State<PosesPage> {
     return StoreConnector<AppState, PosesPageState>(
       onInit: (store) async {
         store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
-        store.dispatch(LoadMoreSubmittedImagesAction(store.state.posesPageState));
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
       builder: (BuildContext context, PosesPageState pageState) =>
@@ -212,7 +211,7 @@ class _PosesPageState extends State<PosesPage> {
                   },
                     childCount: selectedIndex == 0 ? pageState.poseGroups.length : pageState.libraryGroups.length, // 1000 list items
                   ),
-                ) : pageState.submittedPoses.length > 0 ? SliverPadding(
+                ) : pageState.sortedSubmittedPoses.length > 0 ? SliverPadding(
                   padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),
                   sliver: SliverGrid(
                     gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -228,7 +227,7 @@ class _PosesPageState extends State<PosesPage> {
                         child: _buildItem(context, index),
                       );
                     },
-                      childCount: pageState.submittedPoses == null ? 0 : pageState.submittedPoses.length,
+                      childCount: pageState.sortedSubmittedPoses == null ? 0 : pageState.sortedSubmittedPoses.length,
                     ),
                   ),
                 ) : SliverList(
@@ -250,7 +249,7 @@ class _PosesPageState extends State<PosesPage> {
                 SliverList(
                   delegate: new SliverChildListDelegate(
                     <Widget>[
-                      selectedIndex == 0 && pageState.groupImages.length == 0 ? Padding(
+                      selectedIndex == 0 && pageState.savedPoses.length == 0 ? Padding(
                         padding: EdgeInsets.only(
                             left: 32.0, top: 48.0, right: 32.0),
                         child: TextDandyLight(
@@ -278,20 +277,20 @@ class _PosesPageState extends State<PosesPage> {
               if(job == null) {
                 Navigator.of(context).push(
                   new MaterialPageRoute(builder: (context) => PoseSearchSingleImageViewPager(
-                    pageState.submittedPoses,
+                    pageState.sortedSubmittedPoses,
                     index,
                     'Submitted',
                   )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.searchResultsImages.elementAt(index).pose, job);
+                pageState.onImageAddedToJobSelected(pageState.searchResultPoses.elementAt(index), job);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);
               }
 
               if(job != null) {
-                pageState.onImageAddedToJobSelected(pageState.submittedPoses.elementAt(index).pose, job);
+                pageState.onImageAddedToJobSelected(pageState.sortedSubmittedPoses.elementAt(index), job);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB_FROM_JOB);

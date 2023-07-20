@@ -6,6 +6,7 @@ import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/widgets/DandyLightNetworkImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -65,34 +66,8 @@ class LibraryPoseListWidget extends StatelessWidget {
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           Stack(
             children: [
-              pageState.sortedPoses.length > index ? CachedNetworkImage( //TODO turn this into a reusable widget.
-                fadeInDuration: Duration(milliseconds: 200),
-                fadeOutDuration: Duration(milliseconds: 400),
-                imageUrl: pageState.sortedPoses.elementAt(index).imageUrl,
-                imageBuilder: (context, imageProvider) => Container(
-                  decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPeachLight()),
-                    borderRadius: new BorderRadius.circular(8.0),
-                    image: DecorationImage(
-                      image: ResizeImage(imageProvider, width: 650),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                placeholder: (context, url) => Container(
-                  decoration: BoxDecoration(
-                    color: Color(ColorConstants.getPeachLight()),
-                    borderRadius: new BorderRadius.circular(8.0),
-                  )
-                ),
-                  errorWidget: (context, url, error) => Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Color(ColorConstants.getPeachLight()),
-                      borderRadius: new BorderRadius.circular(8.0),
-                    ),
-                    child: Image.asset('assets/images/icons/no_wifi.png', color: Color(ColorConstants.getPrimaryWhite()), width: 44,),
-                  )
+              pageState.sortedPoses.length > index ? DandyLightNetworkImage(
+                pageState.sortedPoses.elementAt(index).imageUrl
               ) : SizedBox(),
               pageState.sortedPoses.length > index ? Container(
                 height: 150.0,

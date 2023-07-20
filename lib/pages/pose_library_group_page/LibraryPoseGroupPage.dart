@@ -58,7 +58,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
               if(job == null) {
                 Navigator.of(context).push(
                   new MaterialPageRoute(builder: (context) => LibrarySingleImageViewPager(
-                      pageState.poseImages,
+                      pageState.sortedPoses,
                       index,
                       pageState.poseGroup.groupName
                   )),

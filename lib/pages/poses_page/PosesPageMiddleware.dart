@@ -23,7 +23,6 @@ import '../../models/PoseGroup.dart';
 import '../../utils/AdminCheckUtil.dart';
 import '../../utils/JobUtil.dart';
 import '../job_details_page/JobDetailsActions.dart';
-import '../pose_group_page/GroupImage.dart';
 
 class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -41,12 +40,6 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     if(action is FetchMyPoseGroupsAction) {
       _fetchMyPoseGroups(store, next);
     }
-    if(action is LoadMorePoseImagesAction) {
-      loadMoreImages(store, next);
-    }
-    if(action is LoadMoreSubmittedImagesAction) {
-      loadAllSubmittedImages(store, next, action);
-    }
   }
 
   void _saveSelectedPoseToJob(Store<AppState> store, SaveImageToJobAction action) async {
@@ -60,9 +53,9 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
 
   void _saveSelectedPoseToMyPoseGroup(Store<AppState> store, SavePoseToMyPosesAction action) async {
     PoseGroup groupToUpdate = action.selectedGroup;
-    groupToUpdate.poses.add(action.selectedImage.pose);
-    action.selectedImage.pose.numOfSaves++;
-    await PoseDao.update(action.selectedImage.pose);
+    groupToUpdate.poses.add(action.selectedImage);
+    action.selectedImage.numOfSaves++;
+    await PoseDao.update(action.selectedImage);
     await PoseGroupDao.update(groupToUpdate);
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
   }
@@ -72,136 +65,44 @@ class PosesPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(SetIsAdminAction(store.state.posesPageState, AdminCheckUtil.isAdmin(profile)));
     _fetchMyPoseGroups(store, next);
     _fetchLibraryPoseGroups(store, next);
+    loadAllSubmittedImages(store);
     store.dispatch(SetActiveJobsToPosesPage(store.state.posesPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
     store.dispatch(SetPosesProfileAction(store.state.posesPageState, profile));
   }
 
   void _fetchLibraryPoseGroups(Store<AppState> store, NextDispatcher next) async {
     List<PoseLibraryGroup> groups = await PoseLibraryGroupDao.getAllSortedMostFrequent();
-    List<File> imageFiles = [];
-    store.dispatch(SetPoseLibraryGroupsAction(store.state.posesPageState, groups, imageFiles));
-
-    for(int index=0; index < groups.length; index++) {
-      Pose poseForGroupImage = null;
-      groups.elementAt(index).poses.forEach((pose) async{
-        if(poseForGroupImage == null) poseForGroupImage = pose;
-        if(pose.numOfSaves > poseForGroupImage.numOfSaves) poseForGroupImage = pose;
-      });
-
-      if(groups.elementAt(index).poses.isNotEmpty && poseForGroupImage.imageUrl?.isNotEmpty == true){
-        imageFiles.insert(index, await FileStorage.getPoseLibraryImageFile(poseForGroupImage, groups.elementAt(index)));
-        next(SetPoseLibraryGroupsAction(store.state.posesPageState, groups, imageFiles));
-      } else {
-        imageFiles.insert(index, File(''));
-      }
-    }
+    store.dispatch(SetPoseLibraryGroupsAction(store.state.posesPageState, groups));
 
     List<Pose> allPoses = [];
     for(PoseLibraryGroup group in groups) {
       allPoses.addAll(group.poses);
     }
 
-    store.dispatch(SetAllPosesAction(store.state.posesPageState, allPoses, []));
+    store.dispatch(SetAllPosesAction(store.state.posesPageState, allPoses));
   }
 
-  void loadMoreImages(Store<AppState> store, NextDispatcher next) async {
-    var lock = Lock();
-    lock.synchronized(() async {
-      if(!store.state.posesPageState.isLoadingSearchImages) {
-        store.dispatch(SetLoadingNewSearchResultImagesState(store.state.posesPageState, true));
-        List<Pose> libraryPoses = _sortPoses(store.state.posesPageState.searchResultPoses);
-
-        List<GroupImage> imageFiles = store.state.posesPageState.searchResultsImages;
-
-        final int PAGE_SIZE = 10;
-
-        int posesSize = imageFiles.length;
-
-        final List<Future<dynamic>> featureList = <Future<dynamic>>[];
-        for(int startIndex = posesSize; startIndex < posesSize + PAGE_SIZE; startIndex++) {
-          featureList.add(_fetchImage(libraryPoses, startIndex, imageFiles, store));
-        }
-        await Future.wait<dynamic>(featureList);
-
-        store.dispatch(SetLoadingNewSearchResultImagesState(store.state.posesPageState, false));
-      }
-    });
-  }
-
-  void loadAllSubmittedImages(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action) async {
+  void loadAllSubmittedImages(Store<AppState> store) async {
     (await PoseSubmittedGroupDao.getStream(UidUtil().getUid())).listen((invoiceSnapshots) async {
       PoseSubmittedGroup submittedGroup = null;
       for(RecordSnapshot invoiceSnapshot in invoiceSnapshots) {
         submittedGroup = (PoseSubmittedGroup.fromMap(invoiceSnapshot.value));
       }
       if(submittedGroup != null) {
-        processPoses(store, next, action, submittedGroup);
+        processPoses(store, submittedGroup);
       }
     });
   }
 
-  void processPoses(Store<AppState> store, NextDispatcher next, LoadMoreSubmittedImagesAction action, PoseSubmittedGroup submittedPosesGroup) async {
+  void processPoses(Store<AppState> store, PoseSubmittedGroup submittedPosesGroup) async {
     List<Pose> submittedPoses = submittedPosesGroup.poses;
     submittedPoses.sort();
     store.dispatch(SetSortedSubmittedPosesAction(store.state.posesPageState, submittedPosesGroup.poses));
-    store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, true));
-
-    var lock = Lock();
-    lock.synchronized(() async {
-      List<GroupImage> imageFiles = [];
-      await submittedPoses.forEach((pose) async {
-        await imageFiles.insert(0, GroupImage(file: XFile((await FileStorage.getSubmittedPoseImageFile(pose)).path), pose: pose));
-        store.dispatch(SetSubmittedPosesAction(store.state.posesPageState, imageFiles));
-      });
-
-      store.dispatch(SetLoadingSubmittedPosesState(store.state.posesPageState, false));
-    });
-  }
-
-  Future _fetchImage(List<Pose> libraryPoses, int startIndex, List<GroupImage> imageFiles, Store<AppState> store) async {
-    if(libraryPoses.length > startIndex) {
-      Pose pose = libraryPoses.elementAt(startIndex);
-      await imageFiles.add(GroupImage(file: XFile((await FileStorage.getPoseLibraryImageFile(pose, null)).path), pose: pose));
-      store.dispatch(SetSearchResultPosesAction(store.state.posesPageState, imageFiles));
-    }
-  }
-
-  List<Pose> _sortPoses(List<Pose> poses) {
-    List<Pose> newPoses = [];
-    List<Pose> oldPoses = [];
-
-    for(Pose pose in poses) {
-      if(pose.isNewPose()){
-        newPoses.add(pose);
-      } else {
-        oldPoses.add(pose);
-      }
-    }
-
-    newPoses.sort();
-    oldPoses.sort();
-
-    return newPoses + oldPoses;
   }
 
   void _fetchMyPoseGroups(Store<AppState> store, NextDispatcher next) async {
     List<PoseGroup> groups = await PoseGroupDao.getAllSortedMostFrequent();
-    List<File> imageFiles = [];
-    store.dispatch(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
-
-    for(int index=0; index < groups.length; index++) {
-      List<Pose> poses = groups.elementAt(index).poses;
-      if(poses.isNotEmpty && poses.first.imageUrl?.isNotEmpty == true){
-        if(poses.first.isLibraryPose()) {
-          imageFiles.insert(index, await FileStorage.getPoseImageFile(poses.first, groups.elementAt(index), true, null));
-        } else {
-          imageFiles.insert(index, await FileStorage.getPoseImageFile(poses.first, groups.elementAt(index), false, null));
-        }
-      } else {
-        imageFiles.insert(index, File(''));
-      }
-      next(SetPoseGroupsAction(store.state.posesPageState, groups, imageFiles));
-    }
+    store.dispatch(SetPoseGroupsAction(store.state.posesPageState, groups));
   }
 }
 

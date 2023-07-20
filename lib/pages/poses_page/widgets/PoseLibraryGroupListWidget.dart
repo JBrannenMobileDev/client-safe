@@ -12,6 +12,7 @@ import '../../../models/Job.dart';
 import '../../../utils/ColorConstants.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
+import '../../../widgets/DandyLightNetworkImage.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/PoseGroupPage.dart';
 import '../../pose_library_group_page/LibraryPoseGroupPage.dart';
@@ -52,34 +53,11 @@ class PoseLibraryGroupListWidget extends StatelessWidget {
                       height: 108.0,
                       width: 108.0,
                       margin: EdgeInsets.only(right: 16.0),
-                      child: CachedNetworkImage(
-                        fadeInDuration: Duration(milliseconds: 200),
-                        fadeOutDuration: Duration(milliseconds: 400),
-                        imageUrl: pageState.libraryGroups.elementAt(index).poses.elementAt(index).imageUrl,
-                        imageBuilder: (context, imageProvider) => Container(
-                          decoration: BoxDecoration(
-                            color: Color(ColorConstants.getPeachLight()),
-                            borderRadius: new BorderRadius.circular(16.0),
-                            image: DecorationImage(
-                                image: ResizeImage(imageProvider, width: 250),
-                                fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        placeholder: (context, url) => Container(
-                            decoration: BoxDecoration(
-                              color: Color(ColorConstants.getPeachLight()),
-                              borderRadius: new BorderRadius.circular(16.0),
-                            )
-                        ),
-                        errorWidget: (context, url, error) => Container(
-                          alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Color(ColorConstants.getPeachLight()),
-                            borderRadius: new BorderRadius.circular(16.0),
-                          ),
-                          child: Image.asset('assets/images/icons/no_wifi.png', color: Color(ColorConstants.getPeachDark()),),
-                        )
+                      child: DandyLightNetworkImage(
+                        pageState.libraryGroups.elementAt(index).poses.elementAt(index).imageUrl,
+                        borderRadius: 16,
+                        resizeWidth: 350,
+                        errorIconSize: 24,
                       ),
                     ) : Container(
                         decoration: BoxDecoration(

@@ -22,15 +22,13 @@ class ClearPoseSearchPageAction {
 class SetPoseGroupsAction{
   final PosesPageState pageState;
   final List<PoseGroup> poseGroups;
-  final List<File> imageFiles;
-  SetPoseGroupsAction(this.pageState, this.poseGroups, this.imageFiles);
+  SetPoseGroupsAction(this.pageState, this.poseGroups);
 }
 
 class SetPoseLibraryGroupsAction{
   final PosesPageState pageState;
   final List<PoseLibraryGroup> poseGroups;
-  final List<File> imageFiles;
-  SetPoseLibraryGroupsAction(this.pageState, this.poseGroups, this.imageFiles);
+  SetPoseLibraryGroupsAction(this.pageState, this.poseGroups);
 }
 
 class SetIsAdminAction {
@@ -47,7 +45,7 @@ class UpdateSearchInputAction {
 
 class SavePoseToMyPosesAction {
   final PosesPageState pageState;
-  final GroupImage selectedImage;
+  final Pose selectedImage;
   final PoseGroup selectedGroup;
   SavePoseToMyPosesAction(this.pageState, this.selectedImage, this.selectedGroup);
 }
@@ -79,8 +77,7 @@ class SetPosesProfileAction {
 class SetAllPosesAction {
   final PosesPageState pageState;
   final List<Pose> allPoses;
-  final List<GroupImage> allImages;
-  SetAllPosesAction(this.pageState, this.allPoses, this.allImages);
+  SetAllPosesAction(this.pageState, this.allPoses);
 }
 
 class SetSearchResultPosesAction {
@@ -93,28 +90,6 @@ class SetSubmittedPosesAction {
   final PosesPageState pageState;
   final List<GroupImage> submittedPoses;
   SetSubmittedPosesAction(this.pageState, this.submittedPoses);
-}
-
-class SetLoadingNewSearchResultImagesState {
-  final PosesPageState pageState;
-  final bool isLoadingSearchImages;
-  SetLoadingNewSearchResultImagesState(this.pageState, this.isLoadingSearchImages);
-}
-
-class LoadMorePoseImagesAction {
-  final PosesPageState pageState;
-  LoadMorePoseImagesAction(this.pageState);
-}
-
-class SetLoadingSubmittedPosesState {
-  final PosesPageState pageState;
-  final bool isLoading;
-  SetLoadingSubmittedPosesState(this.pageState, this.isLoading);
-}
-
-class LoadMoreSubmittedImagesAction {
-  final PosesPageState pageState;
-  LoadMoreSubmittedImagesAction(this.pageState);
 }
 
 class SetSortedSubmittedPosesAction {
