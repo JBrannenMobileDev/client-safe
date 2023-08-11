@@ -22,9 +22,11 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
+import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
@@ -44,6 +46,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
       await _fetchSubscriptionState(store, next);
+      await _checkForAppUpdate(store);
     }
     if(action is SetNotificationToSeen) {
       _setNotificationToSeen(store, action);
@@ -106,6 +109,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.shouldShowRestoreSubscription = false;
     ProfileDao.update(profile);
+  }
+
+  Future<void> _checkForAppUpdate(Store<AppState> store) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String deviceVersion = packageInfo.version;
+    String highestVersion = EnvironmentUtil().getCurrentBuildNumber();
+    bool showAppUpdateDialog = highestVersion != deviceVersion;
+
   }
 
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
