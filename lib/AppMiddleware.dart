@@ -243,7 +243,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LoadPoseImagesFromStorage>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSelectedPoses>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedImageToJobFromPosesAction>(PoseGroupPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveLibraryPosesToGroupAction>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadLibraryPoseGroup>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SortGroupImages>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedPoseToMyPosesAction>(LibraryPoseGroupPageMiddleware()));

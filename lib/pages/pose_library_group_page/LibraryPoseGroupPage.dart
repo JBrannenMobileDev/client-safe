@@ -1,18 +1,12 @@
-import 'dart:async';
-
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
-import 'package:dandylight/pages/pose_library_group_page/widgets/AddLibraryPhotoBottomSheet.dart';
 import 'package:dandylight/pages/pose_library_group_page/widgets/LibraryPoseListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
 import '../../models/Job.dart';
@@ -42,8 +36,6 @@ class LibraryPoseGroupPage extends StatefulWidget {
 class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
     with TickerProviderStateMixin {
   final PoseLibraryGroup poseGroup;
-  final ScrollController _controller = ScrollController();
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
   final Job job;
   final bool comingFromDetails;
 
@@ -64,7 +56,7 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                   )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
+                pageState.onImageAddedToJobSelected(pageState.sortedPoses.elementAt(index), job);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE_TO_JOB_FROM_JOB);
@@ -75,27 +67,11 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
     );
   }
 
-  void _showAddImageBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: true,
-      enableDrag: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return AddLibraryPhotoBottomSheet();
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return StoreConnector<AppState, LibraryPoseGroupPageState>(
       onInit: (store) async {
         store.dispatch(ClearLibraryPoseGroupState(store.state.libraryPoseGroupPageState));
-        store.dispatch(ClearLibraryGroupImagesAction(store.state.libraryPoseGroupPageState));
-        store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
         store.dispatch(LoadLibraryPoseGroup(store.state.libraryPoseGroupPageState, poseGroup));
         store.dispatch(SortGroupImages(store.state.libraryPoseGroupPageState, poseGroup));
       },
@@ -127,22 +103,6 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                         color: Color(ColorConstants.getPeachDark()),
                       ),
                     ),
-                    actions: <Widget>[
-                      pageState.isAdmin ? GestureDetector(
-                        onTap: () {
-                          _showAddImageBottomSheet(context);
-                        },
-                        child: Container(
-                          margin: EdgeInsets.only(right: 26.0),
-                          height: 28.0,
-                          width: 28.0,
-                          child: Image.asset(
-                            'assets/images/icons/plus.png',
-                            color: Color(ColorConstants.getPeachDark()),
-                          ),
-                        ),
-                      ) : SizedBox(),
-                    ],
                   ),
                   SliverPadding(
                     padding: EdgeInsets.only(left: 16, top: 16, right: 16, bottom: 64),
@@ -158,11 +118,12 @@ class _LibraryPoseGroupPageState extends State<LibraryPoseGroupPage>
                           child: _buildItem(context, index),
                         );
                       },
-                        childCount: pageState.sortedPoses == null ? 0 : pageState.sortedPoses.length, // 1000 list items
+                        childCount: pageState.sortedPoses.length, // 1000 list items
                       ),
                     ),
                   ),
                 ],
+                cacheExtent: 3500,
               ),
             ],
           ),

@@ -15,9 +15,7 @@ import '../../models/Pose.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
-import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../pose_group_page/GroupImage.dart';
 import 'LibraryPoseGroupPageState.dart';
 
 class LibrarySingleImageViewPager extends StatefulWidget {

@@ -16,14 +16,10 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
-import '../../../utils/analytics/EventNames.dart';
-import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
-import '../../pose_group_page/GroupImage.dart';
 import '../LibraryPoseGroupPageState.dart';
 import 'SaveToJobBottomSheet.dart';
 import 'SaveToMyPosesBottomSheet.dart';
-import 'dart:math' as math;
 
 class LibraryPoseListWidget extends StatelessWidget {
   final int index;

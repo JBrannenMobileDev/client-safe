@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 
+import '../../widgets/DandyLightNetworkImage.dart';
+
 
 class JobPoseListWidget extends StatelessWidget {
   final int index;
@@ -24,11 +26,10 @@ class JobPoseListWidget extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   borderRadius: new BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: pageState.poseImages.isNotEmpty ? FileImage(File(pageState.poseImages.elementAt(index).file.path))
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
-                  ),
+                  color: Color(ColorConstants.getPeachLight())
+                ),
+                child: DandyLightNetworkImage(
+                  pageState.job.poses.elementAt(index).imageUrl
                 ),
               ),
               Container(

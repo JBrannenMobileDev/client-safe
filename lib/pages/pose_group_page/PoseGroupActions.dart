@@ -10,8 +10,8 @@ import 'GroupImage.dart';
 
 class DeletePoseAction{
   final PoseGroupPageState pageState;
-  final GroupImage groupImage;
-  DeletePoseAction(this.pageState, this.groupImage);
+  final Pose pose;
+  DeletePoseAction(this.pageState, this.pose);
 }
 
 class DeletePoseGroupSelected{
@@ -57,7 +57,7 @@ class LoadPoseImagesFromStorage{
 
 class SetPoseImagesToState{
   final PoseGroupPageState pageState;
-  final List<GroupImage> poseImages;
+  final List<Pose> poseImages;
   SetPoseImagesToState(this.pageState, this.poseImages);
 }
 

@@ -11,9 +11,7 @@ class FetchLocationsAction{
 class SetLocationsAction{
   final LocationsPageState pageState;
   final List<Location> locations;
-  final List<File> imageFiles;
-  final bool finishedLoading;
-  SetLocationsAction(this.pageState, this.locations, this.imageFiles, this.finishedLoading);
+  SetLocationsAction(this.pageState, this.locations);
 }
 
 class DrivingDirectionsSelected{

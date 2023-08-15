@@ -12,15 +12,11 @@ import 'package:dandylight/pages/job_details_page/JobDetailsActions.dart';
 import 'package:dandylight/pages/job_details_page/document_items/DocumentItem.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
-import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_calendar/device_calendar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 import '../../models/JobType.dart';
-import '../../models/ReminderDandyLight.dart';
-import '../../utils/analytics/EventNames.dart';
-import '../pose_group_page/GroupImage.dart';
 import '../sunset_weather_page/SunsetWeatherPageActions.dart';
 
 class JobDetailsPageState {
@@ -33,14 +29,12 @@ class JobDetailsPageState {
   final List<EventDandyLight> eventList;
   final List<Event> deviceEvents;
   final List<Job> jobs;
-  final List<GroupImage> poseImages;
   final JobType jobType;
   final List<JobReminder> reminders;
   final String jobTitleText;
   final double unsavedAddOnCostAmount;
   final int unsavedTipAmount;
   final List<Location> locations;
-  final List<File> imageFiles;
   final Location selectedLocation;
   final Function(Location) onLocationSelected;
   final List<int> expandedIndexes;
@@ -49,9 +43,9 @@ class JobDetailsPageState {
   final List<PriceProfile> priceProfiles;
   final List<JobType> jobTypes;
   final List<DocumentItem> documents;
+  final List<String> poseFilePaths;
   final Invoice invoice;
   final String notes;
-  final File locationImage;
   final String weatherIcon;
   final String tempHigh;
   final String tempLow;
@@ -154,16 +148,13 @@ class JobDetailsPageState {
     @required this.onDeleteReminderSelected,
     @required this.onMonthChanged,
     @required this.onNewDateSelected,
-    @required this.imageFiles,
     @required this.jobType,
     @required this.jobTypes,
     @required this.onNewEndTimeSelected,
-    @required this.poseImages,
     @required this.onDeletePoseSelected,
     @required this.onNotesTextChanged,
     @required this.notes,
     @required this.setOnBoardingComplete,
-    @required this.locationImage,
     @required this.weatherIcon,
     @required this.tempHigh,
     @required this.tempLow,
@@ -174,6 +165,7 @@ class JobDetailsPageState {
     @required this.eveningBlueHour,
     @required this.onSunsetWeatherSelected,
     @required this.onDrivingDirectionsSelected,
+    @required this.poseFilePaths,
   });
 
   JobDetailsPageState copyWith({
@@ -193,7 +185,6 @@ class JobDetailsPageState {
     JobType jobType,
     String jobTitleText,
     List<Location> locations,
-    List<File> imageFiles,
     List<JobReminder> reminders,
     Location selectedLocation,
     Function(Location) onLocationSelected,
@@ -203,10 +194,10 @@ class JobDetailsPageState {
     List<JobType> jobTypes,
     PriceProfile selectedPriceProfile,
     List<PriceProfile> priceProfiles,
-    File locationImage,
     String eveningGoldenHour,
     String sunset,
     String eveningBlueHour,
+    List<String> poseFilePaths,
     Function(PriceProfile) onPriceProfileSelected,
     Function(String) onSaveUpdatedPriceProfileSelected,
     Function(JobType) onJobTypeSelected,
@@ -244,7 +235,6 @@ class JobDetailsPageState {
     Function(DateTime) onMonthChanged,
     Function(DateTime) onNewDateSelected,
     Function(DateTime) onNewEndTimeSelected,
-    List<GroupImage> poseImages,
     Function(int) onDeletePoseSelected,
     Function(String) onNotesTextChanged,
     String notes,
@@ -308,15 +298,12 @@ class JobDetailsPageState {
       selectedDate: selectedDate ?? this.selectedDate,
       onMonthChanged: onMonthChanged ?? this.onMonthChanged,
       onNewDateSelected: onNewDateSelected ?? this.onNewDateSelected,
-      imageFiles: imageFiles ?? this.imageFiles,
       jobTypes: jobTypes ?? this.jobTypes,
       onNewEndTimeSelected: onNewEndTimeSelected ?? this.onNewEndTimeSelected,
-      poseImages: poseImages ?? this.poseImages,
       onDeletePoseSelected: onDeletePoseSelected ?? this.onDeletePoseSelected,
       onNotesTextChanged: onNotesTextChanged ?? this.onNotesTextChanged,
       notes: notes ?? this.notes,
       setOnBoardingComplete: setOnBoardingComplete ?? this.setOnBoardingComplete,
-      locationImage: locationImage ?? this.locationImage,
       weatherIcon: weatherIcon ?? this.weatherIcon,
       tempLow: tempLow ?? this.tempLow,
       tempHigh: tempHigh ?? this.tempHigh,
@@ -327,6 +314,7 @@ class JobDetailsPageState {
       eveningBlueHour: eveningBlueHour ?? this.eveningBlueHour,
       onSunsetWeatherSelected: onSunsetWeatherSelected ?? this.onSunsetWeatherSelected,
       onDrivingDirectionsSelected: onDrivingDirectionsSelected ?? this.onDrivingDirectionsSelected,
+      poseFilePaths: poseFilePaths ?? this.poseFilePaths,
     );
   }
 
@@ -353,12 +341,9 @@ class JobDetailsPageState {
         documents: store.state.jobDetailsPageState.documents,
         invoice: store.state.jobDetailsPageState.invoice,
         reminders: store.state.jobDetailsPageState.reminders,
-        imageFiles: store.state.jobDetailsPageState.imageFiles,
         jobType: store.state.jobDetailsPageState.jobType,
         jobTypes: store.state.jobDetailsPageState.jobTypes,
-        poseImages: store.state.jobDetailsPageState.poseImages,
         notes: store.state.jobDetailsPageState.notes,
-        locationImage: store.state.jobDetailsPageState.locationImage,
         weatherIcon: store.state.jobDetailsPageState.weatherIcon,
         tempLow: store.state.jobDetailsPageState.tempLow,
         tempHigh: store.state.jobDetailsPageState.tempHigh,
@@ -367,6 +352,7 @@ class JobDetailsPageState {
         eveningGoldenHour: store.state.jobDetailsPageState.eveningGoldenHour,
         sunset: store.state.jobDetailsPageState.sunset,
         eveningBlueHour: store.state.jobDetailsPageState.eveningBlueHour,
+        poseFilePaths: store.state.jobDetailsPageState.poseFilePaths,
         onAddToTip: (amountToAdd) => store.dispatch(AddToTipAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveTipChange: () => store.dispatch(SaveTipChangeAction(store.state.jobDetailsPageState)),
         onClearUnsavedTip: () => store.dispatch(ClearUnsavedTipAction(store.state.jobDetailsPageState)),
@@ -440,6 +426,7 @@ class JobDetailsPageState {
     onStageCompleted: null,
     onStageUndo: null,
     addExpandedIndex: null,
+    poseFilePaths: [],
     removeExpandedIndex: null,
     onDeleteSelected: null,
     onInstagramSelected: null,
@@ -469,13 +456,10 @@ class JobDetailsPageState {
     onSaveTipChange: null,
     onClearUnsavedTip: null,
     reminders: [],
-    imageFiles: [],
     jobTypes: [],
     onNewEndTimeSelected: null,
-    poseImages: [],
     onDeletePoseSelected: null,
     onNotesTextChanged: null,
-    locationImage: null,
     notes: "",
     setOnBoardingComplete: null,
     weatherIcon: "",
@@ -512,6 +496,7 @@ class JobDetailsPageState {
       cloudCoverage.hashCode ^
       jobTypes.hashCode ^
       jobType.hashCode ^
+      poseFilePaths.hashCode ^
       onDrivingDirectionsSelected.hashCode ^
       documentPath.hashCode ^
       client.hashCode ^
@@ -549,13 +534,10 @@ class JobDetailsPageState {
       onPriceProfileSelected.hashCode ^
       onSaveUpdatedPriceProfileSelected.hashCode ^
       onClearUnsavedDeposit.hashCode ^
-      imageFiles.hashCode ^
       onNewEndTimeSelected.hashCode ^
-      poseImages.hashCode ^
       onDeletePoseSelected.hashCode ^
       onNotesTextChanged.hashCode ^
       notes.hashCode ^
-      locationImage.hashCode ^
       eveningGoldenHour.hashCode ^
       sunset.hashCode ^
       eveningBlueHour.hashCode ^
@@ -590,6 +572,7 @@ class JobDetailsPageState {
               stageScrollOffset == other.stageScrollOffset &&
               eventList == other.eventList &&
               jobs == other.jobs &&
+              poseFilePaths == other.poseFilePaths &&
               onMonthChanged == other.onMonthChanged &&
               reminders == other.reminders &&
               invoice == other.invoice &&
@@ -619,12 +602,9 @@ class JobDetailsPageState {
               priceProfiles == other.priceProfiles &&
               onPriceProfileSelected == other.onPriceProfileSelected &&
               onSaveUpdatedPriceProfileSelected == other.onSaveUpdatedPriceProfileSelected &&
-              imageFiles == other.imageFiles &&
               onNewEndTimeSelected == other.onNewEndTimeSelected &&
-              poseImages == other.poseImages &&
               onDeletePoseSelected == other.onDeletePoseSelected &&
               onNotesTextChanged == other.onNotesTextChanged &&
-              locationImage == other.locationImage &&
               notes == other.notes &&
               weatherIcon == other.weatherIcon &&
               tempLow == other.tempLow &&

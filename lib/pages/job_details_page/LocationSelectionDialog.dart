@@ -48,7 +48,7 @@ class _LocationSelectionDialogState
                       alignment: Alignment.topCenter,
                       children: [
                         Padding(
-                          padding: EdgeInsets.only(bottom: 16.0, top: 16.0),
+                          padding: EdgeInsets.only(bottom: 16.0, top: 32.0),
                           child: TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: "Select a location for this job",
@@ -63,45 +63,36 @@ class _LocationSelectionDialogState
                           child: Container(
                             padding: EdgeInsets.only(top: 14, right: 8),
                             alignment: Alignment.centerRight,
-                            height: 44.0,
+                            height: 38.0,
                             width: MediaQuery.of(context).size.width,
-                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getBlueDark()),),
+                            child: Image.asset('assets/images/icons/plus.png', color: Color(ColorConstants.getPrimaryBlack()),),
                           ),
                         ),
                       ],
                     ),
                     Padding(
-                      padding: EdgeInsets.only(bottom: 8.0),
-                      child: TextDandyLight(
-                        type: TextDandyLight.MEDIUM_TEXT,
-                        text: pageState.selectedLocation != null
-                            ? pageState.selectedLocation.locationName
-                            : "",
-                        textAlign: TextAlign.start,
-                        color: Color(ColorConstants.getPrimaryColor()),
+                      padding: EdgeInsets.only(left: 16.0, right: 16.0),
+                      child: Container(
+                        child: GridView.builder(
+                            padding: new EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 250.0),
+                            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 200,
+                                childAspectRatio: 2 / 2.75,
+                                crossAxisSpacing: 16,
+                                mainAxisSpacing: 16),
+                            itemCount: pageState.locations.length,
+                            controller: _controller,
+                            physics: AlwaysScrollableScrollPhysics(),
+                            key: _listKey,
+                            shrinkWrap: true,
+                            reverse: false,
+                            itemBuilder: _buildItem),
                       ),
-                    ),
-                    Container(
-                      height: (MediaQuery.of(context).size.height) - 221,
-                      child: GridView.builder(
-                          padding: new EdgeInsets.fromLTRB(4.0, 16.0, 4.0, 64.0),
-                          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                              maxCrossAxisExtent: 200,
-                              childAspectRatio: 3 / 2,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 64),
-                          itemCount: pageState.locations.length,
-                          controller: _controller,
-                          physics: AlwaysScrollableScrollPhysics(),
-                          key: _listKey,
-                          shrinkWrap: true,
-                          reverse: false,
-                          itemBuilder: _buildItem),
                     ),
                     Padding(
                       padding: EdgeInsets.only(left: 24.0, right: 24.0, bottom: 0.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: <Widget>[
                           TextButton(
                             style: Styles.getButtonStyle(),
@@ -111,20 +102,6 @@ class _LocationSelectionDialogState
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Cancel',
-                              textAlign: TextAlign.center,
-                              color: Color(ColorConstants.primary_black),
-                            ),
-                          ),
-                          TextButton(
-                            style: Styles.getButtonStyle(),
-                            onPressed: () {
-                              pageState.onLocationSaveSelected(pageState.selectedLocation);
-                              VibrateUtil.vibrateHeavy();
-                              Navigator.of(context).pop();
-                            },
-                            child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: 'Save',
                               textAlign: TextAlign.center,
                               color: Color(ColorConstants.primary_black),
                             ),
@@ -151,8 +128,7 @@ class _LocationSelectionDialogState
                       padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32.0, top: 0.0),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        text: "A location will store the name and map coordinates for a location that you regularly use. "
-                            "Select the button below to create a new location.",
+                        text: "Select the button below to create a new location.",
                         textAlign: TextAlign.center,
                         color: Color(ColorConstants.primary_black),
                       ),

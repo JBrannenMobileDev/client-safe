@@ -58,7 +58,7 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
            ),
            backgroundColor: Color(ColorConstants.getPrimaryWhite()),
            body: GridView.builder(
-             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
              itemBuilder: (_, index) => _buildItem(context, index, pageState),
              itemCount: pageState.poses.length,
            ),

@@ -15,154 +15,108 @@ import 'LibraryPoseGroupActions.dart';
 
 class LibraryPoseGroupPageState{
   final PoseLibraryGroup poseGroup;
-  final Function(List<XFile>, String, String, List<String>) onNewPoseImagesSelected;
   final Function() onBackSelected;
-  final List<GroupImage> poseImages;
   final List<Job> activeJobs;
   final List<PoseGroup> myPoseGroups;
   final List<Pose> sortedPoses;
-  final List<File> myPoseGroupImages;
-  final Function(GroupImage, PoseGroup) onImageSaveSelected;
+  final Function(Pose, PoseGroup) onImageSaveSelected;
   final Function(Pose, Job) onImageAddedToJobSelected;
-  final bool isLoadingNewImages;
   final bool isAdmin;
   final String instagramName;
   final String instagramUrl;
-  final Function() loadMoreImages;
-
 
   LibraryPoseGroupPageState({
     @required this.poseGroup,
-    @required this.onNewPoseImagesSelected,
     @required this.onBackSelected,
-    @required this.poseImages,
-    @required this.isLoadingNewImages,
     @required this.onImageAddedToJobSelected,
     @required this.onImageSaveSelected,
     @required this.isAdmin,
     @required this.activeJobs,
     @required this.myPoseGroups,
-    @required this.myPoseGroupImages,
     @required this.instagramUrl,
     @required this.instagramName,
-    @required this.loadMoreImages,
     @required this.sortedPoses,
   });
 
   LibraryPoseGroupPageState copyWith({
     PoseLibraryGroup poseGroup,
-    Function(List<XFile>, String, List<String>) onNewPoseImagesSelected,
     Function() onBackSelected,
-    List<GroupImage> poseImages,
-    Function(GroupImage, PoseGroup) onImageSaveSelected,
+    Function(Pose, PoseGroup) onImageSaveSelected,
     Function(Pose, Job) onImageAddedToJobSelected,
-    bool isLoadingNewImages,
     bool isAdmin,
     List<Job> activeJobs,
     List<PoseGroup> myPoseGroups,
-    List<File> myPoseGroupImages,
     String instagramName,
     String instagramUrl,
-    Function() loadMoreImages,
     List<Pose> sortedPoses,
   }){
     return LibraryPoseGroupPageState(
       poseGroup: poseGroup ?? this.poseGroup,
-      poseImages: poseImages ?? this.poseImages,
-      onNewPoseImagesSelected: onNewPoseImagesSelected ?? this.onNewPoseImagesSelected,
       onBackSelected:  onBackSelected ?? this.onBackSelected,
-      isLoadingNewImages: isLoadingNewImages ?? this.isLoadingNewImages,
       onImageAddedToJobSelected: onImageAddedToJobSelected ?? this.onImageAddedToJobSelected,
       onImageSaveSelected: onImageSaveSelected ?? this.onImageSaveSelected,
       isAdmin: isAdmin ?? this.isAdmin,
       activeJobs: activeJobs ?? this.activeJobs,
       myPoseGroups: myPoseGroups ?? this.myPoseGroups,
-      myPoseGroupImages: myPoseGroupImages ?? this.myPoseGroupImages,
       instagramName: instagramName ?? this.instagramName,
       instagramUrl: instagramUrl ?? this.instagramUrl,
-      loadMoreImages: loadMoreImages ?? this.loadMoreImages,
       sortedPoses: sortedPoses ?? this.sortedPoses,
     );
   }
 
   factory LibraryPoseGroupPageState.initial() => LibraryPoseGroupPageState(
     poseGroup: null,
-    onNewPoseImagesSelected: null,
     onBackSelected: null,
-    poseImages: [],
-    isLoadingNewImages: true,
     onImageSaveSelected: null,
     onImageAddedToJobSelected: null,
     isAdmin: false,
     activeJobs: [],
     myPoseGroups: [],
-    myPoseGroupImages: [],
     instagramUrl: '',
     instagramName: '',
-    loadMoreImages: null,
     sortedPoses: [],
   );
 
   factory LibraryPoseGroupPageState.fromStore(Store<AppState> store) {
     return LibraryPoseGroupPageState(
       poseGroup: store.state.libraryPoseGroupPageState.poseGroup,
-      poseImages: store.state.libraryPoseGroupPageState.poseImages,
-      isLoadingNewImages: store.state.libraryPoseGroupPageState.isLoadingNewImages,
       isAdmin: store.state.libraryPoseGroupPageState.isAdmin,
       activeJobs: store.state.libraryPoseGroupPageState.activeJobs,
       myPoseGroups: store.state.libraryPoseGroupPageState.myPoseGroups,
-      myPoseGroupImages: store.state.libraryPoseGroupPageState.myPoseGroupImages,
       instagramName: store.state.libraryPoseGroupPageState.instagramName,
       instagramUrl: store.state.libraryPoseGroupPageState.instagramUrl,
       sortedPoses: store.state.libraryPoseGroupPageState.sortedPoses,
-      onNewPoseImagesSelected: (poseImages, name, url, tags) => {
-        store.dispatch(SaveLibraryPosesToGroupAction(store.state.libraryPoseGroupPageState, poseImages, name, url, tags)),
-      },
       onBackSelected: () {
         store.dispatch(ClearLibraryPoseGroupState(store.state.libraryPoseGroupPageState));
       },
-      onImageSaveSelected: (groupImage, poseGroup) => store.dispatch(SaveSelectedPoseToMyPosesAction(store.state.libraryPoseGroupPageState, groupImage, poseGroup)),
-      onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveSelectedImageToJobAction(store.state.libraryPoseGroupPageState, pose, job)),
-      loadMoreImages: () {
-        store.dispatch(SetLoadingNewLibraryImagesState(store.state.libraryPoseGroupPageState, true));
-        store.dispatch(SortGroupImages(store.state.libraryPoseGroupPageState, store.state.libraryPoseGroupPageState.poseGroup));
-      }
+      onImageSaveSelected: (pose, poseGroup) => store.dispatch(SaveSelectedPoseToMyPosesAction(store.state.libraryPoseGroupPageState, pose, poseGroup)),
+      onImageAddedToJobSelected: (pose, job) => store.dispatch(SaveSelectedImageToJobAction(store.state.libraryPoseGroupPageState, pose, job))
     );
   }
 
   @override
   int get hashCode =>
       poseGroup.hashCode ^
-      poseImages.hashCode ^
-      onNewPoseImagesSelected.hashCode ^
       onBackSelected.hashCode ^
       onImageSaveSelected.hashCode ^
       onImageAddedToJobSelected.hashCode ^
       isAdmin.hashCode ^
-      loadMoreImages.hashCode ^
       activeJobs.hashCode ^
       myPoseGroups.hashCode ^
-      myPoseGroupImages.hashCode ^
       instagramName.hashCode ^
       instagramUrl.hashCode ^
-      sortedPoses.hashCode ^
-      isLoadingNewImages.hashCode;
+      sortedPoses.hashCode;
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
           other is LibraryPoseGroupPageState &&
-              poseImages == other.poseImages &&
               onBackSelected == other.onBackSelected &&
-              onNewPoseImagesSelected == other.onNewPoseImagesSelected &&
-              isLoadingNewImages == other.isLoadingNewImages &&
               onImageSaveSelected == other.onImageSaveSelected &&
               onImageAddedToJobSelected == other.onImageAddedToJobSelected &&
               isAdmin == other.isAdmin &&
-              loadMoreImages == other.loadMoreImages &&
               activeJobs == other.activeJobs &&
               myPoseGroups == other.myPoseGroups &&
-              myPoseGroupImages == other.myPoseGroupImages &&
               instagramName == other.instagramName &&
               instagramUrl == other.instagramUrl &&
               sortedPoses == other.sortedPoses &&

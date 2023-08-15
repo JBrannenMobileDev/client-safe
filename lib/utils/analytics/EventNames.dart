@@ -27,6 +27,7 @@ class EventNames {
   static const String BT_VIEW_FEATURED_POSES_FROM_NOTIFICATIONS = "bt_view_featured_poses_from_notifications";
   static const String BT_VIEW_NEW_MILEAGE_FROM_NOTIFICATIONS = "bt_view_new_mileage_from_notifications";
   static const String BT_VIEW_JOB_DETAILS_FROM_NOTIFICATIONS = "bt_view_job_details_from_notifications";
+  static const String BT_RESTORE_PURCHASES_SHEET = "bt_restore_purchases_sheet";
 
   static const String BT_STAGE_COMPLETE = "bt_stage_complete";
   static const String STAGE_COMPLETE_PARAM_STAGE = "stage_complete_param_stage";

@@ -10,6 +10,7 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../AppState.dart';
 import '../../utils/UserOptionsUtil.dart';
+import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'JobDetailsPageState.dart';
 
@@ -119,16 +120,20 @@ class _LocationCard extends State<LocationCard> {
                             UserOptionsUtil.showLocationSelectionDialog(context);
                           },
                           behavior: HitTestBehavior.opaque,
-                          child: pageState.locationImage != null ? Container(
+                          child: pageState.selectedLocation != null ? Container(
                             height: 235,
                             width: 200,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16),
-                              color: Color(ColorConstants.getBlueDark()),
-                              image: DecorationImage(
-                                fit: BoxFit.cover,
-                                image: FileImage(pageState.locationImage)
-                              ),
+                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                            ),
+                            child: DandyLightNetworkImage(
+                              pageState.selectedLocation.imageUrl,
+                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                              errorType: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
+                              errorIconSize: pageState.selectedLocation.imageUrl != null && pageState.selectedLocation.imageUrl.isNotEmpty ? 44 : 96,
+                              errorIconColor: Color(ColorConstants.getPrimaryBlack()),
+                              borderRadius: 16,
                             ),
                           ) : Container(
                             padding: EdgeInsets.all(72),

@@ -40,12 +40,17 @@ final jobDetailsReducer = combineReducers<JobDetailsPageState>([
   TypedReducer<JobDetailsPageState, SetAllJobTypesAction>(_setJobTypes),
   TypedReducer<JobDetailsPageState, DeleteInvoiceFromLocalStateAction>(_deleteInvoice),
   TypedReducer<JobDetailsPageState, ClearPreviousStateAction>(_clearState),
-  TypedReducer<JobDetailsPageState, SetPoseImagesAction>(_setPoseImages),
   TypedReducer<JobDetailsPageState, SaveJobNotesAction>(_setNotes),
-  TypedReducer<JobDetailsPageState, SetLocationImageAction>(_setLocationImage),
   TypedReducer<JobDetailsPageState, SetForecastAction>(_setForecast),
   TypedReducer<JobDetailsPageState, SetSunsetTimeAction>(_setSunsetTimes),
+  TypedReducer<JobDetailsPageState, SetPoseFilePathsAction>(_setPoseFilePaths),
 ]);
+
+JobDetailsPageState _setPoseFilePaths(JobDetailsPageState previousState, SetPoseFilePathsAction action) {
+  return previousState.copyWith(
+    poseFilePaths: action.poseFilePaths,
+  );
+}
 
 JobDetailsPageState _setForecast(JobDetailsPageState previousState, SetForecastAction action){
   DailyForecasts matchingDay;
@@ -56,15 +61,18 @@ JobDetailsPageState _setForecast(JobDetailsPageState previousState, SetForecastA
     }
   }
 
-  bool isNight = DateTime.parse(matchingDay.date).hour > 17;
-
-  return previousState.copyWith(
-    tempHigh: matchingDay.temperature.maximum.value.toInt().toString(),
-    tempLow: matchingDay.temperature.minimum.value.toInt().toString(),
-    chanceOfRain: isNight ? matchingDay.night.precipitationProbability.toString() : matchingDay.day.precipitationProbability.toString(),
-    cloudCoverage: isNight ? matchingDay.night.cloudCover.toString() : matchingDay.day.cloudCover.toString(),
-    weatherIcon: _getWeatherIcon(isNight ? matchingDay.night.icon : matchingDay.day.icon),
-  );
+  bool isNight = false;
+  if(matchingDay != null) {
+    isNight = DateTime.parse(matchingDay.date).hour > 17;
+    return previousState.copyWith(
+      tempHigh: matchingDay.temperature.maximum.value.toInt().toString(),
+      tempLow: matchingDay.temperature.minimum.value.toInt().toString(),
+      chanceOfRain: isNight ? matchingDay.night.precipitationProbability.toString() : matchingDay.day.precipitationProbability.toString(),
+      cloudCoverage: isNight ? matchingDay.night.cloudCover.toString() : matchingDay.day.cloudCover.toString(),
+      weatherIcon: _getWeatherIcon(isNight ? matchingDay.night.icon : matchingDay.day.icon),
+    );
+  }
+  return previousState;
 }
 
 String _getWeatherIcon(int iconId) {
@@ -172,21 +180,9 @@ int _calculate6DegreesOfTime(DateTime sunset, DateTime civilTwilightEnd) {
   return civilTwilightEnd.millisecondsSinceEpoch - sunset.millisecondsSinceEpoch;
 }
 
-JobDetailsPageState _setLocationImage(JobDetailsPageState previousState, SetLocationImageAction action) {
-  return previousState.copyWith(
-    locationImage: action.locationImage,
-  );
-}
-
 JobDetailsPageState _setNotes(JobDetailsPageState previousState, SaveJobNotesAction action) {
   return previousState.copyWith(
     notes: action.notes,
-  );
-}
-
-JobDetailsPageState _setPoseImages(JobDetailsPageState previousState, SetPoseImagesAction action) {
-  return previousState.copyWith(
-    poseImages: action.poseImages,
   );
 }
 
@@ -340,7 +336,6 @@ JobDetailsPageState _setLocations(JobDetailsPageState previousState, SetLocation
   return previousState.copyWith(
     locations: action.locations,
     selectedLocation: null,
-    imageFiles: action.imageFiles,
   );
 }
 

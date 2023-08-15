@@ -118,10 +118,10 @@ class SetAllJobTypesAction{
   SetAllJobTypesAction(this.pageState, this.jobTypes);
 }
 
-class SetPoseImagesAction {
+class SetPoseFilePathsAction {
   final JobDetailsPageState pageState;
-  final List<GroupImage> poseImages;
-  SetPoseImagesAction(this.pageState, this.poseImages);
+  final List<String> poseFilePaths;
+  SetPoseFilePathsAction(this.pageState, this.poseFilePaths);
 }
 
 class DeleteReminderFromJobAction{

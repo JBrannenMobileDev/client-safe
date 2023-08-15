@@ -170,6 +170,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   }
 
   void _showRestorePurchasesSheet(BuildContext context, String restoreMessage) {
+    EventSender().sendEvent(eventName: EventNames.BT_RESTORE_PURCHASES_SHEET);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,

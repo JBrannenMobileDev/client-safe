@@ -38,6 +38,7 @@ import '../../utils/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
+  StreamSubscription jobStream = null;
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
@@ -270,7 +271,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     });
 
-    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
+    jobStream = (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));

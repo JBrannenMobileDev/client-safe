@@ -1,15 +1,11 @@
-import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
-import 'package:dandylight/pages/pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
 import 'package:dandylight/pages/pose_library_group_page/widgets/MyPoseGroupsListItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
@@ -17,8 +13,6 @@ import '../../../utils/UserOptionsUtil.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
-import '../../new_contact_pages/NewContactPageState.dart';
-import '../LibraryPoseGroupActions.dart';
 
 
 class SaveToMyPosesBottomSheet extends StatefulWidget {
@@ -45,7 +39,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageSaveSelected(pageState.poseImages.elementAt(libraryPoseIndex), pageState.myPoseGroups.elementAt(index));
+              pageState.onImageSaveSelected(pageState.sortedPoses.elementAt(libraryPoseIndex), pageState.myPoseGroups.elementAt(index));
               showSuccessAnimation();
               EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_POSE, properties: {EventNames.SAVE_LIBRARY_POSE_PARAM_GROUP_NAME : pageState.poseGroup.groupName});
             },
