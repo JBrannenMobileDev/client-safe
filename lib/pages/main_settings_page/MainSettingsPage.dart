@@ -249,9 +249,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
                               TextButton(
                                 style: Styles.getButtonStyle(),
                                 onPressed: () {
-                                  Navigator.of(context).push(
-                                    new MaterialPageRoute(builder: (context) => SuggestionsPage()),
-                                  );
+                                  _sendSuggestionEmail(pageState);
                                 },
                                 child: SizedBox(
                                   height: 48.0,
@@ -848,6 +846,7 @@ class _MainSettingsPageState extends State<MainSettingsPage> with TickerProvider
     );
   }
 
+  void _sendSuggestionEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Suggestion", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nSuggestion: \n[Please enter your suggestion here.]');
   void _sendIssueReportEmail(MainSettingsPageState pageState) async => await IntentLauncherUtil.sendEmail('support@dandylight.com', "Reporting an issue", 'User Info: \nid = ' + pageState.profile.uid + '\naccount email = ' + pageState.profile.email + '\nfirst name = ' + pageState.profile.firstName + '\n\nIssue description: \n[Your message here - Attaching a screenshot of the issue will help us resolve the issue even faster.]');
   void _launchPrivacyPolicyURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/9b78efad-d67f-4e08-9e02-035399b830ed')) : throw 'Could not launch';
   void _launchTermsOfServiceURL() async => await canLaunchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) ? await launchUrl(Uri.parse('https://www.privacypolicies.com/live/acaa632a-a22b-490b-87ee-7bd9c94c679e')) : throw 'Could not launch';
