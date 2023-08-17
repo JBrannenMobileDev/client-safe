@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
@@ -38,12 +39,11 @@ import '../../utils/IntentLauncherUtil.dart';
 import '../new_reminder_page/WhenSelectionWidget.dart';
 
 class DashboardPageMiddleware extends MiddlewareClass<AppState> {
-  StreamSubscription jobStream = null;
 
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     if(action is LoadJobsAction) {
-      await _loadAllJobs(store, action, next);
+      await _loadAllJobs(store);
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
       await _fetchSubscriptionState(store, next);
@@ -231,7 +231,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _loadAllJobs(Store<AppState> store, action, NextDispatcher next) async {
+  Future<void> _loadAllJobs(Store<AppState> store) async {
     List<Job> allJobs = await JobDao.getAllJobs();
     List<JobType> allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
@@ -246,38 +246,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
 
-    (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
-      List<Profile> profiles = [];
-      for(RecordSnapshot record in profilesSnapshots) {
-        profiles.add(Profile.fromMap(record.value));
-      }
-
-      Profile result = null;
-      String uid = UidUtil().getUid();
-      for(Profile profile in profiles) {
-        if(profile.uid == uid) {
-          result = profile;
-        }
-      }
-      store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, result));
-    });
-
     (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
       List<JobType> jobTypes = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobTypes.add(JobType.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
-      store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
-    });
-
-    jobStream = (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> jobs = [];
-      for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobs.add(Job.fromMap(clientSnapshot.value));
-      }
-      store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
-      store.dispatch(SetJobToStateAction(store.state.dashboardPageState, jobs, singleExpenses, recurringExpenses, mileageExpenses));
       store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     });
 
@@ -286,6 +261,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
         expenses.add(SingleExpense.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, expenses, recurringExpenses, mileageExpenses));
     });
 
@@ -294,6 +270,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
         expenses.add(RecurringExpense.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, expenses, mileageExpenses));
     });
 
@@ -302,6 +279,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
         expenses.add(MileageExpense.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, expenses));
     });
   }
