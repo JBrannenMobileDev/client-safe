@@ -52,13 +52,13 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
               if(job == null) {
                 Navigator.of(context).push(
                   new MaterialPageRoute(builder: (context) => PoseSearchSingleImageViewPager(
-                    pageState.searchResultsImages,
+                    pageState.searchResultPoses,
                     index,
                     'Search Results',
                   )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.searchResultsImages.elementAt(index).pose, job);
+                pageState.onImageAddedToJobSelected(pageState.searchResultPoses.elementAt(index), job);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE_TO_JOB_FROM_JOB);
@@ -87,9 +87,6 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
       onDidChange: (previous, current) {
         if(firstNameTextController.text.isEmpty) {
           current.onSearchInputChanged('');
-        }
-        if(current.searchResultPoses.length > 0 && current.searchResultsImages.length == 0) {
-          current.loadMoreImages();
         }
       },
       converter: (Store<AppState> store) => PosesPageState.fromStore(store),
@@ -154,19 +151,12 @@ class _PosesSearchPageState extends State<PosesSearchPage> {
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 16),
                     delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                        if(pageState.searchResultsImages.length < pageState.searchResultPoses.length) {
-                          if(index >= pageState.searchResultsImages.length - 1) {
-                            if(!pageState.isLoadingSearchImages) {
-                              pageState.loadMoreImages();
-                            }
-                          }
-                        }
                         return Container(
                           height: (MediaQuery.of(context).size.height),
                           child: _buildItem(context, index),
                         );
                       },
-                      childCount: pageState.searchResultsImages.length, // 1000 list items
+                      childCount: pageState.searchResultPoses.length, // 1000 list items
                     ),
                   ),
                 ),

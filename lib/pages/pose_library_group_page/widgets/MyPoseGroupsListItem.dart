@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/widgets/DandyLightNetworkImage.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -28,33 +29,20 @@ class MyPoseGroupsListItemWidget extends StatelessWidget {
             children: [
               Container(
                 height: 101,
-                child: Column(
+                child: pageState.myPoseGroups.elementAt(index).poses.length > 0 ? Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    pageState.myPoseGroups.elementAt(index).poses.length == 0 || (pageState.myPoseGroupImages.isNotEmpty && pageState.myPoseGroupImages.length > index && pageState.myPoseGroupImages.elementAt(index).path.isNotEmpty) ?
                     Container(
                       height: 76.0,
                       width: 76.0,
                       decoration: BoxDecoration(
                         borderRadius: new BorderRadius.circular(16.0),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: pageState.myPoseGroupImages.isNotEmpty && pageState.myPoseGroupImages.length > index && pageState.myPoseGroupImages.elementAt(index).path.isNotEmpty
-                              ? FileImage(pageState.myPoseGroupImages.elementAt(index))
-                              : AssetImage("assets/images/backgrounds/image_background.png"),
-                        ),
+                        color: Color(ColorConstants.getPeachLight())
                       ),
-                    ) : Container(
-                      height: 76.0,
-                      width: 76.0,
-                      decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPeachLight()),
-                        borderRadius: new BorderRadius.circular(16.0),
-                      ),
-                      child: LoadingAnimationWidget.fourRotatingDots(
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        size: 32,
+                      child: DandyLightNetworkImage(
+                        pageState.myPoseGroups.elementAt(index).poses.elementAt(0).imageUrl,
+                        resizeWidth: 250,
                       ),
                     ),
                     Padding(
@@ -67,7 +55,7 @@ class MyPoseGroupsListItemWidget extends StatelessWidget {
                       ),
                     ),
                   ],
-                ),
+                ) : SizedBox(),
               ),
             ],
           )

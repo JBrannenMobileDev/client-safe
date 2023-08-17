@@ -130,7 +130,9 @@ class NotificationHelper {
   }
 
   Future<void> clearAll() async {
-    await flutterNotificationPlugin.cancelAll();
+    if(flutterNotificationPlugin != null) {
+      await flutterNotificationPlugin.cancelAll();
+    }
   }
 
   Future<void> turnOffNotificationById(num id) async {

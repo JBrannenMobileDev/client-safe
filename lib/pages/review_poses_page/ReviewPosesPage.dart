@@ -9,6 +9,7 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
+import '../../widgets/DandyLightNetworkImage.dart';
 import '../pose_group_page/GroupImage.dart';
 import 'ReviewPosesActions.dart';
 import 'ReviewPosesPageState.dart';
@@ -59,31 +60,27 @@ class _ReviewPosesPageState extends State<ReviewPosesPage> with TickerProviderSt
            body: GridView.builder(
              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
              itemBuilder: (_, index) => _buildItem(context, index, pageState),
-             itemCount: pageState.groupImages.length,
+             itemCount: pageState.poses.length,
            ),
          ),
     );
 
   Widget _buildItem(BuildContext context, int index, ReviewPosesPageState pageState) {
-    GroupImage groupImage = pageState.groupImages.elementAt(index);
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
           new MaterialPageRoute(builder: (context) => DecisionPager(
-              pageState.groupImages,
+              pageState.poses,
               index,
           )),
         );
       },
       child: Padding(
         padding: EdgeInsets.only(left:0.5, right: 0.5, top: 1),
-        child: ClipRRect(
-          child: Image(
-            fit: BoxFit.cover,
-            image: groupImage.file != null ? FileImage(File(groupImage.file.path))
-                : AssetImage("assets/images/backgrounds/image_background.png"),
-          ),
-        ),
+        child: DandyLightNetworkImage(
+          pageState.poses.elementAt(index).imageUrl,
+          resizeWidth: 350,
+        )
       ),
     );
   }

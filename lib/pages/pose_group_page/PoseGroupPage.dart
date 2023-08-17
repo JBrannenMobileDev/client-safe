@@ -76,7 +76,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                 )),
                 );
               } else {
-                pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index).pose, job);
+                pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(index), job);
                 VibrateUtil.vibrateMedium();
                 DandyToastUtil.showToastWithGravity('Pose Added!', Color(ColorConstants.getPeachDark()), ToastGravity.CENTER);
                 EventSender().sendEvent(eventName: EventNames.BT_SAVE_MY_POSE_TO_JOB_FROM_JOB);
@@ -247,7 +247,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                   SliverList(
                     delegate: new SliverChildListDelegate(
                       <Widget>[
-                        pageState.poseImages.length > 0 ? SizedBox() : poseGroup.poses.length == 0 && !pageState.isLoadingNewImages ? Column(
+                        pageState.poseImages.length == 0 ? Column(
                           children: [
                             Padding(
                               padding: EdgeInsets.only(
@@ -257,8 +257,7 @@ class _PoseGroupPageState extends State<PoseGroupPage>
                                   bottom: 32.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: "You do not have any poses in this collection yet. Select the button below to add a pose.",
-                                // \n\nYou can also share your saved locations with a client to help them decide what location they want.
+                                text: "You do not have any poses in this collection yet. Select the button below to add your own pose, or navigate to the Library page and save poses from other photographers",
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPeachDark()),
                               ),

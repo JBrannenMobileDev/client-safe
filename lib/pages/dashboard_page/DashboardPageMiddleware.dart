@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/local_db/daos/ClientDao.dart';
@@ -22,9 +23,11 @@ import 'package:dandylight/models/RecurringExpense.dart';
 import 'package:dandylight/models/ReminderDandyLight.dart';
 import 'package:dandylight/pages/dashboard_page/DashboardPageActions.dart';
 import 'package:dandylight/pages/jobs_page/JobsPageActions.dart';
+import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
@@ -40,10 +43,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
   @override
   void call(Store<AppState> store, action, NextDispatcher next) async {
     if(action is LoadJobsAction) {
-      await _loadAllJobs(store, action, next);
+      await _loadAllJobs(store);
       await _loadClients(store, action, next);
       await _loadJobReminders(store, action, next);
       await _fetchSubscriptionState(store, next);
+      await _checkForAppUpdate(store);
     }
     if(action is SetNotificationToSeen) {
       _setNotificationToSeen(store, action);
@@ -108,6 +112,14 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     ProfileDao.update(profile);
   }
 
+  Future<void> _checkForAppUpdate(Store<AppState> store) async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String deviceVersion = packageInfo.version;
+    String highestVersion = EnvironmentUtil().getCurrentBuildNumber();
+    bool showAppUpdateDialog = highestVersion != deviceVersion;
+
+  }
+
   Future<void> _fetchSubscriptionState(Store<AppState> store, NextDispatcher next) async {
     purchases.CustomerInfo subscriptionState = await _getSubscriptionState();
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
@@ -123,7 +135,11 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
   Future<List<Pose>> _getUnseenFeaturedPoses() async {
     List<Pose> myPoses = (await PoseSubmittedGroupDao.getByUid(UidUtil().getUid()))?.poses;
-    return myPoses.where((pose) => pose.isUnseenFeaturedPose()).toList();
+    if(myPoses != null) {
+      return myPoses.where((pose) => pose.isUnseenFeaturedPose()).toList();
+    } else {
+      return [];
+    }
   }
 
   Future<void> _updateProfileWithShowcaseSeen(Store<AppState> store, UpdateProfileWithShowcaseSeen action, NextDispatcher next) async {
@@ -215,7 +231,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  Future<void> _loadAllJobs(Store<AppState> store, action, NextDispatcher next) async {
+  Future<void> _loadAllJobs(Store<AppState> store) async {
     List<Job> allJobs = await JobDao.getAllJobs();
     List<JobType> allJobTypes = await JobTypeDao.getAll();
     List<SingleExpense> singleExpenses = await SingleExpenseDao.getAll();
@@ -230,38 +246,13 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
 
     await purchases.Purchases.logIn(store.state.dashboardPageState.profile.uid);
 
-    (await ProfileDao.getProfileStream()).listen((profilesSnapshots) async {
-      List<Profile> profiles = [];
-      for(RecordSnapshot record in profilesSnapshots) {
-        profiles.add(Profile.fromMap(record.value));
-      }
-
-      Profile result = null;
-      String uid = UidUtil().getUid();
-      for(Profile profile in profiles) {
-        if(profile.uid == uid) {
-          result = profile;
-        }
-      }
-      store.dispatch(SetProfileDashboardAction(store.state.dashboardPageState, result));
-    });
-
     (await JobTypeDao.getJobTypeStream()).listen((jobSnapshots) async {
       List<JobType> jobTypes = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobTypes.add(JobType.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobsDataAction(store.state.jobsPageState, allJobs));
-      store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
-    });
-
-    (await JobDao.getJobsStream()).listen((jobSnapshots) async {
-      List<Job> jobs = [];
-      for(RecordSnapshot clientSnapshot in jobSnapshots) {
-        jobs.add(Job.fromMap(clientSnapshot.value));
-      }
-      store.dispatch(SetJobsDataAction(store.state.jobsPageState, jobs));
-      store.dispatch(SetJobToStateAction(store.state.dashboardPageState, jobs, singleExpenses, recurringExpenses, mileageExpenses));
       store.dispatch(SetJobTypeChartData(store.state.dashboardPageState, allJobs, allJobTypes));
     });
 
@@ -270,6 +261,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
         expenses.add(SingleExpense.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, expenses, recurringExpenses, mileageExpenses));
     });
 
@@ -278,6 +270,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
         expenses.add(RecurringExpense.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, expenses, mileageExpenses));
     });
 
@@ -286,6 +279,7 @@ class DashboardPageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in singleSnapshots) {
         expenses.add(MileageExpense.fromMap(clientSnapshot.value));
       }
+      allJobs = await JobDao.getAllJobs();
       store.dispatch(SetJobToStateAction(store.state.dashboardPageState, allJobs, singleExpenses, recurringExpenses, expenses));
     });
   }

@@ -4,6 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/GroupImage.dart';
 import 'package:dandylight/pages/poses_page/PosesActions.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -16,10 +17,12 @@ import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
 import '../../utils/GlobalKeyUtil.dart';
 import '../../utils/JobUtil.dart';
+import '../../utils/UUID.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
 import '../job_details_page/JobDetailsActions.dart';
 import 'PoseGroupActions.dart';
+import 'package:image/image.dart' as img;
 
 class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -31,17 +34,11 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     if(action is DeletePoseGroupSelected){
       _deletePoseGroup(store, action);
     }
-    if(action is SharePosesAction){
-      _sharePoseImages(store, action);
-    }
     if(action is SavePosesToGroupAction){
       _createAndSavePoses(store, action);
     }
     if(action is LoadPoseImagesFromStorage) {
       _loadPoseImages(store, action);
-    }
-    if(action is DeleteSelectedPoses) {
-      _deleteSelectedPoses(store, action);
     }
     if(action is SaveSelectedImageToJobFromPosesAction) {
       _saveSelectedPoseToJob(store, action);
@@ -54,35 +51,25 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(FetchJobPosesAction(store.state.jobDetailsPageState));
   }
 
-  void _deleteSelectedPoses(Store<AppState> store, DeleteSelectedPoses action) async{
-    List<GroupImage> allImages = List.from(action.pageState.poseImages);
-    List<Pose> allPoses = List.from(action.pageState.poseGroup.poses);
-    for(GroupImage selectedImage in action.pageState.selectedImages) {
-      allImages.remove(selectedImage);
-      allPoses.remove(selectedImage.pose);
-    }
-    PoseGroup group = action.pageState.poseGroup;
-    group.poses = allPoses;//delete selected image list
-    await PoseGroupDao.update(group);
-    store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, group));
-    store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, allImages));
-    store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
-  }
-
   void _createAndSavePoses(Store<AppState> store, SavePosesToGroupAction action) async {
     List<Pose> newPoses = [];
     for(int i=0; i< action.poseImages.length; i++) {
       Pose newPose = await PoseDao.insertOrUpdate(Pose());
       newPoses.add(newPose);
-      await FileStorage.savePoseImageFile(action.poseImages.elementAt(i).path, newPose, action.pageState.poseGroup);
-    }
 
-    List<GroupImage> groupImages = action.pageState.poseImages;
-    for(int index=0 ; index <  newPoses.length; index++){
-      groupImages.add(GroupImage(
-          file: action.poseImages.elementAt(index),
-          pose: newPoses.elementAt(index)
-      ));
+      final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
+      final String uniqueFileName = Uuid().generateV4();
+      final cmdLarge = img.Command()
+        ..decodeImageFile(action.poseImages.elementAt(i).path)
+        ..copyResize(width: 2160)
+        ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg');
+      await cmdLarge.execute();
+
+      await FileStorage.savePoseImageFile(
+          appDocumentDirectory.path + '/$uniqueFileName' + '500.jpg',
+          newPose,
+          action.pageState.poseGroup
+      );
     }
 
     PoseGroup poseGroup = action.pageState.poseGroup;
@@ -96,22 +83,19 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
 
     await store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, poseGroup));
-    await store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, groupImages));
+    await store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, poseGroup.poses));
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
-    // await FileStorage.updatePosesImageUrl(poseGroup, newPoses);
   }
 
   void _deletePoseFromGroup(Store<AppState> store, DeletePoseAction action) async{
     List<Pose> resultPoses = action.pageState.poseGroup.poses;
-    resultPoses.remove(action.groupImage.pose);
+    resultPoses.remove(action.pose);
     PoseGroup group = action.pageState.poseGroup;
-    group.poses = resultPoses;
+    action.pageState.poseGroup.poses = resultPoses;
     await PoseGroupDao.update(group);
     store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, group));
 
-    List<GroupImage> groupImages = action.pageState.poseImages;
-    groupImages.remove(action.groupImage);
-    store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, groupImages));
+    store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, resultPoses));
     store.dispatch(FetchPoseGroupsAction(store.state.posesPageState));
   }
 
@@ -129,32 +113,8 @@ class PoseGroupPageMiddleware extends MiddlewareClass<AppState> {
 
   void _loadPoseImages(Store<AppState> store, LoadPoseImagesFromStorage action) async{
     store.dispatch(SetPoseGroupData(store.state.poseGroupPageState, action.poseGroup));
-    await _getGroupImages(store, action.poseGroup);
+    store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, action.poseGroup.poses));
     store.dispatch(SetActiveJobsToPoses(store.state.poseGroupPageState, JobUtil.getActiveJobs((await JobDao.getAllJobs()))));
-  }
-
-  void _getGroupImages(Store<AppState> store, PoseGroup poseGroup) async {
-    List<GroupImage> poseImages = [];
-    for(Pose pose in poseGroup.poses) {
-      if(pose.isLibraryPose()) {
-        await poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, true, null)).path), pose: pose));
-      } else {
-        await poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, poseGroup, false, null)).path), pose: pose));
-      }
-      store.dispatch(SetPoseImagesToState(store.state.poseGroupPageState, poseImages));
-    }
-  }
-
-  Future fetchImage(Pose pose, List<GroupImage> poseImages, PoseGroup poseGroup, Store<AppState> store) async {
-
-  }
-
-  void _sharePoseImages(Store<AppState> store, SharePosesAction action) async {
-    List<String> filePaths = action.pageState.selectedImages.map((groupImage) => groupImage.file.path).toList();
-    Share.shareFiles(
-          filePaths,
-          subject: 'Example Poses');
-    EventSender().sendEvent(eventName: EventNames.BT_SHARE_POSES);
   }
 
   pathsDoNotMatch(String path, List<XFile> selectedImages) {

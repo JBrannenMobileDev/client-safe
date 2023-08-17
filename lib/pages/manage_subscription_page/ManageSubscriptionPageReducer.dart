@@ -146,7 +146,7 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
     }
   }
 
-  String timeLeftMessage = 'Dandylight is free to use with a limit to the amount of jobs that can be created(3) and poses that can be viewed. Select a subscription option below to unlock unlimited access to these features. The details are listed below.';
+  String timeLeftMessage = 'Dandylight is free to use with a limit to the amount of jobs that can be created(3). Select a subscription option below to unlock unlimited access to these features. The details are listed below.';
 
 
   return previousState.copyWith(
@@ -164,7 +164,7 @@ ManageSubscriptionPageState _setSubscriptionState(ManageSubscriptionPageState pr
 }
 
 ManageSubscriptionPageState _setInitialData(ManageSubscriptionPageState previousState, SetInitialDataAction action) {
-  String timeLeftMessage = 'Dandylight is free to use with a limit to the amount of jobs that can be created(3) and poses that can be viewed. Select a subscription option below to unlock unlimited access to these features. The details are listed below.';
+  String timeLeftMessage = 'Dandylight is free to use with a limit to the amount of jobs that can be created(3). Select a subscription option below to unlock unlimited access to these features. The details are listed below.';
 
   return previousState.copyWith(
     profile: action.profile,

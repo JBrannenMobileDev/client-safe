@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/pages/poses_page/widgets/SaveToJobBottomSheet.dart';
@@ -18,6 +19,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../models/Job.dart';
+import '../../models/Pose.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -25,7 +27,7 @@ import '../../widgets/TextDandyLight.dart';
 import '../pose_group_page/GroupImage.dart';
 
 class PoseSearchSingleImageViewPager extends StatefulWidget {
-  final List<GroupImage> poses;
+  final List<Pose> poses;
   final int index;
   final String groupName;
 
@@ -42,7 +44,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
   final int pageCount;
   int currentPageIndex;
   final PageController controller;
-  final List<GroupImage> poses;
+  final List<Pose> poses;
   final List<Container> pages = [];
   final String groupName;
 
@@ -79,7 +81,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
   @override
   void initState() {
     super.initState();
-    for(GroupImage image in poses) {
+    for(Pose pose in poses) {
       pages.add(
           Container(
             margin: EdgeInsets.only(top: 16),
@@ -91,11 +93,19 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                     alignment: Alignment.bottomRight,
                     children: [
                       ClipRRect(
-                        borderRadius: new BorderRadius.circular(8.0),
-                        child: Image(
+                        borderRadius: new BorderRadius.circular(16.0),
+                        child: CachedNetworkImage(
+                          fadeOutDuration: Duration(milliseconds: 0),
+                          fadeInDuration: Duration(milliseconds: 200),
+                          imageUrl: pose.imageUrl,
                           fit: BoxFit.contain,
-                          image: image.file.path.isNotEmpty ? FileImage(File(image.file.path))
-                              : AssetImage("assets/images/backgrounds/image_background.png"),
+                          placeholder: (context, url) => Container(
+                              height: 116,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: new BorderRadius.circular(8),
+                              )
+                          ),
                         ),
                       ),
                       Container(
@@ -117,7 +127,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       ),
                       GestureDetector(
                         onTap: () {
-                          IntentLauncherUtil.launchURL(image.pose.instagramUrl);
+                          IntentLauncherUtil.launchURL(pose.instagramUrl);
                         },
                         child: Container(
                           padding: EdgeInsets.only(right: 16),
@@ -126,13 +136,13 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                           child: TextDandyLight(
                             type: TextDandyLight.SMALL_TEXT,
                             color: Color(ColorConstants.getPrimaryWhite()),
-                            text: image.pose.instagramName,
+                            text: pose.instagramName,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  image.pose.prompt.isNotEmpty ? Container(
+                  pose.prompt.isNotEmpty ? Container(
                     margin: EdgeInsets.only(top: 16, left: 16, bottom: 8),
                     width: double.infinity,
                     child:  TextDandyLight(
@@ -142,19 +152,19 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
                       text: 'PROMPT',
                     ),
                   ) : SizedBox(),
-                  image.pose.prompt.isNotEmpty ? Container(
+                  pose.prompt.isNotEmpty ? Container(
                     margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
                     width: double.infinity,
                     child:  TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
                       color: Color(ColorConstants.getPeachDark()),
                       textAlign: TextAlign.start,
-                      text: image.pose.prompt,
+                      text: pose.prompt,
                     ),
                   ) : SizedBox(),
                   GestureDetector(
                     onTap: () {
-                      IntentLauncherUtil.launchURL(image.pose.instagramUrl);
+                      IntentLauncherUtil.launchURL(pose.instagramUrl);
                       EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                     },
                     child: Container(
@@ -208,7 +218,7 @@ class _PoseSearchSingleImageViewPagerState extends State<PoseSearchSingleImageVi
               actions: [
                 GestureDetector(
                   onTap: () {
-                    IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                    IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).instagramUrl);
                     EventSender().sendEvent(eventName: EventNames.BT_POSE_INSTAGRAM_PAGE);
                   },
                   child: Container(

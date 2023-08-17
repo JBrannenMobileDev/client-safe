@@ -126,7 +126,7 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
       _fetchJobTypes(store, action, next);
     }
     if(action is FetchJobPosesAction) {
-      _fetchJobPoses(store, action, next);
+      _fetchJobPoses(store);
     }
     if(action is DeleteJobPoseAction) {
       _deletePose(store, action, next);
@@ -195,27 +195,21 @@ class JobDetailsPageMiddleware extends MiddlewareClass<AppState> {
     store.state.jobDetailsPageState.job.poses.removeAt(action.imageIndex);
     await JobDao.update(store.state.jobDetailsPageState.job);
 
-    List<GroupImage> poseImages = [];
-    for(Pose pose in store.state.jobDetailsPageState.job.poses) {
-      if(pose.isLibraryPose()) {
-        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, true, store.state.jobDetailsPageState.job)).path), pose: pose));
-      } else {
-        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, false, store.state.jobDetailsPageState.job)).path), pose: pose));
-      }
-    }
-    store.dispatch(SetPoseImagesAction(store.state.jobDetailsPageState, poseImages));
+    _fetchJobPoses(store);
   }
 
-  void _fetchJobPoses(Store<AppState> store, FetchJobPosesAction action, NextDispatcher next) async {
-    List<GroupImage> poseImages = [];
-    for(Pose pose in store.state.jobDetailsPageState.job.poses) {
-      if(pose.isLibraryPose()) {
-        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, true, store.state.jobDetailsPageState.job)).path), pose: pose));
-      } else {
-        poseImages.add(GroupImage(file: XFile((await FileStorage.getPoseImageFile(pose, null, false, store.state.jobDetailsPageState.job)).path), pose: pose));
+  void _fetchJobPoses(Store<AppState> store) async {
+    List<String> paths = [];
+    if(store.state.jobDetailsPageState.job != null) {
+      for(Pose pose in store.state.jobDetailsPageState.job.poses) {
+        if(pose.isLibraryPose()) {
+          paths.add((await FileStorage.getPoseImageFile(pose, null, true, store.state.jobDetailsPageState.job)).path);
+        } else {
+          paths.add((await FileStorage.getPoseImageFile(pose, null, false, store.state.jobDetailsPageState.job)).path);
+        }
       }
+      store.dispatch(SetPoseFilePathsAction(store.state.jobDetailsPageState, paths));
     }
-    store.dispatch(SetPoseImagesAction(store.state.jobDetailsPageState, poseImages));
   }
 
   void _fetchJobTypes(Store<AppState> store, FetchAllJobTypesAction action, NextDispatcher next) async {

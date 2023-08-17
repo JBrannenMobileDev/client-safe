@@ -9,34 +9,30 @@ import 'ReviewPosesActions.dart';
 
 class ReviewPosesPageState{
   final String instagramName;
-  final List<GroupImage> groupImages;
   final List<Pose> poses;
   final List<PoseSubmittedGroup> groups;
-  final Function(GroupImage, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApproveSelected;
-  final Function(GroupImage) onRejectedSelected;
+  final Function(Pose, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApproveSelected;
+  final Function(Pose) onRejectedSelected;
 
   ReviewPosesPageState({
     @required this.onApproveSelected,
     @required this.onRejectedSelected,
     @required this.instagramName,
-    @required this.groupImages,
     @required this.poses,
     @required this.groups,
   });
 
   ReviewPosesPageState copyWith({
     String instagramName,
-    List<GroupImage> groupImages,
     List<Pose> poses,
     List<PoseSubmittedGroup> groups,
-    Function(GroupImage, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApprovedSelected,
-    Function(GroupImage) onRejectedSelected,
+    Function(Pose, String, String, bool, bool, bool, bool, bool, bool, bool, bool, bool) onApprovedSelected,
+    Function(Pose) onRejectedSelected,
   }){
     return ReviewPosesPageState(
       onApproveSelected: onApproveSelected ?? this.onApproveSelected,
       onRejectedSelected: onRejectedSelected ?? this.onRejectedSelected,
       instagramName: instagramName ?? this.instagramName,
-      groupImages: groupImages ?? this.groupImages,
       poses: poses ?? this.poses,
       groups: groups ?? this.groups,
     );
@@ -46,7 +42,6 @@ class ReviewPosesPageState{
     onApproveSelected: null,
     onRejectedSelected: null,
     instagramName: '',
-    groupImages: [],
     poses: [],
     groups: [],
   );
@@ -54,14 +49,13 @@ class ReviewPosesPageState{
   factory ReviewPosesPageState.fromStore(Store<AppState> store) {
     return ReviewPosesPageState(
       instagramName: store.state.reviewPosesPageState.instagramName,
-      groupImages: store.state.reviewPosesPageState.groupImages,
       poses: store.state.reviewPosesPageState.poses,
       groups: store.state.reviewPosesPageState.groups,
-      onApproveSelected: (groupImage, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected) => {
-        store.dispatch(ApprovePoseAction(store.state.reviewPosesPageState, groupImage, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected)),
+      onApproveSelected: (pose, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected) => {
+        store.dispatch(ApprovePoseAction(store.state.reviewPosesPageState, pose, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected)),
       },
-      onRejectedSelected: (groupImage) => {
-        store.dispatch(RejectPoseAction(store.state.reviewPosesPageState, groupImage)),
+      onRejectedSelected: (pose) => {
+        store.dispatch(RejectPoseAction(store.state.reviewPosesPageState, pose)),
       }
     );
   }
@@ -70,7 +64,6 @@ class ReviewPosesPageState{
   int get hashCode =>
       instagramName.hashCode ^
       onRejectedSelected.hashCode ^
-      groupImages.hashCode ^
       poses.hashCode ^
       onApproveSelected.hashCode;
 
@@ -80,7 +73,6 @@ class ReviewPosesPageState{
           other is ReviewPosesPageState &&
               instagramName == other.instagramName &&
               onApproveSelected == other.onApproveSelected &&
-              groupImages == other.groupImages &&
               poses == other.poses &&
               onRejectedSelected == other.onRejectedSelected;
 }

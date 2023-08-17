@@ -179,6 +179,7 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
   void setShouldShowOnBoarding(Store<AppState> store, Profile existingProfile) async {
     if(existingProfile.onBoardingComplete || (await JobDao.getAllJobs()).length > 1) {
+      store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, false));
       store.dispatch(UpdateNavigateToHomeAction(store.state.loginPageState, true));
     } else {
       store.dispatch(UpdateNavigateToOnBoardingAction(store.state.loginPageState, true));

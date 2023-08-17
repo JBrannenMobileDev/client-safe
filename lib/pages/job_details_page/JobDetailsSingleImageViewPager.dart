@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/pose_group_page/widgets/SaveToJobBottomSheet.dart';
@@ -17,17 +18,19 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../models/Job.dart';
+import '../../models/Pose.dart';
 import '../../utils/DandyToastUtil.dart';
 import '../../utils/IntentLauncherUtil.dart';
 import '../../utils/VibrateUtil.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
+import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/TextDandyLight.dart';
 import '../pose_group_page/GroupImage.dart';
 import 'JobDetailsPageState.dart';
 
 class JobDetailsSingleImageViewPager extends StatefulWidget {
-  final List<GroupImage> poses;
+  final List<Pose> poses;
   final int index;
   final Function(int) onDelete;
   final String groupName;
@@ -45,7 +48,7 @@ class _JobDetailsSingleImageViewPagerState extends State<JobDetailsSingleImageVi
   final int pageCount;
   int currentPageIndex;
   final PageController controller;
-  final List<GroupImage> poses;
+  final List<Pose> poses;
   final Function(int) onDelete;
   final List<Container> pages = [];
   final String groupName;
@@ -55,7 +58,7 @@ class _JobDetailsSingleImageViewPagerState extends State<JobDetailsSingleImageVi
   @override
   void initState() {
     super.initState();
-    for(GroupImage image in poses) {
+    for(Pose image in poses) {
       pages.add(
           Container(
             margin: EdgeInsets.only(top: 16),
@@ -67,14 +70,22 @@ class _JobDetailsSingleImageViewPagerState extends State<JobDetailsSingleImageVi
                     alignment: Alignment.bottomRight,
                     children: [
                       ClipRRect(
-                        borderRadius: new BorderRadius.circular(8.0),
-                        child: Image(
+                        borderRadius: new BorderRadius.circular(16.0),
+                        child: CachedNetworkImage(
+                          fadeOutDuration: Duration(milliseconds: 0),
+                          fadeInDuration: Duration(milliseconds: 200),
+                          imageUrl: image.imageUrl,
                           fit: BoxFit.contain,
-                          image: image.file.path.isNotEmpty ? FileImage(File(image.file.path))
-                              : AssetImage("assets/images/backgrounds/image_background.png"),
+                          placeholder: (context, url) => Container(
+                              height: 116,
+                              decoration: BoxDecoration(
+                                color: Colors.transparent,
+                                borderRadius: new BorderRadius.circular(16),
+                              )
+                          ),
                         ),
                       ),
-                      image.pose.isLibraryPose() ? Container(
+                      image.isLibraryPose() ? Container(
                         height: 116.0,
                         decoration: BoxDecoration(
                             color: Color(ColorConstants.getPrimaryWhite()),
@@ -91,9 +102,9 @@ class _JobDetailsSingleImageViewPagerState extends State<JobDetailsSingleImageVi
                                   1.0
                                 ])),
                       ) : SizedBox(),
-                      image.pose.isLibraryPose() ? GestureDetector(
+                      image.isLibraryPose() ? GestureDetector(
                         onTap: () {
-                          IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                          IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).instagramUrl);
                         },
                         child: Container(
                           padding: EdgeInsets.only(right: 16),
@@ -102,15 +113,15 @@ class _JobDetailsSingleImageViewPagerState extends State<JobDetailsSingleImageVi
                           child: TextDandyLight(
                             type: TextDandyLight.SMALL_TEXT,
                             color: Color(ColorConstants.getPrimaryWhite()),
-                            text: image.pose.instagramName,
+                            text: image.instagramName,
                           ),
                         ),
                       ) : SizedBox(),
                     ],
                   ),
-                  image.pose.isLibraryPose() ? GestureDetector(
+                  image.isLibraryPose() ? GestureDetector(
                     onTap: () {
-                      IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).pose.instagramUrl);
+                      IntentLauncherUtil.launchURL(poses.elementAt(currentPageIndex).instagramUrl);
                     },
                     child: Container(
                       margin: EdgeInsets.only(top: 16),
@@ -167,20 +178,6 @@ class _JobDetailsSingleImageViewPagerState extends State<JobDetailsSingleImageVi
     setState(() {
       currentPageIndex = page;
     });
-  }
-
-  void _showSaveToJobBottomSheet(BuildContext context, selectedIndex) {
-    showModalBottomSheet(
-      context: context,
-      isScrollControlled: true,
-      isDismissible: true,
-      enableDrag: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return SaveToJobBottomSheet(selectedIndex);
-      },
-    );
   }
 
   @override

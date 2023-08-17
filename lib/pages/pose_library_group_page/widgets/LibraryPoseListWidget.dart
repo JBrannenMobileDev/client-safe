@@ -1,10 +1,12 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/VibrateUtil.dart';
+import 'package:dandylight/widgets/DandyLightNetworkImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -14,14 +16,10 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:super_banners/super_banners.dart';
 
 import '../../../models/Job.dart';
-import '../../../utils/analytics/EventNames.dart';
-import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
-import '../../pose_group_page/GroupImage.dart';
 import '../LibraryPoseGroupPageState.dart';
 import 'SaveToJobBottomSheet.dart';
 import 'SaveToMyPosesBottomSheet.dart';
-import 'dart:math' as math;
 
 class LibraryPoseListWidget extends StatelessWidget {
   final int index;
@@ -64,17 +62,10 @@ class LibraryPoseListWidget extends StatelessWidget {
       builder: (BuildContext context, LibraryPoseGroupPageState pageState) =>
           Stack(
             children: [
-              pageState.poseImages.length > index ? Container(
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: pageState.poseImages.isNotEmpty ? FileImage(File(pageState.poseImages.elementAt(index).file.path))
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
-                  ),
-                ),
+              pageState.sortedPoses.length > index ? DandyLightNetworkImage(
+                pageState.sortedPoses.elementAt(index).imageUrl
               ) : SizedBox(),
-              pageState.poseImages.length > index ? Container(
+              pageState.sortedPoses.length > index ? Container(
                 height: 150.0,
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
@@ -91,7 +82,7 @@ class LibraryPoseListWidget extends StatelessWidget {
                           1.0
                         ])),
               ) : SizedBox(),
-              pageState.poseImages.length > index ? pageState.poseImages.elementAt(index).pose.isNewPose() ? Container(
+              pageState.sortedPoses.length > index ? pageState.sortedPoses.elementAt(index).isNewPose() ? Container(
                 alignment: Alignment.bottomRight,
                 child: CornerBanner(
                   bannerPosition: CornerBannerPosition.bottomRight,
@@ -106,7 +97,7 @@ class LibraryPoseListWidget extends StatelessWidget {
                   ),
                 ),
               ) : SizedBox() : SizedBox(),
-              pageState.poseImages.length > index ? job == null ? GestureDetector(
+              pageState.sortedPoses.length > index ? job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToJobBottomSheet(context, index);
                 },
@@ -125,7 +116,7 @@ class LibraryPoseListWidget extends StatelessWidget {
                     ),
                   ),
               ) : SizedBox() : SizedBox(),
-              pageState.poseImages.length > index ?  job == null ? GestureDetector(
+              pageState.sortedPoses.length > index ?  job == null ? GestureDetector(
                 onTap: () {
                   _showSaveToMyPosesBottomSheet(context, index);
                 },
@@ -144,17 +135,6 @@ class LibraryPoseListWidget extends StatelessWidget {
                     ),
                   ),
               ) : SizedBox() : SizedBox(),
-              pageState.poseImages.length <= index ? Container(
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPeachLight()),
-                  borderRadius: new BorderRadius.circular(16.0),
-                ),
-                child: LoadingAnimationWidget.fourRotatingDots(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                  size: 32,
-                ),
-              ) : SizedBox()
             ],
           ),
     );

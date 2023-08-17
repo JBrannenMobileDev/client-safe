@@ -1,15 +1,9 @@
-import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
-import 'package:dandylight/pages/pose_library_group_page/LibraryPoseGroupPageState.dart';
-import 'package:dandylight/pages/pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
-import 'package:dandylight/pages/pose_library_group_page/widgets/MyPoseGroupsListItem.dart';
 import 'package:dandylight/pages/poses_page/PosesPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
@@ -17,7 +11,6 @@ import '../../../utils/DandyToastUtil.dart';
 import '../../../utils/analytics/EventNames.dart';
 import '../../../utils/analytics/EventSender.dart';
 import '../../../widgets/TextDandyLight.dart';
-import '../../new_contact_pages/NewContactPageState.dart';
 
 
 class SaveSubmittedPoseToJobBottomSheet extends StatefulWidget {
@@ -44,7 +37,7 @@ class _SaveToJobBottomSheetState extends State<SaveSubmittedPoseToJobBottomSheet
       builder: (BuildContext context, PosesPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageAddedToJobSelected(pageState.submittedPoses.elementAt(poseIndex).pose, pageState.activeJobs.elementAt(index));
+              pageState.onImageAddedToJobSelected(pageState.sortedSubmittedPoses.elementAt(poseIndex), pageState.activeJobs.elementAt(index));
               showSuccessAnimation();
               EventSender().sendEvent(eventName: EventNames.BT_SAVE_SUBMITTED_POSE_TO_JOB);
             },

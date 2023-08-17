@@ -1,20 +1,13 @@
-import 'dart:io';
-
-import 'package:dandylight/pages/dashboard_page/DashboardPageState.dart';
 import 'package:dandylight/pages/job_details_page/JobDetailsSingleImageViewPager.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../AppState.dart';
-import '../../../models/JobReminder.dart';
 import '../../../utils/NavigationUtil.dart';
-import '../../../utils/styles/Styles.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../utils/analytics/EventNames.dart';
 import '../../utils/analytics/EventSender.dart';
@@ -22,8 +15,6 @@ import 'JobDetailsPageState.dart';
 import 'JobPoseListWidget.dart';
 
 class JobPosesPage extends StatelessWidget{
-  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
-  final ScrollController _controller = ScrollController();
 
   Widget _buildItem(BuildContext context, int index) {
     return StoreConnector<AppState, JobDetailsPageState>(
@@ -33,7 +24,7 @@ class JobPosesPage extends StatelessWidget{
             onTap: () {
               Navigator.of(context).push(
                 new MaterialPageRoute(builder: (context) => JobDetailsSingleImageViewPager(
-                  pageState.poseImages,
+                  pageState.job.poses,
                   index,
                   pageState.onDeletePoseSelected,
                   'Job Poses',
@@ -99,7 +90,7 @@ class JobPosesPage extends StatelessWidget{
                           child: _buildItem(context, index),
                         );
                       },
-                        childCount: pageState.poseImages.length, // 1000 list items
+                        childCount: pageState.job.poses.length, // 1000 list items
                       ),
                     ),
                   ),
@@ -109,9 +100,8 @@ class JobPosesPage extends StatelessWidget{
                 alignment: Alignment.bottomCenter,
                 child: GestureDetector(
                   onTap: () {
-                    List<String> filePaths = pageState.poseImages.map((groupImage) => groupImage.file.path).toList();
                     Share.shareFiles(
-                        filePaths,
+                        pageState.poseFilePaths,
                         subject: 'Example Poses');
                     EventSender().sendEvent(eventName: EventNames.BT_SHARE_JOB_POSES);
                   },

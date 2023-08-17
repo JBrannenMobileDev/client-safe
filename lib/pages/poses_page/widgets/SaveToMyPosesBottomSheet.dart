@@ -1,6 +1,5 @@
 import 'package:dandylight/pages/poses_page/widgets/PosesMyPoseGroupsListItem.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
@@ -40,7 +39,7 @@ class _BottomSheetPageState extends State<SaveToMyPosesBottomSheet> with TickerP
       builder: (BuildContext context, PosesPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageSaveSelected(pageState.searchResultsImages.elementAt(libraryPoseIndex), pageState.poseGroups.elementAt(index));
+              pageState.onImageSaveSelected(pageState.searchResultPoses.elementAt(libraryPoseIndex), pageState.poseGroups.elementAt(index));
               showSuccessAnimation();
               EventSender().sendEvent(eventName: EventNames.BT_SAVE_LIBRARY_SEARCH_POSE);
             },

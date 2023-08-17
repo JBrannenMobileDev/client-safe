@@ -2,6 +2,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
+import 'package:dandylight/widgets/DandyLightNetworkImage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -26,38 +27,26 @@ class LocationListWidget extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomCenter,
             children: <Widget>[
-              !pageState.isLoadingImages || pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty) ?
+              pageState.locations.length > 0 ?
            Container(
+             width: double.infinity,
                 margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                  borderRadius: new BorderRadius.circular(16.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index).path.isNotEmpty
-                        ? FileImage(pageState.locationImages.elementAt(index))
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
-                  ),
+                  color: Color(ColorConstants.getPeachLight()),
+                  borderRadius: new BorderRadius.circular(8.0),
                 ),
-              ) : Container(
-                  margin: EdgeInsets.only(bottom: 28.0),
-                  height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Color(ColorConstants.getPrimaryWhite()),
-                  borderRadius: new BorderRadius.circular(16.0),
-                ),
-                child: LoadingAnimationWidget.fourRotatingDots(
-                  color: Color(ColorConstants.getBlueDark()),
-                  size: 32,
-                ),
-              ),
-              pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty)  ? Container(
+             child: DandyLightNetworkImage(
+               pageState.locations.elementAt(index).imageUrl,
+               errorType: pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? DandyLightNetworkImage.ERROR_TYPE_INTERNET : DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
+               errorIconSize: pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? 44 : 96,
+             ),
+              ) : SizedBox(),
+              pageState.locations.length > 0 && pageState.locations.elementAt(index).imageUrl != null && pageState.locations.elementAt(index).imageUrl.isNotEmpty ? Container(
                 height: 96.0,
                 margin: EdgeInsets.only(bottom: 28.0),
                 decoration: BoxDecoration(
                     color: Color(ColorConstants.getPrimaryWhite()),
-                    borderRadius: new BorderRadius.circular(16.0),
+                    borderRadius: new BorderRadius.circular(8.0),
                     gradient: LinearGradient(
                         begin: FractionalOffset.center,
                         end: FractionalOffset.bottomCenter,
@@ -70,7 +59,7 @@ class LocationListWidget extends StatelessWidget {
                           1.0
                         ])),
               ) : SizedBox(),
-              pageState.locations.length == 0 || (pageState.locationImages.isNotEmpty && pageState.locationImages.length > index && pageState.locationImages.elementAt(index) != null && pageState.locationImages.elementAt(index).path.isNotEmpty) ? Container(
+              pageState.locations.length > 0 ? Container(
                 margin: EdgeInsets.only(bottom: 32.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

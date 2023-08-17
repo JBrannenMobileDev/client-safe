@@ -10,7 +10,7 @@ class ClearReviewPosesStateAction {
 
 class ApprovePoseAction {
   final ReviewPosesPageState pageState;
-  final GroupImage groupImage;
+  final Pose pose;
   final String prompt;
   final String tags;
   final bool engagementsSelected;
@@ -22,14 +22,14 @@ class ApprovePoseAction {
   final bool proposalsSelected;
   final bool petsSelected;
   final bool weddingsSelected;
-  ApprovePoseAction(this.pageState, this.groupImage, this.prompt, this.tags, this.engagementsSelected, this.familiesSelected,
+  ApprovePoseAction(this.pageState, this.pose, this.prompt, this.tags, this.engagementsSelected, this.familiesSelected,
       this.couplesSelected, this.portraitsSelected, this.maternitySelected, this.newbornSelected, this.proposalsSelected, this.petsSelected, this.weddingsSelected);
 }
 
 class RejectPoseAction {
   final ReviewPosesPageState pageState;
-  final GroupImage groupImage;
-  RejectPoseAction(this.pageState, this.groupImage);
+  final Pose pose;
+  RejectPoseAction(this.pageState, this.pose);
 }
 
 class LoadPosesToReviewAction {
@@ -40,8 +40,7 @@ class LoadPosesToReviewAction {
 class SetPoseImagesToState {
   final ReviewPosesPageState pageState;
   final List<Pose> poses;
-  final List<GroupImage> groupImages;
-  SetPoseImagesToState(this.pageState, this.poses, this.groupImages);
+  SetPoseImagesToState(this.pageState, this.poses);
 }
 
 class SetGroupsToStateAction {

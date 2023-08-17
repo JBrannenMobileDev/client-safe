@@ -1,6 +1,6 @@
-import 'dart:io';
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/review_poses_page/ReviewPosesPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -11,26 +11,25 @@ import 'package:flutter_redux/flutter_redux.dart';
 
 import '../../models/Pose.dart';
 import '../../widgets/TextDandyLight.dart';
-import '../pose_group_page/GroupImage.dart';
 import '../pose_library_group_page/widgets/DandyLightLibraryTextField.dart';
 import '../upload_pose_page/UploadPosePage.dart';
 
 class DecisionPage extends StatefulWidget {
-  final GroupImage groupImage;
+  final Pose pose;
   final int index;
   final Function setCurrentPage;
 
-  DecisionPage(this.groupImage, this.index, this.setCurrentPage);
+  DecisionPage(this.pose, this.index, this.setCurrentPage);
 
   @override
   _DecisionPageState createState() {
-    return _DecisionPageState(groupImage, index, setCurrentPage);
+    return _DecisionPageState(pose, index, setCurrentPage);
   }
 }
 
 class _DecisionPageState extends State<DecisionPage> {
   final GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
-  GroupImage groupImage;
+  Pose pose;
 
   final tagsController = TextEditingController();
   final FocusNode _tagsFocusNode = FocusNode();
@@ -53,18 +52,18 @@ class _DecisionPageState extends State<DecisionPage> {
   final int currentPageIndex;
 
 
-  _DecisionPageState(this.groupImage, this.currentPageIndex, this.setCurrentPage);
+  _DecisionPageState(this.pose, this.currentPageIndex, this.setCurrentPage);
 
   @override
   void initState() {
     super.initState();
-    promptController.text = groupImage.pose.prompt;
-    tagsController.text = groupImage.pose.tags.join(',');
+    promptController.text = pose.prompt;
+    tagsController.text = pose.tags.join(',');
 
-    prompt = groupImage.pose.prompt;
+    prompt = pose.prompt;
     tags = tagsController.text;
 
-    groupImage.pose.categories.forEach((category) {
+    pose.categories.forEach((category) {
       switch(category) {
         case UploadPosePage.FAMILIES:
           familiesSelected = true;
@@ -178,19 +177,15 @@ class _DecisionPageState extends State<DecisionPage> {
                         padding: EdgeInsets.only(left:20, right: 20),
                         child: ClipRRect(
                           borderRadius: new BorderRadius.circular(16.0),
-                          child: Image(
-                            fit: BoxFit.contain,
-                            image: groupImage.file != null ? FileImage(File(groupImage.file.path))
-                                : AssetImage("assets/images/backgrounds/image_background.png"),
-                          ),
+                          child: CachedNetworkImage(imageUrl: pose.imageUrl, fit: BoxFit.contain,)
                         ),
                       ),
-                      groupImage.pose.reviewStatus == Pose.STATUS_REVIEWED ? Container(
+                      pose.reviewStatus == Pose.STATUS_REVIEWED ? Container(
                         height: 128,
                         alignment: Alignment.center,
                         child: Image.asset("assets/images/icons/rejected.png", color: Color(ColorConstants.getPrimaryWhite())),
                       ) : SizedBox(),
-                      groupImage.pose.reviewStatus == Pose.STATUS_FEATURED ? Container(
+                      pose.reviewStatus == Pose.STATUS_FEATURED ? Container(
                         height: 128,
                         alignment: Alignment.center,
                         child: Icon(Icons.check,
@@ -206,7 +201,7 @@ class _DecisionPageState extends State<DecisionPage> {
                     margin: EdgeInsets.only(left: 20.0, right: 20.0, top: 0),
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
-                      text: groupImage.pose.instagramName,
+                      text: pose.instagramName,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                   ),
@@ -445,10 +440,10 @@ class _DecisionPageState extends State<DecisionPage> {
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-                      pageState.onRejectedSelected(groupImage);
+                      pageState.onRejectedSelected(pose);
                       setCurrentPage(1 + currentPageIndex);
                       setState(() {
-                        groupImage.pose.reviewStatus = Pose.STATUS_REVIEWED;
+                        pose.reviewStatus = Pose.STATUS_REVIEWED;
                       });
                     },
                     child: Container(
@@ -471,10 +466,10 @@ class _DecisionPageState extends State<DecisionPage> {
                 Flexible(
                   child: GestureDetector(
                     onTap: () {
-                      pageState.onApproveSelected(groupImage, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
+                      pageState.onApproveSelected(pose, prompt, tags, engagementsSelected, familiesSelected, couplesSelected, portraitsSelected, maternitySelected, newbornSelected, proposalsSelected, petsSelected, weddingsSelected);
                       setCurrentPage(1 + currentPageIndex);
                       setState(() {
-                        groupImage.pose.reviewStatus = Pose.STATUS_FEATURED;
+                        pose.reviewStatus = Pose.STATUS_FEATURED;
                       });
                     },
                     child: Container(

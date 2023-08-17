@@ -5,10 +5,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../models/Job.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../widgets/DandyLightNetworkImage.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../pose_group_page/PoseGroupPage.dart';
 import '../PosesPageState.dart';
@@ -33,7 +33,7 @@ class PoseGroupListWidget extends StatelessWidget {
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: Stack(
+          child: pageState.poseGroups.elementAt(index).poses.length > 0 ? Stack(
             alignment: Alignment.centerRight,
             children: [
               Container(
@@ -42,32 +42,20 @@ class PoseGroupListWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    pageState.poseGroups.elementAt(index).poses.length == 0 || (pageState.groupImages.isNotEmpty && pageState.groupImages.length > index && pageState.groupImages.elementAt(index).path.isNotEmpty) ?
                     Container(
                       height: 108.0,
                       width: 108.0,
                       margin: EdgeInsets.only(right: 16.0),
                       decoration: BoxDecoration(
                         borderRadius: new BorderRadius.circular(16.0),
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: pageState.groupImages.isNotEmpty && pageState.groupImages.length > index && pageState.groupImages.elementAt(index).path.isNotEmpty
-                              ? FileImage(pageState.groupImages.elementAt(index))
-                              : AssetImage("assets/images/backgrounds/image_background.png"),
-                        ),
+                        color: Color(ColorConstants.getPeachLight())
                       ),
-                    ) : Container(
-                      height: 108.0,
-                      width: 108.0,
-                      margin: EdgeInsets.only(right: 16.0),
-                      decoration: BoxDecoration(
-                        color: Color(ColorConstants.getPeachLight()),
-                        borderRadius: new BorderRadius.circular(16.0),
+                      child: DandyLightNetworkImage(
+                        pageState.poseGroups.elementAt(index).poses.elementAt(index).imageUrl,
+                        borderRadius: 16,
+                        resizeWidth: 350,
+                        errorIconSize: 24,
                       ),
-                        child: LoadingAnimationWidget.fourRotatingDots(
-                          color: Color(ColorConstants.getPrimaryWhite()),
-                          size: 32,
-                        ),
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -111,7 +99,7 @@ class PoseGroupListWidget extends StatelessWidget {
                 ),
               ),
             ],
-          ),
+          ) : SizedBox(),
         ),
       ),
     );

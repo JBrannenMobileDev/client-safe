@@ -25,16 +25,16 @@ class FileStorage {
     await _uploadLocationImageFile(imagePath, location);
   }
 
-  static savePoseImageFile(String path, Pose pose, PoseGroup group) async {
-    await _uploadPoseImageFile(path, pose, group);
+  static savePoseImageFile(String pathLarge, Pose pose, PoseGroup group) async {
+    await _uploadPoseImageFile(pathLarge, pose, group);
   }
 
-  static saveLibraryPoseImageFile(String path, Pose pose, PoseLibraryGroup group) async {
-    await _uploadLibraryPoseImageFile(path, pose, group);
+  static saveLibraryPoseImageFile(String pathLarge, Pose pose, PoseLibraryGroup group) async {
+    await _uploadLibraryPoseImageFile(pathLarge, pose, group);
   }
 
-  static saveSubmittedPoseImageFile(String path, Pose pose) async {
-    await _uploadSubmittedPoseImageFile(path, pose);
+  static saveSubmittedPoseImageFile(String pathLarge, Pose pose) async {
+    await _uploadSubmittedPoseImageFile(pathLarge, pose);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
@@ -106,7 +106,7 @@ class FileStorage {
       final storageRef = FirebaseStorage.instance.ref();
       final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
       imageUrl = await cloudFilePath.getDownloadURL();
-      await _updateSubmittedPoseImageUrl(pose, imageUrl);
+      await _updateSubmittedPoseImageUrlLarge(pose, imageUrl);
     }
     return await DandylightCacheManager.instance.getSingleFile(imageUrl);
   }
@@ -156,7 +156,7 @@ class FileStorage {
     await PoseLibraryGroupDao.update(group);
   }
 
-  static _updateSubmittedPoseImageUrl(Pose poseToUpdate, String imageUrl) async {
+  static _updateSubmittedPoseImageUrlLarge(Pose poseToUpdate, String imageUrl) async {
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.update(poseToUpdate);
     await PoseSubmittedGroupDao.updatePoseInGroup(poseToUpdate, UidUtil().getUid());
@@ -271,62 +271,66 @@ class FileStorage {
     });
   }
 
-  static _uploadLibraryPoseImageFile(String imagePath, Pose pose, PoseLibraryGroup group) async {
+  static _uploadLibraryPoseImageFile(String imagePathLarge, Pose pose, PoseLibraryGroup group) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    final uploadTask = storageRef
-        .child(_buildPoseLibraryImagePath(pose))
-        .putFile(File(imagePath));
+    if(imagePathLarge != null) {
+      final uploadTask = storageRef
+          .child(_buildPoseLibraryImagePath(pose))
+          .putFile(File(imagePathLarge));
 
-    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-      switch (taskSnapshot.state) {
-        case TaskState.running:
-          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-          print("Upload is $progress% complete.");
-          break;
-        case TaskState.paused:
-          print("Upload is paused.");
-          break;
-        case TaskState.canceled:
-          print("Upload was canceled");
-          break;
-        case TaskState.error:
-        // Handle unsuccessful uploads
-          break;
-        case TaskState.success:
-          _fetchAndSaveLibraryPoseImageDownloadUrl(pose, group);
-          break;
-      }
-    });
+      uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+            print("Upload is $progress% complete.");
+            break;
+          case TaskState.paused:
+            print("Upload is paused.");
+            break;
+          case TaskState.canceled:
+            print("Upload was canceled");
+            break;
+          case TaskState.error:
+          // Handle unsuccessful uploads
+            break;
+          case TaskState.success:
+            _fetchAndSaveLibraryPoseImageDownloadUrl(pose, group);
+            break;
+        }
+      });
+    }
   }
 
-  static _uploadSubmittedPoseImageFile(String imagePath, Pose pose) async {
+  static _uploadSubmittedPoseImageFile(String imagePathLarge, Pose pose) async {
     final storageRef = FirebaseStorage.instance.ref();
 
-    final uploadTask = storageRef
-        .child(_buildPoseLibraryImagePath(pose))
-        .putFile(File(imagePath));
+    if(imagePathLarge != null) {
+      final uploadTaskLarge = storageRef
+          .child(_buildPoseLibraryImagePath(pose))
+          .putFile(File(imagePathLarge));
 
-    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
-      switch (taskSnapshot.state) {
-        case TaskState.running:
-          final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
-          print("Upload is $progress% complete.");
-          break;
-        case TaskState.paused:
-          print("Upload is paused.");
-          break;
-        case TaskState.canceled:
-          print("Upload was canceled");
-          break;
-        case TaskState.error:
-        // Handle unsuccessful uploads
-          break;
-        case TaskState.success:
-          _fetchAndSaveSubmittedPoseImageDownloadUrl(pose);
-          break;
-      }
-    });
+      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+            print("Upload is $progress% complete.");
+            break;
+          case TaskState.paused:
+            print("Upload is paused.");
+            break;
+          case TaskState.canceled:
+            print("Upload was canceled");
+            break;
+          case TaskState.error:
+          // Handle unsuccessful uploads
+            break;
+          case TaskState.success:
+            _fetchAndSaveSubmittedPoseImageDownloadUrlLarge(pose);
+            break;
+        }
+      });
+    }
   }
 
   static _fetchAndSaveLibraryPoseImageDownloadUrl(Pose pose, PoseLibraryGroup group) async {
@@ -335,10 +339,10 @@ class FileStorage {
     _updateLibraryPoseImageUrl(pose, await cloudFilePath.getDownloadURL(), group);
   }
 
-  static _fetchAndSaveSubmittedPoseImageDownloadUrl(Pose pose) async {
+  static _fetchAndSaveSubmittedPoseImageDownloadUrlLarge(Pose pose) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
-    await _updateSubmittedPoseImageUrl(pose, await cloudFilePath.getDownloadURL());
+    await _updateSubmittedPoseImageUrlLarge(pose, await cloudFilePath.getDownloadURL());
   }
 
   static _fetchAndSavePoseImageDownloadUrl(Pose pose, PoseGroup group) async {
@@ -394,9 +398,17 @@ class FileStorage {
   static String _buildPoseImagePath(Pose pose) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/poses/${pose.documentId}.jpg";
   }
-
+  
+  static String _buildPoseImagePathSmall(Pose pose) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/poses/${pose.documentId}small.jpg";
+  }
+  
   static String _buildPoseLibraryImagePath(Pose pose) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/libraryPoses/${pose.documentId}.jpg";
+  }
+
+  static String _buildPoseLibraryImagePathSmall(Pose pose) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/libraryPoses/${pose.documentId}small.jpg";
   }
 
   static String _buildContractFilePath(Contract contract) {

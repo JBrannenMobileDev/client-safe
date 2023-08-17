@@ -9,15 +9,6 @@ import '../../models/PoseGroup.dart';
 import '../pose_group_page/GroupImage.dart';
 import 'LibraryPoseGroupPageState.dart';
 
-class SaveLibraryPosesToGroupAction{
-  final LibraryPoseGroupPageState pageState;
-  final List<XFile> poseImages;
-  final String name;
-  final String url;
-  final List<String> tags;
-  SaveLibraryPosesToGroupAction(this.pageState, this.poseImages, this.name, this.url, this.tags);
-}
-
 class SetActiveJobs {
   final LibraryPoseGroupPageState pageState;
   final List<Job> activeJobs;
@@ -36,12 +27,6 @@ class LoadLibraryPoseGroup{
   LoadLibraryPoseGroup(this.pageState, this.poseGroup);
 }
 
-class SetLibraryPoseImagesToState{
-  final LibraryPoseGroupPageState pageState;
-  final List<GroupImage> poseImages;
-  SetLibraryPoseImagesToState(this.pageState, this.poseImages);
-}
-
 class SetInstagramAction {
   final LibraryPoseGroupPageState pageState;
   String instagramName;
@@ -56,7 +41,7 @@ class ClearLibraryPoseGroupState{
 
 class SaveSelectedPoseToMyPosesAction {
   final LibraryPoseGroupPageState pageState;
-  final GroupImage selectedImage;
+  final Pose selectedImage;
   final PoseGroup selectedGroup;
   SaveSelectedPoseToMyPosesAction(this.pageState, this.selectedImage, this.selectedGroup);
 }
@@ -68,21 +53,10 @@ class SaveSelectedImageToJobAction {
   SaveSelectedImageToJobAction(this.pageState, this.selectedPose, this.selectedJob);
 }
 
-class SetLoadingNewLibraryImagesState{
-  final LibraryPoseGroupPageState pageState;
-  final bool isLoading;
-  SetLoadingNewLibraryImagesState(this.pageState, this.isLoading);
-}
-
-class ClearLibraryGroupImagesAction {
-  final LibraryPoseGroupPageState pageState;
-  ClearLibraryGroupImagesAction(this.pageState);
-}
-
-class LoadMoreImagesAction {
+class SortGroupImages {
   final LibraryPoseGroupPageState pageState;
   final PoseLibraryGroup poseGroup;
-  LoadMoreImagesAction(this.pageState, this.poseGroup);
+  SortGroupImages(this.pageState, this.poseGroup);
 }
 
 class SetSortedPosesAction {
@@ -105,7 +79,6 @@ class SetIsAdminLibraryAction {
 class SetPoseGroupsLibraryAction{
   final LibraryPoseGroupPageState pageState;
   final List<PoseGroup> poseGroups;
-  final List<File> imageFiles;
-  SetPoseGroupsLibraryAction(this.pageState, this.poseGroups, this.imageFiles);
+  SetPoseGroupsLibraryAction(this.pageState, this.poseGroups);
 }
 

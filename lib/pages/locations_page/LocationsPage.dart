@@ -7,14 +7,10 @@ import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
 import 'package:dandylight/pages/locations_page/widgets/LocationListWidget.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/permissions/UserPermissionsUtil.dart';
-import 'package:dandylight/utils/styles/Styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:redux/redux.dart';
 
 import '../../widgets/TextDandyLight.dart';

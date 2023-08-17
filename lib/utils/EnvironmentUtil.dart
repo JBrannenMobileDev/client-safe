@@ -7,6 +7,7 @@ class EnvironmentUtil {
   static const String DEV = "dev";
 
   String _currentEnvironment = DEV;
+  String _currentBuildNumber = '1.2.9';
 
   factory EnvironmentUtil() {
     return _environmentUtil;
@@ -14,6 +15,10 @@ class EnvironmentUtil {
 
   String getCurrentEnvironment(){
     return _currentEnvironment;
+  }
+
+  String getCurrentBuildNumber() {
+    return _currentBuildNumber;
   }
 
   EnvironmentUtil._internal();

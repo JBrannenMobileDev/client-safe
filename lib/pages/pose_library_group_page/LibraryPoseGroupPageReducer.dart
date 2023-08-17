@@ -7,20 +7,13 @@ import '../../models/Pose.dart';
 
 final libraryPoseGroupReducer = combineReducers<LibraryPoseGroupPageState>([
   TypedReducer<LibraryPoseGroupPageState, SetLibraryPoseGroupData>(_setPoseGroup),
-  TypedReducer<LibraryPoseGroupPageState, SetLibraryPoseImagesToState>(_setPoseImages),
   TypedReducer<LibraryPoseGroupPageState, ClearLibraryPoseGroupState>(_clearState),
-  TypedReducer<LibraryPoseGroupPageState, SetLoadingNewLibraryImagesState>(_setLoadingState),
   TypedReducer<LibraryPoseGroupPageState, SetIsAdminLibraryAction>(_setIsAdmin),
   TypedReducer<LibraryPoseGroupPageState, SetActiveJobs>(_setActiveJobs),
   TypedReducer<LibraryPoseGroupPageState, SetPoseGroupsLibraryAction>(_setPoseGroups),
   TypedReducer<LibraryPoseGroupPageState, SetInstagramAction>(_setInstagram),
-  TypedReducer<LibraryPoseGroupPageState, ClearLibraryGroupImagesAction>(_clearImages),
   TypedReducer<LibraryPoseGroupPageState, SetSortedPosesAction>(_setSortedPoses),
 ]);
-
-LibraryPoseGroupPageState _clearImages(LibraryPoseGroupPageState previousState, ClearLibraryGroupImagesAction action){
-  return LibraryPoseGroupPageState.initial();
-}
 
 LibraryPoseGroupPageState _setInstagram(LibraryPoseGroupPageState previousState, SetInstagramAction action){
   return previousState.copyWith(
@@ -32,7 +25,6 @@ LibraryPoseGroupPageState _setInstagram(LibraryPoseGroupPageState previousState,
 LibraryPoseGroupPageState _setPoseGroups(LibraryPoseGroupPageState previousState, SetPoseGroupsLibraryAction action){
   return previousState.copyWith(
     myPoseGroups: action.poseGroups,
-    myPoseGroupImages: action.imageFiles,
   );
 }
 
@@ -48,12 +40,6 @@ LibraryPoseGroupPageState _setActiveJobs(LibraryPoseGroupPageState previousState
   );
 }
 
-LibraryPoseGroupPageState _setLoadingState(LibraryPoseGroupPageState previousState, SetLoadingNewLibraryImagesState action){
-  return previousState.copyWith(
-    isLoadingNewImages: action.isLoading,
-  );
-}
-
 LibraryPoseGroupPageState _clearState(LibraryPoseGroupPageState previousState, ClearLibraryPoseGroupState action){
   return LibraryPoseGroupPageState.initial();
 }
@@ -65,14 +51,25 @@ LibraryPoseGroupPageState _setPoseGroup(LibraryPoseGroupPageState previousState,
 }
 
 LibraryPoseGroupPageState _setSortedPoses(LibraryPoseGroupPageState previousState, SetSortedPosesAction action){
+  List<Pose> sortedPoses = _sortPoses(action.sortedPoses);
   return previousState.copyWith(
-      sortedPoses: action.sortedPoses
+      sortedPoses: sortedPoses
   );
 }
 
-LibraryPoseGroupPageState _setPoseImages(LibraryPoseGroupPageState previousState, SetLibraryPoseImagesToState action){
-  return previousState.copyWith(
-    poseImages: action.poseImages,
-    isLoadingNewImages: false,
-  );
+List<Pose> _sortPoses(List<Pose> poses) {
+  List<Pose> newPoses = [];
+  List<Pose> oldPoses = [];
+
+  for(Pose pose in poses) {
+    if(pose.isNewPose()){
+      newPoses.add(pose);
+    } else {
+      oldPoses.add(pose);
+    }
+  }
+
+  oldPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
+  newPoses.sort((a, b) => b.numOfSaves.compareTo(a.numOfSaves) == 0 ? b.createDate.compareTo(a.createDate) : b.numOfSaves.compareTo(a.numOfSaves));
+  return newPoses + oldPoses;
 }

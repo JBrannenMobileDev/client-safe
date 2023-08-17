@@ -1,30 +1,15 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/PriceProfile.dart';
-import 'package:dandylight/pages/locations_page/LocationsPageState.dart';
-import 'package:dandylight/pages/new_location_page/NewLocationActions.dart';
 import 'package:dandylight/pages/pose_group_page/PoseGroupPageState.dart';
 import 'package:dandylight/pages/pose_group_page/widgets/SaveToJobBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/UserOptionsUtil.dart';
-import 'package:dandylight/utils/VibrateUtil.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_device_type/flutter_device_type.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../../../models/Job.dart';
-import '../../../utils/DandyToastUtil.dart';
-import '../../../utils/analytics/EventNames.dart';
-import '../../../utils/analytics/EventSender.dart';
-import '../GroupImage.dart';
+import '../../../widgets/DandyLightNetworkImage.dart';
 
 class PoseListWidget extends StatelessWidget {
   final int index;
@@ -53,15 +38,8 @@ class PoseListWidget extends StatelessWidget {
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           Stack(
             children: [
-              pageState.poseImages.length > index ? Container(
-                decoration: BoxDecoration(
-                  borderRadius: new BorderRadius.circular(8.0),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: pageState.poseImages.isNotEmpty ? FileImage(File(pageState.poseImages.elementAt(index).file.path))
-                        : AssetImage("assets/images/backgrounds/image_background.png"),
-                  ),
-                ),
+              pageState.poseImages.length > index ? DandyLightNetworkImage(
+                  pageState.poseImages.elementAt(index).imageUrl
               ) : SizedBox(),
               pageState.poseImages.length > index ? Container(
                 height: 150.0,
@@ -132,10 +110,5 @@ class PoseListWidget extends StatelessWidget {
             ],
           ),
     );
-  }
-
-  isCurrentImageInSelectedImages(int index, PoseGroupPageState pageState) {
-    GroupImage currentImage = pageState.poseImages.elementAt(index);
-    return pageState.selectedImages.contains(currentImage);
   }
 }

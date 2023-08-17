@@ -74,7 +74,7 @@ class HolderPage extends StatefulWidget {
   _DashboardPageState createState() => _DashboardPageState(comingFromLogin);
 }
 
-class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixin {
+class _DashboardPageState extends State<HolderPage> with WidgetsBindingObserver, TickerProviderStateMixin {
   GlobalKey _one = GlobalKey();
   GlobalKey _two = GlobalKey();
   GlobalKey _three = GlobalKey();
@@ -128,8 +128,6 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
     }
   }
 
-  bool _visible = true;
-
   @override
   void dispose() {
     controller.dispose();
@@ -170,6 +168,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
   }
 
   void _showRestorePurchasesSheet(BuildContext context, String restoreMessage) {
+    EventSender().sendEvent(eventName: EventNames.BT_RESTORE_PURCHASES_SHEET);
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -280,8 +279,8 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
         },
 
         converter: (Store<AppState> store) => DashboardPageState.fromStore(store),
-        builder: (BuildContext context, DashboardPageState pageState) =>
-            Scaffold(
+        builder: (BuildContext context, DashboardPageState pageState) {
+          return Scaffold(
             backgroundColor: Color(ColorConstants.getBlueLight()),
             floatingActionButton: Showcase(
               key: _one,
@@ -296,7 +295,7 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
               ),
               child:
 
-            SpeedDial(
+              SpeedDial(
                 childMargin: EdgeInsets.only(right: 18.0, bottom: 20.0),
                 child: getFabIcon(),
                 visible: dialVisible,
@@ -372,276 +371,277 @@ class _DashboardPageState extends State<HolderPage> with TickerProviderStateMixi
                 ],
               ),
             ),
-          body: Container(
-                  child: Stack(
-                    alignment: Alignment.topCenter,
-                    children: <Widget>[
-                    Container(
-                        alignment: Alignment.bottomRight,
-                        height: MediaQuery.of(context).size.height,
-                        width: MediaQuery.of(context).size.width,
-                        child: Showcase(
-                          key: _three,
-                          targetPadding: EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
+            body: Container(
+              child: Stack(
+                alignment: Alignment.topCenter,
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.bottomRight,
+                    height: MediaQuery.of(context).size.height,
+                    width: MediaQuery.of(context).size.width,
+                    child: Showcase(
+                      key: _three,
+                      targetPadding: EdgeInsets.only(right: -8, left: 8, bottom: 55, top: -55),
+                      targetShapeBorder: CircleBorder(),
+                      description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
+                      descTextStyle: TextStyle(
+                        fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
+                        fontFamily: TextDandyLight.getFontFamily(),
+                        fontWeight: TextDandyLight.getFontWeight(),
+                        color: Color(ColorConstants.getPrimaryBlack()),
+                      ),
+                      child:SizedBox(
+                        height: 64,
+                        width: 64,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Color(ColorConstants.getBlueLight()),
+                    ),
+                  ),
+                  CustomScrollView(
+                    physics: new ClampingScrollPhysics(),
+                    controller: _scrollController,
+                    slivers: <Widget>[
+                      SliverAppBar(
+                        iconTheme: IconThemeData(
+                          color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                        brightness: Brightness.light,
+                        backgroundColor: Colors.transparent,
+                        elevation: 0.0,
+                        pinned: false,
+                        floating: false,
+                        forceElevated: false,
+                        expandedHeight: 175.0,
+                        title: pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
+                          onTap: () {
+                            NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
+                            EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
+                          },
+                          child: Container(
+                            width: 132,
+                            alignment: Alignment.center,
+                            height: 36,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(24),
+                              color: Color(ColorConstants.getPeachDark()),
+                              boxShadow: ElevationToShadow[2],
+                            ),
+                            child: TextDandyLight(
+                                type: TextDandyLight.LARGE_TEXT,
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                text: "Subscribe"
+                            ),
+                          ),
+                        ) : SizedBox(),
+                        leading: Showcase(
+                          key: _two,
+                          targetPadding: EdgeInsets.only(right: 13, bottom: 7, top: 6),
                           targetShapeBorder: CircleBorder(),
-                          description: 'Get started here!  \nThis is your collections page where \nyou can setup the details for your business',
+                          description: 'Sunset & Weather',
                           descTextStyle: TextStyle(
                             fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
                             fontFamily: TextDandyLight.getFontFamily(),
                             fontWeight: TextDandyLight.getFontWeight(),
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
-                          child:SizedBox(
-                          height: 64,
-                          width: 64,
-                        ),
-                      ),
-                    ),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(ColorConstants.getBlueLight()),
-                        ),
-                      ),
-                      CustomScrollView(
-                        physics: new ClampingScrollPhysics(),
-                        controller: _scrollController,
-                        slivers: <Widget>[
-                          SliverAppBar(
-                            iconTheme: IconThemeData(
-                              color: Color(ColorConstants.getPrimaryWhite()),
-                            ),
-                            brightness: Brightness.light,
-                            backgroundColor: Colors.transparent,
-                            elevation: 0.0,
-                            pinned: false,
-                            floating: false,
-                            forceElevated: false,
-                            expandedHeight: 175.0,
-                            title: pageState.profile != null && !pageState.profile.isSubscribed && !pageState.profile.isFreeForLife ? GestureDetector(
+                          child: SlideTransition(
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
                               onTap: () {
-                                NavigationUtil.onManageSubscriptionSelected(context, pageState.profile);
-                                EventSender().sendEvent(eventName: EventNames.BT_SUBSCRIBE_NOW);
+                                Navigator.of(context).push(
+                                  new MaterialPageRoute(
+                                      builder: (context) => SunsetWeatherPage()),
+                                );
+                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
                               },
                               child: Container(
-                                width: 132,
-                                alignment: Alignment.center,
-                                height: 36,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(24),
-                                    color: Color(ColorConstants.getPeachDark()),
-                                    boxShadow: ElevationToShadow[2],
-                                ),
-                                child: TextDandyLight(
-                                    type: TextDandyLight.LARGE_TEXT,
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                    text: "Subscribe"
-                                ),
-                              ),
-                            ) : SizedBox(),
-                            leading: Showcase(
-                              key: _two,
-                              targetPadding: EdgeInsets.only(right: 13, bottom: 7, top: 6),
-                              targetShapeBorder: CircleBorder(),
-                              description: 'Sunset & Weather',
-                              descTextStyle: TextStyle(
-                                fontSize: TextDandyLight.getFontSize(TextDandyLight.MEDIUM_TEXT),
-                                fontFamily: TextDandyLight.getFontFamily(),
-                                fontWeight: TextDandyLight.getFontWeight(),
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                              child: SlideTransition(
-                                position: offsetAnimationDown,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.of(context).push(
-                                      new MaterialPageRoute(
-                                          builder: (context) => SunsetWeatherPage()),
-                                    );
-                                    EventSender().sendEvent(eventName: EventNames.NAV_TO_SUNSET_WEATHER);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 16.0),
-                                    height: 32.0,
-                                    width: 32.0,
-                                    child: Image.asset(
-                                        'assets/images/icons/sunset_icon_white.png'),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            actions: <Widget>[
-                              SlideTransition(
-                                position: offsetAnimationDown,
-                                child: GestureDetector(
-                                    onTap: () {
-                                      NavigationUtil.onNotificationsSelected(context);
-                                      EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
-                                    },
-                                    child: Stack(
-                                      alignment: Alignment.center,
-                                      children: [
-                                        Center(
-                                          child: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: <Widget>[
-                                              RotationTransition(
-                                                  turns: Tween(begin: 0.0, end: -.05)
-                                                      .chain(CurveTween(
-                                                      curve: Curves.elasticIn))
-                                                      .animate(_animationController),
-                                                  child: Container(
-                                                    margin: EdgeInsets.only(right: 16.0),
-                                                    height: 32.0,
-                                                    width: 32.0,
-                                                    child: Image.asset(
-                                                        'assets/images/collection_icons/reminder_icon_white.png'),
-                                                  )),
-                                            ],
-                                          ),
-                                        ),
-                                        pageState.unseenNotificationCount > 0 ? Container(
-                                          margin: EdgeInsets.only(bottom: 16.0),
-                                          width: 8.0,
-                                          height: 8.0,
-                                          decoration: new BoxDecoration(
-                                            color: Color(ColorConstants.error_red),
-                                            shape: BoxShape.circle,
-                                          ),
-                                        ) : SizedBox(),
-                                      ],
-                                    )
-                                ),
-                              ),
-                              SlideTransition(
-                                position: offsetAnimationDown,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    NavigationUtil.onCalendarSelected(context);
-                                    EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 16.0),
-                                    height: 32.0,
-                                    width: 32.0,
-                                    child: Image.asset(
-                                        'assets/images/icons/calendar_bold_white.png'),
-                                  ),
-                                ),
-                              ),
-                              SlideTransition(
-                                position: offsetAnimationDown,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    NavigationUtil.onMainSettingsSelected(context);
-                                    EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
-                                  },
-                                  child: Container(
-                                    margin: EdgeInsets.only(right: 16.0),
-                                    height: 32.0,
-                                    width: 32.0,
-                                    child: Image.asset(
-                                        'assets/images/icons/settings_icon_white.png'),
-                                  ),
-                                ),
-                              ),
-                            ],
-                            flexibleSpace: new FlexibleSpaceBar(
-                              background: Stack(
-                                alignment: Alignment.topCenter,
-                                children: <Widget>[
-                                  SafeArea(
-                                    child: Stack(
-                                      alignment: Alignment.topCenter,
-                                      children: [
-                                        Container(
-                                          margin: EdgeInsets.only(top: 78.0),
-                                          child: Text(
-                                            'DandyLight',
-                                            textScaleFactor: 1,
-                                            style: TextStyle(
-                                              fontSize: 56.0,
-                                              fontFamily: 'simple',
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(
-                                                  ColorConstants.getPrimaryWhite()),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          margin:
-                                          EdgeInsets.only(left: 89.0, top: 48.0),
-                                          height: 116.0,
-                                          decoration: BoxDecoration(
-                                            color: Colors.transparent,
-                                            image: DecorationImage(
-                                              image: AssetImage(
-                                                  ImageUtil.LOGIN_BG_LOGO_FLOWER),
-                                              fit: BoxFit.fitHeight,
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                padding: EdgeInsets.only(left: 16.0),
+                                height: 32.0,
+                                width: 32.0,
+                                child: Image.asset(
+                                    'assets/images/icons/sunset_icon_white.png'),
                               ),
                             ),
                           ),
-                          pageState.areJobsLoaded ? SliverList(
-                              delegate: new SliverChildListDelegate(<Widget>[
-                                SlideTransition(
-                                    position: offsetAnimationUp,
-                                    child: pageState.activeJobs == null || pageState.activeJobs.length > 0
-                                        ? JobsThisWeekHomeCard()
-                                        : StartAJobButton(pageState: pageState)),
-                                SlideTransition(
-                                    position: offsetAnimationUp,
-                                    child: ActiveJobsHomeCard()
-                                ),
-                                SlideTransition(
-                                    position: offsetAnimationUp,
-                                    child: StageStatsHomeCard(pageState: pageState)
-                                ),
-                                SlideTransition(
-                                    position: offsetAnimationUp,
-                                    child:  Padding(
-                                      padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
-                                      child: TextDandyLight(
-                                        type: TextDandyLight.LARGE_TEXT,
-                                        text: 'Business Insights - ' + DateTime.now().year.toString(),
-                                        textAlign: TextAlign.center,
-                                        color: Color(ColorConstants.getPrimaryWhite()),
+                        ),
+                        actions: <Widget>[
+                          SlideTransition(
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
+                                onTap: () {
+                                  NavigationUtil.onNotificationsSelected(context);
+                                  EventSender().sendEvent(eventName: EventNames.NAV_TO_NOTIFICATIONS);
+                                },
+                                child: Stack(
+                                  alignment: Alignment.center,
+                                  children: [
+                                    Center(
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          RotationTransition(
+                                              turns: Tween(begin: 0.0, end: -.05)
+                                                  .chain(CurveTween(
+                                                  curve: Curves.elasticIn))
+                                                  .animate(_animationController),
+                                              child: Container(
+                                                margin: EdgeInsets.only(right: 16.0),
+                                                height: 32.0,
+                                                width: 32.0,
+                                                child: Image.asset(
+                                                    'assets/images/collection_icons/reminder_icon_white.png'),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    pageState.unseenNotificationCount > 0 ? Container(
+                                      margin: EdgeInsets.only(bottom: 16.0),
+                                      width: 8.0,
+                                      height: 8.0,
+                                      decoration: new BoxDecoration(
+                                        color: Color(ColorConstants.error_red),
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ) : SizedBox(),
+                                  ],
+                                )
+                            ),
+                          ),
+                          SlideTransition(
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onCalendarSelected(context);
+                                EventSender().sendEvent(eventName: EventNames.NAV_TO_CALENDAR);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 16.0),
+                                height: 32.0,
+                                width: 32.0,
+                                child: Image.asset(
+                                    'assets/images/icons/calendar_bold_white.png'),
+                              ),
+                            ),
+                          ),
+                          SlideTransition(
+                            position: offsetAnimationDown,
+                            child: GestureDetector(
+                              onTap: () {
+                                NavigationUtil.onMainSettingsSelected(context);
+                                EventSender().sendEvent(eventName: EventNames.NAV_TO_SETTINGS_MAIN);
+                              },
+                              child: Container(
+                                margin: EdgeInsets.only(right: 16.0),
+                                height: 32.0,
+                                width: 32.0,
+                                child: Image.asset(
+                                    'assets/images/icons/settings_icon_white.png'),
+                              ),
+                            ),
+                          ),
+                        ],
+                        flexibleSpace: new FlexibleSpaceBar(
+                          background: Stack(
+                            alignment: Alignment.topCenter,
+                            children: <Widget>[
+                              SafeArea(
+                                child: Stack(
+                                  alignment: Alignment.topCenter,
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 78.0),
+                                      child: Text(
+                                        'DandyLight',
+                                        textScaleFactor: 1,
+                                        style: TextStyle(
+                                          fontSize: 56.0,
+                                          fontFamily: 'simple',
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(
+                                              ColorConstants.getPrimaryWhite()),
+                                        ),
+                                      ),
+                                    ),
+                                    Container(
+                                      margin:
+                                      EdgeInsets.only(left: 89.0, top: 48.0),
+                                      height: 116.0,
+                                      decoration: BoxDecoration(
+                                        color: Colors.transparent,
+                                        image: DecorationImage(
+                                          image: AssetImage(
+                                              ImageUtil.LOGIN_BG_LOGO_FLOWER),
+                                          fit: BoxFit.fitHeight,
+                                        ),
                                       ),
                                     )
+                                  ],
                                 ),
-                                SlideTransition(
-                                    position: offsetAnimationUp,
-                                    child: MonthlyProfitLineChart(pageState: pageState)
-                                ),
-                                SlideTransition(
-                                    position: offsetAnimationUp,
-                                    child: JobTypeBreakdownPieChart()
-                                ),
-                                SlideTransition(
-                                  position: offsetAnimationUp,
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                    child: buildLeadStatsWidget(pageState),
-                                  ),
-                                ),
-                                SlideTransition(
-                                  position: offsetAnimationUp,
-                                  child: LeadSourcesPieChart(),
-                                ),
-                              ])) : SliverList(delegate: SliverChildListDelegate(
-                            <Widget>[]
-                          )),
-                        ],
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
+                      pageState.areJobsLoaded ? SliverList(
+                          delegate: new SliverChildListDelegate(<Widget>[
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: pageState.activeJobs == null || pageState.activeJobs.length > 0
+                                    ? JobsThisWeekHomeCard()
+                                    : StartAJobButton(pageState: pageState)),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: ActiveJobsHomeCard()
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: StageStatsHomeCard(pageState: pageState)
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child:  Padding(
+                                  padding: EdgeInsets.only(top: 16.0, bottom: 16.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    text: 'Business Insights - ' + DateTime.now().year.toString(),
+                                    textAlign: TextAlign.center,
+                                    color: Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                )
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: MonthlyProfitLineChart(pageState: pageState)
+                            ),
+                            SlideTransition(
+                                position: offsetAnimationUp,
+                                child: JobTypeBreakdownPieChart()
+                            ),
+                            SlideTransition(
+                              position: offsetAnimationUp,
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                child: buildLeadStatsWidget(pageState),
+                              ),
+                            ),
+                            SlideTransition(
+                              position: offsetAnimationUp,
+                              child: LeadSourcesPieChart(),
+                            ),
+                          ])) : SliverList(delegate: SliverChildListDelegate(
+                          <Widget>[]
+                      )),
                     ],
                   ),
-                ),
+                ],
+              ),
             ),
+          );
+        }
       );
 
   Widget buildLeadStatsWidget(DashboardPageState pageState) {

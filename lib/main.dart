@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:dandylight/AppMiddleware.dart';
 import 'package:dandylight/AppState.dart';
@@ -9,8 +10,9 @@ import 'package:dandylight/utils/analytics/DeviceInfo.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 import 'package:flutter/material.dart';
@@ -47,7 +49,30 @@ main() async {
       initialState: AppState.initial(),
       middleware: createAppMiddleware());
 
+  // Pass all uncaught "fatal" errors from the framework to Crashlytics
+  if (!kIsWeb) {
+    if (kDebugMode) {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    } else {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    }
+  }
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+  catchAsyncErrors();
+
   initializeDateFormatting().then((_) => runApp(new ClientSafeApp(store)));
+}
+
+Future<void> catchAsyncErrors() async {
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
+  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
 }
 
 Future<void> initSubscriptions() async {

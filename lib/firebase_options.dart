@@ -68,12 +68,13 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA0bgAEemGC3oUrDfp8FB8XQFfcuu_Hsng',
-    appId: '1:43963046767:ios:63931eec1c5453c385e69a',
+    appId: '1:43963046767:ios:a7f7c7e564a6577585e69a',
     messagingSenderId: '43963046767',
     projectId: 'clientsafe-21962',
     databaseURL: 'https://clientsafe-21962.firebaseio.com',
     storageBucket: 'clientsafe-21962.appspot.com',
-    iosClientId: '43963046767-rlna4n3l98kha6f3mp2j4vcekmlvadj4.apps.googleusercontent.com',
-    iosBundleId: 'com.dandylight.flutter',
+    androidClientId: '43963046767-cb9om1s4gcncjirv3nbnls9s4spda7cb.apps.googleusercontent.com',
+    iosClientId: '43963046767-bkqnqki8giamdfut41bdtg736cc9qs8c.apps.googleusercontent.com',
+    iosBundleId: 'com.dandylight.mobile',
   );
 }

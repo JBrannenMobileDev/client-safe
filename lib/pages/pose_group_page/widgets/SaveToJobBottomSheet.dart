@@ -44,7 +44,7 @@ class _SaveToJobBottomSheetState extends State<SaveToJobBottomSheet> with Ticker
       builder: (BuildContext context, PoseGroupPageState pageState) =>
           GestureDetector(
             onTap: () {
-              pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(libraryPoseIndex).pose, pageState.activeJobs.elementAt(index));
+              pageState.onImageAddedToJobSelected(pageState.poseImages.elementAt(libraryPoseIndex), pageState.activeJobs.elementAt(index));
               showSuccessAnimation();
               EventSender().sendEvent(eventName: EventNames.BT_SAVE_MY_POSE_TO_JOB);
             },

@@ -237,8 +237,6 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SavePoseToMyPosesAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveImageToJobAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchMyPoseGroupsAction>(PosesPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, LoadMorePoseImagesAction>(PosesPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, LoadMoreSubmittedImagesAction>(PosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveAction>(NewPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeletePoseAction>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeletePoseGroupSelected>(PoseGroupPageMiddleware()));
@@ -247,9 +245,8 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, LoadPoseImagesFromStorage>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, DeleteSelectedPoses>(PoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedImageToJobFromPosesAction>(PoseGroupPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveLibraryPosesToGroupAction>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadLibraryPoseGroup>(LibraryPoseGroupPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, LoadMoreImagesAction>(LibraryPoseGroupPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, SortGroupImages>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedPoseToMyPosesAction>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveSelectedImageToJobAction>(LibraryPoseGroupPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchMyPoseGroupsForLibraryAction>(LibraryPoseGroupPageMiddleware()));
@@ -279,6 +276,7 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SetSelectedLeadSourceAction>(OnBoardingPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SubmitUploadedPoseAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SetInstagramNameAction>(UploadPosePageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeImageAction>(UploadPosePageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadPosesToReviewAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, RejectPoseAction>(ReviewPosesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ApprovePoseAction>(ReviewPosesPageMiddleware()));
