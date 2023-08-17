@@ -7,23 +7,15 @@ import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
 import 'package:printing/printing.dart';
 
-import '../data_layer/local_db/daos/ClientDao.dart';
-import '../data_layer/local_db/daos/JobDao.dart';
-import '../data_layer/local_db/daos/ProfileDao.dart';
 import '../models/Branding.dart';
 import '../models/Client.dart';
 import '../models/Contract.dart';
 import '../models/Invoice.dart';
 import '../models/Job.dart';
-import '../models/JobStage.dart';
 import '../models/LineItem.dart';
 import '../models/Profile.dart';
 import '../models/Proposal.dart';
-import '../pages/new_invoice_page/NewInvoicePageState.dart';
-import 'ColorConstants.dart';
-import 'Shadows.dart';
 import 'TextFormatterUtil.dart';
-import 'UidUtil.dart';
 
 class PdfUtil {
   /**
