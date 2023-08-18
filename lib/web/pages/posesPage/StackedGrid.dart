@@ -118,13 +118,18 @@ class StackedGrid extends StatelessWidget {
   }
 
   Widget roundedImage(Pose pose, BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: GRID_PADDING),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16), // Image border
-        child: Container(
-          width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
-          child: Image.network(pose.imageUrl, fit: BoxFit.cover),
+    return GestureDetector(
+      onTap: () {
+
+      },
+      child: Container(
+        margin: EdgeInsets.only(bottom: GRID_PADDING),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16), // Image border
+          child: Container(
+            width: getPageWidth(context)/(DeviceType.getDeviceTypeByContext(context) == Type.Website ? 4.5 : 2.25),
+            child: Image.network(pose.imageUrl, fit: BoxFit.cover),
+          ),
         ),
       ),
     );

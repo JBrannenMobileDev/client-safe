@@ -8,21 +8,20 @@ import '../../web/pages/landingPage/LandingPage.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case RouteNames.CLIENT_PORTAL:
-        return _GeneratePageRoute(
-            widget: ProposalPage(),
-            routeName: settings.name
-        );
-      case RouteNames.LANDING_PAGE:
-        return _GeneratePageRoute(
-            widget: LandingPage(),
-            routeName: settings.name
-        );
-      default:
-        return _GeneratePageRoute(
-            widget: Container(), routeName: settings.name);
+    var uri = Uri.parse(settings.name);
+
+    if(uri.pathSegments.length == 2 && uri.pathSegments.first == RouteNames.CLIENT_PORTAL) {
+      var id = uri.pathSegments[1];
+      return _GeneratePageRoute(
+          widget: ProposalPage(proposalId: id),
+          routeName: settings.name
+      );
     }
+
+    return _GeneratePageRoute(
+        widget: LandingPage(),
+        routeName: settings.name
+    );
   }
 }
 

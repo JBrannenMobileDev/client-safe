@@ -20,7 +20,7 @@ import 'package:flutter/services.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as revenuecat;
 import 'package:redux/redux.dart';
-
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'firebase_options.dart';
 
 main() async {
@@ -61,6 +61,7 @@ main() async {
   FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
   catchAsyncErrors();
 
+  usePathUrlStrategy();
   initializeDateFormatting().then((_) => runApp(new ClientSafeApp(store)));
 }
 

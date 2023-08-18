@@ -5,8 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart';
-import 'package:printing/printing.dart';
-
+import 'package:http/http.dart' show get;
 import '../models/Branding.dart';
 import '../models/Client.dart';
 import '../models/Contract.dart';
@@ -83,7 +82,14 @@ class PdfUtil {
       String logoColor,
       String logoTextColor,
   ) async {
-    final logoImage = logoUrl != null ? (await networkImage(logoUrl)) : null;
+    var response;
+    var data;
+
+    if(logoUrl != null) {
+      response = await get(Uri.parse(logoUrl));
+      data = response.bodyBytes;
+    }
+
     String zelleInfo = profile.zellePhoneEmail != null && profile.zellePhoneEmail.isNotEmpty
             ? 'Zelle\n' +
                 'Recipient info:\n' +
@@ -161,7 +167,7 @@ class PdfUtil {
                               alignment: Alignment.centerLeft,
                               height: 75,
                               width: 75,
-                              child: Image(logoImage)
+                              child: Image(MemoryImage(data),)
                             ),
                         ) : SizedBox(),
                         logoUrl == null ? Padding(
