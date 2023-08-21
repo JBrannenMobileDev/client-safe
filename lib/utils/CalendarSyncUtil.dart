@@ -39,13 +39,13 @@ class CalendarSyncUtil {
     }
 
     for (Calendar calendar in calendars) {
-      RetrieveEventsParams params =
-          RetrieveEventsParams(startDate: startDate, endDate: endDate);
-      List<Event> eventsForCalendar =
-          (await deviceCalendarPlugin.retrieveEvents(calendar.id, params))
+      RetrieveEventsParams params = RetrieveEventsParams(startDate: startDate, endDate: endDate);
+      List<Event> eventsForCalendar = (await deviceCalendarPlugin.retrieveEvents(calendar.id, params))
               .data
-              .toList(growable: false);
-      events.addAll(eventsForCalendar);
+              ?.toList(growable: false);
+      if(eventsForCalendar != null && eventsForCalendar.isNotEmpty) {
+        events.addAll(eventsForCalendar);
+      }
     }
 
     List<Event> eventsNoDuplicates = [];

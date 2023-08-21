@@ -21,7 +21,7 @@ class _ClientPosesPageState extends State<ClientPosesPage> {
         builder: (BuildContext context, ClientPortalPageState pageState) =>
         Container(
           padding: EdgeInsets.only(bottom: 32),
-          child: StackedGrid(poses: pageState.proposal.job.poses),
+          child: StackedGrid(poses: pageState.job.poses),
         )
       );
 }

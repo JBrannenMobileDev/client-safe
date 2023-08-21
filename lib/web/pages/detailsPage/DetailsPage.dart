@@ -85,7 +85,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: pageState.proposal.profile.firstName + ' ' + pageState.proposal.profile.lastName,
+                text: pageState.profile.firstName + ' ' + pageState.profile.lastName,
                 isBold: true,
               ),
             ),
@@ -93,7 +93,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: pageState.proposal.profile.email,
+                text: pageState.profile.email,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -101,7 +101,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: pageState.proposal.profile.phone,
+                text: pageState.profile.phone,
               ),
             ),
           ],
@@ -124,7 +124,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: pageState.proposal.job.client.getClientFullName(),
+                text: pageState.job.client.getClientFullName(),
                 isBold: true,
               ),
             ),
@@ -132,7 +132,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'email: ' + pageState.proposal.job.client.email,
+                text: 'email: ' + pageState.job.client.email,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -140,7 +140,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'phone: ' + pageState.proposal.job.client.phone,
+                text: 'phone: ' + pageState.job.client.phone,
               ),
             ),
           ],
@@ -163,8 +163,8 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Date: ' + (pageState.proposal.job.selectedDate != null
-                    ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.proposal.job.selectedDate)
+                text: 'Date: ' + (pageState.job.selectedDate != null
+                    ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
                     : 'TBD'),
               ),
             ),
@@ -172,24 +172,24 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Time: ' + (pageState.proposal.job.selectedTime != null && pageState.proposal.job.selectedTime != null ? DateFormat('h:mma').format(pageState.proposal.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.proposal.job.selectedEndTime) : 'TBD'),
+                text: 'Time: ' + (pageState.job.selectedTime != null && pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD'),
               ),
             ),
             Container(
               margin: EdgeInsets.only(bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Where: ' + (pageState.proposal.job.location != null && pageState.proposal.job.location.address != null ? pageState.proposal.job.location.address : 'TBD'),
+                text: 'Where: ' + (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
             MouseRegion(
               child: GestureDetector(
                 onTap: () {
-                  if(pageState.proposal.job.location != null) {
+                  if(pageState.job.location != null) {
                     IntentLauncherUtil.launchDrivingDirections(
-                        pageState.proposal.job.location.latitude.toString(),
-                        pageState.proposal.job.location.longitude.toString()
+                        pageState.job.location.latitude.toString(),
+                        pageState.job.location.longitude.toString()
                     );
                   }
                 },

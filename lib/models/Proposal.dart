@@ -21,10 +21,7 @@ class Proposal {
   String detailsMessage;
   String logoUrl;
   String bannerUrl;
-  Job job;
-  Invoice invoice;
   Contract contract;
-  Profile profile;
   Questionnaire questionnaire;
   Feedback feedback;
   bool contractSeenByClient = false;
@@ -40,13 +37,10 @@ class Proposal {
       this.documentId,
       this.userId,
       this.detailsMessage,
-      this.job,
-      this.invoice,
       this.contract,
       this.contractSeenByClient,
       this.invoiceSeenByClient,
       this.posesSeenByClient,
-      this.profile,
       this.questionnaireSeenByClient,
       this.feedbackSeenByClient,
       this.logoUrl,
@@ -62,13 +56,10 @@ class Proposal {
       'jobDocumentId' : jobDocumentId,
       'userId': userId,
       'detailsMessage' : detailsMessage,
-      'job' : job?.toMap(),
-      'invoice' : invoice?.toMap(),
       'contract' : contract?.toMap(),
       'contractSeenByClient' : contractSeenByClient,
       'invoiceSeenByClient' : invoiceSeenByClient,
       'posesSeenByClient' : posesSeenByClient,
-      'profile' : profile?.toMap(),
       'questionnaireSeenByClient' : questionnaireSeenByClient,
       'feedbackSeenByClient' : feedbackSeenByClient,
       'logoUrl' : logoUrl,
@@ -85,10 +76,7 @@ class Proposal {
       jobDocumentId: map['jobDocumentId'],
       userId: map['userId'],
       detailsMessage: map['detailsMessage'],
-      invoice: map['invoice'] != null ? Invoice.fromMap(map['invoice']) : null,
       contract: map['contract'] != null ? Contract.fromMap(map['contract']) : null,
-      job: map['job'] != null ? Job.fromMap(map['job']) : null,
-      profile: map['profile'] != null ? Profile.fromMap(map['profile']) : null,
       contractSeenByClient: map['contractSeenByClient'],
       invoiceSeenByClient: map['invoiceSeenByClient'],
       posesSeenByClient: map['posesSeenByClient'],

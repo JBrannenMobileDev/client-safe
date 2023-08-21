@@ -51,7 +51,7 @@ class _SignContractPageState extends State<ProposalPage> {
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ClientPortalPageState>(
           onInit: (store) {
-            store.dispatch(FetchProposalAction(store.state.clientPortalPageState, proposalId));
+            store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, proposalId));
           },
           converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
           builder: (BuildContext context, ClientPortalPageState pageState) => Scaffold(
@@ -112,7 +112,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                 ),
                               child: TextDandyLight(
                                 type: TextDandyLight.BRAND_LOGO,
-                                text: pageState.proposal.profile.businessName.substring(0, 1),
+                                text: pageState.profile.businessName.substring(0, 1),
                                 color: Color(ColorConstants.getPrimaryWhite()),
                               ),
                             ),
@@ -127,7 +127,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                    text: pageState.proposal.profile.businessName,
+                                    text: pageState.profile.businessName,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
                                   ),
@@ -136,7 +136,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
-                                    text: pageState.proposal.job.client.getClientFullName(),
+                                    text: pageState.job.client.getClientFullName(),
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
                                   ),
@@ -168,7 +168,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   ),
                                   child: TextDandyLight(
                                     type: TextDandyLight.BRAND_LOGO,
-                                    text: pageState.proposal.profile.businessName.substring(0, 1),
+                                    text: pageState.profile.businessName.substring(0, 1),
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
@@ -176,7 +176,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(top: 16),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                    text: pageState.proposal.profile.businessName,
+                                    text: pageState.profile.businessName,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
@@ -185,7 +185,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                 Container(
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
-                                    text: pageState.proposal.job.client.getClientFullName(),
+                                    text: pageState.job.client.getClientFullName(),
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
@@ -303,7 +303,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.invoice != null ? GestureDetector(
+      pageState.invoice != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = INVOICE;
@@ -489,7 +489,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.invoice != null ? GestureDetector(
+      pageState.invoice != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = INVOICE;

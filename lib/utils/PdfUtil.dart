@@ -728,7 +728,7 @@ class PdfUtil {
     return pdf;
   }
 
-  static Future<Document> generateContract(Contract contract, Proposal proposal) async {
+  static Future<Document> generateContract(Contract contract, Proposal proposal, Profile profile, Job job) async {
     final Document pdf = Document();
     final signatureFont = Font.ttf(await rootBundle.load('assets/fonts/sig.ttf'));
 
@@ -865,7 +865,7 @@ class PdfUtil {
                         Container(
                           margin: EdgeInsets.only(top: 0, bottom: 4),
                           child: Text(
-                            proposal.profile.firstName + ' ' + proposal.profile.lastName,
+                            profile.firstName + ' ' + profile.lastName,
                             textScaleFactor: .85,
                           ),
                         )
@@ -882,7 +882,7 @@ class PdfUtil {
                     ),
                     Container(
                       child: Text(
-                          contract.signedByClient ? (proposal.profile.firstName + ' ' + proposal.profile.lastName) : '',
+                          contract.signedByClient ? (profile.firstName + ' ' + profile.lastName) : '',
                           textScaleFactor: .85,
                           style: TextStyle(
                             font: signatureFont,
@@ -938,7 +938,7 @@ class PdfUtil {
                         Container(
                           margin: EdgeInsets.only(top: 0, bottom: 4),
                           child: Text(
-                            proposal.job.client.getClientFullName(),
+                            job.client.getClientFullName(),
                             textScaleFactor: .85,
                           ),
                         )

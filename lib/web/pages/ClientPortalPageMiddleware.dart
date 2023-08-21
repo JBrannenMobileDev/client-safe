@@ -27,7 +27,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     if(action is UpdateProposalInvoiceDepositPaidAction) {
       _updateProposalInvoiceDepositPaid(store, action, next);
     }
-    if(action is FetchProposalAction) {
+    if(action is FetchProposalDataAction) {
       _fetchProposal(store, action, next);
     }
     if(action is GenerateContractForClientAction) {
@@ -41,52 +41,78 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     }
   }
 
-  void _fetchProposal(Store<AppState> store, FetchProposalAction action, NextDispatcher next) async{
-    Proposal proposal = Proposal(
-      logoUrl: null,
-      includePoses: true,
-      bannerUrl: '',
-      detailsMessage: 'Hi Jason, \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon,\nShawna Brannen',
-      job: Job(
-        selectedDate: DateTime.now(),
-        selectedTime: DateTime.now(),
-        selectedEndTime: DateTime.now(),
-        client: Client(
+  void _fetchProposal(Store<AppState> store, FetchProposalDataAction action, NextDispatcher next) async{
+    Job job = Job(
+      selectedDate: DateTime.now(),
+      selectedTime: DateTime.now(),
+      selectedEndTime: DateTime.now(),
+      client: Client(
           firstName: 'Jason',
           lastName: 'Bent',
           email: 'jbent@gmail.com',
           phone: '(951)295-0348'
-        ),
-        location: Location(
-          address: '42161 Delmonte St. Temecula CA 92591',
-          latitude: 28374634,
-          longitude: 28374643,
-        ),
-        poses: [
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fcfd51300-b340-11ed-9fb2-f91ec5f5c2e7.jpg?alt=media&token=424e417e-72f3-499a-bdaf-608bb3c1e1c7'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F2d944fa0-b30b-11ed-8a6e-657612667ae6.jpg?alt=media&token=1baabb62-1430-4456-a20a-86e2726998bb'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F526757f0-b30b-11ed-bfff-3fdd62ec8ca8.jpg?alt=media&token=abed2ce9-8dd5-4e55-b1ce-ff5b1305d182'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F7355ac00-b30b-11ed-839b-9ba74d939bf5.jpg?alt=media&token=127d92ab-044f-45cf-b22f-28bbc6077993'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F736849a0-b30b-11ed-9828-833a36aa2c26.jpg?alt=media&token=045b58ef-562d-4b23-8efb-12c90ca34e6d'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F8203e960-b30b-11ed-a896-9f7a6d27d18e.jpg?alt=media&token=f2c73f32-d848-4e0d-bce5-a4dd6ecb25ec'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F9a32b520-b30b-11ed-ba94-dd9cf87a4eb3.jpg?alt=media&token=39f94d71-f714-4c6c-874d-c89640c94e0e'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fafebc5f0-b30b-11ed-84b6-177555d69286.jpg?alt=media&token=bcca2f7b-f5ba-4541-9acb-75e084ae637b'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fcd117940-b30b-11ed-8b2a-fb5a221df60f.jpg?alt=media&token=284de7b7-dd15-4f89-9edb-ac83b1aad461'),
-          Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F5e3674c0-b30c-11ed-be70-1579791391ca.jpg?alt=media&token=8c2a640d-c03b-4492-ad93-70d5c7f62412'),
-        ],
-        completedStages: [
-          JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED),
-          JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT)
-        ],
       ),
-      profile: Profile(
+      location: Location(
+        address: '42161 Delmonte St. Temecula CA 92591',
+        latitude: 28374634,
+        longitude: 28374643,
+      ),
+      poses: [
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F03185ef0-b339-11ed-b747-d351e53325e2.jpg?alt=media&token=e429e4be-df7e-4011-b331-7a1100de8d0e'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fcfd51300-b340-11ed-9fb2-f91ec5f5c2e7.jpg?alt=media&token=424e417e-72f3-499a-bdaf-608bb3c1e1c7'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F2d944fa0-b30b-11ed-8a6e-657612667ae6.jpg?alt=media&token=1baabb62-1430-4456-a20a-86e2726998bb'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F526757f0-b30b-11ed-bfff-3fdd62ec8ca8.jpg?alt=media&token=abed2ce9-8dd5-4e55-b1ce-ff5b1305d182'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F7355ac00-b30b-11ed-839b-9ba74d939bf5.jpg?alt=media&token=127d92ab-044f-45cf-b22f-28bbc6077993'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F736849a0-b30b-11ed-9828-833a36aa2c26.jpg?alt=media&token=045b58ef-562d-4b23-8efb-12c90ca34e6d'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F8203e960-b30b-11ed-a896-9f7a6d27d18e.jpg?alt=media&token=f2c73f32-d848-4e0d-bce5-a4dd6ecb25ec'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F9a32b520-b30b-11ed-ba94-dd9cf87a4eb3.jpg?alt=media&token=39f94d71-f714-4c6c-874d-c89640c94e0e'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fafebc5f0-b30b-11ed-84b6-177555d69286.jpg?alt=media&token=bcca2f7b-f5ba-4541-9acb-75e084ae637b'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2Fcd117940-b30b-11ed-8b2a-fb5a221df60f.jpg?alt=media&token=284de7b7-dd15-4f89-9edb-ac83b1aad461'),
+        Pose(imageUrl: 'https://firebasestorage.googleapis.com/v0/b/clientsafe-21962.appspot.com/o/env%2Fprod%2Fimages%2FdandyLight%2FlibraryPoses%2F5e3674c0-b30c-11ed-be70-1579791391ca.jpg?alt=media&token=8c2a640d-c03b-4492-ad93-70d5c7f62412'),
+      ],
+      completedStages: [
+        JobStage(stage: JobStage.STAGE_1_INQUIRY_RECEIVED),
+        JobStage(stage: JobStage.STAGE_2_FOLLOWUP_SENT)
+      ],
+    );
+    Profile profile = Profile(
         businessName: 'Vintage Vibes Photography',
         email: 'vintagevibesphotography@gmail.com',
         firstName: 'Shawna',
         lastName: 'Brannen',
         phone: '(951)295-0348'
-      ),
+    );
+    Invoice invoice = Invoice(
+      depositPaid: false,
+      invoicePaid: false,
+      dueDate: DateTime.now(),
+      depositDueDate: DateTime.now(),
+      depositAmount: 150.0,
+      unpaidAmount: 516.56,
+      invoiceId: 1001,
+      subtotal: 525,
+      total: 516.56,
+      discount: 50,
+      salesTaxRate: 8.75,
+      salesTaxAmount: 41.56,
+      lineItems: [
+        LineItem(
+          itemName: 'Standard 1 hr',
+          itemPrice: 450,
+          itemQuantity: 1,
+        ),
+        LineItem(
+          itemName: 'Second location',
+          itemPrice: 75,
+          itemQuantity: 1,
+        )
+      ],
+    );
+    Proposal proposal = Proposal(
+      logoUrl: null,
+      includePoses: true,
+      bannerUrl: '',
+      detailsMessage: 'Hi Jason, \nI\'m so excited to book in your photoshoot! Let\'s make this official.\n\nTo lock in your date, please review and sign the contract and pay the deposit.\n\nChat soon,\nShawna Brannen',
       contract: Contract(
         photographerSignedDate: DateTime.now(),
         clientSignedDate: DateTime.now(),
@@ -201,47 +227,24 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       '\n'+
       '10.6 Severability. If any provision of this Agreement is determined to be illegal, invalid or unenforceable, in whole or in part, by an arbitrator or any court of competent jurisdiction, that provision or part thereof will be severed from this Agreement and the remaining part of such provision and all other provisions will continue in full force and effect.\n'
       ),
-      invoice: Invoice(
-        depositPaid: false,
-        invoicePaid: false,
-        dueDate: DateTime.now(),
-        depositDueDate: DateTime.now(),
-        depositAmount: 150.0,
-        unpaidAmount: 516.56,
-        invoiceId: 1001,
-        subtotal: 525,
-        total: 516.56,
-        discount: 50,
-        salesTaxRate: 8.75,
-        salesTaxAmount: 41.56,
-        lineItems: [
-          LineItem(
-            itemName: 'Standard 1 hr',
-            itemPrice: 450,
-            itemQuantity: 1,
-          ),
-          LineItem(
-            itemName: 'Second location',
-            itemPrice: 75,
-            itemQuantity: 1,
-          )
-        ],
-      ),
     );
-    store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
+    store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
+    store.dispatch(SetJobAction(store.state.clientPortalPageState, job));
+    store.dispatch(SetProfileAction(store.state.clientPortalPageState, profile));
+    store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
   }
 
   void _generateContract(Store<AppState> store, GenerateContractForClientAction action, NextDispatcher next) async{
-    Document pdf = await PdfUtil.generateContract(action.pageState.proposal.contract, action.pageState.proposal);
-    FileStorage.webDownload(await pdf.save(), action.pageState.proposal.job.client.firstName + '_' + action.pageState.proposal.job.client.lastName + '_contract');
+    Document pdf = await PdfUtil.generateContract(action.pageState.proposal.contract, action.pageState.proposal, action.pageState.profile, action.pageState.job);
+    FileStorage.webDownload(await pdf.save(), action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_contract');
   }
 
   void _generateInvoice(Store<AppState> store, GenerateInvoiceForClientAction action, NextDispatcher next) async{
     Document pdf = await PdfUtil.generateInvoicePdfFromInvoice(
-        action.pageState.proposal.invoice,
-        action.pageState.proposal.job,
-        action.pageState.proposal.job.client,
-        action.pageState.proposal.profile,
+        action.pageState.invoice,
+        action.pageState.job,
+        action.pageState.job.client,
+        action.pageState.profile,
         action.pageState.proposal.logoUrl,
         Branding(
           logoUrl: null,
@@ -249,7 +252,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
           logoTextColor: '#ffffff'
         )
     );
-    FileStorage.webDownload(await pdf.save(), action.pageState.proposal.job.client.firstName + '_' + action.pageState.proposal.job.client.lastName + '_invoice');
+    FileStorage.webDownload(await pdf.save(), action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice');
   }
 
   void _saveClientSignature(Store<AppState> store, SaveClientSignatureAction action, NextDispatcher next) async{
@@ -257,27 +260,27 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     proposal.contract.clientSignature = action.signature;
     proposal.contract.signedByClient = true;
     proposal.contract.clientSignedDate = DateTime.now();
-    store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
+    store.dispatch(SetProposalAction(store.state.clientPortalPageState, proposal));
     //TODO rest call to update actual proposal
   }
 
   void _updateProposalInvoicePaid(Store<AppState> store, UpdateProposalInvoicePaidAction action, NextDispatcher next) async{
-    Proposal proposal = action.pageState.proposal;
-    proposal.invoice.invoicePaid = action.isPaid;
-    proposal.invoice.unpaidAmount = action.isPaid ? 0 : proposal.invoice.calculateUnpaidAmount();
-    store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
+    Invoice invoice = action.pageState.invoice;
+    invoice.invoicePaid = action.isPaid;
+    invoice.unpaidAmount = action.isPaid ? 0 : invoice.calculateUnpaidAmount();
+    store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
     //TODO rest call to update actual proposal
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{
-    Proposal proposal = action.pageState.proposal;
-    proposal.invoice.depositPaid = action.isPaid;
+    Invoice invoice = action.pageState.invoice;
+    invoice.depositPaid = action.isPaid;
     if(action.isPaid) {
-      proposal.invoice.unpaidAmount = proposal.invoice.unpaidAmount - proposal.invoice.depositAmount;
+      invoice.unpaidAmount = invoice.unpaidAmount - invoice.depositAmount;
     } else {
-      proposal.invoice.unpaidAmount = proposal.invoice.unpaidAmount + proposal.invoice.depositAmount;
+      invoice.unpaidAmount = invoice.unpaidAmount + invoice.depositAmount;
     }
-    store.dispatch(SetUpdatedProposalAction(store.state.clientPortalPageState, proposal));
+    store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
     //TODO rest call to update actual proposal
   }
 }
