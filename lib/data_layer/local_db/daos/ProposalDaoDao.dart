@@ -13,11 +13,11 @@ import 'package:uuid/uuid.dart';
 
 import '../../../models/Proposal.dart';
 
-class MileageExpenseDao extends Equatable{
-  static const String MILEAGE_EXPENSE_STORE_NAME = 'mileageExpense';
+class ProposalDao extends Equatable{
+  static const String PROPOSAL_STORE_NAME = 'mileageExpense';
   // A Store with int keys and Map<String, dynamic> values.
   // This Store acts like a persistent map, values of which are Client objects converted to Map
-  static final _mileageExpenseStore = intMapStoreFactory.store(MILEAGE_EXPENSE_STORE_NAME);
+  static final _proposalStore = intMapStoreFactory.store(PROPOSAL_STORE_NAME);
 
   // Private getter to shorten the amount of code needed to get the
   // singleton instance of an opened database.
@@ -25,26 +25,18 @@ class MileageExpenseDao extends Equatable{
 
   static Future insert(MileageExpense mileageExpense) async {
     mileageExpense.documentId = Uuid().v1();
-    mileageExpense.id = await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
-    await MileageExpenseCollection().createMileageExpense(mileageExpense);
-    _updateLastChangedTime();
-  }
-
-  static Future<void> _updateLastChangedTime() async {
-    Profile profile = (await ProfileDao.getAll()).elementAt(0);
-    profile.mileageExpensesLastChangeDate = DateTime.now();
-    ProfileDao.update(profile);
+    mileageExpense.id = await _proposalStore.add(await _db, mileageExpense.toMap());
   }
 
   static Future insertLocalOnly(MileageExpense mileageExpense) async {
-    await _mileageExpenseStore.add(await _db, mileageExpense.toMap());
+    await _proposalStore.add(await _db, mileageExpense.toMap());
   }
 
-  static Future insertOrUpdate(MileageExpense mileageExpense) async {
-    List<MileageExpense> mileageExpenseList = await getAll();
+  static Future insertOrUpdate(Proposal newProposal) async {
+    List<Proposal> proposalList = await getAll();
     bool alreadyExists = false;
-    for(MileageExpense expense in mileageExpenseList){
-      if(expense.documentId == mileageExpense.documentId){
+    for(Proposal proposal in proposalList){
+      if(proposal.id == newProposal.id){
         alreadyExists = true;
       }
     }
@@ -59,7 +51,7 @@ class MileageExpenseDao extends Equatable{
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.equals('id', proposal.id));
-    await _mileageExpenseStore.update(
+    await _proposalStore.update(
       await _db,
       proposal.toMap(),
       finder: finder,
@@ -67,30 +59,28 @@ class MileageExpenseDao extends Equatable{
       print(error);
     });
   }
-finish updating class
-  static Future updateLocalOnly(MileageExpense mileageExpense) async {
+
+  static Future updateLocalOnly(Proposal proposal) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('documentId', mileageExpense));
-    await _mileageExpenseStore.update(
+    final finder = Finder(filter: Filter.equals('id', proposal.id));
+    await _proposalStore.update(
       await _db,
-      mileageExpense.toMap(),
+      proposal.toMap(),
       finder: finder,
     );
   }
 
-  static Future delete(String documentId) async {
-    final finder = Finder(filter: Filter.equals('documentId', documentId));
-    await _mileageExpenseStore.delete(
+  static Future delete(String id) async {
+    final finder = Finder(filter: Filter.equals('id', id));
+    await _proposalStore.delete(
       await _db,
       finder: finder,
     );
-    await MileageExpenseCollection().deleteMileageExpense(documentId);
-    _updateLastChangedTime();
   }
 
   static Future<List<MileageExpense>> getAll() async {
-    final recordSnapshots = await _mileageExpenseStore.find(await _db);
+    final recordSnapshots = await _proposalStore.find(await _db);
     return recordSnapshots.map((snapshot) {
       final mileageExpense = MileageExpense.fromMap(snapshot.value);
       mileageExpense.id = snapshot.key;
@@ -101,7 +91,7 @@ finish updating class
   static Future<MileageExpense> getMileageExpenseById(String documentId) async{
     if((await getAll()).length > 0) {
       final finder = Finder(filter: Filter.equals('documentId', documentId));
-      final recordSnapshots = await _mileageExpenseStore.find(await _db, finder: finder);
+      final recordSnapshots = await _proposalStore.find(await _db, finder: finder);
       return recordSnapshots.map((snapshot) {
         final expense = MileageExpense.fromMap(snapshot.value);
         expense.id = snapshot.key;
@@ -113,7 +103,7 @@ finish updating class
   }
 
   static Future<Stream<List<RecordSnapshot>>> getMileageExpenseStream() async {
-    var query = _mileageExpenseStore.query();
+    var query = _proposalStore.query();
     return query.onSnapshots(await _db);
   }
 
@@ -147,7 +137,7 @@ finish updating class
   static Future<void> _deleteAllLocalMileageExpenses(List<MileageExpense> allLocalMileageExpenses) async {
     for(MileageExpense expense in allLocalMileageExpenses) {
       final finder = Finder(filter: Filter.equals('documentId', expense.documentId));
-      await _mileageExpenseStore.delete(
+      await _proposalStore.delete(
         await _db,
         finder: finder,
       );
@@ -156,7 +146,7 @@ finish updating class
 
   static Future<void> _copyAllFireStoreMileageExpensesToLocal(List<MileageExpense> allFireStoreMileageExpenses) async {
     for (MileageExpense clientToSave in allFireStoreMileageExpenses) {
-      await _mileageExpenseStore.add(await _db, clientToSave.toMap());
+      await _proposalStore.add(await _db, clientToSave.toMap());
     }
   }
 
@@ -167,7 +157,7 @@ finish updating class
       if(matchingFireStoreMileageExpenses !=  null && matchingFireStoreMileageExpenses.length > 0) {
         MileageExpense fireStoreMileageExpense = matchingFireStoreMileageExpenses.elementAt(0);
         final finder = Finder(filter: Filter.equals('documentId', fireStoreMileageExpense.documentId));
-        await _mileageExpenseStore.update(
+        await _proposalStore.update(
           await _db,
           fireStoreMileageExpense.toMap(),
           finder: finder,
@@ -175,7 +165,7 @@ finish updating class
       } else {
         //client does nto exist on cloud. so delete from local.
         final finder = Finder(filter: Filter.equals('documentId', localMileageExpense.documentId));
-        await _mileageExpenseStore.delete(
+        await _proposalStore.delete(
           await _db,
           finder: finder,
         );
@@ -189,7 +179,7 @@ finish updating class
       } else {
         //add to local. does not exist in local and has not been synced yet.
         fireStoreMileageExpense.id = null;
-        await _mileageExpenseStore.add(await _db, fireStoreMileageExpense.toMap());
+        await _proposalStore.add(await _db, fireStoreMileageExpense.toMap());
       }
     }
   }

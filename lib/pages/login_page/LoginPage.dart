@@ -466,7 +466,7 @@ class _LoginPageState extends State<LoginPage> with TickerProviderStateMixin {
                       SlideTransition(
                         position: hideMainButtonsStep,
                         child: Container(
-                          height: 257.0,
+                          height: 264.0,
                           width: MediaQuery.of(context).size.width,
                           child: PageView(
                             controller: controller,

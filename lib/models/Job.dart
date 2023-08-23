@@ -6,6 +6,7 @@ import 'package:dandylight/models/PriceProfile.dart';
 
 import 'JobType.dart';
 import 'Pose.dart';
+import 'Proposal.dart';
 
 class Job {
 
@@ -33,6 +34,7 @@ class Job {
   int tipAmount = 0;
   List<JobStage> completedStages;
   List<Pose> poses;
+  Proposal proposal;
 
   Job({
     this.id,
@@ -59,6 +61,7 @@ class Job {
     this.addOnCost,
     this.poses,
     this.client,
+    this.proposal,
   });
 
   Job copyWith({
@@ -86,6 +89,7 @@ class Job {
     double addOnCost,
     List<Pose> poses,
     Client client,
+    Proposal proposal,
   }){
     return Job(
       id: id?? this.id,
@@ -112,6 +116,7 @@ class Job {
       addOnCost: addOnCost ?? this.addOnCost,
       poses: poses ?? this.poses,
       client: client ?? this.client,
+      proposal: proposal ?? this.proposal,
     );
   }
 
@@ -140,6 +145,7 @@ class Job {
       'depositAmount' : depositAmount,
       'tipAmount' : tipAmount,
       'addOnCost' : addOnCost,
+      'proposal' : proposal,
     };
   }
 
@@ -153,9 +159,9 @@ class Job {
       notes: map['notes'],
       addOnCost: map['addOnCost'],
       depositReceivedDate: map['depositReceivedDate'] != null && map['depositReceivedDate'] != "" ? DateTime.parse(map['depositReceivedDate']) : null,
-      selectedDate: map['selectedDate'] != ""? DateTime.parse(map['selectedDate']) : null,
-      selectedTime: map['selectedTime'] != "" ? DateTime.parse(map['selectedTime']) : null,
-      createdDate: map['createdDate'] != "" ? DateTime.parse(map['createdDate']) : null,
+      selectedDate: map['selectedDate'] != "" && map['selectedDate'] != null ? DateTime.parse(map['selectedDate']) : null,
+      selectedTime: map['selectedTime'] != "" && map['selectedTime'] != null ? DateTime.parse(map['selectedTime']) : null,
+      createdDate: map['createdDate'] != "" && map['createdDate'] != null ? DateTime.parse(map['createdDate']) : null,
       selectedEndTime: map['selectedEndTime'] != null && map['selectedEndTime'] != "" ? DateTime.parse(map['selectedEndTime']) : null,
       paymentReceivedDate: map['paymentReceivedDate'] != null && map['paymentReceivedDate'] != "" ? DateTime.parse(map['paymentReceivedDate']) : null,
       type: JobType.fromMap(map['type']),
@@ -168,6 +174,7 @@ class Job {
       poses: convertMapsToPoses(map['poses']),
       depositAmount: map['depositAmount'],
       tipAmount: map['tipAmount'],
+      proposal: map['proposal'],
     );
   }
 

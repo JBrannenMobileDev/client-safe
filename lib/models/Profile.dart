@@ -1,4 +1,5 @@
 
+import 'package:dandylight/models/Branding.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
 
@@ -24,6 +25,13 @@ class Profile{
   double lngDefaultHome;
   double salesTaxRate;
   int jobsCreatedCount;
+  String logoUrl;
+  String bannerUrl;
+  String bannerColor;
+  String logoColor;
+  String titleTextColor;
+  String logoTextColor;
+  String backgroundColor;
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
@@ -115,6 +123,13 @@ class Profile{
     this.isSubscribed,
     this.jobsCreatedCount,
     this.instagramName,
+    this.logoUrl,
+    this.bannerUrl,
+    this.bannerColor,
+    this.logoColor,
+    this.titleTextColor,
+    this.logoTextColor,
+    this.backgroundColor,
   });
 
   Profile copyWith({
@@ -151,6 +166,13 @@ class Profile{
     bool onBoardingComplete,
     bool isSubscribed,
     int jobsCreatedCount,
+    String logoUrl,
+    String bannerUrl,
+    String bannerColor,
+    String logoColor,
+    String titleTextColor,
+    String logoTextColor,
+    String backgroundColor,
     double salesTaxRate,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
@@ -230,6 +252,12 @@ class Profile{
       isFreeForLife: isFreeForLife ?? this.isFreeForLife,
       onBoardingComplete: onBoardingComplete ?? this.onBoardingComplete,
       isSubscribed: isSubscribed ?? this.isSubscribed,
+      logoUrl: logoUrl ?? this.logoUrl,
+      bannerUrl: bannerUrl ?? this.bannerUrl,
+      bannerColor: bannerColor ?? this.bannerColor,
+      logoColor: logoColor ?? this.logoColor,
+      titleTextColor: titleTextColor ?? this.titleTextColor,
+      logoTextColor: logoTextColor ?? this.logoTextColor,
     );
   }
 
@@ -266,6 +294,13 @@ class Profile{
       'onBoardingComplete' : onBoardingComplete ?? false,
       'usesSalesTax' : usesSalesTax ?? false,
       'isSubscribed' : isSubscribed ?? false,
+      'logoUrl' : logoUrl,
+      'bannerUrl' : bannerUrl,
+      'bannerColor' : bannerColor,
+      'logoColor' : logoColor,
+      'titleTextColor' : titleTextColor,
+      'logoTextColor' : logoTextColor,
+      'backgroundColor' : backgroundColor,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -316,6 +351,13 @@ class Profile{
       calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
       salesTaxRate: map['salesTaxRate'],
       instagramUrl: map['instagramUrl'],
+      logoUrl: map['logoUrl'],
+      bannerUrl: map['bannerUrl'],
+      bannerColor: map['bannerColor'],
+      logoColor: map['logoColor'],
+      titleTextColor: map['titleTextColor'],
+      logoTextColor: map['logoTextColor'],
+      backgroundColor: map['backgroundColor'],
       instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,

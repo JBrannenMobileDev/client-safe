@@ -12,8 +12,9 @@ class RouteGenerator {
 
     if(uri.pathSegments.length == 2 && uri.pathSegments.first == RouteNames.CLIENT_PORTAL) {
       var id = uri.pathSegments[1];
+      var params = id.split('+');
       return _GeneratePageRoute(
-          widget: ProposalPage(proposalId: id),
+          widget: ProposalPage(userId: params[0], jobId: params[1]),
           routeName: settings.name
       );
     }

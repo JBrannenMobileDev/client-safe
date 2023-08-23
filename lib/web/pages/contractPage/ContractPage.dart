@@ -1,9 +1,11 @@
 import 'package:dandylight/AppState.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/DeviceType.dart';
 import 'package:dandylight/widgets/TextDandyLight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:intl/intl.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../../utils/ColorConstants.dart';
 import '../ClientPortalPageState.dart';
@@ -25,6 +27,12 @@ class _ContractPageState extends State<ContractPage> {
   Widget build(BuildContext context) => StoreConnector<AppState, ClientPortalPageState>(
         onInit: (current) {
           _clientSignatureController.text = current.state.clientPortalPageState.proposal.contract.clientSignature;
+        },
+        onDidChange: (previous, current) {
+          if(previous.errorMsg.isEmpty && current.errorMsg.isNotEmpty) {
+            DandyToastUtil.showErrorToast(current.errorMsg);
+            current.resetErrorMsg();
+          }
         },
         converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
         builder: (BuildContext context, ClientPortalPageState pageState) =>
@@ -140,7 +148,10 @@ class _ContractPageState extends State<ContractPage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
                               color: Color(pageState.proposal.contract.signedByClient ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark())),
-                          child: TextDandyLight(
+                          child: pageState.isLoading ? LoadingAnimationWidget.fourRotatingDots(
+                            color: Color(ColorConstants.getPrimaryWhite()),
+                            size: 26,
+                          ) : TextDandyLight(
                             type: TextDandyLight.LARGE_TEXT,
                             text: pageState.proposal.contract.signedByClient ? 'Signature Saved' : 'Save Signature',
                             color: Color(ColorConstants.getPrimaryWhite()),

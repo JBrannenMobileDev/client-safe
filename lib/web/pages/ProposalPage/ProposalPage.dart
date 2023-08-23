@@ -17,13 +17,14 @@ import '../detailsPage/DetailsPage.dart';
 import '../invoicePage/InvoicePage.dart';
 
 class ProposalPage extends StatefulWidget {
-  final String proposalId;
+  final String userId;
+  final String jobId;
 
-  ProposalPage({this.proposalId});
+  ProposalPage({this.userId, this.jobId});
 
   @override
   State<StatefulWidget> createState() {
-    return _SignContractPageState(proposalId);
+    return _SignContractPageState(userId, jobId);
   }
 }
 
@@ -35,9 +36,10 @@ class _SignContractPageState extends State<ProposalPage> {
   static const String POSES = 'poses';
   static const String FEEDBACK = 'feedback';
 
-  final String proposalId;
+  final String userId;
+  final String jobId;
 
-  _SignContractPageState(this.proposalId);
+  _SignContractPageState(this.userId, this.jobId);
 
   String selectedPage = DETAILS;
   bool isHoveredDetails = false;
@@ -51,13 +53,13 @@ class _SignContractPageState extends State<ProposalPage> {
   Widget build(BuildContext context) =>
       StoreConnector<AppState, ClientPortalPageState>(
           onInit: (store) {
-            store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, proposalId));
+            store.dispatch(FetchProposalDataAction(store.state.clientPortalPageState, userId, jobId));
           },
           converter: (Store<AppState> store) => ClientPortalPageState.fromStore(store),
           builder: (BuildContext context, ClientPortalPageState pageState) => Scaffold(
           backgroundColor: Color(ColorConstants.getPrimaryWhite()),
           body: SingleChildScrollView(
-            child: Container(
+            child: pageState.profile != null && pageState.proposal != null ? Container(
               width: double.infinity,
               alignment: Alignment.center,
               child: Container(
@@ -71,7 +73,7 @@ class _SignContractPageState extends State<ProposalPage> {
                       child: Stack(
                         alignment: Alignment.centerLeft,
                         children: [
-                          pageState.proposal.bannerUrl != null ? Container(
+                          pageState.profile?.bannerUrl != null ? Container(
                             height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                             decoration: BoxDecoration(
                               color: Colors.transparent,
@@ -87,7 +89,7 @@ class _SignContractPageState extends State<ProposalPage> {
                               color: Color(ColorConstants.getBlueDark()),
                             ),
                           ),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.proposal.logoUrl != null ? Padding(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl != null ? Padding(
                             padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
                             child: Material(
                               elevation: 4,
@@ -99,7 +101,7 @@ class _SignContractPageState extends State<ProposalPage> {
                               ),
                             ),
                           ) : SizedBox(),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.proposal.logoUrl == null ? Padding(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl == null ? Padding(
                             padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
                             child: Container(
                               alignment: Alignment.center,
@@ -149,7 +151,7 @@ class _SignContractPageState extends State<ProposalPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                pageState.proposal.logoUrl != null ? Material(
+                                pageState.profile?.logoUrl != null ? Material(
                                   elevation: 4,
                                   child: Container(
                                     alignment: Alignment.centerLeft,
@@ -235,7 +237,7 @@ class _SignContractPageState extends State<ProposalPage> {
                   ],
                 ),
               ),
-            ),
+            ) : Container(),
           ),
         )
       );
@@ -273,7 +275,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ),
-      pageState.proposal.contract != null ? GestureDetector(
+      pageState.proposal?.contract != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
@@ -333,7 +335,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.includePoses ? GestureDetector(
+      pageState.proposal?.includePoses ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = POSES;
@@ -363,7 +365,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.questionnaire != null ? GestureDetector(
+      pageState.proposal?.questionnaire != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = QUESTIONNAIRE;
@@ -393,7 +395,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.feedback != null ? GestureDetector(
+      pageState.proposal?.feedback != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = FEEDBACK;
@@ -459,7 +461,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ),
-      pageState.proposal.contract != null ? GestureDetector(
+      pageState.proposal?.contract != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = CONTRACT;
@@ -519,7 +521,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.includePoses ? GestureDetector(
+      pageState.proposal?.includePoses ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = POSES;
@@ -549,7 +551,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.questionnaire != null ? GestureDetector(
+      pageState.proposal?.questionnaire != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = QUESTIONNAIRE;
@@ -579,7 +581,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal.feedback != null ? GestureDetector(
+      pageState.proposal?.feedback != null ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = FEEDBACK;

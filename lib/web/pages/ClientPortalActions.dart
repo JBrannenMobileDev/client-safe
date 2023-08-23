@@ -8,8 +8,9 @@ import 'ClientPortalPageState.dart';
 
 class FetchProposalDataAction{
   final ClientPortalPageState pageState;
-  final String proposalId;
-  FetchProposalDataAction(this.pageState, this.proposalId);
+  final String userId;
+  final String jobId;
+  FetchProposalDataAction(this.pageState, this.userId, this.jobId);
 }
 
 class SaveClientSignatureAction{
@@ -22,6 +23,18 @@ class SetProposalAction {
   final ClientPortalPageState pageState;
   final Proposal proposal;
   SetProposalAction(this.pageState, this.proposal);
+}
+
+class SetErrorStateAction {
+  final ClientPortalPageState pageState;
+  final String errorMsg;
+  SetErrorStateAction(this.pageState, this.errorMsg);
+}
+
+class SetLoadingStateAction {
+  final ClientPortalPageState pageState;
+  final bool isLoading;
+  SetLoadingStateAction(this.pageState, this.isLoading);
 }
 
 class SetJobAction {

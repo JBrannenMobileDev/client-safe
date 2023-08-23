@@ -15,12 +15,7 @@ class Proposal {
   static const String FEEDBACK_PAGE = 'feedback';
 
   int id;
-  String jobDocumentId;
-  String documentId;
-  String userId;
-  String detailsMessage;
-  String logoUrl;
-  String bannerUrl;
+  String detailsMessage = '';
   Contract contract;
   Questionnaire questionnaire;
   Feedback feedback;
@@ -32,10 +27,6 @@ class Proposal {
   bool includePoses = false;
 
   Proposal({
-      this.id,
-      this.jobDocumentId,
-      this.documentId,
-      this.userId,
       this.detailsMessage,
       this.contract,
       this.contractSeenByClient,
@@ -43,18 +34,14 @@ class Proposal {
       this.posesSeenByClient,
       this.questionnaireSeenByClient,
       this.feedbackSeenByClient,
-      this.logoUrl,
       this.questionnaire,
       this.feedback,
       this.includePoses,
-      this.bannerUrl,
+      this.id,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'documentId' : documentId,
-      'jobDocumentId' : jobDocumentId,
-      'userId': userId,
       'detailsMessage' : detailsMessage,
       'contract' : contract?.toMap(),
       'contractSeenByClient' : contractSeenByClient,
@@ -62,31 +49,24 @@ class Proposal {
       'posesSeenByClient' : posesSeenByClient,
       'questionnaireSeenByClient' : questionnaireSeenByClient,
       'feedbackSeenByClient' : feedbackSeenByClient,
-      'logoUrl' : logoUrl,
       'questionnaire' : questionnaire?.toMap(),
       'feedback' : feedback?.toMap(),
       'includePoses' : includePoses,
-      'bannerUrl' : bannerUrl,
     };
   }
 
   static Proposal fromMap(Map<String, dynamic> map) {
     return Proposal(
-      documentId: map['documentId'],
-      jobDocumentId: map['jobDocumentId'],
-      userId: map['userId'],
-      detailsMessage: map['detailsMessage'],
+      detailsMessage: map['detailsMessage'] != null ? map['detailsMessage'] : '',
       contract: map['contract'] != null ? Contract.fromMap(map['contract']) : null,
-      contractSeenByClient: map['contractSeenByClient'],
-      invoiceSeenByClient: map['invoiceSeenByClient'],
-      posesSeenByClient: map['posesSeenByClient'],
-      questionnaireSeenByClient: map['questionnaireSeenByClient'],
-      feedbackSeenByClient: map['feedbackSeenByClient'],
-      logoUrl: map['logoUrl'],
+      contractSeenByClient: map['contractSeenByClient'] != null ? map['contractSeenByClient'] : false,
+      invoiceSeenByClient: map['invoiceSeenByClient'] != null ? map['invoiceSeenByClient'] : false,
+      posesSeenByClient: map['posesSeenByClient'] != null ? map['posesSeenByClient'] : false,
+      questionnaireSeenByClient: map['questionnaireSeenByClient'] != null ? map['questionnaireSeenByClient'] : false,
+      feedbackSeenByClient: map['feedbackSeenByClient'] != null ? map['feedbackSeenByClient'] : false,
       questionnaire: map['questionnaire'] != null ? Questionnaire.fromMap(map['questionnaire']) : null,
       feedback: map['feedback'] != null ? Feedback.fromMap(map['feedback']) : null,
-      includePoses: map['includePoses'],
-      bannerUrl: map['bannerUrl'],
+      includePoses: map['includePoses'] != null ? map['includePoses'] : false,
     );
   }
 }
