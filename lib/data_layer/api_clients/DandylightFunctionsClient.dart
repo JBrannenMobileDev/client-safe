@@ -25,7 +25,7 @@ class DandylightFunctionsApi {
     }
 
     final json = jsonDecode(response.body);
-    return Job.fromMap(json['proposal']);
+    return Job.fromMap(json);
   }
 
   Future<Profile> fetchProfile(String userId, String jobId) async {

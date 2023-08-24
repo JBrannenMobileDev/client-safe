@@ -28,6 +28,7 @@ class NewInvoicePageState {
   final bool isFinishedFetchingClients;
   final bool isInEditMode;
   final double total;
+  final double subtotal;
   final double depositValue;
   final bool isDepositChecked;
   final double salesTaxPercent;
@@ -149,6 +150,7 @@ class NewInvoicePageState {
     @required this.onSalesTaxChecked,
     @required this.onSalesTaxRateChanged,
     @required this.onInvoiceSent,
+    @required this.subtotal,
   });
 
   NewInvoicePageState copyWith({
@@ -184,6 +186,7 @@ class NewInvoicePageState {
     String newDiscountFilter,
     bool invoicePdfSaved,
     DateTime dueDate,
+    double subtotal,
     Function(DateTime) dueDateSelected,
     Function() onEditSelected,
     Function(String) onNewDiscountFilterChanged,
@@ -282,6 +285,7 @@ class NewInvoicePageState {
       onSalesTaxChecked: onSalesTaxChecked ?? this.onSalesTaxChecked,
       onSalesTaxRateChanged: onSalesTaxRateChanged ?? this.onSalesTaxRateChanged,
       onInvoiceSent: onInvoiceSent ?? this.onInvoiceSent,
+      subtotal: subtotal ?? this.subtotal,
     );
   }
 
@@ -352,7 +356,8 @@ class NewInvoicePageState {
         onDepositChecked: null,
         onSalesTaxChecked: null,
         onSalesTaxRateChanged: null,
-      onInvoiceSent: null,
+        onInvoiceSent: null,
+        subtotal: 0,
       );
   }
 
@@ -394,6 +399,7 @@ class NewInvoicePageState {
       isDepositChecked: store.state.newInvoicePageState.isDepositChecked,
       salesTaxPercent: store.state.newInvoicePageState.salesTaxPercent,
       isSalesTaxChecked: store.state.newInvoicePageState.isSalesTaxChecked,
+      subtotal: store.state.newInvoicePageState.subtotal,
       onDueDateSelected: (dueDate) => store.dispatch(SetSelectedDueDate(store.state.newInvoicePageState, dueDate)),
       onNewDiscountFilterChanged: (selectorName) => store.dispatch(UpdateNewDiscountSelectorAction(store.state.newInvoicePageState, selectorName)),
       onNewDiscountCancelSelected: () => store.dispatch(ClearNewDiscountAction(store.state.newInvoicePageState)),
@@ -452,6 +458,7 @@ class NewInvoicePageState {
       total.hashCode ^
       discountValue.hashCode ^
       flatRateText.hashCode ^
+      subtotal.hashCode^
       hourlyRate.hashCode ^
       hourlyQuantity.hashCode ^
       itemRate.hashCode ^
@@ -505,6 +512,7 @@ class NewInvoicePageState {
           onBackPressed == other.onBackPressed &&
           onJobSelected == other.onJobSelected &&
           discountValue == other.discountValue &&
+          subtotal == other.subtotal &&
           onJobSearchTextChanged == other.onJobSearchTextChanged &&
           onClearInputSelected == other.onClearInputSelected &&
           jobs == other.jobs &&

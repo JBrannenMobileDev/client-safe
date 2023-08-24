@@ -11,8 +11,6 @@ import 'package:equatable/equatable.dart';
 import 'package:sembast/sembast.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../models/Proposal.dart';
-
 class MileageExpenseDao extends Equatable{
   static const String MILEAGE_EXPENSE_STORE_NAME = 'mileageExpense';
   // A Store with int keys and Map<String, dynamic> values.
@@ -55,19 +53,21 @@ class MileageExpenseDao extends Equatable{
     }
   }
 
-  static Future update(Proposal proposal) async {
+  static Future update(MileageExpense mileageExpense) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
-    final finder = Finder(filter: Filter.equals('id', proposal.id));
+    final finder = Finder(filter: Filter.equals('documentId', mileageExpense.documentId));
     await _mileageExpenseStore.update(
       await _db,
-      proposal.toMap(),
+      mileageExpense.toMap(),
       finder: finder,
     ).catchError((error) {
       print(error);
     });
+    await MileageExpenseCollection().updateMileageExpense(mileageExpense);
+    _updateLastChangedTime();
   }
-finish updating class
+
   static Future updateLocalOnly(MileageExpense mileageExpense) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.

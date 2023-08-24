@@ -335,7 +335,7 @@ class _SignContractPageState extends State<ProposalPage> {
           },
         ),
       ) : SizedBox(),
-      pageState.proposal?.includePoses ? GestureDetector(
+      pageState.proposal.includePoses ? GestureDetector(
         onTap: () {
           setState(() {
             selectedPage = POSES;

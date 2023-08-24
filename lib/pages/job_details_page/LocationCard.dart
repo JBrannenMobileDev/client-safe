@@ -34,15 +34,18 @@ class _LocationCard extends State<LocationCard> {
       converter: (store) => JobDetailsPageState.fromStore(store),
       builder: (BuildContext context, JobDetailsPageState pageState) =>
           Container(
+            alignment: Alignment.center,
             margin: EdgeInsets.only(left: 16, top: 26, right: 16, bottom: 0),
-            height: 338,
+            height: 364,
             decoration: BoxDecoration(
               color: Color(ColorConstants.getPrimaryWhite()),
               borderRadius: BorderRadius.circular(16.0),
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Container(
+                  alignment: Alignment.center,
                   width: double.infinity,
                   margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 24.0),
                   child: TextDandyLight(
@@ -53,6 +56,7 @@ class _LocationCard extends State<LocationCard> {
                   ),
                 ),
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Column(
                       mainAxisSize: MainAxisSize.min,
@@ -114,6 +118,7 @@ class _LocationCard extends State<LocationCard> {
                     ),
                     Column(
                       mainAxisSize: MainAxisSize.min,
+
                       children: [
                         GestureDetector(
                           onTap: () {

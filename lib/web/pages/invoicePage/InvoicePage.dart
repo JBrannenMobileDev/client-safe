@@ -475,7 +475,7 @@ class _InvoicePageState extends State<InvoicePage> {
               height: 1,
               color: Color(ColorConstants.getPrimaryBackgroundGrey()),
             ),
-            Container(
+            pageState.invoice.depositAmount > 0 ? Container(
               width: 540,
               margin: EdgeInsets.only(left: 16, right: 16, top: 16),
               padding: EdgeInsets.only(left: 32, right: 32),
@@ -501,7 +501,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   ),
                 ],
               ),
-            ),
+            ) : SizedBox(),
             Container(
               width: 540,
               margin: EdgeInsets.only(left: 16, right: 16, top: 16),

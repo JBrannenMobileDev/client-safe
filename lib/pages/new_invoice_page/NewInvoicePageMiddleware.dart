@@ -106,6 +106,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           sentDate: pageState.selectedJob.invoice?.sentDate,
           salesTaxAmount: (pageState.total * (pageState.salesTaxPercent/100)),
           salesTaxRate: pageState.salesTaxPercent,
+          subtotal: pageState.total,
     ), pageState.selectedJob);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_INVOICE);

@@ -31,6 +31,7 @@ ClientPortalPageState _setProposal(ClientPortalPageState previousState, SetPropo
 ClientPortalPageState _setJob(ClientPortalPageState previousState, SetJobAction action){
   return previousState.copyWith(
     job: action.job,
+    invoice: action.job.invoice,
   );
 }
 

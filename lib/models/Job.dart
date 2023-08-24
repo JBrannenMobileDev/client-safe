@@ -145,7 +145,7 @@ class Job {
       'depositAmount' : depositAmount,
       'tipAmount' : tipAmount,
       'addOnCost' : addOnCost,
-      'proposal' : proposal,
+      'proposal' : proposal?.toMap() ?? null,
     };
   }
 
@@ -174,7 +174,7 @@ class Job {
       poses: convertMapsToPoses(map['poses']),
       depositAmount: map['depositAmount'],
       tipAmount: map['tipAmount'],
-      proposal: map['proposal'],
+      proposal: map['proposal'] != null ? Proposal.fromMap(map['proposal']) : null,
     );
   }
 

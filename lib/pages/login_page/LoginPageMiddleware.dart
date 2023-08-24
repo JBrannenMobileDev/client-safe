@@ -170,7 +170,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
     await FireStoreSync().dandyLightAppInitializationSync(existingProfile.uid);
     await PoseLibraryGroupDao.syncAllFromFireStore();
     ProfileDao.updateUserLoginTime(existingProfile.uid);
-    bool shouldShowRestoreSubscription = existingProfile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !existingProfile.isFirstDevice();
+    String token = await PushNotificationsManager().getToken();
+    bool newDevice = false;
+    if(token != null) {
+      newDevice = existingProfile.addUniqueDeviceToken(token);
+    }
+    bool shouldShowRestoreSubscription = newDevice && !existingProfile.isFirstDevice();
     existingProfile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
     await ProfileDao.update(existingProfile);
     await EventSender().setUserIdentity(existingProfile.uid);
@@ -221,7 +226,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         profile = getMatchingProfile(profiles, user);
         ProfileDao.updateUserLoginTime(user.uid);
         setShouldShowOnBoarding(store, profile);
-        bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
+        String token = await PushNotificationsManager().getToken();
+        bool newDevice = false;
+        if(token != null) {
+          newDevice = profile.addUniqueDeviceToken(token);
+        }
+        bool shouldShowRestoreSubscription = newDevice && !profile.isFirstDevice();
         profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
         await ProfileDao.update(profile);
         await EventSender().setUserIdentity(user.uid);
@@ -265,7 +275,12 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
         if (authResult.user != null && authResult.user.emailVerified) {
           store.dispatch(UpdateShowResendMessageAction(store.state.loginPageState, false));
           profile = await ProfileDao.getMatchingProfile(authResult.user.uid);
-          bool shouldShowRestoreSubscription = profile.addUniqueDeviceToken(await PushNotificationsManager().getToken()) && !profile.isFirstDevice();
+          String token = await PushNotificationsManager().getToken();
+          bool newDevice = false;
+          if(token != null) {
+            newDevice = profile.addUniqueDeviceToken(token);
+          }
+          bool shouldShowRestoreSubscription = newDevice && !profile.isFirstDevice();
           profile.shouldShowRestoreSubscription = shouldShowRestoreSubscription;
           await ProfileDao.update(profile);
           setShouldShowOnBoarding(store, profile);
@@ -484,8 +499,10 @@ class LoginPageMiddleware extends MiddlewareClass<AppState> {
 
       await PoseLibraryGroupDao.syncAllFromFireStore();
       PoseLibraryGroup libraryGroup = (await PoseLibraryGroupDao.getAllSortedMostFrequent()).first;
-      List<Pose> posesToAdd = libraryGroup.poses.sublist(0, 7);
-      await _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
+      if(libraryGroup.poses.length > 7) {
+        List<Pose> posesToAdd = libraryGroup.poses.sublist(0, 7);
+        await _saveSelectedPoseToJob(store, (await JobDao.getAllJobs()).first, posesToAdd);
+      }
 
       if(signInType == EMAIL) {
         await store.dispatch(SetShowAccountCreatedDialogAction(store.state.loginPageState, true, user));
