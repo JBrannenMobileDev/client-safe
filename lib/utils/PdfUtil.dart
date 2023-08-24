@@ -577,7 +577,7 @@ class PdfUtil {
                       )),
                 ],
               ),
-          Row(
+          depositValue > 0 ? Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
@@ -624,7 +624,7 @@ class PdfUtil {
                 ],
               ),
             ],
-          ),
+          ) : SizedBox(),  test this
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
