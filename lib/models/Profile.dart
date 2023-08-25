@@ -11,6 +11,7 @@ class Profile{
   List<dynamic> calendarIdsToSync;
   String firstName;
   String lastName;
+  String licenseNumber;
   String email;
   String phone;
   String businessName;
@@ -130,6 +131,7 @@ class Profile{
     this.titleTextColor,
     this.logoTextColor,
     this.backgroundColor,
+    this.licenseNumber,
   });
 
   Profile copyWith({
@@ -143,6 +145,7 @@ class Profile{
     String businessName,
     String email,
     String phone,
+    String licenseNumber,
     String zellePhoneEmail,
     String zelleFullName,
     String venmoLink,
@@ -258,6 +261,7 @@ class Profile{
       logoColor: logoColor ?? this.logoColor,
       titleTextColor: titleTextColor ?? this.titleTextColor,
       logoTextColor: logoTextColor ?? this.logoTextColor,
+      licenseNumber: licenseNumber ?? this.licenseNumber,
     );
   }
 

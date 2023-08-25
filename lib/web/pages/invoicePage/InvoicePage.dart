@@ -97,7 +97,7 @@ class _InvoicePageState extends State<InvoicePage> {
                 )
               ],
             ),
-            Container(
+            pageState.invoice.depositAmount > 0 ? Container(
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
               width: 1080,
               child: Row(
@@ -217,7 +217,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   ),
                 ],
               ),
-            ),
+            ) : SizedBox(),
             Container(
               margin: EdgeInsets.only(left: 16, right: 16, bottom: 16),
               width: 1080,

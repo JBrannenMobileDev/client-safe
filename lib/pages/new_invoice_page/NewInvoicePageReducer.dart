@@ -5,6 +5,7 @@ import 'package:dandylight/pages/new_invoice_page/NewDiscountDialog.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageActions.dart';
 import 'package:dandylight/pages/new_invoice_page/NewInvoicePageState.dart';
 import 'package:dandylight/pages/new_pricing_profile_page/RateTypeSelection.dart';
+import 'package:intl/intl.dart';
 import 'package:redux/redux.dart';
 
 final newInvoicePageReducer = combineReducers<NewInvoicePageState>([
@@ -78,7 +79,7 @@ NewInvoicePageState _setShouldClear(NewInvoicePageState previousState, SetShould
   );
 }
 
-double calculateDiscount(NewInvoicePageState previousState, double total){
+double calculateDiscount(NewInvoicePageState previousState, double subtotal){
     double discountRate = previousState.newDiscountRate.length > 0 ? double.parse(previousState.newDiscountRate.replaceFirst(r'$', '')) : 0;
     double discountPercentage = previousState.newDiscountPercentage.length > 0 ? double.parse(previousState.newDiscountPercentage.replaceFirst(r'%', '')) : 0;
     Discount discount = Discount(
@@ -92,7 +93,7 @@ double calculateDiscount(NewInvoicePageState previousState, double total){
         discountValue = discount.rate;
         break;
       case NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE:
-        discountValue = (total.truncate() * (discountPercentage/100)).truncate().toDouble();
+        discountValue = (subtotal.truncate() * (discountPercentage/100)).truncate().toDouble();
         break;
     }
   return discountValue;
@@ -112,7 +113,7 @@ NewInvoicePageState _saveNewDiscount(NewInvoicePageState previousState, SaveNewD
       discountValue = discount.rate;
       break;
     case NewDiscountDialog.SELECTOR_TYPE_PERCENTAGE:
-      discountValue = (previousState.total.truncate() * (discountPercentage/100)).truncate().toDouble();
+      discountValue = (previousState.subtotal * (discountPercentage/100)).toDouble();
       break;
   }
   double remainingBalance = calculateRemainingBalance(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent);
@@ -139,8 +140,9 @@ NewInvoicePageState _updateDiscountSelector(NewInvoicePageState previousState, U
 }
 
 NewInvoicePageState _updateDiscountPercentage(NewInvoicePageState previousState, UpdateNewDiscountPercentageTextAction action) {
+  NumberFormat numberFormat = NumberFormat("#,##0.0", "en_US");
   return previousState.copyWith(
-    newDiscountPercentage: action.percentage,
+    newDiscountPercentage: numberFormat.format(double.parse(action.percentage)),
   );
 }
 
@@ -253,7 +255,7 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     lineItems = selectedJob.invoice.lineItems;
     remainingBalance = selectedJob.invoice.unpaidAmount;
     discount = Discount(rate: selectedJob.invoice.discount, selectedFilter: NewDiscountDialog.SELECTOR_TYPE_FIXED);
-    discountAmount = ???
+    discountAmount = calculateDiscount(previousState, selectedJob.invoice.subtotal);
   } else if(previousState.lineItems.isEmpty){
     total = selectedJob.getJobCost();
     LineItem rateLineItem = LineItem(
@@ -288,8 +290,8 @@ NewInvoicePageState _saveSelectedJob(NewInvoicePageState previousState, SaveSele
     itemRate: selectedJob.priceProfile.itemRate.toString(),
     itemQuantity: '0',
     unpaidAmount: remainingBalance,
-    total: _calculateTotal(previousState, discountValue, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
-    subtotal: _calculateSubtotal(previousState),
+    total: _calculateTotal(previousState, discountAmount, previousState.isSalesTaxChecked, previousState.salesTaxPercent),
+    subtotal: _calculateSubtotalByLineItem(lineItems),
   );
 }
 

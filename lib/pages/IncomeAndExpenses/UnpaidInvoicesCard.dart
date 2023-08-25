@@ -92,13 +92,13 @@ class UnpaidInvoicesCard extends StatelessWidget{
 
   double getContainerHeight(int length, IncomeAndExpensesPageState pageState) {
     if(length == 0) {
-      return 162.0;
+      return 165.0;
     }else if(length == 1) {
-      return 129.0;
+      return 132.0;
     }else if(length == 2) {
-      return 197.0;
+      return 200.0;
     }else {
-      return 285.0;
+      return 288.0;
     }
   }
 

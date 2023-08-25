@@ -32,6 +32,7 @@ import '../models/Job.dart';
 import '../models/JobStage.dart';
 import '../models/Location.dart';
 import '../pages/dashboard_page/DashboardPageState.dart';
+import '../pages/main_settings_page/EditBrandingPage.dart';
 import '../pages/poses_page/PosesPage.dart';
 
 class NavigationUtil {
@@ -71,6 +72,9 @@ class NavigationUtil {
   }
   static onEditProfileSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditAccountPage(profile)));
+  }
+  static onEditBrandingSelected(BuildContext context) {
+    Navigator.of(context).push(new MaterialPageRoute(builder: (context) => EditBrandingPage()));
   }
   static onManageSubscriptionSelected(BuildContext context, Profile profile) {
     Navigator.of(context).push(new MaterialPageRoute(builder: (context) => ManageSubscriptionPage(profile)));

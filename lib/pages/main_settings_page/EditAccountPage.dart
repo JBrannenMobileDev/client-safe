@@ -57,10 +57,10 @@ class _EditAccountPageState extends State<EditAccountPage>
                     color: Color(ColorConstants.getPrimaryBlack()), //change your color here
                   ),
                   brightness: Brightness.light,
-                  backgroundColor: Colors.transparent,
+                  backgroundColor: Color(ColorConstants.getPrimaryBackgroundGrey()),
                   pinned: true,
                   centerTitle: true,
-                  elevation: 0.0,
+                  elevation: 2.0,
                   title: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: "My Profile",
@@ -70,8 +70,7 @@ class _EditAccountPageState extends State<EditAccountPage>
                 SliverList(
                   delegate: new SliverChildListDelegate(
                     <Widget>[
-                          SafeArea(
-                            child: Container(
+                          Container(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
@@ -188,7 +187,6 @@ class _EditAccountPageState extends State<EditAccountPage>
                                 ],
                               ),
                             ),
-                          ),
                     ],
                   ),
                 ),
