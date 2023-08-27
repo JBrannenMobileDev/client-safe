@@ -69,12 +69,17 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       _resizeImage(store, action, next);
     }
     if(action is SaveBrandingAction) {
-      _resizeImage(store, action, next);
+      _saveBranding(store, action, next);
     }
   }
 
-  void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async{
-    await FileStorage.saveProfileIconImageFile(action.poseImage500.path, action.logoImage);
+  void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {
+    if(action.pageState.logoImageSelected) {
+      await FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile);
+    }
+
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.logoSelected = action.pageState.logoImageSelected;
 
   }
 

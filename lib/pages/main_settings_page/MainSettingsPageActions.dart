@@ -32,6 +32,11 @@ class ResizeLogoImageAction {
   ResizeLogoImageAction(this.pageState, this.image);
 }
 
+class SaveBrandingAction {
+  final MainSettingsPageState pageState;
+  SaveBrandingAction(this.pageState);
+}
+
 class SetResizedLogoImageAction {
   final MainSettingsPageState pageState;
   final XFile resizedLogoImage;

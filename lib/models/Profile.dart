@@ -29,6 +29,7 @@ class Profile{
   double lngDefaultHome;
   double salesTaxRate;
   int jobsCreatedCount;
+  bool logoSelected;
   String logoUrl;
   String bannerUrl;
   String bannerColor;
@@ -143,6 +144,7 @@ class Profile{
     this.selectedFontTheme,
     this.savedColorThemes,
     this.savedFontThemes,
+    this.logoSelected,
   });
 
   Profile copyWith({
@@ -180,6 +182,7 @@ class Profile{
     bool onBoardingComplete,
     bool isSubscribed,
     int jobsCreatedCount,
+    bool logoSelected,
     String logoUrl,
     String bannerUrl,
     String bannerColor,
@@ -281,6 +284,7 @@ class Profile{
       selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
       savedColorThemes: savedColorThemes ?? this.savedColorThemes,
       savedFontThemes: savedFontThemes ?? this.savedFontThemes,
+      logoSelected: logoSelected ?? this.logoSelected,
     );
   }
 
@@ -317,6 +321,7 @@ class Profile{
       'onBoardingComplete' : onBoardingComplete ?? false,
       'usesSalesTax' : usesSalesTax ?? false,
       'isSubscribed' : isSubscribed ?? false,
+      'logoSelected' : logoSelected ?? false,
       'logoUrl' : logoUrl,
       'bannerUrl' : bannerUrl,
       'bannerColor' : bannerColor,
@@ -378,6 +383,7 @@ class Profile{
       calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
       salesTaxRate: map['salesTaxRate'],
       instagramUrl: map['instagramUrl'],
+      logoSelected: map['logoSelected'] != null ? map['logoSelected'] : false,
       logoUrl: map['logoUrl'],
       bannerUrl: map['bannerUrl'],
       bannerColor: map['bannerColor'],
