@@ -1,13 +1,16 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
+import 'package:dandylight/pages/main_settings_page/SaveColorThemeBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/Shadows.dart';
@@ -15,6 +18,8 @@ import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ColorThemeSelectionBottomSheet.dart';
 import 'ColorThemeWidget.dart';
+import 'FontThemeSelectionBottomSheet.dart';
+import 'FontThemeWidget.dart';
 
 class EditBrandingPage extends StatefulWidget {
 
@@ -36,6 +41,32 @@ class _EditBrandingPageState extends State<EditBrandingPage>
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
         return ColorThemeSelectionBottomSheet();
+      },
+    );
+  }
+
+  void _showFontThemeSelectionSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return FontThemeSelectionBottomSheet();
+      },
+    );
+  }
+
+  void _showSaveColorThemeBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      enableDrag: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SaveColorThemeBottomSheet();
       },
     );
   }
@@ -91,8 +122,8 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                     ),
                                   ),
                                   Container(
-                                    height: 300,
-                                    margin: EdgeInsets.only(bottom: 32),
+                                    height: 284,
+                                    margin: EdgeInsets.only(bottom: 48),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(16),
                                       color: Color(ColorConstants.getPrimaryWhite())
@@ -105,7 +136,68 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                                             crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
-                                              Column(
+                                              pageState.resizedLogoImage != null ? Container(
+                                                padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 8),
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(16),
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color: pageState.logoImageSelected ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite())
+                                                  )
+                                                ),
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      margin: EdgeInsets.only(bottom: 8),
+                                                      child: TextDandyLight(
+                                                        type: TextDandyLight.SMALL_TEXT,
+                                                        text: 'Image',
+                                                        textAlign: TextAlign.center,
+                                                        color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey()),
+                                                      ),
+                                                    ),
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        pageState.onLogoImageSelected(true);
+                                                      },
+                                                      child: Container(
+                                                        child: Stack(
+                                                          children: [
+                                                            ClipRRect(
+                                                              borderRadius: new BorderRadius.circular(58.0),
+                                                              child: Image(
+                                                                fit: BoxFit.cover,
+                                                                width: 116,
+                                                                height: 116,
+                                                                image: FileImage(File(pageState.resizedLogoImage.path)),
+                                                              ),
+                                                            ),
+                                                            !pageState.logoImageSelected ? ClipRRect(
+                                                              borderRadius: new BorderRadius.circular(58.0),
+                                                              child: Image(
+                                                                fit: BoxFit.cover,
+                                                                color: Color(ColorConstants.getPrimaryBackgroundGrey()).withOpacity(.8),
+                                                                width: 116,
+                                                                height: 116,
+                                                                image: FileImage(File(pageState.resizedLogoImage.path)),
+                                                              ),
+                                                            ) : SizedBox()
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      margin: EdgeInsets.only(top: 8),
+                                                      child: TextDandyLight(
+                                                        type: TextDandyLight.SMALL_TEXT,
+                                                        textAlign: TextAlign.center,
+                                                        text: 'New Image',
+                                                        color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ) : Column(
                                                 children: [
                                                   Container(
                                                     margin: EdgeInsets.only(bottom: 8),
@@ -116,44 +208,49 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                                       color: Color(ColorConstants.getPrimaryBlack()),
                                                     ),
                                                   ),
-                                                  Stack(
-                                                    alignment: Alignment.center,
-                                                    children: [
-                                                      Container(
-                                                        alignment: Alignment.center,
-                                                        height: 116,
-                                                        width: 116,
-                                                        decoration: BoxDecoration(
-                                                            shape: BoxShape.circle,
-                                                            color: Color(ColorConstants.getPrimaryWhite())
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      getDeviceImage(pageState);
+                                                    },
+                                                    child: Stack(
+                                                      alignment: Alignment.center,
+                                                      children: [
+                                                        Container(
+                                                          alignment: Alignment.center,
+                                                          height: 116,
+                                                          width: 116,
+                                                          decoration: BoxDecoration(
+                                                              shape: BoxShape.circle,
+                                                              color: Color(ColorConstants.getPrimaryWhite())
+                                                          ),
+                                                          child: TextDandyLight(
+                                                            type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
+                                                            text: pageState.profile.businessName.substring(0, 1),
+                                                            color: Color(ColorConstants.getPrimaryWhite()),
+                                                          ),
                                                         ),
-                                                        child: TextDandyLight(
-                                                          type: TextDandyLight.EXTRA_EXTRA_LARGE_TEXT,
-                                                          text: pageState.profile.businessName.substring(0, 1),
-                                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                                        CustomPaint(
+                                                          size: Size(116, 116),
+                                                          foregroundPainter: DandyLightPainter(
+                                                              completeColor: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                              width: 2),
                                                         ),
-                                                      ),
-                                                      CustomPaint(
-                                                        size: Size(116, 116),
-                                                        foregroundPainter: DandyLightPainter(
-                                                            completeColor: Color(ColorConstants.getPrimaryGreyMedium()),
-                                                            width: 2),
-                                                      ),
-                                                      Container(
-                                                        child: TextDandyLight(
-                                                          type: TextDandyLight.MEDIUM_TEXT,
-                                                          textAlign: TextAlign.center,
-                                                          text: 'Upload\nimage',
-                                                          color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                        Container(
+                                                          child: TextDandyLight(
+                                                            type: TextDandyLight.MEDIUM_TEXT,
+                                                            textAlign: TextAlign.center,
+                                                            text: 'Upload\nimage',
+                                                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                          ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
                                                   Container(
                                                     margin: EdgeInsets.only(top: 8),
                                                     child: TextDandyLight(
                                                       type: TextDandyLight.SMALL_TEXT,
-                                                      text: '150 x 150\n( .jpg or .png )',
+                                                      text: '( .jpg or .png )',
                                                       textAlign: TextAlign.center,
                                                       color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                     ),
@@ -168,33 +265,48 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                                   color: Color(ColorConstants.getPrimaryBlack()),
                                                 ),
                                               ),
-                                              Column(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    margin: EdgeInsets.only(bottom: 8),
-                                                    child: TextDandyLight(
-                                                      type: TextDandyLight.SMALL_TEXT,
-                                                      text: 'Icon',
-                                                      textAlign: TextAlign.center,
-                                                      color: Color(ColorConstants.getPrimaryBlack()),
-                                                    ),
+                                              Container(
+                                                padding: EdgeInsets.only(left: 8, right: 8, top: 8, bottom: 32),
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(16),
+                                                    border: Border.all(
+                                                        width: 1,
+                                                        color: !pageState.logoImageSelected ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite())
+                                                    )
+                                                ),
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    pageState.onLogoImageSelected(false);
+                                                  },
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Container(
+                                                        margin: EdgeInsets.only(bottom: 8),
+                                                        child: TextDandyLight(
+                                                          type: TextDandyLight.SMALL_TEXT,
+                                                          text: 'Icon',
+                                                          textAlign: TextAlign.center,
+                                                          color: Color(!pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey()),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        alignment: Alignment.center,
+                                                        height: 116,
+                                                        width: 116,
+                                                        decoration: BoxDecoration(
+                                                            shape: BoxShape.circle,
+                                                            color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark())
+                                                        ),
+                                                        child: TextDandyLight(
+                                                          type: TextDandyLight.BRAND_LOGO,
+                                                          text: pageState.profile.businessName.substring(0, 1),
+                                                          color: Color(ColorConstants.getPrimaryWhite()),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
-                                                  Container(
-                                                    alignment: Alignment.center,
-                                                    height: 116,
-                                                    width: 116,
-                                                    decoration: BoxDecoration(
-                                                        shape: BoxShape.circle,
-                                                        color: Color(ColorConstants.getPeachDark())
-                                                    ),
-                                                    child: TextDandyLight(
-                                                      type: TextDandyLight.BRAND_LOGO,
-                                                      text: pageState.profile.businessName.substring(0, 1),
-                                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                                    ),
-                                                  ),
-                                                ],
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -203,7 +315,7 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                           margin: EdgeInsets.only(top: 32, left: 32, right: 32),
                                           child: TextDandyLight(
                                             type: TextDandyLight.SMALL_TEXT,
-                                            text: 'The selected logo/icon will be used to brand your client portal and documents',
+                                            text: 'The selected logo/icon will be used to brand your client portal and documents.',
                                             textAlign: TextAlign.center,
                                             color: Color(ColorConstants.getPrimaryBlack()),
                                           ),
@@ -221,7 +333,7 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                     ),
                                   ),
                                   Container(
-                                    margin: EdgeInsets.only(bottom: 32),
+                                    margin: EdgeInsets.only(bottom: 48),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(16),
                                         color: Color(ColorConstants.getPrimaryWhite())
@@ -390,7 +502,7 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                               child: Container(
                                                 padding: EdgeInsets.only(left: 32, right: 32),
                                                 alignment: Alignment.center,
-                                                height: 48,
+                                                height: 42,
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(24),
                                                 ),
@@ -398,25 +510,25 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                                   type: TextDandyLight.SMALL_TEXT,
                                                   text: 'Reset colors',
                                                   textAlign: TextAlign.center,
-                                                  color: Color(ColorConstants.getPeachDark()),
+                                                  color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                 ),
                                               ),
                                             ),
                                             GestureDetector(
                                               onTap: () {
-
+                                                _showSaveColorThemeBottomSheet(context);
                                               },
                                               child: Container(
                                                 padding: EdgeInsets.only(left: 32, right: 32),
                                                 alignment: Alignment.center,
-                                                height: 48,
+                                                height: 42,
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(24),
                                                     color: Color(ColorConstants.getPeachDark())
                                                 ),
                                                 child: TextDandyLight(
-                                                  type: TextDandyLight.SMALL_TEXT,
-                                                  text: 'Save Theme',
+                                                  type: TextDandyLight.MEDIUM_TEXT,
+                                                  text: 'Save Color Theme',
                                                   textAlign: TextAlign.center,
                                                   color: Color(ColorConstants.getPrimaryWhite()),
                                                 ),
@@ -447,6 +559,215 @@ class _EditBrandingPageState extends State<EditBrandingPage>
                                       ],
                                     ),
                                   ),
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 8),
+                                    alignment: Alignment.center,
+                                    child: TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Font Theme',
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.only(bottom: 124),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      color: Color(ColorConstants.getPrimaryWhite())
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      children: [
+                                        Container(
+                                          margin: EdgeInsets.only(top: 24),
+                                          alignment: Alignment.center,
+                                          height: 116,
+                                          width: 116,
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Color(ColorConstants.getPeachDark())
+                                          ),
+                                          child: TextDandyLight(
+                                            type: TextDandyLight.BRAND_LOGO,
+                                            text: pageState.profile.businessName.substring(0, 1),
+                                            color: Color(ColorConstants.getPrimaryWhite()),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+                                          height: 48,
+                                          child: TextDandyLight(
+                                            textAlign: TextAlign.center,
+                                            type: TextDandyLight.LARGE_TEXT,
+                                            text: 'Sample Title Text',
+                                            color: Color(ColorConstants.getPrimaryBlack()),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(left: 32, right: 32, bottom: 32),
+                                          child: TextDandyLight(
+                                            textAlign: TextAlign.left,
+                                            type: TextDandyLight.MEDIUM_TEXT,
+                                            text: 'This is a sample of what the body text will look like. This is a sample of what the body text will look like.',
+                                            color: Color(ColorConstants.getPrimaryBlack()),
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 54,
+                                          margin: EdgeInsets.only(left: 16, right: 16),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              TextDandyLight(
+                                                textAlign: TextAlign.center,
+                                                type: TextDandyLight.MEDIUM_TEXT,
+                                                text: 'Icon font',
+                                                color: Color(ColorConstants.getPrimaryBlack()),
+                                              ),
+                                              Container(
+                                                height: 42,
+                                                padding: EdgeInsets.only(left: 24, right: 24),
+                                                alignment: Alignment.center,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(21),
+                                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                                ),
+                                                child: TextDandyLight(
+                                                  textAlign: TextAlign.center,
+                                                  type: TextDandyLight.MEDIUM_TEXT,
+                                                  text: 'Sans Serif',
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                              ),
+                                            ]
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 54,
+                                          margin: EdgeInsets.only(left: 16, right: 16),
+                                          child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                TextDandyLight(
+                                                  textAlign: TextAlign.center,
+                                                  type: TextDandyLight.MEDIUM_TEXT,
+                                                  text: 'Title font',
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                                Container(
+                                                  height: 42,
+                                                  padding: EdgeInsets.only(left: 24, right: 24),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(21),
+                                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                                  ),
+                                                  child: TextDandyLight(
+                                                    textAlign: TextAlign.center,
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'Sans Serif',
+                                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                                  ),
+                                                ),
+                                              ]
+                                          ),
+                                        ),
+                                        Container(
+                                          height: 54,
+                                          margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
+                                          child: Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                TextDandyLight(
+                                                  textAlign: TextAlign.center,
+                                                  type: TextDandyLight.MEDIUM_TEXT,
+                                                  text: 'Body font',
+                                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                                ),
+                                                Container(
+                                                  height: 42,
+                                                  padding: EdgeInsets.only(left: 24, right: 24),
+                                                  alignment: Alignment.center,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(21),
+                                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                                  ),
+                                                  child: TextDandyLight(
+                                                    textAlign: TextAlign.center,
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'Sans Serif',
+                                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                                  ),
+                                                ),
+                                              ]
+                                          ),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: [
+                                            GestureDetector(
+                                              onTap: () {
+
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(left: 32, right: 32),
+                                                alignment: Alignment.center,
+                                                height: 42,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(24),
+                                                ),
+                                                child: TextDandyLight(
+                                                  type: TextDandyLight.SMALL_TEXT,
+                                                  text: 'Reset fonts',
+                                                  textAlign: TextAlign.center,
+                                                  color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+
+                                              },
+                                              child: Container(
+                                                padding: EdgeInsets.only(left: 32, right: 32),
+                                                alignment: Alignment.center,
+                                                height: 42,
+                                                decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    color: Color(ColorConstants.getPeachDark())
+                                                ),
+                                                child: TextDandyLight(
+                                                  type: TextDandyLight.MEDIUM_TEXT,
+                                                  text: 'Save Font Theme',
+                                                  textAlign: TextAlign.center,
+                                                  color: Color(ColorConstants.getPrimaryWhite()),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(top: 20),
+                                          height: 1,
+                                          width: double.infinity,
+                                          color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                        ),
+                                        GestureDetector(
+                                          onTap: () {
+                                            _showFontThemeSelectionSheet(context);
+                                          },
+                                          child: Container(
+                                            height: 56,
+                                            margin: EdgeInsets.only(left: 16, right: 8),
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))
+                                            ),
+                                            child: FontThemeWidget(),
+                                          ),
+                                        )
+                                      ],
+                                    )
+                                  ),
                                 ],
                               ),
                             ),
@@ -458,4 +779,19 @@ class _EditBrandingPageState extends State<EditBrandingPage>
           ),
         ),
       );
+
+  Future getDeviceImage(MainSettingsPageState pageState) async {
+    try{
+      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if(localImage == null) {
+        setState((){
+
+        });
+      } else {
+        pageState.onLogoUploaded(localImage);
+      }
+    } catch(ex) {
+      print(ex.toString());
+    }
+  }
 }

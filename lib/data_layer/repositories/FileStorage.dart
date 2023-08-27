@@ -17,8 +17,10 @@ import '../../models/Job.dart';
 import '../../models/Location.dart';
 import '../../models/Pose.dart';
 import '../../models/PoseGroup.dart';
+import '../../models/Profile.dart';
 import '../../utils/DandylightCacheManager.dart';
 import '../local_db/daos/PoseDao.dart';
+import '../local_db/daos/ProfileDao.dart';
 
 class FileStorage {
   static saveLocationImageFile(String imagePath, Location location) async {
@@ -35,6 +37,10 @@ class FileStorage {
 
   static saveSubmittedPoseImageFile(String pathLarge, Pose pose) async {
     await _uploadSubmittedPoseImageFile(pathLarge, pose);
+  }
+
+  static saveProfileIconImageFile(String pathLarge, Profile profile) async {
+    await _uploadProfileIconImageFile(pathLarge, profile);
   }
 
   static saveContractFile(String contractPath, Contract contract) async {
@@ -160,6 +166,11 @@ class FileStorage {
     poseToUpdate.imageUrl = imageUrl;
     await PoseDao.update(poseToUpdate);
     await PoseSubmittedGroupDao.updatePoseInGroup(poseToUpdate, UidUtil().getUid());
+  }
+
+  static _updateProfileIconImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
+    profileToUpdate.logoUrl = imageUrl;
+    await ProfileDao.update(profileToUpdate);
   }
 
   static _updateLocationImageUrl(Location locationToUpdate, String imageUrl) async {
@@ -333,6 +344,37 @@ class FileStorage {
     }
   }
 
+  static _uploadProfileIconImageFile(String imagePathLarge, Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+
+    if(imagePathLarge != null) {
+      final uploadTaskLarge = storageRef
+          .child(_buildProfileIconImagePath(profile))
+          .putFile(File(imagePathLarge));
+
+      uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
+        switch (taskSnapshot.state) {
+          case TaskState.running:
+            final progress = 100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+            print("Upload is $progress% complete.");
+            break;
+          case TaskState.paused:
+            print("Upload is paused.");
+            break;
+          case TaskState.canceled:
+            print("Upload was canceled");
+            break;
+          case TaskState.error:
+          // Handle unsuccessful uploads
+            break;
+          case TaskState.success:
+            _fetchAndSaveProfileIconImageDownloadUrlLarge(profile);
+            break;
+        }
+      });
+    }
+  }
+
   static _fetchAndSaveLibraryPoseImageDownloadUrl(Pose pose, PoseLibraryGroup group) async {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
@@ -343,6 +385,12 @@ class FileStorage {
     final storageRef = FirebaseStorage.instance.ref();
     final cloudFilePath = storageRef.child(_buildPoseLibraryImagePath(pose));
     await _updateSubmittedPoseImageUrlLarge(pose, await cloudFilePath.getDownloadURL());
+  }
+
+  static _fetchAndSaveProfileIconImageDownloadUrlLarge(Profile profile) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final cloudFilePath = storageRef.child(_buildProfileIconImagePath(profile));
+    await _updateProfileIconImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
   }
 
   static _fetchAndSavePoseImageDownloadUrl(Pose pose, PoseGroup group) async {
@@ -405,6 +453,10 @@ class FileStorage {
   
   static String _buildPoseLibraryImagePath(Pose pose) {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/libraryPoses/${pose.documentId}.jpg";
+  }
+
+  static String _buildProfileIconImagePath(Profile profile) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${profile.uid}logoImage.jpg";
   }
 
   static String _buildPoseLibraryImagePathSmall(Pose pose) {

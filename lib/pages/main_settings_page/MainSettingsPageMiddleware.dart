@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
@@ -16,15 +18,20 @@ import 'package:dandylight/utils/StringUtils.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:purchases_flutter/purchases_flutter.dart' as purchases;
 import 'package:redux/redux.dart';
 import 'package:sembast/sembast.dart';
 
 import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/repositories/DiscountCodesRepository.dart';
+import '../../data_layer/repositories/FileStorage.dart';
 import '../../utils/CalendarUtil.dart';
+import '../../utils/UUID.dart';
 import '../login_page/LoginPageActions.dart';
 import 'MainSettingsPageActions.dart';
+import 'package:image/image.dart' as img;
 
 class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
@@ -58,6 +65,29 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is GenerateFreeDiscountCodeAction) {
       generateFreeDiscountCode(store, action, next);
     }
+    if(action is ResizeLogoImageAction) {
+      _resizeImage(store, action, next);
+    }
+    if(action is SaveBrandingAction) {
+      _resizeImage(store, action, next);
+    }
+  }
+
+  void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async{
+    await FileStorage.saveProfileIconImageFile(action.poseImage500.path, action.logoImage);
+
+  }
+
+  void _resizeImage(Store<AppState> store, ResizeLogoImageAction action, NextDispatcher next) async {
+    final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
+    final String uniqueFileName = Uuid().generateV4();
+    final cmdLarge = img.Command()
+      ..decodeImageFile(action.image.path)
+      ..copyResize(width: 300)
+      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
+    await cmdLarge.execute();
+    XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
+    store.dispatch(SetResizedLogoImageAction(store.state.mainSettingsPageState, resizedImage));
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{

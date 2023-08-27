@@ -3,6 +3,9 @@ import 'package:dandylight/models/Branding.dart';
 import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
 
+import 'ColorTheme.dart';
+import 'FontTheme.dart';
+
 class Profile{
   int id;
   String uid;
@@ -33,6 +36,10 @@ class Profile{
   String titleTextColor;
   String logoTextColor;
   String backgroundColor;
+  ColorTheme selectedColorTheme;
+  FontTheme selectedFontTheme;
+  List<ColorTheme> savedColorThemes;
+  List<FontTheme> savedFontThemes;
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
@@ -132,6 +139,10 @@ class Profile{
     this.logoTextColor,
     this.backgroundColor,
     this.licenseNumber,
+    this.selectedColorTheme,
+    this.selectedFontTheme,
+    this.savedColorThemes,
+    this.savedFontThemes,
   });
 
   Profile copyWith({
@@ -177,6 +188,10 @@ class Profile{
     String logoTextColor,
     String backgroundColor,
     double salesTaxRate,
+    ColorTheme selectedColorTheme,
+    FontTheme selectedFontTheme,
+    List<ColorTheme> savedColorThemes,
+    List<FontTheme> savedFontThemes,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
     DateTime invoicesLastChangeDate,
@@ -262,6 +277,10 @@ class Profile{
       titleTextColor: titleTextColor ?? this.titleTextColor,
       logoTextColor: logoTextColor ?? this.logoTextColor,
       licenseNumber: licenseNumber ?? this.licenseNumber,
+      selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
+      selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
+      savedColorThemes: savedColorThemes ?? this.savedColorThemes,
+      savedFontThemes: savedFontThemes ?? this.savedFontThemes,
     );
   }
 
@@ -330,6 +349,10 @@ class Profile{
       'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
+      'selectedFontTheme' : selectedFontTheme,
+      'selectedColorTheme' : selectedColorTheme,
+      'savedColorThemes' : savedColorThemes,
+      'savedFontThemes' : savedFontThemes,
     };
   }
 
@@ -375,6 +398,10 @@ class Profile{
       isSubscribed: map['isSubscribed'] != null ? map['isSubscribed'] : false,
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
+      selectedColorTheme: map['selectedColorTheme'] != null ? map['selectedColorTheme'] : null,
+      selectedFontTheme: map['selectedFontTheme'] != null ? map['selectedFontTheme'] : null,
+      savedColorThemes: map['savedColorThemes'] != null ? map['savedColorThemes'] : null,
+      savedFontThemes: map['savedFontThemes'] != null ? map['savedFontThemes'] : null,
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,

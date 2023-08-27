@@ -15,7 +15,22 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetDiscountCodeAction>(_setDiscountCode),
   TypedReducer<MainSettingsPageState, SetIsAdminAction>(_setIsAdmin),
   TypedReducer<MainSettingsPageState, SetUrlToStateAction>(_setInstaUrl),
+  TypedReducer<MainSettingsPageState, SetResizedLogoImageAction>(_setResizedLogoImage),
+  TypedReducer<MainSettingsPageState, SetLogoSelectionAction>(_setLogoSelection),
 ]);
+
+MainSettingsPageState _setLogoSelection(MainSettingsPageState previousState, SetLogoSelectionAction action){
+  return previousState.copyWith(
+    logoImageSelected: action.isLogoSelected,
+  );
+}
+
+MainSettingsPageState _setResizedLogoImage(MainSettingsPageState previousState, SetResizedLogoImageAction action){
+  return previousState.copyWith(
+    resizedLogoImage: action.resizedLogoImage,
+    logoImageSelected: true,
+  );
+}
 
 MainSettingsPageState _setInstaUrl(MainSettingsPageState previousState, SetUrlToStateAction action){
   return previousState.copyWith(

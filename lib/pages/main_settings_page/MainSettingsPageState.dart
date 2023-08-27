@@ -1,9 +1,12 @@
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
+import 'package:dandylight/models/ColorTheme.dart';
+import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
 import 'package:flutter/widgets.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
 
@@ -21,6 +24,17 @@ class MainSettingsPageState{
   final String password;
   final String passwordErrorMessage;
   final String instaUrl;
+  final XFile resizedLogoImage;
+  final bool logoImageSelected;
+  String currentBannerColor;
+  String currentButtonColor;
+  String currentButtonTextColor;
+  String currentIconColor;
+  String currentIconFont;
+  String currentTitleFont;
+  String currentBodyFont;
+  ColorTheme selectedColorTheme;
+  FontTheme selectedFontTheme;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
   final Function(bool) onCalendarChanged;
@@ -34,6 +48,8 @@ class MainSettingsPageState{
   final Function() generate50DiscountCode;
   final Function() generateFreeDiscountCode;
   final Function(String) onInstaUrlChanged;
+  final Function(XFile) onLogoUploaded;
+  final Function(bool) onLogoImageSelected;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -62,6 +78,19 @@ class MainSettingsPageState{
     @required this.generateFreeDiscountCode,
     @required this.onInstaUrlChanged,
     @required this.instaUrl,
+    @required this.onLogoUploaded,
+    @required this.resizedLogoImage,
+    @required this.logoImageSelected,
+    @required this.onLogoImageSelected,
+    @required this.currentBannerColor,
+    @required this.currentButtonColor,
+    @required this.currentButtonTextColor,
+    @required this.currentIconColor,
+    @required this.currentIconFont,
+    @required this.currentTitleFont,
+    @required this.currentBodyFont,
+    @required this.selectedColorTheme,
+    @required this.selectedFontTheme,
   });
 
   MainSettingsPageState copyWith({
@@ -78,6 +107,17 @@ class MainSettingsPageState{
     String passwordErrorMessage,
     String discountCode,
     String instaUrl,
+    XFile resizedLogoImage,
+    bool logoImageSelected,
+    String currentBannerColor,
+    String currentButtonColor,
+    String currentButtonTextColor,
+    String currentIconColor,
+    String currentIconFont,
+    String currentTitleFont,
+    String currentBodyFont,
+    ColorTheme selectedColorTheme,
+    FontTheme selectedFontTheme,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -91,6 +131,8 @@ class MainSettingsPageState{
     Function() generate50DiscountCode,
     Function() generateFreeDiscountCode,
     Function(String) onInstaUrlChanged,
+    Function(XFile) onLogoUploaded,
+    Function(bool) onLogoImageSelected,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -119,6 +161,19 @@ class MainSettingsPageState{
       generateFreeDiscountCode: generateFreeDiscountCode ?? this.generateFreeDiscountCode,
       onInstaUrlChanged: onInstaUrlChanged?? this.onInstaUrlChanged,
       instaUrl: instaUrl ?? this.instaUrl,
+      onLogoUploaded: onLogoUploaded ?? this.onLogoUploaded,
+      resizedLogoImage: resizedLogoImage ?? this.resizedLogoImage,
+      logoImageSelected: logoImageSelected ?? this.logoImageSelected,
+      onLogoImageSelected: onLogoImageSelected ?? this.onLogoImageSelected,
+      currentBannerColor: currentBannerColor ?? this.currentBannerColor,
+      currentIconColor: currentIconColor ?? this.currentIconColor,
+      currentButtonColor: currentButtonColor ?? this.currentButtonColor,
+      currentButtonTextColor: currentButtonTextColor ?? this.currentButtonTextColor,
+      currentIconFont: currentIconFont ?? this.currentIconFont,
+      currentTitleFont: currentTitleFont ?? this.currentTitleFont,
+      currentBodyFont: currentBodyFont ?? this.currentBodyFont,
+      selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
+      selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
     );
   }
 
@@ -149,6 +204,19 @@ class MainSettingsPageState{
     generateFreeDiscountCode: null,
     onInstaUrlChanged: null,
     instaUrl: '',
+    onLogoUploaded: null,
+    resizedLogoImage: null,
+    logoImageSelected: false,
+    onLogoImageSelected: null,
+    currentBannerColor: null,
+    currentIconColor: null,
+    currentButtonColor: null,
+    currentButtonTextColor: null,
+    currentIconFont: null,
+    currentTitleFont: null,
+    currentBodyFont: null,
+    selectedColorTheme: null,
+    selectedFontTheme: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -166,6 +234,17 @@ class MainSettingsPageState{
       discountCode: store.state.mainSettingsPageState.discountCode,
       isAdmin: store.state.mainSettingsPageState.isAdmin,
       instaUrl: store.state.mainSettingsPageState.instaUrl,
+      logoImageSelected: store.state.mainSettingsPageState.logoImageSelected,
+      resizedLogoImage: store.state.mainSettingsPageState.resizedLogoImage,
+      currentBannerColor: store.state.mainSettingsPageState.currentBannerColor,
+      currentButtonColor: store.state.mainSettingsPageState.currentButtonColor,
+      currentButtonTextColor: store.state.mainSettingsPageState.currentButtonTextColor,
+      currentIconColor: store.state.mainSettingsPageState.currentIconColor,
+      currentIconFont: store.state.mainSettingsPageState.currentIconFont,
+      currentTitleFont: store.state.mainSettingsPageState.currentTitleFont,
+      currentBodyFont: store.state.mainSettingsPageState.currentBodyFont,
+      selectedColorTheme: store.state.mainSettingsPageState.selectedColorTheme,
+      selectedFontTheme: store.state.mainSettingsPageState.selectedFontTheme,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -184,6 +263,8 @@ class MainSettingsPageState{
       generate50DiscountCode: () => store.dispatch(Generate50DiscountCodeAction(store.state.mainSettingsPageState)),
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
+      onLogoUploaded: (imageFile) => store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile)),
+      onLogoImageSelected: (isLogoImageSelected) => store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected))
     );
   }
 
@@ -191,9 +272,12 @@ class MainSettingsPageState{
   int get hashCode =>
       pushNotificationsEnabled.hashCode ^
       calendarEnabled.hashCode ^
+      onLogoUploaded.hashCode ^
+      resizedLogoImage.hashCode ^
       onPushNotificationsChanged.hashCode ^
       onCalendarChanged.hashCode ^
       firstName.hashCode ^
+      logoImageSelected.hashCode ^
       lastName.hashCode ^
       businessName.hashCode ^
       onFirstNameChanged.hashCode ^
@@ -214,6 +298,15 @@ class MainSettingsPageState{
       generateFreeDiscountCode.hashCode ^
       isAdmin.hashCode ^
       onInstaUrlChanged.hashCode ^
+      currentBannerColor.hashCode ^
+      currentIconColor.hashCode ^
+      currentButtonColor.hashCode ^
+      currentButtonTextColor.hashCode ^
+      currentIconFont.hashCode ^
+      currentTitleFont.hashCode ^
+      currentBodyFont.hashCode ^
+      selectedFontTheme.hashCode ^
+      selectedColorTheme.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -225,6 +318,8 @@ class MainSettingsPageState{
               onPushNotificationsChanged == other.onPushNotificationsChanged &&
               onCalendarChanged == other.onCalendarChanged &&
               firstName == other.firstName &&
+              onLogoUploaded == other.onLogoUploaded &&
+              resizedLogoImage == other.resizedLogoImage &&
               lastName == other.lastName &&
               businessName == other.businessName &&
               instaUrl == other.instaUrl &&
@@ -238,6 +333,7 @@ class MainSettingsPageState{
               isDeleteFinished == other.isDeleteFinished &&
               isDeleteInProgress == other.isDeleteInProgress &&
               password == other.password &&
+              logoImageSelected == other.logoImageSelected &&
               onPasswordChanged == other.onPasswordChanged &&
               passwordErrorMessage == other.passwordErrorMessage &&
               generate50DiscountCode == other.generate50DiscountCode &&
@@ -245,5 +341,14 @@ class MainSettingsPageState{
               isAdmin == other.isAdmin &&
               generateFreeDiscountCode == other.generateFreeDiscountCode &&
               onInstaUrlChanged == other.onInstaUrlChanged &&
+              currentBannerColor == other.currentBannerColor &&
+              currentIconColor == other.currentIconColor &&
+              currentButtonColor == other.currentButtonColor &&
+              currentButtonTextColor == other.currentButtonTextColor &&
+              currentIconFont == other.currentIconFont &&
+              currentTitleFont == other.currentTitleFont &&
+              currentBodyFont == other.currentBodyFont &&
+              selectedColorTheme == other.selectedColorTheme &&
+              selectedFontTheme == other.selectedFontTheme &&
               onSignOutSelected == other.onSignOutSelected;
 }

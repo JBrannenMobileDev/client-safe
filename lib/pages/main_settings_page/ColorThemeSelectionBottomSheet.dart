@@ -20,6 +20,8 @@ class ColorThemeSelectionBottomSheet extends StatefulWidget {
 }
 
 class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelectionBottomSheet> with TickerProviderStateMixin {
+  final ScrollController _controller = ScrollController();
+  final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
 
   @override
   Widget build(BuildContext context) => StoreConnector<AppState, MainSettingsPageState>(
@@ -45,46 +47,35 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
                      ),
                    ),
                    SingleChildScrollView(
-                     child: Column(
-                       children: [
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                         ColorThemeWidget(),
-                       ],
+                     child: Container(
+                       height: 372,
+                       child: ListView.builder(
+                           padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 300.0),
+                           itemCount: 10,
+                           controller: _controller,
+                           physics: AlwaysScrollableScrollPhysics(),
+                           key: _listKey,
+                           shrinkWrap: true,
+                           reverse: false,
+                           itemBuilder: _buildItem
+                       ),
                      ),
-                   )
+                   ),
                  ],
                ),
          ),
     );
 
-  void showSuccessAnimation(){
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Padding(
-          padding: EdgeInsets.all(96.0),
-          child: FlareActor(
-            "assets/animations/success_check.flr",
-            alignment: Alignment.center,
-            fit: BoxFit.contain,
-            animation: "show_check",
-            callback: onFlareCompleted,
-          ),
-        );
-      },
+  Widget _buildItem(BuildContext context, int index) {
+    return StoreConnector<AppState, MainSettingsPageState>(
+        converter: (store) => MainSettingsPageState.fromStore(store),
+        builder: (BuildContext context, MainSettingsPageState pageState) =>
+            GestureDetector(
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+              child: ColorThemeWidget(),
+            )
     );
-  }
-
-  void onFlareCompleted(String unused) {
-    Navigator.of(context).pop(true);
-    Navigator.of(context).pop(true);
   }
 }

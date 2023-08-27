@@ -1,7 +1,6 @@
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-
-import '../../models/Suggestion.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UpdatePushNotificationEnabled{
   final MainSettingsPageState pageState;
@@ -19,6 +18,24 @@ class LoadUserProfileDataAction{
   final MainSettingsPageState pageState;
   final Profile profile;
   LoadUserProfileDataAction(this.pageState, this.profile);
+}
+
+class SetLogoSelectionAction {
+  final MainSettingsPageState pageState;
+  final bool isLogoSelected;
+  SetLogoSelectionAction(this.pageState, this.isLogoSelected);
+}
+
+class ResizeLogoImageAction {
+  final MainSettingsPageState pageState;
+  final XFile image;
+  ResizeLogoImageAction(this.pageState, this.image);
+}
+
+class SetResizedLogoImageAction {
+  final MainSettingsPageState pageState;
+  final XFile resizedLogoImage;
+  SetResizedLogoImageAction(this.pageState, this.resizedLogoImage);
 }
 
 class LoadSettingsFromProfile{
