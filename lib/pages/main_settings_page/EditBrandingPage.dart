@@ -9,18 +9,21 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/main_settings_page/SaveColorThemeBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
 import '../../utils/Shadows.dart';
+import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ColorThemeSelectionBottomSheet.dart';
 import 'ColorThemeWidget.dart';
 import 'FontThemeSelectionBottomSheet.dart';
 import 'FontThemeWidget.dart';
+import 'PreviewOptionsBottomSheet.dart';
 
 class EditBrandingPage extends StatefulWidget {
 
@@ -32,6 +35,8 @@ class EditBrandingPage extends StatefulWidget {
 
 class _EditBrandingPageState extends State<EditBrandingPage> with TickerProviderStateMixin {
   bool loading = false;
+  final List<ColorLabelType> _labelTypes = [ColorLabelType.hsl, ColorLabelType.hsv];
+  final List<Color> colorHistory = [];
 
   void _showColorThemeSelectionSheet(BuildContext context) {
     showModalBottomSheet(
@@ -64,10 +69,25 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
       context: context,
       isDismissible: true,
       enableDrag: true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
         return SaveColorThemeBottomSheet();
+      },
+    );
+  }
+
+  void _showPreviewOptionsBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      enableDrag: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return PreviewOptionsBottomSheet();
       },
     );
   }
@@ -105,7 +125,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     Container(
                       child: GestureDetector(
                         onTap: () {
-
+                          _showPreviewOptionsBottomSheet(context);
                         },
                         child: Container(
                           margin: EdgeInsets.only(right: 8),
@@ -131,8 +151,30 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                 borderRadius: BorderRadius.circular(16)
                               ),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: <Widget>[
+                                  GestureDetector(
+                                    onTap: () {
+                                      _showPreviewOptionsBottomSheet(context);
+                                    },
+                                    child: Container(
+                                      margin: EdgeInsets.only(top: 8, bottom: 32),
+                                      width: 200,
+                                      alignment: Alignment.center,
+                                      height: 42,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(24),
+                                          color: Color(ColorConstants.getPeachDark())
+                                      ),
+                                      child: TextDandyLight(
+                                        type: TextDandyLight.MEDIUM_TEXT,
+                                        text: 'Preview Brand',
+                                        textAlign: TextAlign.center,
+                                        color: Color(ColorConstants.getPrimaryWhite()),
+                                      ),
+                                    ),
+                                  ),
                                   Container(
                                     margin: EdgeInsets.only(bottom: 8),
                                     alignment: Alignment.center,
@@ -165,7 +207,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                         borderRadius: BorderRadius.circular(16),
                                                         border: Border.all(
                                                             width: 1,
-                                                            color: pageState.logoImageSelected ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite())
+                                                            color: pageState.logoImageSelected ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite())
                                                         )
                                                     ),
                                                     child: Column(
@@ -176,7 +218,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                             type: TextDandyLight.SMALL_TEXT,
                                                             text: 'Image',
                                                             textAlign: TextAlign.center,
-                                                            color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey()),
+                                                            color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryGreyMedium()),
                                                           ),
                                                         ),
                                                         GestureDetector(
@@ -199,10 +241,11 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                                   borderRadius: new BorderRadius.circular(58.0),
                                                                   child: Image(
                                                                     fit: BoxFit.cover,
-                                                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()).withOpacity(.8),
+                                                                    color: Color(ColorConstants.getPrimaryGreyMedium()).withOpacity(.8),
                                                                     width: 116,
                                                                     height: 116,
-                                                                    image: FileImage(File(pageState.resizedLogoImage.path)),
+                                                                    image: pageState.profile.logoUrl != null && pageState.profile.logoUrl.isNotEmpty && pageState.resizedLogoImage == null
+                                                                        ? DandyLightNetworkImage(pageState.profile.logoUrl) : FileImage(File(pageState.resizedLogoImage.path)),
                                                                   ),
                                                                 ) : SizedBox()
                                                               ],
@@ -222,7 +265,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                               type: TextDandyLight.SMALL_TEXT,
                                                               textAlign: TextAlign.center,
                                                               text: 'New Image',
-                                                              color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                                              color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                             ),
                                                           ),
                                                         ),
@@ -235,14 +278,14 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                       type: TextDandyLight.SMALL_TEXT,
                                                       text: 'Selected',
                                                       textAlign: TextAlign.center,
-                                                      color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryWhite()),
+                                                      color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
                                                     ),
                                                   ),
                                                 ],
                                               ) : Column(
                                                 children: [
                                                   Container(
-                                                    margin: EdgeInsets.only(bottom: 8),
+                                                    margin: EdgeInsets.only(bottom: 10, top: 8),
                                                     child: TextDandyLight(
                                                       type: TextDandyLight.SMALL_TEXT,
                                                       text: 'Image',
@@ -301,7 +344,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                 ],
                                               ),
                                               Container(
-                                                margin: EdgeInsets.only(top: 72),
+                                                margin: EdgeInsets.only(top: 84),
                                                 child: TextDandyLight(
                                                   type: TextDandyLight.MEDIUM_TEXT,
                                                   text: 'OR',
@@ -316,7 +359,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                         borderRadius: BorderRadius.circular(16),
                                                         border: Border.all(
                                                             width: 1,
-                                                            color: !pageState.logoImageSelected ? Color(ColorConstants.getPrimaryBackgroundGrey()) : Color(ColorConstants.getPrimaryWhite())
+                                                            color: !pageState.logoImageSelected ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite())
                                                         )
                                                     ),
                                                     child: GestureDetector(
@@ -332,7 +375,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                               type: TextDandyLight.SMALL_TEXT,
                                                               text: 'Icon',
                                                               textAlign: TextAlign.center,
-                                                              color: Color(!pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryBackgroundGrey()),
+                                                              color: Color(!pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryGreyMedium()),
                                                             ),
                                                           ),
                                                           Container(
@@ -341,7 +384,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                             width: 116,
                                                             decoration: BoxDecoration(
                                                                 shape: BoxShape.circle,
-                                                                color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPeachDark())
+                                                                color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPeachDark())
                                                             ),
                                                             child: TextDandyLight(
                                                               type: TextDandyLight.BRAND_LOGO,
@@ -359,7 +402,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                       type: TextDandyLight.SMALL_TEXT,
                                                       text: 'Selected',
                                                       textAlign: TextAlign.center,
-                                                      color: Color(!pageState.logoImageSelected ? ColorConstants.getPrimaryBackgroundGrey() : ColorConstants.getPrimaryWhite()),
+                                                      color: Color(!pageState.logoImageSelected ? ColorConstants.getPrimaryBlack() : ColorConstants.getPrimaryWhite()),
                                                     ),
                                                   ),
                                                 ],
@@ -457,16 +500,46 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                   )
                                                 ],
                                               ),
-                                              Container(
-                                                height: 42,
-                                                width: 42,
-                                                decoration: BoxDecoration(
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.only(
+                                                              topLeft: Radius.circular(150),
+                                                              topRight: Radius.circular(150),
+                                                              bottomLeft: Radius.circular(16),
+                                                              bottomRight: Radius.circular(16)
+                                                            )
+                                                        ),
+                                                        titlePadding: const EdgeInsets.all(0),
+                                                        contentPadding: const EdgeInsets.all(0),
+                                                        content: SingleChildScrollView(
+                                                          child: HueRingPicker(
+                                                            hueRingStrokeWidth: 22,
+                                                          pickerColor: Color(ColorConstants.getPeachDark()),
+                                                          onColorChanged: (color) {
+
+                                                          },
+                                                        ),
+                                                        ),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 42,
+                                                  width: 42,
+                                                  decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(24),
                                                     color: Color(ColorConstants.getPeachDark()),
                                                     border: Border.all(
-                                                    width: 1,
-                                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                                ),
+                                                      width: 1,
+                                                      color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                                    ),
+                                                  ),
                                                 ),
                                               )
                                             ],

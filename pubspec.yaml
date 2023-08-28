@@ -89,6 +89,7 @@ dependencies:
   image: ^4.0.17
   cached_network_image: ^3.2.3
   url_launcher_web: ^2.0.18
+  flutter_colorpicker: ^1.0.3
   modal_bottom_sheet:
     git:
       url: https://github.com/CoolDude53/modal_bottom_sheet.git

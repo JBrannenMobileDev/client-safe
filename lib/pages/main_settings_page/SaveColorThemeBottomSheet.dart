@@ -8,6 +8,7 @@ import 'package:redux/redux.dart';
 
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
+import '../../utils/KeyboardUtil.dart';
 import '../../widgets/DandyLightTextField.dart';
 import '../common_widgets/LoginTextField.dart';
 import 'ColorThemeWidget.dart';
@@ -29,7 +30,7 @@ class _SaveColorThemeBottomSheetPageState extends State<SaveColorThemeBottomShee
     converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
     builder: (BuildContext context, MainSettingsPageState pageState) =>
          Container(
-           height: 250,
+           height: KeyboardUtil.isVisible(context) ? 584 : 250,
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),
