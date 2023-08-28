@@ -1,5 +1,6 @@
 
 import 'dart:math';
+import 'dart:ui';
 
 class ColorConstants{
 
@@ -34,6 +35,16 @@ class ColorConstants{
   static const int grey_medium = 0xffD2D0C9;
   static const int charcoal = 0xff504B47;
   static const int black = 0xff444444;
+
+  static const String banner = 'banner';
+  static const String button = 'button';
+  static const String buttonText = 'buttonText';
+  static const String icon = 'icon';
+  static const String iconText = 'iconText';
+
+  static String getHex(Color color) {
+    return color.value.toRadixString(16).substring(2);
+  }
 
   static int getPrimaryColor(){
     return gold;
@@ -86,5 +97,9 @@ class ColorConstants{
     List<int> colors = [gold, peach_dark, blue_light, blue_dark, peach_light];
     var intValue = Random().nextInt(5);
     return colors[intValue];
+  }
+
+  static isWhite(Color color) {
+    return color.value == 4294967295;
   }
 }

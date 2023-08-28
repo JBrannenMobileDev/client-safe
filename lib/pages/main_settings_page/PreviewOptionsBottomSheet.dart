@@ -51,7 +51,7 @@ class _PreviewOptionsBottomSheetState extends State<PreviewOptionsBottomSheet> w
                         margin: EdgeInsets.only(right: 18.0, left: 16.0, top: 4),
                         height: 28.0,
                         width: 28.0,
-                        child: Icon(Icons.visibility, color: Color(ColorConstants.getPeachDark()),),
+                        child: Icon(Icons.visibility, color: Color(ColorConstants.getPrimaryGreyMedium()),),
                       ),
                       TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,

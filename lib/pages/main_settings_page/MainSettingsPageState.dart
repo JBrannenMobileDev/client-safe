@@ -9,6 +9,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 import '../../AppState.dart';
+import '../../utils/ColorConstants.dart';
 
 class MainSettingsPageState{
   final bool pushNotificationsEnabled;
@@ -26,10 +27,11 @@ class MainSettingsPageState{
   final String instaUrl;
   final XFile resizedLogoImage;
   final bool logoImageSelected;
-  String currentBannerColor;
-  String currentButtonColor;
-  String currentButtonTextColor;
-  String currentIconColor;
+  Color currentBannerColor;
+  Color currentButtonColor;
+  Color currentButtonTextColor;
+  Color currentIconColor;
+  Color currentIconTextColor;
   String currentIconFont;
   String currentTitleFont;
   String currentBodyFont;
@@ -50,6 +52,7 @@ class MainSettingsPageState{
   final Function(String) onInstaUrlChanged;
   final Function(XFile) onLogoUploaded;
   final Function(bool) onLogoImageSelected;
+  final Function(Color, String) onColorSaved;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -91,6 +94,8 @@ class MainSettingsPageState{
     @required this.currentBodyFont,
     @required this.selectedColorTheme,
     @required this.selectedFontTheme,
+    @required this.onColorSaved,
+    @required this.currentIconTextColor,
   });
 
   MainSettingsPageState copyWith({
@@ -109,10 +114,11 @@ class MainSettingsPageState{
     String instaUrl,
     XFile resizedLogoImage,
     bool logoImageSelected,
-    String currentBannerColor,
-    String currentButtonColor,
-    String currentButtonTextColor,
-    String currentIconColor,
+    Color currentBannerColor,
+    Color currentButtonColor,
+    Color currentButtonTextColor,
+    Color currentIconColor,
+    Color currentIconTextColor,
     String currentIconFont,
     String currentTitleFont,
     String currentBodyFont,
@@ -133,6 +139,7 @@ class MainSettingsPageState{
     Function(String) onInstaUrlChanged,
     Function(XFile) onLogoUploaded,
     Function(bool) onLogoImageSelected,
+    Function(Color, String) onColorSaved,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -174,6 +181,8 @@ class MainSettingsPageState{
       currentBodyFont: currentBodyFont ?? this.currentBodyFont,
       selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
       selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
+      onColorSaved: onColorSaved ?? this.onColorSaved,
+      currentIconTextColor: currentIconTextColor ?? this.currentIconTextColor,
     );
   }
 
@@ -208,15 +217,17 @@ class MainSettingsPageState{
     resizedLogoImage: null,
     logoImageSelected: false,
     onLogoImageSelected: null,
-    currentBannerColor: null,
-    currentIconColor: null,
-    currentButtonColor: null,
-    currentButtonTextColor: null,
+    currentBannerColor: Color(ColorConstants.getPrimaryWhite()),
+    currentIconTextColor: Color(ColorConstants.getPrimaryWhite()),
+    currentIconColor: Color(ColorConstants.getPrimaryWhite()),
+    currentButtonColor: Color(ColorConstants.getPrimaryWhite()),
+    currentButtonTextColor: Color(ColorConstants.getPrimaryWhite()),
     currentIconFont: null,
     currentTitleFont: null,
     currentBodyFont: null,
     selectedColorTheme: null,
     selectedFontTheme: null,
+    onColorSaved: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -245,6 +256,7 @@ class MainSettingsPageState{
       currentBodyFont: store.state.mainSettingsPageState.currentBodyFont,
       selectedColorTheme: store.state.mainSettingsPageState.selectedColorTheme,
       selectedFontTheme: store.state.mainSettingsPageState.selectedFontTheme,
+      currentIconTextColor: store.state.mainSettingsPageState.currentIconTextColor,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -264,7 +276,8 @@ class MainSettingsPageState{
       generateFreeDiscountCode: () => store.dispatch(GenerateFreeDiscountCodeAction(store.state.mainSettingsPageState)),
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
       onLogoUploaded: (imageFile) => store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile)),
-      onLogoImageSelected: (isLogoImageSelected) => store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected))
+      onLogoImageSelected: (isLogoImageSelected) => store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected)),
+      onColorSaved: (color, id) => store.dispatch(SaveBannerColorAction(store.state.mainSettingsPageState, color, id)),
     );
   }
 
@@ -295,6 +308,7 @@ class MainSettingsPageState{
       passwordErrorMessage.hashCode ^
       generate50DiscountCode.hashCode ^
       discountCode.hashCode ^
+      currentIconTextColor.hashCode ^
       generateFreeDiscountCode.hashCode ^
       isAdmin.hashCode ^
       onInstaUrlChanged.hashCode ^
@@ -307,6 +321,7 @@ class MainSettingsPageState{
       currentBodyFont.hashCode ^
       selectedFontTheme.hashCode ^
       selectedColorTheme.hashCode ^
+      onColorSaved.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -328,6 +343,7 @@ class MainSettingsPageState{
               onBusinessNameChanged == other.onBusinessNameChanged &&
               onSaveUpdatedProfile == other.onSaveUpdatedProfile &&
               profile == other.profile &&
+              currentIconTextColor == other.currentIconTextColor &&
               onSendSuggestionSelected == other.onSendSuggestionSelected &&
               onDeleteAccountSelected == other.onDeleteAccountSelected &&
               isDeleteFinished == other.isDeleteFinished &&
@@ -350,5 +366,6 @@ class MainSettingsPageState{
               currentBodyFont == other.currentBodyFont &&
               selectedColorTheme == other.selectedColorTheme &&
               selectedFontTheme == other.selectedFontTheme &&
+              onColorSaved == other.onColorSaved &&
               onSignOutSelected == other.onSignOutSelected;
 }

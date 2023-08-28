@@ -34,9 +34,9 @@ class Profile{
   String bannerUrl;
   String bannerColor;
   String logoColor;
-  String titleTextColor;
+  String buttonColor;
+  String buttonTextColor;
   String logoTextColor;
-  String backgroundColor;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
   List<ColorTheme> savedColorThemes;
@@ -136,9 +136,9 @@ class Profile{
     this.bannerUrl,
     this.bannerColor,
     this.logoColor,
-    this.titleTextColor,
+    this.buttonColor,
+    this.buttonTextColor,
     this.logoTextColor,
-    this.backgroundColor,
     this.licenseNumber,
     this.selectedColorTheme,
     this.selectedFontTheme,
@@ -187,9 +187,9 @@ class Profile{
     String bannerUrl,
     String bannerColor,
     String logoColor,
-    String titleTextColor,
+    String buttonColor,
+    String buttonTextColor,
     String logoTextColor,
-    String backgroundColor,
     double salesTaxRate,
     ColorTheme selectedColorTheme,
     FontTheme selectedFontTheme,
@@ -277,8 +277,8 @@ class Profile{
       bannerUrl: bannerUrl ?? this.bannerUrl,
       bannerColor: bannerColor ?? this.bannerColor,
       logoColor: logoColor ?? this.logoColor,
-      titleTextColor: titleTextColor ?? this.titleTextColor,
-      logoTextColor: logoTextColor ?? this.logoTextColor,
+      buttonColor: buttonColor ?? this.buttonColor,
+      buttonTextColor: buttonTextColor ?? this.buttonTextColor,
       licenseNumber: licenseNumber ?? this.licenseNumber,
       selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
       selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
@@ -326,9 +326,9 @@ class Profile{
       'bannerUrl' : bannerUrl,
       'bannerColor' : bannerColor,
       'logoColor' : logoColor,
-      'titleTextColor' : titleTextColor,
+      'buttonColor' : buttonColor,
+      'buttonTextColor' : buttonTextColor,
       'logoTextColor' : logoTextColor,
-      'backgroundColor' : backgroundColor,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -388,9 +388,9 @@ class Profile{
       bannerUrl: map['bannerUrl'],
       bannerColor: map['bannerColor'],
       logoColor: map['logoColor'],
-      titleTextColor: map['titleTextColor'],
+      buttonColor: map['buttonColor'],
+      buttonTextColor: map['buttonTextColor'],
       logoTextColor: map['logoTextColor'],
-      backgroundColor: map['backgroundColor'],
       instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,

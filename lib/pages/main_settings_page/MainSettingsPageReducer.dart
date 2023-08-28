@@ -17,7 +17,35 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetUrlToStateAction>(_setInstaUrl),
   TypedReducer<MainSettingsPageState, SetResizedLogoImageAction>(_setResizedLogoImage),
   TypedReducer<MainSettingsPageState, SetLogoSelectionAction>(_setLogoSelection),
+  TypedReducer<MainSettingsPageState, SaveBannerColorAction>(_setBannerColor),
 ]);
+
+MainSettingsPageState _setBannerColor(MainSettingsPageState previousState, SaveBannerColorAction action){
+  switch(action.id) {
+    case 'banner':
+      action.pageState.currentBannerColor = action.color;
+      break;
+    case 'button':
+      action.pageState.currentButtonColor = action.color;
+      break;
+    case 'buttonText':
+      action.pageState.currentButtonTextColor = action.color;
+      break;
+    case 'icon':
+      action.pageState.currentIconColor = action.color;
+      break;
+    case 'iconText':
+      action.pageState.currentIconTextColor = action.color;
+      break;
+  }
+  return previousState.copyWith(
+    currentBannerColor: action.pageState.currentBannerColor,
+    currentButtonColor: action.pageState.currentButtonColor,
+    currentButtonTextColor: action.pageState.currentButtonTextColor,
+    currentIconColor: action.pageState.currentIconColor,
+    currentIconTextColor: action.pageState.currentIconTextColor,
+  );
+}
 
 MainSettingsPageState _setLogoSelection(MainSettingsPageState previousState, SetLogoSelectionAction action){
   return previousState.copyWith(

@@ -71,6 +71,34 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveBrandingAction) {
       _saveBranding(store, action, next);
     }
+    if(action is SaveBannerColorAction) {
+      _saveBannerColor(store, action, next);
+    }
+  }
+
+  void _saveBannerColor(Store<AppState> store, SaveBannerColorAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+
+    switch(action.id) {
+      case 'banner':
+        profile.bannerColor = ColorConstants.getHex(action.color);
+        break;
+      case 'button':
+        profile.buttonColor = ColorConstants.getHex(action.color);
+        break;
+      case 'buttonText':
+        profile.buttonTextColor = ColorConstants.getHex(action.color);
+        break;
+      case 'icon':
+        profile.logoColor = ColorConstants.getHex(action.color);
+        break;
+      case 'iconText':
+        profile.logoTextColor = ColorConstants.getHex(action.color);
+        break;
+    }
+
+    await ProfileDao.update(profile);
+    next(action);
   }
 
   void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {

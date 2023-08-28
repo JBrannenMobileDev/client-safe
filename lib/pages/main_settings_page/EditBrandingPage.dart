@@ -37,6 +37,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
   bool loading = false;
   final List<ColorLabelType> _labelTypes = [ColorLabelType.hsl, ColorLabelType.hsv];
   final List<Color> colorHistory = [];
+  Color tempSelectionColor = null;
 
   void _showColorThemeSelectionSheet(BuildContext context) {
     showModalBottomSheet(
@@ -440,150 +441,6 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                     child: Column(
                                       children: [
                                         Padding(
-                                          padding: EdgeInsets.only(top: 20, left: 16, right: 16),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: 'Banner color',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                                  ),
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#f34uyg',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                                  )
-                                                ],
-                                              ),
-                                              Container(
-                                                height: 42,
-                                                width: 42,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(24),
-                                                  border: Border.all(
-                                                      width: 1,
-                                                      color: Color(ColorConstants.getPrimaryBackgroundGrey())
-                                                  ),
-                                                  color: Color(ColorConstants.getBlueDark())
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 20, left: 16, right: 16),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: 'Button color',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                                  ),
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#f34uyg',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                                  )
-                                                ],
-                                              ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (BuildContext context) {
-                                                      return AlertDialog(
-                                                        shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.only(
-                                                              topLeft: Radius.circular(150),
-                                                              topRight: Radius.circular(150),
-                                                              bottomLeft: Radius.circular(16),
-                                                              bottomRight: Radius.circular(16)
-                                                            )
-                                                        ),
-                                                        titlePadding: const EdgeInsets.all(0),
-                                                        contentPadding: const EdgeInsets.all(0),
-                                                        content: SingleChildScrollView(
-                                                          child: HueRingPicker(
-                                                            hueRingStrokeWidth: 22,
-                                                          pickerColor: Color(ColorConstants.getPeachDark()),
-                                                          onColorChanged: (color) {
-
-                                                          },
-                                                        ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                child: Container(
-                                                  height: 42,
-                                                  width: 42,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(24),
-                                                    color: Color(ColorConstants.getPeachDark()),
-                                                    border: Border.all(
-                                                      width: 1,
-                                                      color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(top: 20, left: 16, right: 16),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                children: [
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.MEDIUM_TEXT,
-                                                    text: 'Button text color',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryBlack()),
-                                                  ),
-                                                  TextDandyLight(
-                                                    type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#f34uyg',
-                                                    textAlign: TextAlign.center,
-                                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
-                                                  )
-                                                ],
-                                              ),
-                                              Container(
-                                                height: 42,
-                                                width: 42,
-                                                decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(24),
-                                                    border: Border.all(
-                                                        width: 1,
-                                                        color: Color(ColorConstants.getPrimaryBackgroundGrey())
-                                                    ),
-                                                    color: Color(ColorConstants.getPrimaryWhite())
-                                                ),
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
                                           padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -600,22 +457,489 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#f34uyg',
+                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
                                                     textAlign: TextAlign.center,
                                                     color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                   )
                                                 ],
                                               ),
-                                              Container(
-                                                height: 42,
-                                                width: 42,
-                                                decoration: BoxDecoration(
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.only(
+                                                                topLeft: Radius.circular(150),
+                                                                topRight: Radius.circular(150),
+                                                                bottomLeft: Radius.circular(16),
+                                                                bottomRight: Radius.circular(16)
+                                                            )
+                                                        ),
+                                                        titlePadding: const EdgeInsets.all(0),
+                                                        contentPadding: const EdgeInsets.all(0),
+                                                        content: SingleChildScrollView(
+                                                          child: HueRingPicker(
+                                                            hueRingStrokeWidth: 22,
+                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            onColorChanged: (color) {
+                                                              setState(() {
+                                                                tempSelectionColor = color;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'CANCEL',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'SAVE',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              pageState.onColorSaved(tempSelectionColor, ColorConstants.icon);
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 42,
+                                                  width: 42,
+                                                  decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(24),
+                                                    color: pageState.currentIconColor,
                                                     border: Border.all(
-                                                        width: 1,
-                                                        color: Color(ColorConstants.getPrimaryBackgroundGrey())
+                                                      width: 1,
+                                                      color: Color(ColorConstants.isWhite(pageState.currentIconColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
                                                     ),
-                                                    color: Color(ColorConstants.getPeachDark())
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'Icon text color',
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                                  ),
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.SMALL_TEXT,
+                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                  )
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.only(
+                                                                topLeft: Radius.circular(150),
+                                                                topRight: Radius.circular(150),
+                                                                bottomLeft: Radius.circular(16),
+                                                                bottomRight: Radius.circular(16)
+                                                            )
+                                                        ),
+                                                        titlePadding: const EdgeInsets.all(0),
+                                                        contentPadding: const EdgeInsets.all(0),
+                                                        content: SingleChildScrollView(
+                                                          child: HueRingPicker(
+                                                            hueRingStrokeWidth: 22,
+                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            onColorChanged: (color) {
+                                                              setState(() {
+                                                                tempSelectionColor = color;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'CANCEL',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'SAVE',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              pageState.onColorSaved(tempSelectionColor, ColorConstants.iconText);
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 42,
+                                                  width: 42,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    color: pageState.currentIconTextColor,
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: Color(ColorConstants.isWhite(pageState.currentIconTextColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'Button color',
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                                  ),
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.SMALL_TEXT,
+                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                  )
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.only(
+                                                                topLeft: Radius.circular(150),
+                                                                topRight: Radius.circular(150),
+                                                                bottomLeft: Radius.circular(16),
+                                                                bottomRight: Radius.circular(16)
+                                                            )
+                                                        ),
+                                                        titlePadding: const EdgeInsets.all(0),
+                                                        contentPadding: const EdgeInsets.all(0),
+                                                        content: SingleChildScrollView(
+                                                          child: HueRingPicker(
+                                                            hueRingStrokeWidth: 22,
+                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            onColorChanged: (color) {
+                                                              setState(() {
+                                                                tempSelectionColor = color;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'CANCEL',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'SAVE',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              pageState.onColorSaved(tempSelectionColor, ColorConstants.button);
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 42,
+                                                  width: 42,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    color: pageState.currentButtonColor,
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: Color(ColorConstants.isWhite(pageState.currentButtonColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'Button text color',
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                                  ),
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.SMALL_TEXT,
+                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                  )
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.only(
+                                                                topLeft: Radius.circular(150),
+                                                                topRight: Radius.circular(150),
+                                                                bottomLeft: Radius.circular(16),
+                                                                bottomRight: Radius.circular(16)
+                                                            )
+                                                        ),
+                                                        titlePadding: const EdgeInsets.all(0),
+                                                        contentPadding: const EdgeInsets.all(0),
+                                                        content: SingleChildScrollView(
+                                                          child: HueRingPicker(
+                                                            hueRingStrokeWidth: 22,
+                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            onColorChanged: (color) {
+                                                              setState(() {
+                                                                tempSelectionColor = color;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'CANCEL',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'SAVE',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              pageState.onColorSaved(tempSelectionColor, ColorConstants.buttonText);
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 42,
+                                                  width: 42,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    color: pageState.currentButtonTextColor,
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: Color(ColorConstants.isWhite(pageState.currentButtonTextColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.MEDIUM_TEXT,
+                                                    text: 'Banner color',
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                                  ),
+                                                  TextDandyLight(
+                                                    type: TextDandyLight.SMALL_TEXT,
+                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    textAlign: TextAlign.center,
+                                                    color: Color(ColorConstants.getPrimaryGreyMedium()),
+                                                  )
+                                                ],
+                                              ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return AlertDialog(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius: BorderRadius.only(
+                                                                topLeft: Radius.circular(150),
+                                                                topRight: Radius.circular(150),
+                                                                bottomLeft: Radius.circular(16),
+                                                                bottomRight: Radius.circular(16)
+                                                            )
+                                                        ),
+                                                        titlePadding: const EdgeInsets.all(0),
+                                                        contentPadding: const EdgeInsets.all(0),
+                                                        content: SingleChildScrollView(
+                                                          child: HueRingPicker(
+                                                            hueRingStrokeWidth: 22,
+                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            onColorChanged: (color) {
+                                                              setState(() {
+                                                                tempSelectionColor = color;
+                                                              });
+                                                            },
+                                                          ),
+                                                        ),
+                                                        actions: <Widget>[
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'CANCEL',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                          TextButton(
+                                                            child: TextDandyLight(
+                                                              textAlign: TextAlign.center,
+                                                              text: 'SAVE',
+                                                              type: TextDandyLight.MEDIUM_TEXT,
+                                                              color: Color(ColorConstants.getPrimaryBlack()),
+                                                            ),
+                                                            onPressed: () {
+                                                              pageState.onColorSaved(tempSelectionColor, ColorConstants.banner);
+                                                              setState(() {
+                                                                tempSelectionColor = null;
+                                                              });
+                                                              Navigator.of(context).pop();
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 42,
+                                                  width: 42,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(24),
+                                                    color: pageState.currentBannerColor,
+                                                    border: Border.all(
+                                                      width: 1,
+                                                      color: Color(ColorConstants.isWhite(pageState.currentBannerColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                    ),
+                                                  ),
                                                 ),
                                               )
                                             ],

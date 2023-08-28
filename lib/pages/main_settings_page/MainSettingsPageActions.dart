@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,6 +26,13 @@ class SetLogoSelectionAction {
   final MainSettingsPageState pageState;
   final bool isLogoSelected;
   SetLogoSelectionAction(this.pageState, this.isLogoSelected);
+}
+
+class SaveBannerColorAction {
+  final MainSettingsPageState pageState;
+  final Color color;
+  final String id;
+  SaveBannerColorAction(this.pageState, this.color, this.id);
 }
 
 class ResizeLogoImageAction {
