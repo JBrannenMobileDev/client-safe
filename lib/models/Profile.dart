@@ -26,6 +26,7 @@ class Profile{
   int jobsCreatedCount;
   bool logoSelected;
   String logoUrl;
+  String tempLogoUrl;
   String bannerUrl;
   String bannerColor;
   String logoColor;
@@ -140,6 +141,7 @@ class Profile{
     this.savedColorThemes,
     this.savedFontThemes,
     this.logoSelected,
+    this.tempLogoUrl,
   });
 
   Profile copyWith({
@@ -179,6 +181,7 @@ class Profile{
     int jobsCreatedCount,
     bool logoSelected,
     String logoUrl,
+    String tempLogoUrl,
     String bannerUrl,
     String bannerColor,
     String logoColor,
@@ -280,6 +283,7 @@ class Profile{
       savedColorThemes: savedColorThemes ?? this.savedColorThemes,
       savedFontThemes: savedFontThemes ?? this.savedFontThemes,
       logoSelected: logoSelected ?? this.logoSelected,
+      tempLogoUrl: tempLogoUrl ?? this.tempLogoUrl,
     );
   }
 
@@ -324,6 +328,7 @@ class Profile{
       'buttonColor' : buttonColor,
       'buttonTextColor' : buttonTextColor,
       'logoTextColor' : logoTextColor,
+      'tempLogoUrl' : tempLogoUrl,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -380,6 +385,7 @@ class Profile{
       instagramUrl: map['instagramUrl'],
       logoSelected: map['logoSelected'] != null ? map['logoSelected'] : false,
       logoUrl: map['logoUrl'],
+      tempLogoUrl: map['tempLogoUrl'],
       bannerUrl: map['bannerUrl'],
       bannerColor: map['bannerColor'],
       logoColor: map['logoColor'],

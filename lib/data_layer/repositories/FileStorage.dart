@@ -169,7 +169,7 @@ class FileStorage {
   }
 
   static _updateProfileIconImageUrlLarge(Profile profileToUpdate, String imageUrl) async {
-    profileToUpdate.logoUrl = imageUrl;
+    profileToUpdate.tempLogoUrl = imageUrl;
     await ProfileDao.update(profileToUpdate);
   }
 
@@ -349,7 +349,7 @@ class FileStorage {
 
     if(imagePathLarge != null) {
       final uploadTaskLarge = storageRef
-          .child(_buildProfileIconImagePath(profile))
+          .child(_buildProfileIconImagePath(imagePathLarge))
           .putFile(File(imagePathLarge));
 
       uploadTaskLarge.snapshotEvents.listen((TaskSnapshot taskSnapshot) {
@@ -368,7 +368,7 @@ class FileStorage {
           // Handle unsuccessful uploads
             break;
           case TaskState.success:
-            _fetchAndSaveProfileIconImageDownloadUrlLarge(profile);
+            _fetchAndSaveProfileIconImageDownloadUrlLarge(imagePathLarge, profile);
             break;
         }
       });
@@ -387,9 +387,9 @@ class FileStorage {
     await _updateSubmittedPoseImageUrlLarge(pose, await cloudFilePath.getDownloadURL());
   }
 
-  static _fetchAndSaveProfileIconImageDownloadUrlLarge(Profile profile) async {
+  static _fetchAndSaveProfileIconImageDownloadUrlLarge(String imagePathLarge, Profile profile) async {
     final storageRef = FirebaseStorage.instance.ref();
-    final cloudFilePath = storageRef.child(_buildProfileIconImagePath(profile));
+    final cloudFilePath = storageRef.child(_buildProfileIconImagePath(imagePathLarge));
     await _updateProfileIconImageUrlLarge(profile, await cloudFilePath.getDownloadURL());
   }
 
@@ -455,8 +455,8 @@ class FileStorage {
     return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/dandyLight/libraryPoses/${pose.documentId}.jpg";
   }
 
-  static String _buildProfileIconImagePath(Profile profile) {
-    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${profile.uid}logoImage.jpg";
+  static String _buildProfileIconImagePath(String localImagePath) {
+    return "/env/${EnvironmentUtil().getCurrentEnvironment()}/images/${UidUtil().getUid()}/profile/${localImagePath}logoImage.jpg";
   }
 
   static String _buildPoseLibraryImagePathSmall(Pose pose) {

@@ -24,17 +24,23 @@ class LoadUserProfileDataAction{
   LoadUserProfileDataAction(this.pageState, this.profile);
 }
 
+class RemoveDeletedThemeAction {
+  final MainSettingsPageState pageState;
+  final ColorTheme themeToDelete;
+  RemoveDeletedThemeAction(this.pageState, this.themeToDelete);
+}
+
 class SetLogoSelectionAction {
   final MainSettingsPageState pageState;
   final bool isLogoSelected;
   SetLogoSelectionAction(this.pageState, this.isLogoSelected);
 }
 
-class SaveBannerColorAction {
+class SaveColorAction {
   final MainSettingsPageState pageState;
   final Color color;
   final String id;
-  SaveBannerColorAction(this.pageState, this.color, this.id);
+  SaveColorAction(this.pageState, this.color, this.id);
 }
 
 class SaveColorThemeAction {
@@ -45,14 +51,20 @@ class SaveColorThemeAction {
 
 class DeleteColorThemeAction {
   final MainSettingsPageState pageState;
-  final int index;
-  DeleteColorThemeAction(this.pageState, this.index);
+  final ColorTheme theme;
+  DeleteColorThemeAction(this.pageState, this.theme);
 }
 
 class SetSelectedColorThemeAction {
   final MainSettingsPageState pageState;
-  final int index;
-  SetSelectedColorThemeAction(this.pageState, this.index);
+  final ColorTheme theme;
+  SetSelectedColorThemeAction(this.pageState, this.theme);
+}
+
+class ClearBrandingStateAction {
+  final MainSettingsPageState pageState;
+  final Profile profile;
+  ClearBrandingStateAction(this.pageState, this.profile);
 }
 
 class ResetColorsAction {

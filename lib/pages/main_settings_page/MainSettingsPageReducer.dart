@@ -1,4 +1,7 @@
+import 'dart:ui';
+
 import 'package:dandylight/models/ColorTheme.dart';
+import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:redux/redux.dart';
@@ -20,22 +23,97 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetUrlToStateAction>(_setInstaUrl),
   TypedReducer<MainSettingsPageState, SetResizedLogoImageAction>(_setResizedLogoImage),
   TypedReducer<MainSettingsPageState, SetLogoSelectionAction>(_setLogoSelection),
-  TypedReducer<MainSettingsPageState, SaveBannerColorAction>(_setBannerColor),
+  TypedReducer<MainSettingsPageState, SaveColorAction>(_setColor),
   TypedReducer<MainSettingsPageState, SetColorThemeAction>(_colorThemeSaved),
   TypedReducer<MainSettingsPageState, ResetColorsAction>(_resetColors),
   TypedReducer<MainSettingsPageState, SetSelectedColorThemeAction>(_setSelectedTheme),
+  TypedReducer<MainSettingsPageState, RemoveDeletedThemeAction>(_removeDeletedTheme),
+  TypedReducer<MainSettingsPageState, ClearBrandingStateAction>(_clearBranding),
 ]);
 
-MainSettingsPageState _setSelectedTheme(MainSettingsPageState previousState, SetSelectedColorThemeAction action){
-  ColorTheme theme = action.pageState.profile.savedColorThemes.elementAt(action.index);
+MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearBrandingStateAction action){
+  List<ColorTheme> themes = action.profile.savedColorThemes;
+  ColorTheme defaultTheme = ColorTheme(
+    themeName: 'DandyLight Theme',
+    iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+    iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+    buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+    buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+    bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+  );
+
+  if(themes != null && !containsTheme(themes, defaultTheme)) {
+    themes.add(defaultTheme);
+  } if(themes != null) {
+    //do nothing
+  } else {
+    themes = [defaultTheme];
+  }
+
+  ColorTheme selectedTheme = action.profile.selectedColorTheme ?? defaultTheme;
+
   return previousState.copyWith(
+    selectedColorTheme: selectedTheme,
     saveColorThemeEnabled: false,
+    savedColorThemes: themes,
+    currentIconColor: ColorConstants.hexToColor(selectedTheme.iconColor),
+    currentIconTextColor: ColorConstants.hexToColor(selectedTheme.iconTextColor),
+    currentButtonColor: ColorConstants.hexToColor(selectedTheme.buttonColor),
+    currentButtonTextColor: ColorConstants.hexToColor(selectedTheme.buttonTextColor),
+    currentBannerColor: ColorConstants.hexToColor(selectedTheme.bannerColor),
+    logoImageSelected: action.profile.logoSelected,
+    resizedLogoImage: null,
+    showPublishButton: false,
+  );
+}
+
+bool containsTheme(List<ColorTheme> themes, ColorTheme defaultTheme) {
+  for(ColorTheme theme in themes) {
+    if(theme.themeName == defaultTheme.themeName) {
+      return true;
+    }
+  }
+  return false;
+}
+
+MainSettingsPageState _removeDeletedTheme(MainSettingsPageState previousState, RemoveDeletedThemeAction action){
+  List<ColorTheme> themes = action.pageState.savedColorThemes;
+  themes.removeWhere((theme) => theme.themeName == action.themeToDelete.themeName);
+  ColorTheme theme = themes.elementAt(0);
+  return previousState.copyWith(
     selectedColorTheme: theme,
+    saveColorThemeEnabled: false,
+    savedColorThemes: themes,
     currentIconColor: ColorConstants.hexToColor(theme.iconColor),
     currentIconTextColor: ColorConstants.hexToColor(theme.iconTextColor),
     currentButtonColor: ColorConstants.hexToColor(theme.buttonColor),
     currentButtonTextColor: ColorConstants.hexToColor(theme.buttonTextColor),
     currentBannerColor: ColorConstants.hexToColor(theme.bannerColor),
+  );
+}
+
+MainSettingsPageState _setSelectedTheme(MainSettingsPageState previousState, SetSelectedColorThemeAction action){
+  List<ColorTheme> themes = action.pageState.savedColorThemes;
+  if(themes == 1) {
+    themes.addAll(action.pageState.profile.savedColorThemes);
+  }
+  bool showPublishChangesButton = action.pageState.showPublishButton;
+  if(action.pageState.profile.selectedColorTheme == null) {
+    showPublishChangesButton = true;
+  } else if (action.pageState.profile.selectedColorTheme.themeName != action.theme.themeName) {
+    showPublishChangesButton = true;
+  }
+
+  return previousState.copyWith(
+    saveColorThemeEnabled: false,
+    savedColorThemes: themes,
+    selectedColorTheme: action.theme,
+    currentIconColor: ColorConstants.hexToColor(action.theme.iconColor),
+    currentIconTextColor: ColorConstants.hexToColor(action.theme.iconTextColor),
+    currentButtonColor: ColorConstants.hexToColor(action.theme.buttonColor),
+    currentButtonTextColor: ColorConstants.hexToColor(action.theme.buttonTextColor),
+    currentBannerColor: ColorConstants.hexToColor(action.theme.bannerColor),
+    showPublishButton: showPublishChangesButton,
   );
 }
 
@@ -52,46 +130,44 @@ MainSettingsPageState _resetColors(MainSettingsPageState previousState, ResetCol
 
 MainSettingsPageState _colorThemeSaved(MainSettingsPageState previousState, SetColorThemeAction action){
   ColorTheme theme = action.theme;
-  if(action.theme == null) {
-    theme = ColorTheme(
-      themeName: 'DandyLight Theme',
-      iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-      iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-      buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-      buttonTextColor: ColorConstants.getString(
-          ColorConstants.getPrimaryWhite()),
-      bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
-    );
-  }
+  List<ColorTheme> themes = action.pageState.savedColorThemes;
+  themes.insert(0, theme);
   return previousState.copyWith(
     selectedColorTheme: theme,
     saveColorThemeEnabled: false,
+    savedColorThemes: themes,
     currentIconColor: ColorConstants.hexToColor(theme.iconColor),
     currentIconTextColor: ColorConstants.hexToColor(theme.iconTextColor),
     currentButtonColor: ColorConstants.hexToColor(theme.buttonColor),
     currentButtonTextColor: ColorConstants.hexToColor(theme.buttonTextColor),
     currentBannerColor: ColorConstants.hexToColor(theme.bannerColor),
+    showPublishButton: true,
   );
 }
 
-MainSettingsPageState _setBannerColor(MainSettingsPageState previousState, SaveBannerColorAction action){
+MainSettingsPageState _setColor(MainSettingsPageState previousState, SaveColorAction action){
   bool saveColorThemeEnabled = false;
+  Color bannerColor = action.pageState.currentBannerColor;
+  Color buttonColor = action.pageState.currentButtonColor;
+  Color buttonTextColor = action.pageState.currentButtonTextColor;
+  Color iconColor = action.pageState.currentIconColor;
+  Color iconTextColor = action.pageState.currentIconTextColor;
 
   switch(action.id) {
     case 'banner':
-      action.pageState.currentBannerColor = action.color;
+      bannerColor = action.color;
       break;
     case 'button':
-      action.pageState.currentButtonColor = action.color;
+      buttonColor = action.color;
       break;
     case 'buttonText':
-      action.pageState.currentButtonTextColor = action.color;
+      buttonTextColor = action.color;
       break;
     case 'icon':
-      action.pageState.currentIconColor = action.color;
+      iconColor = action.color;
       break;
     case 'iconText':
-      action.pageState.currentIconTextColor = action.color;
+      iconTextColor = action.color;
       break;
   }
 
@@ -112,18 +188,26 @@ MainSettingsPageState _setBannerColor(MainSettingsPageState previousState, SaveB
   }
 
   return previousState.copyWith(
-    currentBannerColor: action.pageState.currentBannerColor,
-    currentButtonColor: action.pageState.currentButtonColor,
-    currentButtonTextColor: action.pageState.currentButtonTextColor,
-    currentIconColor: action.pageState.currentIconColor,
-    currentIconTextColor: action.pageState.currentIconTextColor,
+    currentBannerColor: bannerColor,
+    currentButtonColor: buttonColor,
+    currentButtonTextColor: buttonTextColor,
+    currentIconColor: iconColor,
+    currentIconTextColor: iconTextColor,
     saveColorThemeEnabled: saveColorThemeEnabled,
   );
 }
 
 MainSettingsPageState _setLogoSelection(MainSettingsPageState previousState, SetLogoSelectionAction action){
+  bool hasColorThemeChange = false;
+  if(action.pageState.profile.selectedColorTheme != null && action.pageState.selectedColorTheme.themeName != action.pageState.profile.selectedColorTheme) {
+    hasColorThemeChange = true;
+  }
+  if(action.pageState.profile.selectedColorTheme == null && action.pageState.selectedColorTheme.themeName != 'DandyLight Theme') {
+    hasColorThemeChange = true;
+  }
   return previousState.copyWith(
     logoImageSelected: action.isLogoSelected,
+    showPublishButton: action.isLogoSelected != action.pageState.profile.logoSelected ? true : hasColorThemeChange,
   );
 }
 
@@ -131,6 +215,7 @@ MainSettingsPageState _setResizedLogoImage(MainSettingsPageState previousState, 
   return previousState.copyWith(
     resizedLogoImage: action.resizedLogoImage,
     logoImageSelected: true,
+    showPublishButton: true,
   );
 }
 
@@ -211,4 +296,19 @@ MainSettingsPageState _setUserProfileInfo(MainSettingsPageState previousState, L
     businessName: action.profile.businessName,
     profile: action.profile,
   );
+}
+
+bool showPublishChangesButton(MainSettingsPageState pageState, Profile profile) {
+  bool showPublishButton = false;
+  //TODO dont forget to set the logoUrl to the tempLogoUrl if user decides not to publish changes.
+  if(profile.logoUrl != profile.tempLogoUrl) {
+    showPublishButton = true;
+  }
+  if(profile.logoSelected != pageState.logoImageSelected) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.themeName != pageState.selectedColorTheme.themeName) {
+    showPublishButton = true;
+  }
+  return showPublishButton;
 }

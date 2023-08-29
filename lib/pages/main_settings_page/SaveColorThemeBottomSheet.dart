@@ -1,5 +1,7 @@
+import 'package:dandylight/models/ColorTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -42,8 +44,12 @@ class _SaveColorThemeBottomSheetPageState extends State<SaveColorThemeBottomShee
                  children: <Widget>[
                    GestureDetector(
                      onTap: () {
-                        pageState.onColorThemeSaved(controller.text);
-                        Navigator.of(context).pop();
+                       if(isNameUnique(controller.text, pageState.savedColorThemes)) {
+                         pageState.onColorThemeSaved(controller.text);
+                         Navigator.of(context).pop();
+                       } else {
+                         DandyToastUtil.showErrorToast('This name is already used.');
+                       }
                      },
                      child: Container(
                        alignment: Alignment.center,
@@ -149,5 +155,14 @@ class _SaveColorThemeBottomSheetPageState extends State<SaveColorThemeBottomShee
 
   void doNothing(String text) {
 
+  }
+
+  bool isNameUnique(String text, List<ColorTheme> savedColorThemes) {
+    for(ColorTheme theme in savedColorThemes) {
+      if(theme.themeName == text) {
+        return false;
+      }
+    }
+    return true;
   }
 }

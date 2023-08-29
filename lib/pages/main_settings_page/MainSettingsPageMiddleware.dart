@@ -72,8 +72,8 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveBrandingAction) {
       _saveBranding(store, action, next);
     }
-    if(action is SaveBannerColorAction) {
-      _saveBannerColor(store, action, next);
+    if(action is SaveColorAction) {
+      _saveColor(store, action, next);
     }
     if(action is SaveColorThemeAction) {
       _saveColorTheme(store, action, next);
@@ -85,14 +85,10 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
 
   void _deleteColorTheme(Store<AppState> store, DeleteColorThemeAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    ColorTheme themeToDelete = profile.savedColorThemes.elementAt(action.index);
-    if(action.pageState.selectedColorTheme.id == themeToDelete.id) {
-
-    }
-    profile.savedColorThemes.removeAt(action.index);
+    profile.savedColorThemes.removeWhere((theme) => theme.themeName == action.theme.themeName);
     await ProfileDao.update(profile);
     store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
-    store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, null));
+    store.dispatch(RemoveDeletedThemeAction(store.state.mainSettingsPageState, action.theme));
   }
 
   void _saveColorTheme(Store<AppState> store, SaveColorThemeAction action, NextDispatcher next) async {
@@ -105,14 +101,13 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       buttonTextColor: ColorConstants.getHex(action.pageState.currentButtonTextColor),
       bannerColor: ColorConstants.getHex(action.pageState.currentBannerColor),
     );
-    profile.selectedColorTheme = theme;
     profile.savedColorThemes.add(theme);
     await ProfileDao.update(profile);
     store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, theme));
     store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
   }
 
-  void _saveBannerColor(Store<AppState> store, SaveBannerColorAction action, NextDispatcher next) async {
+  void _saveColor(Store<AppState> store, SaveColorAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
 
     switch(action.id) {
@@ -132,8 +127,6 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
         profile.logoTextColor = ColorConstants.getHex(action.color);
         break;
     }
-
-    await ProfileDao.update(profile);
     next(action);
   }
 

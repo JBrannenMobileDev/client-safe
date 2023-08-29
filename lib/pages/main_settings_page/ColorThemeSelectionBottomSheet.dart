@@ -51,7 +51,7 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
                        height: 372,
                        child: ListView.builder(
                            padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 300.0),
-                           itemCount: pageState.profile.savedColorThemes.length,
+                           itemCount: pageState.savedColorThemes.length,
                            controller: _controller,
                            physics: AlwaysScrollableScrollPhysics(),
                            key: _listKey,
@@ -72,7 +72,7 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
         builder: (BuildContext context, MainSettingsPageState pageState) =>
             GestureDetector(
               onTap: () {
-                pageState.onColorThemeSelected(index);
+                pageState.onColorThemeSelected(pageState.savedColorThemes.elementAt(index));
                 Navigator.of(context).pop();
               },
               child: Container(
@@ -82,27 +82,27 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
                   children: [
                     TextDandyLight(
                       type: TextDandyLight.SMALL_TEXT,
-                      text: pageState.profile.savedColorThemes.elementAt(index).themeName,
+                      text: pageState.savedColorThemes.elementAt(index).themeName,
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
                     Row(
                       children: [
-                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).iconColor),
-                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).iconTextColor),
-                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).buttonColor),
-                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).buttonTextColor),
-                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).bannerColor),
-                        GestureDetector(
-                          onTap: () {
-                            pageState.onColorThemeDeleted(index);
-                          },
-                          child: Container(
-                            margin: EdgeInsets.only(left: 8, right: 4),
-                            height: 28,
-                            child: Image.asset('assets/images/icons/trash.png', color: Color(ColorConstants.getPrimaryBlack()),),
-                          ),
-                        ),
+                        ColorCircle(pageState.savedColorThemes.elementAt(index).iconColor),
+                        ColorCircle(pageState.savedColorThemes.elementAt(index).iconTextColor),
+                        ColorCircle(pageState.savedColorThemes.elementAt(index).buttonColor),
+                        ColorCircle(pageState.savedColorThemes.elementAt(index).buttonTextColor),
+                        ColorCircle(pageState.savedColorThemes.elementAt(index).bannerColor),
+                        // pageState.savedColorThemes.elementAt(index).themeName != 'DandyLight Theme' ? GestureDetector(
+                        //   onTap: () {
+                        //     pageState.onColorThemeDeleted(pageState.savedColorThemes.elementAt(index));
+                        //   },
+                        //   child: Container(
+                        //     margin: EdgeInsets.only(left: 8, right: 4),
+                        //     height: 28,
+                        //     child: Image.asset('assets/images/icons/trash.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                        //   ),
+                        // ) : SizedBox(width: 40,),
                       ],
                     ),
                   ],

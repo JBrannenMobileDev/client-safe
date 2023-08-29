@@ -29,16 +29,18 @@ class MainSettingsPageState{
   final String instaUrl;
   final XFile resizedLogoImage;
   final bool logoImageSelected;
-  Color currentBannerColor;
-  Color currentButtonColor;
-  Color currentButtonTextColor;
-  Color currentIconColor;
-  Color currentIconTextColor;
-  String currentIconFont;
-  String currentTitleFont;
-  String currentBodyFont;
-  ColorTheme selectedColorTheme;
-  FontTheme selectedFontTheme;
+  final Color currentBannerColor;
+  final Color currentButtonColor;
+  final Color currentButtonTextColor;
+  final Color currentIconColor;
+  final Color currentIconTextColor;
+  final String currentIconFont;
+  final String currentTitleFont;
+  final String currentBodyFont;
+  final ColorTheme selectedColorTheme;
+  final FontTheme selectedFontTheme;
+  final List<ColorTheme> savedColorThemes;
+  final bool showPublishButton;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
   final Function(bool) onCalendarChanged;
@@ -56,8 +58,8 @@ class MainSettingsPageState{
   final Function(bool) onLogoImageSelected;
   final Function(Color, String) onColorSaved;
   final Function(String) onColorThemeSaved;
-  final Function(int) onColorThemeDeleted;
-  final Function(int) onColorThemeSelected;
+  final Function(ColorTheme) onColorThemeDeleted;
+  final Function(ColorTheme) onColorThemeSelected;
   final Function() onResetColors;
 
   MainSettingsPageState({
@@ -108,6 +110,8 @@ class MainSettingsPageState{
     @required this.onColorThemeDeleted,
     @required this.onColorThemeSelected,
     @required this.onResetColors,
+    @required this.savedColorThemes,
+    @required this.showPublishButton,
   });
 
   MainSettingsPageState copyWith({
@@ -138,6 +142,8 @@ class MainSettingsPageState{
     String currentBodyFont,
     ColorTheme selectedColorTheme,
     FontTheme selectedFontTheme,
+    List<ColorTheme> savedColorThemes,
+    bool showPublishButton,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
     Function(String) onBusinessNameChanged,
@@ -155,8 +161,8 @@ class MainSettingsPageState{
     Function(bool) onLogoImageSelected,
     Function(Color, String) onColorSaved,
     Function(String) onColorThemeSaved,
-    Function(int) onColorThemeDeleted,
-    Function(int) onColorThemeSelected,
+    Function(ColorTheme) onColorThemeDeleted,
+    Function(ColorTheme) onColorThemeSelected,
     Function() onResetColors,
   }){
     return MainSettingsPageState(
@@ -207,6 +213,8 @@ class MainSettingsPageState{
       onColorThemeSelected: onColorThemeSelected ?? this.onColorThemeSelected,
       onColorThemeDeleted: onColorThemeDeleted ?? this.onColorThemeDeleted,
       onResetColors: onResetColors ?? this.onResetColors,
+      savedColorThemes: savedColorThemes ?? this.savedColorThemes,
+      showPublishButton: showPublishButton ?? this.showPublishButton,
     );
   }
 
@@ -265,6 +273,16 @@ class MainSettingsPageState{
     onColorThemeDeleted: null,
     onColorThemeSelected: null,
     onResetColors: null,
+    savedColorThemes: [ColorTheme(
+      themeName: 'DandyLight Theme',
+      iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+      iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+      buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+      buttonTextColor: ColorConstants.getString(
+          ColorConstants.getPrimaryWhite()),
+      bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+    )],
+    showPublishButton: false,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -296,6 +314,8 @@ class MainSettingsPageState{
       currentIconTextColor: store.state.mainSettingsPageState.currentIconTextColor,
       saveColorThemeEnabled: store.state.mainSettingsPageState.saveColorThemeEnabled,
       saveFontThemeEnabled: store.state.mainSettingsPageState.saveFontThemeEnabled,
+      savedColorThemes: store.state.mainSettingsPageState.savedColorThemes,
+      showPublishButton: store.state.mainSettingsPageState.showPublishButton,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -316,10 +336,10 @@ class MainSettingsPageState{
       onInstaUrlChanged: (url) => store.dispatch(SetUrlToStateAction(store.state.mainSettingsPageState, url)),
       onLogoUploaded: (imageFile) => store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile)),
       onLogoImageSelected: (isLogoImageSelected) => store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected)),
-      onColorSaved: (color, id) => store.dispatch(SaveBannerColorAction(store.state.mainSettingsPageState, color, id)),
+      onColorSaved: (color, id) => store.dispatch(SaveColorAction(store.state.mainSettingsPageState, color, id)),
       onColorThemeSaved: (name) => store.dispatch(SaveColorThemeAction(store.state.mainSettingsPageState, name)),
-      onColorThemeDeleted: (index) => store.dispatch(DeleteColorThemeAction(store.state.mainSettingsPageState, index)),
-      onColorThemeSelected: (index) => store.dispatch(SetSelectedColorThemeAction(store.state.mainSettingsPageState, index)),
+      onColorThemeDeleted: (theme) => store.dispatch(DeleteColorThemeAction(store.state.mainSettingsPageState, theme)),
+      onColorThemeSelected: (theme) => store.dispatch(SetSelectedColorThemeAction(store.state.mainSettingsPageState, theme)),
       onResetColors: () => store.dispatch(ResetColorsAction(store.state.mainSettingsPageState)),
     );
   }
@@ -335,12 +355,14 @@ class MainSettingsPageState{
       firstName.hashCode ^
       logoImageSelected.hashCode ^
       lastName.hashCode ^
+      showPublishButton.hashCode ^
       businessName.hashCode ^
       onFirstNameChanged.hashCode ^
       onLastNameChanged.hashCode ^
       onBusinessNameChanged.hashCode ^
       onSaveUpdatedProfile.hashCode ^
       profile.hashCode ^
+      savedColorThemes.hashCode ^
       saveColorThemeEnabled.hashCode ^
       saveFontThemeEnabled.hashCode ^
       onSendSuggestionSelected.hashCode ^
@@ -385,6 +407,7 @@ class MainSettingsPageState{
               onLogoUploaded == other.onLogoUploaded &&
               resizedLogoImage == other.resizedLogoImage &&
               lastName == other.lastName &&
+              showPublishButton == other.showPublishButton &&
               businessName == other.businessName &&
               onColorThemeSaved == other.onColorThemeSaved &&
               instaUrl == other.instaUrl &&
@@ -394,6 +417,7 @@ class MainSettingsPageState{
               onSaveUpdatedProfile == other.onSaveUpdatedProfile &&
               profile == other.profile &&
               onResetColors == other.onResetColors &&
+              savedColorThemes == other.savedColorThemes &&
               currentIconTextColor == other.currentIconTextColor &&
               onSendSuggestionSelected == other.onSendSuggestionSelected &&
               onDeleteAccountSelected == other.onDeleteAccountSelected &&
