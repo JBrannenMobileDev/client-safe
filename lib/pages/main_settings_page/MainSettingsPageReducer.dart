@@ -1,6 +1,9 @@
+import 'package:dandylight/models/ColorTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:redux/redux.dart';
+
+import '../../utils/ColorConstants.dart';
 
 final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, UpdatePushNotificationEnabled>(_setPushNotificationsState),
@@ -18,9 +21,62 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetResizedLogoImageAction>(_setResizedLogoImage),
   TypedReducer<MainSettingsPageState, SetLogoSelectionAction>(_setLogoSelection),
   TypedReducer<MainSettingsPageState, SaveBannerColorAction>(_setBannerColor),
+  TypedReducer<MainSettingsPageState, SetColorThemeAction>(_colorThemeSaved),
+  TypedReducer<MainSettingsPageState, ResetColorsAction>(_resetColors),
+  TypedReducer<MainSettingsPageState, SetSelectedColorThemeAction>(_setSelectedTheme),
 ]);
 
+MainSettingsPageState _setSelectedTheme(MainSettingsPageState previousState, SetSelectedColorThemeAction action){
+  ColorTheme theme = action.pageState.profile.savedColorThemes.elementAt(action.index);
+  return previousState.copyWith(
+    saveColorThemeEnabled: false,
+    selectedColorTheme: theme,
+    currentIconColor: ColorConstants.hexToColor(theme.iconColor),
+    currentIconTextColor: ColorConstants.hexToColor(theme.iconTextColor),
+    currentButtonColor: ColorConstants.hexToColor(theme.buttonColor),
+    currentButtonTextColor: ColorConstants.hexToColor(theme.buttonTextColor),
+    currentBannerColor: ColorConstants.hexToColor(theme.bannerColor),
+  );
+}
+
+MainSettingsPageState _resetColors(MainSettingsPageState previousState, ResetColorsAction action){
+  return previousState.copyWith(
+    saveColorThemeEnabled: false,
+    currentIconColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.iconColor),
+    currentIconTextColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.iconTextColor),
+    currentButtonColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.buttonColor),
+    currentButtonTextColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.buttonTextColor),
+    currentBannerColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.bannerColor),
+  );
+}
+
+MainSettingsPageState _colorThemeSaved(MainSettingsPageState previousState, SetColorThemeAction action){
+  ColorTheme theme = action.theme;
+  if(action.theme == null) {
+    theme = ColorTheme(
+      themeName: 'DandyLight Theme',
+      iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+      iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
+      buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
+      buttonTextColor: ColorConstants.getString(
+          ColorConstants.getPrimaryWhite()),
+      bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+    );
+  }
+  return previousState.copyWith(
+    selectedColorTheme: theme,
+    saveColorThemeEnabled: false,
+    currentIconColor: ColorConstants.hexToColor(theme.iconColor),
+    currentIconTextColor: ColorConstants.hexToColor(theme.iconTextColor),
+    currentButtonColor: ColorConstants.hexToColor(theme.buttonColor),
+    currentButtonTextColor: ColorConstants.hexToColor(theme.buttonTextColor),
+    currentBannerColor: ColorConstants.hexToColor(theme.bannerColor),
+  );
+}
+
 MainSettingsPageState _setBannerColor(MainSettingsPageState previousState, SaveBannerColorAction action){
+  bool saveColorThemeEnabled = false;
+
   switch(action.id) {
     case 'banner':
       action.pageState.currentBannerColor = action.color;
@@ -38,12 +94,30 @@ MainSettingsPageState _setBannerColor(MainSettingsPageState previousState, SaveB
       action.pageState.currentIconTextColor = action.color;
       break;
   }
+
+  if(ColorConstants.getString(action.pageState.currentIconTextColor.value) != action.pageState.selectedColorTheme.iconTextColor) {
+    saveColorThemeEnabled = true;
+  }
+  if(ColorConstants.getString(action.pageState.currentIconColor.value) != action.pageState.selectedColorTheme.iconColor) {
+    saveColorThemeEnabled = true;
+  }
+  if(ColorConstants.getString(action.pageState.currentButtonTextColor.value) != action.pageState.selectedColorTheme.buttonTextColor) {
+    saveColorThemeEnabled = true;
+  }
+  if(ColorConstants.getString(action.pageState.currentButtonColor.value) != action.pageState.selectedColorTheme.buttonColor) {
+    saveColorThemeEnabled = true;
+  }
+  if(ColorConstants.getString(action.pageState.currentBannerColor.value) != action.pageState.selectedColorTheme.bannerColor) {
+    saveColorThemeEnabled = true;
+  }
+
   return previousState.copyWith(
     currentBannerColor: action.pageState.currentBannerColor,
     currentButtonColor: action.pageState.currentButtonColor,
     currentButtonTextColor: action.pageState.currentButtonTextColor,
     currentIconColor: action.pageState.currentIconColor,
     currentIconTextColor: action.pageState.currentIconTextColor,
+    saveColorThemeEnabled: saveColorThemeEnabled,
   );
 }
 

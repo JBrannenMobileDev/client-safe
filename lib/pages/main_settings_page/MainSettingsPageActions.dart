@@ -4,6 +4,8 @@ import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../../models/ColorTheme.dart';
+
 class UpdatePushNotificationEnabled{
   final MainSettingsPageState pageState;
   final bool enabled;
@@ -33,6 +35,35 @@ class SaveBannerColorAction {
   final Color color;
   final String id;
   SaveBannerColorAction(this.pageState, this.color, this.id);
+}
+
+class SaveColorThemeAction {
+  final MainSettingsPageState pageState;
+  final String themeName;
+  SaveColorThemeAction(this.pageState, this.themeName);
+}
+
+class DeleteColorThemeAction {
+  final MainSettingsPageState pageState;
+  final int index;
+  DeleteColorThemeAction(this.pageState, this.index);
+}
+
+class SetSelectedColorThemeAction {
+  final MainSettingsPageState pageState;
+  final int index;
+  SetSelectedColorThemeAction(this.pageState, this.index);
+}
+
+class ResetColorsAction {
+  final MainSettingsPageState pageState;
+  ResetColorsAction(this.pageState);
+}
+
+class SetColorThemeAction {
+  final MainSettingsPageState pageState;
+  final ColorTheme theme;
+  SetColorThemeAction(this.pageState, this.theme);
 }
 
 class ResizeLogoImageAction {

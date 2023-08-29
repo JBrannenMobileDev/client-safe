@@ -32,7 +32,7 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),
-               padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32),
+               padding: EdgeInsets.only(left: 32.0, right: 32.0, bottom: 32),
                child: Column(
                  mainAxisAlignment: MainAxisAlignment.start,
                  mainAxisSize: MainAxisSize.min,
@@ -51,7 +51,7 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
                        height: 372,
                        child: ListView.builder(
                            padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 300.0),
-                           itemCount: 10,
+                           itemCount: pageState.profile.savedColorThemes.length,
                            controller: _controller,
                            physics: AlwaysScrollableScrollPhysics(),
                            key: _listKey,
@@ -72,10 +72,59 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
         builder: (BuildContext context, MainSettingsPageState pageState) =>
             GestureDetector(
               onTap: () {
+                pageState.onColorThemeSelected(index);
                 Navigator.of(context).pop();
               },
-              child: ColorThemeWidget(),
+              child: Container(
+                margin: EdgeInsets.only(top: 12, bottom: 12),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextDandyLight(
+                      type: TextDandyLight.SMALL_TEXT,
+                      text: pageState.profile.savedColorThemes.elementAt(index).themeName,
+                      textAlign: TextAlign.center,
+                      color: Color(ColorConstants.getPrimaryBlack()),
+                    ),
+                    Row(
+                      children: [
+                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).iconColor),
+                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).iconTextColor),
+                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).buttonColor),
+                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).buttonTextColor),
+                        ColorCircle(pageState.profile.savedColorThemes.elementAt(index).bannerColor),
+                        GestureDetector(
+                          onTap: () {
+                            pageState.onColorThemeDeleted(index);
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(left: 8, right: 4),
+                            height: 28,
+                            child: Image.asset('assets/images/icons/trash.png', color: Color(ColorConstants.getPrimaryBlack()),),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             )
+    );
+  }
+
+  Widget ColorCircle(String color) {
+    return Container(
+      margin: EdgeInsets.only(right: 4),
+      height: 26,
+      width: 26,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            width: 1,
+            color: Color(ColorConstants.isWhiteString(color) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+          ),
+          color: ColorConstants.hexToColor(color)
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dandylight/AppState.dart';
 import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
+import 'package:dandylight/models/ColorTheme.dart';
 import 'package:dandylight/models/DiscountCodes.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
@@ -74,6 +75,41 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveBannerColorAction) {
       _saveBannerColor(store, action, next);
     }
+    if(action is SaveColorThemeAction) {
+      _saveColorTheme(store, action, next);
+    }
+    if(action is DeleteColorThemeAction) {
+      _deleteColorTheme(store, action, next);
+    }
+  }
+
+  void _deleteColorTheme(Store<AppState> store, DeleteColorThemeAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    ColorTheme themeToDelete = profile.savedColorThemes.elementAt(action.index);
+    if(action.pageState.selectedColorTheme.id == themeToDelete.id) {
+
+    }
+    profile.savedColorThemes.removeAt(action.index);
+    await ProfileDao.update(profile);
+    store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
+    store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, null));
+  }
+
+  void _saveColorTheme(Store<AppState> store, SaveColorThemeAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    ColorTheme theme = ColorTheme(
+      themeName: action.themeName,
+      iconColor: ColorConstants.getHex(action.pageState.currentIconColor),
+      iconTextColor: ColorConstants.getHex(action.pageState.currentIconTextColor),
+      buttonColor: ColorConstants.getHex(action.pageState.currentButtonColor),
+      buttonTextColor: ColorConstants.getHex(action.pageState.currentButtonTextColor),
+      bannerColor: ColorConstants.getHex(action.pageState.currentBannerColor),
+    );
+    profile.selectedColorTheme = theme;
+    profile.savedColorThemes.add(theme);
+    await ProfileDao.update(profile);
+    store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, theme));
+    store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
   }
 
   void _saveBannerColor(Store<AppState> store, SaveBannerColorAction action, NextDispatcher next) async {
@@ -150,6 +186,10 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
         }
       }
     );
+
+    if(profile.selectedColorTheme != null) {
+      store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, profile.selectedColorTheme));
+    }
   }
 
   void savePushNotificationSetting(Store<AppState> store, SavePushNotificationSettingAction action, NextDispatcher next) async{

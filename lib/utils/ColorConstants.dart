@@ -46,6 +46,10 @@ class ColorConstants{
     return color.value.toRadixString(16).substring(2);
   }
 
+  static String getString(int color) {
+    return color.toRadixString(16).substring(2);
+  }
+
   static int getPrimaryColor(){
     return gold;
   }
@@ -101,5 +105,13 @@ class ColorConstants{
 
   static isWhite(Color color) {
     return color.value == 4294967295;
+  }
+
+  static isWhiteString(String color) {
+    return color == 'ffffff';
+  }
+
+  static Color hexToColor(String code) {
+    return new Color(int.parse(code, radix: 16) + 0xFF000000);
   }
 }

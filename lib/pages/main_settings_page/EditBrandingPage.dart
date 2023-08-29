@@ -3,8 +3,6 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/Profile.dart';
-import 'package:dandylight/pages/common_widgets/LoginTextField.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/pages/main_settings_page/SaveColorThemeBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
@@ -15,7 +13,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
-import '../../utils/Shadows.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
@@ -457,7 +454,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    text: '#' + ColorConstants.getHex(pageState.currentIconColor),
                                                     textAlign: TextAlign.center,
                                                     color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                   )
@@ -465,6 +462,9 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                               ),
                                               GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    tempSelectionColor = pageState.currentIconColor;
+                                                  });
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext context) {
@@ -482,7 +482,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                         content: SingleChildScrollView(
                                                           child: HueRingPicker(
                                                             hueRingStrokeWidth: 22,
-                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            pickerColor: pageState.currentIconColor,
                                                             onColorChanged: (color) {
                                                               setState(() {
                                                                 tempSelectionColor = color;
@@ -533,7 +533,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                     color: pageState.currentIconColor,
                                                     border: Border.all(
                                                       width: 1,
-                                                      color: Color(ColorConstants.isWhite(pageState.currentIconColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                      color: ColorConstants.isWhite(pageState.currentIconColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentIconColor,
                                                     ),
                                                   ),
                                                 ),
@@ -558,7 +558,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    text: '#' + ColorConstants.getHex(pageState.currentIconTextColor),
                                                     textAlign: TextAlign.center,
                                                     color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                   )
@@ -566,6 +566,9 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                               ),
                                               GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    tempSelectionColor = pageState.currentIconTextColor;
+                                                  });
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext context) {
@@ -583,7 +586,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                         content: SingleChildScrollView(
                                                           child: HueRingPicker(
                                                             hueRingStrokeWidth: 22,
-                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            pickerColor: pageState.currentIconTextColor,
                                                             onColorChanged: (color) {
                                                               setState(() {
                                                                 tempSelectionColor = color;
@@ -634,7 +637,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                     color: pageState.currentIconTextColor,
                                                     border: Border.all(
                                                       width: 1,
-                                                      color: Color(ColorConstants.isWhite(pageState.currentIconTextColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                      color: ColorConstants.isWhite(pageState.currentIconTextColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentIconTextColor,
                                                     ),
                                                   ),
                                                 ),
@@ -659,7 +662,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    text: '#' + ColorConstants.getHex(pageState.currentButtonColor),
                                                     textAlign: TextAlign.center,
                                                     color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                   )
@@ -667,6 +670,9 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                               ),
                                               GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    tempSelectionColor = pageState.currentButtonColor;
+                                                  });
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext context) {
@@ -684,7 +690,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                         content: SingleChildScrollView(
                                                           child: HueRingPicker(
                                                             hueRingStrokeWidth: 22,
-                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            pickerColor: pageState.currentButtonColor,
                                                             onColorChanged: (color) {
                                                               setState(() {
                                                                 tempSelectionColor = color;
@@ -735,7 +741,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                     color: pageState.currentButtonColor,
                                                     border: Border.all(
                                                       width: 1,
-                                                      color: Color(ColorConstants.isWhite(pageState.currentButtonColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                      color: ColorConstants.isWhite(pageState.currentButtonColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentButtonColor,
                                                     ),
                                                   ),
                                                 ),
@@ -760,7 +766,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                   ),
                                                   TextDandyLight(
                                                     type: TextDandyLight.SMALL_TEXT,
-                                                    text: '#' + ColorConstants.getHex(pageState.currentBannerColor),
+                                                    text: '#' + ColorConstants.getHex(pageState.currentButtonTextColor),
                                                     textAlign: TextAlign.center,
                                                     color: Color(ColorConstants.getPrimaryGreyMedium()),
                                                   )
@@ -768,6 +774,9 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                               ),
                                               GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    tempSelectionColor = pageState.currentButtonTextColor;
+                                                  });
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext context) {
@@ -785,7 +794,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                         content: SingleChildScrollView(
                                                           child: HueRingPicker(
                                                             hueRingStrokeWidth: 22,
-                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            pickerColor: pageState.currentButtonTextColor,
                                                             onColorChanged: (color) {
                                                               setState(() {
                                                                 tempSelectionColor = color;
@@ -836,7 +845,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                     color: pageState.currentButtonTextColor,
                                                     border: Border.all(
                                                       width: 1,
-                                                      color: Color(ColorConstants.isWhite(pageState.currentButtonTextColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                      color: ColorConstants.isWhite(pageState.currentButtonTextColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentButtonTextColor,
                                                     ),
                                                   ),
                                                 ),
@@ -869,6 +878,9 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                               ),
                                               GestureDetector(
                                                 onTap: () {
+                                                  setState(() {
+                                                    tempSelectionColor = pageState.currentBannerColor;
+                                                  });
                                                   showDialog(
                                                     context: context,
                                                     builder: (BuildContext context) {
@@ -886,7 +898,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                         content: SingleChildScrollView(
                                                           child: HueRingPicker(
                                                             hueRingStrokeWidth: 22,
-                                                            pickerColor: Color(ColorConstants.getPeachDark()),
+                                                            pickerColor: pageState.currentBannerColor,
                                                             onColorChanged: (color) {
                                                               setState(() {
                                                                 tempSelectionColor = color;
@@ -937,7 +949,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                     color: pageState.currentBannerColor,
                                                     border: Border.all(
                                                       width: 1,
-                                                      color: Color(ColorConstants.isWhite(pageState.currentBannerColor) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+                                                      color: ColorConstants.isWhite(pageState.currentBannerColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : pageState.currentBannerColor,
                                                     ),
                                                   ),
                                                 ),
@@ -950,7 +962,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-
+                                                pageState.onResetColors();
                                               },
                                               child: Container(
                                                 padding: EdgeInsets.only(left: 32, right: 32),
@@ -969,7 +981,9 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                _showSaveColorThemeBottomSheet(context);
+                                                if(pageState.saveColorThemeEnabled) {
+                                                  _showSaveColorThemeBottomSheet(context);
+                                                }
                                               },
                                               child: Container(
                                                 padding: EdgeInsets.only(left: 16, right: 16),
@@ -977,7 +991,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                 height: 42,
                                                 decoration: BoxDecoration(
                                                     borderRadius: BorderRadius.circular(24),
-                                                    color: Color(ColorConstants.getPeachDark())
+                                                    color: Color(pageState.saveColorThemeEnabled ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium())
                                                 ),
                                                 child: TextDandyLight(
                                                   type: TextDandyLight.MEDIUM_TEXT,

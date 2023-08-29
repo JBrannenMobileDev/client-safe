@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:dandylight/data_layer/local_db/daos/PoseLibraryGroupDao.dart';
 import 'package:dandylight/data_layer/local_db/daos/ResponseDao.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -82,6 +83,7 @@ class SembastDb {
     await PoseDao.deleteAllLocal();
     await PoseGroupDao.deleteAllLocal();
     await ResponseDao.deleteAllLocal();
+    await PoseLibraryGroupDao.deleteAllLocal();
 
     //Last step always
     await ProfileDao.deleteAllProfilesLocal();

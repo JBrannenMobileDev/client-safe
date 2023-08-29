@@ -42,8 +42,8 @@ class _SaveColorThemeBottomSheetPageState extends State<SaveColorThemeBottomShee
                  children: <Widget>[
                    GestureDetector(
                      onTap: () {
-
-                       Navigator.of(context).pop();
+                        pageState.onColorThemeSaved(controller.text);
+                        Navigator.of(context).pop();
                      },
                      child: Container(
                        alignment: Alignment.center,
@@ -111,48 +111,17 @@ class _SaveColorThemeBottomSheetPageState extends State<SaveColorThemeBottomShee
                      alignment: Alignment.center,
                      width: double.infinity,
                      child: Container(
-                       width: 300,
+                       width: 308,
                        margin: EdgeInsets.only(top: 32),
                        child: Row(
                          mainAxisSize: MainAxisSize.max,
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                          children: [
-                           Container(
-                             height: 48,
-                             width: 48,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(24),
-                                 color: Color(ColorConstants.getBlueDark())
-                             ),
-                           ),
-                           Container(
-                             height: 48,
-                             width: 48,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(24),
-                                 color: Color(ColorConstants.getPeachDark())
-                             ),
-                           ),
-                           Container(
-                             height: 48,
-                             width: 48,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(24),
-                                 border: Border.all(
-                                     width: 1,
-                                     color: Color(ColorConstants.getPrimaryBackgroundGrey())
-                                 ),
-                                 color: Color(ColorConstants.getPrimaryWhite())
-                             ),
-                           ),
-                           Container(
-                             height: 48,
-                             width: 48,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(24),
-                                 color: Color(ColorConstants.getPeachDark())
-                             ),
-                           ),
+                           ColorCircle(ColorConstants.getHex(pageState.currentIconColor)),
+                           ColorCircle(ColorConstants.getHex(pageState.currentIconTextColor)),
+                           ColorCircle(ColorConstants.getHex(pageState.currentButtonColor)),
+                           ColorCircle(ColorConstants.getHex(pageState.currentButtonTextColor)),
+                           ColorCircle(ColorConstants.getHex(pageState.currentBannerColor)),
                          ],
                        ),
                      ),
@@ -161,6 +130,22 @@ class _SaveColorThemeBottomSheetPageState extends State<SaveColorThemeBottomShee
                ),
          ),
     );
+
+  Widget ColorCircle(String color) {
+    return Container(
+      margin: EdgeInsets.only(right: 4),
+      height: 48,
+      width: 48,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(
+            width: 1,
+            color: Color(ColorConstants.isWhiteString(color) ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryWhite()),
+          ),
+          color: ColorConstants.hexToColor(color)
+      ),
+    );
+  }
 
   void doNothing(String text) {
 

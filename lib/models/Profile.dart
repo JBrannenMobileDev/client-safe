@@ -1,8 +1,3 @@
-
-import 'package:dandylight/models/Branding.dart';
-import 'package:dandylight/pages/manage_subscription_page/ManageSubscriptionPage.dart';
-import 'package:dandylight/utils/AdminCheckUtil.dart';
-
 import 'ColorTheme.dart';
 import 'FontTheme.dart';
 
@@ -39,8 +34,8 @@ class Profile{
   String logoTextColor;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
-  List<ColorTheme> savedColorThemes;
-  List<FontTheme> savedFontThemes;
+  List<ColorTheme> savedColorThemes = [];
+  List<FontTheme> savedFontThemes = [];
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
@@ -354,10 +349,10 @@ class Profile{
       'accountCreatedDate' : accountCreatedDate?.millisecondsSinceEpoch ?? DateTime(2023, 2, 1).millisecondsSinceEpoch,
       'salesTaxRate' : salesTaxRate,
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
-      'selectedFontTheme' : selectedFontTheme,
-      'selectedColorTheme' : selectedColorTheme,
-      'savedColorThemes' : savedColorThemes,
-      'savedFontThemes' : savedFontThemes,
+      'selectedFontTheme' : selectedFontTheme?.toMap() ?? null,
+      'selectedColorTheme' : selectedColorTheme?.toMap() ?? null,
+      'savedColorThemes' : convertColorThemesToMap(savedColorThemes),
+      'savedFontThemes' : convertFontThemesToMap(savedFontThemes),
     };
   }
 
@@ -404,10 +399,10 @@ class Profile{
       isSubscribed: map['isSubscribed'] != null ? map['isSubscribed'] : false,
       termsOfServiceAndPrivacyPolicyChecked: map['termsOfServiceAndPrivacyPolicyChecked'],
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
-      selectedColorTheme: map['selectedColorTheme'] != null ? map['selectedColorTheme'] : null,
-      selectedFontTheme: map['selectedFontTheme'] != null ? map['selectedFontTheme'] : null,
-      savedColorThemes: map['savedColorThemes'] != null ? map['savedColorThemes'] : null,
-      savedFontThemes: map['savedFontThemes'] != null ? map['savedFontThemes'] : null,
+      selectedColorTheme: map['selectedColorTheme'] != null ? ColorTheme.fromMap(map['selectedColorTheme']) : null,
+      selectedFontTheme: map['selectedFontTheme'] != null ? FontTheme.fromMap(map['selectedFontTheme']) : null,
+      savedColorThemes: convertMapsToColorThemes(map['savedColorThemes']),
+      savedFontThemes: convertMapsToFontThemes(map['savedFontThemes']),
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,
@@ -430,6 +425,46 @@ class Profile{
       accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1),
       poseLibraryGroupLastChangeDate: map['poseLibraryGroupLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseLibraryGroupLastChangeDate']) : null,
     );
+  }
+
+  List<Map<String, dynamic>> convertColorThemesToMap(List<ColorTheme> themes){
+    List<Map<String, dynamic>> listOfMaps = [];
+    if(themes != null) {
+      for(ColorTheme theme in themes){
+        listOfMaps.add(theme.toMap());
+      }
+    }
+    return listOfMaps;
+  }
+
+  static List<ColorTheme> convertMapsToColorThemes(List listOfMaps){
+    List<ColorTheme> themes = [];
+    if(listOfMaps != null) {
+      for(Map map in listOfMaps){
+        themes.add(ColorTheme.fromMap(map));
+      }
+    }
+    return themes;
+  }
+
+  List<Map<String, dynamic>> convertFontThemesToMap(List<FontTheme> themes){
+    List<Map<String, dynamic>> listOfMaps = [];
+    if(themes != null) {
+      for(FontTheme theme in themes){
+        listOfMaps.add(theme.toMap());
+      }
+    }
+    return listOfMaps;
+  }
+
+  static List<FontTheme> convertMapsToFontThemes(List listOfMaps){
+    List<FontTheme> themes = [];
+    if(listOfMaps != null) {
+      for(Map map in listOfMaps){
+        themes.add(FontTheme.fromMap(map));
+      }
+    }
+    return themes;
   }
 
   bool hasDefaultHome() {
