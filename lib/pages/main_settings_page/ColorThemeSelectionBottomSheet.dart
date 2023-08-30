@@ -77,6 +77,7 @@ class _ColorThemeSelectionBottomSheetPageState extends State<ColorThemeSelection
               },
               child: Container(
                 margin: EdgeInsets.only(top: 12, bottom: 12),
+                color: Color(ColorConstants.getPrimaryWhite()),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

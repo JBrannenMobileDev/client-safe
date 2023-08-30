@@ -171,19 +171,19 @@ MainSettingsPageState _setColor(MainSettingsPageState previousState, SaveColorAc
       break;
   }
 
-  if(ColorConstants.getString(action.pageState.currentIconTextColor.value) != action.pageState.selectedColorTheme.iconTextColor) {
+  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.iconTextColor) {
     saveColorThemeEnabled = true;
   }
-  if(ColorConstants.getString(action.pageState.currentIconColor.value) != action.pageState.selectedColorTheme.iconColor) {
+  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.iconColor) {
     saveColorThemeEnabled = true;
   }
-  if(ColorConstants.getString(action.pageState.currentButtonTextColor.value) != action.pageState.selectedColorTheme.buttonTextColor) {
+  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.buttonTextColor) {
     saveColorThemeEnabled = true;
   }
-  if(ColorConstants.getString(action.pageState.currentButtonColor.value) != action.pageState.selectedColorTheme.buttonColor) {
+  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.buttonColor) {
     saveColorThemeEnabled = true;
   }
-  if(ColorConstants.getString(action.pageState.currentBannerColor.value) != action.pageState.selectedColorTheme.bannerColor) {
+  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.bannerColor) {
     saveColorThemeEnabled = true;
   }
 

@@ -10,6 +10,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
@@ -442,7 +443,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                   child: Column(
                                     children: [
                                       Padding(
-                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -485,7 +486,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                                       contentPadding: const EdgeInsets.all(0),
                                                       content: SingleChildScrollView(
                                                         child: HueRingPicker(
-                                                          hueRingStrokeWidth: 22,
+                                                          hueRingStrokeWidth: 30,
                                                           pickerColor: pageState.currentIconColor,
                                                           onColorChanged: (color) {
                                                             setState(() {
@@ -546,7 +547,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -650,7 +651,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -754,7 +755,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                         ),
                                       ),
                                       Padding(
-                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16, bottom: 20),
+                                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
                                         child: Row(
                                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -1284,6 +1285,14 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
   Future getDeviceImage(MainSettingsPageState pageState) async {
     try{
       XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
+      CroppedFile croppedImage = await ImageCropper().cropImage(
+        sourcePath: localImage.path,
+        maxWidth: 300,
+        maxHeight: 300,
+        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
+        cropStyle: CropStyle.circle,
+      );
+      localImage = XFile(croppedImage.path);
       if(localImage == null) {
         setState((){
           loading = false;
