@@ -2,6 +2,7 @@ import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import '../models/FontTheme.dart';
 import '../utils/TextFormatterUtil.dart';
 
 class TextDandyLight extends StatelessWidget {
@@ -14,7 +15,7 @@ class TextDandyLight extends StatelessWidget {
   static const String EXTRA_SMALL_TEXT = 'extra_small_text';
 
   static getFontFamily() {
-    return 'OpenSans';
+    return 'Open Sans';
   }
 
   static getFontWeight() {
@@ -55,6 +56,7 @@ class TextDandyLight extends StatelessWidget {
   double size;
   String fontFamily;
   bool isBold;
+  bool isThin;
   Color color;
   TextAlign textAlign;
   final VoidCallback onClick;
@@ -80,11 +82,13 @@ class TextDandyLight extends StatelessWidget {
     this.maxLines,
     this.decimalPlaces,
     this.addShadow,
+    this.isThin,
   });
 
   @override
   Widget build(BuildContext context) {
     if(isBold == null) isBold = false;
+    if(isThin == null) isThin = false;
     if(color == null) color = Color(ColorConstants.getPrimaryBlack());
     if(textAlign == null) textAlign = TextAlign.start;
     if(decimalPlaces == null) decimalPlaces = 2;
@@ -101,30 +105,19 @@ class TextDandyLight extends StatelessWidget {
     if(text == null) {
       text = '';
     }
-    switch(type) {
-      case BRAND_LOGO:
-        size = 76;
-        break;
-      case EXTRA_EXTRA_LARGE_TEXT:
-        size = 48;
-        break;
-      case EXTRA_LARGE_TEXT:
-        size = 32;
-        break;
-      case LARGE_TEXT:
-        size = 20;
-        break;
-      case MEDIUM_TEXT:
-        size = 16;
-        break;
-      case SMALL_TEXT:
-        size = 14;
-        break;
-      case EXTRA_SMALL_TEXT:
-        size = 12;
-        break;
+
+    if(fontFamily == FontTheme.MONTSERRAT) {
+      isBold = true;
     }
+
+    size = FontTheme.getIconFontSize(type, fontFamily);
+
+    if(fontFamily == FontTheme.SIGNATURE2) {
+      size = size + 6;
+    }
+
     return Container(
+      padding: FontTheme.getIconPaddingForFont(fontFamily),
       child: onClick == null
           ? Text(
         text,
@@ -134,7 +127,7 @@ class TextDandyLight extends StatelessWidget {
         style: TextStyle(
           fontFamily: fontFamily,
           fontSize: size,
-          fontWeight: isBold ? FontWeight.bold : FontWeight.w300,
+          fontWeight: isBold ? FontWeight.bold : isThin ? FontWeight.w100 : FontWeight.w300,
           color: color,
           shadows: <Shadow>[
             addShadow ? Shadow(

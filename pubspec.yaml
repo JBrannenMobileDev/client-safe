@@ -391,46 +391,18 @@ flutter:
     -
 
   fonts:
-    - family: Blackjack
+    - family: Signature2
       fonts:
-        - asset: assets/fonts/black_jar.ttf
-          weight: 500
-    - family: NumbersFontCrash
+        - asset: assets/fonts/signature.ttf
+    - family: Montserrat
       fonts:
-        - asset: assets/fonts/Crashnumberinggothic-MAjp.ttf
-    - family: numbersFont
+        - asset: assets/fonts/Montserrat-VariableFont_wght.ttf
+    - family: Open Sans
       fonts:
-        - asset: assets/fonts/Nocturne.ttf
+        - asset: assets/fonts/OpenSans-VariableFont_wdth,wght.ttf
+    - family: Signature1
+      fonts:
+        - asset: assets/fonts/sig.ttf
     - family: simple
       fonts:
         - asset: assets/fonts/simplicity.ttf
-    - family: signature
-      fonts:
-        - asset: assets/fonts/signature.ttf
-    - family: montserrat
-      fonts:
-        - asset: assets/fonts/Montserrat.ttf
-    - family: montserratMedium
-      fonts:
-        - asset: assets/fonts/Montserrat-Medium.ttf
-    - family: OpenSans
-      fonts:
-        - asset: assets/fonts/OpenSans.ttf
-        - asset: assets/fonts/OpenSansBold.ttf
-    - family: Sig
-      fonts:
-        - asset: assets/fonts/sig.ttf
-    - family: Raleway
-      fonts:
-        - asset: assets/fonts/Raleway-Bold.ttf
-        - asset: assets/fonts/Raleway-ExtraBold.ttf
-        - asset: assets/fonts/Raleway-ExtraLight.ttf
-        - asset: assets/fonts/Raleway-Heavy.ttf
-        - asset: assets/fonts/Raleway-light.ttf
-        - asset: assets/fonts/Raleway-Medium.ttf
-        - asset: assets/fonts/Raleway-Regular.ttf
-        - asset: assets/fonts/Raleway-SemiBold.ttf
-        - asset: assets/fonts/Raleway-Thin.ttf
-    - family: paperdaisy
-      fonts:
-        - asset: assets/fonts/paperdaisy-demo.ttf

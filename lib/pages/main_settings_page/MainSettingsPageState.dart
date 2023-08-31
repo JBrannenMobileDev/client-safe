@@ -40,6 +40,7 @@ class MainSettingsPageState{
   final ColorTheme selectedColorTheme;
   final FontTheme selectedFontTheme;
   final List<ColorTheme> savedColorThemes;
+  final List<FontTheme> savedFontThemes;
   final bool showPublishButton;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
@@ -61,6 +62,10 @@ class MainSettingsPageState{
   final Function(ColorTheme) onColorThemeDeleted;
   final Function(ColorTheme) onColorThemeSelected;
   final Function() onResetColors;
+  final Function(String, String) onFontSaved;
+  final Function(String) onFontThemeSaved;
+  final Function(FontTheme) onFontThemeSelected;
+  final Function() onResetFonts;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -112,6 +117,11 @@ class MainSettingsPageState{
     @required this.onResetColors,
     @required this.savedColorThemes,
     @required this.showPublishButton,
+    @required this.onFontSaved,
+    @required this.onFontThemeSaved,
+    @required this.onFontThemeSelected,
+    @required this.onResetFonts,
+    @required this.savedFontThemes,
   });
 
   MainSettingsPageState copyWith({
@@ -143,6 +153,7 @@ class MainSettingsPageState{
     ColorTheme selectedColorTheme,
     FontTheme selectedFontTheme,
     List<ColorTheme> savedColorThemes,
+    List<FontTheme> savedFontThemes,
     bool showPublishButton,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
@@ -164,6 +175,10 @@ class MainSettingsPageState{
     Function(ColorTheme) onColorThemeDeleted,
     Function(ColorTheme) onColorThemeSelected,
     Function() onResetColors,
+    Function(String, String) onFontSaved,
+    Function(String) onFontThemeSaved,
+    Function(FontTheme) onFontThemeSelected,
+    Function() onResetFonts,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -215,6 +230,11 @@ class MainSettingsPageState{
       onResetColors: onResetColors ?? this.onResetColors,
       savedColorThemes: savedColorThemes ?? this.savedColorThemes,
       showPublishButton: showPublishButton ?? this.showPublishButton,
+      onFontSaved: onFontSaved ?? this.onFontSaved,
+      onFontThemeSaved: onFontThemeSaved ?? this.onFontThemeSaved,
+      onFontThemeSelected: onFontThemeSelected ?? this.onFontThemeSelected,
+      onResetFonts: onResetFonts ?? this.onResetFonts,
+      savedFontThemes: savedFontThemes ?? this.savedFontThemes,
     );
   }
 
@@ -254,9 +274,9 @@ class MainSettingsPageState{
     currentIconColor: Color(ColorConstants.getPeachDark()),
     currentButtonColor: Color(ColorConstants.getPeachDark()),
     currentButtonTextColor: Color(ColorConstants.getPrimaryWhite()),
-    currentIconFont: null,
-    currentTitleFont: null,
-    currentBodyFont: null,
+    currentIconFont: FontTheme.SIGNATURE2,
+    currentTitleFont: FontTheme.MONTSERRAT,
+    currentBodyFont: FontTheme.MONTSERRAT,
     selectedColorTheme: ColorTheme(
         themeName: 'DandyLight Theme',
         iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
@@ -283,6 +303,16 @@ class MainSettingsPageState{
       bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
     )],
     showPublishButton: false,
+    onFontThemeSelected: null,
+    onFontThemeSaved: null,
+    onFontSaved: null,
+    onResetFonts: null,
+    savedFontThemes: [FontTheme(
+      themeName: 'DandyLight Theme',
+      iconFont: FontTheme.SIGNATURE2,
+      titleFont: FontTheme.OPEN_SANS,
+      bodyFont: FontTheme.OPEN_SANS,
+    )]
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -341,6 +371,10 @@ class MainSettingsPageState{
       onColorThemeDeleted: (theme) => store.dispatch(DeleteColorThemeAction(store.state.mainSettingsPageState, theme)),
       onColorThemeSelected: (theme) => store.dispatch(SetSelectedColorThemeAction(store.state.mainSettingsPageState, theme)),
       onResetColors: () => store.dispatch(ResetColorsAction(store.state.mainSettingsPageState)),
+      onFontSaved: null,
+      onFontThemeSaved: null,
+      onFontThemeSelected: null,
+      onResetFonts: null,
     );
   }
 
@@ -393,6 +427,10 @@ class MainSettingsPageState{
       selectedColorTheme.hashCode ^
       onColorSaved.hashCode ^
       onColorThemeSaved.hashCode ^
+      onFontThemeSelected.hashCode ^
+      onFontThemeSaved.hashCode ^
+      onFontSaved.hashCode ^
+      onResetFonts.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -446,5 +484,9 @@ class MainSettingsPageState{
               saveColorThemeEnabled == other.saveColorThemeEnabled &&
               saveFontThemeEnabled == other.saveFontThemeEnabled &&
               onColorSaved == other.onColorSaved &&
+              onFontSaved == other.onFontSaved &&
+              onFontThemeSaved == other.onFontThemeSaved &&
+              onFontThemeSelected == other.onFontThemeSelected &&
+              onResetFonts == other.onResetFonts &&
               onSignOutSelected == other.onSignOutSelected;
 }
