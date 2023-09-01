@@ -285,7 +285,12 @@ class MainSettingsPageState{
         buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
         bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
     ),
-    selectedFontTheme: null,
+    selectedFontTheme: FontTheme(
+      themeName: 'DandyLight Theme',
+      iconFont: FontTheme.SIGNATURE2,
+      titleFont: FontTheme.OPEN_SANS,
+      bodyFont: FontTheme.OPEN_SANS,
+    ),
     onColorSaved: null,
     saveFontThemeEnabled: false,
     saveColorThemeEnabled: false,
@@ -371,10 +376,10 @@ class MainSettingsPageState{
       onColorThemeDeleted: (theme) => store.dispatch(DeleteColorThemeAction(store.state.mainSettingsPageState, theme)),
       onColorThemeSelected: (theme) => store.dispatch(SetSelectedColorThemeAction(store.state.mainSettingsPageState, theme)),
       onResetColors: () => store.dispatch(ResetColorsAction(store.state.mainSettingsPageState)),
-      onFontSaved: null,
+      onFontSaved: (fontFamily, id) => store.dispatch(SetSelectedFontAction(store.state.mainSettingsPageState, fontFamily, id)),
       onFontThemeSaved: null,
       onFontThemeSelected: null,
-      onResetFonts: null,
+      onResetFonts: () => store.dispatch(ResetFontsAction(store.state.mainSettingsPageState)),
     );
   }
 

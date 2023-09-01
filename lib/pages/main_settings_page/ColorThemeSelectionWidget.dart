@@ -630,7 +630,7 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                             type: TextDandyLight.SMALL_TEXT,
                             text: 'Reset colors',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryGreyMedium()),
+                            color: Color(ColorConstants.getPrimaryBlack()),
                           ),
                         ),
                       ),

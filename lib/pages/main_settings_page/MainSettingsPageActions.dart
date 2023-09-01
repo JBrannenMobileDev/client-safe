@@ -72,6 +72,18 @@ class ResetColorsAction {
   ResetColorsAction(this.pageState);
 }
 
+class SetSelectedFontAction {
+  final MainSettingsPageState pageState;
+  final String fontFamily;
+  final String id;
+  SetSelectedFontAction(this.pageState, this.fontFamily, this.id);
+}
+
+class ResetFontsAction {
+  final MainSettingsPageState pageState;
+  ResetFontsAction(this.pageState);
+}
+
 class SetColorThemeAction {
   final MainSettingsPageState pageState;
   final ColorTheme theme;

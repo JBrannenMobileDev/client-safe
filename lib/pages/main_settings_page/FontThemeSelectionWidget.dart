@@ -26,6 +26,7 @@ import 'FontSelectionBottomSheet.dart';
 import 'FontThemeSelectionBottomSheet.dart';
 import 'FontThemeWidget.dart';
 import 'PreviewOptionsBottomSheet.dart';
+import 'SaveFontThemeBottomSheet.dart';
 
 class FontThemeSelectionWidget extends StatefulWidget {
 
@@ -55,10 +56,25 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
       context: context,
       isDismissible: true,
       enableDrag: true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
         return FontSelectionBottomSheet(id);
+      },
+    );
+  }
+
+  void _showSaveFontThemeBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      enableDrag: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return SaveFontThemeBottomSheet();
       },
     );
   }
@@ -166,6 +182,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                               ),
                               Container(
                                 height: 42,
+                                width: 184,
                                 padding: EdgeInsets.only(left: 24, right: 24),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
@@ -176,6 +193,8 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                   textAlign: TextAlign.center,
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.currentIconFont,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
@@ -202,6 +221,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                               ),
                               Container(
                                 height: 42,
+                                width: 184,
                                 padding: EdgeInsets.only(left: 24, right: 24),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
@@ -212,6 +232,8 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                   textAlign: TextAlign.center,
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.currentTitleFont,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
@@ -238,6 +260,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                               ),
                               Container(
                                 height: 42,
+                                width: 184,
                                 padding: EdgeInsets.only(left: 24, right: 24),
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
@@ -248,6 +271,8 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                   textAlign: TextAlign.center,
                                   type: TextDandyLight.MEDIUM_TEXT,
                                   text: pageState.currentBodyFont,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                   color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
@@ -260,7 +285,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                       children: [
                         GestureDetector(
                           onTap: () {
-
+                            pageState.onResetFonts();
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 32, right: 32),
@@ -273,13 +298,15 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                               type: TextDandyLight.SMALL_TEXT,
                               text: 'Reset fonts',
                               textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryGreyMedium()),
+                              color: Color(ColorConstants.getPrimaryBlack()),
                             ),
                           ),
                         ),
                         GestureDetector(
                           onTap: () {
-
+                            if(pageState.saveFontThemeEnabled) {
+                              _showSaveFontThemeBottomSheet(context);
+                            }
                           },
                           child: Container(
                             padding: EdgeInsets.only(left: 16, right: 16),
@@ -287,7 +314,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                             height: 42,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(24),
-                                color: Color(ColorConstants.getPeachDark())
+                                color: Color(pageState.saveFontThemeEnabled ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium())
                             ),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,

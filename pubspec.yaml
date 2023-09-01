@@ -403,6 +403,96 @@ flutter:
     - family: Signature1
       fonts:
         - asset: assets/fonts/sig.ttf
+    - family: Signature3
+      fonts:
+        - asset: assets/fonts/Sacramento-Regular.ttf
     - family: simple
       fonts:
         - asset: assets/fonts/simplicity.ttf
+    - family: Walkway
+      fonts:
+        - asset: assets/fonts/Walkway Expand.ttf
+    - family: Vanilla Ravioli
+      fonts:
+        - asset: assets/fonts/VanillaRavioli_Demo.ttf
+    - family: Safira March
+      fonts:
+        - asset: assets/fonts/Safira March.otf
+    - family: Rounded Elegance
+      fonts:
+        - asset: assets/fonts/Rounded_Elegance.ttf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+    - family: Raleway
+      fonts:
+        - asset: assets/fonts/Raleway-VariableFont_wght.ttf
+    - family: Quicksand Light
+      fonts:
+        - asset: assets/fonts/Quicksand_Light.otf
+    - family: Quicksand Book
+      fonts:
+        - asset: assets/fonts/Quicksand_Book.otf
+    - family: Princ
+      fonts:
+        - asset: assets/fonts/PRINC___.ttf
+    - family: Playfair Display
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-VariableFont_wght.ttf
+    - family: Moredya
+      fonts:
+        - asset: assets/fonts/Moredya-Regular.ttf
+    - family: Montserrat Alternatives Regular
+      fonts:
+        - asset: assets/fonts/MontserratAlternates-Regular.ttf
+    - family: Modern Sans
+      fonts:
+        - asset: assets/fonts/ModernSans-Light.otf
+    - family: Minimal
+      fonts:
+        - asset: assets/fonts/minimal.otf
+    - family: Mermaid
+      fonts:
+        - asset: assets/fonts/Mermaid1001.ttf
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/Manrope-VariableFont_wght.ttf
+    - family: Louis George Cafe
+      fonts:
+        - asset: assets/fonts/Louis George Cafe.ttf
+    - family: Greate Vibes
+      fonts:
+        - asset: assets/fonts/GreatVibes-Regular.ttf
+    - family: Gontserra Regular
+      fonts:
+        - asset: assets/fonts/Gontserrat-Regular.ttf
+    - family: Geosans Light
+      fonts:
+        - asset: assets/fonts/GeosansLight.ttf
+    - family: Garet Book
+      fonts:
+        - asset: assets/fonts/Garet-Book.ttf
+    - family: Dreaming
+      fonts:
+        - asset: assets/fonts/Dreaming.otf
+    - family: Cinzel
+      fonts:
+        - asset: assets/fonts/Cinzel-VariableFont_wght.ttf
+    - family: Champagne & Limousines
+      fonts:
+        - asset: assets/fonts/Champagne & Limousines.ttf
+    - family: Caviar Dreams
+      fonts:
+        - asset: assets/fonts/CaviarDreams.ttf
+    - family: Catchye
+      fonts:
+        - asset: assets/fonts/Catchye.otf
+    - family: Belgiano Serif
+      fonts:
+        - asset: assets/fonts/Belgiano Serif 2.ttf
+    - family: Apple Garamond
+      fonts:
+        - asset: assets/fonts/AppleGaramond.ttf
+    - family: Antipasto Pro Extra Light
+      fonts:
+        - asset: assets/fonts/Antipasto-Pro-ExtraLight-trial.ttf

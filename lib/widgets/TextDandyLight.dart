@@ -110,10 +110,30 @@ class TextDandyLight extends StatelessWidget {
       isBold = true;
     }
 
+    if(fontFamily == FontTheme.Raleway) {
+      isBold = true;
+    }
+
     size = FontTheme.getIconFontSize(type, fontFamily);
 
     if(fontFamily == FontTheme.SIGNATURE2) {
       size = size + 6;
+    }
+
+    if(fontFamily == FontTheme.SIGNATURE1) {
+      size = size + 8;
+    }
+
+    if(fontFamily == FontTheme.Princ) {
+      size = size + 8;
+    }
+
+    if(fontFamily == FontTheme.Minimal) {
+      size = size + 6;
+    }
+
+    if(fontFamily == FontTheme.SafiraMarch) {
+      size = size - 8;
     }
 
     return Container(

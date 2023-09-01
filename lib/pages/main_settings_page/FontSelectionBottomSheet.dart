@@ -34,7 +34,7 @@ class _FontSelectionBottomSheetPageState extends State<FontSelectionBottomSheet>
     converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
     builder: (BuildContext context, MainSettingsPageState pageState) =>
          Container(
-           height: 550,
+
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),
@@ -54,7 +54,7 @@ class _FontSelectionBottomSheetPageState extends State<FontSelectionBottomSheet>
                    ),
                    SingleChildScrollView(
                      child: Container(
-                       height: 372,
+                       height: 500,
                        child: ListView.builder(
                            padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 300.0),
                            itemCount: FontTheme.getAllFonts().length,

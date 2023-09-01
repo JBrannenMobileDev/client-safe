@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:dandylight/models/ColorTheme.dart';
+import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
@@ -29,7 +30,54 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetSelectedColorThemeAction>(_setSelectedTheme),
   TypedReducer<MainSettingsPageState, RemoveDeletedThemeAction>(_removeDeletedTheme),
   TypedReducer<MainSettingsPageState, ClearBrandingStateAction>(_clearBranding),
+  TypedReducer<MainSettingsPageState, SetSelectedFontAction>(_SetSelectedFont),
+  TypedReducer<MainSettingsPageState, ResetFontsAction>(_resetFonts),
 ]);
+
+MainSettingsPageState _resetFonts(MainSettingsPageState previousState, ResetFontsAction action){
+  return previousState.copyWith(
+    saveFontThemeEnabled: false,
+    currentIconFont: action.pageState.selectedFontTheme.iconFont,
+    currentTitleFont: action.pageState.selectedFontTheme.titleFont,
+    currentBodyFont: action.pageState.selectedFontTheme.bodyFont,
+  );
+}
+
+MainSettingsPageState _SetSelectedFont(MainSettingsPageState previousState, SetSelectedFontAction action){
+  bool saveFontThemeEnabled = false;
+  String iconFont = action.pageState.currentIconFont;
+  String titleFont = action.pageState.currentTitleFont;
+  String bodyFont = action.pageState.currentBodyFont;
+
+  switch(action.id) {
+    case FontTheme.TITLE_FONT_ID:
+      titleFont = action.fontFamily;
+      break;
+    case FontTheme.BODY_FONT_ID:
+      bodyFont = action.fontFamily;
+      break;
+    case FontTheme.ICON_FONT_ID:
+      iconFont = action.fontFamily;
+      break;
+  }
+
+  if(action.fontFamily != action.pageState.selectedFontTheme.iconFont) {
+    saveFontThemeEnabled = true;
+  }
+  if(action.fontFamily != action.pageState.selectedFontTheme.titleFont) {
+    saveFontThemeEnabled = true;
+  }
+  if(action.fontFamily != action.pageState.selectedFontTheme.bodyFont) {
+    saveFontThemeEnabled = true;
+  }
+
+  return previousState.copyWith(
+    currentIconFont: iconFont,
+    currentTitleFont: titleFont,
+    currentBodyFont: bodyFont,
+    saveFontThemeEnabled: saveFontThemeEnabled,
+  );
+}
 
 MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearBrandingStateAction action){
   List<ColorTheme> themes = action.profile.savedColorThemes;

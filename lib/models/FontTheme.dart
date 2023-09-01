@@ -8,6 +8,75 @@ class FontTheme {
   static const String MONTSERRAT  = 'Montserrat';
   static const String SIGNATURE1  = 'Signature1';
   static const String SIGNATURE2  = 'Signature2';
+  static const String SIGNATURE3  = 'Signature3';
+  static const String Walkaway  = 'Walkaway';
+  static const String VanillaRavioli  = 'Vanilla Ravioli';
+  static const String SafiraMarch  = 'Safira March';
+  static const String RoundedElegance  = 'Rounded Elegance';
+  static const String Roboto  = 'Roboto';
+  static const String Raleway  = 'Raleway';
+  static const String QuicksandLight  = 'Quicksand Light';
+  static const String QuicksandBook  = 'Quicksand Book';
+  static const String Princ  = 'Princ';
+  static const String PlayfairDisplay  = 'Playfair Display';
+  static const String Moredya  = 'Moredya';
+  static const String MontserratAlternativesRegular  = 'Montserrat Alternatives Regular';
+  static const String ModernSans  = 'Modern Sans';
+  static const String Minimal  = 'Minimal';
+  static const String Mermaid  = 'Mermaid';
+  static const String Manrope  = 'Manrope';
+  static const String LouisGeorgeCafe  = 'Louis George Cafe';
+  static const String GreateVibes  = 'Greate Vibes';
+  static const String GontserraRegular  = 'Gontserra Regular';
+  static const String GeosansLight  = 'Geosans Light';
+  static const String GaretBook  = 'Garet Book';
+  static const String Dreaming  = 'Dreaming';
+  static const String Cinzel  = 'Cinzel';
+  static const String ChampagneLimousines  = 'Champagne & Limousines';
+  static const String CaviarDreams  = 'Caviar Dreams';
+  static const String Catchye  = 'Catchye';
+  static const String BelgianoSerif  = 'Belgiano Serif';
+  static const String AppleGaramond  = 'Apple Garamond';
+  static const String AntipastoProExtraLight  = 'Antipasto Pro Extra Light';
+
+  static List<String> getAllFonts() {
+    return [
+      OPEN_SANS,
+      ModernSans,
+      GeosansLight,
+      MONTSERRAT,
+      MontserratAlternativesRegular,
+      GontserraRegular,
+      Walkaway,
+      VanillaRavioli,
+      SafiraMarch,
+      RoundedElegance,
+      Roboto,
+      Raleway,
+      QuicksandLight,
+      QuicksandBook,
+      Princ,
+      PlayfairDisplay,
+      Moredya,
+      Minimal,
+      Mermaid,
+      Manrope,
+      LouisGeorgeCafe,
+      GreateVibes,
+      GaretBook,
+      Dreaming,
+      Cinzel,
+      ChampagneLimousines,
+      CaviarDreams,
+      Catchye,
+      BelgianoSerif,
+      AppleGaramond,
+      AntipastoProExtraLight,
+      SIGNATURE1,
+      SIGNATURE2,
+      SIGNATURE3,
+    ];
+  }
 
   static const String ICON_FONT_ID = 'icon_font';
   static const String TITLE_FONT_ID = 'title_font';
@@ -47,15 +116,6 @@ class FontTheme {
     );
   }
 
-  static List<String> getAllFonts() {
-    return [
-      OPEN_SANS,
-      MONTSERRAT,
-      SIGNATURE1,
-      SIGNATURE2,
-    ];
-  }
-
   static EdgeInsets getIconPaddingForFont(String fontFamily) {
     switch(fontFamily) {
       case SIGNATURE1:
@@ -63,6 +123,9 @@ class FontTheme {
         break;
       case SIGNATURE2:
         return EdgeInsets.only(left: 0, top: 16, right: 0, bottom: 0);
+        break;
+      case SIGNATURE3:
+        return EdgeInsets.only(left: 0, top: 32, right: 0, bottom: 0);
         break;
       case OPEN_SANS:
       default:
