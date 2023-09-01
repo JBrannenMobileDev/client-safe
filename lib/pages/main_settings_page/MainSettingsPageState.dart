@@ -351,6 +351,7 @@ class MainSettingsPageState{
       saveFontThemeEnabled: store.state.mainSettingsPageState.saveFontThemeEnabled,
       savedColorThemes: store.state.mainSettingsPageState.savedColorThemes,
       showPublishButton: store.state.mainSettingsPageState.showPublishButton,
+      savedFontThemes: store.state.mainSettingsPageState.savedFontThemes,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -377,8 +378,8 @@ class MainSettingsPageState{
       onColorThemeSelected: (theme) => store.dispatch(SetSelectedColorThemeAction(store.state.mainSettingsPageState, theme)),
       onResetColors: () => store.dispatch(ResetColorsAction(store.state.mainSettingsPageState)),
       onFontSaved: (fontFamily, id) => store.dispatch(SetSelectedFontAction(store.state.mainSettingsPageState, fontFamily, id)),
-      onFontThemeSaved: null,
-      onFontThemeSelected: null,
+      onFontThemeSaved: (name) => store.dispatch(SaveFontThemeAction(store.state.mainSettingsPageState, name)),
+      onFontThemeSelected: (theme) => store.dispatch(SetSelectedFontThemeAction(store.state.mainSettingsPageState, theme)),
       onResetFonts: () => store.dispatch(ResetFontsAction(store.state.mainSettingsPageState)),
     );
   }

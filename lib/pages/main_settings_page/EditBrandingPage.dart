@@ -10,6 +10,7 @@ import 'package:redux/redux.dart';
 
 import '../../utils/Shadows.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'BannerSelectionWidget.dart';
 import 'ColorThemeSelectionWidget.dart';
 import 'FontThemeSelectionWidget.dart';
 import 'LogoSelectionWidget.dart';
@@ -127,6 +128,7 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                 LogoSelectionWidget(),
                                 ColorThemeSelectionWidget(),
                                 FontThemeSelectionWidget(),
+                                BannerSelectionWidget(),
                               ],
                             ),
                           ),

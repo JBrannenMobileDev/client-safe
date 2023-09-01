@@ -28,11 +28,11 @@ class _FontThemeSelectionBottomSheetPageState extends State<FontThemeSelectionBo
     converter: (Store<AppState> store) => MainSettingsPageState.fromStore(store),
     builder: (BuildContext context, MainSettingsPageState pageState) =>
          Container(
-           height: 550,
+           height: 650,
                decoration: BoxDecoration(
                    borderRadius: BorderRadius.vertical(top: Radius.circular(16.0)),
                    color: Color(ColorConstants.getPrimaryWhite())),
-               padding: EdgeInsets.only(left: 16.0, right: 16.0, bottom: 32),
+               padding: EdgeInsets.only(left: 16.0, right: 16.0),
                child: Column(
                  mainAxisAlignment: MainAxisAlignment.start,
                  mainAxisSize: MainAxisSize.min,
@@ -48,10 +48,10 @@ class _FontThemeSelectionBottomSheetPageState extends State<FontThemeSelectionBo
                    ),
                    SingleChildScrollView(
                      child: Container(
-                       height: 372,
+                       height: 575,
                        child: ListView.builder(
                            padding: new EdgeInsets.fromLTRB(0.0, 16.0, 0.0, 300.0),
-                           itemCount: 5,
+                           itemCount: pageState.savedFontThemes.length,
                            controller: _controller,
                            physics: AlwaysScrollableScrollPhysics(),
                            key: _listKey,
@@ -72,85 +72,132 @@ class _FontThemeSelectionBottomSheetPageState extends State<FontThemeSelectionBo
         builder: (BuildContext context, MainSettingsPageState pageState) =>
             GestureDetector(
               onTap: () {
+                pageState.onFontThemeSelected(pageState.savedFontThemes.elementAt(index));
                 Navigator.of(context).pop();
               },
-              child: Container(
-                margin: EdgeInsets.only(top: 12, bottom: 12),
-                child: Stack(
-                  alignment: Alignment.centerRight,
-                  children: [
-                    Column(
+              child: Column(
+                children: [
+                  TextDandyLight(
+                    textAlign: TextAlign.center,
+                    type: TextDandyLight.MEDIUM_TEXT,
+                    text: pageState.savedFontThemes.elementAt(index).themeName,
+                    color: Color(ColorConstants.getPrimaryBlack()),
+                  ),
+                  Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: Color(ColorConstants.getPrimaryGreyMedium()),
+                          width: 1,
+                        )
+                    ),
+                    margin: EdgeInsets.only(top: 12, bottom: 48, left: 16, right: 16),
+                    padding: EdgeInsets.only(top: 8, bottom: 8),
+                    child: Column(
                       children: [
                         Container(
-                          alignment: Alignment.centerLeft,
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'DandyLight Theme',
-                            color: Color(ColorConstants.getPrimaryBlack()),
+                          height: 54,
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextDandyLight(
+                                  textAlign: TextAlign.center,
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Icon font',
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                                Container(
+                                  height: 42,
+                                  width: 184,
+                                  padding: EdgeInsets.only(left: 24, right: 24),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(21),
+                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                  ),
+                                  child: TextDandyLight(
+                                    textAlign: TextAlign.center,
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.savedFontThemes.elementAt(index).iconFont,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ),
+                              ]
                           ),
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 48,
-                              child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Icon:',
-                                color: Color(ColorConstants.getPrimaryGreyMedium()),
-                              ),
-                            ),
-                            TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Sans Serif',
-                              color: Color(ColorConstants.getPrimaryGreyMedium()),
-                            ),
-                          ],
+                        Container(
+                          height: 54,
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextDandyLight(
+                                  textAlign: TextAlign.center,
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Title font',
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                                Container(
+                                  height: 42,
+                                  width: 184,
+                                  padding: EdgeInsets.only(left: 24, right: 24),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(21),
+                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                  ),
+                                  child: TextDandyLight(
+                                    textAlign: TextAlign.center,
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.savedFontThemes.elementAt(index).titleFont,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ),
+                              ]
+                          ),
                         ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 48,
-                              child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Title:',
-                                color: Color(ColorConstants.getPrimaryGreyMedium()),
-                              ),
-                            ),
-                            TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Sans Serif',
-                              color: Color(ColorConstants.getPrimaryGreyMedium()),
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              width: 48,
-                              child: TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: 'Body:',
-                                color: Color(ColorConstants.getPrimaryGreyMedium()),
-                              ),
-                            ),
-                            TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Sans Serif',
-                              color: Color(ColorConstants.getPrimaryGreyMedium()),
-                            ),
-                          ],
-                        ),
+                        Container(
+                          height: 54,
+                          margin: EdgeInsets.only(left: 16, right: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextDandyLight(
+                                  textAlign: TextAlign.center,
+                                  type: TextDandyLight.MEDIUM_TEXT,
+                                  text: 'Body font',
+                                  color: Color(ColorConstants.getPrimaryBlack()),
+                                ),
+                                Container(
+                                  height: 42,
+                                  width: 184,
+                                  padding: EdgeInsets.only(left: 24, right: 24),
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(21),
+                                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                  ),
+                                  child: TextDandyLight(
+                                    textAlign: TextAlign.center,
+                                    type: TextDandyLight.MEDIUM_TEXT,
+                                    text: pageState.savedFontThemes.elementAt(index).bodyFont,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
+                                ),
+                              ]
+                          ),
+                        )
                       ],
                     ),
-                    Container(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.chevron_right,
-                        color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             )
     );

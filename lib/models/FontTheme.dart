@@ -119,7 +119,7 @@ class FontTheme {
   static EdgeInsets getIconPaddingForFont(String fontFamily) {
     switch(fontFamily) {
       case SIGNATURE1:
-        return EdgeInsets.only(left: 0, top: 20, right: 8, bottom: 0);
+        return EdgeInsets.only(left: 0, top: 32, right: 16, bottom: 0);
         break;
       case SIGNATURE2:
         return EdgeInsets.only(left: 0, top: 16, right: 0, bottom: 0);
@@ -165,10 +165,10 @@ class FontTheme {
   static double getIconFontByFontAndSize(double fontSize, String fontFamily) {
     switch(fontFamily) {
       case SIGNATURE1:
-        return fontSize-8;
+        return fontSize;
         break;
       case SIGNATURE2:
-        return fontSize-32;
+        return fontSize-16;
         break;
       case OPEN_SANS:
       case MONTSERRAT:

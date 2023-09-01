@@ -118,9 +118,10 @@ class _SaveFontThemeBottomSheetPageState extends State<SaveFontThemeBottomSheet>
                      alignment: Alignment.center,
                      width: double.infinity,
                      child: Container(
-                       width: 308,
+
                        margin: EdgeInsets.only(top: 16),
                        child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
                            TextDandyLight(
                              type: TextDandyLight.MEDIUM_TEXT,

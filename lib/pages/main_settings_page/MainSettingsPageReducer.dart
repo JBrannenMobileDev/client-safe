@@ -26,8 +26,10 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetLogoSelectionAction>(_setLogoSelection),
   TypedReducer<MainSettingsPageState, SaveColorAction>(_setColor),
   TypedReducer<MainSettingsPageState, SetColorThemeAction>(_colorThemeSaved),
+  TypedReducer<MainSettingsPageState, SetFontThemeAction>(_fontThemeSaved),
   TypedReducer<MainSettingsPageState, ResetColorsAction>(_resetColors),
   TypedReducer<MainSettingsPageState, SetSelectedColorThemeAction>(_setSelectedTheme),
+  TypedReducer<MainSettingsPageState, SetSelectedFontThemeAction>(_setSelectedFontTheme),
   TypedReducer<MainSettingsPageState, RemoveDeletedThemeAction>(_removeDeletedTheme),
   TypedReducer<MainSettingsPageState, ClearBrandingStateAction>(_clearBranding),
   TypedReducer<MainSettingsPageState, SetSelectedFontAction>(_SetSelectedFont),
@@ -88,6 +90,7 @@ MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearB
     buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
     buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
     bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
+
   );
 
   if(themes != null && !containsTheme(themes, defaultTheme)) {
@@ -100,9 +103,32 @@ MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearB
 
   ColorTheme selectedTheme = action.profile.selectedColorTheme ?? defaultTheme;
 
+
+
+  List<FontTheme> fontThemes = action.profile.savedFontThemes;
+  FontTheme defaultFontTheme = FontTheme(
+    themeName: 'DandyLight Theme',
+    iconFont: FontTheme.SIGNATURE2,
+    titleFont: FontTheme.OPEN_SANS,
+    bodyFont: FontTheme.OPEN_SANS,
+  );
+
+  if(fontThemes != null && !containsFontTheme(fontThemes, defaultFontTheme)) {
+    fontThemes.add(defaultFontTheme);
+  } if(fontThemes != null) {
+    //do nothing
+  } else {
+    fontThemes = [defaultFontTheme];
+  }
+
+  FontTheme selectedFontTheme = action.profile.selectedFontTheme ?? defaultFontTheme;
+
   return previousState.copyWith(
     selectedColorTheme: selectedTheme,
+    selectedFontTheme: selectedFontTheme,
     saveColorThemeEnabled: false,
+    saveFontThemeEnabled: false,
+    savedFontThemes: fontThemes,
     savedColorThemes: themes,
     currentIconColor: ColorConstants.hexToColor(selectedTheme.iconColor),
     currentIconTextColor: ColorConstants.hexToColor(selectedTheme.iconTextColor),
@@ -112,11 +138,23 @@ MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearB
     logoImageSelected: action.profile.logoSelected,
     resizedLogoImage: null,
     showPublishButton: false,
+    currentIconFont: selectedFontTheme.iconFont,
+    currentTitleFont: selectedFontTheme.titleFont,
+    currentBodyFont: selectedFontTheme.bodyFont,
   );
 }
 
 bool containsTheme(List<ColorTheme> themes, ColorTheme defaultTheme) {
   for(ColorTheme theme in themes) {
+    if(theme.themeName == defaultTheme.themeName) {
+      return true;
+    }
+  }
+  return false;
+}
+
+bool containsFontTheme(List<FontTheme> themes, FontTheme defaultTheme) {
+  for(FontTheme theme in themes) {
     if(theme.themeName == defaultTheme.themeName) {
       return true;
     }
@@ -165,6 +203,29 @@ MainSettingsPageState _setSelectedTheme(MainSettingsPageState previousState, Set
   );
 }
 
+MainSettingsPageState _setSelectedFontTheme(MainSettingsPageState previousState, SetSelectedFontThemeAction action){
+  List<FontTheme> themes = action.pageState.savedFontThemes;
+  if(themes == 1) {
+    themes.addAll(action.pageState.profile.savedFontThemes);
+  }
+  bool showPublishChangesButton = action.pageState.showPublishButton;
+  if(action.pageState.profile.selectedFontTheme == null) {
+    showPublishChangesButton = true;
+  } else if (action.pageState.profile.selectedFontTheme.themeName != action.theme.themeName) {
+    showPublishChangesButton = true;
+  }
+
+  return previousState.copyWith(
+    saveColorThemeEnabled: false,
+    savedFontThemes: themes,
+    selectedFontTheme: action.theme,
+    currentIconFont: action.theme.iconFont,
+    currentTitleFont: action.theme.titleFont,
+    currentBodyFont: action.theme.bodyFont,
+    showPublishButton: showPublishChangesButton,
+  );
+}
+
 MainSettingsPageState _resetColors(MainSettingsPageState previousState, ResetColorsAction action){
   return previousState.copyWith(
     saveColorThemeEnabled: false,
@@ -173,6 +234,21 @@ MainSettingsPageState _resetColors(MainSettingsPageState previousState, ResetCol
     currentButtonColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.buttonColor),
     currentButtonTextColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.buttonTextColor),
     currentBannerColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.bannerColor),
+  );
+}
+
+MainSettingsPageState _fontThemeSaved(MainSettingsPageState previousState, SetFontThemeAction action){
+  FontTheme theme = action.theme;
+  List<FontTheme> themes = action.pageState.savedFontThemes;
+  themes.insert(0, theme);
+  return previousState.copyWith(
+    selectedFontTheme: theme,
+    saveFontThemeEnabled: false,
+    savedFontThemes: themes,
+    currentIconFont: theme.iconFont,
+    currentTitleFont: theme.titleFont,
+    currentBodyFont: theme.bodyFont,
+    showPublishButton: true,
   );
 }
 

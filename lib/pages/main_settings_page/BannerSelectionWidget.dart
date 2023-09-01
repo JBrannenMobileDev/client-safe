@@ -26,14 +26,14 @@ import 'FontThemeSelectionBottomSheet.dart';
 import 'FontThemeWidget.dart';
 import 'PreviewOptionsBottomSheet.dart';
 
-class LogoSelectionWidget extends StatefulWidget {
+class BannerSelectionWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
-    return _LogoSelectionWidgetState();
+    return _BannerSelectionWidgetState();
   }
 }
 
-class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerProviderStateMixin {
+class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with TickerProviderStateMixin {
   bool loading = false;
   List<bool> selections = List.generate(2, (index) => index == 1 ? true : false);
 
@@ -57,20 +57,19 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
               alignment: Alignment.center,
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
-                text: 'Logo',
+                text: 'Client Portal Banner',
                 color: Color(ColorConstants.getPrimaryBlack()),
               ),
             ),
             Container(
               height: 364,
-              margin: EdgeInsets.only(bottom: 48),
-              padding: EdgeInsets.only(top: 32),
+              margin: EdgeInsets.only(bottom: 132),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(16),
                       bottomLeft: Radius.circular(16),
-                      topRight: Radius.circular(MediaQuery.of(context).size.width/2),
-                      topLeft: Radius.circular(MediaQuery.of(context).size.width/2)
+                      topRight: Radius.circular(16),
+                      topLeft: Radius.circular(16)
                   ),
                   color: Color(ColorConstants.getPrimaryWhite())),
               child: Column(
@@ -79,20 +78,20 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                     children: [
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            loading = true;
-                          });
-                          getDeviceImage(pageState);
+                          // setState(() {
+                          //   loading = true;
+                          // });
+                          // getDeviceImage(pageState);
                         },
                         child: pageState.logoImageSelected ? Container(
                           child: pageState.resizedLogoImage != null ? Stack(
                             children: [
                               ClipRRect(
                                 borderRadius:
-                                new BorderRadius.circular(82.0),
+                                new BorderRadius.circular(16),
                                 child: Image(
                                   fit: BoxFit.cover,
-                                  width: 164,
+                                  width: double.infinity,
                                   height: 164,
                                   image: FileImage(File(pageState.resizedLogoImage.path)),
                                 ),
@@ -104,13 +103,13 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               Container(
                                 alignment: Alignment.center,
                                 height: 164,
-                                width: 164,
+                                width: double.infinity,
                                 decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                     color: Color(ColorConstants.getPrimaryWhite())),
                               ),
                               CustomPaint(
-                                size: Size(164, 164),
+                                size: Size(164, double.infinity),
                                 foregroundPainter: DandyLightPainter(
                                     completeColor: Color(ColorConstants.getPrimaryGreyMedium()),
                                     width: 2
@@ -139,9 +138,9 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                             Container(
                               alignment: Alignment.center,
                               height: 164,
-                              width: 164,
+                              width: double.infinity,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
+                                borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
                                   color: pageState.logoImageSelected
                                       ? Color(ColorConstants
                                       .getPrimaryGreyMedium())
@@ -191,17 +190,17 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                         fillColor: Color(ColorConstants.getPeachDark()),
                         isSelected: selections,
                         onPressed: (index) {
-                            setState(() {
-                              if(index == 0) {
-                                selections[0] = true;
-                                selections[1] = false;
-                                pageState.onLogoImageSelected(true);
-                              } else {
-                                selections[1] = true;
-                                selections[0] = false;
-                                pageState.onLogoImageSelected(false);
-                              }
-                            });
+                            // setState(() {
+                            //   if(index == 0) {
+                            //     selections[0] = true;
+                            //     selections[1] = false;
+                            //     pageState.onLogoImageSelected(true);
+                            //   } else {
+                            //     selections[1] = true;
+                            //     selections[0] = false;
+                            //     pageState.onLogoImageSelected(false);
+                            //   }
+                            // });
                         },
                       )
                     ],

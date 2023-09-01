@@ -5,6 +5,7 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../models/ColorTheme.dart';
+import '../../models/FontTheme.dart';
 
 class UpdatePushNotificationEnabled{
   final MainSettingsPageState pageState;
@@ -49,6 +50,12 @@ class SaveColorThemeAction {
   SaveColorThemeAction(this.pageState, this.themeName);
 }
 
+class SaveFontThemeAction {
+  final MainSettingsPageState pageState;
+  final String themeName;
+  SaveFontThemeAction(this.pageState, this.themeName);
+}
+
 class DeleteColorThemeAction {
   final MainSettingsPageState pageState;
   final ColorTheme theme;
@@ -59,6 +66,12 @@ class SetSelectedColorThemeAction {
   final MainSettingsPageState pageState;
   final ColorTheme theme;
   SetSelectedColorThemeAction(this.pageState, this.theme);
+}
+
+class SetSelectedFontThemeAction {
+  final MainSettingsPageState pageState;
+  final FontTheme theme;
+  SetSelectedFontThemeAction(this.pageState, this.theme);
 }
 
 class ClearBrandingStateAction {
@@ -88,6 +101,12 @@ class SetColorThemeAction {
   final MainSettingsPageState pageState;
   final ColorTheme theme;
   SetColorThemeAction(this.pageState, this.theme);
+}
+
+class SetFontThemeAction {
+  final MainSettingsPageState pageState;
+  final FontTheme theme;
+  SetFontThemeAction(this.pageState, this.theme);
 }
 
 class ResizeLogoImageAction {

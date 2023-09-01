@@ -6,6 +6,7 @@ import 'package:dandylight/data_layer/firebase/FirebaseAuthentication.dart';
 import 'package:dandylight/data_layer/local_db/daos/ProfileDao.dart';
 import 'package:dandylight/models/ColorTheme.dart';
 import 'package:dandylight/models/DiscountCodes.dart';
+import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/models/Suggestion.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
@@ -78,6 +79,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveColorThemeAction) {
       _saveColorTheme(store, action, next);
     }
+    if(action is SaveFontThemeAction) {
+      _saveFontTheme(store, action, next);
+    }
     if(action is DeleteColorThemeAction) {
       _deleteColorTheme(store, action, next);
     }
@@ -104,6 +108,20 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     profile.savedColorThemes.add(theme);
     await ProfileDao.update(profile);
     store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, theme));
+    store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
+  }
+
+  void _saveFontTheme(Store<AppState> store, SaveFontThemeAction action, NextDispatcher next) async {
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    FontTheme theme = FontTheme(
+      themeName: action.themeName,
+      iconFont: action.pageState.currentIconFont,
+      titleFont: action.pageState.currentTitleFont,
+      bodyFont: action.pageState.currentBodyFont,
+    );
+    profile.savedFontThemes.add(theme);
+    await ProfileDao.update(profile);
+    store.dispatch(SetFontThemeAction(store.state.mainSettingsPageState, theme));
     store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
   }
 

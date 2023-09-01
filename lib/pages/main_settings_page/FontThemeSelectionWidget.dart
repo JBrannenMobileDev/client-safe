@@ -43,6 +43,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
       context: context,
       isDismissible: true,
       enableDrag: true,
+      isScrollControlled: true,
       backgroundColor: Colors.transparent,
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
@@ -100,7 +101,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
               ),
             ),
             Container(
-                margin: EdgeInsets.only(bottom: 124),
+                margin: EdgeInsets.only(bottom: 48),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Color(ColorConstants.getPrimaryWhite())
@@ -343,7 +344,26 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))
                         ),
-                        child: FontThemeWidget(),
+                        child: Container(
+                          margin: EdgeInsets.only(top: 12, bottom: 12),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              TextDandyLight(
+                                type: TextDandyLight.SMALL_TEXT,
+                                text: pageState.selectedFontTheme.themeName,
+                                textAlign: TextAlign.center,
+                                color: Color(ColorConstants.getPrimaryBlack()),
+                              ),
+                              Container(
+                                child: Icon(
+                                  Icons.chevron_right,
+                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     )
                   ],
