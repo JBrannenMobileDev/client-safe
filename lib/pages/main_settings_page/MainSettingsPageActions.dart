@@ -37,6 +37,12 @@ class SetLogoSelectionAction {
   SetLogoSelectionAction(this.pageState, this.isLogoSelected);
 }
 
+class SetBannerSelectionAction {
+  final MainSettingsPageState pageState;
+  final bool isBannerSelected;
+  SetBannerSelectionAction(this.pageState, this.isBannerSelected);
+}
+
 class SaveColorAction {
   final MainSettingsPageState pageState;
   final Color color;
@@ -121,6 +127,12 @@ class ResizeLogoImageAction {
   ResizeLogoImageAction(this.pageState, this.image);
 }
 
+class ResizeBannerImageAction {
+  final MainSettingsPageState pageState;
+  final XFile image;
+  ResizeBannerImageAction(this.pageState, this.image);
+}
+
 class SaveBrandingAction {
   final MainSettingsPageState pageState;
   SaveBrandingAction(this.pageState);
@@ -130,6 +142,12 @@ class SetResizedLogoImageAction {
   final MainSettingsPageState pageState;
   final XFile resizedLogoImage;
   SetResizedLogoImageAction(this.pageState, this.resizedLogoImage);
+}
+
+class SetResizedBannerImageAction {
+  final MainSettingsPageState pageState;
+  final XFile resizedBannerImage;
+  SetResizedBannerImageAction(this.pageState, this.resizedBannerImage);
 }
 
 class LoadSettingsFromProfile{

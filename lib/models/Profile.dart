@@ -25,6 +25,7 @@ class Profile{
   double salesTaxRate;
   int jobsCreatedCount;
   bool logoSelected;
+  bool bannerImageSelected;
   String logoUrl;
   String tempLogoUrl;
   String bannerUrl;
@@ -144,6 +145,7 @@ class Profile{
     this.logoSelected,
     this.tempLogoUrl,
     this.logoCharacter,
+    this.bannerImageSelected,
   });
 
   Profile copyWith({
@@ -169,6 +171,7 @@ class Profile{
     double lngDefaultHome,
     bool pushNotificationsEnabled,
     bool calendarEnabled,
+    bool bannerImageSelected,
     bool showNewMileageExpensePage,
     bool termsOfServiceAndPrivacyPolicyChecked,
     bool showRequestPaymentLinksDialog,
@@ -288,6 +291,7 @@ class Profile{
       logoSelected: logoSelected ?? this.logoSelected,
       tempLogoUrl: tempLogoUrl ?? this.tempLogoUrl,
       logoCharacter: logoCharacter ?? this.logoCharacter,
+      bannerImageSelected: bannerImageSelected ?? this.bannerImageSelected,
     );
   }
 
@@ -315,6 +319,7 @@ class Profile{
       'showRequestPaymentLinksDialog' : showRequestPaymentLinksDialog,
       'pushNotificationsEnabled' : pushNotificationsEnabled,
       'calendarEnabled' : calendarEnabled,
+      'bannerImageSelected' : bannerImageSelected ?? false,
       'instagramName' : instagramName ?? "",
       'shouldShowRestoreSubscription' : shouldShowRestoreSubscription ?? false,
       'showNewMileageExpensePage' : showNewMileageExpensePage ?? true,
@@ -388,6 +393,7 @@ class Profile{
       calendarEnabled: map['calendarEnabled'] != null ? map['calendarEnabled'] : false,
       salesTaxRate: map['salesTaxRate'],
       instagramUrl: map['instagramUrl'],
+      bannerImageSelected: map['bannerImageSelected'] != null ? map['bannerImageSelected'] : false,
       logoSelected: map['logoSelected'] != null ? map['logoSelected'] : false,
       logoUrl: map['logoUrl'],
       tempLogoUrl: map['tempLogoUrl'],

@@ -62,7 +62,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
               ),
             ),
             Container(
-              height: 364,
+              height: 342,
               margin: EdgeInsets.only(bottom: 132),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
@@ -78,10 +78,10 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                     children: [
                       GestureDetector(
                         onTap: () {
-                          // setState(() {
-                          //   loading = true;
-                          // });
-                          // getDeviceImage(pageState);
+                          setState(() {
+                            loading = true;
+                          });
+                          getDeviceImage(pageState);
                         },
                         child: pageState.logoImageSelected ? Container(
                           child: pageState.resizedLogoImage != null ? Stack(
@@ -190,17 +190,17 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                         fillColor: Color(ColorConstants.getPeachDark()),
                         isSelected: selections,
                         onPressed: (index) {
-                            // setState(() {
-                            //   if(index == 0) {
-                            //     selections[0] = true;
-                            //     selections[1] = false;
-                            //     pageState.onLogoImageSelected(true);
-                            //   } else {
-                            //     selections[1] = true;
-                            //     selections[0] = false;
-                            //     pageState.onLogoImageSelected(false);
-                            //   }
-                            // });
+                            setState(() {
+                              if(index == 0) {
+                                selections[0] = true;
+                                selections[1] = false;
+                                pageState.onBannerImageSelected(true);
+                              } else {
+                                selections[1] = true;
+                                selections[0] = false;
+                                pageState.onBannerImageSelected(false);
+                              }
+                            });
                         },
                       )
                     ],
@@ -209,8 +209,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                     margin: EdgeInsets.only(top: 32, left: 32, right: 32),
                     child: TextDandyLight(
                       type: TextDandyLight.SMALL_TEXT,
-                      text:
-                          'The selected logo/icon will be used to brand your client portal and documents.',
+                      text: 'The selected banner will be used to brand your client portal and documents.',
                       textAlign: TextAlign.center,
                       color: Color(ColorConstants.getPrimaryBlack()),
                     ),
@@ -224,14 +223,13 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
 
   Future getDeviceImage(MainSettingsPageState pageState) async {
     try {
-      XFile localImage =
-          await ImagePicker().pickImage(source: ImageSource.gallery);
+      XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
       CroppedFile croppedImage = await ImageCropper().cropImage(
         sourcePath: localImage.path,
-        maxWidth: 300,
+        maxWidth: 1920,
         maxHeight: 300,
-        aspectRatio: CropAspectRatio(ratioX: 1.0, ratioY: 1.0),
-        cropStyle: CropStyle.circle,
+        aspectRatio: CropAspectRatio(ratioX: 2, ratioY: 1.3),
+        cropStyle: CropStyle.rectangle,
       );
       localImage = XFile(croppedImage.path);
       if (localImage == null) {
@@ -239,7 +237,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
           loading = false;
         });
       } else {
-        pageState.onLogoUploaded(localImage);
+        pageState.onBannerUploaded(localImage);
       }
     } catch (ex) {
       print(ex.toString());

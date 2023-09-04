@@ -70,6 +70,9 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is ResizeLogoImageAction) {
       _resizeImage(store, action, next);
     }
+    if(action is ResizeBannerImageAction) {
+      _resizeBannerImage(store, action, next);
+    }
     if(action is SaveBrandingAction) {
       _saveBranding(store, action, next);
     }
@@ -168,6 +171,18 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'logo.jpg');
     store.dispatch(SetResizedLogoImageAction(store.state.mainSettingsPageState, resizedImage));
+  }
+
+  void _resizeBannerImage(Store<AppState> store, ResizeBannerImageAction action, NextDispatcher next) async {
+    final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
+    final String uniqueFileName = Uuid().generateV4();
+    final cmdLarge = img.Command()
+      ..decodeImageFile(action.image.path)
+      ..copyResize(width: 1920)
+      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
+    await cmdLarge.execute();
+    XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
+    store.dispatch(SetResizedBannerImageAction(store.state.mainSettingsPageState, resizedImage));
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{
