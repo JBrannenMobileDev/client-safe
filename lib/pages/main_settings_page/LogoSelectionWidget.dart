@@ -20,6 +20,7 @@ import '../../utils/Shadows.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
+import 'ChangeIconLetterBottomSheet.dart';
 import 'ColorThemeSelectionBottomSheet.dart';
 import 'ColorThemeWidget.dart';
 import 'FontThemeSelectionBottomSheet.dart';
@@ -36,6 +37,20 @@ class LogoSelectionWidget extends StatefulWidget {
 class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerProviderStateMixin {
   bool loading = false;
   List<bool> selections = List.generate(2, (index) => index == 1 ? true : false);
+
+  void _showChangeLetterBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      isDismissible: true,
+      enableDrag: true,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
+      builder: (context) {
+        return ChangeIconLetterBottomSheet();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) =>
@@ -79,10 +94,14 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                     children: [
                       GestureDetector(
                         onTap: () {
-                          setState(() {
-                            loading = true;
-                          });
-                          getDeviceImage(pageState);
+                          if(pageState.logoImageSelected) {
+                            setState(() {
+                              loading = true;
+                            });
+                            getDeviceImage(pageState);
+                          } else {
+                            _showChangeLetterBottomSheet(context);
+                          }
                         },
                         child: pageState.logoImageSelected ? Container(
                           child: pageState.resizedLogoImage != null ? Stack(
@@ -154,7 +173,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               type: TextDandyLight.BRAND_LOGO,
                               fontFamily: pageState.currentIconFont,
                               textAlign: TextAlign.center,
-                              text: pageState.profile.businessName
+                              text: pageState.logoCharacter
                                   .substring(0, 1),
                               color: ColorConstants.hexToColor(
                                   pageState.selectedColorTheme

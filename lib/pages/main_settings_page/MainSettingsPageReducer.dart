@@ -34,7 +34,16 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, ClearBrandingStateAction>(_clearBranding),
   TypedReducer<MainSettingsPageState, SetSelectedFontAction>(_SetSelectedFont),
   TypedReducer<MainSettingsPageState, ResetFontsAction>(_resetFonts),
+  TypedReducer<MainSettingsPageState, SetLogoLetterAction>(_setLogoLetter),
+
 ]);
+
+MainSettingsPageState _setLogoLetter(MainSettingsPageState previousState, SetLogoLetterAction action){
+  return previousState.copyWith(
+    logoCharacter: action.logoLetter,
+    showPublishButton: true,
+  );
+}
 
 MainSettingsPageState _resetFonts(MainSettingsPageState previousState, ResetFontsAction action){
   return previousState.copyWith(
@@ -141,6 +150,9 @@ MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearB
     currentIconFont: selectedFontTheme.iconFont,
     currentTitleFont: selectedFontTheme.titleFont,
     currentBodyFont: selectedFontTheme.bodyFont,
+    logoCharacter: action.profile.logoCharacter != null
+        ? action.profile.logoCharacter : action.profile.businessName != null && action.profile.businessName.length > 0
+        ? action.profile.businessName.substring(0, 1) : 'L',
   );
 }
 

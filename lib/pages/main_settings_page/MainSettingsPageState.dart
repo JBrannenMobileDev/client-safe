@@ -37,6 +37,7 @@ class MainSettingsPageState{
   final String currentIconFont;
   final String currentTitleFont;
   final String currentBodyFont;
+  final String logoCharacter;
   final ColorTheme selectedColorTheme;
   final FontTheme selectedFontTheme;
   final List<ColorTheme> savedColorThemes;
@@ -66,6 +67,7 @@ class MainSettingsPageState{
   final Function(String) onFontThemeSaved;
   final Function(FontTheme) onFontThemeSelected;
   final Function() onResetFonts;
+  final Function(String) onLogoLetterChanged;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -122,6 +124,8 @@ class MainSettingsPageState{
     @required this.onFontThemeSelected,
     @required this.onResetFonts,
     @required this.savedFontThemes,
+    @required this.logoCharacter,
+    @required this.onLogoLetterChanged,
   });
 
   MainSettingsPageState copyWith({
@@ -150,6 +154,7 @@ class MainSettingsPageState{
     String currentIconFont,
     String currentTitleFont,
     String currentBodyFont,
+    String logoCharacter,
     ColorTheme selectedColorTheme,
     FontTheme selectedFontTheme,
     List<ColorTheme> savedColorThemes,
@@ -179,6 +184,7 @@ class MainSettingsPageState{
     Function(String) onFontThemeSaved,
     Function(FontTheme) onFontThemeSelected,
     Function() onResetFonts,
+    Function(String) onLogoLetterChanged,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -235,6 +241,8 @@ class MainSettingsPageState{
       onFontThemeSelected: onFontThemeSelected ?? this.onFontThemeSelected,
       onResetFonts: onResetFonts ?? this.onResetFonts,
       savedFontThemes: savedFontThemes ?? this.savedFontThemes,
+      logoCharacter: logoCharacter ?? this.logoCharacter,
+      onLogoLetterChanged: onLogoLetterChanged ?? this.onLogoLetterChanged,
     );
   }
 
@@ -269,6 +277,7 @@ class MainSettingsPageState{
     resizedLogoImage: null,
     logoImageSelected: false,
     onLogoImageSelected: null,
+    logoCharacter: null,
     currentBannerColor: Color(ColorConstants.getBlueDark()),
     currentIconTextColor: Color(ColorConstants.getPrimaryWhite()),
     currentIconColor: Color(ColorConstants.getPeachDark()),
@@ -317,7 +326,8 @@ class MainSettingsPageState{
       iconFont: FontTheme.SIGNATURE2,
       titleFont: FontTheme.OPEN_SANS,
       bodyFont: FontTheme.OPEN_SANS,
-    )]
+    )],
+    onLogoLetterChanged: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -352,6 +362,7 @@ class MainSettingsPageState{
       savedColorThemes: store.state.mainSettingsPageState.savedColorThemes,
       showPublishButton: store.state.mainSettingsPageState.showPublishButton,
       savedFontThemes: store.state.mainSettingsPageState.savedFontThemes,
+      logoCharacter: store.state.mainSettingsPageState.logoCharacter,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -381,6 +392,7 @@ class MainSettingsPageState{
       onFontThemeSaved: (name) => store.dispatch(SaveFontThemeAction(store.state.mainSettingsPageState, name)),
       onFontThemeSelected: (theme) => store.dispatch(SetSelectedFontThemeAction(store.state.mainSettingsPageState, theme)),
       onResetFonts: () => store.dispatch(ResetFontsAction(store.state.mainSettingsPageState)),
+      onLogoLetterChanged: (logoLetter) => store.dispatch(SetLogoLetterAction(store.state.mainSettingsPageState, logoLetter)),
     );
   }
 
@@ -435,6 +447,7 @@ class MainSettingsPageState{
       onColorThemeSaved.hashCode ^
       onFontThemeSelected.hashCode ^
       onFontThemeSaved.hashCode ^
+      logoCharacter.hashCode ^
       onFontSaved.hashCode ^
       onResetFonts.hashCode ^
       onSignOutSelected.hashCode;
@@ -484,6 +497,7 @@ class MainSettingsPageState{
               currentButtonTextColor == other.currentButtonTextColor &&
               currentIconFont == other.currentIconFont &&
               currentTitleFont == other.currentTitleFont &&
+              logoCharacter == other.logoCharacter &&
               currentBodyFont == other.currentBodyFont &&
               selectedColorTheme == other.selectedColorTheme &&
               selectedFontTheme == other.selectedFontTheme &&

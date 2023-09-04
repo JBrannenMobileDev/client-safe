@@ -97,6 +97,12 @@ class ResetFontsAction {
   ResetFontsAction(this.pageState);
 }
 
+class SetLogoLetterAction {
+  final MainSettingsPageState pageState;
+  final String logoLetter;
+  SetLogoLetterAction(this.pageState, this.logoLetter);
+}
+
 class SetColorThemeAction {
   final MainSettingsPageState pageState;
   final ColorTheme theme;

@@ -118,14 +118,14 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                             borderRadius: new BorderRadius.circular(58.0),
                             child: Image(
                               fit: BoxFit.cover,
-                              width: 116,
-                              height: 116,
+                              width: 164,
+                              height: 164,
                               image: FileImage(File(pageState.resizedLogoImage.path)),
                             ),
                           ) : Container(
                             alignment: Alignment.center,
-                            height: 116,
-                            width: 116,
+                            height: 164,
+                            width: 164,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: ColorConstants.hexToColor(pageState.selectedColorTheme.iconColor)

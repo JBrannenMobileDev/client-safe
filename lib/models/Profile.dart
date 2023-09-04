@@ -33,6 +33,7 @@ class Profile{
   String buttonColor;
   String buttonTextColor;
   String logoTextColor;
+  String logoCharacter;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
   List<ColorTheme> savedColorThemes = [];
@@ -142,6 +143,7 @@ class Profile{
     this.savedFontThemes,
     this.logoSelected,
     this.tempLogoUrl,
+    this.logoCharacter,
   });
 
   Profile copyWith({
@@ -188,6 +190,7 @@ class Profile{
     String buttonColor,
     String buttonTextColor,
     String logoTextColor,
+    String logoCharacter,
     double salesTaxRate,
     ColorTheme selectedColorTheme,
     FontTheme selectedFontTheme,
@@ -284,6 +287,7 @@ class Profile{
       savedFontThemes: savedFontThemes ?? this.savedFontThemes,
       logoSelected: logoSelected ?? this.logoSelected,
       tempLogoUrl: tempLogoUrl ?? this.tempLogoUrl,
+      logoCharacter: logoCharacter ?? this.logoCharacter,
     );
   }
 
@@ -329,6 +333,7 @@ class Profile{
       'buttonTextColor' : buttonTextColor,
       'logoTextColor' : logoTextColor,
       'tempLogoUrl' : tempLogoUrl,
+      'logoCharacter' : logoCharacter,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
       'lastSignIn' : lastSignIn?.millisecondsSinceEpoch ?? null,
@@ -392,6 +397,7 @@ class Profile{
       buttonColor: map['buttonColor'],
       buttonTextColor: map['buttonTextColor'],
       logoTextColor: map['logoTextColor'],
+      logoCharacter: map['logoCharacter'] != null ? map['logoCharacter'] : null,
       instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,
       showRequestPaymentLinksDialog: map['showRequestPaymentLinksDialog'] != null ? map['showRequestPaymentLinksDialog'] : true,
