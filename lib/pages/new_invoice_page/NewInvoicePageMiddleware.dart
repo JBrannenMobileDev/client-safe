@@ -106,7 +106,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
           sentDate: pageState.selectedJob.invoice?.sentDate,
           salesTaxAmount: (pageState.total * (pageState.salesTaxPercent/100)),
           salesTaxRate: pageState.salesTaxPercent,
-          subtotal: pageState.total,
+          subtotal: pageState.subtotal,
     ), pageState.selectedJob);
 
     EventSender().sendEvent(eventName: EventNames.CREATED_INVOICE);
@@ -178,14 +178,14 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
     int newInvoiceNumber = await NextInvoiceNumberDao.nextNumber();
     List<Job> allJobs = await JobDao.getAllJobs();
     allJobs = allJobs.where((job) => job.invoice == null).toList();
-    store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile.salesTaxRate, profile.usesSalesTax));
+    await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, allClients, newInvoiceNumber, profile.salesTaxRate));
 
     (await JobDao.getJobsStream()).listen((jobSnapshots) async {
       List<Job> jobs = [];
       for(RecordSnapshot clientSnapshot in jobSnapshots) {
         jobs.add(Job.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, jobs, allClients, newInvoiceNumber, profile.salesTaxRate, profile.usesSalesTax));
+      await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, jobs, allClients, newInvoiceNumber, profile.salesTaxRate));
     });
 
     (await ClientDao.getClientsStream()).listen((clientSnapshots) async {
@@ -193,7 +193,7 @@ class NewInvoicePageMiddleware extends MiddlewareClass<AppState> {
       for(RecordSnapshot clientSnapshot in clientSnapshots) {
         clients.add(Client.fromMap(clientSnapshot.value));
       }
-      store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, clients, newInvoiceNumber, profile.salesTaxRate, profile.usesSalesTax));
+      await store.dispatch(SetAllJobsAction(store.state.newInvoicePageState, allJobs, clients, newInvoiceNumber, profile.salesTaxRate));
     });
   }
 

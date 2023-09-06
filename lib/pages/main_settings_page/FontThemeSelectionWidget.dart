@@ -115,7 +115,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                         alignment: Alignment.center,
                         children: [
                           pageState.logoImageSelected ? ClipRRect(
-                            borderRadius: new BorderRadius.circular(58.0),
+                            borderRadius: new BorderRadius.circular(82.0),
                             child: Image(
                               fit: BoxFit.cover,
                               width: 164,
@@ -135,7 +135,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                             type: TextDandyLight.BRAND_LOGO,
                             fontFamily: pageState.currentIconFont,
                             textAlign: TextAlign.center,
-                            text: pageState.profile.businessName.substring(0, 1),
+                            text: pageState.logoCharacter,
                             color: ColorConstants.hexToColor(pageState.selectedColorTheme.iconTextColor),
                           ) : SizedBox()
                         ],
@@ -315,13 +315,13 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                             height: 42,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(24),
-                                color: Color(pageState.saveFontThemeEnabled ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium())
+                                color: pageState.saveFontThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor) : Color(ColorConstants.getPrimaryGreyMedium())
                             ),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Save Font Theme',
                               textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryWhite()),
+                              color: pageState.saveFontThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryWhite()),
                             ),
                           ),
                         )

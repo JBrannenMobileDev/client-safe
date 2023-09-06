@@ -7,6 +7,7 @@ import '../utils/TextFormatterUtil.dart';
 
 class TextDandyLight extends StatelessWidget {
   static const String BRAND_LOGO = 'brand_logo';
+  static const String BRAND_LOGO_SMALL = 'brand_logo_small';
   static const String EXTRA_EXTRA_LARGE_TEXT = 'extra_extra_large_text';
   static const String EXTRA_LARGE_TEXT = 'extra_large_text';
   static const String LARGE_TEXT = 'large_text';
@@ -27,6 +28,9 @@ class TextDandyLight extends StatelessWidget {
     switch(type) {
       case BRAND_LOGO:
         size = 76;
+        break;
+      case BRAND_LOGO_SMALL:
+        size = 58;
         break;
       case EXTRA_EXTRA_LARGE_TEXT:
         size = 46;
@@ -137,7 +141,7 @@ class TextDandyLight extends StatelessWidget {
     }
 
     return Container(
-      padding: FontTheme.getIconPaddingForFont(fontFamily),
+      padding: FontTheme.getIconPaddingForFont(type, fontFamily),
       child: onClick == null
           ? Text(
         text,
@@ -175,7 +179,7 @@ class TextDandyLight extends StatelessWidget {
             shadows: <Shadow>[
               addShadow ? Shadow(
                 offset: Offset(0.0, 0.0),
-                blurRadius: 5.0,
+                blurRadius: 10.0,
                 color: Color.fromARGB(255, 0, 0, 0),
               ) : Shadow(),
             ],

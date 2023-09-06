@@ -53,9 +53,10 @@ class _NewInvoiceDialogState extends State<NewInvoiceDialog> with AutomaticKeepA
   Widget build(BuildContext context) {
     super.build(context);
     return StoreConnector<AppState, NewInvoicePageState>(
-      onInit: (appState) {
+      onInit: (appState) async {
         if(appState.state.newInvoicePageState.shouldClear) appState.dispatch(ClearStateAction(appState.state.newInvoicePageState));
         appState.dispatch(FetchAllInvoiceJobsAction(appState.state.newInvoicePageState));
+        await appState.dispatch(SetSalesTaxCheckBoxStateAction(appState.state.newInvoicePageState, appState.state.newInvoicePageState.isSalesTaxChecked));
       },
       onDidChange: (prev, pageState) {
         if(!pageState.shouldClear && !hasJumpToBeenCalled) {

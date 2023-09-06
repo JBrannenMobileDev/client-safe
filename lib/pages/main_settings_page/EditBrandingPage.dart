@@ -4,6 +4,7 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:redux/redux.dart';
@@ -115,13 +116,13 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                                     height: 42,
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(24),
-                                        color: Color(ColorConstants.getPeachDark())
+                                        color: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor)
                                     ),
                                     child: TextDandyLight(
                                       type: TextDandyLight.MEDIUM_TEXT,
                                       text: 'Preview Brand',
                                       textAlign: TextAlign.center,
-                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                      color: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor),
                                     ),
                                   ),
                                 ),
@@ -145,7 +146,8 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                 padding: EdgeInsets.only(bottom: 48),
                 child: GestureDetector(
                   onTap: () {
-
+                    pageState.onPublishChangesSelected();
+                    showSuccessAnimation();
                   },
                   child: Container(
                     alignment: Alignment.center,
@@ -154,14 +156,14 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
                     margin: EdgeInsets.only(left: 32, right: 32),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(32),
-                      color: Color(ColorConstants.getPeachDark()),
+                      color: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
                       boxShadow: ElevationToShadow[4],
                     ),
                     child: TextDandyLight(
                       type: TextDandyLight.LARGE_TEXT,
                       text: 'Publish Changes',
                       textAlign: TextAlign.center,
-                      color: Color(ColorConstants.getPrimaryWhite()),
+                      color: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor),
                     ),
                   ),
                 ),
@@ -170,4 +172,27 @@ class _EditBrandingPageState extends State<EditBrandingPage> with TickerProvider
           ),
         ),
       );
+
+  void showSuccessAnimation(){
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Padding(
+          padding: EdgeInsets.all(96.0),
+          child: FlareActor(
+            "assets/animations/success_check.flr",
+            alignment: Alignment.center,
+            fit: BoxFit.contain,
+            animation: "show_check",
+            callback: onFlareCompleted,
+          ),
+        );
+      },
+    );
+  }
+
+  void onFlareCompleted(String unused) {
+    Navigator.of(context).pop(true);
+    Navigator.of(context).pop(true);
+  }
 }

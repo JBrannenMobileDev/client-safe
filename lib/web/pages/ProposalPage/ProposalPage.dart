@@ -110,12 +110,13 @@ class _SignContractPageState extends State<ProposalPage> {
                                 decoration: BoxDecoration(
                                     boxShadow: ElevationToShadow[4],
                                     shape: BoxShape.circle,
-                                    color: Color(ColorConstants.getPeachDark())
+                                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
                                 ),
                               child: TextDandyLight(
                                 type: TextDandyLight.BRAND_LOGO,
-                                text: pageState.profile.businessName.substring(0, 1),
-                                color: Color(ColorConstants.getPrimaryWhite()),
+                                text: pageState.profile.logoCharacter,
+                                fontFamily: pageState.profile.selectedFontTheme.iconFont,
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
                               ),
                             ),
                           ) : SizedBox(),
@@ -129,6 +130,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     text: pageState.profile.businessName,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
@@ -138,6 +140,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
+                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     text: pageState.job.client.getClientFullName(),
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
@@ -159,26 +162,33 @@ class _SignContractPageState extends State<ProposalPage> {
                                     width: 124,
                                     child: Image.asset("images/backgrounds/sample_brand.png"),
                                   ),
-                                ) : Container(
+                                ) : Stack(
                                   alignment: Alignment.center,
-                                  height: 124,
-                                  width: 124,
-                                  decoration: BoxDecoration(
-                                      boxShadow: ElevationToShadow[4],
-                                      shape: BoxShape.circle,
-                                      color: Color(ColorConstants.getPeachDark())
-                                  ),
-                                  child: TextDandyLight(
-                                    type: TextDandyLight.BRAND_LOGO,
-                                    text: pageState.profile.businessName.substring(0, 1),
-                                    color: Color(ColorConstants.getPrimaryWhite()),
-                                  ),
+                                  children: [
+                                    Container(
+                                      alignment: Alignment.center,
+                                      height: 124,
+                                      width: 124,
+                                      decoration: BoxDecoration(
+                                        boxShadow: ElevationToShadow[4],
+                                        shape: BoxShape.circle,
+                                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                      ),
+                                    ),
+                                    TextDandyLight(
+                                      type: TextDandyLight.BRAND_LOGO_SMALL,
+                                      text: pageState.profile.logoCharacter,
+                                      fontFamily: pageState.profile.selectedFontTheme.iconFont,
+                                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconTextColor),
+                                    )
+                                  ],
                                 ),
                                 Container(
                                   margin: EdgeInsets.only(top: 16),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
                                     text: pageState.profile.businessName,
+                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
@@ -189,6 +199,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: pageState.job.client.getClientFullName(),
                                     textAlign: TextAlign.center,
+                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: true,
                                   ),

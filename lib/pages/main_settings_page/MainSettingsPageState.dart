@@ -72,6 +72,7 @@ class MainSettingsPageState{
   final Function() onResetFonts;
   final Function(String) onLogoLetterChanged;
   final Function(bool) onBannerImageSelected;
+  final Function() onPublishChangesSelected;
 
   MainSettingsPageState({
     @required this.pushNotificationsEnabled,
@@ -134,6 +135,7 @@ class MainSettingsPageState{
     @required this.onBannerUploaded,
     @required this.bannerImageSelected,
     @required this.onBannerImageSelected,
+    @required this.onPublishChangesSelected,
   });
 
   MainSettingsPageState copyWith({
@@ -197,6 +199,7 @@ class MainSettingsPageState{
     Function() onResetFonts,
     Function(String) onLogoLetterChanged,
     Function(bool) onBannerImageSelected,
+    Function() onPublishChangesSelected,
   }){
     return MainSettingsPageState(
       pushNotificationsEnabled: pushNotificationsEnabled ?? this.pushNotificationsEnabled,
@@ -259,6 +262,7 @@ class MainSettingsPageState{
       resizedBannerImage: resizedBannerImage ?? this.resizedBannerImage,
       bannerImageSelected: bannerImageSelected ?? this.bannerImageSelected,
       onBannerImageSelected: onBannerImageSelected ?? this.onBannerImageSelected,
+      onPublishChangesSelected: onPublishChangesSelected ?? this.onPublishChangesSelected,
     );
   }
 
@@ -348,6 +352,7 @@ class MainSettingsPageState{
     onBannerUploaded: null,
     bannerImageSelected: false,
     onBannerImageSelected: null,
+    onPublishChangesSelected: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -417,6 +422,7 @@ class MainSettingsPageState{
       onLogoLetterChanged: (logoLetter) => store.dispatch(SetLogoLetterAction(store.state.mainSettingsPageState, logoLetter)),
       onBannerUploaded: (imageFile) => store.dispatch(ResizeBannerImageAction(store.state.mainSettingsPageState, imageFile)),
       onBannerImageSelected: (isBannerImageSelected) => store.dispatch(SetBannerSelectionAction(store.state.mainSettingsPageState, isBannerImageSelected)),
+      onPublishChangesSelected: () => store.dispatch(SaveBrandingAction(store.state.mainSettingsPageState)),
     );
   }
 
@@ -448,6 +454,7 @@ class MainSettingsPageState{
       onSendSuggestionSelected.hashCode ^
       onDeleteAccountSelected.hashCode ^
       isDeleteFinished.hashCode ^
+      onPublishChangesSelected.hashCode ^
       isDeleteInProgress.hashCode ^
       password.hashCode ^
       onPasswordChanged.hashCode ^
@@ -494,6 +501,7 @@ class MainSettingsPageState{
               lastName == other.lastName &&
               showPublishButton == other.showPublishButton &&
               businessName == other.businessName &&
+              onPublishChangesSelected == other.onPublishChangesSelected &&
               onColorThemeSaved == other.onColorThemeSaved &&
               instaUrl == other.instaUrl &&
               onFirstNameChanged == other.onFirstNameChanged &&

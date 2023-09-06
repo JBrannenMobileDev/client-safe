@@ -76,9 +76,6 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveBrandingAction) {
       _saveBranding(store, action, next);
     }
-    if(action is SaveColorAction) {
-      _saveColor(store, action, next);
-    }
     if(action is SaveColorThemeAction) {
       _saveColorTheme(store, action, next);
     }
@@ -128,37 +125,21 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
   }
 
-  void _saveColor(Store<AppState> store, SaveColorAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-
-    switch(action.id) {
-      case 'banner':
-        profile.bannerColor = ColorConstants.getHex(action.color);
-        break;
-      case 'button':
-        profile.buttonColor = ColorConstants.getHex(action.color);
-        break;
-      case 'buttonText':
-        profile.buttonTextColor = ColorConstants.getHex(action.color);
-        break;
-      case 'icon':
-        profile.logoColor = ColorConstants.getHex(action.color);
-        break;
-      case 'iconText':
-        profile.logoTextColor = ColorConstants.getHex(action.color);
-        break;
-    }
-    next(action);
-  }
-
   void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {
-    if(action.pageState.logoImageSelected) {
-      await FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile);
-    }
-
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.logoSelected = action.pageState.logoImageSelected;
+    profile.bannerImageSelected = action.pageState.bannerImageSelected;
+    profile.selectedColorTheme = action.pageState.selectedColorTheme;
+    profile.selectedFontTheme = action.pageState.selectedFontTheme;
+    profile.logoCharacter = action.pageState.logoCharacter;
 
+    await ProfileDao.update(profile);
+    if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
+      await FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile);
+    }
+    if(action.pageState.bannerImageSelected && action.pageState.resizedBannerImage != null) {
+      await FileStorage.saveBannerImageFile(action.pageState.resizedBannerImage.path, action.pageState.profile);
+    }
   }
 
   void _resizeImage(Store<AppState> store, ResizeLogoImageAction action, NextDispatcher next) async {

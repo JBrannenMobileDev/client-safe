@@ -646,13 +646,13 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                           height: 42,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(24),
-                              color: Color(pageState.saveColorThemeEnabled ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryGreyMedium())
+                              color: pageState.saveColorThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor) : Color(ColorConstants.getPrimaryGreyMedium())
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
                             text: 'Save Color Theme',
                             textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryWhite()),
+                            color: pageState.saveColorThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryWhite()),
                           ),
                         ),
                       )

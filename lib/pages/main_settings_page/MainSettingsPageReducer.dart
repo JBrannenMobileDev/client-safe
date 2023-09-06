@@ -156,6 +156,8 @@ MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearB
     currentButtonTextColor: ColorConstants.hexToColor(selectedTheme.buttonTextColor),
     currentBannerColor: ColorConstants.hexToColor(selectedTheme.bannerColor),
     logoImageSelected: action.profile.logoSelected,
+    bannerImageSelected: false,
+    resizedBannerImage: null,
     resizedLogoImage: null,
     showPublishButton: false,
     currentIconFont: selectedFontTheme.iconFont,
@@ -395,7 +397,6 @@ MainSettingsPageState _setResizedLogoImage(MainSettingsPageState previousState, 
 MainSettingsPageState _setResizedBannerImage(MainSettingsPageState previousState, SetResizedBannerImageAction action){
   return previousState.copyWith(
     resizedBannerImage: action.resizedBannerImage,
-    logoImageSelected: true,
     showPublishButton: true,
   );
 }

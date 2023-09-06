@@ -27,13 +27,7 @@ class Profile{
   bool logoSelected;
   bool bannerImageSelected;
   String logoUrl;
-  String tempLogoUrl;
   String bannerUrl;
-  String bannerColor;
-  String logoColor;
-  String buttonColor;
-  String buttonTextColor;
-  String logoTextColor;
   String logoCharacter;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
@@ -132,18 +126,12 @@ class Profile{
     this.instagramName,
     this.logoUrl,
     this.bannerUrl,
-    this.bannerColor,
-    this.logoColor,
-    this.buttonColor,
-    this.buttonTextColor,
-    this.logoTextColor,
     this.licenseNumber,
     this.selectedColorTheme,
     this.selectedFontTheme,
     this.savedColorThemes,
     this.savedFontThemes,
     this.logoSelected,
-    this.tempLogoUrl,
     this.logoCharacter,
     this.bannerImageSelected,
   });
@@ -186,13 +174,7 @@ class Profile{
     int jobsCreatedCount,
     bool logoSelected,
     String logoUrl,
-    String tempLogoUrl,
     String bannerUrl,
-    String bannerColor,
-    String logoColor,
-    String buttonColor,
-    String buttonTextColor,
-    String logoTextColor,
     String logoCharacter,
     double salesTaxRate,
     ColorTheme selectedColorTheme,
@@ -279,17 +261,12 @@ class Profile{
       isSubscribed: isSubscribed ?? this.isSubscribed,
       logoUrl: logoUrl ?? this.logoUrl,
       bannerUrl: bannerUrl ?? this.bannerUrl,
-      bannerColor: bannerColor ?? this.bannerColor,
-      logoColor: logoColor ?? this.logoColor,
-      buttonColor: buttonColor ?? this.buttonColor,
-      buttonTextColor: buttonTextColor ?? this.buttonTextColor,
       licenseNumber: licenseNumber ?? this.licenseNumber,
       selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
       selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
       savedColorThemes: savedColorThemes ?? this.savedColorThemes,
       savedFontThemes: savedFontThemes ?? this.savedFontThemes,
       logoSelected: logoSelected ?? this.logoSelected,
-      tempLogoUrl: tempLogoUrl ?? this.tempLogoUrl,
       logoCharacter: logoCharacter ?? this.logoCharacter,
       bannerImageSelected: bannerImageSelected ?? this.bannerImageSelected,
     );
@@ -332,12 +309,6 @@ class Profile{
       'logoSelected' : logoSelected ?? false,
       'logoUrl' : logoUrl,
       'bannerUrl' : bannerUrl,
-      'bannerColor' : bannerColor,
-      'logoColor' : logoColor,
-      'buttonColor' : buttonColor,
-      'buttonTextColor' : buttonTextColor,
-      'logoTextColor' : logoTextColor,
-      'tempLogoUrl' : tempLogoUrl,
       'logoCharacter' : logoCharacter,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
@@ -396,13 +367,7 @@ class Profile{
       bannerImageSelected: map['bannerImageSelected'] != null ? map['bannerImageSelected'] : false,
       logoSelected: map['logoSelected'] != null ? map['logoSelected'] : false,
       logoUrl: map['logoUrl'],
-      tempLogoUrl: map['tempLogoUrl'],
       bannerUrl: map['bannerUrl'],
-      bannerColor: map['bannerColor'],
-      logoColor: map['logoColor'],
-      buttonColor: map['buttonColor'],
-      buttonTextColor: map['buttonTextColor'],
-      logoTextColor: map['logoTextColor'],
       logoCharacter: map['logoCharacter'] != null ? map['logoCharacter'] : null,
       instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,

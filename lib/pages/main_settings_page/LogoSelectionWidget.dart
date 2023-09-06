@@ -191,7 +191,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Image',
                               textAlign: TextAlign.center,
-                              color: Color(selections.elementAt(0) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachDark()),
+                              color: selections.elementAt(0) ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
                             ),
                           ),
                           Container(
@@ -200,14 +200,14 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Solid Color',
                               textAlign: TextAlign.center,
-                              color: Color(selections.elementAt(1) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachDark()),
+                              color: selections.elementAt(1) ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
                             ),
                           ),
                         ],
                         borderRadius: BorderRadius.circular(24),
-                        borderColor: Color(ColorConstants.getPeachDark()),
-                        selectedBorderColor: Color(ColorConstants.getPeachDark()),
-                        fillColor: Color(ColorConstants.getPeachDark()),
+                        borderColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                        selectedBorderColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                        fillColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
                         isSelected: selections,
                         onPressed: (index) {
                             setState(() {

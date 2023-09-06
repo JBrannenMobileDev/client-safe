@@ -200,12 +200,12 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   margin: EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(24),
-                      color: Color(ColorConstants.getPeachDark())
+                      color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                   ),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Driving directions',
-                    color: Color(ColorConstants.getPrimaryWhite()),
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                     isBold: isHoveredDirections,
                   ),
                 ),

@@ -16,6 +16,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/ColorTheme.dart';
 import '../../utils/Shadows.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/DandyLightPainter.dart';
@@ -83,82 +84,149 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                           });
                           getDeviceImage(pageState);
                         },
-                        child: pageState.logoImageSelected ? Container(
-                          child: pageState.resizedLogoImage != null ? Stack(
-                            children: [
-                              ClipRRect(
-                                borderRadius:
-                                new BorderRadius.circular(16),
-                                child: Image(
-                                  fit: BoxFit.cover,
-                                  width: double.infinity,
-                                  height: 164,
-                                  image: FileImage(File(pageState.resizedLogoImage.path)),
-                                ),
-                              )
-                            ],
-                          ) : Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Container(
-                                alignment: Alignment.center,
-                                height: 164,
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(ColorConstants.getPrimaryWhite())),
-                              ),
-                              CustomPaint(
-                                size: Size(164, double.infinity),
-                                foregroundPainter: DandyLightPainter(
-                                    completeColor: Color(ColorConstants.getPrimaryGreyMedium()),
-                                    width: 2
-                                ),
-                              ),
-                              loading ? LoadingAnimationWidget.fourRotatingDots(
-                                color: Color(ColorConstants.getPeachDark()),
-                                size: 48,
-                              )
-                                  : Container(
-                                child: TextDandyLight(
-                                  type: TextDandyLight
-                                      .MEDIUM_TEXT,
-                                  textAlign: TextAlign.center,
-                                  text: 'Upload\nimage\n( .jpg or .png )',
-                                  color: Color(ColorConstants
-                                      .getPrimaryGreyMedium()),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                            : Stack(
-                          alignment: Alignment.center,
+                        child: Stack(
                           children: [
-                            Container(
+                            pageState.bannerImageSelected && pageState.resizedBannerImage != null ? ClipRRect(
+                              borderRadius: new BorderRadius.only(
+                                  topRight: Radius.circular(16),
+                                  topLeft: Radius.circular(16)
+                              ),
+                              child: Image(
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 164,
+                                image: FileImage(File(pageState.resizedBannerImage.path)),
+                              ),
+                            ) : Container(
                               alignment: Alignment.center,
                               height: 164,
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(topRight: Radius.circular(16), topLeft: Radius.circular(16)),
-                                  color: pageState.logoImageSelected
-                                      ? Color(ColorConstants
-                                      .getPrimaryGreyMedium())
-                                      : ColorConstants.hexToColor(
-                                      pageState
-                                          .selectedColorTheme
-                                          .iconColor)),
+                                color: ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(16),
+                                    topLeft: Radius.circular(16)
+                                ),
+                              ),
                             ),
-                            TextDandyLight(
-                              type: TextDandyLight.BRAND_LOGO,
-                              fontFamily: pageState.currentIconFont,
-                              textAlign: TextAlign.center,
-                              text: pageState.profile.businessName
-                                  .substring(0, 1),
-                              color: ColorConstants.hexToColor(
-                                  pageState.selectedColorTheme
-                                      .iconTextColor),
-                            )
+                            !pageState.bannerImageSelected ? Container(
+                              alignment: Alignment.center,
+                              height: 164,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                color: ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor),
+                                borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(16),
+                                    topLeft: Radius.circular(16)
+                                ),
+                              ),
+                            ) : SizedBox(),
+                            pageState.bannerImageSelected && pageState.resizedBannerImage == null ? Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  child: Image.asset(
+                                    'assets/images/icons/file_upload.png',
+                                    color: ColorConstants.isWhite(ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor)) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
+                                    width: 48,
+                                  ),
+                                ),
+                                Container(
+                                  alignment: Alignment.center,
+                                  height: 164,
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.LARGE_TEXT,
+                                    fontFamily: pageState.currentTitleFont,
+                                    textAlign: TextAlign.center,
+                                    text: 'Upload Banner Image',
+                                    color: ColorConstants.isWhite(ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor)) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
+                                  ),
+                                ),
+                              ],
+                            ) : Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Container(
+                                  height: 164,
+                                  alignment: Alignment.centerLeft,
+                                  padding: EdgeInsets.only(left: 32),
+                                  child: pageState.logoImageSelected && pageState.resizedLogoImage != null ? ClipRRect(
+                                    borderRadius:
+                                    new BorderRadius.circular(82.0),
+                                    child: Image(
+                                      fit: BoxFit.cover,
+                                      width: 72,
+                                      height: 72,
+                                      image: FileImage(File(pageState.resizedLogoImage.path)),
+                                    ),
+                                  ) : Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        height: 72,
+                                        width: 72,
+                                        decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                            boxShadow: ElevationToShadow[4],
+                                            color: pageState.logoImageSelected
+                                                ? Color(ColorConstants
+                                                .getPrimaryGreyMedium())
+                                                : ColorConstants.hexToColor(
+                                                pageState
+                                                    .selectedColorTheme
+                                                    .iconColor)),
+                                      ),
+                                      TextDandyLight(
+                                          type: TextDandyLight.EXTRA_LARGE_TEXT,
+                                          fontFamily: pageState.currentIconFont,
+                                          textAlign: TextAlign.center,
+                                          text: pageState.logoCharacter
+                                              .substring(0, 1),
+                                          color: ColorConstants.hexToColor(
+                                              pageState.selectedColorTheme
+                                                  .iconTextColor),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 16),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      fontFamily: pageState.currentTitleFont,
+                                      textAlign: TextAlign.center,
+                                      text: pageState.profile.businessName,
+                                      addShadow: true,
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    ),
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      fontFamily: pageState.currentTitleFont,
+                                      textAlign: TextAlign.center,
+                                      text: 'Client Name',
+                                      addShadow: true,
+                                      color: Color(ColorConstants.getPrimaryWhite()),
+                                    )
+                                  ],
+                                )
+                              ],
+                            ),
+                            pageState.bannerImageSelected && pageState.resizedBannerImage != null ? Container(
+                              alignment: Alignment.topRight,
+                              width: double.infinity,
+                              padding: EdgeInsets.only(top: 16, right: 16),
+                              child: Image.asset(
+                                'assets/images/icons/select_photo.png',
+                                color: Color(ColorConstants.getPrimaryWhite()),
+                                width: 32,
+                              ),
+                            ) : SizedBox(),
                           ],
                         ),
                       ),
@@ -171,7 +239,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Image',
                               textAlign: TextAlign.center,
-                              color: Color(selections.elementAt(0) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachDark()),
+                              color: selections.elementAt(0) ? pageState.currentButtonTextColor : pageState.currentButtonColor,
                             ),
                           ),
                           Container(
@@ -180,14 +248,14 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Solid Color',
                               textAlign: TextAlign.center,
-                              color: Color(selections.elementAt(1) ? ColorConstants.getPrimaryWhite() : ColorConstants.getPeachDark()),
+                              color: selections.elementAt(1) ? pageState.currentButtonTextColor : pageState.currentButtonColor,
                             ),
                           ),
                         ],
                         borderRadius: BorderRadius.circular(24),
-                        borderColor: Color(ColorConstants.getPeachDark()),
-                        selectedBorderColor: Color(ColorConstants.getPeachDark()),
-                        fillColor: Color(ColorConstants.getPeachDark()),
+                        borderColor: pageState.currentButtonColor,
+                        selectedBorderColor: pageState.currentButtonColor,
+                        fillColor: pageState.currentButtonColor,
                         isSelected: selections,
                         onPressed: (index) {
                             setState(() {
@@ -238,6 +306,9 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
         });
       } else {
         pageState.onBannerUploaded(localImage);
+        setState(() {
+          loading = false;
+        });
       }
     } catch (ex) {
       print(ex.toString());

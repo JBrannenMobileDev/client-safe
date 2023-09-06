@@ -380,8 +380,8 @@ class JobDetailsPageState {
         onAddToDeposit: (amountToAdd) => store.dispatch(AddToAddOnCostAction(store.state.jobDetailsPageState, amountToAdd)),
         onSaveAddOnCost: () => store.dispatch(SaveAddOnCostAction(store.state.jobDetailsPageState)),
         onClearUnsavedDeposit: () => store.dispatch(ClearUnsavedDepositAction(store.state.jobDetailsPageState)),
-        onAddInvoiceSelected: () {
-          store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
+        onAddInvoiceSelected: () async {
+          await store.dispatch(SetShouldClearAction(store.state.newInvoicePageState, false));
           store.dispatch(SaveSelectedJobAction(store.state.newInvoicePageState, store.state.jobDetailsPageState.job));
         },
         onDeleteInvoiceSelected: (invoice) => store.dispatch(OnDeleteInvoiceSelectedAction(store.state.jobDetailsPageState, invoice)),

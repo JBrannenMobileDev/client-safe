@@ -271,6 +271,7 @@ flutter:
     - assets/images/icons/rejected.png
     - assets/images/icons/no_wifi.png
     - assets/images/icons/art.png
+    - assets/images/icons/select_photo.png
 
     - assets/images/people/boy1.png
     - assets/images/people/boy2.png
