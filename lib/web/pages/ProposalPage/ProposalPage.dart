@@ -12,6 +12,7 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../pages/poses_page/PosesPage.dart';
 import '../../../utils/ColorConstants.dart';
+import '../../../widgets/DandyLightNetworkImage.dart';
 import '../ClientPortalPageState.dart';
 import '../detailsPage/DetailsPage.dart';
 import '../invoicePage/InvoicePage.dart';
@@ -73,23 +74,21 @@ class _SignContractPageState extends State<ProposalPage> {
                       child: Stack(
                         alignment: Alignment.centerLeft,
                         children: [
-                          pageState.profile?.bannerUrl != null ? Container(
+                          pageState.profile?.bannerUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
                             height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                             decoration: BoxDecoration(
                               color: Colors.transparent,
-                              image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/backgrounds/largebackground.png'),
-                                fit: BoxFit.cover,
-                              ),
+                            ),
+                            child: DandyLightNetworkImage(
+                                pageState.profile.bannerUrl
                             ),
                           ) : Container(
                             height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                             decoration: BoxDecoration(
-                              color: Color(ColorConstants.getBlueDark()),
+                              color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
                             ),
                           ),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl != null ? Padding(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl != null && pageState.profile?.logoSelected == true ? Padding(
                             padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
                             child: Material(
                               elevation: 4,
@@ -97,11 +96,13 @@ class _SignContractPageState extends State<ProposalPage> {
                                 alignment: Alignment.centerLeft,
                                 height: 150,
                                 width: 150,
-                                child: Image.asset("images/backgrounds/sample_brand.png"),//TODO use actual image file
+                                child: DandyLightNetworkImage(
+                                    pageState.profile.logoUrl
+                                )
                               ),
                             ),
                           ) : SizedBox(),
-                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoUrl == null ? Padding(
+                          DeviceType.getDeviceTypeByContext(context) == Type.Website && pageState.profile?.logoSelected == false ? Padding(
                             padding: EdgeInsets.only(left: calculateLogoMargin(MediaQuery.of(context).size.width), bottom: 124),
                             child: Container(
                               alignment: Alignment.center,

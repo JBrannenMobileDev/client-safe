@@ -59,7 +59,8 @@ class _InvoicePageState extends State<InvoicePage> {
                         margin: EdgeInsets.only(bottom: 8),
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(24),
-                            color: Color(ColorConstants.getPeachDark())),
+                            color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
+                        ),
                         child: Row(
                           mainAxisAlignment: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MainAxisAlignment.spaceEvenly : MainAxisAlignment.center,
                           children: [
@@ -69,13 +70,13 @@ class _InvoicePageState extends State<InvoicePage> {
                               child: Image.asset(
                                 "images/icons/download.png",
                                 color:
-                                Color(ColorConstants.getPrimaryWhite()),
+                                ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                               ),
                             ),
                             DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'PDF',
-                              color: Color(ColorConstants.getPrimaryWhite()),
+                              color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                               isBold: isHoveredDownloadPDF,
                             ) : SizedBox(),
                           ],
@@ -187,12 +188,12 @@ class _InvoicePageState extends State<InvoicePage> {
                             margin: EdgeInsets.only(bottom: 8, left: 16),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(24),
-                                color: Color(!pageState.invoice.depositPaid && !pageState.invoice.invoicePaid ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey())
+                                color: !pageState.invoice.depositPaid && !pageState.invoice.invoicePaid ? ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor) : Color( ColorConstants.getPrimaryBackgroundGrey())
                             ),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: !pageState.invoice.depositPaid ? 'PAY NOW' : 'PAID',
-                              color: Color(!pageState.invoice.depositPaid && !pageState.invoice.invoicePaid ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                              color: !pageState.invoice.depositPaid && !pageState.invoice.invoicePaid ? ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryBlack()),
                               isBold: isHoveredPayDeposit,
                             ),
                           ),
@@ -291,12 +292,12 @@ class _InvoicePageState extends State<InvoicePage> {
                             margin: EdgeInsets.only(bottom: 8, left: 16),
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(24),
-                                color: Color(!pageState.invoice.invoicePaid ? ColorConstants.getPeachDark() : ColorConstants.getPrimaryBackgroundGrey())
+                                color: !pageState.invoice.invoicePaid ? ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor) : Color(ColorConstants.getPrimaryBackgroundGrey())
                             ),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: !pageState.invoice.invoicePaid ? 'PAY NOW' : 'PAID',
-                              color: Color(!pageState.invoice.invoicePaid ? ColorConstants.getPrimaryWhite() : ColorConstants.getPrimaryBlack()),
+                              color: !pageState.invoice.invoicePaid ? ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryBlack()),
                               isBold: isHoveredPayFull,
                             ),
                           ),
@@ -334,7 +335,7 @@ class _InvoicePageState extends State<InvoicePage> {
               padding: EdgeInsets.only(left: 32, right: 32),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),
-                color: Color(ColorConstants.getBlueLight())
+                color: Color(ColorConstants.getPrimaryBackgroundGrey())
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

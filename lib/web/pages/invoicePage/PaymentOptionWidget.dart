@@ -89,12 +89,12 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 height: 48,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: Color(ColorConstants.getPeachDark())
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'PAY NOW',
-                  color: Color(ColorConstants.getPrimaryWhite()),
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                 ),
               ),
             ),
@@ -135,12 +135,12 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 height: 48,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: Color(ColorConstants.getPeachDark())
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'SEND SMS',
-                  color: Color(ColorConstants.getPrimaryWhite()),
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor)
                 ),
               ),
             ),
@@ -164,12 +164,12 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 height: 48,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(24),
-                    color: Color(ColorConstants.getPeachDark())
+                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                 ),
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'SEND EMAIL',
-                  color: Color(ColorConstants.getPrimaryWhite()),
+                  color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                 ),
               ),
             ),
@@ -233,12 +233,12 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                       height: 48,
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(24),
-                          color: Color(ColorConstants.getPeachDark())
+                          color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonColor)
                       ),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
                         text: 'MARK AS PAID',
-                        color: Color(ColorConstants.getPrimaryWhite()),
+                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                       ),
                     ),
                   ),

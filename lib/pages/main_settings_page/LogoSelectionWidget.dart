@@ -37,6 +37,7 @@ class LogoSelectionWidget extends StatefulWidget {
 class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerProviderStateMixin {
   bool loading = false;
   List<bool> selections = List.generate(2, (index) => index == 1 ? true : false);
+  List<bool> shapeSelections = List.generate(2, (index) => index == 0 ? true : false);
 
   void _showChangeLetterBottomSheet(BuildContext context) {
     showModalBottomSheet(
@@ -59,6 +60,13 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
           store.dispatch(ClearBrandingStateAction(
               store.state.mainSettingsPageState,
               store.state.mainSettingsPageState.profile));
+          if(store.state.mainSettingsPageState.profile.logoSelected) {
+            selections[0] = true;
+            selections[1] = false;
+          } else {
+            selections[1] = true;
+            selections[0] = false;
+          }
         },
         converter: (Store<AppState> store) =>
             MainSettingsPageState.fromStore(store),
@@ -77,7 +85,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
               ),
             ),
             Container(
-              height: 364,
+              height: 432,
               margin: EdgeInsets.only(bottom: 48),
               padding: EdgeInsets.only(top: 32),
               decoration: BoxDecoration(
@@ -117,6 +125,21 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                                 ),
                               )
                             ],
+                          ) : pageState.profile.logoUrl != null && pageState.profile.logoUrl.isNotEmpty ? ClipRRect(
+                            borderRadius:
+                            new BorderRadius.circular(82.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: pageState.currentIconColor,
+                              ),
+                              width: 164,
+                              height: 164,
+                              child: DandyLightNetworkImage(
+                                pageState.profile.logoUrl,
+                                color: pageState.currentIconColor,
+                              )
+                            ),
                           ) : Stack(
                             alignment: Alignment.center,
                             children: [
@@ -221,6 +244,47 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                                 pageState.onLogoImageSelected(false);
                               }
                             });
+                        },
+                      ),
+                      SizedBox(height: 16),
+                      ToggleButtons(
+                        children: [
+                          Container(
+                            width: 132,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Circle',
+                              textAlign: TextAlign.center,
+                              color: shapeSelections.elementAt(0) ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                            ),
+                          ),
+                          Container(
+                            width: 132,
+                            child: TextDandyLight(
+                              type: TextDandyLight.MEDIUM_TEXT,
+                              text: 'Square',
+                              textAlign: TextAlign.center,
+                              color: shapeSelections.elementAt(1) ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                            ),
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(24),
+                        borderColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                        selectedBorderColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                        fillColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                        isSelected: shapeSelections,
+                        onPressed: (index) {
+                          setState(() {
+                            if(index == 0) {
+                              shapeSelections[0] = true;
+                              shapeSelections[1] = false;
+                              // pageState.onLogoImageSelected(true);
+                            } else {
+                              shapeSelections[1] = true;
+                              shapeSelections[0] = false;
+                              // pageState.onLogoImageSelected(false);
+                            }
+                          });
                         },
                       )
                     ],
