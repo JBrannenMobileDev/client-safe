@@ -114,7 +114,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          pageState.logoImageSelected ? ClipRRect(
+                          pageState.logoImageSelected ? pageState.resizedLogoImage != null ? ClipRRect(
                             borderRadius: new BorderRadius.circular(82.0),
                             child: Image(
                               fit: BoxFit.cover,
@@ -122,6 +122,20 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                               height: 164,
                               image: FileImage(File(pageState.resizedLogoImage.path)),
                             ),
+                          ) : ClipRRect(
+                              borderRadius: new BorderRadius.circular(82.0),
+                              child: Container(
+                              alignment: Alignment.center,
+                              height: 164,
+                              width: 164,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: ColorConstants.hexToColor(pageState.selectedColorTheme.iconColor)
+                              ),
+                              child: DandyLightNetworkImage(
+                                pageState.profile.logoUrl
+                              )
+                            )
                           ) : Container(
                             alignment: Alignment.center,
                             height: 164,

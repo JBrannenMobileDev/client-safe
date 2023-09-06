@@ -59,11 +59,10 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
         action.pageState.job,
         action.pageState.job.client,
         action.pageState.profile,
-        action.pageState.profile.logoUrl,
         Branding(
-          logoUrl: null,
-          logoColor: '#d49a89',
-          logoTextColor: '#ffffff'
+          logoUrl: action.pageState.profile.logoUrl,
+          logoColor: action.pageState.profile.selectedColorTheme.iconColor,
+          logoTextColor: action.pageState.profile.selectedColorTheme.iconTextColor,
         )
     );
     FileStorage.webDownload(await pdf.save(), action.pageState.job.client.firstName + '_' + action.pageState.job.client.lastName + '_invoice');

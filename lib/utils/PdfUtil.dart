@@ -14,6 +14,7 @@ import '../models/Job.dart';
 import '../models/LineItem.dart';
 import '../models/Profile.dart';
 import '../models/Proposal.dart';
+import 'ColorConstants.dart';
 import 'TextFormatterUtil.dart';
 
 class PdfUtil {
@@ -41,7 +42,7 @@ class PdfUtil {
   /**
    * The following methods are for web app
    */
-  static Future<Document> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile, String logoUrl, Branding branding) async {
+  static Future<Document> generateInvoicePdfFromInvoice(Invoice invoice, Job job, Client client, Profile profile, Branding branding) async {
     return await generateInvoice(
         job,
         client,
@@ -117,6 +118,8 @@ class PdfUtil {
 
     final Document pdf = Document();
 
+    String fontFamilyPath = FontTheme.getFilePath(profile.selectedFontTheme.bodyFont);
+
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(
           base: Font.ttf(
@@ -167,7 +170,19 @@ class PdfUtil {
                               alignment: Alignment.centerLeft,
                               height: 75,
                               width: 75,
-                              child: Image(MemoryImage(data),)
+                              child: ClipRRect(
+                                horizontalRadius: 37.5,
+                                verticalRadius: 37.5,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: PdfColor.fromHex(logoColor),
+                                  ),
+                                  width: 150,
+                                  height: 150,
+                                  child: Image(MemoryImage(data),),
+                                ),
+                              )
                             ),
                         ) : SizedBox(),
                         logoUrl == null ? Padding(

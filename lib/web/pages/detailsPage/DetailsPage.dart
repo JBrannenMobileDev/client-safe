@@ -37,6 +37,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 32, bottom: 48),
               child: TextDandyLight(
                 type: TextDandyLight.EXTRA_LARGE_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.titleFont,
                 text: 'Details',
               ),
             ),
@@ -45,6 +46,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.proposal?.detailsMessage,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
               ),
             ),
             DividerWidget(width: 1080),
@@ -78,6 +80,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.titleFont,
                 text: 'PHOTOGRAPHER',
               ),
             ),
@@ -85,6 +88,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 text: pageState.profile.firstName + ' ' + pageState.profile.lastName,
                 isBold: true,
               ),
@@ -94,6 +98,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.profile.email,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -102,6 +107,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: pageState.profile.phone,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
               ),
             ),
           ],
@@ -117,6 +123,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.titleFont,
                 text: 'CLIENT',
               ),
             ),
@@ -124,6 +131,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 text: pageState.job.client.getClientFullName(),
                 isBold: true,
               ),
@@ -133,6 +141,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: 'email: ' + pageState.job.client.email,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
             ),
@@ -140,6 +149,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 text: 'phone: ' + pageState.job.client.phone,
               ),
             ),
@@ -156,6 +166,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(top: 0, bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.titleFont,
                 text: 'JOB INFO',
               ),
             ),
@@ -163,6 +174,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 text: 'Date: ' + (pageState.job.selectedDate != null
                     ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.job.selectedDate)
                     : 'TBD'),
@@ -172,6 +184,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 8),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 text: 'Time: ' + (pageState.job.selectedTime != null && pageState.job.selectedTime != null ? DateFormat('h:mma').format(pageState.job.selectedTime) + ' - ' + DateFormat('h:mma').format(pageState.job.selectedEndTime) : 'TBD'),
               ),
             ),
@@ -179,6 +192,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
               margin: EdgeInsets.only(bottom: 16),
               child: TextDandyLight(
                 type: TextDandyLight.MEDIUM_TEXT,
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 text: 'Where: ' + (pageState.job.location != null && pageState.job.location.address != null ? pageState.job.location.address : 'TBD'),
                 textAlign: DeviceType.getDeviceTypeByContext(context) == Type.Website ? TextAlign.start : TextAlign.center,
               ),
@@ -205,6 +219,7 @@ class _DetailsPagePageState extends State<DetailsPage> {
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
                     text: 'Driving directions',
+                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
                     color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                     isBold: isHoveredDirections,
                   ),

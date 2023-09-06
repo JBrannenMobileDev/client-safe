@@ -86,7 +86,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                         },
                         child: Stack(
                           children: [
-                            pageState.bannerImageSelected && pageState.resizedBannerImage != null ? ClipRRect(
+                            pageState.bannerImageSelected ? pageState.resizedBannerImage != null ? ClipRRect(
                               borderRadius: new BorderRadius.only(
                                   topRight: Radius.circular(16),
                                   topLeft: Radius.circular(16)
@@ -96,6 +96,18 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 width: double.infinity,
                                 height: 164,
                                 image: FileImage(File(pageState.resizedBannerImage.path)),
+                              ),
+                            ) : Container(
+                              height: 164,
+                              child: ClipRRect(
+                                borderRadius: new BorderRadius.only(
+                                    topRight: Radius.circular(16),
+                                    topLeft: Radius.circular(16),
+                                ),
+                                child: DandyLightNetworkImage(
+                                  pageState.profile.bannerUrl,
+                                  color: ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor),
+                                ),
                               ),
                             ) : Container(
                               alignment: Alignment.center,
@@ -121,7 +133,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 ),
                               ),
                             ) : SizedBox(),
-                            pageState.bannerImageSelected && pageState.resizedBannerImage == null ? Row(
+                            pageState.bannerImageSelected && pageState.resizedBannerImage == null && pageState.profile.bannerUrl == null ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
@@ -152,7 +164,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                   height: 164,
                                   alignment: Alignment.centerLeft,
                                   padding: EdgeInsets.only(left: 32),
-                                  child: pageState.logoImageSelected && pageState.resizedLogoImage != null ? ClipRRect(
+                                  child: pageState.logoImageSelected ? pageState.resizedLogoImage != null ? ClipRRect(
                                     borderRadius:
                                     new BorderRadius.circular(82.0),
                                     child: Image(
@@ -160,6 +172,16 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                       width: 72,
                                       height: 72,
                                       image: FileImage(File(pageState.resizedLogoImage.path)),
+                                    ),
+                                  ) : Container(
+                                    height: 72,
+                                    width: 72,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                      new BorderRadius.circular(82.0),
+                                      child: DandyLightNetworkImage(
+                                        pageState.profile.logoUrl,
+                                      ),
                                     ),
                                   ) : Stack(
                                     alignment: Alignment.center,
@@ -172,12 +194,8 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                             shape: BoxShape.circle,
                                             boxShadow: ElevationToShadow[4],
                                             color: pageState.logoImageSelected
-                                                ? Color(ColorConstants
-                                                .getPrimaryGreyMedium())
-                                                : ColorConstants.hexToColor(
-                                                pageState
-                                                    .selectedColorTheme
-                                                    .iconColor)),
+                                                ? ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor)
+                                                : ColorConstants.hexToColor(pageState.selectedColorTheme.iconColor)),
                                       ),
                                       TextDandyLight(
                                           type: TextDandyLight.EXTRA_LARGE_TEXT,

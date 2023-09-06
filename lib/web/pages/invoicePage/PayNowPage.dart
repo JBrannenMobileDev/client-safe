@@ -59,6 +59,7 @@ class _PayNowPageState extends State<PayNowPage> {
                       margin: EdgeInsets.only(top: 32, bottom: 32),
                       child: TextDandyLight(
                         type: TextDandyLight.EXTRA_LARGE_TEXT,
+                        fontFamily: pageState.profile.selectedFontTheme.titleFont,
                         text: 'Payment Options',
                       ),
                     ),
@@ -92,10 +93,12 @@ class _PayNowPageState extends State<PayNowPage> {
                           TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Balance due',
+                              fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                               color: Color(ColorConstants.getPrimaryBlack())
                           ),
                           TextDandyLight(
                               type: TextDandyLight.EXTRA_LARGE_TEXT,
+                              fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                               text: TextFormatterUtil.formatDecimalCurrency(amount),
                               color: Color(ColorConstants.getPrimaryBlack())
                           )
@@ -125,6 +128,7 @@ class _PayNowPageState extends State<PayNowPage> {
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
+                            fontFamily: pageState.profile.selectedFontTheme.titleFont,
                             text: 'MARK AS PAID',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
@@ -138,6 +142,7 @@ class _PayNowPageState extends State<PayNowPage> {
                   margin: EdgeInsets.only(top: 8, bottom: 48),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
+                    fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                     text: 'Please mark as paid above once payment is complete.',
                     color: Color(ColorConstants.getPrimaryBlack()),
                     isBold: true,

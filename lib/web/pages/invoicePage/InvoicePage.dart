@@ -40,6 +40,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   margin: EdgeInsets.only(top: 32, bottom: 48),
                   child: TextDandyLight(
                     type: TextDandyLight.EXTRA_LARGE_TEXT,
+                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
                     text: 'Invoice',
                   ),
                 ),
@@ -112,6 +113,7 @@ class _InvoicePageState extends State<InvoicePage> {
                         child: TextDandyLight(
                           type: TextDandyLight.LARGE_TEXT,
                           textAlign: TextAlign.center,
+                          fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                           text: 'Retainer',
                           isBold: true,
                         ),
@@ -122,12 +124,14 @@ class _InvoicePageState extends State<InvoicePage> {
                           type: TextDandyLight.MEDIUM_TEXT,
                           textAlign: TextAlign.center,
                           text: 'PAID',
+                          fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                         ),
                       ) : Container(
                         alignment: Alignment.topCenter,
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           textAlign: TextAlign.center,
+                          fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                           text: 'Due:  ' + (pageState.invoice.depositDueDate != null
                               ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.invoice.depositDueDate)
                               : 'TBD'),
@@ -192,6 +196,7 @@ class _InvoicePageState extends State<InvoicePage> {
                             ),
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
+                              fontFamily: pageState.profile.selectedFontTheme.titleFont,
                               text: !pageState.invoice.depositPaid ? 'PAY NOW' : 'PAID',
                               color: !pageState.invoice.depositPaid && !pageState.invoice.invoicePaid ? ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryBlack()),
                               isBold: isHoveredPayDeposit,
@@ -234,6 +239,7 @@ class _InvoicePageState extends State<InvoicePage> {
                           type: TextDandyLight.LARGE_TEXT,
                           textAlign: TextAlign.center,
                           text: 'Balance Due',
+                          fontFamily: pageState.profile.selectedFontTheme.titleFont,
                           isBold: true,
                         ),
                       ),
@@ -242,6 +248,7 @@ class _InvoicePageState extends State<InvoicePage> {
                         child: TextDandyLight(
                           type: TextDandyLight.MEDIUM_TEXT,
                           textAlign: TextAlign.center,
+                          fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                           text: 'Due:  ' + (pageState.invoice.unpaidAmount != null
                               ? DateFormat('EEE, MMMM dd, yyyy').format(pageState.invoice.dueDate)
                               : 'TBD'),
@@ -297,6 +304,7 @@ class _InvoicePageState extends State<InvoicePage> {
                             child: TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: !pageState.invoice.invoicePaid ? 'PAY NOW' : 'PAID',
+                              fontFamily: pageState.profile.selectedFontTheme.titleFont,
                               color: !pageState.invoice.invoicePaid ? ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryBlack()),
                               isBold: isHoveredPayFull,
                             ),
@@ -325,6 +333,7 @@ class _InvoicePageState extends State<InvoicePage> {
               child: TextDandyLight(
                 type: TextDandyLight.LARGE_TEXT,
                 text: 'Price Breakdown',
+                fontFamily: pageState.profile.selectedFontTheme.titleFont,
                 isBold: true,
               ),
             ),
@@ -345,6 +354,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.titleFont,
                       text: 'Services & Products',
                       isBold: true,
                     ),
@@ -353,6 +363,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.titleFont,
                       text: 'Amount',
                       isBold: true,
                     ),
@@ -382,6 +393,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       text: 'Subtotal',
                     ),
                   ),
@@ -389,6 +401,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.subtotal),
                     ),
                   ),
@@ -406,6 +419,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Discount',
                     ),
@@ -414,6 +428,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       text: '-' + TextFormatterUtil.formatDecimalCurrency(pageState.invoice.discount),
                     ),
                   ),
@@ -431,6 +446,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Sales tax',
                     ),
@@ -439,6 +455,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       text: '(' + pageState.invoice.salesTaxRate.toString() + '%) ' + TextFormatterUtil.formatDecimalCurrency(pageState.invoice.salesTaxAmount) ,
                     ),
                   ),
@@ -456,6 +473,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Total',
                     ),
@@ -463,6 +481,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.total) ,
                     ),
@@ -487,6 +506,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Retainer ' + (pageState.invoice.depositPaid ? '(Paid)' : '(Unpaid)'),
                       isBold: true,
@@ -495,6 +515,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: (pageState.invoice.depositPaid ? '-' : '') + TextFormatterUtil.formatDecimalCurrency(pageState.invoice.depositAmount),
                       isBold: true,
@@ -514,6 +535,7 @@ class _InvoicePageState extends State<InvoicePage> {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       type: TextDandyLight.MEDIUM_TEXT,
                       text: 'Balance Due',
                       isBold: true,
@@ -523,6 +545,7 @@ class _InvoicePageState extends State<InvoicePage> {
                     alignment: Alignment.centerLeft,
                     child: TextDandyLight(
                       type: TextDandyLight.MEDIUM_TEXT,
+                      fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                       text: TextFormatterUtil.formatDecimalCurrency(pageState.invoice.unpaidAmount),
                       isBold: true,
                     ),
@@ -550,6 +573,7 @@ class _InvoicePageState extends State<InvoicePage> {
             Container(
               alignment: Alignment.centerLeft,
               child: TextDandyLight(
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: lineItem.itemName,
               ),
@@ -557,6 +581,7 @@ class _InvoicePageState extends State<InvoicePage> {
             Container(
               alignment: Alignment.centerLeft,
               child: TextDandyLight(
+                fontFamily: pageState.profile.selectedFontTheme.bodyFont,
                 type: TextDandyLight.MEDIUM_TEXT,
                 text: TextFormatterUtil.formatDecimalCurrency(lineItem.itemPrice),
               ),
