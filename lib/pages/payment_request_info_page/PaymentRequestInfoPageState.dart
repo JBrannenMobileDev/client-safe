@@ -8,6 +8,7 @@ class PaymentRequestInfoPageState{
   final bool venmoEnabled;
   final bool cashAppEnabled;
   final bool applePayEnabled;
+  final bool cashEnabled;
   final String zellePhoneEmail;
   final String zelleFullName;
   final String venmoLink;
@@ -22,6 +23,7 @@ class PaymentRequestInfoPageState{
   final Function(String) onCashAppTextChanged;
   final Function(bool) onApplePaySelected;
   final Function(String) onApplePayTextChanged;
+  final Function(bool) onCashSelected;
   final Function() onZellePhoneEmailInputDone;
   final Function() onZelleFullNameInputDone;
   final Function() onVenmoInputDone;
@@ -52,6 +54,8 @@ class PaymentRequestInfoPageState{
     @required this.onVenmoInputDone,
     @required this.onCashAppInputDone,
     @required this.onApplePayInputDone,
+    @required this.cashEnabled,
+    @required this.onCashSelected,
   });
 
   PaymentRequestInfoPageState copyWith({
@@ -59,6 +63,7 @@ class PaymentRequestInfoPageState{
     bool venmoEnabled,
     bool cashAppEnabled,
     bool applePayEnabled,
+    bool cashEnabled,
     String zellePhoneEmail,
     String zelleFullName,
     String venmoLink,
@@ -74,6 +79,7 @@ class PaymentRequestInfoPageState{
     Function(String) onCashAppTextChanged,
     Function(bool) onApplePaySelected,
     Function(String) onApplePayTextChanged,
+    Function(bool) onCashSelected,
     Function() onZellePhoneEmailInputDone,
     Function() onZelleFullNameInputDone,
     Function() onVenmoInputDone,
@@ -104,6 +110,8 @@ class PaymentRequestInfoPageState{
       onVenmoInputDone: onVenmoInputDone ?? this.onVenmoInputDone,
       onCashAppInputDone: onCashAppInputDone ?? this.onCashAppInputDone,
       onApplePayInputDone: onApplePayInputDone ?? this.onApplePayInputDone,
+      cashEnabled: cashEnabled ?? this.cashEnabled,
+      onCashSelected: onCashSelected ?? this.onCashSelected,
     );
   }
 
@@ -131,6 +139,8 @@ class PaymentRequestInfoPageState{
     onVenmoInputDone: null,
     onCashAppInputDone: null,
     onApplePayInputDone: null,
+    cashEnabled: false,
+    onCashSelected: null,
   );
 
   factory PaymentRequestInfoPageState.fromStore(Store<AppState> store) {
@@ -144,10 +154,27 @@ class PaymentRequestInfoPageState{
       venmoLink: store.state.paymentRequestInfoPageState.venmoLink,
       cashAppLink: store.state.paymentRequestInfoPageState.cashAppLink,
       applePayPhone: store.state.paymentRequestInfoPageState.applePayPhone,
-      onZelleSelected: (enabled) => store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, enabled)),
-      onVenmoSelected: (enabled) => store.dispatch(SaveVenmoStateAction(store.state.paymentRequestInfoPageState, enabled)),
-      onCashAppSelected: (enabled) => store.dispatch(SaveCashAppStateAction(store.state.paymentRequestInfoPageState, enabled)),
-      onApplePaySelected: (enabled) => store.dispatch(SaveApplePayStateAction(store.state.paymentRequestInfoPageState, enabled)),
+      cashEnabled: store.state.paymentRequestInfoPageState.cashEnabled,
+      onZelleSelected: (enabled) {
+        store.dispatch(UpdateProfileWithZelleStateAction(store.state.paymentRequestInfoPageState, enabled));
+        store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, enabled));
+      },
+      onVenmoSelected: (enabled) {
+        store.dispatch(UpdateProfileWithVenmoStateAction(store.state.paymentRequestInfoPageState, enabled));
+        store.dispatch(SaveVenmoStateAction(store.state.paymentRequestInfoPageState, enabled));
+      },
+      onCashAppSelected: (enabled) {
+        store.dispatch(UpdateProfileWithCashAppStateAction(store.state.paymentRequestInfoPageState, enabled));
+        store.dispatch(SaveCashAppStateAction(store.state.paymentRequestInfoPageState, enabled));
+      },
+      onApplePaySelected: (enabled) {
+        store.dispatch(UpdateProfileWithApplePayStateAction(store.state.paymentRequestInfoPageState, enabled));
+        store.dispatch(SaveApplePayStateAction(store.state.paymentRequestInfoPageState, enabled));
+      },
+      onCashSelected: (enabled) {
+        store.dispatch(UpdateProfileWithCashStateAction(store.state.paymentRequestInfoPageState, enabled));
+        store.dispatch(SaveCashStateAction(store.state.paymentRequestInfoPageState, enabled));
+      },
       onZelleTextPhoneEmailChanged: (input) => store.dispatch(SetZellePhoneEmailTextAction(store.state.paymentRequestInfoPageState, input)),
       onZelleTextFullNameChanged: (input) => store.dispatch(SetZelleFullNameTextAction(store.state.paymentRequestInfoPageState, input)),
       onVenmoTextChanged: (input) => store.dispatch(SetVenmoLinkTextAction(store.state.paymentRequestInfoPageState, input)),

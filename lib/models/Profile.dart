@@ -13,6 +13,11 @@ class Profile{
   String email;
   String phone;
   String businessName;
+  bool zelleEnabled;
+  bool venmoEnabled;
+  bool cashAppEnabled;
+  bool applePayEnabled;
+  bool cashEnabled;
   String zellePhoneEmail;
   String zelleFullName;
   String venmoLink;
@@ -134,6 +139,11 @@ class Profile{
     this.logoSelected,
     this.logoCharacter,
     this.bannerImageSelected,
+    this.zelleEnabled,
+    this.venmoEnabled,
+    this.cashAppEnabled,
+    this.applePayEnabled,
+    this.cashEnabled,
   });
 
   Profile copyWith({
@@ -171,6 +181,11 @@ class Profile{
     bool isFreeForLife,
     bool onBoardingComplete,
     bool isSubscribed,
+    bool zelleEnabled,
+    bool venmoEnabled,
+    bool cashAppEnabled,
+    bool applePayEnabled,
+    bool cashEnabled,
     int jobsCreatedCount,
     bool logoSelected,
     String logoUrl,
@@ -269,6 +284,11 @@ class Profile{
       logoSelected: logoSelected ?? this.logoSelected,
       logoCharacter: logoCharacter ?? this.logoCharacter,
       bannerImageSelected: bannerImageSelected ?? this.bannerImageSelected,
+      zelleEnabled: zelleEnabled ?? this.zelleEnabled,
+      venmoEnabled: venmoEnabled ?? this.venmoEnabled,
+      cashAppEnabled: cashAppEnabled ?? this.cashAppEnabled,
+      applePayEnabled: applePayEnabled ?? this.applePayEnabled,
+      cashEnabled: cashEnabled ?? this.cashEnabled,
     );
   }
 
@@ -284,6 +304,10 @@ class Profile{
       'lastName' : lastName,
       'email' : email,
       'phone' : phone,
+      'zelleEnabled' : zelleEnabled ?? false,
+      'venmoEnabled' : venmoEnabled ?? false,
+      'cashAppEnabled' : cashAppEnabled ?? false,
+      'applePayEnabled' : applePayEnabled ?? false,
       'zelleFullName' : zelleFullName,
       'zellePhoneEmail' : zellePhoneEmail,
       'venmoLink' : venmoLink,
@@ -339,12 +363,18 @@ class Profile{
       'selectedColorTheme' : selectedColorTheme?.toMap() ?? null,
       'savedColorThemes' : convertColorThemesToMap(savedColorThemes),
       'savedFontThemes' : convertFontThemesToMap(savedFontThemes),
+      'cashEnabled' : cashEnabled ?? false,
     };
   }
 
   static Profile fromMap(Map<String, dynamic> map) {
     return Profile(
       uid: map['uid'],
+      zelleEnabled: map['zelleEnabled'] != null ? map['zelleEnabled'] : false,
+      venmoEnabled: map['venmoEnabled'] != null ? map['venmoEnabled'] : false,
+      cashAppEnabled: map['cashAppEnabled'] != null ? map['cashAppEnabled'] : false,
+      applePayEnabled: map['applePayEnabled'] != null ? map['applePayEnabled'] : false,
+      cashEnabled: map['cashEnabled'] != null ? map['cashEnabled'] : false,
       zelleFullName: map['zelleFullName'],
       zellePhoneEmail: map['zellePhoneEmail'],
       venmoLink: map['venmoLink'],

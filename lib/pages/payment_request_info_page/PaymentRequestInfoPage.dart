@@ -158,7 +158,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                       inactiveTrackColor: Color(ColorConstants.getBlueLight()),
                                       activeColor: Color(ColorConstants.getBlueDark()),
                                       onChanged: (enabled) {
-
+                                        pageState.onZelleSelected(enabled);
                                       },
                                       value: pageState.zelleEnabled,
                                     )
@@ -328,7 +328,7 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 128.0),
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 16.0),
                             padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
                             decoration: BoxDecoration(
                               color: Color(ColorConstants.getPrimaryWhite()),
@@ -383,6 +383,55 @@ class _PaymentRequestInfoPageState extends State<PaymentRequestInfoPage> with Ti
                                   onTextInputChanged: pageState.onApplePayTextChanged,
                                   keyboardAction: TextInputAction.done,
                                   capitalization: TextCapitalization.none,
+                                ) : SizedBox(),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            margin: EdgeInsets.only(left: 16.0, right: 16.0, top: 0.0, bottom: 128.0),
+                            padding: EdgeInsets.only(top: 16.0, bottom: 16.0, left: 16.0, right: 16.0),
+                            decoration: BoxDecoration(
+                              color: Color(ColorConstants.getPrimaryWhite()),
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    TextDandyLight(
+                                      type: TextDandyLight.MEDIUM_TEXT,
+                                      text: 'Cash',
+                                      textAlign: TextAlign.center,
+                                      color: Color(ColorConstants.getPrimaryBlack()),
+                                    ),
+                                    Device.get().isIos?
+                                    CupertinoSwitch(
+                                      trackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onCashSelected(enabled);
+                                      },
+                                      value: pageState.cashEnabled,
+                                    ) : Switch(
+                                      activeTrackColor: Color(ColorConstants.getBlueLight()),
+                                      inactiveTrackColor: Color(ColorConstants.getBlueLight()),
+                                      activeColor: Color(ColorConstants.getBlueDark()),
+                                      onChanged: (enabled) {
+                                        pageState.onCashSelected(enabled);
+                                      },
+                                      value: pageState.cashEnabled,
+                                    )
+                                  ],
+                                ),
+                                pageState.cashEnabled ? Container(
+                                  margin: EdgeInsets.only(top: 16.0, bottom: 0.0),
+                                  child: TextDandyLight(
+                                    type: TextDandyLight.SMALL_TEXT,
+                                    text: 'By enabling "Cash", your clients will be informed on their invoice that cash is an option for payment.',
+                                    textAlign: TextAlign.start,
+                                    color: Color(ColorConstants.getPrimaryBlack()),
+                                  ),
                                 ) : SizedBox(),
                               ],
                             ),

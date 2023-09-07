@@ -28,19 +28,64 @@ class PaymentRequestInfoPageMiddleware extends MiddlewareClass<AppState> {
     if(action is SaveApplePayInput){
       saveApplePayPhone(store, next, action);
     }
+    if(action is UpdateProfileWithZelleStateAction) {
+      updateZelleSelection(store, next, action);
+    }
+    if(action is UpdateProfileWithVenmoStateAction) {
+      updateVenmoSelection(store, next, action);
+    }
+    if(action is UpdateProfileWithCashAppStateAction) {
+      updateCashAppSelection(store, next, action);
+    }
+    if(action is UpdateProfileWithApplePayStateAction) {
+      updateApplePaySelection(store, next, action);
+    }
+    if(action is UpdateProfileWithCashStateAction) {
+      updateCashSelection(store, next, action);
+    }
   }
 
   void loadSettings(Store<AppState> store, NextDispatcher next) async{
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, !(profile.zellePhoneEmail?.isEmpty == true && profile.zelleFullName?.isEmpty == true)));
+    store.dispatch(SaveZelleStateAction(store.state.paymentRequestInfoPageState, profile.zelleEnabled));
     store.dispatch(SetZellePhoneEmailTextAction(store.state.paymentRequestInfoPageState, profile.zellePhoneEmail));
     store.dispatch(SetZelleFullNameTextAction(store.state.paymentRequestInfoPageState, profile.zelleFullName));
-    store.dispatch(SaveVenmoStateAction(store.state.paymentRequestInfoPageState, profile.venmoLink?.isNotEmpty));
+    store.dispatch(SaveVenmoStateAction(store.state.paymentRequestInfoPageState, profile.venmoEnabled));
     store.dispatch(SetVenmoLinkTextAction(store.state.paymentRequestInfoPageState, profile.venmoLink));
-    store.dispatch(SaveCashAppStateAction(store.state.paymentRequestInfoPageState, profile.cashAppLink?.isNotEmpty));
+    store.dispatch(SaveCashAppStateAction(store.state.paymentRequestInfoPageState, profile.cashAppEnabled));
     store.dispatch(SetCashAppLinkTextAction(store.state.paymentRequestInfoPageState, profile.cashAppLink));
-    store.dispatch(SaveApplePayStateAction(store.state.paymentRequestInfoPageState, profile.venmoLink?.isNotEmpty));
+    store.dispatch(SaveApplePayStateAction(store.state.paymentRequestInfoPageState, profile.applePayEnabled));
     store.dispatch(SetApplePayPhoneTextAction(store.state.paymentRequestInfoPageState, profile.applePayPhone));
+  }
+
+  void updateZelleSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithZelleStateAction action)async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.zelleEnabled = action.enabled;
+    ProfileDao.update(profile);
+  }
+
+  void updateVenmoSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithVenmoStateAction action)async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.venmoEnabled = action.enabled;
+    ProfileDao.update(profile);
+  }
+
+  void updateCashAppSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithCashAppStateAction action)async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.cashAppEnabled = action.enabled;
+    ProfileDao.update(profile);
+  }
+
+  void updateApplePaySelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithApplePayStateAction action)async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.applePayEnabled = action.enabled;
+    ProfileDao.update(profile);
+  }
+
+  void updateCashSelection(Store<AppState> store, NextDispatcher next, UpdateProfileWithCashStateAction action)async{
+    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
+    profile.cashEnabled = action.enabled;
+    ProfileDao.update(profile);
   }
 
   void saveZellePhoneEmail(Store<AppState> store, NextDispatcher next, SaveZellePhoneEmailInput action)async{

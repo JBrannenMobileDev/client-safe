@@ -6,6 +6,36 @@ class SaveZelleStateAction{
   SaveZelleStateAction(this.pageState, this.enabled);
 }
 
+class UpdateProfileWithZelleStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithZelleStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithVenmoStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithVenmoStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithCashAppStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithCashAppStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithApplePayStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithApplePayStateAction(this.pageState, this.enabled);
+}
+
+class UpdateProfileWithCashStateAction {
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  UpdateProfileWithCashStateAction(this.pageState, this.enabled);
+}
+
 class LoadPaymentSettingsFromProfile{
   final PaymentRequestInfoPageState pageState;
   LoadPaymentSettingsFromProfile(this.pageState);
@@ -27,6 +57,12 @@ class SaveApplePayStateAction{
   final PaymentRequestInfoPageState pageState;
   final bool enabled;
   SaveApplePayStateAction(this.pageState, this.enabled);
+}
+
+class SaveCashStateAction{
+  final PaymentRequestInfoPageState pageState;
+  final bool enabled;
+  SaveCashStateAction(this.pageState, this.enabled);
 }
 
 class SetZellePhoneEmailTextAction{

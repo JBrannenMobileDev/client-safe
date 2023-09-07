@@ -338,4 +338,158 @@ class FontTheme {
         break;
     }
   }
+
+  static String getFilePath(String fontFamily) {
+    switch(fontFamily) {
+      case SIGNATURE1:
+        return 'assets/fonts/sig.ttf';
+        break;
+      case SIGNATURE2:
+        return 'assets/fonts/signature.ttf';
+        break;
+      case SafiraMarch:
+        return 'assets/fonts/Safira March.otf';
+        break;
+      case GreateVibes:
+        return 'assets/fonts/GreatVibes-Regular.ttf';
+        break;
+      case SIGNATURE3:
+        return 'assets/fonts/Sacramento-Regular.ttf';
+        break;
+      case ModernSans:
+        return 'assets/fonts/ModernSans-Light.otf';
+        break;
+      case GeosansLight:
+        return 'assets/fonts/GeosansLight.ttf';
+        break;
+      case MONTSERRAT:
+        return 'assets/fonts/Montserrat-VariableFont_wght.ttf';
+        break;
+      case MontserratAlternativesRegular:
+        return 'assets/fonts/MontserratAlternates-Regular.ttf';
+        break;
+      case GontserraRegular:
+        return 'assets/fonts/Gontserrat-Regular.ttf';
+        break;
+      case Walkaway:
+        return 'assets/fonts/Walkway Expand.ttf';
+        break;
+      case VanillaRavioli:
+        return 'assets/fonts/VanillaRavioli_Demo.ttf';
+        break;
+      case RoundedElegance:
+        return 'assets/fonts/Rounded_Elegance.ttf';
+        break;
+      case Roboto:
+        return 'assets/fonts/Roboto-Regular.ttf';
+        break;
+      case Raleway:
+        return 'assets/fonts/Raleway-VariableFont_wght.ttf';
+        break;
+      case QuicksandLight:
+        return 'assets/fonts/Quicksand_Light.otf';
+        break;
+      case QuicksandBook:
+        return 'assets/fonts/Quicksand_Book.otf';
+        break;
+      case Princ:
+        return 'assets/fonts/PRINC___.ttf';
+        break;
+      case PlayfairDisplay:
+        return 'assets/fonts/PlayfairDisplay-VariableFont_wght.ttf';
+        break;
+      case Moredya:
+        return 'assets/fonts/Moredya-Regular.ttf';
+        break;
+      case Minimal:
+        return 'assets/fonts/minimal.otf';
+        break;
+      case Mermaid:
+        return 'assets/fonts/Mermaid1001.ttf';
+        break;
+      case Manrope:
+        return 'assets/fonts/Manrope-VariableFont_wght.ttf';
+        break;
+      case LouisGeorgeCafe:
+        return 'assets/fonts/Louis George Cafe.ttf';
+        break;
+      case GaretBook:
+        return 'assets/fonts/Garet-Book.ttf';
+        break;
+      case Dreaming:
+        return 'assets/fonts/Dreaming.otf';
+        break;
+      case Cinzel:
+        return 'assets/fonts/Cinzel-VariableFont_wght.ttf';
+        break;
+      case ChampagneLimousines:
+        return 'assets/fonts/Champagne & Limousines.ttf';
+        break;
+      case CaviarDreams:
+        return 'assets/fonts/CaviarDreams.ttf';
+        break;
+      case Catchye:
+        return 'assets/fonts/Catchye.otf';
+        break;
+      case BelgianoSerif:
+        return 'assets/fonts/Belgiano Serif 2.ttf';
+        break;
+      case AppleGaramond:
+        return 'assets/fonts/AppleGaramond.ttf';
+        break;
+      case AntipastoProExtraLight:
+        return 'assets/fonts/Antipasto-Pro-ExtraLight-trial.ttf';
+        break;
+      case OPEN_SANS:
+        return 'assets/fonts/OpenSans-VariableFont_wdth,wght.ttf';
+        break;
+      default:
+        return 'assets/fonts/OpenSans-VariableFont_wdth,wght.ttf';
+        break;
+    }
+  }
+
+  static bool shouldUseBold(String fontFamily) {
+    switch(fontFamily) {
+      case MONTSERRAT:
+      case Raleway:
+        return true;
+        break;
+      case SIGNATURE1:
+      case SIGNATURE2:
+      case SafiraMarch:
+      case GreateVibes:
+      case SIGNATURE3:
+      case ModernSans:
+      case GeosansLight:
+      case MontserratAlternativesRegular:
+      case GontserraRegular:
+      case Walkaway:
+      case VanillaRavioli:
+      case RoundedElegance:
+      case Roboto:
+      case QuicksandLight:
+      case QuicksandBook:
+      case Princ:
+      case PlayfairDisplay:
+      case Moredya:
+      case Minimal:
+      case Mermaid:
+      case Manrope:
+      case LouisGeorgeCafe:
+      case GaretBook:
+      case Dreaming:
+      case Cinzel:
+      case ChampagneLimousines:
+      case CaviarDreams:
+      case Catchye:
+      case BelgianoSerif:
+      case AppleGaramond:
+      case AntipastoProExtraLight:
+      case OPEN_SANS:
+      default:
+        return false;
+        break;
+    }
+  }
 }

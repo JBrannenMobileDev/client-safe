@@ -148,7 +148,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     text: pageState.profile.businessName,
                                     color: Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: true,
+                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 ),
                                 Container(
@@ -158,7 +158,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     text: pageState.job.client.getClientFullName(),
                                     color: Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: true,
+                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 )
                               ],
@@ -169,13 +169,29 @@ class _SignContractPageState extends State<ProposalPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                pageState.profile?.logoUrl != null ? Material(
-                                  elevation: 4,
-                                  child: Container(
-                                    alignment: Alignment.centerLeft,
-                                    height: 124,
-                                    width: 124,
-                                    child: Image.asset("images/backgrounds/sample_brand.png"),
+                                pageState.profile?.logoUrl != null  && pageState.profile.logoSelected ? Container(
+                                  alignment: Alignment.center,
+                                  height: 150,
+                                  width: 150,
+                                  decoration: BoxDecoration(
+                                    boxShadow: ElevationToShadow[4],
+                                    shape: BoxShape.circle,
+                                    color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: new BorderRadius.circular(75.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                      ),
+                                      width: 150,
+                                      height: 150,
+                                      child: DandyLightNetworkImage(
+                                        pageState.profile.logoUrl,
+                                        color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.iconColor),
+                                      ),
+                                    ),
                                   ),
                                 ) : Stack(
                                   alignment: Alignment.center,
@@ -206,7 +222,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: true,
+                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 ),
                                 Container(
@@ -216,7 +232,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     textAlign: TextAlign.center,
                                     fontFamily: pageState.profile.selectedFontTheme.titleFont,
                                     color: Color(ColorConstants.getPrimaryWhite()),
-                                    addShadow: true,
+                                    addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
                                 )
                               ],

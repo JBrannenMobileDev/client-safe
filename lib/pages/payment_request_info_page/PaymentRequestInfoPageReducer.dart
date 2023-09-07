@@ -8,6 +8,7 @@ final paymentRequestInfoPageReducer = combineReducers<PaymentRequestInfoPageStat
   TypedReducer<PaymentRequestInfoPageState, SaveVenmoStateAction>(_saveVenmoState),
   TypedReducer<PaymentRequestInfoPageState, SaveCashAppStateAction>(_saveCashAppState),
   TypedReducer<PaymentRequestInfoPageState, SaveApplePayStateAction>(_saveApplePayState),
+  TypedReducer<PaymentRequestInfoPageState, SaveCashStateAction>(_saveCashState),
   TypedReducer<PaymentRequestInfoPageState, SetZellePhoneEmailTextAction>(_setZellePhoneEmailText),
   TypedReducer<PaymentRequestInfoPageState, SetZelleFullNameTextAction>(_setZelleFullNameText),
   TypedReducer<PaymentRequestInfoPageState, SetVenmoLinkTextAction>(_setVenmoLinkText),
@@ -66,5 +67,11 @@ PaymentRequestInfoPageState _saveCashAppState(PaymentRequestInfoPageState previo
 PaymentRequestInfoPageState _saveApplePayState(PaymentRequestInfoPageState previousState, SaveApplePayStateAction action){
   return previousState.copyWith(
     applePayEnabled: action.enabled,
+  );
+}
+
+PaymentRequestInfoPageState _saveCashState(PaymentRequestInfoPageState previousState, SaveCashStateAction action){
+  return previousState.copyWith(
+    cashEnabled: action.enabled,
   );
 }

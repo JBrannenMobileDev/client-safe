@@ -9,6 +9,7 @@ import 'package:http/http.dart' show get;
 import '../models/Branding.dart';
 import '../models/Client.dart';
 import '../models/Contract.dart';
+import '../models/FontTheme.dart';
 import '../models/Invoice.dart';
 import '../models/Job.dart';
 import '../models/LineItem.dart';
@@ -119,17 +120,18 @@ class PdfUtil {
     final Document pdf = Document();
 
     String fontFamilyPath = FontTheme.getFilePath(profile.selectedFontTheme.bodyFont);
+    bool makeTextBold = FontTheme.shouldUseBold(profile.selectedFontTheme.bodyFont);
 
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(
           base: Font.ttf(
-              await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
+              await rootBundle.load(fontFamilyPath)),
           bold:
-              Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
+              Font.ttf(await rootBundle.load(fontFamilyPath)),
           italic:
-              Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
+              Font.ttf(await rootBundle.load(fontFamilyPath)),
           boldItalic:
-              Font.ttf(await rootBundle.load('assets/fonts/OpenSans-VariableFont_wdth,wght.ttf')),
+              Font.ttf(await rootBundle.load(fontFamilyPath)),
         ),
         pageFormat:
             PdfPageFormat.letter.copyWith(marginBottom: 1 * PdfPageFormat.cm),
@@ -143,10 +145,11 @@ class PdfUtil {
               margin: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               padding: const EdgeInsets.only(bottom: 3.0 * PdfPageFormat.mm),
               decoration: BoxDecoration(border: Border.all()),
-              child: Text(profile.businessName + ' Invoice',
-                  style: Theme.of(context)
-                      .defaultTextStyle
-                      .copyWith(color: PdfColors.grey)));
+              child: Text(
+                  profile.businessName + ' Invoice',
+                  style: Theme.of(context).defaultTextStyle.copyWith(color: PdfColors.grey, fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
+              )
+          );
         },
         footer: (Context context) {
           return Container(
@@ -155,7 +158,8 @@ class PdfUtil {
               child: Text('Page ${context.pageNumber} of ${context.pagesCount}',
                   style: Theme.of(context)
                       .defaultTextStyle
-                      .copyWith(color: PdfColors.grey),
+                      .copyWith(color: PdfColors.grey,
+                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal),
               ));
         },
         build: (Context context) => <Widget>[
@@ -196,12 +200,13 @@ class PdfUtil {
                                 color: PdfColor.fromHex(logoColor)
                             ),
                             child: Text(
-                                profile.businessName != null
-                                    ? profile.businessName.substring(0,1)
-                                    : 'I',
+                                profile.logoCharacter != null
+                                    ? profile.logoCharacter
+                                    : '',
                                 style: Theme.of(context)
                                     .defaultTextStyle
-                                    .copyWith(fontSize: 56, color: PdfColor.fromHex(logoTextColor))
+                                    .copyWith(fontSize: 56, color: PdfColor.fromHex(logoTextColor),
+                                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
                             ),
                           ),
                         ) : SizedBox(),
@@ -211,7 +216,7 @@ class PdfUtil {
                                 : 'Invoice',
                           style: Theme.of(context)
                               .defaultTextStyle
-                              .copyWith(fontSize: 16, color: PdfColor.fromHex('#444444'))
+                              .copyWith(fontSize: 16, color: PdfColor.fromHex('#444444'), fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal)
                         ),
                       ])),
               Padding(
@@ -224,17 +229,24 @@ class PdfUtil {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text('Invoice for', textScaleFactor: .85, style: TextStyle(
-                            color: PdfColor.fromHex('#444444')
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                         )),
                         Text(client.getClientFullName(),
                             textScaleFactor: 0.85),
                         client.phone != null
                             ? Text(client.phone.toString(),
-                                textScaleFactor: 0.85)
+                                textScaleFactor: 0.85, style: TextStyle(
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                            ))
                             : SizedBox(),
                         client.email != null
                             ? Text(client.email.toString(),
-                                textScaleFactor: 0.85)
+                                textScaleFactor: 0.85, style: TextStyle(
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                            ))
                             : SizedBox(),
                       ],
                     ),
@@ -244,7 +256,8 @@ class PdfUtil {
                         Text('Id: ' + invoiceNumber.toString(),
                             textScaleFactor: 0.85,
                             style: TextStyle(
-                                color: PdfColor.fromHex('#444444')
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             )),
                         depositDueDate != null
                             ? Text(
@@ -253,7 +266,8 @@ class PdfUtil {
                                         .format(dueDate),
                                 textScaleFactor: 0.85,
                             style: TextStyle(
-                                color: PdfColor.fromHex('#444444')
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             ))
                             : SizedBox(),
                         dueDate != null
@@ -263,7 +277,8 @@ class PdfUtil {
                                     .format(dueDate),
                             textScaleFactor: 0.85,
                             style: TextStyle(
-                                color: PdfColor.fromHex('#444444')
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             ))
                             : SizedBox(),
                       ],
@@ -289,7 +304,8 @@ class PdfUtil {
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.left,
                             style: TextStyle(
-                                color: PdfColor.fromHex('#444444')
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             )
                         ),
                       ),
@@ -302,7 +318,8 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    color: PdfColor.fromHex('#444444')
+                                    color: PdfColor.fromHex('#444444'),
+                                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )
                             ),
                           ),
@@ -311,7 +328,8 @@ class PdfUtil {
                             alignment: Alignment.centerRight,
                             child: Text('Price',
                                 textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
-                                    color: PdfColor.fromHex('#444444')
+                                    color: PdfColor.fromHex('#444444'),
+                                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )),
                           ),
                           Container(
@@ -322,7 +340,8 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                 style: TextStyle(
-                                    color: PdfColor.fromHex('#444444')
+                                    color: PdfColor.fromHex('#444444'),
+                                    fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                 )
                             ),
                           ),
@@ -347,7 +366,8 @@ class PdfUtil {
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.left,
                               style: TextStyle(
-                                  color: PdfColor.fromHex('#444444')
+                                  color: PdfColor.fromHex('#444444'),
+                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                               )
                           ),
                         );
@@ -369,7 +389,8 @@ class PdfUtil {
                                   textScaleFactor: 0.85,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )),
                             );
                           },
@@ -389,7 +410,8 @@ class PdfUtil {
                                   textScaleFactor: 0.85,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )),
                             );
                           },
@@ -409,7 +431,8 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )
                               ),
                             );
@@ -439,6 +462,10 @@ class PdfUtil {
                         '',
                         textScaleFactor: 0.85,
                         textAlign: TextAlign.left,
+                          style: TextStyle(
+                              color: PdfColor.fromHex('#444444'),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                          )
                       ),
                     ),
                     Row(
@@ -447,14 +474,20 @@ class PdfUtil {
                           width: 66.0,
                           alignment: Alignment.centerRight,
                           child: Text('',
-                              textScaleFactor: 0.85, textAlign: TextAlign.right),
+                              textScaleFactor: 0.85, textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  color: PdfColor.fromHex('#444444'),
+                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                              )
+                          ),
                         ),
                         Container(
                           width: 96.0,
                           alignment: Alignment.centerRight,
                           child: Text('Subtotal',
                               textScaleFactor: 0.85, textAlign: TextAlign.right, style: TextStyle(
-                                  color: PdfColor.fromHex('#444444')
+                                  color: PdfColor.fromHex('#444444'),
+                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                               )),
                         ),
                         Container(
@@ -465,7 +498,8 @@ class PdfUtil {
                               textScaleFactor: 0.85,
                               textAlign: TextAlign.right,
                               style: TextStyle(
-                                  color: PdfColor.fromHex('#444444')
+                                  color: PdfColor.fromHex('#444444'),
+                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                               )
                           ),
                         ),
@@ -485,6 +519,10 @@ class PdfUtil {
                             '',
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: PdfColor.fromHex('#444444'),
+                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                              )
                           ),
                         ),
                         Row(
@@ -494,7 +532,12 @@ class PdfUtil {
                               alignment: Alignment.centerRight,
                               child: Text('',
                                   textScaleFactor: 0.85,
-                                  textAlign: TextAlign.right),
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                                  )
+                              ),
                             ),
                             Container(
                               width: 100.0,
@@ -502,7 +545,8 @@ class PdfUtil {
                               child: Text('Discount',
                                   textScaleFactor: 0.85,
                                   textAlign: TextAlign.right, style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )),
                             ),
                             Container(
@@ -513,7 +557,8 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )
                               ),
                             ),
@@ -533,6 +578,10 @@ class PdfUtil {
                             '',
                             textScaleFactor: 0.85,
                             textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  color: PdfColor.fromHex('#444444'),
+                                  fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                              )
                           ),
                         ),
                         Row(
@@ -544,7 +593,8 @@ class PdfUtil {
                                   textScaleFactor: 0.85,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )),
                             ),
                             Container(
@@ -554,7 +604,8 @@ class PdfUtil {
                                   textScaleFactor: 0.85,
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )),
                             ),
                             Container(
@@ -566,7 +617,8 @@ class PdfUtil {
                                 textScaleFactor: 0.85,
                                 textAlign: TextAlign.right,
                                   style: TextStyle(
-                                      color: PdfColor.fromHex('#444444')
+                                      color: PdfColor.fromHex('#444444'),
+                                      fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                                   )
                               ),
                             ),
@@ -612,7 +664,8 @@ class PdfUtil {
                     child: Text('',
                         textScaleFactor: 0.85, textAlign: TextAlign.right,
                         style: TextStyle(
-                            color: PdfColor.fromHex('#444444')
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                         )),
                   ),
                   Container(
@@ -621,7 +674,8 @@ class PdfUtil {
                     child: Text('Retainer' + (depositPaid ? '(Paid)' : '(Unpaid)'),
                         textScaleFactor: 0.85, textAlign: TextAlign.right,
                         style: TextStyle(
-                            color: PdfColor.fromHex('#444444')
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                         )),
                   ),
                   Container(
@@ -632,7 +686,8 @@ class PdfUtil {
                       textScaleFactor: 0.85,
                       textAlign: TextAlign.right,
                         style: TextStyle(
-                            color: PdfColor.fromHex('#444444')
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                         )
                     ),
                   ),
@@ -650,6 +705,10 @@ class PdfUtil {
                       '',
                       textScaleFactor: 0.85,
                       textAlign: TextAlign.left,
+                        style: TextStyle(
+                            color: PdfColor.fromHex('#444444'),
+                            fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                        )
                     ),
                   ),
                   Row(
@@ -658,7 +717,12 @@ class PdfUtil {
                         width: 50.0,
                         alignment: Alignment.centerRight,
                         child: Text('',
-                            textScaleFactor: 0.85, textAlign: TextAlign.right),
+                            textScaleFactor: 0.85, textAlign: TextAlign.right,
+                            style: TextStyle(
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
+                            )
+                        ),
                       ),
                       Container(
                         width: 120.0,
@@ -666,7 +730,8 @@ class PdfUtil {
                         child: Text('Balance due',
                             textScaleFactor: 0.85, textAlign: TextAlign.right,
                             style: TextStyle(
-                                color: PdfColor.fromHex('#444444')
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             )),
                       ),
                       Container(
@@ -677,7 +742,8 @@ class PdfUtil {
                           textScaleFactor: 0.85,
                           textAlign: TextAlign.right,
                             style: TextStyle(
-                                color: PdfColor.fromHex('#444444')
+                                color: PdfColor.fromHex('#444444'),
+                                fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                             )
                         ),
                       ),
@@ -694,7 +760,8 @@ class PdfUtil {
                       child: Text('Accepted forms of payment',
                           textScaleFactor: 0.85, textAlign: TextAlign.left,
                           style: TextStyle(
-                              color: PdfColor.fromHex('#444444')
+                              color: PdfColor.fromHex('#444444'),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )),
                     )
                   : SizedBox(),
@@ -704,7 +771,8 @@ class PdfUtil {
                       child: Text(zelleInfo,
                           textScaleFactor: 0.85, textAlign: TextAlign.left,
                           style: TextStyle(
-                              color: PdfColor.fromHex('#444444')
+                              color: PdfColor.fromHex('#444444'),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )),
                     )
                   : SizedBox(),
@@ -714,7 +782,8 @@ class PdfUtil {
                       child: Text(venmoInfo,
                           textScaleFactor: 0.85, textAlign: TextAlign.left,
                           style: TextStyle(
-                              color: PdfColor.fromHex('#444444')
+                              color: PdfColor.fromHex('#444444'),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )),
                     )
                   : SizedBox(),
@@ -724,7 +793,8 @@ class PdfUtil {
                       child: Text(cashAppInfo,
                           textScaleFactor: 0.85, textAlign: TextAlign.left,
                           style: TextStyle(
-                              color: PdfColor.fromHex('#444444')
+                              color: PdfColor.fromHex('#444444'),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )),
                     )
                   : SizedBox(),
@@ -734,7 +804,8 @@ class PdfUtil {
                       child: Text(applePayInfo,
                           textScaleFactor: 0.85, textAlign: TextAlign.left,
                           style: TextStyle(
-                              color: PdfColor.fromHex('#444444')
+                              color: PdfColor.fromHex('#444444'),
+                              fontWeight: makeTextBold ? FontWeight.bold : FontWeight.normal
                           )),
                     )
                   : SizedBox(),

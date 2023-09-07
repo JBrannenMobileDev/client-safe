@@ -270,6 +270,11 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveVenmoInput>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveCashAppInput>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, paymentLinks.SaveApplePayInput>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.UpdateProfileWithZelleStateAction>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.UpdateProfileWithVenmoStateAction>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.UpdateProfileWithCashAppStateAction>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.UpdateProfileWithApplePayStateAction>(PaymentRequestInfoPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, paymentLinks.UpdateProfileWithCashStateAction>(PaymentRequestInfoPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, FetchResponsesAction>(ResponsesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, UpdateResponseAction>(ResponsesPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveNewResponseAction>(ResponsesPageMiddleware()));
