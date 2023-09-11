@@ -3,29 +3,18 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-import 'package:dandylight/pages/main_settings_page/SaveColorThemeBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
+import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
-import '../../models/ColorTheme.dart';
-import '../../utils/Shadows.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
-import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'ColorThemeSelectionBottomSheet.dart';
-import 'ColorThemeWidget.dart';
-import 'FontThemeSelectionBottomSheet.dart';
-import 'FontThemeWidget.dart';
-import 'PreviewOptionsBottomSheet.dart';
 
 class BannerSelectionWidget extends StatefulWidget {
   @override
@@ -45,6 +34,13 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
           store.dispatch(ClearBrandingStateAction(
               store.state.mainSettingsPageState,
               store.state.mainSettingsPageState.profile));
+          if(store.state.mainSettingsPageState.profile.bannerImageSelected) {
+            selections[0] = true;
+            selections[1] = false;
+          } else {
+            selections[1] = true;
+            selections[0] = false;
+          }
         },
         converter: (Store<AppState> store) =>
             MainSettingsPageState.fromStore(store),
@@ -64,7 +60,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
             ),
             Container(
               height: 342,
-              margin: EdgeInsets.only(bottom: 132),
+              margin: EdgeInsets.only(bottom: 164),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(16),
@@ -86,7 +82,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                         },
                         child: Stack(
                           children: [
-                            pageState.bannerImageSelected ? pageState.resizedBannerImage != null ? ClipRRect(
+                            pageState.bannerImageSelected ? pageState.bannerImage != null ? ClipRRect(
                               borderRadius: new BorderRadius.only(
                                   topRight: Radius.circular(16),
                                   topLeft: Radius.circular(16)
@@ -95,7 +91,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 fit: BoxFit.cover,
                                 width: double.infinity,
                                 height: 164,
-                                image: FileImage(File(pageState.resizedBannerImage.path)),
+                                image: FileImage(File(pageState.bannerImage.path)),
                               ),
                             ) : Container(
                               height: 164,
@@ -105,8 +101,9 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                     topLeft: Radius.circular(16),
                                 ),
                                 child: DandyLightNetworkImage(
-                                  pageState.profile.bannerUrl,
-                                  color: ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor),
+                                  pageState.profile.bannerMobileUrl,
+                                  color: pageState.currentBannerColor,
+                                  borderRadius: 0,
                                 ),
                               ),
                             ) : Container(
@@ -114,7 +111,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                               height: 164,
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor),
+                                color: pageState.currentBannerColor,
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(16),
                                     topLeft: Radius.circular(16)
@@ -126,14 +123,14 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                               height: 164,
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor),
+                                color: pageState.currentBannerColor,
                                 borderRadius: BorderRadius.only(
                                     topRight: Radius.circular(16),
                                     topLeft: Radius.circular(16)
                                 ),
                               ),
                             ) : SizedBox(),
-                            pageState.bannerImageSelected && pageState.resizedBannerImage == null && pageState.profile.bannerUrl == null ? Row(
+                            pageState.bannerImageSelected && pageState.bannerImage == null && pageState.profile.bannerMobileUrl == null ? Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisSize: MainAxisSize.max,
@@ -141,7 +138,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                 Container(
                                   child: Image.asset(
                                     'assets/images/icons/file_upload.png',
-                                    color: ColorConstants.isWhite(ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor)) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhite(pageState.currentBannerColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
                                     width: 48,
                                   ),
                                 ),
@@ -150,92 +147,15 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
                                   height: 164,
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
-                                    fontFamily: pageState.currentTitleFont,
+                                    fontFamily: pageState.currentFont,
                                     textAlign: TextAlign.center,
                                     text: 'Upload Banner Image',
-                                    color: ColorConstants.isWhite(ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor)) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
+                                    color: ColorConstants.isWhite(pageState.currentBannerColor) ? Color(ColorConstants.getPrimaryGreyMedium()) : Color(ColorConstants.getPrimaryWhite()),
                                   ),
                                 ),
                               ],
-                            ) : Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                Container(
-                                  height: 164,
-                                  alignment: Alignment.centerLeft,
-                                  padding: EdgeInsets.only(left: 32),
-                                  child: pageState.logoImageSelected ? pageState.resizedLogoImage != null ? ClipRRect(
-                                    borderRadius:
-                                    new BorderRadius.circular(82.0),
-                                    child: Image(
-                                      fit: BoxFit.cover,
-                                      width: 72,
-                                      height: 72,
-                                      image: FileImage(File(pageState.resizedLogoImage.path)),
-                                    ),
-                                  ) : Container(
-                                    height: 72,
-                                    width: 72,
-                                    child: ClipRRect(
-                                      borderRadius:
-                                      new BorderRadius.circular(82.0),
-                                      child: DandyLightNetworkImage(
-                                        pageState.profile.logoUrl,
-                                      ),
-                                    ),
-                                  ) : Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      Container(
-                                        alignment: Alignment.center,
-                                        height: 72,
-                                        width: 72,
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            boxShadow: ElevationToShadow[4],
-                                            color: pageState.logoImageSelected
-                                                ? ColorConstants.hexToColor(pageState.selectedColorTheme.bannerColor)
-                                                : ColorConstants.hexToColor(pageState.selectedColorTheme.iconColor)),
-                                      ),
-                                      TextDandyLight(
-                                          type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                          fontFamily: pageState.currentIconFont,
-                                          textAlign: TextAlign.center,
-                                          text: pageState.logoCharacter
-                                              .substring(0, 1),
-                                          color: ColorConstants.hexToColor(
-                                              pageState.selectedColorTheme
-                                                  .iconTextColor),
-                                      )
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(width: 16),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      fontFamily: pageState.currentTitleFont,
-                                      textAlign: TextAlign.center,
-                                      text: pageState.profile.businessName,
-                                      addShadow: true,
-                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                    ),
-                                    TextDandyLight(
-                                      type: TextDandyLight.MEDIUM_TEXT,
-                                      fontFamily: pageState.currentTitleFont,
-                                      textAlign: TextAlign.center,
-                                      text: 'Client Name',
-                                      addShadow: true,
-                                      color: Color(ColorConstants.getPrimaryWhite()),
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            pageState.bannerImageSelected && pageState.resizedBannerImage != null ? Container(
+                            ) : SizedBox(),
+                            pageState.bannerImageSelected && (pageState.bannerImage != null || pageState.profile.bannerMobileUrl != null && pageState.profile.bannerMobileUrl.isNotEmpty) ? Container(
                               alignment: Alignment.topRight,
                               width: double.infinity,
                               padding: EdgeInsets.only(top: 16, right: 16),
@@ -310,26 +230,65 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
   Future getDeviceImage(MainSettingsPageState pageState) async {
     try {
       XFile localImage = await ImagePicker().pickImage(source: ImageSource.gallery);
-      CroppedFile croppedImage = await ImageCropper().cropImage(
-        sourcePath: localImage.path,
-        maxWidth: 1920,
-        maxHeight: 300,
-        aspectRatio: CropAspectRatio(ratioX: 2, ratioY: 1.3),
-        cropStyle: CropStyle.rectangle,
-      );
-      localImage = XFile(croppedImage.path);
-      if (localImage == null) {
-        setState(() {
-          loading = false;
-        });
-      } else {
+      XFile localWebImage = XFile((await CropImageForWeb(localImage.path)).path);
+      XFile localMobileImage = XFile((await CropImageForMobile(localImage.path)).path);
+
+      if(localWebImage != null && localMobileImage != null && localImage != null) {
+        pageState.onBannerWebUploaded(localWebImage);
+        pageState.onBannerMobileUploaded(localMobileImage);
         pageState.onBannerUploaded(localImage);
-        setState(() {
-          loading = false;
-        });
+      } else {
+        DandyToastUtil.showErrorToast('Image not loaded');
       }
+      setState(() {
+        loading = false;
+      });
     } catch (ex) {
       print(ex.toString());
+      DandyToastUtil.showErrorToast('Image not loaded');
     }
+  }
+
+  Future<CroppedFile> CropImageForWeb(String path) async {
+    return await ImageCropper().cropImage(
+      sourcePath: path,
+      maxWidth: 1920,
+      maxHeight: 500,
+      aspectRatio: CropAspectRatio(ratioX: 3.8, ratioY: 1),
+      cropStyle: CropStyle.rectangle,
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Crop to fit desktop',
+            lockAspectRatio: true,
+
+        ),
+        IOSUiSettings(
+          title: 'Crop to fit desktop',
+          aspectRatioPickerButtonHidden: true,
+            doneButtonTitle: 'Next'
+        ),
+      ],
+    );
+  }
+
+  Future<CroppedFile> CropImageForMobile(String path) async {
+    return await ImageCropper().cropImage(
+      sourcePath: path,
+      maxWidth: 1080, //1080
+      maxHeight: 810, //810
+      aspectRatio: CropAspectRatio(ratioX: 1.33, ratioY: 1),
+      cropStyle: CropStyle.rectangle,
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Crop to fit mobile',
+            lockAspectRatio: true,
+        ),
+        IOSUiSettings(
+            title: 'Crop to fit mobile',
+            aspectRatioPickerButtonHidden: true,
+            doneButtonTitle: 'Save'
+        ),
+      ],
+    );
   }
 }

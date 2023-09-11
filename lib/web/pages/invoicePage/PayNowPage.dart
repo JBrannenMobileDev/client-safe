@@ -59,7 +59,7 @@ class _PayNowPageState extends State<PayNowPage> {
                       margin: EdgeInsets.only(top: 32, bottom: 32),
                       child: TextDandyLight(
                         type: TextDandyLight.EXTRA_LARGE_TEXT,
-                        fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                        fontFamily: pageState.profile.selectedFontTheme.mainFont,
                         text: 'Payment Options',
                       ),
                     ),
@@ -93,12 +93,12 @@ class _PayNowPageState extends State<PayNowPage> {
                           TextDandyLight(
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Balance due',
-                              fontFamily: pageState.profile.selectedFontTheme.bodyFont,
+                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
                               color: Color(ColorConstants.getPrimaryBlack())
                           ),
                           TextDandyLight(
                               type: TextDandyLight.EXTRA_LARGE_TEXT,
-                              fontFamily: pageState.profile.selectedFontTheme.bodyFont,
+                              fontFamily: pageState.profile.selectedFontTheme.mainFont,
                               text: TextFormatterUtil.formatDecimalCurrency(amount),
                               color: Color(ColorConstants.getPrimaryBlack())
                           )
@@ -128,7 +128,7 @@ class _PayNowPageState extends State<PayNowPage> {
                           ),
                           child: TextDandyLight(
                             type: TextDandyLight.MEDIUM_TEXT,
-                            fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                            fontFamily: pageState.profile.selectedFontTheme.mainFont,
                             text: 'MARK AS PAID',
                             color: Color(ColorConstants.getPrimaryBlack()),
                           ),
@@ -142,7 +142,7 @@ class _PayNowPageState extends State<PayNowPage> {
                   margin: EdgeInsets.only(top: 8, bottom: 48),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    fontFamily: pageState.profile.selectedFontTheme.bodyFont,
+                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                     text: 'Please mark as paid above once payment is complete.',
                     color: Color(ColorConstants.getPrimaryBlack()),
                     isBold: true,

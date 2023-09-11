@@ -12,11 +12,9 @@ import 'package:dandylight/models/Suggestion.dart';
 import 'package:dandylight/utils/AdminCheckUtil.dart';
 import 'package:dandylight/utils/CalendarSyncUtil.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
 import 'package:dandylight/utils/EnvironmentUtil.dart';
 import 'package:dandylight/utils/NotificationHelper.dart';
 import 'package:dandylight/utils/PushNotificationsManager.dart';
-import 'package:dandylight/utils/StringUtils.dart';
 import 'package:dandylight/utils/UidUtil.dart';
 import 'package:dandylight/utils/analytics/EventNames.dart';
 import 'package:dandylight/utils/analytics/EventSender.dart';
@@ -29,7 +27,6 @@ import 'package:sembast/sembast.dart';
 import '../../data_layer/local_db/SembastDb.dart';
 import '../../data_layer/repositories/DiscountCodesRepository.dart';
 import '../../data_layer/repositories/FileStorage.dart';
-import '../../utils/CalendarUtil.dart';
 import '../../utils/UUID.dart';
 import '../login_page/LoginPageActions.dart';
 import 'MainSettingsPageActions.dart';
@@ -73,72 +70,47 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
     if(action is ResizeBannerImageAction) {
       _resizeBannerImage(store, action, next);
     }
+    if(action is ResizeBannerWebImageAction) {
+      _resizeBannerWebImage(store, action, next);
+    }
+    if(action is ResizeBannerMobileImageAction) {
+      _resizeBannerMobileImage(store, action, next);
+    }
     if(action is SaveBrandingAction) {
       _saveBranding(store, action, next);
     }
-    if(action is SaveColorThemeAction) {
-      _saveColorTheme(store, action, next);
-    }
-    if(action is SaveFontThemeAction) {
-      _saveFontTheme(store, action, next);
-    }
-    if(action is DeleteColorThemeAction) {
-      _deleteColorTheme(store, action, next);
-    }
   }
 
-  void _deleteColorTheme(Store<AppState> store, DeleteColorThemeAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    profile.savedColorThemes.removeWhere((theme) => theme.themeName == action.theme.themeName);
-    await ProfileDao.update(profile);
-    store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
-    store.dispatch(RemoveDeletedThemeAction(store.state.mainSettingsPageState, action.theme));
-  }
-
-  void _saveColorTheme(Store<AppState> store, SaveColorThemeAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    ColorTheme theme = ColorTheme(
-      themeName: action.themeName,
+  void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {
+    ColorTheme colorTheme = ColorTheme(
+      themeName: 'default',
       iconColor: ColorConstants.getHex(action.pageState.currentIconColor),
       iconTextColor: ColorConstants.getHex(action.pageState.currentIconTextColor),
       buttonColor: ColorConstants.getHex(action.pageState.currentButtonColor),
       buttonTextColor: ColorConstants.getHex(action.pageState.currentButtonTextColor),
       bannerColor: ColorConstants.getHex(action.pageState.currentBannerColor),
     );
-    profile.savedColorThemes.add(theme);
-    await ProfileDao.update(profile);
-    store.dispatch(SetColorThemeAction(store.state.mainSettingsPageState, theme));
-    store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
-  }
 
-  void _saveFontTheme(Store<AppState> store, SaveFontThemeAction action, NextDispatcher next) async {
-    Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
-    FontTheme theme = FontTheme(
-      themeName: action.themeName,
+    FontTheme fontTheme = FontTheme(
+      themeName: 'default',
       iconFont: action.pageState.currentIconFont,
-      titleFont: action.pageState.currentTitleFont,
-      bodyFont: action.pageState.currentBodyFont,
+      mainFont: action.pageState.currentFont
     );
-    profile.savedFontThemes.add(theme);
-    await ProfileDao.update(profile);
-    store.dispatch(SetFontThemeAction(store.state.mainSettingsPageState, theme));
-    store.dispatch(LoadUserProfileDataAction(store.state.mainSettingsPageState, profile));
-  }
 
-  void _saveBranding(Store<AppState> store, SaveBrandingAction action, NextDispatcher next) async {
     Profile profile = await ProfileDao.getMatchingProfile(UidUtil().getUid());
     profile.logoSelected = action.pageState.logoImageSelected;
     profile.bannerImageSelected = action.pageState.bannerImageSelected;
-    profile.selectedColorTheme = action.pageState.selectedColorTheme;
-    profile.selectedFontTheme = action.pageState.selectedFontTheme;
+    profile.selectedColorTheme = colorTheme;
+    profile.selectedFontTheme = fontTheme;
     profile.logoCharacter = action.pageState.logoCharacter;
 
     await ProfileDao.update(profile);
     if(action.pageState.logoImageSelected && action.pageState.resizedLogoImage != null) {
       await FileStorage.saveProfileIconImageFile(action.pageState.resizedLogoImage.path, action.pageState.profile);
     }
-    if(action.pageState.bannerImageSelected && action.pageState.resizedBannerImage != null) {
-      await FileStorage.saveBannerImageFile(action.pageState.resizedBannerImage.path, action.pageState.profile);
+    if(action.pageState.bannerImageSelected && action.pageState.bannerWebImage != null && action.pageState.bannerMobileImage != null) {
+      FileStorage.saveBannerWebImageFile(action.pageState.bannerWebImage.path, action.pageState.profile);
+      FileStorage.saveBannerMobileImageFile(action.pageState.bannerMobileImage.path, action.pageState.profile);
     }
   }
 
@@ -155,6 +127,11 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
   }
 
   void _resizeBannerImage(Store<AppState> store, ResizeBannerImageAction action, NextDispatcher next) async {
+    XFile resizedImage = XFile(action.image.path);
+    store.dispatch(SetResizedBannerImageAction(store.state.mainSettingsPageState, resizedImage));
+  }
+
+  void _resizeBannerWebImage(Store<AppState> store, ResizeBannerWebImageAction action, NextDispatcher next) async {
     final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
     final String uniqueFileName = Uuid().generateV4();
     final cmdLarge = img.Command()
@@ -163,7 +140,19 @@ class MainSettingsPageMiddleware extends MiddlewareClass<AppState> {
       ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
     await cmdLarge.execute();
     XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
-    store.dispatch(SetResizedBannerImageAction(store.state.mainSettingsPageState, resizedImage));
+    store.dispatch(SetResizedBannerWebImageAction(store.state.mainSettingsPageState, resizedImage));
+  }
+
+  void _resizeBannerMobileImage(Store<AppState> store, ResizeBannerMobileImageAction action, NextDispatcher next) async {
+    final Directory appDocumentDirectory = await getApplicationDocumentsDirectory();
+    final String uniqueFileName = Uuid().generateV4();
+    final cmdLarge = img.Command()
+      ..decodeImageFile(action.image.path)
+      ..copyResize(width: 1080)
+      ..writeToFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
+    await cmdLarge.execute();
+    XFile resizedImage = XFile(appDocumentDirectory.path + '/$uniqueFileName' + 'banner.jpg');
+    store.dispatch(SetResizedBannerMobileImageAction(store.state.mainSettingsPageState, resizedImage));
   }
 
   void generate50DiscountCode(Store<AppState> store, Generate50DiscountCodeAction action, NextDispatcher next) async{

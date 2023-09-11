@@ -206,12 +206,11 @@ List<Middleware<AppState>> createAppMiddleware() {
   middlewareList.add(TypedMiddleware<AppState, SignUpWithGoogleAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoginAction>(LoginPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, LoadSettingsFromProfile>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, DeleteColorThemeAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeLogoImageAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, ResizeBannerImageAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeBannerWebImageAction>(MainSettingsPageMiddleware()));
+  middlewareList.add(TypedMiddleware<AppState, ResizeBannerMobileImageAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveBrandingAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveColorThemeAction>(MainSettingsPageMiddleware()));
-  middlewareList.add(TypedMiddleware<AppState, SaveFontThemeAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SavePushNotificationSettingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveCalendarSettingAction>(MainSettingsPageMiddleware()));
   middlewareList.add(TypedMiddleware<AppState, SaveUpdatedUserProfileAction>(MainSettingsPageMiddleware()));

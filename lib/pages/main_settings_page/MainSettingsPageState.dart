@@ -1,5 +1,4 @@
 import 'package:dandylight/data_layer/local_db/SembastDb.dart';
-import 'package:dandylight/models/ColorTheme.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/models/Profile.dart';
 import 'package:dandylight/pages/login_page/LoginPageActions.dart';
@@ -22,13 +21,13 @@ class MainSettingsPageState{
   final bool isDeleteInProgress;
   final bool isDeleteFinished;
   final bool isAdmin;
-  final bool saveColorThemeEnabled;
-  final bool saveFontThemeEnabled;
   final String password;
   final String passwordErrorMessage;
   final String instaUrl;
   final XFile resizedLogoImage;
-  final XFile resizedBannerImage;
+  final XFile bannerImage;
+  final XFile bannerWebImage;
+  final XFile bannerMobileImage;
   final bool logoImageSelected;
   final bool bannerImageSelected;
   final Color currentBannerColor;
@@ -37,13 +36,8 @@ class MainSettingsPageState{
   final Color currentIconColor;
   final Color currentIconTextColor;
   final String currentIconFont;
-  final String currentTitleFont;
-  final String currentBodyFont;
+  final String currentFont;
   final String logoCharacter;
-  final ColorTheme selectedColorTheme;
-  final FontTheme selectedFontTheme;
-  final List<ColorTheme> savedColorThemes;
-  final List<FontTheme> savedFontThemes;
   final bool showPublishButton;
   final Function() onSignOutSelected;
   final Function(bool) onPushNotificationsChanged;
@@ -60,16 +54,11 @@ class MainSettingsPageState{
   final Function(String) onInstaUrlChanged;
   final Function(XFile) onLogoUploaded;
   final Function(XFile) onBannerUploaded;
+  final Function(XFile) onBannerWebUploaded;
+  final Function(XFile) onBannerMobileUploaded;
   final Function(bool) onLogoImageSelected;
   final Function(Color, String) onColorSaved;
-  final Function(String) onColorThemeSaved;
-  final Function(ColorTheme) onColorThemeDeleted;
-  final Function(ColorTheme) onColorThemeSelected;
-  final Function() onResetColors;
   final Function(String, String) onFontSaved;
-  final Function(String) onFontThemeSaved;
-  final Function(FontTheme) onFontThemeSelected;
-  final Function() onResetFonts;
   final Function(String) onLogoLetterChanged;
   final Function(bool) onBannerImageSelected;
   final Function() onPublishChangesSelected;
@@ -110,32 +99,22 @@ class MainSettingsPageState{
     @required this.currentButtonTextColor,
     @required this.currentIconColor,
     @required this.currentIconFont,
-    @required this.currentTitleFont,
-    @required this.currentBodyFont,
-    @required this.selectedColorTheme,
-    @required this.selectedFontTheme,
+    @required this.currentFont,
     @required this.onColorSaved,
     @required this.currentIconTextColor,
-    @required this.saveColorThemeEnabled,
-    @required this.saveFontThemeEnabled,
-    @required this.onColorThemeSaved,
-    @required this.onColorThemeDeleted,
-    @required this.onColorThemeSelected,
-    @required this.onResetColors,
-    @required this.savedColorThemes,
     @required this.showPublishButton,
     @required this.onFontSaved,
-    @required this.onFontThemeSaved,
-    @required this.onFontThemeSelected,
-    @required this.onResetFonts,
-    @required this.savedFontThemes,
     @required this.logoCharacter,
     @required this.onLogoLetterChanged,
-    @required this.resizedBannerImage,
+    @required this.bannerImage,
     @required this.onBannerUploaded,
     @required this.bannerImageSelected,
     @required this.onBannerImageSelected,
     @required this.onPublishChangesSelected,
+    @required this.bannerMobileImage,
+    @required this.bannerWebImage,
+    @required this.onBannerWebUploaded,
+    @required this.onBannerMobileUploaded,
   });
 
   MainSettingsPageState copyWith({
@@ -148,14 +127,14 @@ class MainSettingsPageState{
     bool isDeleteInProgress,
     bool isDeleteFinished,
     bool isAdmin,
-    bool saveColorThemeEnabled,
-    bool saveFontThemeEnabled,
     String password,
     String passwordErrorMessage,
     String discountCode,
     String instaUrl,
     XFile resizedLogoImage,
-    XFile resizedBannerImage,
+    XFile bannerImage,
+    XFile bannerWebImage,
+    XFile bannerMobileImage,
     bool logoImageSelected,
     bool bannerImageSelected,
     Color currentBannerColor,
@@ -164,13 +143,8 @@ class MainSettingsPageState{
     Color currentIconColor,
     Color currentIconTextColor,
     String currentIconFont,
-    String currentTitleFont,
-    String currentBodyFont,
+    String currentFont,
     String logoCharacter,
-    ColorTheme selectedColorTheme,
-    FontTheme selectedFontTheme,
-    List<ColorTheme> savedColorThemes,
-    List<FontTheme> savedFontThemes,
     bool showPublishButton,
     Function(String) onFirstNameChanged,
     Function(String) onLastNameChanged,
@@ -187,16 +161,11 @@ class MainSettingsPageState{
     Function(String) onInstaUrlChanged,
     Function(XFile) onLogoUploaded,
     Function(XFile) onBannerUploaded,
+    Function(XFile) onBannerWebUploaded,
+    Function(XFile) onBannerMobileUploaded,
     Function(bool) onLogoImageSelected,
     Function(Color, String) onColorSaved,
-    Function(String) onColorThemeSaved,
-    Function(ColorTheme) onColorThemeDeleted,
-    Function(ColorTheme) onColorThemeSelected,
-    Function() onResetColors,
     Function(String, String) onFontSaved,
-    Function(String) onFontThemeSaved,
-    Function(FontTheme) onFontThemeSelected,
-    Function() onResetFonts,
     Function(String) onLogoLetterChanged,
     Function(bool) onBannerImageSelected,
     Function() onPublishChangesSelected,
@@ -237,32 +206,22 @@ class MainSettingsPageState{
       currentButtonColor: currentButtonColor ?? this.currentButtonColor,
       currentButtonTextColor: currentButtonTextColor ?? this.currentButtonTextColor,
       currentIconFont: currentIconFont ?? this.currentIconFont,
-      currentTitleFont: currentTitleFont ?? this.currentTitleFont,
-      currentBodyFont: currentBodyFont ?? this.currentBodyFont,
-      selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
-      selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
+      currentFont: currentFont ?? this.currentFont,
       onColorSaved: onColorSaved ?? this.onColorSaved,
       currentIconTextColor: currentIconTextColor ?? this.currentIconTextColor,
-      saveColorThemeEnabled: saveColorThemeEnabled ?? this.saveColorThemeEnabled,
-      saveFontThemeEnabled: saveFontThemeEnabled ?? this.saveFontThemeEnabled,
-      onColorThemeSaved: onColorThemeSaved ?? this.onColorThemeSaved,
-      onColorThemeSelected: onColorThemeSelected ?? this.onColorThemeSelected,
-      onColorThemeDeleted: onColorThemeDeleted ?? this.onColorThemeDeleted,
-      onResetColors: onResetColors ?? this.onResetColors,
-      savedColorThemes: savedColorThemes ?? this.savedColorThemes,
       showPublishButton: showPublishButton ?? this.showPublishButton,
       onFontSaved: onFontSaved ?? this.onFontSaved,
-      onFontThemeSaved: onFontThemeSaved ?? this.onFontThemeSaved,
-      onFontThemeSelected: onFontThemeSelected ?? this.onFontThemeSelected,
-      onResetFonts: onResetFonts ?? this.onResetFonts,
-      savedFontThemes: savedFontThemes ?? this.savedFontThemes,
       logoCharacter: logoCharacter ?? this.logoCharacter,
       onLogoLetterChanged: onLogoLetterChanged ?? this.onLogoLetterChanged,
       onBannerUploaded: onBannerUploaded ?? this.onBannerUploaded,
-      resizedBannerImage: resizedBannerImage ?? this.resizedBannerImage,
+      bannerImage: bannerImage ?? this.bannerImage,
       bannerImageSelected: bannerImageSelected ?? this.bannerImageSelected,
       onBannerImageSelected: onBannerImageSelected ?? this.onBannerImageSelected,
       onPublishChangesSelected: onPublishChangesSelected ?? this.onPublishChangesSelected,
+      bannerWebImage: bannerWebImage ?? this.bannerWebImage,
+      bannerMobileImage: bannerMobileImage ?? this.bannerMobileImage,
+      onBannerWebUploaded: onBannerWebUploaded ?? this.onBannerWebUploaded,
+      onBannerMobileUploaded: onBannerMobileUploaded ?? this.onBannerMobileUploaded,
     );
   }
 
@@ -304,55 +263,20 @@ class MainSettingsPageState{
     currentButtonColor: Color(ColorConstants.getPeachDark()),
     currentButtonTextColor: Color(ColorConstants.getPrimaryWhite()),
     currentIconFont: FontTheme.SIGNATURE2,
-    currentTitleFont: FontTheme.MONTSERRAT,
-    currentBodyFont: FontTheme.MONTSERRAT,
-    selectedColorTheme: ColorTheme(
-        themeName: 'DandyLight Theme',
-        iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-        iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-        buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-        buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-        bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
-    ),
-    selectedFontTheme: FontTheme(
-      themeName: 'DandyLight Theme',
-      iconFont: FontTheme.SIGNATURE2,
-      titleFont: FontTheme.OPEN_SANS,
-      bodyFont: FontTheme.OPEN_SANS,
-    ),
+    currentFont: FontTheme.OPEN_SANS,
     onColorSaved: null,
-    saveFontThemeEnabled: false,
-    saveColorThemeEnabled: false,
-    onColorThemeSaved: null,
-    onColorThemeDeleted: null,
-    onColorThemeSelected: null,
-    onResetColors: null,
-    savedColorThemes: [ColorTheme(
-      themeName: 'DandyLight Theme',
-      iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-      iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-      buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-      buttonTextColor: ColorConstants.getString(
-          ColorConstants.getPrimaryWhite()),
-      bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
-    )],
     showPublishButton: false,
-    onFontThemeSelected: null,
-    onFontThemeSaved: null,
     onFontSaved: null,
-    onResetFonts: null,
-    savedFontThemes: [FontTheme(
-      themeName: 'DandyLight Theme',
-      iconFont: FontTheme.SIGNATURE2,
-      titleFont: FontTheme.OPEN_SANS,
-      bodyFont: FontTheme.OPEN_SANS,
-    )],
     onLogoLetterChanged: null,
-    resizedBannerImage: null,
+    bannerImage: null,
     onBannerUploaded: null,
     bannerImageSelected: false,
     onBannerImageSelected: null,
     onPublishChangesSelected: null,
+    bannerWebImage: null,
+    bannerMobileImage: null,
+    onBannerMobileUploaded: null,
+    onBannerWebUploaded: null,
   );
 
   factory MainSettingsPageState.fromStore(Store<AppState> store) {
@@ -377,19 +301,14 @@ class MainSettingsPageState{
       currentButtonTextColor: store.state.mainSettingsPageState.currentButtonTextColor,
       currentIconColor: store.state.mainSettingsPageState.currentIconColor,
       currentIconFont: store.state.mainSettingsPageState.currentIconFont,
-      currentTitleFont: store.state.mainSettingsPageState.currentTitleFont,
-      currentBodyFont: store.state.mainSettingsPageState.currentBodyFont,
-      selectedColorTheme: store.state.mainSettingsPageState.selectedColorTheme,
-      selectedFontTheme: store.state.mainSettingsPageState.selectedFontTheme,
+      currentFont: store.state.mainSettingsPageState.currentFont,
       currentIconTextColor: store.state.mainSettingsPageState.currentIconTextColor,
-      saveColorThemeEnabled: store.state.mainSettingsPageState.saveColorThemeEnabled,
-      saveFontThemeEnabled: store.state.mainSettingsPageState.saveFontThemeEnabled,
-      savedColorThemes: store.state.mainSettingsPageState.savedColorThemes,
       showPublishButton: store.state.mainSettingsPageState.showPublishButton,
-      savedFontThemes: store.state.mainSettingsPageState.savedFontThemes,
       logoCharacter: store.state.mainSettingsPageState.logoCharacter,
-      resizedBannerImage: store.state.mainSettingsPageState.resizedBannerImage,
+      bannerImage: store.state.mainSettingsPageState.bannerImage,
       bannerImageSelected: store.state.mainSettingsPageState.bannerImageSelected,
+      bannerWebImage: store.state.mainSettingsPageState.bannerWebImage,
+      bannerMobileImage: store.state.mainSettingsPageState.bannerMobileImage,
       onSignOutSelected: () {
         store.dispatch(RemoveDeviceTokenAction(store.state.mainSettingsPageState));
         store.dispatch(ResetLoginState(store.state.loginPageState));
@@ -411,18 +330,13 @@ class MainSettingsPageState{
       onLogoUploaded: (imageFile) => store.dispatch(ResizeLogoImageAction(store.state.mainSettingsPageState, imageFile)),
       onLogoImageSelected: (isLogoImageSelected) => store.dispatch(SetLogoSelectionAction(store.state.mainSettingsPageState, isLogoImageSelected)),
       onColorSaved: (color, id) => store.dispatch(SaveColorAction(store.state.mainSettingsPageState, color, id)),
-      onColorThemeSaved: (name) => store.dispatch(SaveColorThemeAction(store.state.mainSettingsPageState, name)),
-      onColorThemeDeleted: (theme) => store.dispatch(DeleteColorThemeAction(store.state.mainSettingsPageState, theme)),
-      onColorThemeSelected: (theme) => store.dispatch(SetSelectedColorThemeAction(store.state.mainSettingsPageState, theme)),
-      onResetColors: () => store.dispatch(ResetColorsAction(store.state.mainSettingsPageState)),
       onFontSaved: (fontFamily, id) => store.dispatch(SetSelectedFontAction(store.state.mainSettingsPageState, fontFamily, id)),
-      onFontThemeSaved: (name) => store.dispatch(SaveFontThemeAction(store.state.mainSettingsPageState, name)),
-      onFontThemeSelected: (theme) => store.dispatch(SetSelectedFontThemeAction(store.state.mainSettingsPageState, theme)),
-      onResetFonts: () => store.dispatch(ResetFontsAction(store.state.mainSettingsPageState)),
       onLogoLetterChanged: (logoLetter) => store.dispatch(SetLogoLetterAction(store.state.mainSettingsPageState, logoLetter)),
       onBannerUploaded: (imageFile) => store.dispatch(ResizeBannerImageAction(store.state.mainSettingsPageState, imageFile)),
       onBannerImageSelected: (isBannerImageSelected) => store.dispatch(SetBannerSelectionAction(store.state.mainSettingsPageState, isBannerImageSelected)),
       onPublishChangesSelected: () => store.dispatch(SaveBrandingAction(store.state.mainSettingsPageState)),
+      onBannerWebUploaded: (imageFile) => store.dispatch(ResizeBannerWebImageAction(store.state.mainSettingsPageState, imageFile)),
+      onBannerMobileUploaded: (imageFile) => store.dispatch(ResizeBannerMobileImageAction(store.state.mainSettingsPageState, imageFile)),
     );
   }
 
@@ -435,7 +349,7 @@ class MainSettingsPageState{
       onPushNotificationsChanged.hashCode ^
       onCalendarChanged.hashCode ^
       firstName.hashCode ^
-      resizedBannerImage.hashCode ^
+      bannerImage.hashCode ^
       onBannerUploaded.hashCode ^
       logoImageSelected.hashCode ^
       lastName.hashCode ^
@@ -448,9 +362,6 @@ class MainSettingsPageState{
       bannerImageSelected.hashCode ^
       onBannerImageSelected.hashCode ^
       profile.hashCode ^
-      savedColorThemes.hashCode ^
-      saveColorThemeEnabled.hashCode ^
-      saveFontThemeEnabled.hashCode ^
       onSendSuggestionSelected.hashCode ^
       onDeleteAccountSelected.hashCode ^
       isDeleteFinished.hashCode ^
@@ -465,26 +376,20 @@ class MainSettingsPageState{
       currentIconTextColor.hashCode ^
       generateFreeDiscountCode.hashCode ^
       isAdmin.hashCode ^
-      onResetColors.hashCode ^
-      onColorThemeSelected.hashCode ^
-      onColorThemeDeleted.hashCode ^
       onInstaUrlChanged.hashCode ^
       currentBannerColor.hashCode ^
       currentIconColor.hashCode ^
       currentButtonColor.hashCode ^
       currentButtonTextColor.hashCode ^
       currentIconFont.hashCode ^
-      currentTitleFont.hashCode ^
-      currentBodyFont.hashCode ^
-      selectedFontTheme.hashCode ^
-      selectedColorTheme.hashCode ^
+      currentFont.hashCode ^
       onColorSaved.hashCode ^
-      onColorThemeSaved.hashCode ^
-      onFontThemeSelected.hashCode ^
-      onFontThemeSaved.hashCode ^
       logoCharacter.hashCode ^
       onFontSaved.hashCode ^
-      onResetFonts.hashCode ^
+      bannerWebImage.hashCode ^
+      bannerMobileImage.hashCode ^
+      onBannerWebUploaded.hashCode ^
+      onBannerMobileUploaded.hashCode ^
       onSignOutSelected.hashCode;
 
   @override
@@ -502,7 +407,6 @@ class MainSettingsPageState{
               showPublishButton == other.showPublishButton &&
               businessName == other.businessName &&
               onPublishChangesSelected == other.onPublishChangesSelected &&
-              onColorThemeSaved == other.onColorThemeSaved &&
               instaUrl == other.instaUrl &&
               onFirstNameChanged == other.onFirstNameChanged &&
               onLastNameChanged == other.onLastNameChanged &&
@@ -511,18 +415,14 @@ class MainSettingsPageState{
               profile == other.profile &&
               bannerImageSelected == other.bannerImageSelected &&
               onBannerImageSelected == other.onBannerImageSelected &&
-              resizedBannerImage == other.resizedBannerImage &&
+              bannerImage == other.bannerImage &&
               onBannerUploaded == other.onBannerUploaded &&
-              onResetColors == other.onResetColors &&
-              savedColorThemes == other.savedColorThemes &&
               currentIconTextColor == other.currentIconTextColor &&
               onSendSuggestionSelected == other.onSendSuggestionSelected &&
               onDeleteAccountSelected == other.onDeleteAccountSelected &&
               isDeleteFinished == other.isDeleteFinished &&
               isDeleteInProgress == other.isDeleteInProgress &&
               password == other.password &&
-              onColorThemeSelected == other.onColorThemeSelected &&
-              onColorThemeDeleted == other.onColorThemeDeleted &&
               logoImageSelected == other.logoImageSelected &&
               onPasswordChanged == other.onPasswordChanged &&
               passwordErrorMessage == other.passwordErrorMessage &&
@@ -536,17 +436,13 @@ class MainSettingsPageState{
               currentButtonColor == other.currentButtonColor &&
               currentButtonTextColor == other.currentButtonTextColor &&
               currentIconFont == other.currentIconFont &&
-              currentTitleFont == other.currentTitleFont &&
+              currentFont == other.currentFont &&
               logoCharacter == other.logoCharacter &&
-              currentBodyFont == other.currentBodyFont &&
-              selectedColorTheme == other.selectedColorTheme &&
-              selectedFontTheme == other.selectedFontTheme &&
-              saveColorThemeEnabled == other.saveColorThemeEnabled &&
-              saveFontThemeEnabled == other.saveFontThemeEnabled &&
               onColorSaved == other.onColorSaved &&
               onFontSaved == other.onFontSaved &&
-              onFontThemeSaved == other.onFontThemeSaved &&
-              onFontThemeSelected == other.onFontThemeSelected &&
-              onResetFonts == other.onResetFonts &&
+              bannerWebImage == other.bannerWebImage &&
+              bannerMobileImage == other.bannerMobileImage &&
+              onBannerWebUploaded == other.onBannerWebUploaded &&
+              onBannerMobileUploaded == other.onBannerMobileUploaded &&
               onSignOutSelected == other.onSignOutSelected;
 }

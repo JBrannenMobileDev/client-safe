@@ -74,13 +74,15 @@ class _SignContractPageState extends State<ProposalPage> {
                       child: Stack(
                         alignment: Alignment.centerLeft,
                         children: [
-                          pageState.profile?.bannerUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
+                          pageState.profile?.bannerWebUrl != null && pageState.profile?.bannerMobileUrl != null && pageState.profile?.bannerImageSelected == true ? Container(
                             height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
                             decoration: BoxDecoration(
                               color: Colors.transparent,
                             ),
                             child: DandyLightNetworkImage(
-                                pageState.profile.bannerUrl
+                                DeviceType.getDeviceTypeByContext(context) == Type.Website ? pageState.profile.bannerWebUrl : pageState.profile.bannerMobileUrl,
+                                borderRadius: 0,
+                                color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.bannerColor),
                             ),
                           ) : Container(
                             height: DeviceType.getDeviceTypeByContext(context) == Type.Website ? MediaQuery.of(context).size.height/2 : 300,
@@ -145,7 +147,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
-                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     text: pageState.profile.businessName,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
@@ -155,7 +157,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   margin: EdgeInsets.only(left: calculateCompanyNameMargin(MediaQuery.of(context).size.width)),
                                   child: TextDandyLight(
                                     type: TextDandyLight.LARGE_TEXT,
-                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     text: pageState.job.client.getClientFullName(),
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
@@ -219,7 +221,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                   child: TextDandyLight(
                                     type: TextDandyLight.EXTRA_LARGE_TEXT,
                                     text: pageState.profile.businessName,
-                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     textAlign: TextAlign.center,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
@@ -230,7 +232,7 @@ class _SignContractPageState extends State<ProposalPage> {
                                     type: TextDandyLight.LARGE_TEXT,
                                     text: pageState.job.client.getClientFullName(),
                                     textAlign: TextAlign.center,
-                                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                                     color: Color(ColorConstants.getPrimaryWhite()),
                                     addShadow: pageState.profile.bannerImageSelected ? true : false,
                                   ),
@@ -300,7 +302,7 @@ class _SignContractPageState extends State<ProposalPage> {
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
               text: 'Details',
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               isBold: isHoveredDetails || selectedPage == DETAILS,
               color: Colors.black,
             ),
@@ -331,7 +333,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Contract',
               isBold: isHoveredContract || selectedPage == CONTRACT,
             ),
@@ -362,7 +364,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Invoice',
               isBold: isHoveredInvoice || selectedPage == INVOICE,
             ),
@@ -393,7 +395,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Poses',
               isBold: isHoveredPoses || selectedPage == POSES,
             ),
@@ -424,7 +426,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Questionnaire',
               isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
             ),
@@ -455,7 +457,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 150,
             child: TextDandyLight(
               type: TextDandyLight.MEDIUM_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Feedback',
               isBold: isHoveredFeedback || selectedPage == FEEDBACK,
             ),
@@ -491,7 +493,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 100,
             child: TextDandyLight(
               type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Details',
               isBold: isHoveredDetails || selectedPage == DETAILS,
               color: Colors.black,
@@ -523,7 +525,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 100,
             child: TextDandyLight(
               type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Contract',
               isBold: isHoveredContract || selectedPage == CONTRACT,
             ),
@@ -554,7 +556,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 100,
             child: TextDandyLight(
               type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Invoice',
               isBold: isHoveredInvoice || selectedPage == INVOICE,
             ),
@@ -585,7 +587,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 100,
             child: TextDandyLight(
               type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Poses',
               isBold: isHoveredPoses || selectedPage == POSES,
             ),
@@ -616,7 +618,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 100,
             child: TextDandyLight(
               type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Questionnaire',
               isBold: isHoveredQuestionnaire || selectedPage == QUESTIONNAIRE,
             ),
@@ -647,7 +649,7 @@ class _SignContractPageState extends State<ProposalPage> {
             width: 100,
             child: TextDandyLight(
               type: TextDandyLight.SMALL_TEXT,
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               text: 'Feedback',
               isBold: isHoveredFeedback || selectedPage == FEEDBACK,
             ),

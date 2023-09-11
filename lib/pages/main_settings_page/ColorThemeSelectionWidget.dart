@@ -1,30 +1,14 @@
-import 'dart:async';
-import 'dart:io';
 import 'dart:ui';
-
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-import 'package:dandylight/pages/main_settings_page/SaveColorThemeBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
-import '../../utils/Shadows.dart';
-import '../../widgets/DandyLightNetworkImage.dart';
-import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'ColorThemeSelectionBottomSheet.dart';
-import 'ColorThemeWidget.dart';
-import 'FontThemeSelectionBottomSheet.dart';
-import 'FontThemeWidget.dart';
-import 'PreviewOptionsBottomSheet.dart';
 
 class ColorThemeSelectionWidget extends StatefulWidget {
 
@@ -36,33 +20,6 @@ class ColorThemeSelectionWidget extends StatefulWidget {
 
 class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> with TickerProviderStateMixin {
   Color tempSelectionColor = null;
-
-  void _showColorThemeSelectionSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: true,
-      enableDrag: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return ColorThemeSelectionBottomSheet();
-      },
-    );
-  }
-
-  void _showSaveColorThemeBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: true,
-      enableDrag: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return SaveColorThemeBottomSheet();
-      },
-    );
-  }
 
   @override
   Widget build(BuildContext context) =>
@@ -612,72 +569,6 @@ class _ColorThemeSelectionWidgetState extends State<ColorThemeSelectionWidget> w
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          pageState.onResetColors();
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 32, right: 32),
-                          alignment: Alignment.center,
-                          height: 42,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(24),
-                          ),
-                          child: TextDandyLight(
-                            type: TextDandyLight.SMALL_TEXT,
-                            text: 'Reset colors',
-                            textAlign: TextAlign.center,
-                            color: Color(ColorConstants.getPrimaryBlack()),
-                          ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          if(pageState.saveColorThemeEnabled) {
-                            _showSaveColorThemeBottomSheet(context);
-                          }
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 16, right: 16),
-                          alignment: Alignment.center,
-                          height: 42,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                              color: pageState.saveColorThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor) : Color(ColorConstants.getPrimaryGreyMedium())
-                          ),
-                          child: TextDandyLight(
-                            type: TextDandyLight.MEDIUM_TEXT,
-                            text: 'Save Color Theme',
-                            textAlign: TextAlign.center,
-                            color: pageState.saveColorThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryWhite()),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(top: 20),
-                    height: 1,
-                    width: double.infinity,
-                    color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _showColorThemeSelectionSheet(context);
-                    },
-                    child: Container(
-                      height: 56,
-                      margin: EdgeInsets.only(left: 16, right: 8),
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))
-                      ),
-                      child: ColorThemeWidget(),
-                    ),
-                  )
                 ],
               ),
             ),

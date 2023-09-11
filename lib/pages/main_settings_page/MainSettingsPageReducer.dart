@@ -7,6 +7,7 @@ import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:redux/redux.dart';
 
+import '../../models/Profile.dart';
 import '../../utils/ColorConstants.dart';
 
 final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
@@ -24,31 +25,32 @@ final mainSettingsPageReducer = combineReducers<MainSettingsPageState>([
   TypedReducer<MainSettingsPageState, SetUrlToStateAction>(_setInstaUrl),
   TypedReducer<MainSettingsPageState, SetResizedLogoImageAction>(_setResizedLogoImage),
   TypedReducer<MainSettingsPageState, SetResizedBannerImageAction>(_setResizedBannerImage),
+  TypedReducer<MainSettingsPageState, SetResizedBannerWebImageAction>(_setResizedBannerWebImage),
+  TypedReducer<MainSettingsPageState, SetResizedBannerMobileImageAction>(_setResizedBannerMobileImage),
   TypedReducer<MainSettingsPageState, SetLogoSelectionAction>(_setLogoSelection),
   TypedReducer<MainSettingsPageState, SetBannerSelectionAction>(_setBannerSelection),
   TypedReducer<MainSettingsPageState, SaveColorAction>(_setColor),
-  TypedReducer<MainSettingsPageState, SetColorThemeAction>(_colorThemeSaved),
-  TypedReducer<MainSettingsPageState, SetFontThemeAction>(_fontThemeSaved),
-  TypedReducer<MainSettingsPageState, ResetColorsAction>(_resetColors),
-  TypedReducer<MainSettingsPageState, SetSelectedColorThemeAction>(_setSelectedTheme),
-  TypedReducer<MainSettingsPageState, SetSelectedFontThemeAction>(_setSelectedFontTheme),
-  TypedReducer<MainSettingsPageState, RemoveDeletedThemeAction>(_removeDeletedTheme),
   TypedReducer<MainSettingsPageState, ClearBrandingStateAction>(_clearBranding),
   TypedReducer<MainSettingsPageState, SetSelectedFontAction>(_SetSelectedFont),
-  TypedReducer<MainSettingsPageState, ResetFontsAction>(_resetFonts),
   TypedReducer<MainSettingsPageState, SetLogoLetterAction>(_setLogoLetter),
 
 ]);
 
 MainSettingsPageState _setLogoLetter(MainSettingsPageState previousState, SetLogoLetterAction action){
   bool showPublishButton = showPublishChangesButton(
-      action.pageState.profile.selectedColorTheme, action.pageState.selectedColorTheme,
-      action.pageState.profile.selectedFontTheme, action.pageState.selectedFontTheme,
-      action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
-      action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-      action.pageState.profile.logoCharacter ?? 'M', action.logoLetter,
-      action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-      action.pageState.resizedBannerImage, action.pageState.resizedBannerImage,
+    action.pageState.currentIconColor,
+    action.pageState.currentIconTextColor,
+    action.pageState.currentButtonColor,
+    action.pageState.currentButtonTextColor,
+    action.pageState.currentBannerColor,
+    action.pageState.currentIconFont,
+    action.pageState.currentFont,
+    action.pageState.profile,
+    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
+    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
+    action.pageState.profile.logoCharacter ?? 'M', action.logoLetter,
+    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
+    action.pageState.bannerImage, action.pageState.bannerImage,
   );
   return previousState.copyWith(
     logoCharacter: action.logoLetter,
@@ -56,313 +58,128 @@ MainSettingsPageState _setLogoLetter(MainSettingsPageState previousState, SetLog
   );
 }
 
-MainSettingsPageState _resetFonts(MainSettingsPageState previousState, ResetFontsAction action){
-  return previousState.copyWith(
-    saveFontThemeEnabled: false,
-    currentIconFont: action.pageState.selectedFontTheme.iconFont,
-    currentTitleFont: action.pageState.selectedFontTheme.titleFont,
-    currentBodyFont: action.pageState.selectedFontTheme.bodyFont,
-  );
-}
-
 MainSettingsPageState _SetSelectedFont(MainSettingsPageState previousState, SetSelectedFontAction action){
-  bool saveFontThemeEnabled = false;
   String iconFont = action.pageState.currentIconFont;
-  String titleFont = action.pageState.currentTitleFont;
-  String bodyFont = action.pageState.currentBodyFont;
+  String mainFont = action.pageState.currentFont;
 
   switch(action.id) {
-    case FontTheme.TITLE_FONT_ID:
-      titleFont = action.fontFamily;
-      break;
-    case FontTheme.BODY_FONT_ID:
-      bodyFont = action.fontFamily;
+    case FontTheme.MAIN_FONT_ID:
+      mainFont = action.fontFamily;
       break;
     case FontTheme.ICON_FONT_ID:
       iconFont = action.fontFamily;
       break;
   }
 
-  if(action.fontFamily != action.pageState.selectedFontTheme.iconFont) {
-    saveFontThemeEnabled = true;
-  }
-  if(action.fontFamily != action.pageState.selectedFontTheme.titleFont) {
-    saveFontThemeEnabled = true;
-  }
-  if(action.fontFamily != action.pageState.selectedFontTheme.bodyFont) {
-    saveFontThemeEnabled = true;
-  }
+  bool showPublishButton = showPublishChangesButton(
+    action.pageState.currentIconColor,
+    action.pageState.currentIconTextColor,
+    action.pageState.currentButtonColor,
+    action.pageState.currentButtonTextColor,
+    action.pageState.currentBannerColor,
+    iconFont,
+    mainFont,
+    action.pageState.profile,
+    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
+    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
+    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
+    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
+    action.pageState.bannerImage, action.pageState.bannerImage,
+  );
 
   return previousState.copyWith(
     currentIconFont: iconFont,
-    currentTitleFont: titleFont,
-    currentBodyFont: bodyFont,
-    saveFontThemeEnabled: saveFontThemeEnabled,
+    currentFont: mainFont,
+    showPublishButton: showPublishButton
   );
 }
 
 MainSettingsPageState _clearBranding(MainSettingsPageState previousState, ClearBrandingStateAction action){
-  List<ColorTheme> themes = action.profile.savedColorThemes;
-  ColorTheme defaultTheme = ColorTheme(
-    themeName: 'DandyLight Theme',
-    iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-    iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-    buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-    buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-    bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
-
-  );
-
-  if(themes != null && !containsTheme(themes, defaultTheme)) {
-    themes.add(defaultTheme);
-  } if(themes != null) {
-    //do nothing
-  } else {
-    themes = [defaultTheme];
-  }
-
-  ColorTheme selectedTheme = action.profile.selectedColorTheme ?? defaultTheme;
-
-
-
-  List<FontTheme> fontThemes = action.profile.savedFontThemes;
-  FontTheme defaultFontTheme = FontTheme(
-    themeName: 'DandyLight Theme',
-    iconFont: FontTheme.SIGNATURE2,
-    titleFont: FontTheme.OPEN_SANS,
-    bodyFont: FontTheme.OPEN_SANS,
-  );
-
-  if(fontThemes != null && !containsFontTheme(fontThemes, defaultFontTheme)) {
-    fontThemes.add(defaultFontTheme);
-  } if(fontThemes != null) {
-    //do nothing
-  } else {
-    fontThemes = [defaultFontTheme];
-  }
-
-  FontTheme selectedFontTheme = action.profile.selectedFontTheme ?? defaultFontTheme;
-
   return previousState.copyWith(
-    selectedColorTheme: selectedTheme,
-    selectedFontTheme: selectedFontTheme,
-    saveColorThemeEnabled: false,
-    saveFontThemeEnabled: false,
-    savedFontThemes: fontThemes,
-    savedColorThemes: themes,
-    currentIconColor: ColorConstants.hexToColor(selectedTheme.iconColor),
-    currentIconTextColor: ColorConstants.hexToColor(selectedTheme.iconTextColor),
-    currentButtonColor: ColorConstants.hexToColor(selectedTheme.buttonColor),
-    currentButtonTextColor: ColorConstants.hexToColor(selectedTheme.buttonTextColor),
-    currentBannerColor: ColorConstants.hexToColor(selectedTheme.bannerColor),
+    currentIconColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.iconColor ?? ColorConstants.getPeachDark()),
+    currentIconTextColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.iconTextColor ?? ColorConstants.getPrimaryWhite()),
+    currentButtonColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonColor ?? ColorConstants.getPeachDark()),
+    currentButtonTextColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.buttonTextColor ?? ColorConstants.getPrimaryWhite()),
+    currentBannerColor: ColorConstants.hexToColor(action.profile.selectedColorTheme.bannerColor ?? ColorConstants.getBlueDark()),
     logoImageSelected: action.profile.logoSelected,
-    bannerImageSelected: false,
-    resizedBannerImage: null,
+    bannerImageSelected: action.profile.bannerImageSelected,
+    bannerImage: null,
     resizedLogoImage: null,
     showPublishButton: false,
-    currentIconFont: selectedFontTheme.iconFont,
-    currentTitleFont: selectedFontTheme.titleFont,
-    currentBodyFont: selectedFontTheme.bodyFont,
+    currentIconFont: action.profile.selectedFontTheme.iconFont ?? FontTheme.SIGNATURE2,
+    currentFont: action.profile.selectedFontTheme.mainFont ?? FontTheme.OPEN_SANS,
     logoCharacter: action.profile.logoCharacter != null
         ? action.profile.logoCharacter : action.profile.businessName != null && action.profile.businessName.length > 0
-        ? action.profile.businessName.substring(0, 1) : 'L',
-  );
-}
-
-bool containsTheme(List<ColorTheme> themes, ColorTheme defaultTheme) {
-  for(ColorTheme theme in themes) {
-    if(theme.themeName == defaultTheme.themeName) {
-      return true;
-    }
-  }
-  return false;
-}
-
-bool containsFontTheme(List<FontTheme> themes, FontTheme defaultTheme) {
-  for(FontTheme theme in themes) {
-    if(theme.themeName == defaultTheme.themeName) {
-      return true;
-    }
-  }
-  return false;
-}
-
-MainSettingsPageState _removeDeletedTheme(MainSettingsPageState previousState, RemoveDeletedThemeAction action){
-  List<ColorTheme> themes = action.pageState.savedColorThemes;
-  themes.removeWhere((theme) => theme.themeName == action.themeToDelete.themeName);
-  ColorTheme theme = themes.elementAt(0);
-  return previousState.copyWith(
-    selectedColorTheme: theme,
-    saveColorThemeEnabled: false,
-    savedColorThemes: themes,
-    currentIconColor: ColorConstants.hexToColor(theme.iconColor),
-    currentIconTextColor: ColorConstants.hexToColor(theme.iconTextColor),
-    currentButtonColor: ColorConstants.hexToColor(theme.buttonColor),
-    currentButtonTextColor: ColorConstants.hexToColor(theme.buttonTextColor),
-    currentBannerColor: ColorConstants.hexToColor(theme.bannerColor),
-  );
-}
-
-MainSettingsPageState _setSelectedTheme(MainSettingsPageState previousState, SetSelectedColorThemeAction action){
-  List<ColorTheme> themes = action.pageState.savedColorThemes;
-  if(themes == 1) {
-    themes.addAll(action.pageState.profile.savedColorThemes);
-  }
-
-  bool showPublishButton = showPublishChangesButton(
-    action.pageState.profile.selectedColorTheme, action.theme,
-    action.pageState.profile.selectedFontTheme, action.pageState.selectedFontTheme,
-    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
-    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
-    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.resizedBannerImage, action.pageState.resizedBannerImage,
-  );
-
-  return previousState.copyWith(
-    saveColorThemeEnabled: false,
-    savedColorThemes: themes,
-    selectedColorTheme: action.theme,
-    currentIconColor: ColorConstants.hexToColor(action.theme.iconColor),
-    currentIconTextColor: ColorConstants.hexToColor(action.theme.iconTextColor),
-    currentButtonColor: ColorConstants.hexToColor(action.theme.buttonColor),
-    currentButtonTextColor: ColorConstants.hexToColor(action.theme.buttonTextColor),
-    currentBannerColor: ColorConstants.hexToColor(action.theme.bannerColor),
-    showPublishButton: showPublishButton,
-  );
-}
-
-MainSettingsPageState _setSelectedFontTheme(MainSettingsPageState previousState, SetSelectedFontThemeAction action){
-  List<FontTheme> themes = action.pageState.savedFontThemes;
-  if(themes == 1) {
-    themes.addAll(action.pageState.profile.savedFontThemes);
-  }
-
-  bool showPublishButton = showPublishChangesButton(
-    action.pageState.profile.selectedColorTheme, action.pageState.selectedColorTheme,
-    action.pageState.profile.selectedFontTheme, action.theme,
-    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
-    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
-    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
-    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.resizedBannerImage, action.pageState.resizedBannerImage,
-  );
-
-  return previousState.copyWith(
-    saveColorThemeEnabled: false,
-    savedFontThemes: themes,
-    selectedFontTheme: action.theme,
-    currentIconFont: action.theme.iconFont,
-    currentTitleFont: action.theme.titleFont,
-    currentBodyFont: action.theme.bodyFont,
-    showPublishButton: showPublishButton,
-  );
-}
-
-MainSettingsPageState _resetColors(MainSettingsPageState previousState, ResetColorsAction action){
-  return previousState.copyWith(
-    saveColorThemeEnabled: false,
-    currentIconColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.iconColor),
-    currentIconTextColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.iconTextColor),
-    currentButtonColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.buttonColor),
-    currentButtonTextColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.buttonTextColor),
-    currentBannerColor: ColorConstants.hexToColor(action.pageState.selectedColorTheme.bannerColor),
-  );
-}
-
-MainSettingsPageState _fontThemeSaved(MainSettingsPageState previousState, SetFontThemeAction action){
-  FontTheme theme = action.theme;
-  List<FontTheme> themes = action.pageState.savedFontThemes;
-  themes.insert(0, theme);
-  return previousState.copyWith(
-    selectedFontTheme: theme,
-    saveFontThemeEnabled: false,
-    savedFontThemes: themes,
-    currentIconFont: theme.iconFont,
-    currentTitleFont: theme.titleFont,
-    currentBodyFont: theme.bodyFont,
-    showPublishButton: true,
-  );
-}
-
-MainSettingsPageState _colorThemeSaved(MainSettingsPageState previousState, SetColorThemeAction action){
-  ColorTheme theme = action.theme;
-  List<ColorTheme> themes = action.pageState.savedColorThemes;
-  themes.insert(0, theme);
-  return previousState.copyWith(
-    selectedColorTheme: theme,
-    saveColorThemeEnabled: false,
-    savedColorThemes: themes,
-    currentIconColor: ColorConstants.hexToColor(theme.iconColor),
-    currentIconTextColor: ColorConstants.hexToColor(theme.iconTextColor),
-    currentButtonColor: ColorConstants.hexToColor(theme.buttonColor),
-    currentButtonTextColor: ColorConstants.hexToColor(theme.buttonTextColor),
-    currentBannerColor: ColorConstants.hexToColor(theme.bannerColor),
-    showPublishButton: true,
+        ? action.profile.businessName.substring(0, 1) : 'D',
   );
 }
 
 MainSettingsPageState _setColor(MainSettingsPageState previousState, SaveColorAction action){
-  bool saveColorThemeEnabled = false;
-  Color bannerColor = action.pageState.currentBannerColor;
-  Color buttonColor = action.pageState.currentButtonColor;
-  Color buttonTextColor = action.pageState.currentButtonTextColor;
-  Color iconColor = action.pageState.currentIconColor;
-  Color iconTextColor = action.pageState.currentIconTextColor;
+  Color bannerColorToSave = action.pageState.currentBannerColor;
+  Color buttonColorToSave = action.pageState.currentButtonColor;
+  Color buttonTextColorToSave = action.pageState.currentButtonTextColor;
+  Color iconColorToSave = action.pageState.currentIconColor;
+  Color iconTextColorToSave = action.pageState.currentIconTextColor;
 
   switch(action.id) {
-    case 'banner':
-      bannerColor = action.color;
+    case ColorConstants.banner:
+      bannerColorToSave = action.color;
       break;
-    case 'button':
-      buttonColor = action.color;
+    case ColorConstants.button:
+      buttonColorToSave = action.color;
       break;
-    case 'buttonText':
-      buttonTextColor = action.color;
+    case ColorConstants.buttonText:
+      buttonTextColorToSave = action.color;
       break;
-    case 'icon':
-      iconColor = action.color;
+    case ColorConstants.icon:
+      iconColorToSave = action.color;
       break;
-    case 'iconText':
-      iconTextColor = action.color;
+    case ColorConstants.iconText:
+      iconTextColorToSave = action.color;
       break;
   }
 
-  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.iconTextColor) {
-    saveColorThemeEnabled = true;
-  }
-  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.iconColor) {
-    saveColorThemeEnabled = true;
-  }
-  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.buttonTextColor) {
-    saveColorThemeEnabled = true;
-  }
-  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.buttonColor) {
-    saveColorThemeEnabled = true;
-  }
-  if(ColorConstants.getString(action.color.value) != action.pageState.selectedColorTheme.bannerColor) {
-    saveColorThemeEnabled = true;
-  }
+  bool showPublishButton = showPublishChangesButton(
+    iconColorToSave,
+    iconTextColorToSave,
+    buttonColorToSave,
+    buttonTextColorToSave,
+    bannerColorToSave,
+    action.pageState.currentIconFont,
+    action.pageState.currentFont,
+    action.pageState.profile,
+    action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
+    action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
+    action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
+    action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
+    action.pageState.bannerImage, action.pageState.bannerImage,
+  );
 
   return previousState.copyWith(
-    currentBannerColor: bannerColor,
-    currentButtonColor: buttonColor,
-    currentButtonTextColor: buttonTextColor,
-    currentIconColor: iconColor,
-    currentIconTextColor: iconTextColor,
-    saveColorThemeEnabled: saveColorThemeEnabled,
+    currentIconColor: iconColorToSave,
+    currentIconTextColor: iconTextColorToSave,
+    currentButtonColor: buttonColorToSave,
+    currentButtonTextColor: buttonTextColorToSave,
+    currentBannerColor: bannerColorToSave,
+    showPublishButton: showPublishButton,
   );
 }
 
 MainSettingsPageState _setLogoSelection(MainSettingsPageState previousState, SetLogoSelectionAction action){
   bool showPublishButton = showPublishChangesButton(
-    action.pageState.profile.selectedColorTheme, action.pageState.selectedColorTheme,
-    action.pageState.profile.selectedFontTheme, action.pageState.selectedFontTheme,
+    action.pageState.currentIconColor,
+    action.pageState.currentIconTextColor,
+    action.pageState.currentButtonColor,
+    action.pageState.currentButtonTextColor,
+    action.pageState.currentBannerColor,
+    action.pageState.currentIconFont,
+    action.pageState.currentFont,
+    action.pageState.profile,
     action.pageState.profile.logoSelected, action.isLogoSelected,
     action.pageState.profile.bannerImageSelected, action.pageState.bannerImageSelected,
     action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
     action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.resizedBannerImage, action.pageState.resizedBannerImage,
+    action.pageState.bannerImage, action.pageState.bannerImage,
   );
   return previousState.copyWith(
     logoImageSelected: action.isLogoSelected,
@@ -372,13 +189,19 @@ MainSettingsPageState _setLogoSelection(MainSettingsPageState previousState, Set
 
 MainSettingsPageState _setBannerSelection(MainSettingsPageState previousState, SetBannerSelectionAction action){
   bool showPublishButton = showPublishChangesButton(
-    action.pageState.profile.selectedColorTheme, action.pageState.selectedColorTheme,
-    action.pageState.profile.selectedFontTheme, action.pageState.selectedFontTheme,
+    action.pageState.currentIconColor,
+    action.pageState.currentIconTextColor,
+    action.pageState.currentButtonColor,
+    action.pageState.currentButtonTextColor,
+    action.pageState.currentBannerColor,
+    action.pageState.currentIconFont,
+    action.pageState.currentFont,
+    action.pageState.profile,
     action.pageState.profile.logoSelected, action.pageState.logoImageSelected,
     action.pageState.profile.bannerImageSelected, action.isBannerSelected,
     action.pageState.profile.logoCharacter ?? 'M', action.pageState.logoCharacter,
     action.pageState.resizedLogoImage, action.pageState.resizedLogoImage,
-    action.pageState.resizedBannerImage, action.pageState.resizedBannerImage,
+    action.pageState.bannerImage, action.pageState.bannerImage,
   );
   return previousState.copyWith(
     bannerImageSelected: action.isBannerSelected,
@@ -396,7 +219,21 @@ MainSettingsPageState _setResizedLogoImage(MainSettingsPageState previousState, 
 
 MainSettingsPageState _setResizedBannerImage(MainSettingsPageState previousState, SetResizedBannerImageAction action){
   return previousState.copyWith(
-    resizedBannerImage: action.resizedBannerImage,
+    bannerImage: action.resizedBannerImage,
+    showPublishButton: true,
+  );
+}
+
+MainSettingsPageState _setResizedBannerWebImage(MainSettingsPageState previousState, SetResizedBannerWebImageAction action){
+  return previousState.copyWith(
+    bannerWebImage: action.resizedImage,
+    showPublishButton: true,
+  );
+}
+
+MainSettingsPageState _setResizedBannerMobileImage(MainSettingsPageState previousState, SetResizedBannerMobileImageAction action){
+  return previousState.copyWith(
+    bannerMobileImage: action.resizedImage,
     showPublishButton: true,
   );
 }
@@ -481,10 +318,14 @@ MainSettingsPageState _setUserProfileInfo(MainSettingsPageState previousState, L
 }
 
 bool showPublishChangesButton(
-    ColorTheme currentColorTheme,
-    ColorTheme newColorTheme,
-    FontTheme newFontTheme,
-    FontTheme currentFontTheme,
+    Color iconColorToSave,
+    Color iconTextColorToSave,
+    Color buttonColorToSave,
+    Color buttonTextColorToSave,
+    Color bannerColorToSave,
+    String iconFont,
+    String mainFont,
+    Profile profile,
     bool logoImageSelected,
     bool newLogoImageSelected,
     bool bannerImageSelected,
@@ -497,28 +338,29 @@ bool showPublishChangesButton(
     XFile newBannerImage,
 ) {
   bool showPublishButton = false;
-  ColorTheme defaultTheme = ColorTheme(
-    themeName: 'DandyLight Theme',
-    iconColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-    iconTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-    buttonColor: ColorConstants.getString(ColorConstants.getPeachDark()),
-    buttonTextColor: ColorConstants.getString(ColorConstants.getPrimaryWhite()),
-    bannerColor: ColorConstants.getString(ColorConstants.getBlueDark()),
-  );
-  FontTheme defaultFontTheme = FontTheme(
-    themeName: 'DandyLight Theme',
-    iconFont: FontTheme.SIGNATURE2,
-    titleFont: FontTheme.OPEN_SANS,
-    bodyFont: FontTheme.OPEN_SANS,
-  );
 
-  if(currentColorTheme == null) currentColorTheme = defaultTheme;
-  if(currentFontTheme == null) currentFontTheme = defaultFontTheme;
-  if(newColorTheme == null) newColorTheme = defaultTheme;
-  if(newFontTheme == null) newFontTheme = defaultFontTheme;
+  if(profile.selectedFontTheme.iconFont != iconFont) {
+    showPublishButton = true;
+  }
+  if(profile.selectedFontTheme.mainFont != mainFont) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.bannerColor != ColorConstants.getHex(bannerColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.buttonColor != ColorConstants.getHex(buttonColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.buttonTextColor != ColorConstants.getHex(buttonTextColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.iconColor != ColorConstants.getHex(iconColorToSave)) {
+    showPublishButton = true;
+  }
+  if(profile.selectedColorTheme.iconTextColor != ColorConstants.getHex(iconTextColorToSave)) {
+    showPublishButton = true;
+  }
 
-  if(currentColorTheme.themeName != newColorTheme.themeName) showPublishButton = true;
-  if(currentFontTheme.themeName != newFontTheme.themeName) showPublishButton = true;
   if(logoImageSelected != newLogoImageSelected) showPublishButton = true;
   if(bannerImageSelected != newBannerImageSelected) showPublishButton = true;
   if(currentLogoLetter != newLogoLetter) showPublishButton = true;

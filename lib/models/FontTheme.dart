@@ -79,21 +79,18 @@ class FontTheme {
   }
 
   static const String ICON_FONT_ID = 'icon_font';
-  static const String TITLE_FONT_ID = 'title_font';
-  static const String BODY_FONT_ID = 'body_font';
+  static const String MAIN_FONT_ID = 'main_font';
 
   int id;
   String themeName;
   String iconFont;
-  String titleFont;
-  String bodyFont;
+  String mainFont;
 
   FontTheme({
     this.id,
     this.themeName,
     this.iconFont,
-    this.titleFont,
-    this.bodyFont,
+    this.mainFont,
   });
 
   Map<String, dynamic> toMap() {
@@ -101,8 +98,7 @@ class FontTheme {
       'id' : id,
       'themeName' : themeName,
       'iconFont' : iconFont,
-      'titleFont' : titleFont,
-      'bodyFont' : bodyFont,
+      'mainFont' : mainFont,
     };
   }
 
@@ -111,8 +107,7 @@ class FontTheme {
       id: map['id'],
       themeName: map['themeName'],
       iconFont: map['iconFont'],
-      titleFont: map['titleFont'],
-      bodyFont: map['bodyFont'],
+      mainFont: map['mainFont'],
     );
   }
 

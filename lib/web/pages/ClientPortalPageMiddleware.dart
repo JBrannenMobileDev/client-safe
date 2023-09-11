@@ -86,7 +86,9 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
   void _updateProposalInvoicePaid(Store<AppState> store, UpdateProposalInvoicePaidAction action, NextDispatcher next) async{
     Invoice invoice = action.pageState.invoice;
     invoice.invoicePaid = action.isPaid;
-    invoice.unpaidAmount = action.isPaid ? 0 : invoice.calculateUnpaidAmount();
+    invoice.balancePaidAmount = invoice.unpaidAmount;
+    invoice.unpaidAmount = invoice.calculateUnpaidAmount();
+
     store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
     //TODO rest call to update actual proposal
   }

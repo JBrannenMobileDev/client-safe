@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
 
@@ -6,27 +5,14 @@ import 'package:dandylight/AppState.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-import 'package:dandylight/pages/main_settings_page/SaveColorThemeBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
-import 'package:image_cropper/image_cropper.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
-import '../../utils/Shadows.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
-import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
-import 'ColorThemeSelectionBottomSheet.dart';
-import 'ColorThemeWidget.dart';
 import 'FontSelectionBottomSheet.dart';
-import 'FontThemeSelectionBottomSheet.dart';
-import 'FontThemeWidget.dart';
-import 'PreviewOptionsBottomSheet.dart';
-import 'SaveFontThemeBottomSheet.dart';
 
 class FontThemeSelectionWidget extends StatefulWidget {
 
@@ -38,20 +24,6 @@ class FontThemeSelectionWidget extends StatefulWidget {
 
 class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> with TickerProviderStateMixin {
 
-  void _showFontThemeSelectionSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: true,
-      enableDrag: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return FontThemeSelectionBottomSheet();
-      },
-    );
-  }
-
   void _showFontSelectionSheet(BuildContext context, String id) {
     showModalBottomSheet(
       context: context,
@@ -62,20 +34,6 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
       barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
       builder: (context) {
         return FontSelectionBottomSheet(id);
-      },
-    );
-  }
-
-  void _showSaveFontThemeBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      isDismissible: true,
-      enableDrag: true,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      barrierColor: Color(ColorConstants.getPrimaryBlack()).withOpacity(0.5),
-      builder: (context) {
-        return SaveFontThemeBottomSheet();
       },
     );
   }
@@ -102,6 +60,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
             ),
             Container(
                 margin: EdgeInsets.only(bottom: 48),
+                padding: EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),
                     color: Color(ColorConstants.getPrimaryWhite())
@@ -130,7 +89,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                               width: 164,
                               decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: ColorConstants.hexToColor(pageState.selectedColorTheme.iconColor)
+                                  color: pageState.currentIconColor
                               ),
                               child: DandyLightNetworkImage(
                                 pageState.profile.logoUrl
@@ -142,7 +101,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                             width: 164,
                             decoration: BoxDecoration(
                                 shape: BoxShape.circle,
-                                color: ColorConstants.hexToColor(pageState.selectedColorTheme.iconColor)
+                                color: pageState.currentIconColor,
                             ),
                           ),
                           !pageState.logoImageSelected ? TextDandyLight(
@@ -150,7 +109,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                             fontFamily: pageState.currentIconFont,
                             textAlign: TextAlign.center,
                             text: pageState.logoCharacter,
-                            color: ColorConstants.hexToColor(pageState.selectedColorTheme.iconTextColor),
+                            color: pageState.currentIconTextColor,
                           ) : SizedBox()
                         ],
                       ),
@@ -161,7 +120,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                       child: TextDandyLight(
                         textAlign: TextAlign.center,
                         type: TextDandyLight.LARGE_TEXT,
-                        fontFamily: pageState.currentTitleFont,
+                        fontFamily: pageState.currentFont,
                         text: 'Sample Title Text',
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
@@ -171,16 +130,14 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                       child: TextDandyLight(
                         textAlign: TextAlign.left,
                         type: TextDandyLight.MEDIUM_TEXT,
-                        fontFamily: pageState.currentBodyFont,
+                        fontFamily: pageState.currentFont,
                         text: 'This is a sample of what the body text will look like. This is a sample of what the body text will look like.',
                         color: Color(ColorConstants.getPrimaryBlack()),
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
-                        if(!pageState.logoImageSelected) {
-                            _showFontSelectionSheet(context, FontTheme.ICON_FONT_ID);
-                        }
+                        _showFontSelectionSheet(context, FontTheme.ICON_FONT_ID);
                       },
                       child: Container(
                         height: 54,
@@ -193,7 +150,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                 textAlign: TextAlign.center,
                                 type: TextDandyLight.MEDIUM_TEXT,
                                 text: 'Icon font',
-                                color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                               Container(
                                 height: 42,
@@ -202,7 +159,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                 alignment: Alignment.center,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(21),
-                                  color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryGreyLight() : ColorConstants.getPrimaryBackgroundGrey()),
+                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
                                 ),
                                 child: TextDandyLight(
                                   textAlign: TextAlign.center,
@@ -210,7 +167,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                   text: pageState.currentIconFont,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
-                                  color: Color(pageState.logoImageSelected ? ColorConstants.getPrimaryGreyMedium() : ColorConstants.getPrimaryBlack()),
+                                  color: Color(ColorConstants.getPrimaryBlack()),
                                 ),
                               ),
                             ]
@@ -219,7 +176,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                     ),
                     GestureDetector(
                       onTap: () {
-                        _showFontSelectionSheet(context, FontTheme.TITLE_FONT_ID);
+                        _showFontSelectionSheet(context, FontTheme.MAIN_FONT_ID);
                       },
                       child: Container(
                         height: 54,
@@ -231,7 +188,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                               TextDandyLight(
                                 textAlign: TextAlign.center,
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: 'Title font',
+                                text: 'Main font',
                                 color: Color(ColorConstants.getPrimaryBlack()),
                               ),
                               Container(
@@ -246,7 +203,7 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                                 child: TextDandyLight(
                                   textAlign: TextAlign.center,
                                   type: TextDandyLight.MEDIUM_TEXT,
-                                  text: pageState.currentTitleFont,
+                                  text: pageState.currentFont,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,
                                   color: Color(ColorConstants.getPrimaryBlack()),
@@ -256,130 +213,6 @@ class _FontThemeSelectionWidgetState extends State<FontThemeSelectionWidget> wit
                         ),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        _showFontSelectionSheet(context, FontTheme.BODY_FONT_ID);
-                      },
-                      child: Container(
-                        height: 54,
-                        color: Color(ColorConstants.getPrimaryWhite()),
-                        margin: EdgeInsets.only(left: 16, right: 16, bottom: 32),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextDandyLight(
-                                textAlign: TextAlign.center,
-                                type: TextDandyLight.MEDIUM_TEXT,
-                                text: 'Body font',
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                              Container(
-                                height: 42,
-                                width: 184,
-                                padding: EdgeInsets.only(left: 24, right: 24),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(21),
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                                child: TextDandyLight(
-                                  textAlign: TextAlign.center,
-                                  type: TextDandyLight.MEDIUM_TEXT,
-                                  text: pageState.currentBodyFont,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                  color: Color(ColorConstants.getPrimaryBlack()),
-                                ),
-                              ),
-                            ]
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            pageState.onResetFonts();
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 32, right: 32),
-                            alignment: Alignment.center,
-                            height: 42,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: TextDandyLight(
-                              type: TextDandyLight.SMALL_TEXT,
-                              text: 'Reset fonts',
-                              textAlign: TextAlign.center,
-                              color: Color(ColorConstants.getPrimaryBlack()),
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            if(pageState.saveFontThemeEnabled) {
-                              _showSaveFontThemeBottomSheet(context);
-                            }
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 16, right: 16),
-                            alignment: Alignment.center,
-                            height: 42,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(24),
-                                color: pageState.saveFontThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor) : Color(ColorConstants.getPrimaryGreyMedium())
-                            ),
-                            child: TextDandyLight(
-                              type: TextDandyLight.MEDIUM_TEXT,
-                              text: 'Save Font Theme',
-                              textAlign: TextAlign.center,
-                              color: pageState.saveFontThemeEnabled ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : Color(ColorConstants.getPrimaryWhite()),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(top: 20),
-                      height: 1,
-                      width: double.infinity,
-                      color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        _showFontThemeSelectionSheet(context);
-                      },
-                      child: Container(
-                        height: 56,
-                        margin: EdgeInsets.only(left: 16, right: 8),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16), bottomRight: Radius.circular(16))
-                        ),
-                        child: Container(
-                          margin: EdgeInsets.only(top: 12, bottom: 12),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              TextDandyLight(
-                                type: TextDandyLight.SMALL_TEXT,
-                                text: pageState.selectedFontTheme.themeName,
-                                textAlign: TextAlign.center,
-                                color: Color(ColorConstants.getPrimaryBlack()),
-                              ),
-                              Container(
-                                child: Icon(
-                                  Icons.chevron_right,
-                                  color: Color(ColorConstants.getPrimaryBackgroundGrey()),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 )
             ),

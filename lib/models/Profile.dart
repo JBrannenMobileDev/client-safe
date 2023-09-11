@@ -32,7 +32,8 @@ class Profile{
   bool logoSelected;
   bool bannerImageSelected;
   String logoUrl;
-  String bannerUrl;
+  String bannerWebUrl;
+  String bannerMobileUrl;
   String logoCharacter;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
@@ -130,7 +131,8 @@ class Profile{
     this.jobsCreatedCount,
     this.instagramName,
     this.logoUrl,
-    this.bannerUrl,
+    this.bannerWebUrl,
+    this.bannerMobileUrl,
     this.licenseNumber,
     this.selectedColorTheme,
     this.selectedFontTheme,
@@ -189,7 +191,8 @@ class Profile{
     int jobsCreatedCount,
     bool logoSelected,
     String logoUrl,
-    String bannerUrl,
+    String bannerWebUrl,
+    String bannerMobileUrl,
     String logoCharacter,
     double salesTaxRate,
     ColorTheme selectedColorTheme,
@@ -275,7 +278,8 @@ class Profile{
       onBoardingComplete: onBoardingComplete ?? this.onBoardingComplete,
       isSubscribed: isSubscribed ?? this.isSubscribed,
       logoUrl: logoUrl ?? this.logoUrl,
-      bannerUrl: bannerUrl ?? this.bannerUrl,
+      bannerWebUrl: bannerWebUrl ?? this.bannerWebUrl,
+      bannerMobileUrl: bannerMobileUrl ?? this.bannerMobileUrl,
       licenseNumber: licenseNumber ?? this.licenseNumber,
       selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
       selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
@@ -332,7 +336,8 @@ class Profile{
       'isSubscribed' : isSubscribed ?? false,
       'logoSelected' : logoSelected ?? false,
       'logoUrl' : logoUrl,
-      'bannerUrl' : bannerUrl,
+      'bannerWebUrl' : bannerWebUrl,
+      'bannerMobileUrl' : bannerMobileUrl,
       'logoCharacter' : logoCharacter,
       'jobsCreatedCount' : jobsCreatedCount ?? 0,
       'termsOfServiceAndPrivacyPolicyChecked' : termsOfServiceAndPrivacyPolicyChecked,
@@ -397,7 +402,8 @@ class Profile{
       bannerImageSelected: map['bannerImageSelected'] != null ? map['bannerImageSelected'] : false,
       logoSelected: map['logoSelected'] != null ? map['logoSelected'] : false,
       logoUrl: map['logoUrl'],
-      bannerUrl: map['bannerUrl'],
+      bannerWebUrl: map['bannerWebUrl'],
+      bannerMobileUrl: map['bannerMobileUrl'],
       logoCharacter: map['logoCharacter'] != null ? map['logoCharacter'] : null,
       instagramName: map['instagramName'] != null ? map['instagramName'] : '',
       jobsCreatedCount: map['jobsCreatedCount'] != null ? map['jobsCreatedCount'] : 0,

@@ -3,29 +3,20 @@ import 'dart:io';
 import 'dart:ui';
 
 import 'package:dandylight/AppState.dart';
-import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageActions.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
-import 'package:dandylight/pages/main_settings_page/SaveColorThemeBottomSheet.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_redux/flutter_redux.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:redux/redux.dart';
 
-import '../../utils/Shadows.dart';
 import '../../widgets/DandyLightNetworkImage.dart';
 import '../../widgets/DandyLightPainter.dart';
 import '../../widgets/TextDandyLight.dart';
 import 'ChangeIconLetterBottomSheet.dart';
-import 'ColorThemeSelectionBottomSheet.dart';
-import 'ColorThemeWidget.dart';
-import 'FontThemeSelectionBottomSheet.dart';
-import 'FontThemeWidget.dart';
-import 'PreviewOptionsBottomSheet.dart';
 
 class LogoSelectionWidget extends StatefulWidget {
   @override
@@ -185,10 +176,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                                   color: pageState.logoImageSelected
                                       ? Color(ColorConstants
                                       .getPrimaryGreyMedium())
-                                      : ColorConstants.hexToColor(
-                                      pageState
-                                          .selectedColorTheme
-                                          .iconColor)),
+                                      : pageState.currentIconColor),
                             ),
                             TextDandyLight(
                               type: TextDandyLight.BRAND_LOGO,
@@ -196,9 +184,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               textAlign: TextAlign.center,
                               text: pageState.logoCharacter
                                   .substring(0, 1),
-                              color: ColorConstants.hexToColor(
-                                  pageState.selectedColorTheme
-                                      .iconTextColor),
+                              color: pageState.currentIconTextColor,
                             )
                           ],
                         ),
@@ -212,7 +198,7 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Image',
                               textAlign: TextAlign.center,
-                              color: selections.elementAt(0) ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                              color: selections.elementAt(0) ? pageState.currentButtonTextColor : pageState.currentButtonColor,
                             ),
                           ),
                           Container(
@@ -221,14 +207,14 @@ class _LogoSelectionWidgetState extends State<LogoSelectionWidget> with TickerPr
                               type: TextDandyLight.MEDIUM_TEXT,
                               text: 'Solid Color',
                               textAlign: TextAlign.center,
-                              color: selections.elementAt(1) ? ColorConstants.hexToColor(pageState.selectedColorTheme.buttonTextColor) : ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                              color: selections.elementAt(1) ? pageState.currentButtonTextColor : pageState.currentButtonColor,
                             ),
                           ),
                         ],
                         borderRadius: BorderRadius.circular(24),
-                        borderColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
-                        selectedBorderColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
-                        fillColor: ColorConstants.hexToColor(pageState.selectedColorTheme.buttonColor),
+                        borderColor: pageState.currentButtonColor,
+                        selectedBorderColor: pageState.currentButtonColor,
+                        fillColor: pageState.currentButtonColor,
                         isSelected: selections,
                         onPressed: (index) {
                             setState(() {

@@ -50,30 +50,6 @@ class SaveColorAction {
   SaveColorAction(this.pageState, this.color, this.id);
 }
 
-class SaveColorThemeAction {
-  final MainSettingsPageState pageState;
-  final String themeName;
-  SaveColorThemeAction(this.pageState, this.themeName);
-}
-
-class SaveFontThemeAction {
-  final MainSettingsPageState pageState;
-  final String themeName;
-  SaveFontThemeAction(this.pageState, this.themeName);
-}
-
-class DeleteColorThemeAction {
-  final MainSettingsPageState pageState;
-  final ColorTheme theme;
-  DeleteColorThemeAction(this.pageState, this.theme);
-}
-
-class SetSelectedColorThemeAction {
-  final MainSettingsPageState pageState;
-  final ColorTheme theme;
-  SetSelectedColorThemeAction(this.pageState, this.theme);
-}
-
 class SetSelectedFontThemeAction {
   final MainSettingsPageState pageState;
   final FontTheme theme;
@@ -84,11 +60,6 @@ class ClearBrandingStateAction {
   final MainSettingsPageState pageState;
   final Profile profile;
   ClearBrandingStateAction(this.pageState, this.profile);
-}
-
-class ResetColorsAction {
-  final MainSettingsPageState pageState;
-  ResetColorsAction(this.pageState);
 }
 
 class SetSelectedFontAction {
@@ -133,6 +104,18 @@ class ResizeBannerImageAction {
   ResizeBannerImageAction(this.pageState, this.image);
 }
 
+class ResizeBannerWebImageAction {
+  final MainSettingsPageState pageState;
+  final XFile image;
+  ResizeBannerWebImageAction(this.pageState, this.image);
+}
+
+class ResizeBannerMobileImageAction {
+  final MainSettingsPageState pageState;
+  final XFile image;
+  ResizeBannerMobileImageAction(this.pageState, this.image);
+}
+
 class SaveBrandingAction {
   final MainSettingsPageState pageState;
   SaveBrandingAction(this.pageState);
@@ -148,6 +131,18 @@ class SetResizedBannerImageAction {
   final MainSettingsPageState pageState;
   final XFile resizedBannerImage;
   SetResizedBannerImageAction(this.pageState, this.resizedBannerImage);
+}
+
+class SetResizedBannerWebImageAction {
+  final MainSettingsPageState pageState;
+  final XFile resizedImage;
+  SetResizedBannerWebImageAction(this.pageState, this.resizedImage);
+}
+
+class SetResizedBannerMobileImageAction {
+  final MainSettingsPageState pageState;
+  final XFile resizedImage;
+  SetResizedBannerMobileImageAction(this.pageState, this.resizedImage);
 }
 
 class LoadSettingsFromProfile{

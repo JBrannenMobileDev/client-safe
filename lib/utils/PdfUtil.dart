@@ -119,8 +119,8 @@ class PdfUtil {
 
     final Document pdf = Document();
 
-    String fontFamilyPath = FontTheme.getFilePath(profile.selectedFontTheme.bodyFont);
-    bool makeTextBold = FontTheme.shouldUseBold(profile.selectedFontTheme.bodyFont);
+    String fontFamilyPath = FontTheme.getFilePath(profile.selectedFontTheme.mainFont);
+    bool makeTextBold = FontTheme.shouldUseBold(profile.selectedFontTheme.mainFont);
 
     pdf.addPage(MultiPage(
         theme: ThemeData.withFont(

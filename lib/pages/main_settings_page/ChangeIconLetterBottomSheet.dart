@@ -1,9 +1,6 @@
-import 'package:dandylight/models/ColorTheme.dart';
 import 'package:dandylight/models/FontTheme.dart';
 import 'package:dandylight/pages/main_settings_page/MainSettingsPageState.dart';
 import 'package:dandylight/utils/ColorConstants.dart';
-import 'package:dandylight/utils/DandyToastUtil.dart';
-import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
@@ -13,9 +10,6 @@ import 'package:redux/redux.dart';
 import '../../../AppState.dart';
 import '../../../widgets/TextDandyLight.dart';
 import '../../utils/KeyboardUtil.dart';
-import '../../widgets/DandyLightTextField.dart';
-import '../common_widgets/LoginTextField.dart';
-import 'ColorThemeWidget.dart';
 
 
 class ChangeIconLetterBottomSheet extends StatefulWidget {

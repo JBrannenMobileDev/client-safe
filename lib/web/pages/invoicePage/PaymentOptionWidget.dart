@@ -57,7 +57,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
           Container(
             margin: EdgeInsets.only(bottom: 8),
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.LARGE_TEXT,
               text: title,
@@ -68,7 +68,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
             height: 78,
             margin: EdgeInsets.only(),
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.titleFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: message,
@@ -97,7 +97,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'PAY NOW',
-                  fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
                   color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                 ),
               ),
@@ -107,7 +107,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
           phone != null ? Container(
             margin: EdgeInsets.only(top: 16),
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.bodyFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: phone,
@@ -116,7 +116,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
           ) : SizedBox(),
           email != null ? Container(
             child: TextDandyLight(
-              fontFamily: pageState.profile.selectedFontTheme.bodyFont,
+              fontFamily: pageState.profile.selectedFontTheme.mainFont,
               textAlign: TextAlign.center,
               type: TextDandyLight.SMALL_TEXT,
               text: email,
@@ -146,7 +146,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'SEND SMS',
-                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                   color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor)
                 ),
               ),
@@ -176,7 +176,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                 child: TextDandyLight(
                   type: TextDandyLight.LARGE_TEXT,
                   text: 'SEND EMAIL',
-                  fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                  fontFamily: pageState.profile.selectedFontTheme.mainFont,
                   color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                 ),
               ),
@@ -209,7 +209,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                   child: TextDandyLight(
                     type: TextDandyLight.LARGE_TEXT,
                     text: 'Payment Confirmation',
-                    fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                     color: Color(ColorConstants.getPrimaryBlack()),
                   ),
                 ),
@@ -217,7 +217,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                   padding: EdgeInsets.only(bottom: 32, left: 32, right: 32),
                   child: TextDandyLight(
                     type: TextDandyLight.MEDIUM_TEXT,
-                    fontFamily: pageState.profile.selectedFontTheme.bodyFont,
+                    fontFamily: pageState.profile.selectedFontTheme.mainFont,
                     text: 'When payment is complete please mark it as paid.',
                     color: Color(ColorConstants.getPrimaryBlack()),
                     textAlign: TextAlign.center,
@@ -247,7 +247,7 @@ class _PaymentOptionWidgetState extends State<PaymentOptionWidget> {
                       ),
                       child: TextDandyLight(
                         type: TextDandyLight.MEDIUM_TEXT,
-                        fontFamily: pageState.profile.selectedFontTheme.titleFont,
+                        fontFamily: pageState.profile.selectedFontTheme.mainFont,
                         text: 'MARK AS PAID',
                         color: ColorConstants.hexToColor(pageState.profile.selectedColorTheme.buttonTextColor),
                       ),
