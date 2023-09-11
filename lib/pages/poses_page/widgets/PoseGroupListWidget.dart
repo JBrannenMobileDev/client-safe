@@ -33,7 +33,7 @@ class PoseGroupListWidget extends StatelessWidget {
         },
         child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
-          child: pageState.poseGroups.elementAt(index).poses.length > 0 ? Stack(
+          child: Stack(
             alignment: Alignment.centerRight,
             children: [
               Container(
@@ -51,10 +51,11 @@ class PoseGroupListWidget extends StatelessWidget {
                         color: Color(ColorConstants.getPeachLight())
                       ),
                       child: DandyLightNetworkImage(
-                        pageState.poseGroups.elementAt(index).poses.elementAt(index).imageUrl,
+                        pageState.poseGroups.elementAt(index).poses.isNotEmpty ? pageState.poseGroups.elementAt(index).poses.elementAt(0)?.imageUrl : '',
                         borderRadius: 16,
                         resizeWidth: 350,
-                        errorIconSize: 24,
+                        errorIconSize: 64,
+                        errorType: DandyLightNetworkImage.ERROR_TYPE_NO_IMAGE,
                       ),
                     ),
                     Row(
@@ -77,7 +78,7 @@ class PoseGroupListWidget extends StatelessWidget {
                               padding: EdgeInsets.only(top: 2.0),
                               child: TextDandyLight(
                                 type: TextDandyLight.MEDIUM_TEXT,
-                                text: pageState.poseGroups.elementAt(index).poses.length.toString(),
+                                text: pageState.poseGroups.elementAt(index).poses?.length.toString(),
                                 textAlign: TextAlign.center,
                                 color: Color(ColorConstants.getPeachDark()),
                               ),
@@ -99,7 +100,7 @@ class PoseGroupListWidget extends StatelessWidget {
                 ),
               ),
             ],
-          ) : SizedBox(),
+          ),
         ),
       ),
     );
