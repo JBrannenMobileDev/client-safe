@@ -260,12 +260,13 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
         AndroidUiSettings(
             toolbarTitle: 'Crop to fit desktop',
             lockAspectRatio: true,
-
         ),
         IOSUiSettings(
           title: 'Crop to fit desktop',
           aspectRatioPickerButtonHidden: true,
-            doneButtonTitle: 'Next'
+          doneButtonTitle: 'Next',
+          aspectRatioLockEnabled: true,
+          resetAspectRatioEnabled: false,
         ),
       ],
     );
@@ -275,7 +276,7 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
     return await ImageCropper().cropImage(
       sourcePath: path,
       maxWidth: 1080, //1080
-      maxHeight: 810, //810
+      maxHeight: 810, //8// 10
       aspectRatio: CropAspectRatio(ratioX: 1.33, ratioY: 1),
       cropStyle: CropStyle.rectangle,
       uiSettings: [
@@ -286,7 +287,9 @@ class _BannerSelectionWidgetState extends State<BannerSelectionWidget> with Tick
         IOSUiSettings(
             title: 'Crop to fit mobile',
             aspectRatioPickerButtonHidden: true,
-            doneButtonTitle: 'Save'
+            doneButtonTitle: 'Save',
+            aspectRatioLockEnabled: true,
+            resetAspectRatioEnabled: false,
         ),
       ],
     );

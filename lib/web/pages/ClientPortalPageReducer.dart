@@ -31,6 +31,7 @@ ClientPortalPageState _setProposal(ClientPortalPageState previousState, SetPropo
 ClientPortalPageState _setJob(ClientPortalPageState previousState, SetJobAction action){
   return previousState.copyWith(
     job: action.job,
+    jobId: action.job.documentId,
     invoice: action.job.invoice,
   );
 }
@@ -38,5 +39,6 @@ ClientPortalPageState _setJob(ClientPortalPageState previousState, SetJobAction 
 ClientPortalPageState _setProfile(ClientPortalPageState previousState, SetProfileAction action){
   return previousState.copyWith(
     profile: action.profile,
+    userId: action.profile.uid
   );
 }

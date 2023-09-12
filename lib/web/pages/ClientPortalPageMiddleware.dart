@@ -90,7 +90,8 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
     invoice.unpaidAmount = invoice.calculateUnpaidAmount();
 
     store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
-    //TODO rest call to update actual proposal
+    ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    await repository.updateInvoiceAsPaid(action.pageState.userId, action.pageState.jobId, action.pageState.invoice.documentId, action.isPaid);
   }
 
   void _updateProposalInvoiceDepositPaid(Store<AppState> store, UpdateProposalInvoiceDepositPaidAction action, NextDispatcher next) async{
@@ -102,6 +103,7 @@ class ClientPortalMiddleware extends MiddlewareClass<AppState> {
       invoice.unpaidAmount = invoice.unpaidAmount + invoice.depositAmount;
     }
     store.dispatch(SetInvoiceAction(store.state.clientPortalPageState, invoice));
-    //TODO rest call to update actual proposal
+    ClientPortalRepository repository = ClientPortalRepository(functions: DandylightFunctionsApi(httpClient: http.Client()));
+    await repository.updateInvoiceAsDepositPaid(action.pageState.userId, action.pageState.jobId, action.pageState.invoice.documentId, action.isPaid);
   }
 }

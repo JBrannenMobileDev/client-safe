@@ -37,8 +37,6 @@ class Profile{
   String logoCharacter;
   ColorTheme selectedColorTheme;
   FontTheme selectedFontTheme;
-  List<ColorTheme> savedColorThemes = [];
-  List<FontTheme> savedFontThemes = [];
   bool pushNotificationsEnabled = false;
   bool calendarEnabled = false;
   bool showNewMileageExpensePage = false;
@@ -136,8 +134,6 @@ class Profile{
     this.licenseNumber,
     this.selectedColorTheme,
     this.selectedFontTheme,
-    this.savedColorThemes,
-    this.savedFontThemes,
     this.logoSelected,
     this.logoCharacter,
     this.bannerImageSelected,
@@ -197,8 +193,6 @@ class Profile{
     double salesTaxRate,
     ColorTheme selectedColorTheme,
     FontTheme selectedFontTheme,
-    List<ColorTheme> savedColorThemes,
-    List<FontTheme> savedFontThemes,
     DateTime lastSignIn,
     DateTime clientsLastChangeDate,
     DateTime invoicesLastChangeDate,
@@ -283,8 +277,6 @@ class Profile{
       licenseNumber: licenseNumber ?? this.licenseNumber,
       selectedColorTheme: selectedColorTheme ?? this.selectedColorTheme,
       selectedFontTheme: selectedFontTheme ?? this.selectedFontTheme,
-      savedColorThemes: savedColorThemes ?? this.savedColorThemes,
-      savedFontThemes: savedFontThemes ?? this.savedFontThemes,
       logoSelected: logoSelected ?? this.logoSelected,
       logoCharacter: logoCharacter ?? this.logoCharacter,
       bannerImageSelected: bannerImageSelected ?? this.bannerImageSelected,
@@ -366,8 +358,6 @@ class Profile{
       'hasSeenIncomeInfo' : hasSeenIncomeInfo,
       'selectedFontTheme' : selectedFontTheme?.toMap() ?? null,
       'selectedColorTheme' : selectedColorTheme?.toMap() ?? null,
-      'savedColorThemes' : convertColorThemesToMap(savedColorThemes),
-      'savedFontThemes' : convertFontThemesToMap(savedFontThemes),
       'cashEnabled' : cashEnabled ?? false,
     };
   }
@@ -420,8 +410,6 @@ class Profile{
       hasSeenIncomeInfo: map['hasSeenIncomeInfo'] != null ? map['hasSeenIncomeInfo'] : false,
       selectedColorTheme: map['selectedColorTheme'] != null ? ColorTheme.fromMap(map['selectedColorTheme']) : null,
       selectedFontTheme: map['selectedFontTheme'] != null ? FontTheme.fromMap(map['selectedFontTheme']) : null,
-      savedColorThemes: convertMapsToColorThemes(map['savedColorThemes']),
-      savedFontThemes: convertMapsToFontThemes(map['savedFontThemes']),
       lastSignIn: map['lastSignIn'] != null? DateTime.fromMillisecondsSinceEpoch(map['lastSignIn']) : null,
       clientsLastChangeDate: map['clientsLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['clientsLastChangeDate']) : null,
       invoicesLastChangeDate: map['invoicesLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['invoicesLastChangeDate']) : null,
@@ -444,46 +432,6 @@ class Profile{
       accountCreatedDate: map['accountCreatedDate'] != null ? DateTime.fromMillisecondsSinceEpoch(map['accountCreatedDate']) : DateTime(2023, 2, 1),
       poseLibraryGroupLastChangeDate: map['poseLibraryGroupLastChangeDate'] != null? DateTime.fromMillisecondsSinceEpoch(map['poseLibraryGroupLastChangeDate']) : null,
     );
-  }
-
-  List<Map<String, dynamic>> convertColorThemesToMap(List<ColorTheme> themes){
-    List<Map<String, dynamic>> listOfMaps = [];
-    if(themes != null) {
-      for(ColorTheme theme in themes){
-        listOfMaps.add(theme.toMap());
-      }
-    }
-    return listOfMaps;
-  }
-
-  static List<ColorTheme> convertMapsToColorThemes(List listOfMaps){
-    List<ColorTheme> themes = [];
-    if(listOfMaps != null) {
-      for(Map map in listOfMaps){
-        themes.add(ColorTheme.fromMap(map));
-      }
-    }
-    return themes;
-  }
-
-  List<Map<String, dynamic>> convertFontThemesToMap(List<FontTheme> themes){
-    List<Map<String, dynamic>> listOfMaps = [];
-    if(themes != null) {
-      for(FontTheme theme in themes){
-        listOfMaps.add(theme.toMap());
-      }
-    }
-    return listOfMaps;
-  }
-
-  static List<FontTheme> convertMapsToFontThemes(List listOfMaps){
-    List<FontTheme> themes = [];
-    if(listOfMaps != null) {
-      for(Map map in listOfMaps){
-        themes.add(FontTheme.fromMap(map));
-      }
-    }
-    return themes;
   }
 
   bool hasDefaultHome() {
